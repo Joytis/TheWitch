@@ -28,6 +28,15 @@ public static class StringExtensions
         return Path.Join(MainFile.ResPath, "images", "card_portraits", "big", "card.png");
     }
 
+    public static string PotionImagePath(this string path)
+    {
+        path = Path.Join(MainFile.ResPath, "images", "potions", path);
+        if (ResourceLoader.Exists(path)) return path;
+        
+        MainFile.Logger.Info("Could not find potion image path: " + path);
+        return Path.Join(MainFile.ResPath, "images", "potions", "potion.png");
+    }
+
     public static string PowerImagePath(this string path)
     {
         path = Path.Join(MainFile.ResPath, "images", "powers", path);

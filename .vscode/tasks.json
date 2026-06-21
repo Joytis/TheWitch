@@ -63,6 +63,32 @@
             "detail": "dotnet build (deploys mod) then launch host + (N-1) clients."
         },
         {
+            "label": "Godot: Import assets",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/import-assets.ps1"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "Headless Godot --import: generate .import sidecars for new pngs (card portraits, etc.)."
+        },
+        {
+            "label": "Images: Generate missing sizes",
+            "type": "process",
+            "command": "py",
+            "args": [
+                "${workspaceFolder}/tools/gen-image-sizes.py"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "Fill missing big/small variants of card_portraits & powers (upscale small->big, downscale big->small, 4x). Run 'Godot: Import assets' after."
+        },
+        {
             "label": "dotnet build",
             "type": "process",
             "command": "dotnet",
