@@ -39,6 +39,24 @@ Create new content by subclassing the relevant base in its folder (the BaseLib `
 
 **Localization** is JSON under [TheWicken/localization/eng/](TheWicken/localization/) (`cards.json`, `powers.json`, `relics.json`, `characters.json`, keywords, hover tips). Keys follow `THEWICKEN-<ENTRY>.<field>`. These files are fed to the BaseLib analyzer (`AdditionalFiles` in the csproj) so missing/extra localization is caught at build time.
 
+## Content creation
+
+The mod's `Custom{Card,Relic,Potion,Power}Model` bases are thin wrappers over the game's `MegaCrit.Sts2.Core.Models.{CardModel,RelicModel,PotionModel,PowerModel}`. All content shares one root, `AbstractModel`. Two facts drive everything:
+
+- **Registration is reflection-based.** `ModelDb` discovers content via `ReflectionHelper.GetSubtypesInMods<AbstractModel>()` and instantiates with a parameterless ctor. Subclassing a model base + binding it to a pool (`[Pool]`) is the entire "registration" — there is no manual register call.
+- **Behavior is hook overrides, not a loop.** `AbstractModel` exposes ~100 async `Task` event hooks (`BeforeCombatStart`, `AfterDamageGiven`, `AfterCardPlayed`, `AfterPlayerTurnStart`, …) plus ~40 synchronous `Modify*` hooks (`ModifyDamageAdditive`, `ModifyEnergyGain`, …). Relics/powers react by overriding the relevant hook. `ShouldReceiveCombatHooks` gates delivery (relics/potions always; cards only while in a combat pile).
+
+**What you override per type:**
+- **Card** → ctor `base(energyCost, type, rarity, targetType)`, `CanonicalVars` (the numbers), `OnPlay(ctx, cardPlay)` (the effect), `OnUpgrade()`. Optional: `CanonicalKeywords`, `CanonicalTags`, `MaxUpgradeLevel`, `HasEnergyCostX`, `CanonicalStarCost`.
+- **Relic** → abstract `Rarity` + hook overrides. Instant pickup effects use `HasUponPickupEffect` + `AfterObtained()`. Counter relics use `ShowCounter`/`DisplayAmount`.
+- **Potion** → abstract `Rarity`/`Usage`/`TargetType` + `OnUse(ctx, target)`. Use `PotionRarity.Token` (or `Event`) for a potion that should only be granted by a card/relic/effect and never appear as a random drop — see the pool-gating gotcha below.
+
+**Stats live in `DynamicVars`.** `CanonicalVars` returns typed vars (`DamageVar`, `BlockVar`, `PowerVar<T>`, `CardsVar`, …) keyed by name; `DynamicVars.Damage` etc. resolve by that key (`PowerVar<VulnerablePower>` → `DynamicVars.Vulnerable`). The same vars are the tokens referenced in the localization JSON, and `UpgradeValueBy` drives green upgrade previews. `ValueProp` (`Move`/`Unpowered`) controls power scaling of the displayed number.
+
+**Effects go through `Cmd` families, never raw state writes:** `DamageCmd.Attack(n).FromCard(this).Targeting(t).Execute(ctx)`, `PowerCmd.Apply<TPower>(...)`, `CreatureCmd.GainBlock(...)`, `CardCmd`/`CardPileCmd`/`CardSelectCmd`. State mutation is guarded by `AssertMutable()` (canonical instances are immutable; real instances are mutable clones).
+
+**Decompiled game source is the reference.** A full decompile lives at `gamedata/` (**gitignored** — local-only, not committed; it's proprietary game code). The ~400 base-game content classes under `gamedata/src/Core/Models/{Cards,Relics,Potions,Powers}/` are the authoritative examples. Workflow: find the closest base-game class, copy its pattern into a `CustomXModel` subclass here, swap the pool + localization keys. Do **not** paste verbatim decompiled code into tracked files.
+
 ## Conventions & gotchas
 
 - `Nullable` is enabled and `<TreatWarningsAsErrors>` is not, but the BaseLib analyzers surface mod-specific mistakes — read analyzer warnings.
@@ -46,3 +64,4 @@ Create new content by subclassing the relevant base in its folder (the BaseLib `
 - `TheWicken.json` is the mod manifest (id, version, `min_game_version`, BaseLib dependency). The build auto-syncs the BaseLib `min_version` in this file to the actually-restored package version (`UpdateDependencyVersions` target) — don't hand-edit that field.
 - The mod id `"TheWicken"` (in [MainFile.cs](TheWickenCode/MainFile.cs)) is the resource path root (`res://TheWicken`) and Harmony id; keep it in sync with the manifest and folder name.
 - `git` is configured to normalize all text to LF ([.gitattributes](.gitattributes)).
+- **Pool membership ≠ random availability for potions.** `[Pool]` on the base registers content; for potions, *random* drop/shop availability is gated separately by **rarity**. `PotionFactory.CreateRandomPotion` only ever rolls `Common`/`Uncommon`/`Rare` (combat drops *and* merchant stock both route through it), so a potion with rarity `PotionRarity.Token` or `Event` is never generated randomly while remaining registered — so `PotionCmd.TryToProcure<T>()` from a card/relic still grants it. This is how you make a **card-only payload potion** (base-game example: `PotionShapedRock` = `Token`; `FoulPotion`/`GlowwaterPotion` = `Event`). Don't try to exclude it by removing `[Pool]` — that unregisters it and breaks `TryToProcure`.

@@ -1,4 +1,5 @@
 {
+    "dotnet.defaultSolution": "TheWicken.slnx",
     "files.exclude": {
         "**/*.rpyc": true,
         "**/*.rpa": true,

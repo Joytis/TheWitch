@@ -42,10 +42,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Remove="gamedata/**" />
         <Compile Remove="TheWicken/**" />
         <Compile Remove="materials/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
+        <EmbeddedResource Remove="gamedata/**" />
         <EmbeddedResource Remove="TheWicken/**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />

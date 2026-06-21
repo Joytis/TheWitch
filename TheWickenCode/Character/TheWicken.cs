@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Relics;
+using TheWicken.TheWickenCode.Cards;
 
 namespace TheWicken.TheWickenCode.Character;
 
@@ -29,7 +30,8 @@ public class TheWicken : PlaceholderCharacterModel
         ModelDb.Card<DefendIronclad>(),
         ModelDb.Card<DefendIronclad>(),
         ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>()
+        ModelDb.Card<DefendIronclad>(),
+        ModelDb.Card<Concoct>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
