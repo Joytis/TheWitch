@@ -16,8 +16,8 @@ public class WickenFamiliarCardPool : CustomCardPoolModel
     They are applied as a shader onto an already colored image,
     so it may take some experimentation to find a color you like.
     Generally they should be values between 0 and 1. */
-    public override float H => 0.4f; //Hue; changes the color.
-    public override float S => 0.2f; //Saturation
+    public override float H => 0.6f; //Hue; changes the color.
+    public override float S => 0.4f; //Saturation
     public override float V => 0.9f; //Brightness
     
     //Alternatively, leave these values at 1 and provide a custom frame image.

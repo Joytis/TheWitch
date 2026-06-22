@@ -42,7 +42,10 @@ public abstract class WickenCard(int cost, CardType type, CardRarity rarity, Tar
 		{
             var newCard = combatState.CreateCard<T>(owner);
 			list.Add(newCard);
-            CardCmd.Upgrade(newCard);
+            if(isUpgraded)
+            {
+                CardCmd.Upgrade(newCard);
+            }
 		}
 		return list;
 	}
