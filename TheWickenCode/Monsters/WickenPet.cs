@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Bindings.MegaSpine;
+using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
@@ -12,16 +12,14 @@ namespace TheWicken.TheWickenCode.Monsters;
 /// their turn; the familiar token-cards (Wisdom/Ferocity) carry all of the mechanics.
 ///
 /// Registration is automatic: MonsterModel : AbstractModel, so ModelDb.Monster&lt;T&gt;()
-/// resolves any subclass via reflection. No pool / Act membership / manual register needed.
-/// Pets are combat-scoped, so they vanish at combat end on their own — nothing to clean up.
+/// resolves any subclass via reflection. Pets are combat-scoped, so they vanish at combat
+/// end on their own — nothing to clean up.
 ///
-/// PLACEHOLDER VISUAL: we reuse the game's existing Byrd creature scene rather than ship our
-/// own. A mod-shipped creature_visuals .tscn would need its root to bind the game's
-/// NCreatureVisuals C# script (and, for a spine body, the MegaSpine GDExtension) — both live
-/// in the game project, not this standalone mod project, so an exported mod scene can't
-/// reliably bind them. Reusing the game scene gives the exact Byrd look with zero asset work
-/// and no redistribution. When we have real familiar art, swap VisualsPath to a custom scene
-/// (and build/bind its NCreatureVisuals root via the Godot editor against the game project).
+/// VISUAL: we can't ship our own creature_visuals .tscn (the mod's Godot editor/export can't
+/// bind the game's NCreatureVisuals C# script). Instead we reuse the base game's "rocket"
+/// scene — a valid NCreatureVisuals whose %Visuals body is an empty, textureless Sprite2D —
+/// and swap our own texture onto it at spawn via <see cref="WickenPetVisualsPatch" />. So we
+/// ship only PNGs (which pack/load fine), no scene authoring required.
 /// </summary>
 public abstract class WickenPet : MonsterModel
 {
@@ -30,17 +28,15 @@ public abstract class WickenPet : MonsterModel
     public override int MaxInitialHp => 9999;
     public override bool IsHealthBarVisible => false;
 
-    // Reuse the game's Byrd scene as the shared placeholder. SceneHelper prepends res://scenes/.
-    protected override string VisualsPath => SceneHelper.GetScenePath("creature_visuals/byrdpip");
+    // Base-game host: Node2D + NCreatureVisuals script + empty Sprite2D "%Visuals" + markers.
+    protected override string VisualsPath => SceneHelper.GetScenePath("creature_visuals/rocket");
 
-    // Base SetupSkins is a no-op; the Byrd skeleton renders blank without a concrete skin, so
-    // pick one (Byrdpip.SkinOptions[0]). Mirrors the Byrd monster model.
-    public override void SetupSkins(MegaSprite spine, MegaSkeleton skeleton)
-    {
-        MegaSkeletonDataResource data = skeleton.GetData();
-        skeleton.SetSkin(data.FindSkin("version1"));
-        skeleton.SetSlotsToSetupPose();
-    }
+    /// <summary>res:// path to the sprite texture swapped onto the host body at spawn.</summary>
+    public abstract string TexturePath { get; }
+
+    /// <summary>Sprite scale + offset so the pet sits nicely at the player's feet. Tune per-pet.</summary>
+    public virtual float SpriteScale => 0.4f;
+    public virtual Vector2 SpriteOffset => new(0f, -40f);
 
     // Cosmetic only: a single self-looping no-op move, mirroring Byrdpip's monster model.
     protected override MonsterMoveStateMachine GenerateMoveStateMachine()
