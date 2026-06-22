@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clk5f0evwrsev"
-path="res://.godot/imported/wisdom.png-79b7d184dc0ff77ed668e791428d725b.ctex"
+uid="uid://byffvgs0xjwq"
+path="res://.godot/imported/ferocity.png-7c76bd23550cd72147fa00d0b9431181.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/familiar/big/wisdom.png"
-dest_files=["res://.godot/imported/wisdom.png-79b7d184dc0ff77ed668e791428d725b.ctex"]
+source_file="res://TheWicken/images/card_portraits/big/familiar/ferocity.png"
+dest_files=["res://.godot/imported/ferocity.png-7c76bd23550cd72147fa00d0b9431181.ctex"]
 
 [params]
 

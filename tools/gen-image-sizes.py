@@ -4,12 +4,12 @@
 Card portraits and powers each ship in two sizes: a small portrait and a
 "big" full-art version under a ``big/`` subfolder, sharing the same filename:
 
-    TheWicken/images/card_portraits/foo.png             (small)
-    TheWicken/images/card_portraits/big/foo.png         (big)
+    TheWicken/images/card_portraits/foo.png              (small)
+    TheWicken/images/card_portraits/big/foo.png          (big)
     TheWicken/images/card_portraits/familiar/foo.png     (small)
-    TheWicken/images/card_portraits/familiar/big/foo.png (big)
-    TheWicken/images/powers/foo.png                     (small)
-    TheWicken/images/powers/big/foo.png                 (big)
+    TheWicken/images/card_portraits/big/familiar/foo.png (big)
+    TheWicken/images/powers/foo.png                      (small)
+    TheWicken/images/powers/big/foo.png                  (big)
 
 This script fills in whichever side is missing:
 
@@ -46,12 +46,17 @@ except ImportError:
 REPO_ROOT = Path(__file__).resolve().parent.parent
 IMAGES_ROOT = REPO_ROOT / "TheWicken" / "images"
 
-# Category -> directory holding the small variants. The big variants live in
-# the "big" subfolder of that same directory.
+# Category -> (small_dir, big_dir). Big art lives under a single "big/" mirror
+# at each portrait root, with category subfolders nested inside it (matching
+# BigCardImagePath, which prepends "big/" before the relative path):
+#   card_portraits/familiar/foo.png  ->  card_portraits/big/familiar/foo.png
 CATEGORIES = {
-    "card_portraits": IMAGES_ROOT / "card_portraits",
-    "familiar": IMAGES_ROOT / "card_portraits" / "familiar",
-    "powers": IMAGES_ROOT / "powers",
+    "card_portraits": (IMAGES_ROOT / "card_portraits",
+                       IMAGES_ROOT / "card_portraits" / "big"),
+    "familiar": (IMAGES_ROOT / "card_portraits" / "familiar",
+                 IMAGES_ROOT / "card_portraits" / "big" / "familiar"),
+    "powers": (IMAGES_ROOT / "powers",
+               IMAGES_ROOT / "powers" / "big"),
 }
 
 
@@ -75,9 +80,8 @@ def resize(src: Path, dst: Path, factor: float, resample, dry_run: bool) -> None
         out.save(dst)
 
 
-def process_category(name: str, small_dir: Path, scale: float, resample,
-                     force: bool, dry_run: bool) -> int:
-    big_dir = small_dir / "big"
+def process_category(name: str, small_dir: Path, big_dir: Path, scale: float,
+                     resample, force: bool, dry_run: bool) -> int:
     if not small_dir.exists():
         print(f"[{name}] small dir not found: {small_dir} (skipped)")
         return 0
@@ -132,8 +136,8 @@ def main() -> int:
     cats = {args.category: CATEGORIES[args.category]} if args.category else CATEGORIES
 
     total = 0
-    for name, small_dir in cats.items():
-        total += process_category(name, small_dir, args.scale, resample,
+    for name, (small_dir, big_dir) in cats.items():
+        total += process_category(name, small_dir, big_dir, args.scale, resample,
                                   args.force, args.dry_run)
 
     print()

@@ -23,9 +23,7 @@ public sealed class OwlFamiliar : WickenCard
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 		await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-
 		List<Wisdom> cards = CreateFamiliarCards<Wisdom>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
         var cardsGenerated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Draw, Owner, CardPilePosition.Random);
 		CardCmd.PreviewCardPileAdd(cardsGenerated);
