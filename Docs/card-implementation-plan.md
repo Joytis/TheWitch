@@ -40,6 +40,32 @@ not 57.
     (IsPositive=false) **+ `ICustomModel`** (BaseLib prefix marker — required for mod powers that can't
     extend `CustomPowerModel`; silences STS003; uses shared temp-strength loc, no powers.json entry).
     Reuse this pattern for any future temp-stat card.
+- **2026-06-26 (Phase 2) — 3 brambles cards built on Phase 0 infra, compiling 0/0, art + loc done:**
+  - `Cards/BrambleShield.cs` — 7 block + (PerBramble × `CombatHistoryQueries.BramblesCreatedThisTurn`).
+    Bonus block computed in OnPlay via `GainBlock(creature, decimal, ValueProp.Move, cardPlay)`; the card
+    preview shows only the base 7 (no live scaling) — fine for placeholder, could move to a `CalculatedVar`
+    later if live preview is wanted.
+  - `Cards/ViciousBarbs.cs` — applies `ViciousBarbsPower` (3, +2 upg).
+  - `Cards/HedgePrison.cs` — applies `HedgePrisonPower` (toggle; -1 energy upg).
+  - Both Power cards are one-liners over the Phase 0 powers, exactly as predicted. Power tooltips
+    (powers.json desc for VICIOUS_BARBS_POWER/HEDGE_PRISON_POWER) left empty — card text carries the
+    explanation; fill power descriptions later for polish.
+- **2026-06-26 (Phase 3) — 6 trigger cards + powers built, compiling 0/0, art + loc done.** Each card
+  applies a persistent `WickenPower` that overrides one global combat hook:
+  - `RottingRootsPower` — `AfterPowerAmountChanged`, filter `applier==Owner && power.Owner!=Owner &&
+    Type==Debuff && amount>0` → gain Brambles (excludes self-debuffs; brambles is Buff so no loop).
+  - `CursedBloodlinePower` / `BindInBloodPower` — `AfterDamageReceived`, `target==Owner &&
+    result.UnblockedDamage>0`. Cursed = flat per event; Bind = `Amount × UnblockedDamage`, self-removes
+    via `AfterSideTurnEnd` (turn-scoped; **not** `ITemporaryPower` — that contract is for stat-wrapping
+    powers).
+  - `BottomlessCauldronPower` / `BitterRootPower` — `AfterPotionUsed`, `potion.Owner==Owner.Player`.
+    These hooks have **no PlayerChoiceContext** → use `new ThrowingPlayerChoiceContext()` (Bitter Root);
+    `TryToProcure<WickedBrew>(Player)` needs none (Bottomless).
+  - `CloakOfMoonlightPower` — both `AfterCardGeneratedForCombat` (creator==player) and
+    `AfterPotionProcured` (potion.Owner==player) → gain Block.
+  - Reusable note: global hooks (`AfterPowerAmountChanged`, `AfterDamageReceived`, `AfterPotionUsed`,
+    `AfterPotionProcured`, `AfterCardGeneratedForCombat`) are delivered to every combat-hook model — a
+    listener power just filters by `Owner`. Hooks without a context use `ThrowingPlayerChoiceContext`.
 
 ## Per-card workflow (what "done" means for each)
 
@@ -140,12 +166,12 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 | Brambleburst | 2 / Uncommon / Attack | 4 dmg × brambles, lose all | +1 dmg | read+clear bramble | 🟦 |
 | Wild Growth | 1 / Uncommon / Skill | Double brambles. Exhaust | remove exhaust | read+apply bramble | 🟦 |
 | Needle Whip | 1 / Uncommon / Skill | Remove all brambles, enemies lose that much Str this turn. Exhaust | remove exhaust | temp Str-down AoE | 🟦 |
-| Bramble Shield | 1 / Uncommon / Skill | 7 block +2 per bramble made this turn | +1/bramble | 0a counter | 🟧 |
-| Vicious Barbs | 1 / Uncommon / Power | Brambles deal +3 dmg | +2 | 0b | 🟧 |
-| Rotting Roots | 1 / Uncommon / Power | On debuff applied, gain 3 brambles | +2 | 0c | 🟧 |
-| Cursed Bloodline | 1 / Uncommon / Power | On life loss, gain 3 brambles | +1 | 0c | 🟧 |
-| Bind in Blood | 1 / Common / Skill | This turn, gain brambles per life lost | 2/life | 0c (turn buff) | 🟧 |
-| Hedge Prison | 3 / Rare / Power | Brambles are permanent | -1 energy | 0b | 🟧 |
+| Bramble Shield | 1 / Uncommon / Skill | 7 block +2 per bramble made this turn | +1/bramble | 0a counter | ✅ |
+| Vicious Barbs | 1 / Uncommon / Power | Brambles deal +3 dmg | +2 | 0b | ✅ |
+| Rotting Roots | 1 / Uncommon / Power | On debuff applied, gain 3 brambles | +2 | 0c | ✅ |
+| Cursed Bloodline | 1 / Uncommon / Power | On life loss, gain 3 brambles | +1 | 0c | ✅ |
+| Bind in Blood | 1 / Common / Skill | This turn, gain brambles per life lost | 2/life | 0c (turn buff) | ✅ |
+| Hedge Prison | 3 / Rare / Power | Brambles are permanent | -1 energy | 0b | ✅ |
 | Creeping Vines | X / Uncommon / Skill | 5 brambles to random ally, X times | +2 brambles | X-cost; MP-only | 🟧 MP |
 
 ### Debuff
@@ -172,9 +198,9 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 | Unstable Reaction | 2 / Common / Attack | Destroy all potions, 10 AoE dmg each | +3 dmg | 0e destroy+count | 🟧 |
 | Rattling Bottles | 3 / Rare / Skill | Fill potion slots with Rock potions. Exhaust | -1 energy | PotionShapedRock | 🟦 |
 | Witch's Curse | 1 / Uncommon / Skill | Enemy takes double potion dmg this turn. Exhaust | remove exhaust | enemy power | 🟧 |
-| Bottomless Cauldron | 3 / Rare / Power | On using another potion, create Wicked Brew | -1 energy | 0c | 🟧 |
-| Bitter Root | 1 / Uncommon / Power | On potion use, gain 4 brambles | +2 | 0c | 🟧 |
-| Cloak of Moonlight | 2 / Uncommon / Power | On creating a card or potion, gain 3 block | -1 energy | 0c | 🟧 |
+| Bottomless Cauldron | 3 / Rare / Power | On using another potion, create Wicked Brew | -1 energy | 0c | ✅ |
+| Bitter Root | 1 / Uncommon / Power | On potion use, gain 4 brambles | +2 | 0c | ✅ |
+| Cloak of Moonlight | 2 / Uncommon / Power | On creating a card or potion, gain 3 block | -1 energy | 0c | ✅ |
 | Roomy Satchel | 1 / Uncommon / Power | Gain 2 potion slots | +1 slot | potion-slot stat mod | 🟧 |
 | Tiny Bottle | 0 / Uncommon / Skill | Steal 2 energy from ally, give potion per energy | potion+ | MP-only (Flanking) | 🟧 MP |
 | Share the Brew | 2 / Uncommon / Skill | Allies gain a random potion | -1 energy | MP-only (Flanking) | 🟧 MP |
@@ -228,10 +254,10 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
    Lavender and Sage, Nettles, Brambleburst, Wild Growth, Needle Whip, Forbidden Magic, Stuck in the
    Bush, Moondrop Tea, Hexburst, Something Wicked, Toil and Trouble, Blood Boiling, Rattling Bottles,
    Bag of Teeth, Hidden in Smoke. Art/loc/class pipeline validated at volume.
-2. **Phase 2 — Brambles infra (0a/0b) + dependent cards**: counters + BramblesPower edits, then
-   Bramble Shield, Vicious Barbs, Hedge Prison.
-3. **Phase 3 — Trigger powers (0c)**: Rotting Roots, Cursed Bloodline, Bind in Blood, Bottomless
-   Cauldron, Bitter Root, Cloak of Moonlight.
+2. **Phase 2 — Brambles infra (0a/0b) + dependent cards**: ✅ **DONE**. Infra was built in Phase 0;
+   cards Bramble Shield, Vicious Barbs, Hedge Prison shipped (see Progress log).
+3. **Phase 3 — Trigger powers (0c)**: ✅ **DONE**. Rotting Roots, Cursed Bloodline, Bind in Blood,
+   Bottomless Cauldron, Bitter Root, Cloak of Moonlight (see Progress log).
 4. **Phase 4 — Potion infra (0e) + counters**: Gather Herbs, Dance Around the Cauldron, Bottle Wall,
    Bottle Barrage, Herbal Remedy, Unstable Reaction, Witch's Curse, Roomy Satchel.
 5. **Phase 5 — Familiars (0f)**: new familiars + token cards, then Woe and Whimsy, Find Familiar,
