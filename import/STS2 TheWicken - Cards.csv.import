@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c6sdnpnyar7tu"
+
+[deps]
+
+files=["res://import/STS2 TheWicken - Cards.Description.translation", "res://import/STS2 TheWicken - Cards.Rarity.translation", "res://import/STS2 TheWicken - Cards.Energy.translation", "res://import/STS2 TheWicken - Cards.Type.translation", "res://import/STS2 TheWicken - Cards.Mechanic.translation", "res://import/STS2 TheWicken - Cards.Upgrade.translation"]
+
+source_file="res://import/STS2 TheWicken - Cards.csv"
+dest_files=["res://import/STS2 TheWicken - Cards.Description.translation", "res://import/STS2 TheWicken - Cards.Rarity.translation", "res://import/STS2 TheWicken - Cards.Energy.translation", "res://import/STS2 TheWicken - Cards.Type.translation", "res://import/STS2 TheWicken - Cards.Mechanic.translation", "res://import/STS2 TheWicken - Cards.Upgrade.translation"]
+
+[params]
+
+compress=true
+delimiter=0

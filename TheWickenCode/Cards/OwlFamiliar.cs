@@ -8,7 +8,7 @@ using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class OwlFamiliar : WickenCard
+public sealed class OwlFamiliar : WickenCard, IFamiliarSummon
 {
     public OwlFamiliar()
         : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
