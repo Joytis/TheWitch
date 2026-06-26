@@ -210,15 +210,15 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 |---|---|---|---|---|---|
 | Something Wicked | 2 / Common / Skill | Create an Offensive potion | +1 rarity | 0e catalog | 🟦 |
 | Toil and Trouble | 2 / Common / Skill | Create a Utility potion | +1 rarity | 0e catalog | 🟦 |
-| Gather Herbs | 1 / Common / Skill | Next potion made is higher quality. Exhaust | remove exhaust | 0e NextPotionUpgraded | 🟧 |
-| Blood Boiling | 1 / Rare / Skill | Lose 10 life, create a Rare potion. Exhaust | -1 energy | 0e (rare via catalog) | 🟦 |
-| Dance Around the Cauldron | 1 / Common / Skill | End of turn: 1 Wicked Brew per unspent energy | -1 energy | end-of-turn hook | 🟧 |
-| Bottle Wall | 1 / Uncommon / Skill | 5 block +4 per potion used this turn | +2 / +2 | 0a counter | 🟧 |
-| Bottle Barrage | 2 / Rare / Attack | 10 dmg per potion created this combat | +3 dmg | 0a counter | 🟧 |
-| Herbal Remedy | 0 / Uncommon / Skill | Destroy all potions, +1 energy each. Exhaust | remove exhaust | 0e destroy+count | 🟧 |
-| Unstable Reaction | 2 / Common / Attack | Destroy all potions, 10 AoE dmg each | +3 dmg | 0e destroy+count | 🟧 |
-| Rattling Bottles | 3 / Rare / Skill | Fill potion slots with Rock potions. Exhaust | -1 energy | PotionShapedRock | 🟦 |
-| Witch's Curse | 1 / Uncommon / Skill | Enemy takes double potion dmg this turn. Exhaust | remove exhaust | enemy power | 🟧 |
+| Gather Herbs | 1 / Common / Skill | Next potion made is higher quality. Exhaust | remove exhaust | 0e NextPotionUpgraded | 🟧 deferred |
+| Blood Boiling | 1 / Rare / Skill | Lose 10 life, create a Rare potion. Exhaust | -1 energy | 0e (rare via catalog) | ✅ |
+| Dance Around the Cauldron | 1 / Common / Skill | End of turn: 1 Wicked Brew per unspent energy | -1 energy | end-of-turn hook | ✅ |
+| Bottle Wall | 1 / Uncommon / Skill | 5 block +4 per potion used this turn | +2 / +2 | 0a counter | ✅ |
+| Bottle Barrage | 2 / Rare / Attack | 10 dmg per potion created this combat | +3 dmg | 0a counter | 🟧 deferred (no procure tracker) |
+| Herbal Remedy | 0 / Uncommon / Skill | Destroy all potions, +1 energy each. Exhaust | remove exhaust | 0e destroy+count | ✅ |
+| Unstable Reaction | 2 / Common / Attack | Destroy all potions, 10 AoE dmg each | +3 dmg | 0e destroy+count | ✅ |
+| Rattling Bottles | 3 / Rare / Skill | Fill potion slots with Rock potions. Exhaust | -1 energy | PotionShapedRock | ✅ |
+| Witch's Curse | 1 / Uncommon / Skill | Enemy takes double potion dmg this turn. Exhaust | remove exhaust | enemy power | 🟧 deferred (potion-dmg tag) |
 | Bottomless Cauldron | 3 / Rare / Power | On using another potion, create Wicked Brew | -1 energy | 0c | ✅ |
 | Bitter Root | 1 / Uncommon / Power | On potion use, gain 4 brambles | +2 | 0c | ✅ |
 | Cloak of Moonlight | 2 / Uncommon / Power | On creating a card or potion, gain 3 block | -1 energy | 0c | ✅ |
@@ -230,22 +230,22 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 ### Familiars
 | Card | C/R/Type | Effect | Upgrade | Infra | Status |
 |---|---|---|---|---|---|
-| Woe and Whimsy | 1 / Common / Skill | Create a random familiar card | upgraded | random familiar pick | 🟧 |
-| Find Familiar | 1 / Uncommon / Skill | Tutor a familiar card from deck → hand | -1 energy | card search | 🟧 |
-| Pact of Beasts | 2 / Rare / Skill | All created familiar cards → hand | -1 energy | pile search | 🟧 |
-| Embrace the Wilds | 3 / Rare / Skill | Transform hand → random familiars, free. Exhaust | -1 energy | hand transform | 🟧 |
-| Pillage | 1 / Common / Attack | 5 dmg, draw per familiar | +3 dmg | 0a FamiliarCount (Q1) | 🟧❓ |
-| Stampede | 1 / Common / Attack | Each familiar deals 5 dmg | +3 dmg | 0a FamiliarCount (Q1) | 🟧❓ |
-| Ritual Sacrifice | 1 / Uncommon / Skill | Sacrifice a familiar, gain 20 block | +5 block | sacrifice (Q1) | 🟧❓ |
-| Broom Strike | 2 / Common / Attack | 15 dmg, next familiar power free | +3 dmg | 0d cost reduction | 🟧 |
-| Rat Familiar | 1 / Rare / Power | Add 3 Plague. Exhaust | each loses 2 Str | new familiar + Plague | 🟧 |
-| Chimera Familiar | 1 / Rare / Power | Add 3 random familiar cards | +1 card | random familiar pick | 🟧 |
-| Porcupine Familiar | 1 / Uncommon / Power | Add 2 Quills | Quills+ | new familiar + Quills | 🟧 |
-| Bear Familiar | 2 / Rare / Power | Add Hibernate + Mutilate | both+ | new familiar + 2 tokens | 🟧 |
-| Crow Familiar | 1 / Rare / Power | Add 2 Scout | +5 gold | new familiar + Scout | 🟧 |
+| Woe and Whimsy | 1 / Common / Skill | Create a random familiar card | upgraded | random familiar pick | 🟧 deferred |
+| Find Familiar | 1 / Uncommon / Skill | Tutor a familiar card from deck → hand | -1 energy | card search | 🟧 deferred |
+| Pact of Beasts | 2 / Rare / Skill | All created familiar cards → hand | -1 energy | pile search | 🟧 deferred |
+| Embrace the Wilds | 3 / Rare / Skill | Transform hand → random familiars, free. Exhaust | -1 energy | hand transform | 🟧 deferred |
+| Pillage | 1 / Common / Attack | 5 dmg, draw per familiar | +3 dmg | 0a FamiliarCount (Q1) | ✅ |
+| Stampede | 1 / Common / Attack | Each familiar deals 5 dmg | +3 dmg | 0a FamiliarCount (Q1) | ✅ |
+| Ritual Sacrifice | 1 / Uncommon / Skill | Sacrifice a familiar, gain 20 block | +5 block | sacrifice (Q1) | ✅ |
+| Broom Strike | 2 / Common / Attack | 15 dmg, next familiar power free | +3 dmg | 0d cost reduction | ✅ |
+| Rat Familiar | 1 / Rare / Power | Add 3 Plague. Exhaust | each loses 2 Str | new familiar + Plague | ✅ |
+| Chimera Familiar | 1 / Rare / Power | Add 3 random familiar cards | +1 card | random familiar pick | 🟧 deferred |
+| Porcupine Familiar | 1 / Uncommon / Power | Add 2 Quills | Quills+ | new familiar + Quills | ✅ |
+| Bear Familiar | 2 / Rare / Power | Add Hibernate + Mutilate | both+ | new familiar + 2 tokens | ✅ |
+| Crow Familiar | 1 / Rare / Power | Add 2 Scout | +5 gold | new familiar + Scout | ✅ |
 | Wolf Familiar | 1 / Uncommon / Power | Add 3 Gnash | +3 dmg | new familiar + Gnash + Pack Tactics (Q2) | 🟧❓ |
-| Sloth Familiar | 2 / Common / Power | Add 2 Laze | Laze+ | new familiar + Laze | 🟧 |
-| Pocket Rats! | 1 / Rare / Skill | Add 3 Rats → hand. Exhaust | +1 rat | Rats token | 🟧 |
+| Sloth Familiar | 2 / Common / Power | Add 2 Laze | Laze+ | new familiar + Laze | ✅ |
+| Pocket Rats! | 1 / Rare / Skill | Add 3 Rats → hand. Exhaust | +1 rat | Rats token | ✅ |
 
 ### No special mechanic (quick wins)
 | Card | C/R/Type | Effect | Upgrade | Infra | Status |
@@ -256,16 +256,16 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 
 ### New token cards (created by the above, not in reward pool)
 `WickenFamiliarCard`, `Token` rarity, `Cards/Familiar/`. Image path `familiar/<snake_name>.png`.
-| Token | From | Effect |
-|---|---|---|
-| Plague | Rat Familiar | 0 cost: draw a card, lose 1 Str, enemies lose 1 Str |
-| Quills | Porcupine Familiar | 0: 3 dmg, gain 8 brambles |
-| Hibernate | Bear Familiar | 2: gain 15 block, heal 3 |
-| Mutilate | Bear Familiar | 2: 30 dmg, ignores block |
-| Scout | Crow Familiar | 1: apply 2 vuln + 1 weak, gain 5 gold. Exhaust |
-| Gnash | Wolf Familiar | 5 dmg, Pack Tactics +5 (Q2) |
-| Laze | Sloth Familiar | 0: draw a card, gain 8 block |
-| Rats | Pocket Rats | 0: 5 dmg, heal 1. Exhaust |
+| Token | From | Effect | Status |
+|---|---|---|---|
+| Plague | Rat Familiar | 0 cost: draw a card, lose 1 Str, enemies lose 1 Str | ✅ |
+| Quills | Porcupine Familiar | 0: 3 dmg, gain 8 brambles | ✅ |
+| Hibernate | Bear Familiar | 2: gain 15 block, heal 3 | ✅ |
+| Mutilate | Bear Familiar | 2: 30 dmg, ignores block | ✅ |
+| Scout | Crow Familiar | 1: apply 2 vuln + 1 weak, gain 5 gold. Exhaust | ✅ |
+| Gnash | Wolf Familiar | 5 dmg, Pack Tactics +5 (Q2) | 🟧❓ deferred |
+| Laze | Sloth Familiar | 0: draw a card, gain 8 block | ✅ |
+| Rats | Pocket Rats | 0: 5 dmg, heal 1. Exhaust | ✅ |
 
 ---
 
@@ -279,13 +279,21 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
    cards Bramble Shield, Vicious Barbs, Hedge Prison shipped (see Progress log).
 3. **Phase 3 — Trigger powers (0c)**: ✅ **DONE**. Rotting Roots, Cursed Bloodline, Bind in Blood,
    Bottomless Cauldron, Bitter Root, Cloak of Moonlight (see Progress log).
-4. **Phase 4 — Potion infra (0e) + counters**: Gather Herbs, Dance Around the Cauldron, Bottle Wall,
-   Bottle Barrage, Herbal Remedy, Unstable Reaction, Witch's Curse, Roomy Satchel.
-5. **Phase 5 — Familiars (0f)**: new familiars + token cards, then Woe and Whimsy, Find Familiar,
-   Pact of Beasts, Embrace the Wilds, Broom Strike (0d).
-6. **Phase 6 — Design-gated (❓)**: Familiar-count cards (Pillage, Stampede, Ritual Sacrifice),
-   Pack Tactics (Wolf/Gnash), multiplayer cards (Circle of Rot, Tiny Bottle, Share the Brew,
-   Creeping Vines), Rancid Smoke, Cackle/The Cauldron — after Open Questions answered.
+4. **Phase 4 — Potion infra (0e) + counters**: ✅ **5/8 DONE** (Dance Around the Cauldron, Bottle Wall,
+   Herbal Remedy, Unstable Reaction, Roomy Satchel). ⬜ Deferred: Gather Herbs, Bottle Barrage,
+   Witch's Curse (see Progress log for why).
+5. **Phase 5 — Familiars (0f)**: ✅ **mostly DONE** — 5 familiars (Rat/Porcupine/Bear/Crow/Sloth) + 7
+   token cards + Pocket Rats + Broom Strike. ⬜ Deferred: Wolf (Q2), Chimera, Woe and Whimsy, Find
+   Familiar, Pact of Beasts, Embrace the Wilds.
+6. **Phase 6** — ✅ Familiar-count trio **DONE** (Pillage, Stampede, Ritual Sacrifice — `Familiars.Count`
+   / `Familiars.RemoveRandom`). ⬜ Still gated on decisions: Pack Tactics (Wolf/Gnash, Q2), Rancid Smoke
+   (Q4), Cackle/The Cauldron (Q5); plus co-op cards (Circle of Rot, Tiny Bottle, Share the Brew,
+   Creeping Vines — need ally-targeting impl) and random-familiar utility (Chimera, Woe and Whimsy, Find
+   Familiar, Pact of Beasts, Embrace the Wilds — need a familiar-card registry + pile search/transform).
+
+### 2026-06-26 (Phase 6 partial)
+Pillage / Stampede / Ritual Sacrifice built on the Q1 familiar system, 0/0. Stampede = `WithHitCount(Familiars.Count)`;
+Pillage draws per familiar; Ritual Sacrifice = `Familiars.RemoveRandom` then block only if one was sacrificed.
 
 ---
 

@@ -110,5 +110,17 @@
   "THEWICKEN-POCKET_RATS.title": "Pocket Rats",
   "THEWICKEN-POCKET_RATS.description": "Add {Cards:diff()} [gold]Rats[/gold] to your hand.",
   "THEWICKEN-BROOM_STRIKE.title": "Broom Strike",
-  "THEWICKEN-BROOM_STRIKE.description": "Deal {Damage:diff()} damage. The next [gold]Familiar[/gold] power you play costs 0."
+  "THEWICKEN-BROOM_STRIKE.description": "Deal {Damage:diff()} damage. The next [gold]Familiar[/gold] power you play costs 0.",
+  "THEWICKEN-PILLAGE.title": "Pillage",
+  "THEWICKEN-PILLAGE.description": "Deal {Damage:diff()} damage. Draw a card for each of your [gold]Familiars[/gold].",
+  "THEWICKEN-STAMPEDE.title": "Stampede",
+  "THEWICKEN-STAMPEDE.description": "Each of your [gold]Familiars[/gold] deals {Damage:diff()} damage to the enemy.",
+  "THEWICKEN-RITUAL_SACRIFICE.title": "Ritual Sacrifice",
+  "THEWICKEN-RITUAL_SACRIFICE.description": "Sacrifice a [gold]Familiar[/gold]. Gain {Block:diff()} [gold]Block[/gold].",
+  "THEWICKEN-GNASH.title": "Gnash",
+  "THEWICKEN-GNASH.description": "Deal {Damage:diff()} damage, plus 5 for each [gold]Gnash[/gold] played this combat.",
+  "THEWICKEN-WOLF_FAMILIAR.title": "Wolf Familiar",
+  "THEWICKEN-WOLF_FAMILIAR.description": "Shuffle {Cards:diff()} [gold]{IfUpgraded:show:Gnash+|Gnash}[/gold] into your [gold]Draw Pile[/gold].",
+  "THEWICKEN-CACKLE.title": "Cackle",
+  "THEWICKEN-CACKLE.description": "Create [gold]The Cauldron[/gold], a powerful [gold]Potion[/gold]."
 }
