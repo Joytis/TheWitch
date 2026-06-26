@@ -15,6 +15,31 @@ not 57.
   - `Cards/WickenCard.cs` — `GainFamiliar<TPower>()` helper; wired into `OwlFamiliar` + `CatFamiliar`.
   - Loc added for both powers in `powers.json`. **Each new familiar card must add its own
     `XFamiliarPower` + loc + a `GainFamiliar<>` call.**
+- **2026-06-25 (cont.) — more Phase 0 infra built & compiling:**
+  - `Extensions/CombatHistoryQueries.cs` — history-backed counters (no tracker powers needed):
+    `PotionsUsedThisTurn`, `BramblesCreatedThisTurn`. Pattern reusable for any "X this turn/combat"
+    via `CombatManager.Instance.History` + `entry.Actor` + `HappenedThisTurn(state)`.
+  - `Powers/ViciousBarbsPower.cs` + `Powers/HedgePrisonPower.cs` + edited `Powers/BramblesPower.cs`
+    so bramble retaliation reads them (Vicious Barbs = +Amount damage per trigger; Hedge Prison =
+    skip decrement / permanent). Loc added. **Cards Vicious Barbs / Hedge Prison now reduce to a
+    one-line `PowerCmd.Apply<>` Power card.**
+  - `Cards/IFamiliarSummon.cs` — marker on familiar-summon cards (Owl, Cat implement it). Enables
+    Broom Strike / Pact of Beasts to detect familiar powers generically.
+- **2026-06-25 (Phase 1) — 16 quick-win cards built, compiling 0/0, placeholder big art + loc done:**
+  Serrated Bones, Lavender and Sage, Nettles, Brambleburst, Wild Growth, Needle Whip, Forbidden Magic,
+  Stuck in the Bush, Moondrop Tea, Hexburst, Something Wicked, Toil and Trouble, Blood Boiling,
+  Rattling Bottles, Bag of Teeth, Hidden in Smoke. All `WickenCard` → auto-pooled via inherited
+  `[Pool(WickenCardPool)]`; placeholder `big/<snake>.png` copies (no `.import` — Godot regenerates on
+  publish); loc in `cards.json`.
+  - Patterns established for reuse: AoE attack `DamageCmd.Attack(..).TargetingAllOpponents(CombatState!)`;
+    multi-hit `.WithHitCount(DynamicVars["Repeat"].IntValue)` + `{Repeat:diff()} {Repeat:plural:time|times}`;
+    bramble-scaling via `Owner.Creature.GetPowerAmount<BramblesPower>()`; self life-loss `HpLossVar` +
+    `CreatureCmd.Damage(.. Unblockable|Unpowered ..)`; offensive/utility potion create via
+    `PotionCatalog.Query(PotionTrait.X, matchAll:false, rarity)` + `PotionCatalog.Random`.
+  - **Enemy "lose Strength this turn"**: `Powers/NeedleWhipStrengthPower.cs` = `TemporaryStrengthPower`
+    (IsPositive=false) **+ `ICustomModel`** (BaseLib prefix marker — required for mod powers that can't
+    extend `CustomPowerModel`; silences STS003; uses shared temp-strength loc, no powers.json entry).
+    Reuse this pattern for any future temp-stat card.
 
 ## Per-card workflow (what "done" means for each)
 
@@ -45,25 +70,23 @@ These are reused across many cards. Order roughly by how many cards they unblock
 ### 0a. Counters (turn/combat-scoped trackers)
 | Counter | Scope | Cards that need it | Notes |
 |---|---|---|---|
-| `BramblesCreatedThisTurn` | turn | Bramble Shield | increment whenever `BramblesPower` is applied to player |
-| `PotionsUsedThisTurn` | turn | Bottle Wall | hook potion-use |
-| `PotionsCreatedThisCombat` | combat | Bottle Barrage | hook potion-procure/create |
+| `BramblesCreatedThisTurn` | turn | Bramble Shield | ✅ DONE — `CombatHistoryQueries` (PowerReceived log) |
+| `PotionsUsedThisTurn` | turn | Bottle Wall | ✅ DONE — `CombatHistoryQueries` (PotionUsed log) |
+| `PotionsCreatedThisCombat` | combat | Bottle Barrage | ⬜ TODO — **no history entry for potion procurement**; needs a small tracker (combat-start-applied counter power, or Harmony patch on `PotionCmd` procurement). Decide when building Bottle Barrage. |
 | `FamiliarCount` | combat | Pillage, Stampede | ✅ DONE — `Familiars.Count` over `FamiliarPower` stacks (Q1 resolved) |
 
 Implementation: likely a hidden/counter `WickenPower` per tracker (StackType.Counter), incremented
 from the relevant hook. Base-game pattern: counter powers + `AfterPlayerTurnEnd`/`BeforeCombatStart` resets.
 
-### 0b. Brambles upgrades (edit existing `BramblesPower`)
-- **Vicious Barbs** → brambles deal extra damage. `BramblesPower.BeforeDamageReceived` must read a
-  `ViciousBarbsPower` on the owner and add its amount to the retaliation.
-- **Hedge Prison** → brambles don't decrement. Same hook must skip `PowerCmd.Decrement` when a
-  `HedgePrisonPower` is present.
-- Both are persistent buff powers (one-shot apply from a Power card). `BramblesPower.cs` is the single
-  edit point for both.
+### 0b. Brambles upgrades (edit existing `BramblesPower`) — ✅ DONE
+- **Vicious Barbs** → `ViciousBarbsPower` built; `BramblesPower` adds its amount to each retaliation.
+- **Hedge Prison** → `HedgePrisonPower` built; `BramblesPower` skips `PowerCmd.Decrement` when present.
+- Both powers + loc done. The cards themselves are still TODO but are now trivial one-line
+  `PowerCmd.Apply<...>` Power cards (Phase 2).
 
 ### 0c. Trigger powers ("Whenever you …")
-Each is a persistent `WickenPower` overriding one hook. Reference base-game powers in
-`gamedata/src/Core/Models/Powers/`.
+**No shared base needed** — each is a one-hook `WickenPower` built with its card (Phase 3). Listed here
+only so the hooks are known. Reference base-game powers in `gamedata/src/Core/Models/Powers/`.
 | Power card | Hook | Effect |
 |---|---|---|
 | Rotting Roots | after a debuff is applied (by player) | gain N brambles |
@@ -72,13 +95,15 @@ Each is a persistent `WickenPower` overriding one hook. Reference base-game powe
 | Cloak of Moonlight | after a card or potion is created | gain N block |
 | Cursed Bloodline | after player loses life | gain N brambles |
 
-### 0d. Conditional cost reduction
-- **Weathered Witch Hat** → next Skill costs 1 (cost-set power consumed on next skill play).
-- **Broom Strike** → next Familiar Power is free (cost-set, gated to familiar power cards).
-- Reference: base-game "next card costs less" effects (e.g. Setup-style / Madness-style cost mods).
+### 0d. Conditional cost reduction — ✅ DONE
+- `Powers/NextSkillDiscountPower.cs` — next Skill costs 1 (Math.Min, only ever a discount). Weathered Witch Hat.
+- `Powers/NextFamiliarFreePower.cs` — next `IFamiliarSummon` card costs 0. Broom Strike.
+- Both mirror base-game `FreeSkillPower`/`FreePowerPower`: discount in `TryModifyEnergyCostInCombatLate`,
+  consume in `BeforeCardPlayed` (runs before the applying card's play → no self-consume). Loc added.
+  Cards still TODO but are now trivial (`PowerCmd.Apply<>` + the block/damage half).
 
-### 0e. Potion helpers
-- **Offensive / Utility / Defensive potion creation** — already have `PotionCatalog.Query(trait, …)`
+### 0e. Potion helpers (partly DONE — rest deferred to their cards)
+- ✅ **Offensive / Utility / Defensive potion creation** — already have `PotionCatalog.Query(trait, …)`
   (see `StoneSkin`). Reuse for Something Wicked, Toil and Trouble, Stone Skin pattern.
 - **Rarity-up on create** ("next potion higher quality" / "+1 rarity") — Gather Herbs needs a
   `NextPotionUpgraded` buff; several upgrades read "potion is 1 rarity higher".
@@ -199,10 +224,10 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 
 ## Phased rollout (recommended order)
 
-1. **Phase 1 — 🟦 quick wins** (no new infra): Serrated Bones, Lavender and Sage, Nettles,
-   Brambleburst, Wild Growth, Needle Whip, Forbidden Magic, Stuck in the Bush, Moondrop Tea,
-   Hexburst, Something Wicked, Toil and Trouble, Blood Boiling, Rattling Bottles, Bag of Teeth,
-   Hidden in Smoke. (~16 cards) Validates art/loc pipeline at volume.
+1. **Phase 1 — 🟦 quick wins** (no new infra): ✅ **DONE** (16 cards — see Progress log). Serrated Bones,
+   Lavender and Sage, Nettles, Brambleburst, Wild Growth, Needle Whip, Forbidden Magic, Stuck in the
+   Bush, Moondrop Tea, Hexburst, Something Wicked, Toil and Trouble, Blood Boiling, Rattling Bottles,
+   Bag of Teeth, Hidden in Smoke. Art/loc/class pipeline validated at volume.
 2. **Phase 2 — Brambles infra (0a/0b) + dependent cards**: counters + BramblesPower edits, then
    Bramble Shield, Vicious Barbs, Hedge Prison.
 3. **Phase 3 — Trigger powers (0c)**: Rotting Roots, Cursed Bloodline, Bind in Blood, Bottomless
