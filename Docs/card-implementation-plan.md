@@ -66,6 +66,27 @@ not 57.
   - Reusable note: global hooks (`AfterPowerAmountChanged`, `AfterDamageReceived`, `AfterPotionUsed`,
     `AfterPotionProcured`, `AfterCardGeneratedForCombat`) are delivered to every combat-hook model — a
     listener power just filters by `Owner`. Hooks without a context use `ThrowingPlayerChoiceContext`.
+- **2026-06-26 (Phase 4) — 5 of 8 potion cards built, 0/0:** Bottle Wall (`PotionsUsedThisTurn`),
+  Herbal Remedy + Unstable Reaction (`PotionCmd.Discard` all belt potions, then energy / AoE per),
+  Dance Around the Cauldron (`DanceAroundTheCauldronPower`, end-of-turn `AfterSideTurnEnd` reads
+  `PlayerCombatState.Energy`, procures Wicked Brews, self-removes), Roomy Satchel
+  (`PlayerCmd.GainMaxPotionCount`). **Deferred (need infra/design):** Bottle Barrage (no potions-created
+  history → tracker), Witch's Curse (no way to tag "potion damage" — damage from potions carries no
+  potion source), Gather Herbs ("higher quality" potion-upgrade semantics undefined). **Watch:** Roomy
+  Satchel raises run-level max potion count (persists; could stack if duplicated) — flagged in card.
+- **2026-06-26 (Phase 5) — familiars + tokens built, 0/0.** APIs: `CreatureCmd.Heal`,
+  `PlayerCmd.GainGold`, ignore-block = `CreatureCmd.Damage(.. Move|Unblockable)` (no attack-builder
+  option exists), tokens added to hand via `AddGeneratedCardsToCombat(.., PileType.Hand, ..)`.
+  - **5 familiars** (each: `XFamiliarPower` + `GainFamiliar<>` + `IFamiliarSummon` + token spawn, **no
+    pet sprite** — cosmetic, skipped): Rat→Plague×3, Porcupine→Quills×2, Bear→Hibernate+Mutilate,
+    Crow→Scout×2, Sloth→Laze×2. Token "+" upgrades flow through `CreateFamiliarCards(.., IsUpgraded)`.
+  - **7 token cards** (`WickenFamiliarCard`, Token, in `Cards/Familiar/`): Plague, Quills, Hibernate,
+    Mutilate, Scout, Laze, Rats.
+  - **Pocket Rats** (Rats×3 → hand) and **Broom Strike** (15 dmg + `NextFamiliarFreePower` from Phase 0).
+  - **Deferred:** Wolf Familiar + Gnash (Pack Tactics = Open Q2); Chimera Familiar / Woe and Whimsy
+    (need a random-familiar-token registry); Find Familiar / Pact of Beasts (pile tutor/search by
+    "is a familiar card"); Embrace the Wilds (hand transform + make free). Pillage / Stampede / Ritual
+    Sacrifice are now **unblocked** (Q1 familiar-count done) but not yet built.
 
 ## Per-card workflow (what "done" means for each)
 
