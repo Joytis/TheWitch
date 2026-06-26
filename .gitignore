@@ -10,3 +10,8 @@ Properties/
 packages/
 .editorconfig
 *.user
+
+# Steam Workshop bundle: keep config (workshop.json, image.png, mod_id.txt), drop staged build artifacts
+/workshop/content/
+/workshop/README.md
+tools/ModUploader-win-x64/mod-uploader.log

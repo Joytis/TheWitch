@@ -1,0 +1,35 @@
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using TheWicken.TheWickenCode.Powers;
+
+namespace TheWicken.TheWickenCode.Cards;
+
+public sealed class RatFamiliar : WickenCard, IFamiliarSummon
+{
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromCard<Plague>(IsUpgraded),
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new CardsVar(3)
+    ];
+
+    public RatFamiliar()
+        : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+    {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
+        await GainFamiliar<RatFamiliarPower>(choiceContext);
+        List<Plague> cards = CreateFamiliarCards<Plague>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
+        var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Draw, Owner, CardPilePosition.Random);
+        CardCmd.PreviewCardPileAdd(generated);
+    }
+}
