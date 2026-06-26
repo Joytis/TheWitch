@@ -1,4 +1,6 @@
 {
   "THEWICKEN-WICKED_BREW.title": "Wicked Brew",
-  "THEWICKEN-WICKED_BREW.description": "Deal [blue]{Damage}[/blue] damage."
+  "THEWICKEN-WICKED_BREW.description": "Deal [blue]{Damage}[/blue] damage.",
+  "THEWICKEN-THE_CAULDRON.title": "The Cauldron",
+  "THEWICKEN-THE_CAULDRON.description": "Deal [blue]{Damage}[/blue] damage to ALL enemies. Gain [blue]{Block}[/blue] Block and [blue]{BramblesPower}[/blue] Brambles. Apply [blue]{WeakPower}[/blue] Weak to ALL enemies."
 }

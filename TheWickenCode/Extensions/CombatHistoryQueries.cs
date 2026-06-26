@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace TheWicken.TheWickenCode.Extensions;
@@ -32,4 +33,12 @@ public static class CombatHistoryQueries
         (int)(History?.Entries.OfType<PowerReceivedEntry>()
             .Where(e => e.Actor == player && e.Power is BramblesPower && e.Amount > 0m && e.HappenedThisTurn(state))
             .Sum(e => e.Amount) ?? 0m);
+
+    /// <summary>
+    /// How many cards of type <typeparamref name="T" /> this player has finished playing this combat. Counts
+    /// completed plays only, so reading it during a card's own <c>OnPlay</c> excludes the current play
+    /// (e.g. Gnash escalating "+5 for each Gnash played this combat" → 0, 1, 2, … on successive plays).
+    /// </summary>
+    public static int CardsPlayedThisCombat<T>(Creature player) where T : CardModel =>
+        History?.CardPlaysFinished.Count(e => e.CardPlay.Card is T && e.CardPlay.Card.Owner.Creature == player) ?? 0;
 }
