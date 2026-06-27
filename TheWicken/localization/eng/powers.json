@@ -58,5 +58,14 @@
   "THEWICKEN-SLOTH_FAMILIAR_POWER.title": "Sloth Familiar",
   "THEWICKEN-WOLF_FAMILIAR_POWER.description": "",
   "THEWICKEN-WOLF_FAMILIAR_POWER.smartDescription": "",
-  "THEWICKEN-WOLF_FAMILIAR_POWER.title": "Wolf Familiar"
+  "THEWICKEN-WOLF_FAMILIAR_POWER.title": "Wolf Familiar",
+  "THEWICKEN-CHIMERA_FAMILIAR_POWER.description": "",
+  "THEWICKEN-CHIMERA_FAMILIAR_POWER.smartDescription": "",
+  "THEWICKEN-CHIMERA_FAMILIAR_POWER.title": "Chimera Familiar",
+  "THEWICKEN-WITCHS_CURSE_POWER.description": "Takes double [gold]Potion[/gold] damage this turn.",
+  "THEWICKEN-WITCHS_CURSE_POWER.smartDescription": "",
+  "THEWICKEN-WITCHS_CURSE_POWER.title": "Witch's Curse",
+  "THEWICKEN-NEXT_POTION_UPGRADED_POWER.description": "Your next created [gold]Potion[/gold] is one rarity higher.",
+  "THEWICKEN-NEXT_POTION_UPGRADED_POWER.smartDescription": "",
+  "THEWICKEN-NEXT_POTION_UPGRADED_POWER.title": "Gathered Herbs"
 }

@@ -6,6 +6,68 @@ not 57.
 
 ## Progress log
 
+- **2026-06-26 (Rancid Smoke — 🎉 ALL 56 CARDS DONE, 0/0):** Q4 resolved (source = your own debuffs).
+  `Cards/RancidSmoke.cs` mirrors base-game `Misery`: clone each `PowerType.Debuff` power on the Wicken
+  (`ClonePreservingMutability`) and apply to all enemies — stacking onto enemies that already have it
+  (`PowerCmd.FindExistingInstanceForStacking` → `ModifyAmount`), `ITemporaryPower.IgnoreNextInstance` on
+  fresh applies so temp-powers don't double-tick. Exhaust; upg removes Exhaust. **The plan is complete.**
+- **2026-06-26 (Gather Herbs — bucket C COMPLETE, 0/0):** Q resolved as **"+1 rarity, own cards only."**
+  `Powers/NextPotionUpgradedPower.cs` (counter buff) + static `UpgradeRarity(player, rarity)` that consumes a
+  stack and bumps the tier (Common→Uncommon→Rare, capped). Wired into `SomethingWicked` + `ToilAndTrouble`
+  (`var rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, …)` replacing their inline rarity). Gather
+  Herbs applies one stack (Exhaust; upg removes Exhaust). Bucket C done → only **Rancid Smoke (Q4)** remains.
+- **2026-06-26 (potion infra — bucket C, 2 of 3, 0/0):**
+  - **Bottle Barrage** — needed a "potions created this combat" count, but the game logs **no potion-procured
+    history entry**. Built `Patches/PotionsCreatedTracker.cs`: Harmony-prefixes the procurement chokepoint
+    `PotionCmd.TryToProcure(PotionModel, Player, int)` (the generic overload routes through it), counting into a
+    `ConditionalWeakTable<ICombatState, StrongBox<int>>` so it's per-combat and self-cleaning. Card =
+    `WithHitCount(CountFor(CombatState))`, 10 dmg/hit (+3 upg). Counts procure *calls* (belt-full still counts);
+    combat-keyed → team total in MP. (Project already Harmony-patches — see `Monsters/WickenPetVisualsPatch.cs`.)
+  - **Witch's Curse** — potion damage carries **no card/potion source** (`CreatureCmd.Damage(.., player, null)`),
+    so it can't be spotted in the damage pipeline. `WitchsCursePower` (on the enemy) instead flags the window
+    between `BeforePotionUsed`/`AfterPotionUsed` — which **bracket the potion's `OnUse` body** (PotionModel
+    `OnUseWrapper`: BeforePotionUsed → OnUse[damage] → AfterPotionUsed) — and returns `2m` from
+    `ModifyDamageMultiplicative` while that flag is set and `target == Owner`. **Does NOT gate on
+    `IsPoweredAttack`** (potion damage is `Unpowered`, unlike Vulnerable). Turn-scoped: self-removes on
+    `AfterSideTurnEnd(side == Player)`. Reusable: any "react to a potion's effect mid-use" power = the
+    Before/After-PotionUsed bracket + a flag.
+  - ⬜ **Gather Herbs** still open — "next potion is higher quality" is undefined (potions have only `Rarity`,
+    no upgrade flag) and the consume/scope mechanics differ by approach. Pending a design decision.
+- **2026-06-26 (MP co-op — bucket B DONE, 0/0):** 4 `MultiplayerOnly` cards (`CardMultiplayerConstraint.MultiplayerOnly`,
+  ref `Flanking`; auto-excluded from single-player pools). Ally infra: `CombatState.GetTeammatesOf(Owner.Creature)`
+  returns the **whole side incl. self** → filter `c.IsAlive && c.IsPlayer`; single-ally pick = `TargetType.AnyAlly`
+  + `cardPlay.Target.Player`; per-ally energy = `PlayerCmd.GainEnergy/LoseEnergy(n, player)`; per-ally potion =
+  `PotionFactory.CreateRandomPotionInCombat(player, Rng.CombatPotionGeneration).ToMutable()` + `PotionCmd.TryToProcure`.
+  - **Circle of Rot** (AllAllies) — each teammate gains Block + 2 Weak; all enemies gain 2 Weak. **Interpretation:**
+    the "gain 2 weak" is self/ally weak (Wicken debuff-synergy theme), "apply 2 weak" hits enemies; one `WeakVar` drives both, +1 on upg.
+  - **Creeping Vines** (X-cost, `HasEnergyCostX`, `ResolveEnergyXValue()`) — X times, 5 Brambles to a random ally
+    rolled fresh each hit (`Rng.CombatTargets.NextItem`). Random pool = all teammates incl. self.
+  - **Tiny Bottle** (AnyAlly) — drains up to 2 energy from the targeted ally (capped at their current energy); **you**
+    gain 1 random potion per energy drained (energy is converted to brew, not gained). Upg = +1 energy drained.
+  - **Share the Brew** (AllAllies) — you + every ally each procure a random potion (mirrors HuddleUp/EnergySurge incl. self).
+  - These interpretations resolved the under-specified CSV text; tweak numbers/targets freely (one-liners).
+  Reusable: block-to-any-creature = `CreatureCmd.GainBlock(creature, amount, ValueProp.Move, cardPlay)`;
+  `PowerCmd.Apply` accepts a creature **or** `CombatState.HittableEnemies` collection.
+  **Gotcha:** `BramblesPower` is namespaced `MegaCrit.Sts2.Core.Models.Powers` (shares base loc), not `TheWicken...Powers`.
+- **2026-06-26 (familiar utility — bucket A DONE, 0/0):** 5 cards + `Cards/Familiar/FamiliarCardRegistry.cs`
+  (the "random familiar card" registry = `ModelDb.AllCards.OfType<WickenFamiliarCard>()`, valid because
+  `WickenFamiliarCardPool.IsShared`; `CreateRandom` rolls `Rng.NextItem` + `ICombatState.CreateCard(canonical, owner)`):
+  - **Woe and Whimsy** — 1 random familiar → hand (upgraded when card is upgraded).
+  - **Chimera Familiar** — Power; `ChimeraFamiliarPower` + `GainFamiliar` + `IFamiliarSummon`; shuffles 3
+    (+1 upg) random familiars into Draw, matching the other familiar Power cards.
+  - **Find Familiar** — tutor: `CardSelectCmd.FromCombatPile(Draw, filter: c is WickenFamiliarCard)` →
+    `CardPileCmd.Add(.., Hand)` (ref `SecretWeapon`).
+  - **Pact of Beasts** — gather all `WickenFamiliarCard` from Draw+Discard `.Cards` → `CardPileCmd.Add(.., Hand)`.
+  - **Embrace the Wilds** — for each transformable hand card: create random familiar, `EnergyCost.SetThisCombat(0)`,
+    `CardCmd.Transform(original, familiar)` (refs `Begone`/`AdaptiveStrike`).
+  - Reusable: pile reads = `PileType.X.GetPile(Owner).Cards`; random card gen rng = `Owner.RunState.Rng.CombatCardGeneration`;
+    make-free = `card.EnergyCost.SetThisCombat(0)`. **`CardModel` lives in `MegaCrit.Sts2.Core.Models`** — add that using.
+- **2026-06-26 (cont.)** — Wolf Familiar + Gnash (Q2 resolved → escalate +5/Gnash via
+  `CardsPlayedThisCombat`) and Cackle + `TheCauldron` potion (Q5 resolved) shipped in commit
+  `a2fc709`; plan rows now reconciled to ✅. **Weathered Witch Hat** built (10 block + 1× existing
+  `NextSkillDiscountPower`; +3 block upg) — the last fully-unblocked quick win. 0/0.
+- **Remaining unbuilt: NONE — all 56 cards built & compiling 0/0.** (Art is still placeholder for the
+  new cards; loc is final text.)
 - **2026-06-25** — Plan ingested (56 cards). Decisions Q1/Q3 made (below). **Phase 0 — Familiar power
   system built & compiling:**
   - `Powers/FamiliarPower.cs` — abstract counter base; one stack = one familiar of that type.
@@ -152,8 +214,10 @@ only so the hooks are known. Reference base-game powers in `gamedata/src/Core/Mo
 ### 0e. Potion helpers (partly DONE — rest deferred to their cards)
 - ✅ **Offensive / Utility / Defensive potion creation** — already have `PotionCatalog.Query(trait, …)`
   (see `StoneSkin`). Reuse for Something Wicked, Toil and Trouble, Stone Skin pattern.
-- **Rarity-up on create** ("next potion higher quality" / "+1 rarity") — Gather Herbs needs a
-  `NextPotionUpgraded` buff; several upgrades read "potion is 1 rarity higher".
+- **Rarity-up on create** ("next potion higher quality" / "+1 rarity") — ✅ DONE. `Powers/NextPotionUpgradedPower.cs`
+  (counter buff) + static `UpgradeRarity(player, rarity)` (consumes a stack, bumps Common→Uncommon→Rare, caps at
+  Rare). Honored only by the Wicken's rarity-rolling creators (`SomethingWicked`, `ToilAndTrouble`) — **not** a
+  global procurement hook. Gather Herbs applies one stack. Fixed-output creators (Blood Boiling/Cackle/Brew) skip it.
 - **Rock potion** = base-game `PotionShapedRock` (already `Token` rarity) — used by Rattling Bottles.
 - **Destroy potions + payoff** — Herbal Remedy / Unstable Reaction need a "discard/destroy all belt
   potions, count them" helper.
@@ -193,7 +257,7 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 | Cursed Bloodline | 1 / Uncommon / Power | On life loss, gain 3 brambles | +1 | 0c | ✅ |
 | Bind in Blood | 1 / Common / Skill | This turn, gain brambles per life lost | 2/life | 0c (turn buff) | ✅ |
 | Hedge Prison | 3 / Rare / Power | Brambles are permanent | -1 energy | 0b | ✅ |
-| Creeping Vines | X / Uncommon / Skill | 5 brambles to random ally, X times | +2 brambles | X-cost; MP-only | 🟧 MP |
+| Creeping Vines | X / Uncommon / Skill | 5 brambles to random ally, X times | +2 brambles | X-cost; MP-only | ✅ MP |
 
 ### Debuff
 | Card | C/R/Type | Effect | Upgrade | Infra | Status |
@@ -201,49 +265,49 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 | Forbidden Magic | 1 / Common / Attack | 15 dmg, gain 2 weak | +5 dmg, +1 weak | none | 🟦 |
 | Stuck in the Bush | 2 / Uncommon / Skill | 20 block, gain 2 vulnerable | +5 block, +1 vuln | none | 🟦 |
 | Moondrop Tea | 1 / Common / Skill | 8 block, remove a random debuff | +3 block | remove-debuff-from-self | 🟦 |
-| Circle of Rot | 2 / Uncommon / Skill | You(+allies) gain 10 block, apply 2 weak, gain 2 weak | +2 block, +1 weak | MP-only (Flanking) | 🟦 MP |
+| Circle of Rot | 2 / Uncommon / Skill | You(+allies) gain 10 block, apply 2 weak, gain 2 weak | +2 block, +1 weak | MP-only (Flanking) | ✅ MP |
 | Hexburst | 1 / Uncommon / Attack | 6 dmg per unique debuff on enemy | +2 dmg | count unique debuffs | 🟦 |
-| Rancid Smoke | 2 / Uncommon / Skill | Spread all your debuffs to ALL enemies. Exhaust | remove exhaust | debuff-copy (Q4) | 🟧❓ |
+| Rancid Smoke | 2 / Uncommon / Skill | Spread all your debuffs to ALL enemies. Exhaust | remove exhaust | debuff-copy (Q4) | ✅ |
 
 ### Potions
 | Card | C/R/Type | Effect | Upgrade | Infra | Status |
 |---|---|---|---|---|---|
 | Something Wicked | 2 / Common / Skill | Create an Offensive potion | +1 rarity | 0e catalog | 🟦 |
 | Toil and Trouble | 2 / Common / Skill | Create a Utility potion | +1 rarity | 0e catalog | 🟦 |
-| Gather Herbs | 1 / Common / Skill | Next potion made is higher quality. Exhaust | remove exhaust | 0e NextPotionUpgraded | 🟧 deferred |
+| Gather Herbs | 1 / Common / Skill | Next potion made is higher quality. Exhaust | remove exhaust | 0e NextPotionUpgraded | ✅ |
 | Blood Boiling | 1 / Rare / Skill | Lose 10 life, create a Rare potion. Exhaust | -1 energy | 0e (rare via catalog) | ✅ |
 | Dance Around the Cauldron | 1 / Common / Skill | End of turn: 1 Wicked Brew per unspent energy | -1 energy | end-of-turn hook | ✅ |
 | Bottle Wall | 1 / Uncommon / Skill | 5 block +4 per potion used this turn | +2 / +2 | 0a counter | ✅ |
-| Bottle Barrage | 2 / Rare / Attack | 10 dmg per potion created this combat | +3 dmg | 0a counter | 🟧 deferred (no procure tracker) |
+| Bottle Barrage | 2 / Rare / Attack | 10 dmg per potion created this combat | +3 dmg | 0a counter | ✅ |
 | Herbal Remedy | 0 / Uncommon / Skill | Destroy all potions, +1 energy each. Exhaust | remove exhaust | 0e destroy+count | ✅ |
 | Unstable Reaction | 2 / Common / Attack | Destroy all potions, 10 AoE dmg each | +3 dmg | 0e destroy+count | ✅ |
 | Rattling Bottles | 3 / Rare / Skill | Fill potion slots with Rock potions. Exhaust | -1 energy | PotionShapedRock | ✅ |
-| Witch's Curse | 1 / Uncommon / Skill | Enemy takes double potion dmg this turn. Exhaust | remove exhaust | enemy power | 🟧 deferred (potion-dmg tag) |
+| Witch's Curse | 1 / Uncommon / Skill | Enemy takes double potion dmg this turn. Exhaust | remove exhaust | enemy power | ✅ |
 | Bottomless Cauldron | 3 / Rare / Power | On using another potion, create Wicked Brew | -1 energy | 0c | ✅ |
 | Bitter Root | 1 / Uncommon / Power | On potion use, gain 4 brambles | +2 | 0c | ✅ |
 | Cloak of Moonlight | 2 / Uncommon / Power | On creating a card or potion, gain 3 block | -1 energy | 0c | ✅ |
 | Roomy Satchel | 1 / Uncommon / Power | Gain 2 potion slots | +1 slot | potion-slot stat mod | 🟧 |
-| Tiny Bottle | 0 / Uncommon / Skill | Steal 2 energy from ally, give potion per energy | potion+ | MP-only (Flanking) | 🟧 MP |
-| Share the Brew | 2 / Uncommon / Skill | Allies gain a random potion | -1 energy | MP-only (Flanking) | 🟧 MP |
-| Cackle | 2 / Rare / Skill | Create "The Cauldron" (big potion). Exhaust | -1 energy | new potion (Q5) | 🟧❓ |
+| Tiny Bottle | 0 / Uncommon / Skill | Steal 2 energy from ally, give potion per energy | potion+ | MP-only (Flanking) | ✅ MP |
+| Share the Brew | 2 / Uncommon / Skill | Allies gain a random potion | -1 energy | MP-only (Flanking) | ✅ MP |
+| Cackle | 2 / Rare / Skill | Create "The Cauldron" (big potion). Exhaust | -1 energy | new potion (Q5) | ✅ |
 
 ### Familiars
 | Card | C/R/Type | Effect | Upgrade | Infra | Status |
 |---|---|---|---|---|---|
-| Woe and Whimsy | 1 / Common / Skill | Create a random familiar card | upgraded | random familiar pick | 🟧 deferred |
-| Find Familiar | 1 / Uncommon / Skill | Tutor a familiar card from deck → hand | -1 energy | card search | 🟧 deferred |
-| Pact of Beasts | 2 / Rare / Skill | All created familiar cards → hand | -1 energy | pile search | 🟧 deferred |
-| Embrace the Wilds | 3 / Rare / Skill | Transform hand → random familiars, free. Exhaust | -1 energy | hand transform | 🟧 deferred |
+| Woe and Whimsy | 1 / Common / Skill | Create a random familiar card | upgraded | random familiar pick | ✅ |
+| Find Familiar | 1 / Uncommon / Skill | Tutor a familiar card from deck → hand | -1 energy | card search | ✅ |
+| Pact of Beasts | 2 / Rare / Skill | All created familiar cards → hand | -1 energy | pile search | ✅ |
+| Embrace the Wilds | 3 / Rare / Skill | Transform hand → random familiars, free. Exhaust | -1 energy | hand transform | ✅ |
 | Pillage | 1 / Common / Attack | 5 dmg, draw per familiar | +3 dmg | 0a FamiliarCount (Q1) | ✅ |
 | Stampede | 1 / Common / Attack | Each familiar deals 5 dmg | +3 dmg | 0a FamiliarCount (Q1) | ✅ |
 | Ritual Sacrifice | 1 / Uncommon / Skill | Sacrifice a familiar, gain 20 block | +5 block | sacrifice (Q1) | ✅ |
 | Broom Strike | 2 / Common / Attack | 15 dmg, next familiar power free | +3 dmg | 0d cost reduction | ✅ |
 | Rat Familiar | 1 / Rare / Power | Add 3 Plague. Exhaust | each loses 2 Str | new familiar + Plague | ✅ |
-| Chimera Familiar | 1 / Rare / Power | Add 3 random familiar cards | +1 card | random familiar pick | 🟧 deferred |
+| Chimera Familiar | 1 / Rare / Power | Add 3 random familiar cards | +1 card | random familiar pick | ✅ |
 | Porcupine Familiar | 1 / Uncommon / Power | Add 2 Quills | Quills+ | new familiar + Quills | ✅ |
 | Bear Familiar | 2 / Rare / Power | Add Hibernate + Mutilate | both+ | new familiar + 2 tokens | ✅ |
 | Crow Familiar | 1 / Rare / Power | Add 2 Scout | +5 gold | new familiar + Scout | ✅ |
-| Wolf Familiar | 1 / Uncommon / Power | Add 3 Gnash | +3 dmg | new familiar + Gnash + Pack Tactics (Q2) | 🟧❓ |
+| Wolf Familiar | 1 / Uncommon / Power | Add 3 Gnash | +3 dmg | new familiar + Gnash + Pack Tactics (Q2) | ✅ |
 | Sloth Familiar | 2 / Common / Power | Add 2 Laze | Laze+ | new familiar + Laze | ✅ |
 | Pocket Rats! | 1 / Rare / Skill | Add 3 Rats → hand. Exhaust | +1 rat | Rats token | ✅ |
 
@@ -252,7 +316,7 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 |---|---|---|---|---|---|
 | Bag of Teeth | 1 / Common / Attack | 1 dmg × 6 | +2 hits | none (multi-hit) | 🟦 |
 | Hidden in Smoke | 2 / Rare / Skill | Gain 1 Intangible. Exhaust | -1 energy | IntangiblePower (base) | 🟦 |
-| Weathered Witch Hat | 2 / Common / Skill | 10 block, next skill costs 1 | +3 block | 0d cost reduction | 🟧 |
+| Weathered Witch Hat | 2 / Common / Skill | 10 block, next skill costs 1 | +3 block | 0d cost reduction | ✅ |
 
 ### New token cards (created by the above, not in reward pool)
 `WickenFamiliarCard`, `Token` rarity, `Cards/Familiar/`. Image path `familiar/<snake_name>.png`.
@@ -263,7 +327,7 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 | Hibernate | Bear Familiar | 2: gain 15 block, heal 3 | ✅ |
 | Mutilate | Bear Familiar | 2: 30 dmg, ignores block | ✅ |
 | Scout | Crow Familiar | 1: apply 2 vuln + 1 weak, gain 5 gold. Exhaust | ✅ |
-| Gnash | Wolf Familiar | 5 dmg, Pack Tactics +5 (Q2) | 🟧❓ deferred |
+| Gnash | Wolf Familiar | 5 dmg, +5 per Gnash played this combat (Q2 resolved: escalate, not buff-in-hand) | ✅ |
 | Laze | Sloth Familiar | 0: draw a card, gain 8 block | ✅ |
 | Rats | Pocket Rats | 0: 5 dmg, heal 1. Exhaust | ✅ |
 
@@ -279,17 +343,16 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
    cards Bramble Shield, Vicious Barbs, Hedge Prison shipped (see Progress log).
 3. **Phase 3 — Trigger powers (0c)**: ✅ **DONE**. Rotting Roots, Cursed Bloodline, Bind in Blood,
    Bottomless Cauldron, Bitter Root, Cloak of Moonlight (see Progress log).
-4. **Phase 4 — Potion infra (0e) + counters**: ✅ **5/8 DONE** (Dance Around the Cauldron, Bottle Wall,
-   Herbal Remedy, Unstable Reaction, Roomy Satchel). ⬜ Deferred: Gather Herbs, Bottle Barrage,
-   Witch's Curse (see Progress log for why).
+4. **Phase 4 — Potion infra (0e) + counters**: ✅ **8/8 DONE** (Dance Around the Cauldron, Bottle Wall,
+   Herbal Remedy, Unstable Reaction, Roomy Satchel + Gather Herbs, Bottle Barrage, Witch's Curse — bucket C).
 5. **Phase 5 — Familiars (0f)**: ✅ **mostly DONE** — 5 familiars (Rat/Porcupine/Bear/Crow/Sloth) + 7
    token cards + Pocket Rats + Broom Strike. ⬜ Deferred: Wolf (Q2), Chimera, Woe and Whimsy, Find
    Familiar, Pact of Beasts, Embrace the Wilds.
-6. **Phase 6** — ✅ Familiar-count trio **DONE** (Pillage, Stampede, Ritual Sacrifice — `Familiars.Count`
-   / `Familiars.RemoveRandom`). ⬜ Still gated on decisions: Pack Tactics (Wolf/Gnash, Q2), Rancid Smoke
-   (Q4), Cackle/The Cauldron (Q5); plus co-op cards (Circle of Rot, Tiny Bottle, Share the Brew,
-   Creeping Vines — need ally-targeting impl) and random-familiar utility (Chimera, Woe and Whimsy, Find
-   Familiar, Pact of Beasts, Embrace the Wilds — need a familiar-card registry + pile search/transform).
+6. **Phase 6** — ✅ Familiar-count trio **DONE** (Pillage, Stampede, Ritual Sacrifice). Pack Tactics
+   (Wolf/Gnash, Q2) and Cackle/The Cauldron (Q5) ✅ DONE. Co-op cards (Circle of Rot, Tiny Bottle,
+   Share the Brew, Creeping Vines) ✅ DONE (bucket B). Random-familiar utility (Chimera, Woe and Whimsy,
+   Find Familiar, Pact of Beasts, Embrace the Wilds) ✅ DONE (bucket A). Potion-infra trio (Bottle Barrage,
+   Gather Herbs, Witch's Curse) ✅ DONE (bucket C). Rancid Smoke (Q4) ✅ DONE. **🎉 All 56 cards built.**
 
 ### 2026-06-26 (Phase 6 partial)
 Pillage / Stampede / Ritual Sacrifice built on the Q1 familiar system, 0/0. Stampede = `WithHitCount(Familiars.Count)`;
@@ -303,16 +366,21 @@ Pillage draws per familiar; Ritual Sacrifice = `Familiars.RemoveRandom` then blo
   `FamiliarPower` (e.g. playing Owl Familiar → +1 `OwlFamiliarPower`). Total familiar count = sum of
   all `FamiliarPower` stacks. Sacrifice = pick a random familiar power and decrement it (auto-removed
   at 0). Built — see Progress log / `Powers/Familiars.cs`.
-- **Q2 — Pack Tactics (Wolf / Gnash):** "all Pack Tactics deal +5 dmg." Define the keyword: does
-  playing one Gnash buff the rest in hand? Is "Pack Tactics" a tag shared by all wolf tokens? Need
-  the exact rule.
+- **Q2 — Pack Tactics (Wolf / Gnash). ✅ RESOLVED.** Implemented as *escalation*: each Gnash deals its
+  base 5 dmg **+5 for every Gnash already played this combat** (`CombatHistoryQueries.CardsPlayedThisCombat<Gnash>`).
+  No buff-in-hand / shared-tag keyword — the pack "grows" as you spend them. Built: `Cards/Familiar/Gnash.cs`,
+  `Cards/WolfFamiliar.cs`, `Powers/WolfFamiliarPower.cs`.
 - **Q3 — Multiplayer "ally" cards. ✅ RESOLVED.** Circle of Rot, Tiny Bottle, Share the Brew, Creeping
   Vines are **multiplayer-only**: override `MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly`
   (base-game ref: `Flanking`). The game auto-excludes them from single-player reward/shop pools, so no
   single-player fallback logic is needed. Build them with their full co-op ally behavior.
-- **Q4 — Rancid Smoke "spread all of YOUR debuffs":** does the Wicken accumulate debuffs on herself
-  that this then copies to all enemies? Confirm source = player's own debuffs.
-- **Q5 — "The Cauldron" (Cackle):** undefined ("a big potion that does something really big"). Needs
-  a concrete effect + rarity before build.
+- **Q4 — Rancid Smoke "spread all of YOUR debuffs". ✅ RESOLVED.** Source = the Wicken's own debuffs.
+  Built `Cards/RancidSmoke.cs` mirroring base-game `Misery`: clone each `PowerType.Debuff` power on
+  `Owner.Creature` (`ClonePreservingMutability`) and apply to every enemy (stack via
+  `FindExistingInstanceForStacking` / `ModifyAmount`; `ITemporaryPower.IgnoreNextInstance` on fresh applies).
+  The Wicken keeps hers — enemies get copies.
+- **Q5 — "The Cauldron" (Cackle). ✅ RESOLVED.** Built as a concrete potion `Potions/TheCauldron.cs`
+  (granted via `PotionCmd.TryToProcure<TheCauldron>`); Cackle is a Rare Exhaust skill that creates it.
+  See that file for the effect/rarity that was chosen.
 - **Minor:** "Wicked Brew" capitalization in loc (existing key is `WickedBrew`/"Wicked Brew"); keep
   consistent. Several upgrades say "-1 energy" on already-cheap cards — confirm intended floors.

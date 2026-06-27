@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using TheWicken.TheWickenCode.Potions.Brewing;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
@@ -17,7 +18,7 @@ public sealed class SomethingWicked : WickenCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        var rarity = IsUpgraded ? PotionRarity.Uncommon : PotionRarity.Common;
+        var rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, IsUpgraded ? PotionRarity.Uncommon : PotionRarity.Common);
         var potion = PotionCatalog.Random(
             PotionCatalog.Query(PotionTrait.Offensive, matchAll: false, rarity: rarity),
             Owner.RunState.Rng.CombatPotionGeneration);
