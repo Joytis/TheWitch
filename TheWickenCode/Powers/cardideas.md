@@ -1,5 +1,3 @@
-- New Card | Vexing Thwack: Attac - Common - 3 Energy - Deal 10 Damage 2 times. Apply 2 Hex. Upgrade - 2 more hex. 
-- New Card | Soul Knot: Power - Rare - 3 Energy - Whenever you take damage, all anamies take that much damage. Upgrade - 1 less energy 
-- New Card | Bewitching Grin: Attack - Common - 1 Energy. Deal 3 damage. Apply 3 Hex. Upgrade: 3 more damage. 
-- New Card | Broken Pact: Skill - 2 Energy - Rare - Sacrifice a familiar. Heal 10 Life. Exhaust - Upgrade: 3 more life. 
-- New Card | Prices Paid: Attack - Common - Lose 3 life. Deal 6 Damage. Create a Slicing Brew. New Potion (Deal 3 damage 3 times)
+- Whenever you play a colorless or familiar card, gain 2 brambles and upgrade a card in your hand.
+
+- Deal X Damage plus Y for each potion in your belt. 

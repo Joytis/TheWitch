@@ -17,7 +17,13 @@
       "upgrade": "Brambles +2",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Defend",
@@ -34,7 +40,13 @@
       "upgrade": "Block +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Extract Essence",
@@ -51,7 +63,13 @@
       "upgrade": "Damage +3",
       "note": "ExtractEssence: deal damage; on unblocked damage, create a Common potion themed around the enemy hit (offensive enemy -> offensive potion, blocker -> defensive, debuffer -> utility).",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Strike",
@@ -68,7 +86,13 @@
       "upgrade": "Damage +3",
       "note": "The only difference between the starting Strike cards are portrait, attack vfx, and color.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Bag of Teeth",
@@ -86,7 +110,13 @@
       "upgrade": "Repeat +2",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Bewitching Grin",
@@ -104,7 +134,13 @@
       "upgrade": "Damage +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Bind in Blood",
@@ -121,7 +157,13 @@
       "upgrade": "BindInBloodPower +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Brew",
@@ -135,8 +177,15 @@
       "numbers": {},
       "upgrade": "Potions +1",
       "note": "Brew: upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff",
+        "Enabler"
+      ]
     },
     {
       "name": "Broom Strike",
@@ -153,7 +202,13 @@
       "upgrade": "Damage +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Concoct",
@@ -167,8 +222,14 @@
       "numbers": {},
       "upgrade": "none",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Fertilize",
@@ -186,7 +247,14 @@
       "upgrade": "Brambles +1, Cards +1",
       "note": "Fertilize (renamed from Serrated Bones): gain Brambles and upgrade random card(s) in your hand.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Forbidden Magic",
@@ -204,7 +272,13 @@
       "upgrade": "Damage +5, Weak +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Gather Herbs",
@@ -218,8 +292,14 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Lavender and Sage",
@@ -237,7 +317,14 @@
       "upgrade": "Brambles +2",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Moondrop Tea",
@@ -254,7 +341,13 @@
       "upgrade": "Block +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Nettles",
@@ -271,7 +364,13 @@
       "upgrade": "Damage +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Pillage",
@@ -288,7 +387,13 @@
       "upgrade": "Damage +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Prices Paid",
@@ -306,7 +411,13 @@
       "upgrade": "Damage +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Skin of Stone",
@@ -321,7 +432,13 @@
       "upgrade": "none",
       "note": "Queries the potion catalog for a defensive potion of the appropriate rarity.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Something Wicked",
@@ -335,8 +452,14 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Respects Gather Herbs (rare) and upgrade-rarity effects when rolling the offensive potion.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Spines",
@@ -354,7 +477,13 @@
       "upgrade": "Block +3, Brambles +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Stampede",
@@ -370,8 +499,14 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Toil and Trouble",
@@ -386,7 +521,13 @@
       "upgrade": "none",
       "note": "Respects Gather Herbs (rare) and upgrade-rarity effects when rolling the utility potion.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Unstable Reaction",
@@ -403,7 +544,13 @@
       "upgrade": "Damage +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Vexing Thwack",
@@ -422,7 +569,13 @@
       "upgrade": "HexPower +2",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Weathered Witch Hat",
@@ -439,7 +592,13 @@
       "upgrade": "Block +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Woe and Whimsy",
@@ -449,14 +608,20 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Add a random Familiar card to your hand.",
+      "text": "Add 2 random Familiar cards to your hand.",
       "numbers": {
-        "Cards": 1
+        "Cards": 2
       },
       "upgrade": "none",
       "note": "",
-      "tested": true,
-      "artFinal": false
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Bottle Wall",
@@ -466,14 +631,20 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 5 Block. Gain {PerPotion:diff()} Block for each potion used this turn.",
+      "text": "Gain 8 Block. Gain {PerPotion:diff()} Block for each potion used this turn.",
       "numbers": {
-        "Block": 5
+        "Block": 8
       },
       "upgrade": "Block +2, PerPotion +2",
       "note": "",
-      "tested": true,
-      "artFinal": false
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Bramble Shield",
@@ -490,7 +661,13 @@
       "upgrade": "PerBramble +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Brambleburst",
@@ -506,8 +683,14 @@
       },
       "upgrade": "Damage +2",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Cat Familiar",
@@ -522,7 +705,13 @@
       "upgrade": "Cost -1",
       "note": "Summons a cosmetic cat pet alongside the familiar power.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Circle of Rot",
@@ -540,7 +729,13 @@
       "upgrade": "Block +2, Weak +1",
       "note": "Multiplayer-only. Co-op rot ritual (MP-only): you and every ally hunker down (Block) but soak up the rot (Weak), while all enemies choke on it too.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Cloak of Moonlight",
@@ -557,7 +752,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Creeping Vines",
@@ -574,7 +775,13 @@
       "upgrade": "Brambles +2",
       "note": "Multiplayer-only. Co-op (MP-only): spend X energy to fling 5 Brambles onto a random ally, X times — the brambles scatter across the team.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Cursed Bloodline",
@@ -591,7 +798,13 @@
       "upgrade": "CursedBloodlinePower +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Cursed Bottles",
@@ -608,7 +821,13 @@
       "upgrade": "CursedBottlesPower +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Double, Double",
@@ -624,8 +843,14 @@
       },
       "upgrade": "Damage +2",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Find Familiar",
@@ -641,8 +866,14 @@
       },
       "upgrade": "Cards +1",
       "note": "Tutor: choose a familiar summon Power card (an <see cref=\"IFamiliarSummon\" />) from your draw or discard pile and add it to your hand.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Herbal Remedy",
@@ -660,7 +891,13 @@
       "upgrade": "custom (see code)",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Light the Candle",
@@ -677,7 +914,14 @@
       "upgrade": "Cards +2",
       "note": "Light the Candle: upgrade random cards in your hand (those upgrades also fire Bursting Roots / Twinroot), then create a Vial of Smoke.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Owl Familiar",
@@ -692,7 +936,13 @@
       "upgrade": "Cost -1",
       "note": "Summons a cosmetic owl pet alongside the familiar power.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Pact of Agony",
@@ -709,7 +959,13 @@
       "upgrade": "Vulnerable +2, StrengthLoss +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Pact of Fury",
@@ -727,7 +983,13 @@
       "upgrade": "StrengthPower +2",
       "note": "Multiplayer-only.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Porcupine Familiar",
@@ -742,7 +1004,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Ritual Sacrifice",
@@ -758,8 +1026,14 @@
       },
       "upgrade": "Block +5",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Roomy Satchel",
@@ -773,8 +1047,14 @@
       "numbers": {},
       "upgrade": "Slots +1",
       "note": "Roomy Satchel: gain potion slots for this combat only.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Rootcraft",
@@ -791,7 +1071,14 @@
       "upgrade": "Brambles +1",
       "note": "Applies the Bursting Roots power.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Rotting Roots",
@@ -808,7 +1095,13 @@
       "upgrade": "RottingRootsPower +2",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Share the Brew",
@@ -823,7 +1116,13 @@
       "upgrade": "Cost -1",
       "note": "Multiplayer-only.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Sloth Familiar",
@@ -838,7 +1137,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Stuck in the Bush",
@@ -856,7 +1161,13 @@
       "upgrade": "Block +5, Vulnerable +1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Vicious Barbs",
@@ -873,7 +1184,13 @@
       "upgrade": "ViciousBarbsPower +2",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Wild Growth",
@@ -888,7 +1205,13 @@
       "upgrade": "custom (see code)",
       "note": "Exhausts (until upgraded).",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Wolf Familiar",
@@ -902,8 +1225,14 @@
       "numbers": {},
       "upgrade": "none",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "A Little Sip",
@@ -920,7 +1249,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Ambush!",
@@ -937,7 +1272,13 @@
       "upgrade": "Damage +5",
       "note": "Exhausts; applies a random familiar power with no cosmetic pet.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Bear Familiar",
@@ -952,7 +1293,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Bottle Barrage",
@@ -969,7 +1316,13 @@
       "upgrade": "Damage +3",
       "note": "Hits once per potion brewed this combat.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Bottomless Cauldron",
@@ -984,7 +1337,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Broken Pact",
@@ -999,7 +1358,13 @@
       "upgrade": "Heal +3",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Cackle",
@@ -1014,7 +1379,13 @@
       "upgrade": "Cost -1",
       "note": "Exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Chimera Familiar",
@@ -1029,7 +1400,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Crow Familiar",
@@ -1043,8 +1420,14 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Dance Around the Cauldron",
@@ -1058,8 +1441,14 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Embrace the Wilds",
@@ -1073,8 +1462,15 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Favorite Spellbook",
@@ -1093,7 +1489,15 @@
       "upgrade": "custom (see code)",
       "note": "Exhausts until upgraded.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles",
+        "Potions"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Hedge Prison",
@@ -1108,7 +1512,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Hidden in Smoke",
@@ -1125,13 +1535,19 @@
       "upgrade": "Cost -1",
       "note": "Exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Pact of Beasts",
       "entry": "PACT_OF_BEASTS",
       "file": "TheWickenCode/Cards/PactOfBeasts.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
@@ -1140,7 +1556,13 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": false,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Pocket Rats",
@@ -1157,7 +1579,13 @@
       "upgrade": "Cards +1",
       "note": "Exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Rat Familiar",
@@ -1172,7 +1600,13 @@
       "upgrade": "Cost -1",
       "note": "Exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Rattling Bottles",
@@ -1187,7 +1621,14 @@
       "upgrade": "Cost -1",
       "note": "Exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
     },
     {
       "name": "Soul Knot",
@@ -1201,8 +1642,14 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Witchcraft",
@@ -1217,7 +1664,13 @@
       "upgrade": "none",
       "note": "Exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Claw Eyes",
@@ -1233,8 +1686,14 @@
       },
       "upgrade": "Weak +1",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Ferocity",
@@ -1252,7 +1711,13 @@
       "upgrade": "Damage +3",
       "note": "Cat familiar token.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Gnash",
@@ -1269,8 +1734,14 @@
       },
       "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Hibernate",
@@ -1287,7 +1758,13 @@
       "upgrade": "Block +5, Heal +2",
       "note": "Bear familiar token; exhausts.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Laze",
@@ -1305,7 +1782,13 @@
       "upgrade": "Block +3",
       "note": "Sloth familiar token.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Mutilate",
@@ -1322,7 +1805,13 @@
       "upgrade": "Damage +10",
       "note": "Bear familiar token: heavy hit that ignores Block.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Plague",
@@ -1332,14 +1821,20 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Draw 1 card. You and ALL enemies lose {StrengthLoss:diff()} Strength.",
+      "text": "You lose {StrengthLoss:diff()} Strength. ALL enemies lose {EnemyStrengthLoss:diff()} Strength.",
       "numbers": {
         "Cards": 1
       },
-      "upgrade": "StrengthLoss +1",
+      "upgrade": "EnemyStrengthLoss +1",
       "note": "Rat familiar token.",
-      "tested": true,
-      "artFinal": false
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Quills",
@@ -1349,15 +1844,23 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 3 damage. Gain 8 Brambles.",
+      "text": "Deal 2 damage. Gain 4 Brambles.",
       "numbers": {
-        "Brambles": 8,
-        "Damage": 3
+        "Brambles": 4,
+        "Damage": 2
       },
       "upgrade": "Damage +1, Brambles +2",
       "note": "Porcupine familiar token.",
-      "tested": true,
-      "artFinal": false
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars",
+        "Brambles"
+      ],
+      "role": [
+        "Token",
+        "Generator"
+      ]
     },
     {
       "name": "Rats",
@@ -1367,14 +1870,20 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Heal {Heal:diff()} HP.",
+      "text": "Deal 3 damage. Heal {Heal:diff()} HP.",
       "numbers": {
-        "Damage": 5
+        "Damage": 3
       },
       "upgrade": "none",
       "note": "Pocket Rats token; exhausts.",
-      "tested": true,
-      "artFinal": false
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Scout Weakness",
@@ -1390,8 +1899,14 @@
       },
       "upgrade": "Vulnerable +1",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Shiny!",
@@ -1405,8 +1920,14 @@
       "numbers": {},
       "upgrade": "Gold +5",
       "note": "",
-      "tested": false,
-      "artFinal": false
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Wisdom",
@@ -1423,7 +1944,14 @@
       "upgrade": "none",
       "note": "Owl familiar token.",
       "tested": true,
-      "artFinal": false
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token",
+        "Enabler"
+      ]
     }
   ]
 }

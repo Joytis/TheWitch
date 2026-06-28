@@ -61,6 +61,25 @@
   .makeup .glab{color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.5px;font-size:11px}
   .makeup b{color:var(--ink);font-weight:600}
   .makeup .z{opacity:.45}
+  .tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:600;margin:1px 2px 1px 0;white-space:nowrap}
+  .m-Brambles{background:#3a6b3a33;color:#7fd17f}
+  .m-Potions{background:#3a5a7b33;color:#74b6e6}
+  .m-Familiars{background:#7b4a8a33;color:#d28fe6}
+  .m-None{background:#5b547033;color:#9b93b3}
+  .r-Generator{background:#2f6b5a33;color:#5fe0b8}
+  .r-Payoff{background:#7b5a2a33;color:#e0b24a}
+  .r-Enabler{background:#5a4a8a33;color:#a99fff}
+  .r-Token{background:#6b3a5a33;color:#e68fc0}
+  .r-Standalone{background:#5b547033;color:#9b93b3}
+  .matrix{margin-top:12px;border-collapse:collapse;font-size:12px}
+  .matrix th,.matrix td{border:1px solid var(--line);padding:4px 10px;text-align:center;position:static;background:none;text-transform:none;letter-spacing:0}
+  .matrix th{color:var(--accent);font-weight:600}
+  .matrix td.lab{color:var(--muted);text-align:left;font-weight:600}
+  .matrix td b{color:var(--ink)}
+  .matrix td.z{opacity:.3}
+  .matrix tr.hole td{color:#ff9b9b}
+  details.mwrap{margin-top:10px}
+  details.mwrap summary{cursor:pointer;color:var(--accent);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
   .offline{display:none;background:#5b2330;color:#ffd9df;padding:8px 22px;font-size:12px}
   body.nosrv .offline{display:block}
 </style>
@@ -72,6 +91,8 @@
   <div class="controls">
     <input type="search" id="q" placeholder="search name / text / entry…" />
     <span id="rarities"></span>
+    <span id="mechanics"></span>
+    <span id="roles"></span>
     <span class="chip" data-t="untested">untested only</span>
     <span class="chip" data-t="noart">no-art only</span>
     <button class="chip btn" id="exportUnfinished" title="Copy newline-separated png filenames for every card whose big art is still a card.png duplicate">⧉ export no-art names</button>
@@ -81,6 +102,7 @@
     </div>
   </div>
   <div class="makeup" id="makeup"></div>
+  <details class="mwrap"><summary>Mechanic × Role matrix</summary><div id="matrix"></div></details>
 </header>
 <div class="offline">⚠ Loaded without the local server — copy buttons work, but TESTED toggles will <b>not</b> save. Run <code>node Docs/card-data/server.js</code> and open <code>http://localhost:7820</code>.</div>
 <main>
@@ -90,6 +112,7 @@
       <th data-k="name">Card</th>
       <th data-k="cost">Cost/Type</th>
       <th data-k="rarity">Rarity</th>
+      <th>Category</th>
       <th>Text</th>
       <th>Numbers</th>
       <th>Upgrade</th>
@@ -104,10 +127,12 @@
 const RAR_ORDER = ["Starter","Common","Uncommon","Rare","Special","Token"];
 const RAR_COLOR = {Starter:"--starter",Common:"--common",Uncommon:"--uncommon",Rare:"--rare",Special:"--special",Token:"--token"};
 const ART_RANK = { none:0, placeholder:1, final:2 };
+const MECHANICS = ["Brambles","Potions","Familiars","None"];
+const ROLES = ["Generator","Payoff","Enabler","Token","Standalone"];
 let CARDS = [];
 let SERVER = false;
 let imgver = 0; // cache-buster for thumbnails; bumped on each data load
-const state = { q:"", rar:new Set(), untested:false, noart:false, sort:"rarity", dir:1 };
+const state = { q:"", rar:new Set(), mech:new Set(), role:new Set(), untested:false, noart:false, sort:"rarity", dir:1 };
 
 async function load(){
   try{
@@ -120,11 +145,13 @@ async function load(){
     SERVER = location.protocol === "http:" || location.protocol === "https:";
     if(!SERVER) document.body.classList.add("nosrv");
     buildRarityChips();
+    buildTagChips();
     renderMakeup();
+    renderMatrix();
     render();
   }catch(e){
     document.getElementById("rows").innerHTML =
-      '<tr><td colspan="10" style="color:#ffb3b3">Could not load cards.json. Start the server: <code>node Docs/card-data/server.js</code></td></tr>';
+      '<tr><td colspan="11" style="color:#ffb3b3">Could not load cards.json. Start the server: <code>node Docs/card-data/server.js</code></td></tr>';
   }
 }
 
@@ -138,6 +165,43 @@ function buildRarityChips(){
     el.onclick=()=>{ el.classList.toggle("on"); state.rar.has(r)?state.rar.delete(r):state.rar.add(r); render(); };
     host.appendChild(el);
   });
+}
+
+function buildTagChips(){
+  const mk = (host, vals, set, cls) => {
+    vals.forEach(v=>{
+      const el=document.createElement("span");
+      el.className="chip "+cls+v; el.textContent=v; el.dataset.val=v;
+      el.onclick=()=>{ el.classList.toggle("on"); set.has(v)?set.delete(v):set.add(v); render(); };
+      host.appendChild(el);
+    });
+  };
+  mk(document.getElementById("mechanics"), MECHANICS, state.mech, "m-");
+  mk(document.getElementById("roles"), ROLES, state.role, "r-");
+}
+
+function renderMatrix(){
+  // count cards per (mechanic, role) cell — a card with multiple tags counts in each combo it spans.
+  const grid = {}; MECHANICS.forEach(m=>{ grid[m]={}; ROLES.forEach(r=>grid[m][r]=0); });
+  const mTot = {}, rTot = {};
+  CARDS.forEach(c=>{
+    (c.mechanics||["None"]).forEach(m=>{
+      mTot[m]=(mTot[m]||0)+1;
+      (c.role||["Standalone"]).forEach(r=>{ if(grid[m]) grid[m][r]++; });
+    });
+    (c.role||["Standalone"]).forEach(r=>{ rTot[r]=(rTot[r]||0)+1; });
+  });
+  const head = `<tr><th>↓mech \\ role→</th>${ROLES.map(r=>`<th>${r}</th>`).join("")}<th>Σ</th></tr>`;
+  const body = MECHANICS.map(m=>{
+    // flag a "hole": a core mechanic (not None) with zero Payoff cards
+    const hole = m!=="None" && grid[m].Payoff===0;
+    const cells = ROLES.map(r=>{ const n=grid[m][r]; return `<td class="${n?'':'z'}"><b>${n||0}</b></td>`; }).join("");
+    return `<tr class="${hole?'hole':''}"><td class="lab m-${m}" style="background:none">${m}</td>${cells}<td><b>${mTot[m]||0}</b></td></tr>`;
+  }).join("");
+  const foot = `<tr><td class="lab">Σ</td>${ROLES.map(r=>`<td><b>${rTot[r]||0}</b></td>`).join("")}<td></td></tr>`;
+  document.getElementById("matrix").innerHTML =
+    `<table class="matrix"><thead>${head}</thead><tbody>${body}${foot}</tbody></table>` +
+    `<div class="sub" style="margin-top:6px">Cards with multiple tags count in each cell they span, so rows/columns may exceed the card total. Red row = core mechanic with no Payoff.</div>`;
 }
 
 function renderMakeup(){
@@ -164,6 +228,8 @@ function visible(){
     if(state.untested && c.tested) return false;
     if(state.noart && (c.art||"none")!=="none") return false;
     if(state.rar.size && !state.rar.has(c.rarity)) return false;
+    if(state.mech.size && !(c.mechanics||["None"]).some(m=>state.mech.has(m))) return false;
+    if(state.role.size && !(c.role||["Standalone"]).some(r=>state.role.has(r))) return false;
     if(q){
       const hay = (c.name+" "+c.entry+" "+c.text+" "+(c.note||"")).toLowerCase();
       if(!hay.includes(q)) return false;
@@ -208,6 +274,7 @@ function render(){
       </td>
       <td class="meta">${esc(String(c.cost))} · ${esc(c.type)}<br><span class="badge">${esc(c.target)}</span></td>
       <td><span class="rar" style="background:${color}33;color:${color}">${esc(c.rarity)}</span></td>
+      <td>${(c.mechanics||["None"]).map(m=>`<span class="tag m-${esc(m)}">${esc(m)}</span>`).join("")}<br>${(c.role||["Standalone"]).map(r=>`<span class="tag r-${esc(r)}">${esc(r)}</span>`).join("")}</td>
       <td class="text">${esc(c.text)}</td>
       <td class="nums">${numsHtml(c.numbers)}</td>
       <td class="up">${esc(c.upgrade||"none")}</td>

@@ -16,7 +16,8 @@ public sealed class Plague : WickenFamiliarCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(1),
-        new DynamicVar("StrengthLoss", 1m)
+        new DynamicVar("StrengthLoss", 1m),
+        new DynamicVar("EnemyStrengthLoss", 2m),
     ];
 
     public Plague()
@@ -28,9 +29,10 @@ public sealed class Plague : WickenFamiliarCard
     {
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
         int loss = DynamicVars["StrengthLoss"].IntValue;
+        int enemyLoss = DynamicVars["EnemyStrengthLoss"].IntValue;
         await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, -loss, Owner.Creature, this);
-        await PowerCmd.Apply<StrengthPower>(choiceContext, CombatState!.HittableEnemies, -loss, Owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, CombatState!.HittableEnemies, -enemyLoss, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["StrengthLoss"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars["EnemyStrengthLoss"].UpgradeValueBy(1m);
 }

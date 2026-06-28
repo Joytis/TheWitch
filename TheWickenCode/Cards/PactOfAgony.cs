@@ -20,6 +20,8 @@ public sealed class PactOfAgony : WickenCard
         new DynamicVar("StrengthLoss", 2m)
     ];
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     public PactOfAgony()
         : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
