@@ -17,10 +17,10 @@
       },
       "upgrade": "Damage +2, Vulnerable +1",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -280,10 +280,11 @@
       },
       "upgrade": "Damage +4",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator",
+        "Payoff"
       ]
     },
     {
@@ -406,10 +407,10 @@
       },
       "upgrade": "Damage +3",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -426,10 +427,10 @@
       },
       "upgrade": "Vulnerable +1",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -548,7 +549,7 @@
       },
       "upgrade": "ExtraDamage +1",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
         "Payoff"
@@ -631,10 +632,10 @@
       },
       "upgrade": "Damage +2",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -651,10 +652,12 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "Strength"
+        "Strength",
+        "Vulnerable"
       ],
       "role": [
-        "Generator"
+        "Generator",
+        "Payoff"
       ]
     },
     {
@@ -1115,10 +1118,10 @@
       },
       "upgrade": "Block +1, Vulnerable +1",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -1155,10 +1158,10 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -1175,7 +1178,7 @@
       },
       "upgrade": "Cards +1",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
         "Enabler"
@@ -1333,10 +1336,10 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1731,10 +1734,10 @@
       },
       "upgrade": "Damage +10, Vulnerable +2",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {

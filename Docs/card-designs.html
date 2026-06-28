@@ -75,6 +75,8 @@
   .m-Strength{background:#7b3a2a33;color:#e69a74}
   .m-Exhaust{background:#5a3a6b33;color:#c08fe6}
   .m-Self-Harm{background:#6b2a2a33;color:#e67f7f}
+  .m-Vulnerable{background:#6b5a2a33;color:#d6c074}
+  .m-Ethereal{background:#2a5a6b33;color:#74c6d6}
   .m-None{background:#5b547033;color:#9b93b3}
   .r-Generator{background:#2f6b5a33;color:#5fe0b8}
   .r-Payoff{background:#7b5a2a33;color:#e0b24a}
@@ -133,8 +135,8 @@ const ROLES = ["Generator","Payoff","Enabler","Token","Standalone"];
 const CLASSES = {
   wicken:      { label:"Wicken",      file:"cards.json",       mode:"dev", mechanics:["Brambles","Potions","Familiars","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
   silent:      { label:"Silent",      file:"silent.json",      mode:"ref", mechanics:["Poison","Shivs","Discard","None"],       note:"Base-game reference (decompiled). Pillars: Poison · Shivs · Discard." },
-  necrobinder: { label:"Necrobinder", file:"necrobinder.json", mode:"ref", mechanics:["Osty","Soul","Doom","None"],            note:"Base-game reference (decompiled). Pillars: Osty (summons) · Soul · Doom." },
-  ironclad:    { label:"Ironclad",    file:"ironclad.json",    mode:"ref", mechanics:["Strength","Exhaust","Self-Harm","None"], note:"Base-game reference (decompiled). Pillars: Strength · Exhaust · Self-Harm." },
+  necrobinder: { label:"Necrobinder", file:"necrobinder.json", mode:"ref", mechanics:["Osty","Soul","Doom","Ethereal","None"], note:"Base-game reference (decompiled). Pillars: Osty (summons) · Soul · Doom · Ethereal." },
+  ironclad:    { label:"Ironclad",    file:"ironclad.json",    mode:"ref", mechanics:["Strength","Exhaust","Self-Harm","Vulnerable","None"], note:"Base-game reference (decompiled). Pillars: Strength · Exhaust · Self-Harm · Vulnerable." },
 };
 
 let CARDS = [];
