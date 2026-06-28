@@ -12,5 +12,7 @@
   "THEWICKEN-BUDDY_IN_A_BOTTLE.title": "Buddy in a Bottle",
   "THEWICKEN-BUDDY_IN_A_BOTTLE.description": "Add a random [gold]Familiar[/gold] to your hand. It is free to play this turn.",
   "THEWICKEN-VIAL_OF_SMOKE.title": "Vial of Smoke",
-  "THEWICKEN-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold]."
+  "THEWICKEN-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
+  "THEWICKEN-SLICING_BREW.title": "Slicing Brew",
+  "THEWICKEN-SLICING_BREW.description": "Deal [blue]{Damage}[/blue] damage [blue]{Repeat}[/blue] times."
 }

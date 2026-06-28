@@ -84,6 +84,23 @@
       "tested": false
     },
     {
+      "name": "Bewitching Grin",
+      "entry": "BEWITCHING_GRIN",
+      "file": "TheWickenCode/Cards/BewitchingGrin.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. Apply 3 Hex.",
+      "numbers": {
+        "Hex": 3,
+        "Damage": 3
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false
+    },
+    {
       "name": "Bind in Blood",
       "entry": "BIND_IN_BLOOD",
       "file": "TheWickenCode/Cards/BindInBlood.cs",
@@ -271,6 +288,23 @@
       "tested": false
     },
     {
+      "name": "Prices Paid",
+      "entry": "PRICES_PAID",
+      "file": "TheWickenCode/Cards/PricesPaid.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Lose 3 HP. Deal 6 damage. Create a Slicing Brew.",
+      "numbers": {
+        "HpLoss": 3,
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false
+    },
+    {
       "name": "Skin of Stone",
       "entry": "STONE_SKIN",
       "file": "TheWickenCode/Cards/StoneSkin.cs",
@@ -358,6 +392,24 @@
         "Damage": 20
       },
       "upgrade": "Damage +3",
+      "note": "",
+      "tested": false
+    },
+    {
+      "name": "Vexing Thwack",
+      "entry": "VEXING_THWACK",
+      "file": "TheWickenCode/Cards/VexingThwack.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage 2 times. Apply 2 Hex.",
+      "numbers": {
+        "Hex": 2,
+        "Damage": 10,
+        "Repeat": 2
+      },
+      "upgrade": "HexPower +2",
       "note": "",
       "tested": false
     },
@@ -922,6 +974,20 @@
       "tested": false
     },
     {
+      "name": "Broken Pact",
+      "entry": "BROKEN_PACT",
+      "file": "TheWickenCode/Cards/BrokenPact.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Sacrifice a Familiar. Heal {Heal:diff()} HP.",
+      "numbers": {},
+      "upgrade": "Heal +3",
+      "note": "",
+      "tested": false
+    },
+    {
       "name": "Cackle",
       "entry": "CACKLE",
       "file": "TheWickenCode/Cards/Cackle.cs",
@@ -1063,6 +1129,20 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
+      "tested": false
+    },
+    {
+      "name": "Soul Knot",
+      "entry": "SOUL_KNOT",
+      "file": "TheWickenCode/Cards/SoulKnot.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you take damage, ALL enemies take that much damage.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "",
       "tested": false
     },
     {
