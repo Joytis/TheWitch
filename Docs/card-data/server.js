@@ -25,28 +25,35 @@ const writeData = (d) => fs.writeFileSync(JSON_PATH, JSON.stringify(d, null, 2) 
 
 const md5 = (buf) => crypto.createHash("md5").update(buf).digest("hex");
 const bigPathFor = (entry) => path.join(BIG_DIR, entry.toLowerCase() + ".png");
+const hashFile = (file) => { try { return md5(fs.readFileSync(file)); } catch { return null; } };
 
-let placeholderHash = null;
-function getPlaceholderHash() {
-  if (placeholderHash) return placeholderHash;
-  try { placeholderHash = md5(fs.readFileSync(PLACEHOLDER)); } catch { placeholderHash = "_none_"; }
-  return placeholderHash;
-}
+// Known placeholder images (the generic card backs). Any big art matching one of these is "No Art".
+const PLACEHOLDER_FILES = [
+  PLACEHOLDER,                                                            // big/card.png
+  path.join(ROOT, "TheWicken", "images", "card_portraits", "card.png"),  // small card.png
+];
 
-// Live art state for a card's BIG portrait:
-//   'none'        -> file missing OR byte-identical to card.png (placeholder duplicate)
-//   'placeholder' -> a real, distinct image, not yet flagged final
-//   'final'       -> distinct image AND the card is flagged artFinal
-function artState(card) {
-  const p = bigPathFor(card.entry);
-  let exists = false, dup = true;
-  try {
-    const buf = fs.readFileSync(p);
-    exists = true;
-    dup = md5(buf) === getPlaceholderHash();
-  } catch { exists = false; }
-  if (!exists || dup) return "none";
-  return card.artFinal ? "final" : "placeholder";
+// Live art state for every card's BIG portrait, recomputed from disk on each call:
+//   'none'        -> file missing, OR equals a known card.png, OR is a duplicate shared by >1 card
+//                    (a shared image is a placeholder, not finished unique art)
+//   'placeholder' -> a real, distinct image (unique to this card), not yet flagged final
+//   'final'       -> a real, distinct image AND the card is flagged artFinal
+function computeArtStates(cards) {
+  const placeholders = new Set(PLACEHOLDER_FILES.map(hashFile).filter(Boolean));
+  const hashByEntry = {};
+  const counts = {};
+  for (const c of cards) {
+    const h = hashFile(bigPathFor(c.entry));
+    hashByEntry[c.entry] = h;
+    if (h) counts[h] = (counts[h] || 0) + 1;
+  }
+  const states = {};
+  for (const c of cards) {
+    const h = hashByEntry[c.entry];
+    if (!h || placeholders.has(h) || counts[h] > 1) states[c.entry] = "none";
+    else states[c.entry] = c.artFinal ? "final" : "placeholder";
+  }
+  return states;
 }
 
 const server = http.createServer((req, res) => {
@@ -64,7 +71,8 @@ const server = http.createServer((req, res) => {
         if (!card) return send(res, 404, JSON.stringify({ error: "no such entry" }), "application/json");
         card[field] = !!body[valKey];
         writeData(data);
-        send(res, 200, JSON.stringify({ ok: true, entry: card.entry, [field]: card[field], art: artState(card) }), "application/json");
+        const art = computeArtStates(data.cards)[card.entry];
+        send(res, 200, JSON.stringify({ ok: true, entry: card.entry, [field]: card[field], art }), "application/json");
       } catch (e) {
         send(res, 400, JSON.stringify({ error: String(e) }), "application/json");
       }
@@ -74,7 +82,8 @@ const server = http.createServer((req, res) => {
 
   // --- thumbnails: /art/<ENTRY>.png  (falls back to placeholder) --------
   if (req.method === "GET" && req.url.startsWith("/art/")) {
-    const entry = decodeURIComponent(req.url.slice("/art/".length).replace(/\.png$/i, ""));
+    const reqPath = req.url.split("?")[0]; // drop ?v= cache-buster before parsing
+    const entry = decodeURIComponent(reqPath.slice("/art/".length).replace(/\.png$/i, ""));
     let file = bigPathFor(entry);
     if (!fs.existsSync(file)) file = PLACEHOLDER;
     try {
@@ -87,10 +96,10 @@ const server = http.createServer((req, res) => {
   // --- data with live art state ----------------------------------------
   if (req.method === "GET" && req.url.startsWith("/cards.json")) {
     const data = readData();
-    getPlaceholderHash.lastReset = placeholderHash = null; // recompute each load (art may change on disk)
+    const states = computeArtStates(data.cards);
     data.cards.forEach((c) => {
       if (typeof c.artFinal === "undefined") c.artFinal = false;
-      c.art = artState(c);
+      c.art = states[c.entry];
     });
     return send(res, 200, JSON.stringify(data), "application/json; charset=utf-8");
   }

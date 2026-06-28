@@ -34,10 +34,10 @@ The report lists **added / removed / changed** cards. When a card's mechanical f
 - Any design change must reset it to `false` — `regen.js` does this automatically; if you hand-edit a card's numbers in `cards.json`, set `tested:false` yourself.
 
 ## Big-art tracking (server only)
-The page shows each card's **big portrait** as a thumbnail plus a 3-state badge, computed **live** by the server (hash of `TheWicken/images/card_portraits/big/<entry>.png` vs `big/card.png`):
-- **No Art** — file missing or byte-identical to `card.png` (placeholder duplicate).
-- **Placeholder** — a real, distinct image, not yet flagged.
-- **Final** — distinct image AND the card is flagged (the `★ final` button; persists as `artFinal` in `cards.json`).
+The page shows each card's **big portrait** (`TheWicken/images/card_portraits/big/<entry>.png`) as a thumbnail plus a 3-state badge, computed **live** by the server from image hashes:
+- **No Art** — file missing, OR equals a known `card.png`, OR is a **duplicate shared by >1 card** (any shared image is a placeholder, not finished art — this catches every generic placeholder variant automatically, not just `card.png`).
+- **Placeholder** — a real, distinct image (unique to this card), not yet flagged.
+- **Final** — distinct unique image AND the card is flagged (the `★ final` button; persists as `artFinal` in `cards.json`).
 
 Drop a new png into `big/` and reload — state updates with no regen. `regen.js` preserves the `artFinal` flag. **Export no-art names** button copies the newline-separated png filenames still lacking art (every "No Art" card), for handing to an art tool.
 
