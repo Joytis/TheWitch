@@ -1,0 +1,1800 @@
+{
+  "generated": "from gamedata",
+  "class": "necrobinder",
+  "cards": [
+    {
+      "name": "Bodyguard",
+      "entry": "BODYGUARD",
+      "file": "gamedata/src/Core/Models/Cards/Bodyguard.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Summon 5.",
+      "numbers": {
+        "Summon": 5
+      },
+      "upgrade": "Summon +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Defend",
+      "entry": "DEFEND_NECROBINDER",
+      "file": "gamedata/src/Core/Models/Cards/DefendNecrobinder.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Strike",
+      "entry": "STRIKE_NECROBINDER",
+      "file": "gamedata/src/Core/Models/Cards/StrikeNecrobinder.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Unleash",
+      "entry": "UNLEASH",
+      "file": "gamedata/src/Core/Models/Cards/Unleash.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Osty deals {CalculatedDamage:diff()} damage. Deals additional damage equal to Osty's current HP.",
+      "numbers": {
+        "CalculationBase": 6,
+        "ExtraDamage": 1
+      },
+      "upgrade": "CalculationBase +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Afterlife",
+      "entry": "AFTERLIFE",
+      "file": "gamedata/src/Core/Models/Cards/Afterlife.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Summon 6.",
+      "numbers": {
+        "Summon": 6
+      },
+      "upgrade": "Summon +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Blight Strike",
+      "entry": "BLIGHT_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/BlightStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Apply Doom equal to damage dealt.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Defile",
+      "entry": "DEFILE",
+      "file": "gamedata/src/Core/Models/Cards/Defile.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 13 damage.",
+      "numbers": {
+        "Damage": 13
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Defy",
+      "entry": "DEFY",
+      "file": "gamedata/src/Core/Models/Cards/Defy.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Gain 6 Block. Apply 1 Weak.",
+      "numbers": {
+        "Weak": 1,
+        "Block": 6
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Drain Power",
+      "entry": "DRAIN_POWER",
+      "file": "gamedata/src/Core/Models/Cards/DrainPower.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Upgrade 2 random cards in your Discard Pile.",
+      "numbers": {
+        "Damage": 10,
+        "Cards": 2
+      },
+      "upgrade": "Damage +2, Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Fear",
+      "entry": "FEAR",
+      "file": "gamedata/src/Core/Models/Cards/Fear.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Damage": 7
+      },
+      "upgrade": "Damage +1, Vulnerable +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Flatten",
+      "entry": "FLATTEN",
+      "file": "gamedata/src/Core/Models/Cards/Flatten.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Osty deals 12 damage. This card costs 0 {energyPrefix:energyIcons(1)} if Osty has attacked this turn.",
+      "numbers": {
+        "OstyDamage": 12
+      },
+      "upgrade": "OstyDamage +4",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Grave Warden",
+      "entry": "GRAVE_WARDEN",
+      "file": "gamedata/src/Core/Models/Cards/GraveWarden.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 8 Block. Add a Soul into your Draw Pile.",
+      "numbers": {
+        "Block": 8,
+        "Cards": 1
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Graveblast",
+      "entry": "GRAVEBLAST",
+      "file": "gamedata/src/Core/Models/Cards/Graveblast.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 4 damage. Put a card from your Discard Pile into your Hand.",
+      "numbers": {
+        "Damage": 4
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Invoke",
+      "entry": "INVOKE",
+      "file": "gamedata/src/Core/Models/Cards/Invoke.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Next turn, Summon 2 and gain 2.",
+      "numbers": {
+        "Summon": 2,
+        "Energy": 2
+      },
+      "upgrade": "Summon +1, Energy +1",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Negative Pulse",
+      "entry": "NEGATIVE_PULSE",
+      "file": "gamedata/src/Core/Models/Cards/NegativePulse.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Gain 5 Block. Apply 7 Doom to ALL enemies.",
+      "numbers": {
+        "Doom": 7,
+        "Block": 5
+      },
+      "upgrade": "Block +1, Doom +4",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Poke",
+      "entry": "POKE",
+      "file": "gamedata/src/Core/Models/Cards/Poke.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Osty deals 6 damage.",
+      "numbers": {
+        "OstyDamage": 6
+      },
+      "upgrade": "OstyDamage +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Pull Aggro",
+      "entry": "PULL_AGGRO",
+      "file": "gamedata/src/Core/Models/Cards/PullAggro.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Summon 4. Gain 7 Block.",
+      "numbers": {
+        "Summon": 4,
+        "Block": 7
+      },
+      "upgrade": "Summon +1, Block +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Reap",
+      "entry": "REAP",
+      "file": "gamedata/src/Core/Models/Cards/Reap.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 27 damage.",
+      "numbers": {
+        "Damage": 27
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Reave",
+      "entry": "REAVE",
+      "file": "gamedata/src/Core/Models/Cards/Reave.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Add a Soul into your Draw Pile.",
+      "numbers": {
+        "Damage": 9,
+        "Cards": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Scourge",
+      "entry": "SCOURGE",
+      "file": "gamedata/src/Core/Models/Cards/Scourge.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Apply 13 Doom. Draw 1 card.",
+      "numbers": {
+        "Doom": 13,
+        "Cards": 1
+      },
+      "upgrade": "Doom +3, Cards +1",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Sculpting Strike",
+      "entry": "SCULPTING_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/SculptingStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Add Ethereal to a card in your Hand.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Snap",
+      "entry": "SNAP",
+      "file": "gamedata/src/Core/Models/Cards/Snap.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Osty deals 7 damage. Add Retain to a card in your Hand.",
+      "numbers": {
+        "OstyDamage": 7
+      },
+      "upgrade": "OstyDamage +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Sow",
+      "entry": "SOW",
+      "file": "gamedata/src/Core/Models/Cards/Sow.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 8 damage to ALL enemies.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Wisp",
+      "entry": "WISP",
+      "file": "gamedata/src/Core/Models/Cards/Wisp.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 1.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Bone Shards",
+      "entry": "BONE_SHARDS",
+      "file": "gamedata/src/Core/Models/Cards/BoneShards.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "If Osty is alive, he deals 9 damage to ALL enemies and you gain 9 Block. Osty dies.",
+      "numbers": {
+        "OstyDamage": 9,
+        "Block": 9
+      },
+      "upgrade": "OstyDamage +3, Block +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Borrowed Time",
+      "entry": "BORROWED_TIME",
+      "file": "gamedata/src/Core/Models/Cards/BorrowedTime.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 4. Cards cost an additional {ExtraCost:energyIcons()} this turn.",
+      "numbers": {
+        "Energy": 4
+      },
+      "upgrade": "Energy +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Bury",
+      "entry": "BURY",
+      "file": "gamedata/src/Core/Models/Cards/Bury.cs",
+      "cost": 4,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 52 damage.",
+      "numbers": {
+        "Damage": 52
+      },
+      "upgrade": "Damage +11",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Calcify",
+      "entry": "CALCIFY",
+      "file": "gamedata/src/Core/Models/Cards/Calcify.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Osty's attacks deal 4 additional damage.",
+      "numbers": {
+        "Calcify": 4
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Capture Spirit",
+      "entry": "CAPTURE_SPIRIT",
+      "file": "gamedata/src/Core/Models/Cards/CaptureSpirit.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Enemy loses 3 HP. Add 3 Souls into your Draw Pile.",
+      "numbers": {
+        "Damage": 3,
+        "Cards": 3
+      },
+      "upgrade": "Damage +1, Cards +1",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Cleanse",
+      "entry": "CLEANSE",
+      "file": "gamedata/src/Core/Models/Cards/Cleanse.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Summon 3. Exhaust 1 card from your Draw Pile.",
+      "numbers": {
+        "Summon": 3
+      },
+      "upgrade": "Summon +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Countdown",
+      "entry": "COUNTDOWN",
+      "file": "gamedata/src/Core/Models/Cards/Countdown.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, apply 6 Doom to a random enemy.",
+      "numbers": {
+        "Countdown": 6
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Danse Macabre",
+      "entry": "DANSE_MACABRE",
+      "file": "gamedata/src/Core/Models/Cards/DanseMacabre.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you play a card that costs 2 or more, gain 4 Block.",
+      "numbers": {
+        "DanseMacabre": 4,
+        "Energy": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Death March",
+      "entry": "DEATH_MARCH",
+      "file": "gamedata/src/Core/Models/Cards/DeathMarch.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 4 additional damage for each card drawn during your turn.",
+      "numbers": {
+        "CalculationBase": 8,
+        "ExtraDamage": 4
+      },
+      "upgrade": "CalculationBase +1, ExtraDamage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Death's Door",
+      "entry": "DEATHS_DOOR",
+      "file": "gamedata/src/Core/Models/Cards/DeathsDoor.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 6 Block. If you applied Doom this turn, gain Block 2 additional times.",
+      "numbers": {
+        "Block": 6,
+        "Repeat": 2
+      },
+      "upgrade": "Block +1",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Deathbringer",
+      "entry": "DEATHBRINGER",
+      "file": "gamedata/src/Core/Models/Cards/Deathbringer.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Apply 21 Doom and 1 Weak to ALL enemies.",
+      "numbers": {
+        "Doom": 21,
+        "Weak": 1
+      },
+      "upgrade": "Doom +5",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Debilitate",
+      "entry": "DEBILITATE",
+      "file": "gamedata/src/Core/Models/Cards/Debilitate.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Vulnerable and Weak are twice as effective against the enemy for the next 2 turns.",
+      "numbers": {
+        "Debilitate": 2,
+        "Damage": 10
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Delay",
+      "entry": "DELAY",
+      "file": "gamedata/src/Core/Models/Cards/Delay.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 11 Block. Next turn, gain 1.",
+      "numbers": {
+        "Block": 11,
+        "Energy": 1
+      },
+      "upgrade": "Block +2, Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Dirge",
+      "entry": "DIRGE",
+      "file": "gamedata/src/Core/Models/Cards/Dirge.cs",
+      "cost": "X",
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Summon 3 X times. Add X Souls into your Draw Pile.",
+      "numbers": {
+        "Summon": 3
+      },
+      "upgrade": "Summon +1",
+      "mechanics": [
+        "Osty",
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Dredge",
+      "entry": "DREDGE",
+      "file": "gamedata/src/Core/Models/Cards/Dredge.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Put 3 cards from your Discard Pile into your Hand.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Enfeebling Touch",
+      "entry": "ENFEEBLING_TOUCH",
+      "file": "gamedata/src/Core/Models/Cards/EnfeeblingTouch.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Enemy loses {StrengthLoss:diff()} Strength this turn.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Fetch",
+      "entry": "FETCH",
+      "file": "gamedata/src/Core/Models/Cards/Fetch.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Osty deals 3 damage. If this is the first time this card has been played this turn, draw 1 card.",
+      "numbers": {
+        "OstyDamage": 3,
+        "Cards": 1
+      },
+      "upgrade": "OstyDamage +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Friendship",
+      "entry": "FRIENDSHIP",
+      "file": "gamedata/src/Core/Models/Cards/Friendship.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Lose 2 Strength. Gain 1 at the start of each turn.",
+      "numbers": {
+        "Strength": 2,
+        "Energy": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Haunt",
+      "entry": "HAUNT",
+      "file": "gamedata/src/Core/Models/Cards/Haunt.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you play a Soul, a random enemy loses 6 HP.",
+      "numbers": {
+        "HpLoss": 6
+      },
+      "upgrade": "HpLoss +2",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "High Five",
+      "entry": "HIGH_FIVE",
+      "file": "gamedata/src/Core/Models/Cards/HighFive.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Osty deals 11 damage and applies 2 Vulnerable to ALL enemies.",
+      "numbers": {
+        "Vulnerable": 2,
+        "OstyDamage": 11
+      },
+      "upgrade": "OstyDamage +2, Vulnerable +1",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Legion of Bone",
+      "entry": "LEGION_OF_BONE",
+      "file": "gamedata/src/Core/Models/Cards/LegionOfBone.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AllAllies",
+      "text": "ALL players Summon 6.",
+      "numbers": {
+        "Summon": 6
+      },
+      "upgrade": "Summon +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Lethality",
+      "entry": "LETHALITY",
+      "file": "gamedata/src/Core/Models/Cards/Lethality.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "The first Attack each turn deals 50% additional damage.",
+      "numbers": {
+        "Lethality": 50
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Melancholy",
+      "entry": "MELANCHOLY",
+      "file": "gamedata/src/Core/Models/Cards/Melancholy.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 13 Block. Reduce this card's cost by 1 whenever ANYONE dies.",
+      "numbers": {
+        "Block": 13,
+        "Energy": 1
+      },
+      "upgrade": "Block +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "No Escape",
+      "entry": "NO_ESCAPE",
+      "file": "gamedata/src/Core/Models/Cards/NoEscape.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Apply 10 Doom, plus an additional 5 Doom for every {DoomThreshold:diff()} Doom already on this enemy.{IsTargeting: (Apply {CalculatedDoom:diff()} Doom)|}",
+      "numbers": {
+        "CalculationBase": 10,
+        "CalculationExtra": 5
+      },
+      "upgrade": "CalculationBase +5",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Payoff",
+        "Generator"
+      ]
+    },
+    {
+      "name": "Pagestorm",
+      "entry": "PAGESTORM",
+      "file": "gamedata/src/Core/Models/Cards/Pagestorm.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you draw an Ethereal card, draw 1 card.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Parse",
+      "entry": "PARSE",
+      "file": "gamedata/src/Core/Models/Cards/Parse.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 3 cards.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Pull from Below",
+      "entry": "PULL_FROM_BELOW",
+      "file": "gamedata/src/Core/Models/Cards/PullFromBelow.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage for each Ethereal card played this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 5,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Putrefy",
+      "entry": "PUTREFY",
+      "file": "gamedata/src/Core/Models/Cards/Putrefy.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Apply {Power:diff()} Weak. Apply {Power:diff()} Vulnerable.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Rattle",
+      "entry": "RATTLE",
+      "file": "gamedata/src/Core/Models/Cards/Rattle.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Osty deals 7 damage. Hits an additional time for each other time he has attacked this turn.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "OstyDamage": 7,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "OstyDamage +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Right Hand Hand",
+      "entry": "RIGHT_HAND_HAND",
+      "file": "gamedata/src/Core/Models/Cards/RightHandHand.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Osty deals 4 damage. Whenever you play a card that costs 2 or more, return this to your Hand from the Discard Pile.",
+      "numbers": {
+        "OstyDamage": 4,
+        "Energy": 2
+      },
+      "upgrade": "OstyDamage +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Severance",
+      "entry": "SEVERANCE",
+      "file": "gamedata/src/Core/Models/Cards/Severance.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 13 damage. Add a Soul into your Draw Pile, Hand, and Discard Pile.",
+      "numbers": {
+        "Damage": 13
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Shroud",
+      "entry": "SHROUD",
+      "file": "gamedata/src/Core/Models/Cards/Shroud.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you apply Doom, gain 2 Block.",
+      "numbers": {
+        "Block": 2
+      },
+      "upgrade": "Block +1",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Sic 'Em",
+      "entry": "SIC_EM",
+      "file": "gamedata/src/Core/Models/Cards/SicEm.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Osty deals 5 damage. Whenever Osty hits this enemy this turn, Summon 3.",
+      "numbers": {
+        "SicEm": 3,
+        "OstyDamage": 5
+      },
+      "upgrade": "OstyDamage +1",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Sleight of Flesh",
+      "entry": "SLEIGHT_OF_FLESH",
+      "file": "gamedata/src/Core/Models/Cards/SleightOfFlesh.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you apply a debuff to an enemy, they take 9 damage.",
+      "numbers": {
+        "SleightOfFlesh": 9
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Spur",
+      "entry": "SPUR",
+      "file": "gamedata/src/Core/Models/Cards/Spur.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Summon 3. Osty heals 5 HP.",
+      "numbers": {
+        "Summon": 3,
+        "Heal": 5
+      },
+      "upgrade": "Summon +2, Heal +2",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Veilpiercer",
+      "entry": "VEILPIERCER",
+      "file": "gamedata/src/Core/Models/Cards/Veilpiercer.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. The next Ethereal card you play costs 0 {energyPrefix:energyIcons(1)}.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Banshee's Cry",
+      "entry": "BANSHEES_CRY",
+      "file": "gamedata/src/Core/Models/Cards/BansheesCry.cs",
+      "cost": 9,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 33 damage to ALL enemies. Costs 2 less for each Ethereal card played this combat.",
+      "numbers": {
+        "Damage": 33,
+        "Energy": 2
+      },
+      "upgrade": "Cost -2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Call of the Void",
+      "entry": "CALL_OF_THE_VOID",
+      "file": "gamedata/src/Core/Models/Cards/CallOfTheVoid.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, add 1 random card into your Hand. It gains Ethereal.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Demesne",
+      "entry": "DEMESNE",
+      "file": "gamedata/src/Core/Models/Cards/Demesne.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, gain 1 and draw 1 additional card.",
+      "numbers": {
+        "Energy": 1,
+        "Cards": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Devour Life",
+      "entry": "DEVOUR_LIFE",
+      "file": "gamedata/src/Core/Models/Cards/DevourLife.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you play a Soul, Summon 1.",
+      "numbers": {
+        "DevourLife": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Eidolon",
+      "entry": "EIDOLON",
+      "file": "gamedata/src/Core/Models/Cards/Eidolon.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Exhaust your Hand. If 9 cards were Exhausted this way, gain 1 Intangible.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "End of Days",
+      "entry": "END_OF_DAYS",
+      "file": "gamedata/src/Core/Models/Cards/EndOfDays.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Apply 29 Doom to ALL enemies. Kill enemies with at least as much Doom as HP.",
+      "numbers": {
+        "Doom": 29
+      },
+      "upgrade": "Doom +8",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Eradicate",
+      "entry": "ERADICATE",
+      "file": "gamedata/src/Core/Models/Cards/Eradicate.cs",
+      "cost": "X",
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 11 damage X times.",
+      "numbers": {
+        "Damage": 11
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Glimpse Beyond",
+      "entry": "GLIMPSE_BEYOND",
+      "file": "gamedata/src/Core/Models/Cards/GlimpseBeyond.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AllAllies",
+      "text": "ALL players add 3 Souls into their Draw Pile.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Hang",
+      "entry": "HANG",
+      "file": "gamedata/src/Core/Models/Cards/Hang.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Double the damage ALL Hang cards deal to this enemy.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Misery",
+      "entry": "MISERY",
+      "file": "gamedata/src/Core/Models/Cards/Misery.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Apply any debuffs on the enemy to ALL other enemies.",
+      "numbers": {
+        "Damage": 7
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Necro Mastery",
+      "entry": "NECRO_MASTERY",
+      "file": "gamedata/src/Core/Models/Cards/NecroMastery.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Summon 5. Whenever Osty loses HP, ALL enemies lose that much HP as well.",
+      "numbers": {
+        "Summon": 5
+      },
+      "upgrade": "Summon +3",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Neurosurge",
+      "entry": "NEUROSURGE",
+      "file": "gamedata/src/Core/Models/Cards/Neurosurge.cs",
+      "cost": 0,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 3. Draw 2 cards. At the start of your turn, apply 3 Doom to yourself.",
+      "numbers": {
+        "Neurosurge": 3,
+        "Energy": 3,
+        "Cards": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Oblivion",
+      "entry": "OBLIVION",
+      "file": "gamedata/src/Core/Models/Cards/Oblivion.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Whenever you play a card this turn, apply 3 Doom to the enemy.",
+      "numbers": {
+        "Doom": 3
+      },
+      "upgrade": "Doom +1",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Reanimate",
+      "entry": "REANIMATE",
+      "file": "gamedata/src/Core/Models/Cards/Reanimate.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Summon 20.",
+      "numbers": {
+        "Summon": 20
+      },
+      "upgrade": "Summon +5",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Reaper Form",
+      "entry": "REAPER_FORM",
+      "file": "gamedata/src/Core/Models/Cards/ReaperForm.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever Attacks deal damage, apply that much Doom.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Sacrifice",
+      "entry": "SACRIFICE",
+      "file": "gamedata/src/Core/Models/Cards/Sacrifice.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "If Osty is alive, he dies and you gain Block equal to double his Max HP.{InCombat: (Gain {IsOstyAlive:{CalculatedBlock:diff()}|0} Block)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Seance",
+      "entry": "SEANCE",
+      "file": "gamedata/src/Core/Models/Cards/Seance.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Transform a card in your Draw Pile into Soul.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Sentry Mode",
+      "entry": "SENTRY_MODE",
+      "file": "gamedata/src/Core/Models/Cards/SentryMode.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, add 1 Sweeping Gaze into your Hand.",
+      "numbers": {
+        "SentryMode": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Shared Fate",
+      "entry": "SHARED_FATE",
+      "file": "gamedata/src/Core/Models/Cards/SharedFate.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Lose {PlayerStrengthLoss:diff()} Strength. Enemy loses {EnemyStrengthLoss:diff()} Strength.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Soul Storm",
+      "entry": "SOUL_STORM",
+      "file": "gamedata/src/Core/Models/Cards/SoulStorm.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 2 additional damage for each Soul in your Exhaust Pile.",
+      "numbers": {
+        "CalculationBase": 9,
+        "ExtraDamage": 2
+      },
+      "upgrade": "ExtraDamage +1",
+      "mechanics": [
+        "Soul"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Spirit of Ash",
+      "entry": "SPIRIT_OF_ASH",
+      "file": "gamedata/src/Core/Models/Cards/SpiritOfAsh.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you play an Ethereal card, gain {BlockOnExhaust:diff()} Block.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Squeeze",
+      "entry": "SQUEEZE",
+      "file": "gamedata/src/Core/Models/Cards/Squeeze.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Osty deals {CalculatedDamage:diff()} damage. Deals 5 additional damage for ALL your other Osty Attacks.",
+      "numbers": {
+        "CalculationBase": 25,
+        "ExtraDamage": 5
+      },
+      "upgrade": "CalculationBase +5, ExtraDamage +1",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "The Scythe",
+      "entry": "THE_SCYTHE",
+      "file": "gamedata/src/Core/Models/Cards/TheScythe.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal {Damage:diff()} damage. Permanently increase this card's damage by {Increase:diff()}.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Time's Up",
+      "entry": "TIMES_UP",
+      "file": "gamedata/src/Core/Models/Cards/TimesUp.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal damage equal to the enemy's Doom.{IsTargeting: (Deals {CalculatedDamage:diff()} damage)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "ExtraDamage": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Doom"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Transfigure",
+      "entry": "TRANSFIGURE",
+      "file": "gamedata/src/Core/Models/Cards/Transfigure.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Add Replay to a card in your Hand. It costs an extra 1.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Undeath",
+      "entry": "UNDEATH",
+      "file": "gamedata/src/Core/Models/Cards/Undeath.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 7 Block. Add a copy of this card into your Discard Pile.",
+      "numbers": {
+        "Block": 7
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Forbidden Grimoire",
+      "entry": "FORBIDDEN_GRIMOIRE",
+      "file": "gamedata/src/Core/Models/Cards/ForbiddenGrimoire.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "At the end of combat, you may remove a card from your Deck.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Protector",
+      "entry": "PROTECTOR",
+      "file": "gamedata/src/Core/Models/Cards/Protector.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Ancient",
+      "target": "AnyEnemy",
+      "text": "Osty deals {CalculatedDamage:diff()} damage. Deals additional damage equal to Osty's Max HP.",
+      "numbers": {
+        "CalculationBase": 10,
+        "ExtraDamage": 1
+      },
+      "upgrade": "CalculationBase +5, Cost -1",
+      "mechanics": [
+        "Osty"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    }
+  ]
+}
