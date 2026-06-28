@@ -1,0 +1,1759 @@
+{
+  "generated": "from gamedata",
+  "class": "ironclad",
+  "cards": [
+    {
+      "name": "Bash",
+      "entry": "BASH",
+      "file": "gamedata/src/Core/Models/Cards/Bash.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Apply 2 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 2,
+        "Damage": 8
+      },
+      "upgrade": "Damage +2, Vulnerable +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Defend",
+      "entry": "DEFEND_IRONCLAD",
+      "file": "gamedata/src/Core/Models/Cards/DefendIronclad.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Strike",
+      "entry": "STRIKE_IRONCLAD",
+      "file": "gamedata/src/Core/Models/Cards/StrikeIronclad.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Anger",
+      "entry": "ANGER",
+      "file": "gamedata/src/Core/Models/Cards/Anger.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Add a copy of this card into your Discard Pile.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Armaments",
+      "entry": "ARMAMENTS",
+      "file": "gamedata/src/Core/Models/Cards/Armaments.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 5 Block. Upgrade a card in your Hand.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Blood Wall",
+      "entry": "BLOOD_WALL",
+      "file": "gamedata/src/Core/Models/Cards/BloodWall.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Lose 2 HP. Gain 16 Block.",
+      "numbers": {
+        "HpLoss": 2,
+        "Block": 16
+      },
+      "upgrade": "Block +4",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Bloodletting",
+      "entry": "BLOODLETTING",
+      "file": "gamedata/src/Core/Models/Cards/Bloodletting.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Lose 3 HP. Gain 2.",
+      "numbers": {
+        "HpLoss": 3,
+        "Energy": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Body Slam",
+      "entry": "BODY_SLAM",
+      "file": "gamedata/src/Core/Models/Cards/BodySlam.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal damage equal to your Block.{InCombat: (Deals {CalculatedDamage:diff()} damage)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "ExtraDamage": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Breakthrough",
+      "entry": "BREAKTHROUGH",
+      "file": "gamedata/src/Core/Models/Cards/Breakthrough.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Lose 1 HP. Deal 9 damage to ALL enemies.",
+      "numbers": {
+        "Damage": 9,
+        "HpLoss": 1
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Cinder",
+      "entry": "CINDER",
+      "file": "gamedata/src/Core/Models/Cards/Cinder.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 18 damage. Exhaust 1 card at random.",
+      "numbers": {
+        "Damage": 18
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Havoc",
+      "entry": "HAVOC",
+      "file": "gamedata/src/Core/Models/Cards/Havoc.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Play the top card of your Draw Pile and Exhaust it.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Headbutt",
+      "entry": "HEADBUTT",
+      "file": "gamedata/src/Core/Models/Cards/Headbutt.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Put a card from your Discard Pile on top of your Draw Pile.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Iron Wave",
+      "entry": "IRON_WAVE",
+      "file": "gamedata/src/Core/Models/Cards/IronWave.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Gain 5 Block. Deal 5 damage.",
+      "numbers": {
+        "Damage": 5,
+        "Block": 5
+      },
+      "upgrade": "Damage +2, Block +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Molten Fist",
+      "entry": "MOLTEN_FIST",
+      "file": "gamedata/src/Core/Models/Cards/MoltenFist.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Double the enemy's Vulnerable.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Perfected Strike",
+      "entry": "PERFECTED_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/PerfectedStrike.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 2 additional damage for ALL your cards containing “Strike”.",
+      "numbers": {
+        "CalculationBase": 6,
+        "ExtraDamage": 2
+      },
+      "upgrade": "ExtraDamage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Pommel Strike",
+      "entry": "POMMEL_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/PommelStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Draw 1 card.",
+      "numbers": {
+        "Damage": 9,
+        "Cards": 1
+      },
+      "upgrade": "Damage +1, Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Setup Strike",
+      "entry": "SETUP_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/SetupStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Gain 2 Strength this turn.",
+      "numbers": {
+        "Strength": 2,
+        "Damage": 7
+      },
+      "upgrade": "Damage +2, Strength +1",
+      "mechanics": [
+        "Strength"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Shrug It Off",
+      "entry": "SHRUG_IT_OFF",
+      "file": "gamedata/src/Core/Models/Cards/ShrugItOff.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 8 Block. Draw 1 card.",
+      "numbers": {
+        "Block": 8,
+        "Cards": 1
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Sword Boomerang",
+      "entry": "SWORD_BOOMERANG",
+      "file": "gamedata/src/Core/Models/Cards/SwordBoomerang.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "RandomEnemy",
+      "text": "Deal 3 damage to a random enemy 3 times.",
+      "numbers": {
+        "Damage": 3,
+        "Repeat": 3
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Thunderclap",
+      "entry": "THUNDERCLAP",
+      "file": "gamedata/src/Core/Models/Cards/Thunderclap.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 4 damage and apply 1 Vulnerable to ALL enemies.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Damage": 4
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Tremble",
+      "entry": "TREMBLE",
+      "file": "gamedata/src/Core/Models/Cards/Tremble.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Apply 3 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 3
+      },
+      "upgrade": "Vulnerable +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "True Grit",
+      "entry": "TRUE_GRIT",
+      "file": "gamedata/src/Core/Models/Cards/TrueGrit.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 7 Block. Exhaust 1 card at random.",
+      "numbers": {
+        "Block": 7
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Twin Strike",
+      "entry": "TWIN_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/TwinStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage twice.",
+      "numbers": {
+        "Damage": 5
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Ashen Strike",
+      "entry": "ASHEN_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/AshenStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 3 additional damage for each card in your Exhaust Pile.",
+      "numbers": {
+        "CalculationBase": 6,
+        "ExtraDamage": 3
+      },
+      "upgrade": "ExtraDamage +1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Battle Trance",
+      "entry": "BATTLE_TRANCE",
+      "file": "gamedata/src/Core/Models/Cards/BattleTrance.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 3 cards. You cannot draw additional cards this turn.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Bludgeon",
+      "entry": "BLUDGEON",
+      "file": "gamedata/src/Core/Models/Cards/Bludgeon.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 32 damage.",
+      "numbers": {
+        "Damage": 32
+      },
+      "upgrade": "Damage +10",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Bully",
+      "entry": "BULLY",
+      "file": "gamedata/src/Core/Models/Cards/Bully.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 2 additional damage for each Vulnerable on the enemy.",
+      "numbers": {
+        "CalculationBase": 4,
+        "ExtraDamage": 2
+      },
+      "upgrade": "ExtraDamage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Burning Pact",
+      "entry": "BURNING_PACT",
+      "file": "gamedata/src/Core/Models/Cards/BurningPact.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Exhaust 1 card. Draw 2 cards.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Colossus",
+      "entry": "COLOSSUS",
+      "file": "gamedata/src/Core/Models/Cards/Colossus.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 5 Block. You receive 50% less damage from Vulnerable enemies this turn.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Demonic Shield",
+      "entry": "DEMONIC_SHIELD",
+      "file": "gamedata/src/Core/Models/Cards/DemonicShield.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyAlly",
+      "text": "Lose 1 HP. Give another player Block equal to your Block.{InCombat: (Gives {CalculatedBlock:diff()} Block)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "HpLoss": 1,
+        "CalculationExtra": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Dismantle",
+      "entry": "DISMANTLE",
+      "file": "gamedata/src/Core/Models/Cards/Dismantle.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. If the enemy is Vulnerable, hits twice.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Dominate",
+      "entry": "DOMINATE",
+      "file": "gamedata/src/Core/Models/Cards/Dominate.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Apply 1 Vulnerable. Gain {StrengthPerVulnerable:diff()} Strength for each Vulnerable on the enemy.",
+      "numbers": {
+        "Vulnerable": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Strength"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Drum of Battle",
+      "entry": "DRUM_OF_BATTLE",
+      "file": "gamedata/src/Core/Models/Cards/DrumOfBattle.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 2 cards. When this card is Exhausted, gain 2.",
+      "numbers": {
+        "Cards": 2,
+        "Energy": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Evil Eye",
+      "entry": "EVIL_EYE",
+      "file": "gamedata/src/Core/Models/Cards/EvilEye.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 8 Block. Gain another 8 Block if you have Exhausted a card this turn.",
+      "numbers": {
+        "Block": 8
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Expect a Fight",
+      "entry": "EXPECT_A_FIGHT",
+      "file": "gamedata/src/Core/Models/Cards/ExpectAFight.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain {energyPrefix:energyIcons(1)} for each Attack in your Hand. You cannot gain additional {energyPrefix:energyIcons(1)} this turn.{InCombat: (Gain {CalculatedEnergy:energyIcons()})|}",
+      "numbers": {
+        "Energy": 0,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Feel No Pain",
+      "entry": "FEEL_NO_PAIN",
+      "file": "gamedata/src/Core/Models/Cards/FeelNoPain.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever a card is Exhausted, gain {Power:diff()} Block.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Fight Me!",
+      "entry": "FIGHT_ME",
+      "file": "gamedata/src/Core/Models/Cards/FightMe.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage twice. Gain 3 Strength. The enemy gains {EnemyStrength:diff()} Strength.",
+      "numbers": {
+        "Strength": 3,
+        "Damage": 5,
+        "Repeat": 2
+      },
+      "upgrade": "Damage +1, Strength +1",
+      "mechanics": [
+        "Strength"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Flame Barrier",
+      "entry": "FLAME_BARRIER",
+      "file": "gamedata/src/Core/Models/Cards/FlameBarrier.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 12 Block. Whenever you are attacked this turn, deal {DamageBack:diff()} damage back.",
+      "numbers": {
+        "Block": 12
+      },
+      "upgrade": "Block +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Forgotten Ritual",
+      "entry": "FORGOTTEN_RITUAL",
+      "file": "gamedata/src/Core/Models/Cards/ForgottenRitual.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "If you Exhausted a card this turn, gain 3.",
+      "numbers": {
+        "Energy": 3
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Hemokinesis",
+      "entry": "HEMOKINESIS",
+      "file": "gamedata/src/Core/Models/Cards/Hemokinesis.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Lose 2 HP. Deal 15 damage.",
+      "numbers": {
+        "HpLoss": 2,
+        "Damage": 15
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Howl from Beyond",
+      "entry": "HOWL_FROM_BEYOND",
+      "file": "gamedata/src/Core/Models/Cards/HowlFromBeyond.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Deal 16 damage to ALL enemies. At the end of your turn, if this is in your Exhaust Pile, play it.",
+      "numbers": {
+        "Damage": 16
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Infernal Blade",
+      "entry": "INFERNAL_BLADE",
+      "file": "gamedata/src/Core/Models/Cards/InfernalBlade.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Add a random Attack into your Hand. It's free to play this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Inferno",
+      "entry": "INFERNO",
+      "file": "gamedata/src/Core/Models/Cards/Inferno.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, lose 1 HP. Whenever you lose HP on your turn, deal 6 damage to ALL enemies.",
+      "numbers": {
+        "Inferno": 6
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Inflame",
+      "entry": "INFLAME",
+      "file": "gamedata/src/Core/Models/Cards/Inflame.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 2 Strength.",
+      "numbers": {
+        "Strength": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Strength"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Juggling",
+      "entry": "JUGGLING",
+      "file": "gamedata/src/Core/Models/Cards/Juggling.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Add a copy of the third Attack you play each turn into your Hand.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Pillage",
+      "entry": "PILLAGE",
+      "file": "gamedata/src/Core/Models/Cards/Pillage.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Draw cards until you draw a non-Attack card.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Rage",
+      "entry": "RAGE",
+      "file": "gamedata/src/Core/Models/Cards/Rage.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you play an Attack this turn, gain {Power:diff()} Block.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Rampage",
+      "entry": "RAMPAGE",
+      "file": "gamedata/src/Core/Models/Cards/Rampage.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Increase this card's damage by {Increase:diff()} this combat.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Rupture",
+      "entry": "RUPTURE",
+      "file": "gamedata/src/Core/Models/Cards/Rupture.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you lose HP on your turn, gain 1 Strength.",
+      "numbers": {
+        "Strength": 1
+      },
+      "upgrade": "Strength +1",
+      "mechanics": [
+        "Strength",
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Second Wind",
+      "entry": "SECOND_WIND",
+      "file": "gamedata/src/Core/Models/Cards/SecondWind.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Exhaust all non-Attack cards in your Hand. Gain 5 Block for each card Exhausted.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Spite",
+      "entry": "SPITE",
+      "file": "gamedata/src/Core/Models/Cards/Spite.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage. If you lost HP this turn, hits 2 times.",
+      "numbers": {
+        "Damage": 5,
+        "Repeat": 2
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Stampede",
+      "entry": "STAMPEDE",
+      "file": "gamedata/src/Core/Models/Cards/Stampede.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the end of your turn, {Power:diff()} random Attacks in your Hand are played against random enemies.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Stomp",
+      "entry": "STOMP",
+      "file": "gamedata/src/Core/Models/Cards/Stomp.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Deal 12 damage to ALL enemies. Costs 1 less {energyPrefix:energyIcons(1)} for each Attack played this turn.",
+      "numbers": {
+        "Damage": 12
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Stone Armor",
+      "entry": "STONE_ARMOR",
+      "file": "gamedata/src/Core/Models/Cards/StoneArmor.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 4 Plating.",
+      "numbers": {
+        "Plating": 4
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Taunt",
+      "entry": "TAUNT",
+      "file": "gamedata/src/Core/Models/Cards/Taunt.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Gain 7 Block. Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Block": 7
+      },
+      "upgrade": "Block +1, Vulnerable +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Unrelenting",
+      "entry": "UNRELENTING",
+      "file": "gamedata/src/Core/Models/Cards/Unrelenting.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 14 damage. The next Attack you play costs 0 {energyPrefix:energyIcons(1)}.",
+      "numbers": {
+        "Damage": 14
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Uppercut",
+      "entry": "UPPERCUT",
+      "file": "gamedata/src/Core/Models/Cards/Uppercut.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 13 damage. Apply {Power:diff()} Weak. Apply {Power:diff()} Vulnerable.",
+      "numbers": {
+        "Damage": 13
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Vicious",
+      "entry": "VICIOUS",
+      "file": "gamedata/src/Core/Models/Cards/Vicious.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you apply Vulnerable, draw 1 card.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Whirlwind",
+      "entry": "WHIRLWIND",
+      "file": "gamedata/src/Core/Models/Cards/Whirlwind.cs",
+      "cost": "X",
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Deal 5 damage to ALL enemies X times.",
+      "numbers": {
+        "Damage": 5
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Aggression",
+      "entry": "AGGRESSION",
+      "file": "gamedata/src/Core/Models/Cards/Aggression.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, put a random Attack from your Discard Pile into your Hand and Upgrade it.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Barricade",
+      "entry": "BARRICADE",
+      "file": "gamedata/src/Core/Models/Cards/Barricade.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Block is not removed at the start of your turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Brand",
+      "entry": "BRAND",
+      "file": "gamedata/src/Core/Models/Cards/Brand.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Lose 1 HP. Exhaust 1 card. Gain 1 Strength.",
+      "numbers": {
+        "Strength": 1,
+        "HpLoss": 1
+      },
+      "upgrade": "Strength +1",
+      "mechanics": [
+        "Strength",
+        "Exhaust",
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Cascade",
+      "entry": "CASCADE",
+      "file": "gamedata/src/Core/Models/Cards/Cascade.cs",
+      "cost": "X",
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Play the top X{IfUpgraded:show:+1} cards of your Draw Pile.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Conflagration",
+      "entry": "CONFLAGRATION",
+      "file": "gamedata/src/Core/Models/Cards/Conflagration.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 2 damage to ALL enemies 4 times.",
+      "numbers": {
+        "Damage": 2,
+        "Repeat": 4
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Crimson Mantle",
+      "entry": "CRIMSON_MANTLE",
+      "file": "gamedata/src/Core/Models/Cards/CrimsonMantle.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, lose 1 HP and gain 8 Block.",
+      "numbers": {
+        "CrimsonMantle": 8
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Cruelty",
+      "entry": "CRUELTY",
+      "file": "gamedata/src/Core/Models/Cards/Cruelty.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Vulnerable enemies take an additional 25% damage.",
+      "numbers": {
+        "Cruelty": 25
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Dark Embrace",
+      "entry": "DARK_EMBRACE",
+      "file": "gamedata/src/Core/Models/Cards/DarkEmbrace.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever a card is Exhausted, draw 1 card.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Demon Form",
+      "entry": "DEMON_FORM",
+      "file": "gamedata/src/Core/Models/Cards/DemonForm.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, gain 2 Strength.",
+      "numbers": {
+        "Strength": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Strength"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Feed",
+      "entry": "FEED",
+      "file": "gamedata/src/Core/Models/Cards/Feed.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. If Fatal, raise your Max HP by 3.",
+      "numbers": {
+        "Damage": 10,
+        "MaxHp": 3
+      },
+      "upgrade": "Damage +2, MaxHp +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Fiend Fire",
+      "entry": "FIEND_FIRE",
+      "file": "gamedata/src/Core/Models/Cards/FiendFire.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Exhaust your Hand. Deal 7 damage for each card Exhausted.",
+      "numbers": {
+        "Damage": 7
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Hellraiser",
+      "entry": "HELLRAISER",
+      "file": "gamedata/src/Core/Models/Cards/Hellraiser.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you draw a card containing “Strike”, it is played against a random enemy.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Impervious",
+      "entry": "IMPERVIOUS",
+      "file": "gamedata/src/Core/Models/Cards/Impervious.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 30 Block.",
+      "numbers": {
+        "Block": 30
+      },
+      "upgrade": "Block +10",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Juggernaut",
+      "entry": "JUGGERNAUT",
+      "file": "gamedata/src/Core/Models/Cards/Juggernaut.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you gain Block, deal 6 damage to a random enemy.",
+      "numbers": {
+        "Juggernaut": 6
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Mangle",
+      "entry": "MANGLE",
+      "file": "gamedata/src/Core/Models/Cards/Mangle.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 15 damage. Enemy loses {StrengthLoss:diff()} Strength this turn.",
+      "numbers": {
+        "Damage": 15
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "Strength"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Not Yet",
+      "entry": "NOT_YET",
+      "file": "gamedata/src/Core/Models/Cards/NotYet.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Heal 10 HP.",
+      "numbers": {
+        "Heal": 10
+      },
+      "upgrade": "Heal +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Offering",
+      "entry": "OFFERING",
+      "file": "gamedata/src/Core/Models/Cards/Offering.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Lose 6 HP. Gain 2. Draw 3 cards.",
+      "numbers": {
+        "HpLoss": 6,
+        "Energy": 2,
+        "Cards": 3
+      },
+      "upgrade": "Cards +2",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "One-Two Punch",
+      "entry": "ONE_TWO_PUNCH",
+      "file": "gamedata/src/Core/Models/Cards/OneTwoPunch.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "This turn, your next {Attacks:cond:>1?{Attacks:diff()} Attacks are|Attack is} played an extra time.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Pact's End",
+      "entry": "PACTS_END",
+      "file": "gamedata/src/Core/Models/Cards/PactsEnd.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "If you have 3 or more cards in your Exhaust Pile, deal 17 damage to ALL enemies.",
+      "numbers": {
+        "Damage": 17,
+        "Cards": 3
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Primal Force",
+      "entry": "PRIMAL_FORCE",
+      "file": "gamedata/src/Core/Models/Cards/PrimalForce.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Transform all Attacks in your Hand into Giant Rock.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Pyre",
+      "entry": "PYRE",
+      "file": "gamedata/src/Core/Models/Cards/Pyre.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 1 at the start of each turn.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Stoke",
+      "entry": "STOKE",
+      "file": "gamedata/src/Core/Models/Cards/Stoke.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Exhaust your Hand. Add 1 random card into your Hand for each card Exhausted.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Tank",
+      "entry": "TANK",
+      "file": "gamedata/src/Core/Models/Cards/Tank.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Take double damage from enemies. Allies take half damage from enemies.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Tear Asunder",
+      "entry": "TEAR_ASUNDER",
+      "file": "gamedata/src/Core/Models/Cards/TearAsunder.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage. Hits an additional time for each time you lost HP this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 5,
+        "Repeat": 1,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Self-Harm"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Thrash",
+      "entry": "THRASH",
+      "file": "gamedata/src/Core/Models/Cards/Thrash.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 4 damage twice. Exhaust a random Attack in your Hand and add its damage to this card.",
+      "numbers": {
+        "Damage": 4
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Unmovable",
+      "entry": "UNMOVABLE",
+      "file": "gamedata/src/Core/Models/Cards/Unmovable.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "The first time you gain Block from a card each turn, double the amount gained.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Break",
+      "entry": "BREAK",
+      "file": "gamedata/src/Core/Models/Cards/Break.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Ancient",
+      "target": "AnyEnemy",
+      "text": "Deal 20 damage. Apply 5 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 5,
+        "Damage": 20
+      },
+      "upgrade": "Damage +10, Vulnerable +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Corruption",
+      "entry": "CORRUPTION",
+      "file": "gamedata/src/Core/Models/Cards/Corruption.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Skills cost 0 {energyPrefix:energyIcons(1)}. Whenever you play a Skill, Exhaust it.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Exhaust"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    }
+  ]
+}

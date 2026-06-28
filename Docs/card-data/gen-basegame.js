@@ -29,6 +29,7 @@ const LOC_PATH = path.join(ROOT, "gamedata", "localization", "eng", "cards.json"
 const CLASSES = {
   silent: "SilentCardPool",
   necrobinder: "NecrobinderCardPool",
+  ironclad: "IroncladCardPool",
 };
 
 const pascalToSnake = (s) =>
