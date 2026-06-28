@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjedd50sc2tkd"
-path="res://.godot/imported/rancid_smoke.png-10908f63f23bbaf81105161619885563.ctex"
+uid="uid://dojrhr13iv338"
+path="res://.godot/imported/double_double.png-cb91251c68c546cd249f7afd99dc114b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/big/rancid_smoke.png"
-dest_files=["res://.godot/imported/rancid_smoke.png-10908f63f23bbaf81105161619885563.ctex"]
+source_file="res://TheWicken/images/card_portraits/double_double.png"
+dest_files=["res://.godot/imported/double_double.png-cb91251c68c546cd249f7afd99dc114b.ctex"]
 
 [params]
 

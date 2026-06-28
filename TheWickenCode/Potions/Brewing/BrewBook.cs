@@ -88,6 +88,17 @@ public static class BrewBook
             kind = BrewMatchKind.RarityOnly;
         }
 
+        // 4. The exact step-up rarity has nothing but the inputs (e.g. both inputs are the only Rares): broaden UP
+        //    to ANY higher-or-equal rarity, so a 2-potion brew still produces a real potion rather than falling
+        //    back to a Token Wicked Brew (which reads as a downgrade). Never broadens downward.
+        if (candidates.Count == 0)
+        {
+            candidates = PotionCatalog.Query(randomizableOnly: true)
+                .Where(p => Rank(p.Rarity) >= Rank(outRarity) && !IsInput(p, a, b))
+                .ToList();
+            kind = BrewMatchKind.RarityOnly;
+        }
+
         PotionModel? pick = PotionCatalog.Random(candidates, rng);
         return new BrewResult(pick, outRarity, union, pick == null ? BrewMatchKind.None : kind);
     }

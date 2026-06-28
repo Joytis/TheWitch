@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcjw031s7xrb1"
-path="res://.godot/imported/tiny_bottle.png-eefcc3b15e15a112701460f99daa284a.ctex"
+uid="uid://bmctdg8pkg4q0"
+path="res://.godot/imported/double_double.png-9e26246083b3a35dca7ca25d44ac477d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/big/tiny_bottle.png"
-dest_files=["res://.godot/imported/tiny_bottle.png-eefcc3b15e15a112701460f99daa284a.ctex"]
+source_file="res://TheWicken/images/card_portraits/big/double_double.png"
+dest_files=["res://.godot/imported/double_double.png-9e26246083b3a35dca7ca25d44ac477d.ctex"]
 
 [params]
 

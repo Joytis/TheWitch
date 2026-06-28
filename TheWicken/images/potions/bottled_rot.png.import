@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pdx4y734wbn6"
-path="res://.godot/imported/blood_boiling.png-9b97299f8393006a795f67d51cdf6ac0.ctex"
+uid="uid://dxdb2k0w1rwoj"
+path="res://.godot/imported/bottled_rot.png-511ba3e6d28c1f2dae772ee8435f85d5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/blood_boiling.png"
-dest_files=["res://.godot/imported/blood_boiling.png-9b97299f8393006a795f67d51cdf6ac0.ctex"]
+source_file="res://TheWicken/images/potions/bottled_rot.png"
+dest_files=["res://.godot/imported/bottled_rot.png-511ba3e6d28c1f2dae772ee8435f85d5.ctex"]
 
 [params]
 

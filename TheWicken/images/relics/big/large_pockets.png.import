@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://basos03pykdxj"
-path="res://.godot/imported/hexburst.png-6001962d652920031e32351f836d221d.ctex"
+uid="uid://joh0scwt4xit"
+path="res://.godot/imported/large_pockets.png-0a9e0e27d65f8a8e7e7a4d8ad13d2519.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/hexburst.png"
-dest_files=["res://.godot/imported/hexburst.png-6001962d652920031e32351f836d221d.ctex"]
+source_file="res://TheWicken/images/relics/big/large_pockets.png"
+dest_files=["res://.godot/imported/large_pockets.png-0a9e0e27d65f8a8e7e7a4d8ad13d2519.ctex"]
 
 [params]
 

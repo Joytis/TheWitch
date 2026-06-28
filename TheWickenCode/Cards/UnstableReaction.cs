@@ -10,7 +10,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class UnstableReaction : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(10m, ValueProp.Move)
+        new DamageVar(20m, ValueProp.Move)
     ];
 
     public UnstableReaction()

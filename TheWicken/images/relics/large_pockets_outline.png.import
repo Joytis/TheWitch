@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://277fn6ljrp23"
-path="res://.godot/imported/serrated_bones.png-6bb22fc4b0bef39b220456f73334d901.ctex"
+uid="uid://c7is5msmfqb6j"
+path="res://.godot/imported/large_pockets_outline.png-8bbdf52c8da82818d737a020f7975c3d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/serrated_bones.png"
-dest_files=["res://.godot/imported/serrated_bones.png-6bb22fc4b0bef39b220456f73334d901.ctex"]
+source_file="res://TheWicken/images/relics/large_pockets_outline.png"
+dest_files=["res://.godot/imported/large_pockets_outline.png-8bbdf52c8da82818d737a020f7975c3d.ctex"]
 
 [params]
 
