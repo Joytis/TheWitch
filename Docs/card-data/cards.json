@@ -614,7 +614,7 @@
       },
       "upgrade": "none",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -637,7 +637,7 @@
       },
       "upgrade": "Block +2, PerPotion +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1555,7 +1555,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1827,7 +1827,7 @@
       },
       "upgrade": "EnemyStrengthLoss +1",
       "note": "Rat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1851,7 +1851,7 @@
       },
       "upgrade": "Damage +1, Brambles +2",
       "note": "Porcupine familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -1876,7 +1876,7 @@
       },
       "upgrade": "none",
       "note": "Pocket Rats token; exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"

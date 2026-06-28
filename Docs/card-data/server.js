@@ -105,7 +105,7 @@ const server = http.createServer((req, res) => {
   }
 
   // --- base-game reference data (read-only): /silent.json, /necrobinder.json
-  if (req.method === "GET" && /^\/(silent|necrobinder)\.json/.test(req.url)) {
+  if (req.method === "GET" && /^\/(silent|necrobinder|ironclad)\.json/.test(req.url)) {
     const name = req.url.split("?")[0].slice(1);
     try {
       return send(res, 200, fs.readFileSync(path.join(HERE, name)), "application/json; charset=utf-8");
