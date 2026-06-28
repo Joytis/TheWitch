@@ -168,6 +168,35 @@
             "problemMatcher": [],
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
             "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it)."
+        },
+        {
+            "label": "Card Designs: Serve",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/card-designs-serve.ps1"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+            "detail": "Start the card design page server (http://localhost:7820) and open it in the browser. Stop with 'Card Designs: Stop'."
+        },
+        {
+            "label": "Card Designs: Stop",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/card-designs-stop.ps1"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "Stop the card design server (kills the node process on port 7820)."
         }
     ],
     "inputs": [

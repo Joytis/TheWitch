@@ -113,6 +113,7 @@ public static class PotionTraits
         [typeof(Fertilizer)] = PotionTrait.Damage,             // gains Brambles, tagged offensive by design
         [typeof(BottledRot)] = PotionTrait.Poison | PotionTrait.Aoe,
         [typeof(BuddyInABottle)] = PotionTrait.CardGen,        // adds a random Familiar summon card
+        [typeof(VialOfSmoke)] = PotionTrait.Block,             // card-only defensive Block potion (Light the Candle)
     };
 
     /// <summary>Get the trait set for a potion (manual table first, inference fallback). Cached per Type.</summary>

@@ -116,6 +116,17 @@ The mod's `Custom{Card,Relic,Potion,Power}Model` bases are thin wrappers over th
 
 **Decompiled game source is the reference.** A full decompile lives at `gamedata/` (**gitignored** — local-only, not committed; it's proprietary game code). The ~400 base-game content classes under `gamedata/src/Core/Models/{Cards,Relics,Potions,Powers}/` are the authoritative examples. Workflow: find the closest base-game class, copy its pattern into a `CustomXModel` subclass here, swap the pool + localization keys. Do **not** paste verbatim decompiled code into tracked files.
 
+## Card design docs (keep `cards.json` in sync)
+
+Every card is documented in **`Docs/card-data/cards.json`** (source of truth), rendered by an interactive page `Docs/card-designs.html` with copy-to-console buttons + a `TESTED` flag. The `card-designs` skill drives it.
+
+**Whenever you add, remove, or change a card** (cost/type/rarity/target/`CanonicalVars`/`OnUpgrade`/localization text), regenerate the data so the docs stay current:
+```bash
+node Docs/card-data/regen.js          # rebuild cards.json from the .cs files + localization
+node Docs/card-data/regen.js --check  # no-write drift check (exit 1 if stale)
+```
+`regen.js` parses the card classes, **preserves each card's `tested` flag and curated `note`**, and **auto-clears `TESTED` for any card whose mechanics changed** — that is the user's "clear TESTED when the design changes" rule, automated. Treat running `regen.js` as part of finishing any card edit (alongside `dotnet build`). Do not hand-maintain a parallel markdown list — `cards.json` is the only card doc.
+
 ## Potion traits & brewing
 
 Potions are a core character identity, so there's a dedicated system to **query potions by what they do** and **brew** two into a higher-rarity one — see [Docs/potion-brewing-system.md](Docs/potion-brewing-system.md) for the full design record. Code: [TheWickenCode/Potions/Brewing/](TheWickenCode/Potions/Brewing/).

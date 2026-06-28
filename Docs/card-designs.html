@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wicken Card Designs</title>
+<style>
+  :root{
+    --bg:#15131c; --panel:#1f1b2b; --panel2:#272234; --line:#3a3350;
+    --ink:#e9e4f5; --muted:#a99fc4; --gold:#e0b24a; --accent:#9d7bff;
+    --ok:#46c476; --no:#5b5470;
+    --starter:#7d8590; --common:#9fb1c9; --uncommon:#5f9bd6; --rare:#d6a23a; --special:#c46be0; --token:#7c6f96;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Segoe UI",system-ui,sans-serif}
+  header{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+  h1{margin:0 0 4px;font-size:20px;color:var(--gold);letter-spacing:.5px}
+  .sub{color:var(--muted);font-size:12px}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+  input[type=search]{background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:7px 10px;border-radius:6px;min-width:220px;font-size:13px}
+  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:6px 11px;border-radius:14px;cursor:pointer;font-size:12px;user-select:none}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .prog{margin-left:auto;color:var(--muted);font-size:12px;text-align:right}
+  .bar{width:160px;height:7px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:4px}
+  .bar > i{display:block;height:100%;background:var(--ok);width:0}
+  main{padding:14px 22px 60px}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{position:sticky;top:96px;background:var(--panel);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px;z-index:3;cursor:pointer}
+  tbody tr:hover{background:var(--panel2)}
+  .name{font-weight:600}
+  .entry{color:var(--muted);font:11px/1.4 ui-monospace,Consolas,monospace}
+  .meta{color:var(--muted);font-size:12px;white-space:nowrap}
+  .rar{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600}
+  .text{max-width:340px}
+  .nums{font:11px/1.5 ui-monospace,Consolas,monospace;color:var(--gold)}
+  .up{font-size:12px;color:var(--muted)}
+  .note{display:block;color:#b9a8e6;font-size:11px;font-style:italic;margin-top:3px}
+  .copy{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 9px;cursor:pointer;font:11px ui-monospace,Consolas,monospace;white-space:nowrap}
+  .copy:hover{border-color:var(--accent)}
+  .copy.done{border-color:var(--ok);color:var(--ok)}
+  .tcell{text-align:center;white-space:nowrap}
+  .tog{cursor:pointer;font-size:18px;background:none;border:none;color:var(--no)}
+  .tog.on{color:var(--ok)}
+  .badge{font-size:10px;color:var(--muted);display:block}
+  .makeup{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:11px;font-size:12px;color:var(--muted)}
+  .makeup .grp{display:flex;gap:8px;align-items:baseline}
+  .makeup .glab{color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.5px;font-size:11px}
+  .makeup b{color:var(--ink);font-weight:600}
+  .makeup .z{opacity:.45}
+  .offline{display:none;background:#5b2330;color:#ffd9df;padding:8px 22px;font-size:12px}
+  body.nosrv .offline{display:block}
+</style>
+</head>
+<body>
+<header>
+  <h1>Wicken Card Designs</h1>
+  <div class="sub">Living design doc — toggle <b>TESTED</b> only after verifying a card in-game. Changing a card's design? Flip it back to ❌. <span id="gen"></span></div>
+  <div class="controls">
+    <input type="search" id="q" placeholder="search name / text / entry…" />
+    <span id="rarities"></span>
+    <span class="chip" data-t="untested">untested only</span>
+    <div class="prog">
+      <span id="count"></span>
+      <div class="bar"><i id="barfill"></i></div>
+    </div>
+  </div>
+  <div class="makeup" id="makeup"></div>
+</header>
+<div class="offline">⚠ Loaded without the local server — copy buttons work, but TESTED toggles will <b>not</b> save. Run <code>node Docs/card-data/server.js</code> and open <code>http://localhost:7820</code>.</div>
+<main>
+  <table>
+    <thead><tr>
+      <th data-k="name">Card</th>
+      <th data-k="cost">Cost/Type</th>
+      <th data-k="rarity">Rarity</th>
+      <th>Text</th>
+      <th>Numbers</th>
+      <th>Upgrade</th>
+      <th>Add</th>
+      <th data-k="tested">Tested</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+<script>
+const RAR_ORDER = ["Starter","Common","Uncommon","Rare","Special","Token"];
+const RAR_COLOR = {Starter:"--starter",Common:"--common",Uncommon:"--uncommon",Rare:"--rare",Special:"--special",Token:"--token"};
+let CARDS = [];
+let SERVER = false;
+const state = { q:"", rar:new Set(), untested:false, sort:"rarity", dir:1 };
+
+async function load(){
+  try{
+    const r = await fetch("cards.json?_="+Date.now());
+    const d = await r.json();
+    CARDS = d.cards;
+    document.getElementById("gen").textContent = d.generated ? "· generated "+d.generated : "";
+    // detect server by probing the API route via OPTIONS-ish: try a HEAD on root path served by node
+    SERVER = location.protocol === "http:" || location.protocol === "https:";
+    if(!SERVER) document.body.classList.add("nosrv");
+    buildRarityChips();
+    renderMakeup();
+    render();
+  }catch(e){
+    document.getElementById("rows").innerHTML =
+      '<tr><td colspan="8" style="color:#ffb3b3">Could not load cards.json. Start the server: <code>node Docs/card-data/server.js</code></td></tr>';
+  }
+}
+
+function buildRarityChips(){
+  const present = RAR_ORDER.filter(r => CARDS.some(c => c.rarity===r));
+  const extra = [...new Set(CARDS.map(c=>c.rarity))].filter(r=>!RAR_ORDER.includes(r));
+  const host = document.getElementById("rarities");
+  [...present,...extra].forEach(r=>{
+    const el = document.createElement("span");
+    el.className="chip"; el.textContent=r; el.dataset.rar=r;
+    el.onclick=()=>{ el.classList.toggle("on"); state.rar.has(r)?state.rar.delete(r):state.rar.add(r); render(); };
+    host.appendChild(el);
+  });
+}
+
+function renderMakeup(){
+  const byRar = {}, byType = {};
+  CARDS.forEach(c=>{ byRar[c.rarity]=(byRar[c.rarity]||0)+1; byType[c.type]=(byType[c.type]||0)+1; });
+  // Always show these (even at 0) so makeup is comparable run-to-run.
+  const rarWanted = ["Starter","Common","Uncommon","Rare","Special","Token"];
+  const typeWanted = ["Attack","Skill","Power","Potion"];
+  const rars = [...new Set([...rarWanted, ...Object.keys(byRar)])].filter(r => rarWanted.includes(r) || byRar[r]);
+  const types = [...new Set([...typeWanted, ...Object.keys(byType)])].filter(t => typeWanted.includes(t) || byType[t]);
+  const cell = (lab,n) => `<span class="${n?'':'z'}">${lab} <b>${n||0}</b></span>`;
+  document.getElementById("makeup").innerHTML =
+    `<span class="grp"><span class="glab">Total</span>${cell('cards', CARDS.length)}</span>` +
+    `<span class="grp"><span class="glab">Rarity</span>${rars.map(r=>cell(r,byRar[r])).join("")}</span>` +
+    `<span class="grp"><span class="glab">Type</span>${types.map(t=>cell(t,byType[t])).join("")}</span>`;
+}
+
+function visible(){
+  const q = state.q.toLowerCase();
+  let list = CARDS.filter(c=>{
+    if(state.untested && c.tested) return false;
+    if(state.rar.size && !state.rar.has(c.rarity)) return false;
+    if(q){
+      const hay = (c.name+" "+c.entry+" "+c.text+" "+(c.note||"")).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const rk = c => { const i=RAR_ORDER.indexOf(c.rarity); return i<0?99:i; };
+  list.sort((a,b)=>{
+    let r=0;
+    if(state.sort==="rarity") r = rk(a)-rk(b) || a.name.localeCompare(b.name);
+    else if(state.sort==="cost") r = (parseInt(a.cost)||0)-(parseInt(b.cost)||0) || a.name.localeCompare(b.name);
+    else if(state.sort==="tested") r = (a.tested?1:0)-(b.tested?1:0) || a.name.localeCompare(b.name);
+    else r = String(a[state.sort]).localeCompare(String(b[state.sort]));
+    return r*state.dir;
+  });
+  return list;
+}
+
+function numsHtml(n){
+  const ks = Object.keys(n||{});
+  if(!ks.length) return '<span class="up">—</span>';
+  return ks.map(k=>`${k} ${n[k]}`).join("<br>");
+}
+
+function render(){
+  const tb = document.getElementById("rows");
+  const list = visible();
+  tb.innerHTML = "";
+  list.forEach(c=>{
+    const tr = document.createElement("tr");
+    const color = `var(${RAR_COLOR[c.rarity]||"--muted"})`;
+    tr.innerHTML = `
+      <td>
+        <span class="name">${esc(c.name)}</span>
+        <span class="entry">${esc(c.entry)}</span>
+        ${c.note?`<span class="note">${esc(c.note)}</span>`:""}
+      </td>
+      <td class="meta">${esc(String(c.cost))} · ${esc(c.type)}<br><span class="badge">${esc(c.target)}</span></td>
+      <td><span class="rar" style="background:${color}33;color:${color}">${esc(c.rarity)}</span></td>
+      <td class="text">${esc(c.text)}</td>
+      <td class="nums">${numsHtml(c.numbers)}</td>
+      <td class="up">${esc(c.upgrade||"none")}</td>
+      <td><button class="copy" data-cmd="card THEWICKEN-${esc(c.entry)}" title="copy console command">card THEWICKEN-${esc(c.entry)}</button></td>
+      <td class="tcell">
+        <button class="tog ${c.tested?"on":""}" data-entry="${esc(c.entry)}" title="${c.tested?"Tested — click to clear":"Not tested — click to mark tested"}">${c.tested?"✅":"❌"}</button>
+      </td>`;
+    tb.appendChild(tr);
+  });
+  const tested = CARDS.filter(c=>c.tested).length;
+  document.getElementById("count").textContent = `${tested}/${CARDS.length} tested · showing ${list.length}`;
+  document.getElementById("barfill").style.width = (CARDS.length? (tested/CARDS.length*100):0)+"%";
+}
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
+
+async function copyText(txt){
+  try{ await navigator.clipboard.writeText(txt); return true; }
+  catch(e){
+    const ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    let ok=false; try{ ok=document.execCommand("copy"); }catch(_){}
+    document.body.removeChild(ta); return ok;
+  }
+}
+
+document.addEventListener("click", async (e)=>{
+  const cp = e.target.closest(".copy");
+  if(cp){
+    const ok = await copyText(cp.dataset.cmd);
+    const old = cp.textContent;
+    cp.classList.add("done"); cp.textContent = ok?"copied!":"copy failed";
+    setTimeout(()=>{ cp.classList.remove("done"); cp.textContent=old; }, 900);
+    return;
+  }
+  const tg = e.target.closest(".tog");
+  if(tg){
+    const entry = tg.dataset.entry;
+    const card = CARDS.find(c=>c.entry===entry);
+    const next = !card.tested;
+    card.tested = next; // optimistic
+    render();
+    if(SERVER){
+      try{
+        const r = await fetch("/api/tested",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry,tested:next})});
+        if(!r.ok) throw new Error(await r.text());
+      }catch(err){
+        card.tested = !next; render(); // revert
+        document.body.classList.add("nosrv");
+        alert("Could not save TESTED change — is the server running?\n"+err);
+      }
+    } else {
+      document.body.classList.add("nosrv");
+    }
+    return;
+  }
+  const untested = e.target.closest('[data-t="untested"]');
+  if(untested){ untested.classList.toggle("on"); state.untested=!state.untested; render(); }
+});
+
+document.getElementById("q").addEventListener("input", e=>{ state.q=e.target.value; render(); });
+document.querySelectorAll("th[data-k]").forEach(th=>{
+  th.onclick=()=>{ const k=th.dataset.k; state.dir = (state.sort===k)? -state.dir : 1; state.sort=k; render(); };
+});
+
+load();
+</script>
+</body>
+</html>

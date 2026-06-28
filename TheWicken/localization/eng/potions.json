@@ -10,5 +10,7 @@
   "THEWICKEN-BOTTLED_ROT.title": "Bottled Rot",
   "THEWICKEN-BOTTLED_ROT.description": "Apply [blue]{PoisonPower}[/blue] [gold]Poison[/gold] to ALL enemies.",
   "THEWICKEN-BUDDY_IN_A_BOTTLE.title": "Buddy in a Bottle",
-  "THEWICKEN-BUDDY_IN_A_BOTTLE.description": "Add a random [gold]Familiar[/gold] to your hand. It is free to play this turn."
+  "THEWICKEN-BUDDY_IN_A_BOTTLE.description": "Add a random [gold]Familiar[/gold] to your hand. It is free to play this turn.",
+  "THEWICKEN-VIAL_OF_SMOKE.title": "Vial of Smoke",
+  "THEWICKEN-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold]."
 }
