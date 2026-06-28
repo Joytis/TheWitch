@@ -7,24 +7,21 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Crow familiar token: debuff a target and pocket some gold. Exhausts.</summary>
-public sealed class Scout : WickenFamiliarCard
+/// <summary>Crow familiar token: apply Vulnerable to an enemy. Exhausts.</summary>
+public sealed class ScoutWeakness : WickenFamiliarCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<VulnerablePower>(),
-        HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<VulnerablePower>(2m),
-        new PowerVar<WeakPower>(1m),
-        new DynamicVar("Gold", 5m)
+        new PowerVar<VulnerablePower>(1m),
     ];
 
-    public Scout()
-        : base(1, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
+    public ScoutWeakness()
+        : base(0, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
 
@@ -32,9 +29,7 @@ public sealed class Scout : WickenFamiliarCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
-        await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
-        await PlayerCmd.GainGold(DynamicVars["Gold"].IntValue, Owner);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Gold"].UpgradeValueBy(5m);
+    protected override void OnUpgrade() => DynamicVars.Vulnerable.UpgradeValueBy(1m);
 }

@@ -15,7 +15,7 @@ public sealed class Brambleburst : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(4m, ValueProp.Move)
+        new DamageVar(6m, ValueProp.Move)
     ];
 
     public Brambleburst()
@@ -41,5 +41,5 @@ public sealed class Brambleburst : WickenCard
         await PowerCmd.Remove<BramblesPower>(Owner.Creature);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }

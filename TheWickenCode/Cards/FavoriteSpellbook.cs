@@ -26,7 +26,7 @@ public sealed class FavoriteSpellbook : WickenCard
     ];
 
     public FavoriteSpellbook()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
