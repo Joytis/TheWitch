@@ -65,8 +65,6 @@
   "THEWICKEN-BIND_IN_BLOOD.description": "This turn, gain {BindInBloodPower:diff()} [gold]Brambles[/gold] for each life lost.",
   "THEWICKEN-BOTTOMLESS_CAULDRON.title": "Bottomless Cauldron",
   "THEWICKEN-BOTTOMLESS_CAULDRON.description": "Whenever you use a potion, create a [gold]Wicked Brew[/gold].",
-  "THEWICKEN-BITTER_ROOT.title": "Bitter Root",
-  "THEWICKEN-BITTER_ROOT.description": "Whenever you use a potion, gain {BitterRootPower:diff()} [gold]Brambles[/gold].",
   "THEWICKEN-CLOAK_OF_MOONLIGHT.title": "Cloak of Moonlight",
   "THEWICKEN-CLOAK_OF_MOONLIGHT.description": "Whenever you create a card or potion, gain {CloakOfMoonlightPower:diff()} [gold]Block[/gold].",
   "THEWICKEN-BOTTLE_WALL.title": "Bottle Wall",
