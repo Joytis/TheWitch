@@ -4,6 +4,39 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 27. New card: Prices Paid (+ new potion: Slicing Brew)
+- **Done:** 2026-06-28
+- **Changed:** New `PricesPaid` (Attack, Common, 1) — lose 3 HP (`HpLossVar`, Unblockable|Unpowered|Move), deal 6 damage, `PotionCmd.TryToProcure<SlicingBrew>`. New `SlicingBrew` potion (Token, CombatOnly, AnyEnemy): deals 3 damage 3 times (`DamageVar` + `RepeatVar`, loop of `CreatureCmd.Damage`). Added to `PotionTraits.Manual` = `Damage`.
+- **Decisions:** Note omitted energy → 1 (common attack default). Note omitted upgrade → +3 damage. Potion rarity `Token` so it never drops randomly but `TryToProcure` still grants it (mirrors WickedBrew).
+- **Files:** new `Cards/PricesPaid.cs`, `Potions/SlicingBrew.cs`; `Potions/Brewing/PotionTraits.cs`; `cards.json`, `potions.json`; `Docs/potion-brewing-system.md`; regen `Docs/card-data/cards.json`. Placeholder art `pricespaid.png`, `slicingbrew.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ **Needs in-game playtest** + art (`Images: Generate missing sizes` → `Godot: Import assets`).
+
+### 26. New card: Broken Pact
+- **Done:** 2026-06-28
+- **Changed:** New `BrokenPact` (Skill, Rare, 2, Self, Exhaust) — `Familiars.RemoveRandom`; if a familiar was sacrificed, `CreatureCmd.Heal` for `Heal` (10, +3 on upgrade).
+- **Decisions:** Heal only fires when a familiar is actually sacrificed (mirrors `RitualSacrifice` block-on-sacrifice gating).
+- **Files:** new `Cards/BrokenPact.cs`; `cards.json`; regen `cards.json`. Placeholder art `brokenpact.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest + art.
+
+### 25. New card: Bewitching Grin
+- **Done:** 2026-06-28
+- **Changed:** New `BewitchingGrin` (Attack, Common, 1, AnyEnemy) — deal 3 damage, apply 3 Hex to target. Upgrade +3 damage. Hex hover tip.
+- **Files:** new `Cards/BewitchingGrin.cs`; `cards.json`; regen `cards.json`. Placeholder art `bewitchinggrin.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest + art.
+
+### 24. New card: Soul Knot (+ Soul Knot power)
+- **Done:** 2026-06-28
+- **Changed:** New `SoulKnot` (Power, Rare, 3, Self) applies `SoulKnotPower` (Single buff). New `SoulKnotPower`: on owner's `AfterDamageReceived`, deals `result.UnblockedDamage` to all hittable enemies (raw `CreatureCmd.Damage`, enemies only → no recursion). Upgrade −1 energy (→2).
+- **Decisions:** Mirrors damage taken (unblocked) onto enemies, modeled on `BindInBloodPower`'s `AfterDamageReceived`. Power doesn't stack (`Single`); card applies 1.
+- **Files:** new `Cards/SoulKnot.cs`, `Powers/SoulKnotPower.cs`; `cards.json`, `powers.json`; regen `cards.json`. Placeholder art `soulknot.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ **Needs in-game playtest** — novel `AfterDamageReceived` reflect onto enemies. Placeholder art.
+
+### 23. New card: Vexing Thwack
+- **Done:** 2026-06-28
+- **Changed:** New `VexingThwack` (Attack, Common, 3, AnyEnemy) — deal 10 damage 2 times (`DamageVar` + `RepeatVar`/`WithHitCount`), apply 2 Hex to target. Upgrade +2 Hex. Hex hover tip.
+- **Files:** new `Cards/VexingThwack.cs`; `cards.json`; regen `cards.json`. Placeholder art `vexingthwack.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest + art.
+
 ### 15. New card: Cursed Bottles (+ Hex + Cursed Bottles powers)
 - **Done:** 2026-06-27
 - **Changed:** New `CursedBottles` (Power, Uncommon, 2) applies `CursedBottlesPower`: on each potion use, Hexes `Amount` random enemies (1, +1 on upgrade). New `HexPower` (enemy Counter debuff): on the hexed enemy's `AfterAttack`, splashes its attack's total damage to all OTHER enemies AND all players, then consumes one stack (raw `CreatureCmd.Damage`, no `AttackCommand` → no recursion).

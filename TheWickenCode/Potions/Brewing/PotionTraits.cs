@@ -108,6 +108,7 @@ public static class PotionTraits
 
         // ---------------- Modded (TheWicken) ----------------
         [typeof(WickedBrew)] = PotionTrait.Damage,
+        [typeof(SlicingBrew)] = PotionTrait.Damage,           // card-only multi-hit damage payload (Prices Paid)
         [typeof(VillainousBrew)] = PotionTrait.Damage,
         [typeof(TheCauldron)] = PotionTrait.Damage | PotionTrait.Block | PotionTrait.Buff | PotionTrait.Debuff | PotionTrait.Aoe,
         [typeof(Fertilizer)] = PotionTrait.Damage,             // gains Brambles, tagged offensive by design

@@ -17,6 +17,15 @@ This script fills in whichever side is missing:
   * big exists,   small missing -> downscale big   -> small
   * both exist                  -> skipped (unless --force)
 
+Before that, a placeholder-seeding pass reads the card design data
+(``Docs/card-data/cards.json``) and, for any card with NO art on either side,
+copies the default ``card.png`` placeholder to its expected small path. The
+round-trip pass then upscales that into a ``big/`` variant -- so a brand-new
+card with zero art ends up with both sizes instead of nothing. The small image
+filename is the card's ``entry`` lowercased (matching the in-game
+``Id.Entry``-derived path); familiar cards (under ``Cards/Familiar/``) route to
+the ``familiar/`` subfolder.
+
 Variants are scaled by a fixed factor (default 4x), which matches the project's
 existing assets (250x190 <-> 1000x760, 64x64 <-> 256x256). Aspect ratio is
 preserved, so odd prototype sizes round-trip cleanly.
@@ -34,6 +43,8 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
+import shutil
 import sys
 from pathlib import Path
 
@@ -58,6 +69,48 @@ CATEGORIES = {
     "powers": (IMAGES_ROOT / "powers",
                IMAGES_ROOT / "powers" / "big"),
 }
+
+# Card design data + the default placeholder used to seed art for new cards.
+CARDS_JSON = REPO_ROOT / "Docs" / "card-data" / "cards.json"
+PLACEHOLDER = IMAGES_ROOT / "card_portraits" / "card.png"
+
+
+def seed_card_placeholders(dry_run: bool) -> int:
+    """Copy the placeholder image to the small path of any card in cards.json
+    that has no art on either side. The round-trip pass then makes its big/.
+    """
+    if not CARDS_JSON.exists():
+        print(f"[seed] cards.json not found: {CARDS_JSON} (skipped)")
+        return 0
+    if not PLACEHOLDER.exists():
+        print(f"[seed] placeholder not found: {PLACEHOLDER} (skipped)")
+        return 0
+
+    cards = json.loads(CARDS_JSON.read_text(encoding="utf-8")).get("cards", [])
+    seeded = 0
+    for card in cards:
+        entry = card.get("entry", "")
+        if not entry:
+            continue
+        is_familiar = "Cards/Familiar/" in card.get("file", "").replace("\\", "/")
+        small_dir, big_dir = CATEGORIES["familiar" if is_familiar else "card_portraits"]
+        fname = f"{entry.lower()}.png"
+        small_path = small_dir / fname
+        big_path = big_dir / fname
+
+        # Only seed when the card has no art at all; never clobber real art.
+        if small_path.exists() or big_path.exists():
+            continue
+
+        rel_dst = small_path.relative_to(REPO_ROOT)
+        print(f"  seed      placeholder -> {rel_dst}")
+        if not dry_run:
+            small_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(PLACEHOLDER, small_path)
+        seeded += 1
+
+    print(f"[seed] {seeded} placeholder(s){' (dry run)' if dry_run else ''}")
+    return seeded
 
 
 def scaled(size: tuple[int, int], factor: float) -> tuple[int, int]:
@@ -125,6 +178,9 @@ def main() -> int:
     parser.add_argument("--nearest", action="store_true",
                         help="Nearest-neighbour resampling (crisp pixel art) "
                              "instead of Lanczos.")
+    parser.add_argument("--no-seed", action="store_true",
+                        help="Skip seeding placeholders for cards in cards.json "
+                             "that have no art yet.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print actions without writing files.")
     args = parser.parse_args()
@@ -134,6 +190,12 @@ def main() -> int:
 
     resample = Image.NEAREST if args.nearest else Image.LANCZOS
     cats = {args.category: CATEGORIES[args.category]} if args.category else CATEGORIES
+
+    # Seed placeholders first so the round-trip pass below upscales them to big/.
+    # Skipped when a single category other than the card ones is requested.
+    if not args.no_seed and args.category in (None, "card_portraits", "familiar"):
+        seed_card_placeholders(args.dry_run)
+        print()
 
     total = 0
     for name, (small_dir, big_dir) in cats.items():

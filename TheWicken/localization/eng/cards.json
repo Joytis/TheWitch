@@ -158,5 +158,15 @@
   "THEWICKEN-WITCHCRAFT.title": "Witchcraft",
   "THEWICKEN-WITCHCRAFT.description": "Create [b]X[/b]{IfUpgraded:show:+1|} [gold]Potions[/gold].",
   "THEWICKEN-CURSED_BOTTLES.title": "Cursed Bottles",
-  "THEWICKEN-CURSED_BOTTLES.description": "Whenever you use a [gold]Potion[/gold], [gold]Hex[/gold] {CursedBottlesPower:diff()} random {CursedBottlesPower:plural:enemy|enemies}."
+  "THEWICKEN-CURSED_BOTTLES.description": "Whenever you use a [gold]Potion[/gold], [gold]Hex[/gold] {CursedBottlesPower:diff()} random {CursedBottlesPower:plural:enemy|enemies}.",
+  "THEWICKEN-VEXING_THWACK.title": "Vexing Thwack",
+  "THEWICKEN-VEXING_THWACK.description": "Deal {Damage:diff()} damage {Repeat:diff()} {Repeat:plural:time|times}. Apply {HexPower:diff()} [gold]Hex[/gold].",
+  "THEWICKEN-BEWITCHING_GRIN.title": "Bewitching Grin",
+  "THEWICKEN-BEWITCHING_GRIN.description": "Deal {Damage:diff()} damage. Apply {HexPower:diff()} [gold]Hex[/gold].",
+  "THEWICKEN-SOUL_KNOT.title": "Soul Knot",
+  "THEWICKEN-SOUL_KNOT.description": "Whenever you take damage, ALL enemies take that much damage.",
+  "THEWICKEN-BROKEN_PACT.title": "Broken Pact",
+  "THEWICKEN-BROKEN_PACT.description": "Sacrifice a [gold]Familiar[/gold]. Heal {Heal:diff()} HP.",
+  "THEWICKEN-PRICES_PAID.title": "Prices Paid",
+  "THEWICKEN-PRICES_PAID.description": "Lose {HpLoss:diff()} HP. Deal {Damage:diff()} damage. Create a [gold]Slicing Brew[/gold]."
 }
