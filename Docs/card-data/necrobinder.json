@@ -429,10 +429,10 @@
       },
       "upgrade": "Damage +3",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
-        "Enabler"
+        "Generator"
       ]
     },
     {
@@ -1005,10 +1005,10 @@
       },
       "upgrade": "Cost -1",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
-        "Enabler"
+        "Payoff"
       ]
     },
     {
@@ -1047,7 +1047,7 @@
       },
       "upgrade": "Damage +2",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
         "Payoff"
@@ -1231,10 +1231,10 @@
       },
       "upgrade": "Damage +3",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
-        "Standalone"
+        "Enabler"
       ]
     },
     {
@@ -1252,10 +1252,10 @@
       },
       "upgrade": "Cost -2",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1272,10 +1272,10 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
-        "Enabler"
+        "Generator"
       ]
     },
     {
@@ -1651,10 +1651,10 @@
       "numbers": {},
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Ethereal"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
