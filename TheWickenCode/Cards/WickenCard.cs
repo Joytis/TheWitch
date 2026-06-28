@@ -3,7 +3,6 @@ using BaseLib.Extensions;
 using BaseLib.Utils;
 using TheWicken.TheWickenCode.Character;
 using TheWicken.TheWickenCode.Extensions;
-using TheWicken.TheWickenCode.Monsters;
 using TheWicken.TheWickenCode.Powers;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -52,21 +51,6 @@ public abstract class WickenCard(int cost, CardType type, CardRarity rarity, Tar
 		}
 		return list;
 	}
-
-    /// <summary>
-    /// Spawn the cosmetic pet sprite for a familiar near the player (like Byrdpip's Byrd).
-    /// Purely visual — the familiar's mechanics live on its token-cards. The pet is
-    /// combat-scoped, so it disappears at combat end. Guards against stacking duplicates
-    /// when the same familiar is replayed in one combat; drop the guard for one-per-play.
-    /// </summary>
-    protected static async Task SummonFamiliarPet<TPet>(Player owner) where TPet : WickenPet
-    {
-        // Only in combat (PlayerCombatState != null), and not if this pet is already out.
-        if (owner.PlayerCombatState is { } combat && combat.GetPet<TPet>() == null)
-        {
-            await PlayerCmd.AddPet<TPet>(owner);
-        }
-    }
 
     /// <summary>
     /// Register that this card summoned a familiar by applying one stack of its <typeparamref name="TPower" />

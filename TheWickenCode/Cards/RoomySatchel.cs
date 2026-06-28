@@ -2,13 +2,14 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Roomy Satchel: gain potion slots via <see cref="PlayerCmd.GainMaxPotionCount" />. NOTE: this raises the
-/// run-level max potion count (persists beyond combat). If repeatable stacking is undesired, scope it to
-/// combat (revert on combat end) — see plan doc.
+/// Roomy Satchel: gain potion slots for this combat only. We grant the slots now
+/// (<see cref="PlayerCmd.GainMaxPotionCount" />) and apply <see cref="RoomySatchelPower" /> to remember how many;
+/// that power reverts them at combat end, so the bonus capacity — and any potion overflowing it — is lost.
 /// </summary>
 public sealed class RoomySatchel : WickenCard
 {
@@ -24,7 +25,9 @@ public sealed class RoomySatchel : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-        await PlayerCmd.GainMaxPotionCount(DynamicVars["Slots"].IntValue, Owner);
+        int slots = DynamicVars["Slots"].IntValue;
+        await PlayerCmd.GainMaxPotionCount(slots, Owner);
+        await PowerCmd.Apply<RoomySatchelPower>(choiceContext, Owner.Creature, slots, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => DynamicVars["Slots"].UpgradeValueBy(1m);

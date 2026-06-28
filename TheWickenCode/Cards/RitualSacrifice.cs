@@ -12,7 +12,7 @@ public sealed class RitualSacrifice : WickenCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(20m, ValueProp.Move)
+        new BlockVar(25m, ValueProp.Move)
     ];
 
     public RitualSacrifice()

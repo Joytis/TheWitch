@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Round up every familiar token-card from your draw and discard piles into your hand.</summary>
+/// <summary>Round up every familiar summon Power card (an <see cref="IFamiliarSummon" />) from your draw and discard piles into your hand.</summary>
 public sealed class PactOfBeasts : WickenCard
 {
     public PactOfBeasts()
@@ -18,7 +18,7 @@ public sealed class PactOfBeasts : WickenCard
     {
         List<CardModel> familiars = PileType.Draw.GetPile(Owner).Cards
             .Concat(PileType.Discard.GetPile(Owner).Cards)
-            .Where(c => c is WickenFamiliarCard)
+            .Where(c => c is IFamiliarSummon)
             .ToList();
         if (familiars.Count > 0)
         {

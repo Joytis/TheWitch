@@ -6,13 +6,13 @@ using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>The next potion you brew comes out Rare. Exhausts.</summary>
+/// <summary>Copy the next potion you create this combat. Exhausts.</summary>
 public sealed class GatherHerbs : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<NextPotionRarePower>(),
+        HoverTipFactory.FromPower<NextPotionCopiedPower>(),
     ];
 
     public GatherHerbs()
@@ -23,7 +23,7 @@ public sealed class GatherHerbs : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<NextPotionRarePower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<NextPotionCopiedPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);

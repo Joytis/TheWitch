@@ -10,9 +10,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Soul Knot: whenever the owner takes (unblocked) damage, every enemy takes that much damage too. The splash
-/// uses raw <c>CreatureCmd.Damage</c> against enemies only, so it never recurses back into
-/// <see cref="AfterDamageReceived" /> on the owner.
+/// Soul Knot: whenever an attack lands on the owner — whether it eats block or HP — every enemy takes that
+/// much damage too (see <see cref="DamageResult.TotalDamage" />). The splash uses raw <c>CreatureCmd.Damage</c>
+/// against enemies only, so it never recurses back into <see cref="AfterDamageReceived" /> on the owner.
 /// </summary>
 public sealed class SoulKnotPower : WickenPower
 {
@@ -22,7 +22,7 @@ public sealed class SoulKnotPower : WickenPower
 
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target != Owner || result.UnblockedDamage <= 0 || Owner.CombatState is not { } combat)
+        if (target != Owner || result.TotalDamage <= 0 || Owner.CombatState is not { } combat)
         {
             return;
         }
@@ -33,7 +33,7 @@ public sealed class SoulKnotPower : WickenPower
             .ToList();
         if (enemies.Count > 0)
         {
-            await CreatureCmd.Damage(choiceContext, enemies, result.UnblockedDamage, ValueProp.Unpowered, Owner, null);
+            await CreatureCmd.Damage(choiceContext, enemies, result.TotalDamage, ValueProp.Unpowered, Owner, null);
         }
     }
 }

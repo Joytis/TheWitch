@@ -10,7 +10,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class SomethingWicked : WickenCard
 {
     public SomethingWicked()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 
@@ -29,5 +29,10 @@ public sealed class SomethingWicked : WickenCard
         {
             await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
         }
+    }
+
+    protected override void OnUpgrade()
+    {
+        EnergyCost.UpgradeBy(-1);
     }
 }

@@ -16,7 +16,7 @@
       },
       "upgrade": "Brambles +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -33,7 +33,7 @@
       },
       "upgrade": "Block +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -50,7 +50,7 @@
       },
       "upgrade": "Damage +3",
       "note": "ExtractEssence: deal damage; on unblocked damage, create a Common potion themed around the enemy hit (offensive enemy -> offensive potion, blocker -> defensive, debuffer -> utility).",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -67,7 +67,7 @@
       },
       "upgrade": "Damage +3",
       "note": "The only difference between the starting Strike cards are portrait, attack vfx, and color.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -135,7 +135,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Brew: attempts to merge the first two potions in the player's belt into a higher-rarity one (see <see cref=\"PotionMerge\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -152,7 +152,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -163,24 +163,9 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Create a Villainous Brew.",
+      "text": "Create a Wicked Brew.",
       "numbers": {},
       "upgrade": "none",
-      "note": "",
-      "tested": false,
-      "artFinal": false
-    },
-    {
-      "name": "Dance Around the Cauldron",
-      "entry": "DANCE_AROUND_THE_CAULDRON",
-      "file": "TheWickenCode/Cards/DanceAroundTheCauldron.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Common",
-      "target": "Self",
-      "text": "Whenever you play a Skill this turn, make a Wicked Brew.",
-      "numbers": {},
-      "upgrade": "Cost -1",
       "note": "",
       "tested": false,
       "artFinal": false
@@ -200,7 +185,7 @@
       },
       "upgrade": "Brambles +1, Cards +1",
       "note": "Fertilize (renamed from Serrated Bones): gain Brambles and upgrade random card(s) in your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -218,7 +203,7 @@
       },
       "upgrade": "Damage +5, Weak +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -229,7 +214,7 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "The next Potion you create is Rare.",
+      "text": "Create a copy of the next Potion you create.",
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "",
@@ -251,7 +236,7 @@
       },
       "upgrade": "Brambles +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -268,7 +253,7 @@
       },
       "upgrade": "Block +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -285,7 +270,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -302,7 +287,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -320,7 +305,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -335,20 +320,20 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Queries the potion catalog for a defensive potion of the appropriate rarity.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
       "name": "Something Wicked",
       "entry": "SOMETHING_WICKED",
       "file": "TheWickenCode/Cards/SomethingWicked.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
       "text": "Create an offensive Potion.",
       "numbers": {},
-      "upgrade": "none",
+      "upgrade": "Cost -1",
       "note": "Respects Gather Herbs (rare) and upgrade-rarity effects when rolling the offensive potion.",
       "tested": false,
       "artFinal": false
@@ -368,7 +353,7 @@
       },
       "upgrade": "Block +3, Brambles +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -379,7 +364,7 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Each of your Familiars deals 5 damage to the enemy.",
+      "text": "Deal 5 damage for each of your Familiars.",
       "numbers": {
         "Damage": 5
       },
@@ -400,7 +385,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Respects Gather Herbs (rare) and upgrade-rarity effects when rolling the utility potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -417,7 +402,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -436,7 +421,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -453,7 +438,7 @@
       },
       "upgrade": "Block +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -470,7 +455,7 @@
       },
       "upgrade": "none",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -504,7 +489,7 @@
       },
       "upgrade": "PerBramble +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -515,11 +500,11 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 4 damage for each Bramble, then lose all Brambles.",
+      "text": "Deal 6 damage for each Bramble, then lose all Brambles.",
       "numbers": {
-        "Damage": 4
+        "Damage": 6
       },
-      "upgrade": "Damage +1",
+      "upgrade": "Damage +2",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
       "tested": false,
       "artFinal": false
@@ -536,7 +521,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Summons a cosmetic cat pet alongside the familiar power.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -554,7 +539,7 @@
       },
       "upgrade": "Block +2, Weak +1",
       "note": "Multiplayer-only. Co-op rot ritual (MP-only): you and every ally hunker down (Block) but soak up the rot (Weak), while all enemies choke on it too.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -571,7 +556,7 @@
       },
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -588,7 +573,7 @@
       },
       "upgrade": "Brambles +2",
       "note": "Multiplayer-only. Co-op (MP-only): spend X energy to fling 5 Brambles onto a random ally, X times — the brambles scatter across the team.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -605,7 +590,7 @@
       },
       "upgrade": "CursedBloodlinePower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -622,7 +607,7 @@
       },
       "upgrade": "CursedBottlesPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -633,31 +618,12 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 4 damage twice. When you use your next Potion this turn, add a copy of it to your belt.",
+      "text": "Deal 4 damage twice. The next time you use a Potion, create a copy of it.",
       "numbers": {
         "Damage": 4
       },
       "upgrade": "Damage +2",
       "note": "",
-      "tested": false,
-      "artFinal": false
-    },
-    {
-      "name": "Favorite Spellbook",
-      "entry": "FAVORITE_SPELLBOOK",
-      "file": "TheWickenCode/Cards/FavoriteSpellbook.cs",
-      "cost": 0,
-      "type": "Skill",
-      "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Gain 2 Brambles. Draw 1 card. Gain 1. Create a Wicked Brew.",
-      "numbers": {
-        "Brambles": 2,
-        "Cards": 1,
-        "Energy": 1
-      },
-      "upgrade": "custom (see code)",
-      "note": "Exhausts until upgraded.",
       "tested": false,
       "artFinal": false
     },
@@ -669,12 +635,12 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Add 1 Familiar card from your draw or discard pile to your hand.",
+      "text": "Add 1 Familiar power from your draw or discard pile to your hand.",
       "numbers": {
         "Cards": 1
       },
       "upgrade": "Cards +1",
-      "note": "Tutor: choose a <see cref=\"WickenFamiliarCard\" /> from your draw or discard pile and add it to your hand.",
+      "note": "Tutor: choose a familiar summon Power card (an <see cref=\"IFamiliarSummon\" />) from your draw or discard pile and add it to your hand.",
       "tested": false,
       "artFinal": false
     },
@@ -693,7 +659,7 @@
       },
       "upgrade": "custom (see code)",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -710,22 +676,7 @@
       },
       "upgrade": "Cards +2",
       "note": "Light the Candle: upgrade random cards in your hand (those upgrades also fire Bursting Roots / Twinroot), then create a Vial of Smoke.",
-      "tested": false,
-      "artFinal": false
-    },
-    {
-      "name": "Needle Whip",
-      "entry": "NEEDLE_WHIP",
-      "file": "TheWickenCode/Cards/NeedleWhip.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Uncommon",
-      "target": "AllEnemies",
-      "text": "Lose all Brambles. ALL enemies lose that much Strength this turn.",
-      "numbers": {},
-      "upgrade": "none",
-      "note": "Strength reduction equals your current Bramble count; does nothing with no Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -740,7 +691,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Summons a cosmetic owl pet alongside the familiar power.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -757,7 +708,7 @@
       },
       "upgrade": "Vulnerable +2, StrengthLoss +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -775,7 +726,7 @@
       },
       "upgrade": "StrengthPower +2",
       "note": "Multiplayer-only.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -790,7 +741,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -801,9 +752,9 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Sacrifice a Familiar. Gain 20 Block.",
+      "text": "Sacrifice a Familiar. Gain 25 Block.",
       "numbers": {
-        "Block": 20
+        "Block": 25
       },
       "upgrade": "Block +5",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
@@ -818,10 +769,10 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain {Slots:diff()} potion slots.",
+      "text": "Gain {Slots:diff()} potion slots until the end of combat.",
       "numbers": {},
       "upgrade": "Slots +1",
-      "note": "Roomy Satchel: gain potion slots via <see cref=\"PlayerCmd.GainMaxPotionCount\" />.",
+      "note": "Roomy Satchel: gain potion slots for this combat only.",
       "tested": false,
       "artFinal": false
     },
@@ -839,7 +790,7 @@
       },
       "upgrade": "Brambles +1",
       "note": "Applies the Bursting Roots power.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -856,7 +807,7 @@
       },
       "upgrade": "RottingRootsPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -871,7 +822,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Multiplayer-only.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -886,7 +837,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -904,7 +855,7 @@
       },
       "upgrade": "Block +5, Vulnerable +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -921,7 +872,7 @@
       },
       "upgrade": "ViciousBarbsPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -936,7 +887,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "Exhausts (until upgraded).",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -951,7 +902,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1047,7 +998,7 @@
       "numbers": {},
       "upgrade": "Heal +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1062,7 +1013,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1077,7 +1028,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1088,7 +1039,22 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon a Crow Familiar. At the start of your turn, add a Scout to your hand.",
+      "text": "Summon a Crow Familiar. At the start of your turn, add a Scout Weakness, Claw Eyes, or Shiny! to your hand.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "",
+      "tested": false,
+      "artFinal": false
+    },
+    {
+      "name": "Dance Around the Cauldron",
+      "entry": "DANCE_AROUND_THE_CAULDRON",
+      "file": "TheWickenCode/Cards/DanceAroundTheCauldron.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you play a Skill this turn, make a Wicked Brew.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1103,11 +1069,30 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Transform all cards in your hand into random Familiar powers. They cost 0 this combat.",
+      "text": "Transform all cards in your hand into random Familiar cards. They cost 0 this combat.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
       "tested": false,
+      "artFinal": false
+    },
+    {
+      "name": "Favorite Spellbook",
+      "entry": "FAVORITE_SPELLBOOK",
+      "file": "TheWickenCode/Cards/FavoriteSpellbook.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 2 Brambles. Draw 1 card. Gain 1. Create a Wicked Brew.",
+      "numbers": {
+        "Brambles": 2,
+        "Cards": 1,
+        "Energy": 1
+      },
+      "upgrade": "custom (see code)",
+      "note": "Exhausts until upgraded.",
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1122,7 +1107,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1139,7 +1124,7 @@
       },
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1150,7 +1135,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Put all Familiar cards from your draw and discard piles into your hand.",
+      "text": "Put all Familiar powers from your draw and discard piles into your hand.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1171,7 +1156,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1186,7 +1171,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1201,7 +1186,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1212,7 +1197,7 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you take damage, ALL enemies take that much damage.",
+      "text": "Whenever you are attacked, even to Block, ALL enemies take that much damage.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1231,6 +1216,23 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Exhausts.",
+      "tested": true,
+      "artFinal": false
+    },
+    {
+      "name": "Claw Eyes",
+      "entry": "CLAW_EYES",
+      "file": "TheWickenCode/Cards/Familiar/ClawEyes.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Token",
+      "target": "AnyEnemy",
+      "text": "Apply 1 Weak.",
+      "numbers": {
+        "Weak": 1
+      },
+      "upgrade": "Weak +1",
+      "note": "",
       "tested": false,
       "artFinal": false
     },
@@ -1249,7 +1251,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Cat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1260,7 +1262,7 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage, plus 5 for each Gnash played this combat.",
+      "text": "Deal 5 damage. Whenever a Gnash is played, all Gnash cards gain 5 damage.",
       "numbers": {
         "Damage": 5
       },
@@ -1283,7 +1285,7 @@
       },
       "upgrade": "Block +5, Heal +2",
       "note": "Bear familiar token; exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1301,7 +1303,7 @@
       },
       "upgrade": "Block +3",
       "note": "Sloth familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1318,7 +1320,7 @@
       },
       "upgrade": "Damage +10",
       "note": "Bear familiar token: heavy hit that ignores Block.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1335,7 +1337,7 @@
       },
       "upgrade": "StrengthLoss +1",
       "note": "Rat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1353,7 +1355,7 @@
       },
       "upgrade": "Damage +1, Brambles +2",
       "note": "Porcupine familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     },
     {
@@ -1370,24 +1372,38 @@
       },
       "upgrade": "none",
       "note": "Pocket Rats token; exhausts.",
+      "tested": true,
+      "artFinal": false
+    },
+    {
+      "name": "Scout Weakness",
+      "entry": "SCOUT_WEAKNESS",
+      "file": "TheWickenCode/Cards/Familiar/ScoutWeakness.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Token",
+      "target": "AnyEnemy",
+      "text": "Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1
+      },
+      "upgrade": "Vulnerable +1",
+      "note": "",
       "tested": false,
       "artFinal": false
     },
     {
-      "name": "Scout",
-      "entry": "SCOUT",
-      "file": "TheWickenCode/Cards/Familiar/Scout.cs",
-      "cost": 1,
+      "name": "Shiny!",
+      "entry": "SHINY",
+      "file": "TheWickenCode/Cards/Familiar/Shiny.cs",
+      "cost": 0,
       "type": "Skill",
       "rarity": "Token",
-      "target": "AnyEnemy",
-      "text": "Apply 2 Vulnerable and 1 Weak. Gain {Gold:diff()} gold.",
-      "numbers": {
-        "Vulnerable": 2,
-        "Weak": 1
-      },
+      "target": "Self",
+      "text": "Gain {Gold:diff()} gold.",
+      "numbers": {},
       "upgrade": "Gold +5",
-      "note": "Crow familiar token; exhausts.",
+      "note": "",
       "tested": false,
       "artFinal": false
     },
@@ -1405,7 +1421,7 @@
       },
       "upgrade": "none",
       "note": "Owl familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false
     }
   ]

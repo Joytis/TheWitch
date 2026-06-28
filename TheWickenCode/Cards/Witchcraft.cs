@@ -19,11 +19,10 @@ public sealed class Witchcraft : WickenCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-
         int count = ResolveEnergyXValue() + (IsUpgraded ? 1 : 0);
         for (int i = 0; i < count; i++)
         {
+            await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
             await PotionCmd.TryToProcure(
                 PotionFactory.CreateRandomPotionInCombat(Owner, Owner.RunState.Rng.CombatPotionGeneration).ToMutable(),
                 Owner);

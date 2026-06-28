@@ -9,9 +9,9 @@ using MegaCrit.Sts2.Core.Models;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Tutor: choose a <see cref="WickenFamiliarCard" /> from your draw or discard pile and add it to your hand.
-/// Free to play. If you have no Familiar cards, the card does nothing and just discards — it never opens an
-/// empty selection screen, which is what previously soft-locked the game.
+/// Tutor: choose a familiar summon Power card (an <see cref="IFamiliarSummon" />) from your draw or discard
+/// pile and add it to your hand. Free to play. If you have no Familiar powers, the card does nothing and just
+/// discards — it never opens an empty selection screen, which is what previously soft-locked the game.
 /// </summary>
 public sealed class FindFamiliar : WickenCard
 {
@@ -29,7 +29,7 @@ public sealed class FindFamiliar : WickenCard
         // "Your deck" during combat = draw + discard piles.
         List<CardModel> familiars = PileType.Draw.GetPile(Owner).Cards
             .Concat(PileType.Discard.GetPile(Owner).Cards)
-            .Where(c => c is WickenFamiliarCard)
+            .Where(c => c is IFamiliarSummon)
             .ToList();
 
         // No familiar to find -> do nothing (card discards normally). Guard the selector so it never opens empty.
