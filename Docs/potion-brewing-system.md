@@ -3,6 +3,15 @@
 > Design record for TheWicken's potion classification + brewing feature.
 > Code lives in [`TheWickenCode/Potions/Brewing/`](../TheWickenCode/Potions/Brewing/).
 
+> **⚠️ SUPERSEDED — orientation only.** The fine-grained `PotionTrait` `[Flags]` taxonomy described below was
+> **removed**. The system now classifies every potion into a single `PotionOrientation` (Offensive / Defensive /
+> Utility / Neutral) and brews/upgrades by orientation alone — matching on sub-traits made the candidate pools too
+> narrow (a Heal potion only ever upgraded into the one Uncommon healer). `PotionTraits.OrientationOf(potion)`
+> replaces `PotionTraits.Of`; `PotionCatalog.Query(orientation:, …)` replaces the trait filters; `BrewBook` matches
+> on shared orientation → rarity fallback; `PotionUpgrade.UpgradeRandomPotions` upgrades by brewing a potion with
+> itself. The authoritative `PotionTraits.Manual` table now maps `Type → PotionOrientation` (with a `// description`
+> per row). The *motivation* and *brewing rules* below still apply; mentally substitute "orientation" for "trait".
+
 ## Why this exists
 
 Potions are a **core identity** of TheWicken. The character needs to:

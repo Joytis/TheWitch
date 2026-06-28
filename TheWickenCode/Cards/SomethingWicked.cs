@@ -22,7 +22,7 @@ public sealed class SomethingWicked : WickenCard
         rarity = await NextPotionRarePower.MakeNextRare(Owner, rarity);
         rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, rarity);
         var potion = PotionCatalog.Random(
-            PotionCatalog.Query(PotionTrait.Offensive, matchAll: false, rarity: rarity),
+            PotionCatalog.Query(orientation: PotionOrientation.Offensive, rarity: rarity),
             Owner.RunState.Rng.CombatPotionGeneration);
 
         if (potion != null)
