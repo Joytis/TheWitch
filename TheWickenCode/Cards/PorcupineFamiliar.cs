@@ -9,7 +9,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class PorcupineFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Quills>(false),
+        HoverTipFactory.FromCard<Quills>(IsUpgraded),
     ];
 
     public PorcupineFamiliar()

@@ -9,7 +9,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class SlothFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Laze>(false),
+        HoverTipFactory.FromCard<Laze>(IsUpgraded),
     ];
 
     public SlothFamiliar()

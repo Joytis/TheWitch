@@ -14,5 +14,5 @@ public sealed class ChimeraFamiliarPower : FamiliarPower
     protected override WickenPet Pet => ModelDb.Monster<ChimeraPet>();
 
     protected override CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng) =>
-        FamiliarCardRegistry.CreateRandom(owner, 1, combat, rng, false).First();
+        FamiliarCardRegistry.CreateRandom(owner, 1, combat, rng, GrantsUpgradedCards).First();
 }

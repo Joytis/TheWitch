@@ -34,11 +34,18 @@ New PNGs are imported automatically; `dotnet publish` invokes Godot, which
 writes the .import sidecars before packing the .pck.
 
 Usage:
-    py tools/gen-image-sizes.py                 # both categories, scale 4
+    py tools/gen-image-sizes.py big/a_little_sip.png  # scale ONE big -> small
+    py tools/gen-image-sizes.py                 # bulk: both sizes, all categories
     py tools/gen-image-sizes.py --dry-run       # show what would happen
     py tools/gen-image-sizes.py --category powers
     py tools/gen-image-sizes.py --scale 4 --force
     py tools/gen-image-sizes.py --nearest       # nearest-neighbour (pixel art)
+
+Single-image mode (a big-image path argument) downscales just that one file to
+its small counterpart -- the same path with the 'big/' folder removed. If the
+small already exists its exact dimensions are reused (so per-category sizes like
+the 256->94 relic icons round-trip); otherwise it falls back to 1/scale. This is
+the quick "I just authored big/foo.png, make its small" task.
 """
 from __future__ import annotations
 
@@ -133,6 +140,65 @@ def resize(src: Path, dst: Path, factor: float, resample, dry_run: bool) -> None
         out.save(dst)
 
 
+def resize_exact(src: Path, dst: Path, target: tuple[int, int], resample,
+                 dry_run: bool) -> None:
+    """Downscale src to an explicit target (w, h)."""
+    with Image.open(src) as img:
+        rel_src = src.relative_to(REPO_ROOT)
+        rel_dst = dst.relative_to(REPO_ROOT)
+        print(f"  downscale {img.size[0]}x{img.size[1]} -> {target[0]}x{target[1]}"
+              f"  {rel_src}  ->  {rel_dst}")
+        if dry_run:
+            return
+        out = img.resize(target, resample)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        out.save(dst)
+
+
+def small_path_for_big(big_path: Path) -> Path:
+    """The small counterpart of a big image: the same path with the 'big/'
+    folder segment removed (card_portraits/big/familiar/x.png ->
+    card_portraits/familiar/x.png; powers/big/x.png -> powers/x.png; etc.)."""
+    parts = list(big_path.parts)
+    if "big" not in parts:
+        sys.exit(f"Not a 'big' image (no 'big/' folder in path): {big_path}")
+    parts.remove("big")  # the first 'big' segment is the size mirror
+    return Path(*parts)
+
+
+def resolve_big(arg: str) -> Path:
+    """Resolve a user-supplied big-image argument to an actual file. Accepts an
+    absolute path, a repo-relative path, an images-root-relative path (e.g.
+    'card_portraits/big/foo.png'), or just 'big/foo.png' / 'foo.png' — in which
+    case we glob for a unique match under any 'big/' folder."""
+    for cand in (Path(arg), REPO_ROOT / arg, IMAGES_ROOT / arg):
+        if cand.is_file():
+            return cand.resolve()
+    base = Path(arg).name
+    matches = sorted({p.resolve() for p in IMAGES_ROOT.glob(f"**/big/**/{base}")})
+    if len(matches) == 1:
+        return matches[0]
+    if len(matches) > 1:
+        rels = ", ".join(str(m.relative_to(REPO_ROOT)) for m in matches)
+        sys.exit(f"Ambiguous big image '{arg}' — matches: {rels}. Pass a fuller path.")
+    sys.exit(f"Big image not found: {arg}")
+
+
+def scale_one_big(arg: str, scale: float, resample, dry_run: bool) -> int:
+    """Downscale a single big image to its small counterpart. If the small
+    already exists, match its dimensions exactly (preserves per-category sizes
+    like the 256->94 relic icons); otherwise fall back to 1/scale."""
+    big_path = resolve_big(arg)
+    small_path = small_path_for_big(big_path)
+    if small_path.exists():
+        with Image.open(small_path) as s:
+            target = s.size
+        resize_exact(big_path, small_path, target, resample, dry_run)
+    else:
+        resize(big_path, small_path, 1 / scale, resample, dry_run)
+    return 1
+
+
 def process_category(name: str, small_dir: Path, big_dir: Path, scale: float,
                      resample, force: bool, dry_run: bool) -> int:
     if not small_dir.exists():
@@ -169,6 +235,10 @@ def process_category(name: str, small_dir: Path, big_dir: Path, scale: float,
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("big_image", nargs="?",
+                        help="Scale a single big image down to its small variant "
+                             "and exit (e.g. 'big/a_little_sip.png'). Without this, "
+                             "runs the bulk both-sizes pass over all categories.")
     parser.add_argument("--category", choices=sorted(CATEGORIES),
                         help="Only process this category (default: all).")
     parser.add_argument("--scale", type=float, default=4.0,
@@ -189,6 +259,15 @@ def main() -> int:
         sys.exit("--scale must be > 0")
 
     resample = Image.NEAREST if args.nearest else Image.LANCZOS
+
+    # Single-image mode: scale just the one big image down to its small variant.
+    if args.big_image:
+        total = scale_one_big(args.big_image, args.scale, resample, args.dry_run)
+        print()
+        print(f"{'Dry run: ' if args.dry_run else ''}{total} variant(s)"
+              f"{' would be' if args.dry_run else ''} generated.")
+        return 0
+
     cats = {args.category: CATEGORIES[args.category]} if args.category else CATEGORIES
 
     # Seed placeholders first so the round-trip pass below upscales them to big/.

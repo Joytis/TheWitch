@@ -9,7 +9,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class WolfFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Gnash>(false),
+        HoverTipFactory.FromCard<Gnash>(IsUpgraded),
     ];
 
     public WolfFamiliar()
@@ -22,6 +22,4 @@ public sealed class WolfFamiliar : WickenCard, IFamiliarSummon
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
         await GainFamiliar<WolfFamiliarPower>(choiceContext);
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -9,8 +9,6 @@ namespace TheWicken.TheWickenCode.Cards;
 /// <summary>Pocket Rats token: tiny attack with a lifesteal nibble. Exhausts.</summary>
 public sealed class Rats : WickenFamiliarCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(5m, ValueProp.Move),
         new DynamicVar("Heal", 1m)

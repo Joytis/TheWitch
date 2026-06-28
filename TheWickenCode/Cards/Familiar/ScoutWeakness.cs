@@ -10,8 +10,6 @@ namespace TheWicken.TheWickenCode.Cards;
 /// <summary>Crow familiar token: apply Vulnerable to an enemy. Exhausts.</summary>
 public sealed class ScoutWeakness : WickenFamiliarCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<VulnerablePower>(),
     ];

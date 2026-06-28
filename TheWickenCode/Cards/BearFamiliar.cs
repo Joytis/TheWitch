@@ -9,8 +9,8 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class BearFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Hibernate>(false),
-        HoverTipFactory.FromCard<Mutilate>(false),
+        HoverTipFactory.FromCard<Hibernate>(IsUpgraded),
+        HoverTipFactory.FromCard<Mutilate>(IsUpgraded),
     ];
 
     public BearFamiliar()

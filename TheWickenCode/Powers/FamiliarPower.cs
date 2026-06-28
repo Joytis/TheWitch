@@ -32,7 +32,13 @@ public abstract class FamiliarPower : WickenPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    /// <summary>Create one (un-upgraded) real combat card this familiar can produce, chosen at random if it has several.</summary>
+    /// <summary>
+    /// When true, the token cards this familiar produces come out Upgraded. Set by <c>WickenCard.GainFamiliar</c>
+    /// when an upgraded familiar summon card is played — sticky once any upgraded summon has applied this power.
+    /// </summary>
+    public bool GrantsUpgradedCards { get; set; }
+
+    /// <summary>Create one real combat card this familiar can produce (Upgraded per <see cref="GrantsUpgradedCards" />), chosen at random if it has several.</summary>
     protected abstract CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng);
 
     /// <summary>
@@ -54,7 +60,9 @@ public abstract class FamiliarPower : WickenPower
         for (int i = 0; i < Amount; i++)
         {
             CardModel card = CreateTurnStartCard(player, combat, rng);
-            await CardPileCmd.Add(card, PileType.Hand);
+            // Use the "generated" path (not a plain Add) so the card counts as created — records combat
+            // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
         }
     }
 
@@ -102,7 +110,7 @@ public abstract class FamiliarPower : WickenPower
 public abstract class FamiliarPower<TCard> : FamiliarPower where TCard : WickenFamiliarCard
 {
     protected override CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng) =>
-        WickenCard.CreateFamiliarCards<TCard>(owner, 1, combat, false).First();
+        WickenCard.CreateFamiliarCards<TCard>(owner, 1, combat, GrantsUpgradedCards).First();
 }
 
 /// <summary>
@@ -112,7 +120,7 @@ public abstract class FamiliarPower<TCard> : FamiliarPower where TCard : WickenF
 /// </summary>
 public sealed class FamiliarLootTable
 {
-    private readonly List<(int Weight, Func<Player, ICombatState, CardModel> Create)> _entries = [];
+    private readonly List<(int Weight, Func<Player, ICombatState, bool, CardModel> Create)> _entries = [];
     private int _totalWeight;
 
     /// <summary>Register a card type the familiar can roll, with optional relative <paramref name="weight" /> (default 1).</summary>
@@ -123,13 +131,13 @@ public sealed class FamiliarLootTable
             throw new ArgumentOutOfRangeException(nameof(weight), "Loot-table weight must be positive.");
         }
 
-        _entries.Add((weight, (owner, combat) => WickenCard.CreateFamiliarCards<TCard>(owner, 1, combat, false).First()));
+        _entries.Add((weight, (owner, combat, upgraded) => WickenCard.CreateFamiliarCards<TCard>(owner, 1, combat, upgraded).First()));
         _totalWeight += weight;
         return this;
     }
 
-    /// <summary>Roll one real combat card from the table, weighted by each entry's weight.</summary>
-    public CardModel Roll(Player owner, ICombatState combat, Rng rng)
+    /// <summary>Roll one real combat card from the table, weighted by each entry's weight (Upgraded if <paramref name="upgraded" />).</summary>
+    public CardModel Roll(Player owner, ICombatState combat, Rng rng, bool upgraded)
     {
         if (_entries.Count == 0)
         {
@@ -137,17 +145,17 @@ public sealed class FamiliarLootTable
         }
 
         int roll = rng.NextInt(_totalWeight);
-        foreach ((int weight, Func<Player, ICombatState, CardModel> create) in _entries)
+        foreach ((int weight, Func<Player, ICombatState, bool, CardModel> create) in _entries)
         {
             if (roll < weight)
             {
-                return create(owner, combat);
+                return create(owner, combat, upgraded);
             }
 
             roll -= weight;
         }
 
-        return _entries[^1].Create(owner, combat); // unreachable; satisfies the compiler
+        return _entries[^1].Create(owner, combat, upgraded); // unreachable; satisfies the compiler
     }
 }
 
@@ -164,5 +172,5 @@ public abstract class LootTableFamiliarPower : FamiliarPower
     protected abstract FamiliarLootTable BuildLootTable();
 
     protected override CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng) =>
-        (_lootTable ??= BuildLootTable()).Roll(owner, combat, rng);
+        (_lootTable ??= BuildLootTable()).Roll(owner, combat, rng, GrantsUpgradedCards);
 }
