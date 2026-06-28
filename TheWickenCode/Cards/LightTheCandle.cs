@@ -37,7 +37,7 @@ public sealed class LightTheCandle : WickenCard
         int count = DynamicVars.Cards.IntValue;
         for (int i = 0; i < count && upgradable.Count > 0; i++)
         {
-            CardModel pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(upgradable);
+            CardModel pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(upgradable)!;
             upgradable.Remove(pick);
             CardCmd.Upgrade(pick);
         }
