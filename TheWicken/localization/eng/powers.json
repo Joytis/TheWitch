@@ -70,5 +70,14 @@
   "THEWICKEN-BURSTING_ROOTS_POWER.smartDescription": "Whenever you upgrade a card in your hand, gain [blue]{Amount}[/blue] [gold]Brambles[/gold].",
   "THEWICKEN-NEXT_POTION_DOUBLED_POWER.description": "When you use a Potion, add a copy of it to your belt.",
   "THEWICKEN-NEXT_POTION_DOUBLED_POWER.smartDescription": "When you use your next [blue]{Amount}[/blue] {Amount:plural:Potion|Potions} this turn, add a copy of {Amount:plural:it|them} to your belt.",
-  "THEWICKEN-NEXT_POTION_DOUBLED_POWER.title": "Double, Double"
+  "THEWICKEN-NEXT_POTION_DOUBLED_POWER.title": "Double, Double",
+  "THEWICKEN-A_LITTLE_SIP_POWER.description": "Whenever you use a Potion, heal HP.",
+  "THEWICKEN-A_LITTLE_SIP_POWER.smartDescription": "Whenever you use a [gold]Potion[/gold], heal [blue]{Amount}[/blue] HP.",
+  "THEWICKEN-A_LITTLE_SIP_POWER.title": "A Little Sip",
+  "THEWICKEN-CURSED_BOTTLES_POWER.description": "Whenever you use a Potion, Hex a random enemy.",
+  "THEWICKEN-CURSED_BOTTLES_POWER.smartDescription": "Whenever you use a [gold]Potion[/gold], [gold]Hex[/gold] [blue]{Amount}[/blue] random {Amount:plural:enemy|enemies}.",
+  "THEWICKEN-CURSED_BOTTLES_POWER.title": "Cursed Bottles",
+  "THEWICKEN-HEX_POWER.description": "When this enemy next attacks, its attack also hits all other enemies and all players.",
+  "THEWICKEN-HEX_POWER.smartDescription": "The next [blue]{Amount}[/blue] {Amount:plural:time|times} this enemy attacks, its attack also hits all other enemies and all players.",
+  "THEWICKEN-HEX_POWER.title": "Hex"
 }

@@ -4,6 +4,61 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 15. New card: Cursed Bottles (+ Hex + Cursed Bottles powers)
+- **Done:** 2026-06-27
+- **Changed:** New `CursedBottles` (Power, Uncommon, 2) applies `CursedBottlesPower`: on each potion use, Hexes `Amount` random enemies (1, +1 on upgrade). New `HexPower` (enemy Counter debuff): on the hexed enemy's `AfterAttack`, splashes its attack's total damage to all OTHER enemies AND all players, then consumes one stack (raw `CreatureCmd.Damage`, no `AttackCommand` → no recursion).
+- **Decisions:** Hex semantics per user — "when the ENEMY next attacks, it damages all enemies as well as all players." Splash damage = sum of `command.Results` `TotalDamage`; targets = `GetOpponentsOf ∪ GetTeammatesOf` minus the attacker. Upgrade = +1 Hex per potion (random picks may repeat).
+- **Files:** new `Cards/CursedBottles.cs`, `Powers/CursedBottlesPower.cs`, `Powers/HexPower.cs`; `cards.json`, `powers.json`.
+- **Verified:** build 0/0. ⚠️ **Needs in-game playtest** — novel `AfterAttack` splash on an enemy-side power, MP framing ("all players"). Placeholder art.
+
+### 16. New card: Ambush!
+- **Done:** 2026-06-27
+- **Changed:** New `Ambush` (Attack, Rare, 3, AllEnemies, Exhaust): deal 20 to all enemies (upgrade +5), then "summon a random familiar" = apply a random `FamiliarPower` rolled from `ModelDb.AllPowers.OfType<FamiliarPower>()` via the non-generic `PowerCmd.Apply(power.ToMutable(), …)`.
+- **Decisions:** No cosmetic pet (only Owl/Cat have one). `Ambush` does **not** implement `IFamiliarSummon` (it's an Attack, shouldn't pollute Embrace-the-Wilds / Broom-Strike which target familiar *Power* cards).
+- **Files:** new `Cards/Ambush.cs`; `cards.json`.
+- **Verified:** build 0/0. ⚠️ Playtest the random-summon path. Placeholder art.
+
+### 17. New card: Pact of Fury (MP ally-buff)
+- **Done:** 2026-06-27
+- **Changed:** New `PactOfFury` (Skill, Uncommon, 1, MP-only, AllAllies): self gains 5 Weak; every *other* ally gains 2 Strength (upgrade →4). Mirrors `CircleOfRot`/`ShareTheBrew` teammate iteration, excluding self.
+- **Decisions:** Renamed from the colliding "Pact of Agony" per user (solo keeps the name — item 19; MP → **Pact of Fury**).
+- **Files:** new `Cards/PactOfFury.cs`; `cards.json`.
+- **Verified:** build 0/0. ⚠️ **MP-only — needs co-op playtest.** Placeholder art.
+
+### 18. New card: A Little Sip (+ power)
+- **Done:** 2026-06-27
+- **Changed:** New `ALittleSip` (Power, Rare, 2; upgrade cost →1) applies `ALittleSipPower` (Counter Buff): `AfterPotionUsed` → `CreatureCmd.Heal(Owner, Amount)` when the potion is yours. Heal = stack amount (1 per copy).
+- **Files:** new `Cards/ALittleSip.cs`, `Powers/ALittleSipPower.cs`; `cards.json`, `powers.json`.
+- **Verified:** build 0/0. ⚠️ runtime hook — playtest. Placeholder art.
+
+### 19. New card: Pact of Agony (solo)
+- **Done:** 2026-06-27
+- **Changed:** New `PactOfAgony` (Skill, Uncommon, 0): gain 3 Vulnerable (self), all enemies lose 2 Strength (upgrade 5 / 3). `StrengthLoss` applied as negative `StrengthPower` to `HittableEnemies` (mirrors `Plague`).
+- **Decisions:** Keeps the "Pact of Agony" name (MP version renamed to Pact of Fury). Rarity defaulted to Uncommon (note omitted it).
+- **Files:** new `Cards/PactOfAgony.cs`; `cards.json`.
+- **Verified:** build 0/0. Placeholder art.
+
+### 20. New card: Favorite Spellbook
+- **Done:** 2026-06-27
+- **Changed:** New `FavoriteSpellbook` (Skill, Uncommon, 0, Exhaust): gain 2 Brambles, draw 1, gain 1 energy, create a Wicked Brew; upgrade removes Exhaust.
+- **Decisions:** Rarity defaulted to Uncommon (note omitted it).
+- **Files:** new `Cards/FavoriteSpellbook.cs`; `cards.json`.
+- **Verified:** build 0/0. Placeholder art.
+
+### 21. New card: Light the Candle (+ Vial of Smoke potion)
+- **Done:** 2026-06-27
+- **Changed:** New `LightTheCandle` (Skill, Uncommon, 1): upgrade 2 random hand cards (upgrade →4), then create a `VialOfSmoke`. New `VialOfSmoke` potion (Token rarity, Self): gain Block. In-hand upgrades go through `CardCmd.Upgrade` (so they also fire Bursting Roots / Twinroot). Added `PotionTraits.Manual[VialOfSmoke] = Block` + updated the brewing-doc table.
+- **Decisions:** Card rarity defaulted to Uncommon. **Vial of Smoke Block = 1, taken literally from the note — almost certainly low (most potions give ~10); trivially tunable in `VialOfSmoke.cs`. Flagging for confirmation.**
+- **Files:** new `Cards/LightTheCandle.cs`, `Potions/VialOfSmoke.cs`; `cards.json`, `potions.json`, `Potions/Brewing/PotionTraits.cs`, `Docs/potion-brewing-system.md`.
+- **Verified:** build 0/0. ⚠️ Playtest. Placeholder art.
+
+### 22. New card: Witchcraft
+- **Done:** 2026-06-27
+- **Changed:** New `Witchcraft` (Skill, Rare, X-cost, Exhaust): create X random combat potions (upgrade → X+1) via `PotionFactory.CreateRandomPotionInCombat(Owner, …)` + `PotionCmd.TryToProcure`. `ResolveEnergyXValue()` for X; `IsUpgraded` adds the +1.
+- **Decisions:** Rarity defaulted to Rare (X-cost potion generation is strong). Potions are player-scoped (correct on-color pool).
+- **Files:** new `Cards/Witchcraft.cs`; `cards.json`.
+- **Verified:** build 0/0. Placeholder art.
+
 ### Kill Bitter Root (duplicate of Rotting Roots — user-directed)
 - **Done:** 2026-06-27
 - **Changed:** Removed the `BitterRoot` card + `BitterRootPower` (it had become functionally identical to Rotting Roots after item-13-era change) — `.cs`, `.cs.uid`, art, and localization in `cards.json` + `powers.json`. No code refs remained.

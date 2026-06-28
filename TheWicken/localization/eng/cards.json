@@ -142,5 +142,21 @@
   "THEWICKEN-GATHER_HERBS.title": "Gather Herbs",
   "THEWICKEN-GATHER_HERBS.description": "The next [gold]Potion[/gold] you create is [gold]Rare[/gold].",
   "THEWICKEN-DOUBLE_DOUBLE.title": "Double, Double",
-  "THEWICKEN-DOUBLE_DOUBLE.description": "Deal {Damage:diff()} damage twice. When you use your next [gold]Potion[/gold] this turn, add a copy of it to your belt."
+  "THEWICKEN-DOUBLE_DOUBLE.description": "Deal {Damage:diff()} damage twice. When you use your next [gold]Potion[/gold] this turn, add a copy of it to your belt.",
+  "THEWICKEN-AMBUSH.title": "Ambush!",
+  "THEWICKEN-AMBUSH.description": "Deal {Damage:diff()} damage to ALL enemies. Summon a random [gold]Familiar[/gold].",
+  "THEWICKEN-A_LITTLE_SIP.title": "A Little Sip",
+  "THEWICKEN-A_LITTLE_SIP.description": "Whenever you use a [gold]Potion[/gold], heal {ALittleSipPower:diff()} HP.",
+  "THEWICKEN-PACT_OF_AGONY.title": "Pact of Agony",
+  "THEWICKEN-PACT_OF_AGONY.description": "Gain {VulnerablePower:diff()} [gold]Vulnerable[/gold]. ALL enemies lose {StrengthLoss:diff()} [gold]Strength[/gold].",
+  "THEWICKEN-PACT_OF_FURY.title": "Pact of Fury",
+  "THEWICKEN-PACT_OF_FURY.description": "Gain {WeakPower:diff()} [gold]Weak[/gold]. Other allies gain {StrengthPower:diff()} [gold]Strength[/gold].",
+  "THEWICKEN-FAVORITE_SPELLBOOK.title": "Favorite Spellbook",
+  "THEWICKEN-FAVORITE_SPELLBOOK.description": "Gain {BramblesPower:diff()} [gold]Brambles[/gold]. Draw {Cards:diff()} {Cards:plural:card|cards}. Gain {Energy:energyIcons()}. Create a [gold]Wicked Brew[/gold].",
+  "THEWICKEN-LIGHT_THE_CANDLE.title": "Light the Candle",
+  "THEWICKEN-LIGHT_THE_CANDLE.description": "Upgrade {Cards:diff()} random {Cards:plural:card|cards} in your hand. Create a [gold]Vial of Smoke[/gold].",
+  "THEWICKEN-WITCHCRAFT.title": "Witchcraft",
+  "THEWICKEN-WITCHCRAFT.description": "Create [b]X[/b]{IfUpgraded:show:+1|} [gold]Potions[/gold].",
+  "THEWICKEN-CURSED_BOTTLES.title": "Cursed Bottles",
+  "THEWICKEN-CURSED_BOTTLES.description": "Whenever you use a [gold]Potion[/gold], [gold]Hex[/gold] {CursedBottlesPower:diff()} random {CursedBottlesPower:plural:enemy|enemies}."
 }
