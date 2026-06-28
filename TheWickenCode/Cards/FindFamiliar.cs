@@ -10,8 +10,10 @@ namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
 /// Tutor: choose a familiar summon Power card (an <see cref="IFamiliarSummon" />) from your draw or discard
-/// pile and add it to your hand. Free to play. If you have no Familiar powers, the card does nothing and just
-/// discards — it never opens an empty selection screen, which is what previously soft-locked the game.
+/// pile and add it to your hand. Free to play. Uses <c>CardSelectCmd.FromCombatPile</c> (the base-game tutor
+/// pattern — see Dredge) rather than <c>FromSimpleGrid</c>: the simple grid is for brand-new/reward cards and
+/// soft-locks when handed cards that already live in a combat pile. The selector is single-pile, so we point it
+/// at whichever pile actually holds familiars; with none, it returns empty and the card just discards.
 /// </summary>
 public sealed class FindFamiliar : WickenCard
 {
@@ -26,27 +28,21 @@ public sealed class FindFamiliar : WickenCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // "Your deck" during combat = draw + discard piles.
-        List<CardModel> familiars = PileType.Draw.GetPile(Owner).Cards
-            .Concat(PileType.Discard.GetPile(Owner).Cards)
-            .Where(c => c is IFamiliarSummon)
-            .ToList();
+        static bool IsFamiliar(CardModel c) => c is IFamiliarSummon;
 
-        // No familiar to find -> do nothing (card discards normally). Guard the selector so it never opens empty.
-        if (familiars.Count == 0)
-        {
-            return;
-        }
+        // The selector takes one combat pile; familiar summon (Power) cards live in the Draw pile in practice,
+        // but fall back to Discard so the tutor still works if one ended up there.
+        CardPile draw = PileType.Draw.GetPile(Owner);
+        CardPile pile = draw.Cards.Any(IsFamiliar) ? draw : PileType.Discard.GetPile(Owner);
 
-        List<CardModel> chosen = (await CardSelectCmd.FromSimpleGrid(
+        IEnumerable<CardModel> chosen = await CardSelectCmd.FromCombatPile(
             choiceContext,
-            familiars,
+            pile,
             Owner,
-            new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue))).ToList();
-        if (chosen.Count > 0)
-        {
-            await CardPileCmd.Add(chosen, PileType.Hand);
-        }
+            new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue),
+            IsFamiliar);
+
+        await CardPileCmd.Add(chosen, PileType.Hand);
     }
 
     // Already free; upgrade lets you pull an extra Familiar instead of cutting cost.

@@ -78,7 +78,7 @@
   "THEWICKEN-ROOMY_SATCHEL.title": "Roomy Satchel",
   "THEWICKEN-ROOMY_SATCHEL.description": "Gain {Slots:diff()} potion slots until the end of combat.",
   "THEWICKEN-PLAGUE.title": "Plague",
-  "THEWICKEN-PLAGUE.description": "Draw {Cards:diff()} {Cards:plural:card|cards}. You and ALL enemies lose {StrengthLoss:diff()} [gold]Strength[/gold].",
+  "THEWICKEN-PLAGUE.description": "You lose {StrengthLoss:diff()} [gold]Strength[/gold]. ALL enemies lose {EnemyStrengthLoss:diff()} [gold]Strength[/gold].",
   "THEWICKEN-QUILLS.title": "Quills",
   "THEWICKEN-QUILLS.description": "Deal {Damage:diff()} damage. Gain {BramblesPower:diff()} [gold]Brambles[/gold].",
   "THEWICKEN-HIBERNATE.title": "Hibernate",

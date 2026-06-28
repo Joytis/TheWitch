@@ -12,8 +12,8 @@ public sealed class BottleWall : WickenCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(5m, ValueProp.Move),
-        new DynamicVar("PerPotion", 4m)
+        new BlockVar(8m, ValueProp.Move),
+        new DynamicVar("PerPotion", 6m)
     ];
 
     public BottleWall()

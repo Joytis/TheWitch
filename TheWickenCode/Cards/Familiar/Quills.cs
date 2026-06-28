@@ -17,8 +17,8 @@ public sealed class Quills : WickenFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(3m, ValueProp.Move),
-        new PowerVar<BramblesPower>(8m)
+        new DamageVar(2m, ValueProp.Move),
+        new PowerVar<BramblesPower>(4m)
     ];
 
     public Quills()
