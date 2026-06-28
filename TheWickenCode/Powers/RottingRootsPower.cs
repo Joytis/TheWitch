@@ -8,9 +8,9 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Rotting Roots: whenever the player applies a Debuff to an enemy, gain <see cref="PowerModel.Amount" />
-/// Brambles. Listens to the global <c>AfterPowerAmountChanged</c> hook (delivered to every combat-hook
-/// model) and filters to debuffs the player inflicted on someone else.
+/// Rotting Roots: whenever the player uses a potion, gain <see cref="PowerModel.Amount" /> Brambles.
+/// <c>AfterPotionUsed</c> provides no PlayerChoiceContext, so the Brambles application uses a
+/// <see cref="ThrowingPlayerChoiceContext" />.
 /// </summary>
 public sealed class RottingRootsPower : WickenPower
 {
@@ -18,12 +18,12 @@ public sealed class RottingRootsPower : WickenPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
-        if (applier == Owner && power.Owner != Owner && power.Type == PowerType.Debuff && amount > 0m)
+        if (potion.Owner == Owner.Player)
         {
             Flash();
-            await PowerCmd.Apply<BramblesPower>(choiceContext, Owner, Amount, Owner, null);
+            await PowerCmd.Apply<BramblesPower>(new ThrowingPlayerChoiceContext(), Owner, Amount, Owner, null);
         }
     }
 }

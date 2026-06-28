@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwklhychclo61"
-path="res://.godot/imported/hexburst.png-6c9a95f251d94a3af296c37b1015d38e.ctex"
+uid="uid://kfn03jg6lru7"
+path="res://.godot/imported/buddy_in_a_bottle.png-e8760a8b6ebbab93c36ba1e522dca450.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/big/hexburst.png"
-dest_files=["res://.godot/imported/hexburst.png-6c9a95f251d94a3af296c37b1015d38e.ctex"]
+source_file="res://TheWicken/images/potions/buddy_in_a_bottle.png"
+dest_files=["res://.godot/imported/buddy_in_a_bottle.png-e8760a8b6ebbab93c36ba1e522dca450.ctex"]
 
 [params]
 

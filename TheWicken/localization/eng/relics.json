@@ -1,5 +1,8 @@
 {
   "THEWICKEN-LARGE_POCKETS.title": "Large Pockets",
   "THEWICKEN-LARGE_POCKETS.description": "Upon pickup, gain [blue]{PotionSlots}[/blue] potion {PotionSlots:plural:slot|slots}.",
-  "THEWICKEN-LARGE_POCKETS.flavor": "Deep pockets, deeper secrets — always room for one more bottle."
+  "THEWICKEN-LARGE_POCKETS.flavor": "Deep pockets, deeper secrets — always room for one more bottle.",
+  "THEWICKEN-TWINROOT.title": "Twinroot",
+  "THEWICKEN-TWINROOT.description": "Whenever you upgrade a card, add a copy of it to your deck.",
+  "THEWICKEN-TWINROOT.flavor": "Cut one root and two grow back — the hedge-witch's oldest trick."
 }

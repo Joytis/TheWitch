@@ -2,7 +2,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using TheWicken.TheWickenCode.Monsters;
 using TheWicken.TheWickenCode.Powers;
 
@@ -15,12 +14,8 @@ public sealed class OwlFamiliar : WickenCard, IFamiliarSummon
     {
     }
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new CardsVar(2)
-    ];
-
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Wisdom>(IsUpgraded)
+        HoverTipFactory.FromCard<Wisdom>(false)
     ];
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -28,8 +23,7 @@ public sealed class OwlFamiliar : WickenCard, IFamiliarSummon
 		await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
 		await GainFamiliar<OwlFamiliarPower>(choiceContext);
 		await SummonFamiliarPet<OwlPet>(Owner);
-		List<Wisdom> cards = CreateFamiliarCards<Wisdom>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
-        var cardsGenerated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Draw, Owner, CardPilePosition.Random);
-		CardCmd.PreviewCardPileAdd(cardsGenerated);
 	}
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -1,12 +1,10 @@
 {
-    "title":  "The Wicken",
-    "description":  "A custom character for Slay the Spire 2: The Wicken, a potion-brewing witch. Built on BaseLib.",
-    "visibility":  "private",
-    "changeNote":  "Phase 3 cards + potion brewing",
-    "tags":  [
-
-             ],
-    "dependencies":  [
-
-                     ]
+    "title": "The Wicken",
+    "description": "A custom character for Slay the Spire 2: The Wicken, a potion-brewing witch. Built on BaseLib.",
+    "visibility": "private",
+    "changeNote": "Initial Push - Pre-Alpha",
+    "tags": [],
+    "dependencies": [
+        3737335127
+    ]
 }

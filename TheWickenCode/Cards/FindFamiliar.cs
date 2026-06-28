@@ -3,31 +3,52 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Tutor: pull a chosen familiar token-card out of your draw pile into your hand.</summary>
+/// <summary>
+/// Tutor: choose a <see cref="WickenFamiliarCard" /> from your draw or discard pile and add it to your hand.
+/// Free to play. If you have no Familiar cards, the card does nothing and just discards — it never opens an
+/// empty selection screen, which is what previously soft-locked the game.
+/// </summary>
 public sealed class FindFamiliar : WickenCard
 {
     public FindFamiliar()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new CardsVar(1)
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        CardModel? chosen = (await CardSelectCmd.FromCombatPile(
-            prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
-            context: choiceContext,
-            pile: PileType.Draw.GetPile(Owner),
-            player: Owner,
-            filter: (CardModel c) => c is WickenFamiliarCard)).FirstOrDefault();
-        if (chosen != null)
+        // "Your deck" during combat = draw + discard piles.
+        List<CardModel> familiars = PileType.Draw.GetPile(Owner).Cards
+            .Concat(PileType.Discard.GetPile(Owner).Cards)
+            .Where(c => c is WickenFamiliarCard)
+            .ToList();
+
+        // No familiar to find -> do nothing (card discards normally). Guard the selector so it never opens empty.
+        if (familiars.Count == 0)
+        {
+            return;
+        }
+
+        List<CardModel> chosen = (await CardSelectCmd.FromSimpleGrid(
+            choiceContext,
+            familiars,
+            Owner,
+            new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue))).ToList();
+        if (chosen.Count > 0)
         {
             await CardPileCmd.Add(chosen, PileType.Hand);
         }
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    // Already free; upgrade lets you pull an extra Familiar instead of cutting cost.
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }

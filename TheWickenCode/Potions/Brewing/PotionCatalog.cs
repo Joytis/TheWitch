@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Random;
+using TheWicken.TheWickenCode.Character;
 
 namespace TheWicken.TheWickenCode.Potions.Brewing;
 
@@ -22,6 +24,15 @@ public static class PotionCatalog
     /// </summary>
     public static IEnumerable<PotionModel> Randomizable =>
         All.Where(p => p.Rarity is PotionRarity.Common or PotionRarity.Uncommon or PotionRarity.Rare);
+
+    /// <summary>
+    /// The potions the Wicken character can actually roll: the mod's own <see cref="WickenPotionPool" /> plus the
+    /// base-game <see cref="SharedPotionPool" />. Excludes other characters' pools (Defect/Ironclad/Silent/...) and
+    /// the Event/Token/Deprecated pools — mirrors how <c>PotionFactory.GetPotionOptions</c> builds a character's
+    /// options. Use this for any "make a potion" effect so off-color potions never leak in.
+    /// </summary>
+    public static IEnumerable<PotionModel> WickenAndShared =>
+        All.Where(p => p.Pool is WickenPotionPool or SharedPotionPool);
 
     /// <summary>Potions whose traits contain ALL of <paramref name="traits" />.</summary>
     public static IEnumerable<PotionModel> WithAll(PotionTrait traits) =>

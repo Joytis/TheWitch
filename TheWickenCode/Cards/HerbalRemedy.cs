@@ -11,6 +11,7 @@ public sealed class HerbalRemedy : WickenCard
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new CardsVar(1),
         new EnergyVar(1)
     ];
 
@@ -23,15 +24,11 @@ public sealed class HerbalRemedy : WickenCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        List<PotionModel> potions = Owner.Potions.ToList();
-        foreach (PotionModel potion in potions)
+        foreach (PotionModel potion in Owner.Potions.ToList())
         {
             await PotionCmd.Discard(potion);
-        }
-
-        if (potions.Count > 0)
-        {
-            await PlayerCmd.GainEnergy(potions.Count, Owner);
+            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
+            await PlayerCmd.GainEnergy(1, Owner);
         }
     }
 

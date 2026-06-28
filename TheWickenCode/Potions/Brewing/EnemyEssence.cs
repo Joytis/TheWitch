@@ -70,8 +70,11 @@ public static class EnemyEssence
         return PotionCatalog.Random(candidates, rng);
     }
 
+    // Only the Wicken + Shared pools (never other characters' Defect/Ironclad/etc. potions), Common rarity,
+    // and only potions that may legitimately be made mid-combat.
     private static IEnumerable<PotionModel> CombatCommons() =>
-        PotionCatalog.Query(rarity: PotionRarity.Common);
+        PotionCatalog.WickenAndShared
+            .Where(p => p.Rarity == PotionRarity.Common && p.CanBeGeneratedInCombat);
 
     private static IEnumerable<IntentType> CollectIntentTypes(Creature enemy)
     {

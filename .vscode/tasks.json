@@ -137,6 +137,37 @@
             "problemMatcher": [],
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
             "detail": "dotnet publish (export .pck + deploy) then launch a single Slay the Spire 2 instance."
+        },
+        {
+            "label": "Workshop: Bundle",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/bundle-workshop.ps1"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "dotnet publish (export .pck) + stage the mod into workshop/content. Run before deploying; does NOT upload."
+        },
+        {
+            "label": "Workshop: Deploy (upload to Steam)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/bundle-workshop.ps1",
+                "-SkipPublish", "-Upload",
+                "-ChangeNote", "${input:changeNote}"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "dependsOn": "Workshop: Bundle",
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it)."
         }
     ],
     "inputs": [
@@ -145,6 +176,12 @@
             "type": "promptString",
             "description": "Total players to launch (1 host + rest clients)",
             "default": "2"
+        },
+        {
+            "id": "changeNote",
+            "type": "promptString",
+            "description": "Steam Workshop change note for this upload (blank = leave unchanged)",
+            "default": ""
         }
     ]
 }

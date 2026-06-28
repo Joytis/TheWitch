@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://71e3u3u0d1un"
-path="res://.godot/imported/tiny_bottle.png-7c2ad07b4a526604bdacb54124b415ed.ctex"
+uid="uid://b8v6hrofyyjs5"
+path="res://.godot/imported/villainous_brew.png-2b9db07d208e36a3c9e4b6a3e3d2cc14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/tiny_bottle.png"
-dest_files=["res://.godot/imported/tiny_bottle.png-7c2ad07b4a526604bdacb54124b415ed.ctex"]
+source_file="res://TheWicken/images/potions/villainous_brew.png"
+dest_files=["res://.godot/imported/villainous_brew.png-2b9db07d208e36a3c9e4b6a3e3d2cc14.ctex"]
 
 [params]
 

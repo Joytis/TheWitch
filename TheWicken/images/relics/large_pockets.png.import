@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0ssmuvow0e3b"
-path="res://.godot/imported/witchs_curse.png-288822333be66527df182c6f5f089fcf.ctex"
+uid="uid://balvrh6fkgshl"
+path="res://.godot/imported/large_pockets.png-43be1b2b2c3b90c42319fc552efb1c0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/big/witchs_curse.png"
-dest_files=["res://.godot/imported/witchs_curse.png-288822333be66527df182c6f5f089fcf.ctex"]
+source_file="res://TheWicken/images/relics/large_pockets.png"
+dest_files=["res://.godot/imported/large_pockets.png-43be1b2b2c3b90c42319fc552efb1c0c.ctex"]
 
 [params]
 
