@@ -18,9 +18,13 @@ public sealed class StoneSkin : WickenCard
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
         var rarity = IsUpgraded ? PotionRarity.Uncommon : PotionRarity.Common;
-        var potionModel = PotionCatalog.Query(PotionTrait.Defensive, false, rarity).FirstOrDefault();
-        ArgumentNullException.ThrowIfNull(potionModel, "potionModel");
+        var potionModel = PotionCatalog.Random(
+            PotionCatalog.Query(orientation: PotionOrientation.Defensive, rarity: rarity),
+            Owner.RunState.Rng.CombatPotionGeneration);
 
-        await PotionCmd.TryToProcure(potionModel.ToMutable(), Owner);
+        if (potionModel != null)
+        {
+            await PotionCmd.TryToProcure(potionModel.ToMutable(), Owner);
+        }
     }
 }

@@ -8,151 +8,145 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace TheWicken.TheWickenCode.Potions.Brewing;
 
+/// <summary>Broad orientation of a potion — the single axis the brewing / "make a potion" system works on.</summary>
+public enum PotionOrientation
+{
+    /// <summary>No classifiable effect.</summary>
+    Neutral,
+    Offensive,
+    Defensive,
+    Utility,
+}
+
 /// <summary>
-/// Classifies any <see cref="PotionModel" /> (base-game or modded) into a set of <see cref="PotionTrait" />.
+/// Classifies any <see cref="PotionModel" /> (base-game or modded) into a single <see cref="PotionOrientation" />.
+///
+/// We deliberately work at the orientation level only — fine-grained effect tags were collapsed away because
+/// they made the brew/upgrade pools too narrow (a Heal potion only ever upgraded into the one Uncommon healer).
 ///
 /// Strategy is a MANUAL TABLE with an inference fallback:
-///   1. <see cref="Manual" /> is the authoritative classification table, keyed by concrete model Type. It is
-///      the primary source of truth — hand-curated best guesses, edit it freely to tune the potion loot
-///      table (Something Wicked = Offensive, Toil and Trouble = Utility, Stone Skin = Defensive, brewing).
-///      A potion can carry traits across orientations (e.g. <c>Damage | Aoe</c>, <c>Draw | CardManip</c>).
-///   2. Any potion NOT in the table falls back to <see cref="Derive" />, which infers traits from the potion's
-///      typed <see cref="DynamicVarSet" /> + <see cref="TargetType" />. This keeps new/DLC potions classified
-///      automatically until someone adds them to the table.
+///   1. <see cref="Manual" /> is the authoritative table, keyed by concrete model Type (a rename in the game
+///      assembly surfaces as a compile error). Hand-curated — edit freely to tune the potion pools.
+///   2. Any potion NOT in the table falls back to <see cref="Derive" />, which infers an orientation from the
+///      potion's typed <see cref="DynamicVarSet" /> + <see cref="TargetType" />, so new/DLC potions classify
+///      automatically.
 ///
-/// **Every potion we ship must have a <see cref="Manual" /> entry** (Wicked Brew, Villainous Brew, The Cauldron).
-/// A <see cref="Manual" /> entry fully REPLACES the inferred result for that potion.
+/// **Every potion we ship must have a <see cref="Manual" /> entry.** A Manual entry fully REPLACES inference.
 /// </summary>
 public static class PotionTraits
 {
-    private static readonly Dictionary<Type, PotionTrait> _cache = new();
+    private static readonly Dictionary<Type, PotionOrientation> _cache = new();
 
-    /// <summary>
-    /// Authoritative, hand-curated trait table. Keyed by concrete model Type so a rename in the game assembly
-    /// surfaces as a compile error. Grouped by primary orientation for readability; the actual orientation is
-    /// derived from the fine-grained flags (Offensive &gt; Defensive &gt; Utility). Best-guess values — tune freely.
-    /// </summary>
-    public static readonly IReadOnlyDictionary<Type, PotionTrait> Manual = new Dictionary<Type, PotionTrait>
+    /// <summary>Authoritative, hand-curated orientation table. Keyed by concrete model Type. Tune freely.</summary>
+    public static readonly IReadOnlyDictionary<Type, PotionOrientation> Manual = new Dictionary<Type, PotionOrientation>
     {
-        // ---------------- Offensive (Damage / Debuff / Poison) ----------------
-        [typeof(FirePotion)] = PotionTrait.Damage,
-        [typeof(PotionShapedRock)] = PotionTrait.Damage,
-        [typeof(ExplosiveAmpoule)] = PotionTrait.Damage | PotionTrait.Aoe,
-        [typeof(FoulPotion)] = PotionTrait.Damage | PotionTrait.Aoe,
-        [typeof(WeakPotion)] = PotionTrait.Debuff,
-        [typeof(VulnerablePotion)] = PotionTrait.Debuff,
-        [typeof(BeetleJuice)] = PotionTrait.Debuff,            // enemy attacks deal less damage
-        [typeof(PowderedDemise)] = PotionTrait.Debuff,         // enemy loses HP each turn
-        [typeof(PotionOfDoom)] = PotionTrait.Debuff,           // Doom
-        [typeof(ShacklingPotion)] = PotionTrait.Debuff | PotionTrait.Aoe,
-        [typeof(PotionOfBinding)] = PotionTrait.Debuff | PotionTrait.Aoe,
-        [typeof(PoisonPotion)] = PotionTrait.Poison,
-        [typeof(StrengthPotion)] = PotionTrait.Damage,
-        [typeof(FlexPotion)] = PotionTrait.Damage,
-        [typeof(GigantificationPotion)] = PotionTrait.Damage,
+        // ---------------- Offensive (damage / debuff / poison) ----------------
+        [typeof(FirePotion)] = PotionOrientation.Offensive,             // deal damage to one enemy
+        [typeof(PotionShapedRock)] = PotionOrientation.Offensive,       // deal damage (card-only rock)
+        [typeof(ExplosiveAmpoule)] = PotionOrientation.Offensive,       // deal damage to ALL enemies
+        [typeof(FoulPotion)] = PotionOrientation.Offensive,             // deal damage to all players & enemies
+        [typeof(WeakPotion)] = PotionOrientation.Offensive,             // apply Weak
+        [typeof(VulnerablePotion)] = PotionOrientation.Offensive,       // apply Vulnerable
+        [typeof(BeetleJuice)] = PotionOrientation.Offensive,            // enemy's attacks deal less damage
+        [typeof(PowderedDemise)] = PotionOrientation.Offensive,         // enemy loses HP at end of each turn
+        [typeof(PotionOfDoom)] = PotionOrientation.Offensive,           // apply Doom
+        [typeof(ShacklingPotion)] = PotionOrientation.Offensive,        // ALL enemies lose Strength this turn
+        [typeof(PotionOfBinding)] = PotionOrientation.Offensive,        // apply Weak + Vulnerable to ALL enemies
+        [typeof(PoisonPotion)] = PotionOrientation.Offensive,           // apply Poison
+        [typeof(StrengthPotion)] = PotionOrientation.Offensive,         // gain Strength
+        [typeof(FlexPotion)] = PotionOrientation.Offensive,             // gain Strength, lose it at end of turn
+        [typeof(GigantificationPotion)] = PotionOrientation.Offensive,  // next Attack deals triple damage
+        [typeof(FyshOil)] = PotionOrientation.Offensive,                // gain Strength and Dexterity — leans offensive
+        [typeof(MazalethsGift)] = PotionOrientation.Offensive,          // gain Ritual
+        [typeof(SoldiersStew)] = PotionOrientation.Offensive,           // Strike cards gain Replay this combat
 
-        // ---------------- Defensive (Block / Buff / Heal / MaxHp) ----------------
-        [typeof(BlockPotion)] = PotionTrait.Block,
-        [typeof(ShipInABottle)] = PotionTrait.Block,
-        [typeof(Fortifier)] = PotionTrait.Block,               // triples block
-        [typeof(HeartOfIron)] = PotionTrait.Block,             // Plating
-        [typeof(DexterityPotion)] = PotionTrait.Block,
-        [typeof(SpeedPotion)] = PotionTrait.Block,
-        
-        [typeof(RegenPotion)] = PotionTrait.Heal,
-        [typeof(BloodPotion)] = PotionTrait.Heal,
-        [typeof(FairyInABottle)] = PotionTrait.Heal,
-        [typeof(FruitJuice)] = PotionTrait.MaxHp | PotionTrait.Heal | PotionTrait.Buff,
+        // ---------------- Defensive (block / heal / max HP) ----------------
+        [typeof(BlockPotion)] = PotionOrientation.Defensive,            // gain Block
+        [typeof(ShipInABottle)] = PotionOrientation.Defensive,          // gain Block now and again next turn
+        [typeof(Fortifier)] = PotionOrientation.Defensive,              // triple your Block
+        [typeof(HeartOfIron)] = PotionOrientation.Defensive,            // gain Plating
+        [typeof(DexterityPotion)] = PotionOrientation.Defensive,        // gain Dexterity
+        [typeof(SpeedPotion)] = PotionOrientation.Defensive,            // gain Dexterity, lose it at end of turn
+        [typeof(RegenPotion)] = PotionOrientation.Defensive,            // gain Regen
+        [typeof(BloodPotion)] = PotionOrientation.Defensive,            // heal a % of Max HP
+        [typeof(FairyInABottle)] = PotionOrientation.Defensive,         // revive: heal to 30% when you'd hit 0 HP
+        [typeof(FruitJuice)] = PotionOrientation.Defensive,             // gain Max HP
+        [typeof(LiquidBronze)] = PotionOrientation.Defensive,           // gain Thorns
+        [typeof(LuckyTonic)] = PotionOrientation.Defensive,             // gain Buffer
+        [typeof(GhostInAJar)] = PotionOrientation.Defensive,             // gain Intangible
+        [typeof(BoneBrew)] = PotionOrientation.Defensive,               // Summon
+        [typeof(SkillPotion)] = PotionOrientation.Defensive,            // add a free random Skill card
 
-        // ---------------- Damage, Block
-        [typeof(FyshOil)] = PotionTrait.Damage | PotionTrait.Block,
-
-        // ---------------- Utility (Energy / Draw / CardGen / CardManip / PotionGen / Upgrade) ----------------
-        [typeof(FocusPotion)] = PotionTrait.Buff,
-        [typeof(LiquidBronze)] = PotionTrait.Buff,             // Thorns
-        [typeof(LuckyTonic)] = PotionTrait.Buff,               // Buffer
-        [typeof(MazalethsGift)] = PotionTrait.Buff,            // Ritual
-        [typeof(GhostInAJar)] = PotionTrait.Buff,              // Intangible
-        [typeof(Duplicator)] = PotionTrait.Buff,
-        [typeof(EssenceOfDarkness)] = PotionTrait.Buff,        // channel Dark orbs
-        [typeof(SoldiersStew)] = PotionTrait.Buff,
-        [typeof(StableSerum)] = PotionTrait.Buff,              // Retain hand
-        [typeof(BoneBrew)] = PotionTrait.Buff,                 // summon
-        [typeof(PotionOfCapacity)] = PotionTrait.Buff,         // orb slots
-        [typeof(EnergyPotion)] = PotionTrait.Energy,
-        [typeof(RadiantTincture)] = PotionTrait.Energy,
-        [typeof(StarPotion)] = PotionTrait.Energy,             // gain Stars
-        [typeof(SwiftPotion)] = PotionTrait.Draw,
-        [typeof(BottledPotential)] = PotionTrait.Draw,
-        [typeof(Clarity)] = PotionTrait.Draw,
-        [typeof(DropletOfPrecognition)] = PotionTrait.Draw,
-        [typeof(GamblersBrew)] = PotionTrait.Draw,
-        [typeof(LiquidMemories)] = PotionTrait.Draw,
-        [typeof(CureAll)] = PotionTrait.Energy | PotionTrait.Draw,
-        [typeof(AttackPotion)] = PotionTrait.CardGen,
-        [typeof(SkillPotion)] = PotionTrait.CardGen,
-        [typeof(PowerPotion)] = PotionTrait.CardGen,
-        [typeof(ColorlessPotion)] = PotionTrait.CardGen,
-        [typeof(CosmicConcoction)] = PotionTrait.CardGen,
-        [typeof(CunningPotion)] = PotionTrait.CardGen,         // adds Shivs
-        [typeof(OrobicAcid)] = PotionTrait.CardGen,
-        [typeof(PotOfGhouls)] = PotionTrait.CardGen,           // adds Souls
-        [typeof(Ashwater)] = PotionTrait.CardManip,            // exhaust chosen cards
-        [typeof(TouchOfInsanity)] = PotionTrait.CardManip,     // make a card free
-        [typeof(DistilledChaos)] = PotionTrait.CardManip,      // play top cards
-        [typeof(SneckoOil)] = PotionTrait.Draw | PotionTrait.CardManip,
-        [typeof(GlowwaterPotion)] = PotionTrait.Draw | PotionTrait.CardManip,
-        [typeof(EntropicBrew)] = PotionTrait.PotionGen,
-        [typeof(BlessingOfTheForge)] = PotionTrait.Upgrade,
-        [typeof(KingsCourage)] = PotionTrait.Upgrade,          // Forge
+        // ---------------- Utility (buff / energy / draw / card & potion gen / upgrade) ----------------
+        // next card is played an extra time
+        [typeof(Duplicator)] = PotionOrientation.Utility | PotionOrientation.Offensive | PotionOrientation.Defensive,               
+        // add a free Attack, Skill and Power
+        [typeof(OrobicAcid)] = PotionOrientation.Utility | PotionOrientation.Offensive | PotionOrientation.Defensive,
+        [typeof(EssenceOfDarkness)] = PotionOrientation.Utility,        // channel a Dark orb per orb slot
+        [typeof(StableSerum)] = PotionOrientation.Utility,              // Retain your Hand
+        [typeof(PotionOfCapacity)] = PotionOrientation.Utility,         // gain Orb slots
+        [typeof(EnergyPotion)] = PotionOrientation.Utility,             // gain Energy
+        [typeof(RadiantTincture)] = PotionOrientation.Utility,          // gain Energy now and next turns
+        [typeof(StarPotion)] = PotionOrientation.Utility,               // gain Stars
+        [typeof(SwiftPotion)] = PotionOrientation.Utility,              // draw cards
+        [typeof(BottledPotential)] = PotionOrientation.Utility,         // shuffle hand into Draw, then draw
+        [typeof(Clarity)] = PotionOrientation.Utility,                  // draw now and extra at next turns' start
+        [typeof(DropletOfPrecognition)] = PotionOrientation.Utility,    // pull a card from Draw into Hand
+        [typeof(GamblersBrew)] = PotionOrientation.Utility,             // discard any number, draw that many
+        [typeof(LiquidMemories)] = PotionOrientation.Utility,           // pull a card from Discard into Hand (free)
+        [typeof(CureAll)] = PotionOrientation.Utility,                  // gain Energy and draw
+        [typeof(AttackPotion)] = PotionOrientation.Offensive,           // add a free random Attack card
+        [typeof(PowerPotion)] = PotionOrientation.Utility,              // add a free random Power card
+        [typeof(ColorlessPotion)] = PotionOrientation.Utility,          // add a free random Colorless card
+        [typeof(CosmicConcoction)] = PotionOrientation.Utility,         // add Upgraded Colorless cards
+        [typeof(CunningPotion)] = PotionOrientation.Offensive,          // add Upgraded Shivs
+        [typeof(PotOfGhouls)] = PotionOrientation.Utility,              // add Souls into Hand
+        [typeof(Ashwater)] = PotionOrientation.Utility,                 // exhaust any number of cards in Hand
+        [typeof(TouchOfInsanity)] = PotionOrientation.Utility,          // make a card free to play this combat
+        [typeof(DistilledChaos)] = PotionOrientation.Utility,           // play the top cards of your Draw Pile
+        [typeof(SneckoOil)] = PotionOrientation.Utility,                // draw, then randomize hand card costs
+        [typeof(GlowwaterPotion)] = PotionOrientation.Utility,          // exhaust Hand, then draw
+        [typeof(EntropicBrew)] = PotionOrientation.Utility,             // fill empty potion slots with random potions
+        [typeof(BlessingOfTheForge)] = PotionOrientation.Utility,       // upgrade all cards in Hand for combat
+        [typeof(KingsCourage)] = PotionOrientation.Utility,             // Forge (upgrade)
 
         // ---------------- Modded (TheWicken) ----------------
-        [typeof(WickedBrew)] = PotionTrait.Damage,
-        [typeof(SlicingBrew)] = PotionTrait.Damage,           // card-only multi-hit damage payload (Prices Paid)
-        [typeof(VillainousBrew)] = PotionTrait.Damage,
-        [typeof(TheCauldron)] = PotionTrait.Damage | PotionTrait.Block | PotionTrait.Buff | PotionTrait.Debuff | PotionTrait.Aoe,
-        [typeof(Fertilizer)] = PotionTrait.Damage,             // gains Brambles, tagged offensive by design
-        [typeof(BottledRot)] = PotionTrait.Poison | PotionTrait.Aoe,
-        [typeof(BuddyInABottle)] = PotionTrait.CardGen,        // adds a random Familiar summon card
-        [typeof(VialOfSmoke)] = PotionTrait.Block,             // card-only defensive Block potion (Light the Candle)
+        [typeof(WickedBrew)] = PotionOrientation.Offensive,             // card-only offensive brew (deal damage)
+        [typeof(SlicingBrew)] = PotionOrientation.Offensive,            // card-only multi-hit damage (Prices Paid)
+        [typeof(VillainousBrew)] = PotionOrientation.Offensive,         // stronger card-only offensive brew
+        [typeof(TheCauldron)] = PotionOrientation.Offensive,            // does a bit of everything; leans offensive
+        [typeof(Fertilizer)] = PotionOrientation.Offensive,             // gains Brambles, tagged offensive by design
+        [typeof(BottledRot)] = PotionOrientation.Offensive,             // Poison ALL enemies
+        [typeof(BuddyInABottle)] = PotionOrientation.Utility,           // adds a random Familiar summon card
+        [typeof(VialOfSmoke)] = PotionOrientation.Defensive,            // card-only Block potion (Light the Candle)
     };
 
-    /// <summary>Get the trait set for a potion (manual table first, inference fallback). Cached per Type.</summary>
-    public static PotionTrait Of(PotionModel potion)
+    /// <summary>Orientation of a potion (manual table first, inference fallback). Cached per Type.</summary>
+    public static PotionOrientation OrientationOf(PotionModel potion)
     {
         Type type = potion.GetType();
-        if (_cache.TryGetValue(type, out PotionTrait cached))
+        if (_cache.TryGetValue(type, out PotionOrientation cached))
         {
             return cached;
         }
 
-        PotionTrait traits = Manual.TryGetValue(type, out PotionTrait manual)
+        PotionOrientation orientation = Manual.TryGetValue(type, out PotionOrientation manual)
             ? manual
             : Derive(potion);
 
-        _cache[type] = traits;
-        return traits;
-    }
-
-    /// <summary>Orientation of a potion derived from its traits. Offensive &gt; Defensive &gt; Utility &gt; Neutral.</summary>
-    public static PotionOrientation OrientationOf(PotionModel potion) => OrientationOf(Of(potion));
-
-    public static PotionOrientation OrientationOf(PotionTrait traits)
-    {
-        if ((traits & PotionTrait.Offensive) != 0) return PotionOrientation.Offensive;
-        if ((traits & PotionTrait.Defensive) != 0) return PotionOrientation.Defensive;
-        if ((traits & PotionTrait.Utility) != 0) return PotionOrientation.Utility;
-        return PotionOrientation.Neutral;
+        _cache[type] = orientation;
+        return orientation;
     }
 
     /// <summary>
-    /// Inference fallback for potions absent from <see cref="Manual" />: read traits from the potion's typed
-    /// <see cref="DynamicVarSet" /> + <see cref="TargetType" />.
+    /// Inference fallback for potions absent from <see cref="Manual" />: read an orientation from the potion's
+    /// typed <see cref="DynamicVarSet" /> + <see cref="TargetType" />. Priority Offensive &gt; Defensive &gt; Utility.
     /// </summary>
-    private static PotionTrait Derive(PotionModel potion)
+    private static PotionOrientation Derive(PotionModel potion)
     {
-        PotionTrait traits = PotionTrait.None;
         bool targetsEnemy = TargetsEnemy(potion.TargetType);
+        bool defensive = false;
+        bool utility = false;
 
         foreach (DynamicVar var in potion.DynamicVars.Values)
         {
@@ -161,47 +155,47 @@ public static class PotionTraits
                 case DamageVar:
                 case CalculatedDamageVar:
                 case ExtraDamageVar:
-                    traits |= PotionTrait.Damage;
-                    break;
+                    return PotionOrientation.Offensive;
                 case BlockVar:
                 case CalculatedBlockVar:
-                    traits |= PotionTrait.Block;
+                case HealVar:
+                case MaxHpVar:
+                    defensive = true;
                     break;
                 case EnergyVar:
-                    traits |= PotionTrait.Energy;
-                    break;
-                case MaxHpVar:
-                    traits |= PotionTrait.MaxHp;
-                    break;
-                case HealVar:
-                    traits |= PotionTrait.Heal;
-                    break;
                 case CardsVar:
-                    traits |= PotionTrait.Draw;
+                    utility = true;
                     break;
                 default:
                     if (IsPowerVar(var, out Type? powerType))
                     {
                         if (powerType == typeof(PoisonPower))
                         {
-                            traits |= PotionTrait.Poison;
+                            return PotionOrientation.Offensive;
                         }
-                        else
+                        if (targetsEnemy)
                         {
-                            // A power on an enemy is a debuff; on self/ally it's a buff.
-                            traits |= targetsEnemy ? PotionTrait.Debuff : PotionTrait.Buff;
+                            return PotionOrientation.Offensive; // a power on an enemy is a debuff
                         }
+                        utility = true; // a power on self/ally is a buff
                     }
                     break;
             }
         }
 
-        if (potion.TargetType == TargetType.AllEnemies)
+        if (targetsEnemy)
         {
-            traits |= PotionTrait.Aoe;
+            return PotionOrientation.Offensive;
         }
-
-        return traits;
+        if (defensive)
+        {
+            return PotionOrientation.Defensive;
+        }
+        if (utility)
+        {
+            return PotionOrientation.Utility;
+        }
+        return PotionOrientation.Neutral;
     }
 
     private static bool TargetsEnemy(TargetType target) =>

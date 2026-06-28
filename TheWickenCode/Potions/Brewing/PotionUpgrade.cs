@@ -15,7 +15,16 @@ namespace TheWicken.TheWickenCode.Potions.Brewing;
 /// </summary>
 public static class PotionUpgrade
 {
-    public static async Task UpgradeRandomPotion(Player player, Rng rng)
+    /// <summary>Upgrade <paramref name="count" /> random belt potions, re-rolling the target each time.</summary>
+    public static async Task UpgradeRandomPotions(Player player, Rng rng, int count = 1)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            await UpgradeOneRandomPotion(player, rng);
+        }
+    }
+
+    private static async Task UpgradeOneRandomPotion(Player player, Rng rng)
     {
         var potions = player.Potions.ToList();
         if (potions.Count == 0)

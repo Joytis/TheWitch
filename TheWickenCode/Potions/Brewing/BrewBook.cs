@@ -12,10 +12,8 @@ public enum BrewMatchKind
 {
     /// <summary>No candidate found at all (shouldn't happen if any randomizable potion exists at the rarity).</summary>
     None,
-    /// <summary>A potion matching the full union of both inputs' traits was found (primary path).</summary>
-    TraitUnion,
-    /// <summary>Fell back to a potion sharing one of the inputs' orientations.</summary>
-    SharedOrientation,
+    /// <summary>A potion sharing an input's orientation was found (primary path).</summary>
+    Orientation,
     /// <summary>Last resort: any potion of the output rarity.</summary>
     RarityOnly,
 }
@@ -25,14 +23,14 @@ public readonly struct BrewResult
 {
     public readonly PotionModel? Potion;
     public readonly PotionRarity Rarity;
-    public readonly PotionTrait CombinedTraits;
+    public readonly PotionOrientation Orientation;
     public readonly BrewMatchKind MatchKind;
 
-    public BrewResult(PotionModel? potion, PotionRarity rarity, PotionTrait combinedTraits, BrewMatchKind matchKind)
+    public BrewResult(PotionModel? potion, PotionRarity rarity, PotionOrientation orientation, BrewMatchKind matchKind)
     {
         Potion = potion;
         Rarity = rarity;
-        CombinedTraits = combinedTraits;
+        Orientation = orientation;
         MatchKind = matchKind;
     }
 
@@ -40,13 +38,14 @@ public readonly struct BrewResult
 }
 
 /// <summary>
-/// Brewing rules (skeleton). Recipes are RULE-based, not keyed to specific potion ids, so the space stays additive
-/// rather than multiplicative:
-///   * Inputs: exactly 2 potions.
+/// Brewing rules. Recipes are RULE-based, not keyed to specific potion ids, so the space stays additive:
+///   * Inputs: exactly 2 potions (an "upgrade" passes the same potion twice).
 ///   * Output rarity: the higher input rarity, bumped up one tier (capped at Rare).
-///   * Output traits: the UNION of both inputs' traits is sought first; if nothing matches, fall back to a potion
-///     that shares an orientation with an input; last resort, any potion of the output rarity.
-///   * Output potion: a real existing potion drawn from <see cref="PotionCatalog" /> (no bespoke fused potions yet).
+///   * Output orientation: a potion sharing an input's <see cref="PotionOrientation" /> (Offensive/Defensive/
+///     Utility) is sought first; if nothing matches, fall back to any potion of the output rarity.
+///   * Output potion: a real existing potion drawn from <see cref="PotionCatalog" /> (no bespoke fused potions).
+/// We match on orientation ONLY — fine-grained effect tags were collapsed away because they made the candidate
+/// pool too narrow (e.g. a Heal potion only ever upgraded into the single Uncommon healer).
 /// </summary>
 public static class BrewBook
 {
@@ -55,7 +54,13 @@ public static class BrewBook
     public static BrewResult Brew(PotionModel a, PotionModel b, Rng rng)
     {
         PotionRarity outRarity = NextRarity(a.Rarity, b.Rarity);
-        PotionTrait union = PotionTraits.Of(a) | PotionTraits.Of(b);
+
+        HashSet<PotionOrientation> allowed = new()
+        {
+            PotionTraits.OrientationOf(a),
+            PotionTraits.OrientationOf(b),
+        };
+        allowed.Remove(PotionOrientation.Neutral);
 
         // Pool of legitimate, distinct-from-inputs candidates at the target rarity.
         List<PotionModel> pool = PotionCatalog
@@ -63,34 +68,21 @@ public static class BrewBook
             .Where(p => !IsInput(p, a, b))
             .ToList();
 
-        // 1. Primary: a potion carrying the full union of input traits.
-        List<PotionModel> candidates = pool.Where(p => HasAll(p, union)).ToList();
-        BrewMatchKind kind = BrewMatchKind.TraitUnion;
+        // 1. Primary: a potion sharing an input's orientation.
+        List<PotionModel> candidates = allowed.Count > 0
+            ? pool.Where(p => allowed.Contains(PotionTraits.OrientationOf(p))).ToList()
+            : new List<PotionModel>();
+        BrewMatchKind kind = BrewMatchKind.Orientation;
 
-        // 2. Fallback: shares an orientation with either input.
-        if (candidates.Count == 0)
-        {
-            HashSet<PotionOrientation> allowed = new()
-            {
-                PotionTraits.OrientationOf(a),
-                PotionTraits.OrientationOf(b),
-            };
-            allowed.Remove(PotionOrientation.Neutral);
-
-            candidates = pool.Where(p => allowed.Contains(PotionTraits.OrientationOf(p))).ToList();
-            kind = BrewMatchKind.SharedOrientation;
-        }
-
-        // 3. Last resort: anything of the right rarity.
+        // 2. Fallback: anything of the right rarity.
         if (candidates.Count == 0)
         {
             candidates = pool;
             kind = BrewMatchKind.RarityOnly;
         }
 
-        // 4. The exact step-up rarity has nothing but the inputs (e.g. both inputs are the only Rares): broaden UP
-        //    to ANY higher-or-equal rarity, so a 2-potion brew still produces a real potion rather than falling
-        //    back to a Token Wicked Brew (which reads as a downgrade). Never broadens downward.
+        // 3. The exact step-up rarity has nothing but the inputs: broaden UP to ANY higher-or-equal rarity, so a
+        //    brew still produces a real potion rather than failing. Never broadens downward.
         if (candidates.Count == 0)
         {
             candidates = PotionCatalog.Query(randomizableOnly: true)
@@ -100,7 +92,8 @@ public static class BrewBook
         }
 
         PotionModel? pick = PotionCatalog.Random(candidates, rng);
-        return new BrewResult(pick, outRarity, union, pick == null ? BrewMatchKind.None : kind);
+        PotionOrientation outOrientation = pick != null ? PotionTraits.OrientationOf(pick) : PotionOrientation.Neutral;
+        return new BrewResult(pick, outRarity, outOrientation, pick == null ? BrewMatchKind.None : kind);
     }
 
     /// <summary>The higher of two rarities bumped one tier, capped at Rare. Always yields at least Uncommon.</summary>
@@ -128,7 +121,4 @@ public static class BrewBook
         Type t = candidate.GetType();
         return t == a.GetType() || t == b.GetType();
     }
-
-    private static bool HasAll(PotionModel potion, PotionTrait traits) =>
-        (PotionTraits.Of(potion) & traits) == traits;
 }

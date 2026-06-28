@@ -22,7 +22,7 @@ public sealed class ToilAndTrouble : WickenCard
         rarity = await NextPotionRarePower.MakeNextRare(Owner, rarity);
         rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, rarity);
         var potion = PotionCatalog.Random(
-            PotionCatalog.Query(PotionTrait.Utility, matchAll: false, rarity: rarity),
+            PotionCatalog.Query(orientation: PotionOrientation.Utility, rarity: rarity),
             Owner.RunState.Rng.CombatPotionGeneration);
 
         if (potion != null)

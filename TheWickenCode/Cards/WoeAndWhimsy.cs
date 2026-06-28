@@ -10,7 +10,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class WoeAndWhimsy : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1)
+        new CardsVar(2)
     ];
 
     public WoeAndWhimsy()

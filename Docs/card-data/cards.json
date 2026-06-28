@@ -131,9 +131,9 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Upgrade a random Potion.",
+      "text": "Upgrade {Potions:diff()} random Potions.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "Potions +1",
       "note": "Brew: upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
       "tested": false,
       "artFinal": false
@@ -1262,11 +1262,12 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Grows stronger for each Gnash played this combat.",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 5 additional damage for each Gnash played this combat.",
       "numbers": {
-        "Damage": 5
+        "CalculationBase": 5,
+        "ExtraDamage": 5
       },
-      "upgrade": "Damage +3",
+      "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
       "tested": false,
       "artFinal": false
