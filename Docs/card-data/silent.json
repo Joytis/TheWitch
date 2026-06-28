@@ -1,0 +1,1760 @@
+{
+  "generated": "from gamedata",
+  "class": "silent",
+  "cards": [
+    {
+      "name": "Defend",
+      "entry": "DEFEND_SILENT",
+      "file": "gamedata/src/Core/Models/Cards/DefendSilent.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Neutralize",
+      "entry": "NEUTRALIZE",
+      "file": "gamedata/src/Core/Models/Cards/Neutralize.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. Apply 1 Weak.",
+      "numbers": {
+        "Weak": 1,
+        "Damage": 3
+      },
+      "upgrade": "Damage +1, Weak +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Strike",
+      "entry": "STRIKE_SILENT",
+      "file": "gamedata/src/Core/Models/Cards/StrikeSilent.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Survivor",
+      "entry": "SURVIVOR",
+      "file": "gamedata/src/Core/Models/Cards/Survivor.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 8 Block. Discard 1 card.",
+      "numbers": {
+        "Block": 8
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Anticipate",
+      "entry": "ANTICIPATE",
+      "file": "gamedata/src/Core/Models/Cards/Anticipate.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 2 Dexterity this turn.",
+      "numbers": {
+        "Dexterity": 2
+      },
+      "upgrade": "Dexterity +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Backflip",
+      "entry": "BACKFLIP",
+      "file": "gamedata/src/Core/Models/Cards/Backflip.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 5 Block. Draw 2 cards.",
+      "numbers": {
+        "Block": 5,
+        "Cards": 2
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Blade Dance",
+      "entry": "BLADE_DANCE",
+      "file": "gamedata/src/Core/Models/Cards/BladeDance.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Add 3 Shivs into your Hand.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Cloak and Dagger",
+      "entry": "CLOAK_AND_DAGGER",
+      "file": "gamedata/src/Core/Models/Cards/CloakAndDagger.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 6 Block. Add 1 Shiv into your Hand.",
+      "numbers": {
+        "Block": 6,
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Dagger Spray",
+      "entry": "DAGGER_SPRAY",
+      "file": "gamedata/src/Core/Models/Cards/DaggerSpray.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 4 damage to ALL enemies twice.",
+      "numbers": {
+        "Damage": 4
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Dagger Throw",
+      "entry": "DAGGER_THROW",
+      "file": "gamedata/src/Core/Models/Cards/DaggerThrow.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Draw 1 card. Discard 1 card.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Deadly Poison",
+      "entry": "DEADLY_POISON",
+      "file": "gamedata/src/Core/Models/Cards/DeadlyPoison.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Apply 5 Poison.",
+      "numbers": {
+        "Poison": 5
+      },
+      "upgrade": "Poison +2",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Deflect",
+      "entry": "DEFLECT",
+      "file": "gamedata/src/Core/Models/Cards/Deflect.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 4 Block.",
+      "numbers": {
+        "Block": 4
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Dodge and Roll",
+      "entry": "DODGE_AND_ROLL",
+      "file": "gamedata/src/Core/Models/Cards/DodgeAndRoll.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 4 Block. Next turn, gain 4 Block.",
+      "numbers": {
+        "Block": 4
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Flick-Flack",
+      "entry": "FLICK_FLACK",
+      "file": "gamedata/src/Core/Models/Cards/FlickFlack.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 6 damage to ALL enemies.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Leading Strike",
+      "entry": "LEADING_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/LeadingStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. Add {Shivs:diff()} Shivs into your Hand.",
+      "numbers": {
+        "Damage": 3
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Piercing Wail",
+      "entry": "PIERCING_WAIL",
+      "file": "gamedata/src/Core/Models/Cards/PiercingWail.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "ALL enemies lose {StrengthLoss:diff()} Strength this turn.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Poisoned Stab",
+      "entry": "POISONED_STAB",
+      "file": "gamedata/src/Core/Models/Cards/PoisonedStab.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Apply 3 Poison.",
+      "numbers": {
+        "Poison": 3,
+        "Damage": 6
+      },
+      "upgrade": "Damage +2, Poison +1",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Predator",
+      "entry": "PREDATOR",
+      "file": "gamedata/src/Core/Models/Cards/Predator.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 15 damage. Next turn, draw 2 cards.",
+      "numbers": {
+        "Damage": 15
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Prepared",
+      "entry": "PREPARED",
+      "file": "gamedata/src/Core/Models/Cards/Prepared.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Draw 1 card. Discard 1 card.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Enabler",
+        "Generator"
+      ]
+    },
+    {
+      "name": "Ricochet",
+      "entry": "RICOCHET",
+      "file": "gamedata/src/Core/Models/Cards/Ricochet.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "RandomEnemy",
+      "text": "Deal 3 damage to a random enemy 4 times.",
+      "numbers": {
+        "Damage": 3,
+        "Repeat": 4
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Slice",
+      "entry": "SLICE",
+      "file": "gamedata/src/Core/Models/Cards/Slice.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Snakebite",
+      "entry": "SNAKEBITE",
+      "file": "gamedata/src/Core/Models/Cards/Snakebite.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Apply 7 Poison.",
+      "numbers": {
+        "Poison": 7
+      },
+      "upgrade": "Poison +3",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Sucker Punch",
+      "entry": "SUCKER_PUNCH",
+      "file": "gamedata/src/Core/Models/Cards/SuckerPunch.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Apply 1 Weak.",
+      "numbers": {
+        "Weak": 1,
+        "Damage": 8
+      },
+      "upgrade": "Damage +2, Weak +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Untouchable",
+      "entry": "UNTOUCHABLE",
+      "file": "gamedata/src/Core/Models/Cards/Untouchable.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 6 Block.",
+      "numbers": {
+        "Block": 6
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Accuracy",
+      "entry": "ACCURACY",
+      "file": "gamedata/src/Core/Models/Cards/Accuracy.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Shivs deal 4 additional damage.",
+      "numbers": {
+        "Accuracy": 4
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Acrobatics",
+      "entry": "ACROBATICS",
+      "file": "gamedata/src/Core/Models/Cards/Acrobatics.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 3 cards. Discard 1 card.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Enabler",
+        "Generator"
+      ]
+    },
+    {
+      "name": "Backstab",
+      "entry": "BACKSTAB",
+      "file": "gamedata/src/Core/Models/Cards/Backstab.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 11 damage.",
+      "numbers": {
+        "Damage": 11
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Blur",
+      "entry": "BLUR",
+      "file": "gamedata/src/Core/Models/Cards/Blur.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 5 Block. Block is not removed at the start of your next turn.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Bouncing Flask",
+      "entry": "BOUNCING_FLASK",
+      "file": "gamedata/src/Core/Models/Cards/BouncingFlask.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "RandomEnemy",
+      "text": "Apply 3 Poison to a random enemy 3 times.",
+      "numbers": {
+        "Poison": 3,
+        "Repeat": 3
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Bubble Bubble",
+      "entry": "BUBBLE_BUBBLE",
+      "file": "gamedata/src/Core/Models/Cards/BubbleBubble.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "If the enemy has Poison, apply 9 Poison.",
+      "numbers": {
+        "Poison": 9
+      },
+      "upgrade": "Poison +3",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Calculated Gamble",
+      "entry": "CALCULATED_GAMBLE",
+      "file": "gamedata/src/Core/Models/Cards/CalculatedGamble.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Discard your Hand, then draw that many cards.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Dash",
+      "entry": "DASH",
+      "file": "gamedata/src/Core/Models/Cards/Dash.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Gain 10 Block. Deal 10 damage.",
+      "numbers": {
+        "Damage": 10,
+        "Block": 10
+      },
+      "upgrade": "Damage +3, Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Escape Plan",
+      "entry": "ESCAPE_PLAN",
+      "file": "gamedata/src/Core/Models/Cards/EscapePlan.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 1 card. If you draw a Skill, gain 3 Block.",
+      "numbers": {
+        "Block": 3
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Expertise",
+      "entry": "EXPERTISE",
+      "file": "gamedata/src/Core/Models/Cards/Expertise.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw cards until you have 6 in your Hand.",
+      "numbers": {
+        "Cards": 6
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Expose",
+      "entry": "EXPOSE",
+      "file": "gamedata/src/Core/Models/Cards/Expose.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Remove all Artifact and Block from the enemy. Apply {Power:diff()} Vulnerable.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Finisher",
+      "entry": "FINISHER",
+      "file": "gamedata/src/Core/Models/Cards/Finisher.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage for each Attack already played this turn.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 6,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Flanking",
+      "entry": "FLANKING",
+      "file": "gamedata/src/Core/Models/Cards/Flanking.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "The enemy takes double attack damage from other players this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Flechettes",
+      "entry": "FLECHETTES",
+      "file": "gamedata/src/Core/Models/Cards/Flechettes.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage for each Skill in your Hand.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 5,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Footwork",
+      "entry": "FOOTWORK",
+      "file": "gamedata/src/Core/Models/Cards/Footwork.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 2 Dexterity.",
+      "numbers": {
+        "Dexterity": 2
+      },
+      "upgrade": "Dexterity +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hand Trick",
+      "entry": "HAND_TRICK",
+      "file": "gamedata/src/Core/Models/Cards/HandTrick.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 7 Block. Add Sly to a Skill in your Hand this turn.",
+      "numbers": {
+        "Block": 7
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Haze",
+      "entry": "HAZE",
+      "file": "gamedata/src/Core/Models/Cards/Haze.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Apply 4 Poison to ALL enemies.",
+      "numbers": {
+        "Poison": 4
+      },
+      "upgrade": "Poison +2",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Hidden Daggers",
+      "entry": "HIDDEN_DAGGERS",
+      "file": "gamedata/src/Core/Models/Cards/HiddenDaggers.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Discard 2 cards. Add {Shivs:diff()} Shiv|Shivs} into your Hand.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "none",
+      "mechanics": [
+        "Shivs",
+        "Discard"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Infinite Blades",
+      "entry": "INFINITE_BLADES",
+      "file": "gamedata/src/Core/Models/Cards/InfiniteBlades.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, add 1 Shiv into your Hand.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Leg Sweep",
+      "entry": "LEG_SWEEP",
+      "file": "gamedata/src/Core/Models/Cards/LegSweep.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Apply 2 Weak. Gain 11 Block.",
+      "numbers": {
+        "Weak": 2,
+        "Block": 11
+      },
+      "upgrade": "Block +3, Weak +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Memento Mori",
+      "entry": "MEMENTO_MORI",
+      "file": "gamedata/src/Core/Models/Cards/MementoMori.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 4 additional damage for each card discarded this turn.",
+      "numbers": {
+        "CalculationBase": 9,
+        "ExtraDamage": 4
+      },
+      "upgrade": "CalculationBase +2, ExtraDamage +1",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Mirage",
+      "entry": "MIRAGE",
+      "file": "gamedata/src/Core/Models/Cards/Mirage.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain Block equal to Poison on ALL enemies.{InCombat: (Gain {CalculatedBlock:diff()} Block)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Noxious Fumes",
+      "entry": "NOXIOUS_FUMES",
+      "file": "gamedata/src/Core/Models/Cards/NoxiousFumes.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, apply {PoisonPerTurn:diff()} Poison to ALL enemies.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Outbreak",
+      "entry": "OUTBREAK",
+      "file": "gamedata/src/Core/Models/Cards/Outbreak.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Every 3 you apply Poison, deal 11 damage to ALL enemies.",
+      "numbers": {
+        "Outbreak": 11,
+        "Repeat": 3
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Phantom Blades",
+      "entry": "PHANTOM_BLADES",
+      "file": "gamedata/src/Core/Models/Cards/PhantomBlades.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Shivs gain Retain. The first Shiv you play each turn deals 9 additional damage.",
+      "numbers": {
+        "PhantomBlades": 9
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Pinpoint",
+      "entry": "PINPOINT",
+      "file": "gamedata/src/Core/Models/Cards/Pinpoint.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 15 damage. Costs 1 less {energyPrefix:energyIcons(1)} for each Skill played this turn.",
+      "numbers": {
+        "Damage": 15
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Pounce",
+      "entry": "POUNCE",
+      "file": "gamedata/src/Core/Models/Cards/Pounce.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 14 damage. The next Skill you play costs 0 {energyPrefix:energyIcons(1)}.",
+      "numbers": {
+        "Damage": 14
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Precise Cut",
+      "entry": "PRECISE_CUT",
+      "file": "gamedata/src/Core/Models/Cards/PreciseCut.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 2 less damage for each other card in your Hand.",
+      "numbers": {
+        "CalculationBase": 13,
+        "ExtraDamage": 2
+      },
+      "upgrade": "CalculationBase +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Reflex",
+      "entry": "REFLEX",
+      "file": "gamedata/src/Core/Models/Cards/Reflex.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 2 cards.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Scare",
+      "entry": "SCARE",
+      "file": "gamedata/src/Core/Models/Cards/Scare.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Apply 1 Weak to ALL enemies.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Skewer",
+      "entry": "SKEWER",
+      "file": "gamedata/src/Core/Models/Cards/Skewer.cs",
+      "cost": "X",
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage X times.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Speedster",
+      "entry": "SPEEDSTER",
+      "file": "gamedata/src/Core/Models/Cards/Speedster.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you draw a card during your turn, deal 2 damage to ALL enemies.",
+      "numbers": {
+        "Speedster": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Strangle",
+      "entry": "STRANGLE",
+      "file": "gamedata/src/Core/Models/Cards/Strangle.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Whenever you play a card this turn, the enemy loses 2 HP.",
+      "numbers": {
+        "Strangle": 2,
+        "Damage": 8
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Tactician",
+      "entry": "TACTICIAN",
+      "file": "gamedata/src/Core/Models/Cards/Tactician.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 1.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Up My Sleeve",
+      "entry": "UP_MY_SLEEVE",
+      "file": "gamedata/src/Core/Models/Cards/UpMySleeve.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Add 3 Shivs into your Hand. Reduce this card's cost by 1.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Well-Laid Plans",
+      "entry": "WELL_LAID_PLANS",
+      "file": "gamedata/src/Core/Models/Cards/WellLaidPlans.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the end of your turn, Retain up to {RetainAmount:diff()} cards.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Abrasive",
+      "entry": "ABRASIVE",
+      "file": "gamedata/src/Core/Models/Cards/Abrasive.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 1 Dexterity. Gain 4 Thorns.",
+      "numbers": {
+        "Thorns": 4,
+        "Dexterity": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Accelerant",
+      "entry": "ACCELERANT",
+      "file": "gamedata/src/Core/Models/Cards/Accelerant.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Poison is triggered {Accelerant:diff()} additional times.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Adrenaline",
+      "entry": "ADRENALINE",
+      "file": "gamedata/src/Core/Models/Cards/Adrenaline.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 1. Draw 2 cards.",
+      "numbers": {
+        "Energy": 1,
+        "Cards": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Afterimage",
+      "entry": "AFTERIMAGE",
+      "file": "gamedata/src/Core/Models/Cards/Afterimage.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you play a card, gain 1 Block.",
+      "numbers": {
+        "Afterimage": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Assassinate",
+      "entry": "ASSASSINATE",
+      "file": "gamedata/src/Core/Models/Cards/Assassinate.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Damage": 10
+      },
+      "upgrade": "Damage +3, Vulnerable +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Blade of Ink",
+      "entry": "BLADE_OF_INK",
+      "file": "gamedata/src/Core/Models/Cards/BladeOfInk.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Add 2 Inky Shivs into your Hand.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Bullet Time",
+      "entry": "BULLET_TIME",
+      "file": "gamedata/src/Core/Models/Cards/BulletTime.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "You cannot draw additional cards this turn. ALL cards in your Hand are free to play this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Burst",
+      "entry": "BURST",
+      "file": "gamedata/src/Core/Models/Cards/Burst.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "This turn, your next {:diff() Skills are} played an extra time.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Corrosive Wave",
+      "entry": "CORROSIVE_WAVE",
+      "file": "gamedata/src/Core/Models/Cards/CorrosiveWave.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you draw a card this turn, apply {CorrosiveWave:diff()} Poison to ALL enemies.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Echoing Slash",
+      "entry": "ECHOING_SLASH",
+      "file": "gamedata/src/Core/Models/Cards/EchoingSlash.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 10 damage to ALL enemies. Repeat this effect for each enemy killed.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Envenom",
+      "entry": "ENVENOM",
+      "file": "gamedata/src/Core/Models/Cards/Envenom.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever an Attack deals unblocked damage, apply 1 Poison.",
+      "numbers": {
+        "Envenom": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Poison"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Fan of Knives",
+      "entry": "FAN_OF_KNIVES",
+      "file": "gamedata/src/Core/Models/Cards/FanOfKnives.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Shivs now hit ALL enemies. Add {Shivs:diff()} Shivs into your Hand.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Grand Finale",
+      "entry": "GRAND_FINALE",
+      "file": "gamedata/src/Core/Models/Cards/GrandFinale.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Can only be played if there are no cards in your Draw Pile. Deal 60 damage to ALL enemies.",
+      "numbers": {
+        "Damage": 60
+      },
+      "upgrade": "Damage +15",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Knife Trap",
+      "entry": "KNIFE_TRAP",
+      "file": "gamedata/src/Core/Models/Cards/KnifeTrap.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Play every Shiv in your Exhaust Pile on the enemy.{InCombat: (Plays {CalculatedShivs:diff()} Shivs)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "none",
+      "mechanics": [
+        "Shivs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Malaise",
+      "entry": "MALAISE",
+      "file": "gamedata/src/Core/Models/Cards/Malaise.cs",
+      "cost": "X",
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Enemy loses X{IfUpgraded:show:+1} Strength. Apply X{IfUpgraded:show:+1} Weak.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Master Planner",
+      "entry": "MASTER_PLANNER",
+      "file": "gamedata/src/Core/Models/Cards/MasterPlanner.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "When you play a Skill, it gains Sly.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Murder",
+      "entry": "MURDER",
+      "file": "gamedata/src/Core/Models/Cards/Murder.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 1 additional damage for each card drawn this combat.",
+      "numbers": {
+        "CalculationBase": 1,
+        "ExtraDamage": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Nightmare",
+      "entry": "NIGHTMARE",
+      "file": "gamedata/src/Core/Models/Cards/Nightmare.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Choose a card. Next turn, add 3 copies of that card into your Hand.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Serpent Form",
+      "entry": "SERPENT_FORM",
+      "file": "gamedata/src/Core/Models/Cards/SerpentForm.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you play a card, deal 4 damage to a random enemy.",
+      "numbers": {
+        "SerpentForm": 4
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Shadow Step",
+      "entry": "SHADOW_STEP",
+      "file": "gamedata/src/Core/Models/Cards/ShadowStep.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Discard your Hand. Next turn, Attacks deal double damage.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Shadowmeld",
+      "entry": "SHADOWMELD",
+      "file": "gamedata/src/Core/Models/Cards/Shadowmeld.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Double your Block gain this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Sneaky",
+      "entry": "SNEAKY",
+      "file": "gamedata/src/Core/Models/Cards/Sneaky.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever another player attacks an enemy, gain 1 Block.",
+      "numbers": {
+        "Sneaky": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Storm of Steel",
+      "entry": "STORM_OF_STEEL",
+      "file": "gamedata/src/Core/Models/Cards/StormOfSteel.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Discard your Hand. Add 1 Shiv into your Hand for each card discarded.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "Shivs",
+        "Discard"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "The Hunt",
+      "entry": "THE_HUNT",
+      "file": "gamedata/src/Core/Models/Cards/TheHunt.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. If Fatal, gain an additional card reward.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Tools of the Trade",
+      "entry": "TOOLS_OF_THE_TRADE",
+      "file": "gamedata/src/Core/Models/Cards/ToolsOfTheTrade.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, draw 1 card and discard 1 card.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Discard"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Tracking",
+      "entry": "TRACKING",
+      "file": "gamedata/src/Core/Models/Cards/Tracking.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Weak enemies take double damage from Attacks.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Suppress",
+      "entry": "SUPPRESS",
+      "file": "gamedata/src/Core/Models/Cards/Suppress.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Ancient",
+      "target": "AnyEnemy",
+      "text": "Deal 11 damage. Apply 3 Weak.",
+      "numbers": {
+        "Weak": 3,
+        "Damage": 11
+      },
+      "upgrade": "Damage +6, Weak +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Wraith Form",
+      "entry": "WRAITH_FORM",
+      "file": "gamedata/src/Core/Models/Cards/WraithForm.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Gain 2 Intangible. At the start of your turn, lose 1 Dexterity.",
+      "numbers": {
+        "Intangible": 2,
+        "WraithForm": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    }
+  ]
+}

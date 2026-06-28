@@ -104,6 +104,14 @@ const server = http.createServer((req, res) => {
     return send(res, 200, JSON.stringify(data), "application/json; charset=utf-8");
   }
 
+  // --- base-game reference data (read-only): /silent.json, /necrobinder.json
+  if (req.method === "GET" && /^\/(silent|necrobinder)\.json/.test(req.url)) {
+    const name = req.url.split("?")[0].slice(1);
+    try {
+      return send(res, 200, fs.readFileSync(path.join(HERE, name)), "application/json; charset=utf-8");
+    } catch { return send(res, 404, "Not found", "text/plain"); }
+  }
+
   // --- page ------------------------------------------------------------
   if (req.method === "GET" && (req.url === "/" || req.url === "/index.html")) {
     return send(res, 200, fs.readFileSync(HTML_PATH), "text/html; charset=utf-8");
