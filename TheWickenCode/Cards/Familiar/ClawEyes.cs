@@ -10,8 +10,6 @@ namespace TheWicken.TheWickenCode.Cards;
 /// <summary>Crow familiar token: apply Weak to an enemy. Exhausts.</summary>
 public sealed class ClawEyes : WickenFamiliarCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<WeakPower>(),
     ];

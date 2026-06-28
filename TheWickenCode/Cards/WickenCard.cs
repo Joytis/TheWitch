@@ -61,5 +61,11 @@ public abstract class WickenCard(int cost, CardType type, CardRarity rarity, Tar
     protected async Task GainFamiliar<TPower>(PlayerChoiceContext choiceContext) where TPower : FamiliarPower
     {
         await PowerCmd.Apply<TPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+
+        // An upgraded summon card makes its familiar produce Upgraded token cards (sticky on the power).
+        if (IsUpgraded && Owner.Creature.GetPower<TPower>() is { } power)
+        {
+            power.GrantsUpgradedCards = true;
+        }
     }
 }

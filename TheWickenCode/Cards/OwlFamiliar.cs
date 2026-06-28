@@ -14,7 +14,7 @@ public sealed class OwlFamiliar : WickenCard, IFamiliarSummon
     }
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Wisdom>(false)
+        HoverTipFactory.FromCard<Wisdom>(IsUpgraded)
     ];
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

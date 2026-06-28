@@ -17,6 +17,11 @@ namespace TheWicken.TheWickenCode.Cards;
 public abstract class WickenFamiliarCard(int cost, CardType type, CardRarity rarity, TargetType target) :
     CustomCardModel(cost, type, rarity, target)
 {
+    // Familiar token-cards are one-shot per-turn payloads — Exhaust by default so they never clog the deck.
+    // A subclass that needs extra keywords must re-include Exhaust in its own CanonicalKeywords override.
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
     //Full art: 606x852

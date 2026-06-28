@@ -8,8 +8,6 @@ namespace TheWicken.TheWickenCode.Cards;
 /// <summary>Crow familiar token: pocket some gold. Exhausts.</summary>
 public sealed class Shiny : WickenFamiliarCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DynamicVar("Gold", 5m)
     ];

@@ -9,9 +9,9 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class CrowFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<ScoutWeakness>(false),
-        HoverTipFactory.FromCard<ClawEyes>(false),
-        HoverTipFactory.FromCard<Shiny>(false),
+        HoverTipFactory.FromCard<ScoutWeakness>(IsUpgraded),
+        HoverTipFactory.FromCard<ClawEyes>(IsUpgraded),
+        HoverTipFactory.FromCard<Shiny>(IsUpgraded),
     ];
 
     public CrowFamiliar()

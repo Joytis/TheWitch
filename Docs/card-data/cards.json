@@ -131,11 +131,11 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Merge two potions into a Stronger Potion",
+      "text": "Upgrade a random Potion.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "Brew: attempts to merge the first two potions in the player's belt into a higher-rarity one (see <see cref=\"PotionMerge\" />).",
-      "tested": true,
+      "note": "Brew: upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
+      "tested": false,
       "artFinal": false
     },
     {
@@ -900,9 +900,9 @@
       "target": "Self",
       "text": "Summon a Wolf Familiar. At the start of your turn, add a Gnash to your hand.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false
     },
     {
@@ -1262,7 +1262,7 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Whenever a Gnash is played, all Gnash cards gain 5 damage.",
+      "text": "Deal 5 damage. Grows stronger for each Gnash played this combat.",
       "numbers": {
         "Damage": 5
       },
