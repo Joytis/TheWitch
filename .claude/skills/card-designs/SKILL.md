@@ -33,6 +33,14 @@ The report lists **added / removed / changed** cards. When a card's mechanical f
 - Only a human flips a card to `true` (via the page toggle, or hand-editing `cards.json`).
 - Any design change must reset it to `false` — `regen.js` does this automatically; if you hand-edit a card's numbers in `cards.json`, set `tested:false` yourself.
 
+## Big-art tracking (server only)
+The page shows each card's **big portrait** as a thumbnail plus a 3-state badge, computed **live** by the server (hash of `TheWicken/images/card_portraits/big/<entry>.png` vs `big/card.png`):
+- **No Art** — file missing or byte-identical to `card.png` (placeholder duplicate).
+- **Placeholder** — a real, distinct image, not yet flagged.
+- **Final** — distinct image AND the card is flagged (the `★ final` button; persists as `artFinal` in `cards.json`).
+
+Drop a new png into `big/` and reload — state updates with no regen. `regen.js` preserves the `artFinal` flag. **Export no-art names** button copies the newline-separated png filenames still lacking art (every "No Art" card), for handing to an art tool.
+
 ## Notes
 - `entry` is SCREAMING_SNAKE derived from the class name; the console command needs the `THEWICKEN-` mod prefix (base-game cards like `STRIKE`/`DEFEND` collide otherwise).
-- New cards land with `tested:false` and a `note` derived from the class `<summary>`; edit the note in `cards.json` to curate it (regen preserves curated notes).
+- New cards land with `tested:false`, `artFinal:false`, and a `note` derived from the class `<summary>`; edit the note in `cards.json` to curate it (regen preserves curated notes).

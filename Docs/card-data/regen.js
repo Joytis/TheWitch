@@ -171,6 +171,7 @@ function build() {
       upgrade: p.upgrade,
       note,
       tested: false,
+      artFinal: false,
       _hasLoc: !!loc[`${MOD_PREFIX}${p.entry}.title`],
     };
   });
@@ -196,6 +197,7 @@ function main() {
   for (const c of fresh) {
     const prev = oldByEntry[c.entry];
     if (!c._hasLoc) missingLoc.push(c.entry);
+    c.artFinal = !!prev && prev.artFinal; // art-final flag is independent of mechanics; always preserved
     if (!prev) { added.push(c.name); continue; }
     // preserve curated note if the source has no summary
     if (!c.note && prev.note) c.note = prev.note;

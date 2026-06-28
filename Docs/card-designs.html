@@ -39,6 +39,19 @@
   .copy{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 9px;cursor:pointer;font:11px ui-monospace,Consolas,monospace;white-space:nowrap}
   .copy:hover{border-color:var(--accent)}
   .copy.done{border-color:var(--ok);color:var(--ok)}
+  .chip.btn{cursor:pointer}
+  .thumb{width:54px}
+  .thumb img{width:48px;height:auto;border-radius:4px;border:1px solid var(--line);background:#0d0b14;display:block;cursor:zoom-in}
+  .thumb img.noart{opacity:.35;filter:grayscale(.6)}
+  .artcell{white-space:nowrap}
+  .artbadge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600}
+  .art-none{background:#5b547033;color:#9b93b3}
+  .art-placeholder{background:#c98a2a33;color:#e0b24a}
+  .art-final{background:#46c47633;color:#5fe09a}
+  .afinal{margin-left:6px;cursor:pointer;background:none;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:11px;padding:2px 6px}
+  .afinal:hover:not(:disabled){border-color:var(--ok);color:var(--ok)}
+  .afinal:disabled{opacity:.3;cursor:not-allowed}
+  .afinal.on{border-color:var(--ok);color:var(--ok)}
   .tcell{text-align:center;white-space:nowrap}
   .tog{cursor:pointer;font-size:18px;background:none;border:none;color:var(--no)}
   .tog.on{color:var(--ok)}
@@ -60,6 +73,8 @@
     <input type="search" id="q" placeholder="search name / text / entry…" />
     <span id="rarities"></span>
     <span class="chip" data-t="untested">untested only</span>
+    <span class="chip" data-t="noart">no-art only</span>
+    <button class="chip btn" id="exportUnfinished" title="Copy newline-separated png filenames for every card whose big art is still a card.png duplicate">⧉ export no-art names</button>
     <div class="prog">
       <span id="count"></span>
       <div class="bar"><i id="barfill"></i></div>
@@ -71,6 +86,7 @@
 <main>
   <table>
     <thead><tr>
+      <th>Art</th>
       <th data-k="name">Card</th>
       <th data-k="cost">Cost/Type</th>
       <th data-k="rarity">Rarity</th>
@@ -78,6 +94,7 @@
       <th>Numbers</th>
       <th>Upgrade</th>
       <th>Add</th>
+      <th data-k="art">Art State</th>
       <th data-k="tested">Tested</th>
     </tr></thead>
     <tbody id="rows"></tbody>
@@ -86,15 +103,18 @@
 <script>
 const RAR_ORDER = ["Starter","Common","Uncommon","Rare","Special","Token"];
 const RAR_COLOR = {Starter:"--starter",Common:"--common",Uncommon:"--uncommon",Rare:"--rare",Special:"--special",Token:"--token"};
+const ART_RANK = { none:0, placeholder:1, final:2 };
 let CARDS = [];
 let SERVER = false;
-const state = { q:"", rar:new Set(), untested:false, sort:"rarity", dir:1 };
+let imgver = 0; // cache-buster for thumbnails; bumped on each data load
+const state = { q:"", rar:new Set(), untested:false, noart:false, sort:"rarity", dir:1 };
 
 async function load(){
   try{
     const r = await fetch("cards.json?_="+Date.now());
     const d = await r.json();
     CARDS = d.cards;
+    imgver++;
     document.getElementById("gen").textContent = d.generated ? "· generated "+d.generated : "";
     // detect server by probing the API route via OPTIONS-ish: try a HEAD on root path served by node
     SERVER = location.protocol === "http:" || location.protocol === "https:";
@@ -104,7 +124,7 @@ async function load(){
     render();
   }catch(e){
     document.getElementById("rows").innerHTML =
-      '<tr><td colspan="8" style="color:#ffb3b3">Could not load cards.json. Start the server: <code>node Docs/card-data/server.js</code></td></tr>';
+      '<tr><td colspan="10" style="color:#ffb3b3">Could not load cards.json. Start the server: <code>node Docs/card-data/server.js</code></td></tr>';
   }
 }
 
@@ -128,17 +148,21 @@ function renderMakeup(){
   const typeWanted = ["Attack","Skill","Power","Potion"];
   const rars = [...new Set([...rarWanted, ...Object.keys(byRar)])].filter(r => rarWanted.includes(r) || byRar[r]);
   const types = [...new Set([...typeWanted, ...Object.keys(byType)])].filter(t => typeWanted.includes(t) || byType[t]);
+  const byArt = { none:0, placeholder:0, final:0 };
+  CARDS.forEach(c=>{ byArt[c.art||"none"] = (byArt[c.art||"none"]||0)+1; });
   const cell = (lab,n) => `<span class="${n?'':'z'}">${lab} <b>${n||0}</b></span>`;
   document.getElementById("makeup").innerHTML =
     `<span class="grp"><span class="glab">Total</span>${cell('cards', CARDS.length)}</span>` +
     `<span class="grp"><span class="glab">Rarity</span>${rars.map(r=>cell(r,byRar[r])).join("")}</span>` +
-    `<span class="grp"><span class="glab">Type</span>${types.map(t=>cell(t,byType[t])).join("")}</span>`;
+    `<span class="grp"><span class="glab">Type</span>${types.map(t=>cell(t,byType[t])).join("")}</span>` +
+    `<span class="grp"><span class="glab">Big Art</span>${cell('No Art',byArt.none)}${cell('Placeholder',byArt.placeholder)}${cell('Final',byArt.final)}</span>`;
 }
 
 function visible(){
   const q = state.q.toLowerCase();
   let list = CARDS.filter(c=>{
     if(state.untested && c.tested) return false;
+    if(state.noart && (c.art||"none")!=="none") return false;
     if(state.rar.size && !state.rar.has(c.rarity)) return false;
     if(q){
       const hay = (c.name+" "+c.entry+" "+c.text+" "+(c.note||"")).toLowerCase();
@@ -152,6 +176,7 @@ function visible(){
     if(state.sort==="rarity") r = rk(a)-rk(b) || a.name.localeCompare(b.name);
     else if(state.sort==="cost") r = (parseInt(a.cost)||0)-(parseInt(b.cost)||0) || a.name.localeCompare(b.name);
     else if(state.sort==="tested") r = (a.tested?1:0)-(b.tested?1:0) || a.name.localeCompare(b.name);
+    else if(state.sort==="art") r = (ART_RANK[a.art||"none"]-ART_RANK[b.art||"none"]) || a.name.localeCompare(b.name);
     else r = String(a[state.sort]).localeCompare(String(b[state.sort]));
     return r*state.dir;
   });
@@ -171,7 +196,11 @@ function render(){
   list.forEach(c=>{
     const tr = document.createElement("tr");
     const color = `var(${RAR_COLOR[c.rarity]||"--muted"})`;
+    const art = c.art || "none";
+    const isNone = art === "none";
+    const artLabel = {none:"No Art", placeholder:"Placeholder", final:"Final"}[art];
     tr.innerHTML = `
+      <td class="thumb"><img loading="lazy" src="art/${esc(c.entry)}.png?v=${imgver}" class="${isNone?"noart":""}" alt="" title="${esc(c.entry.toLowerCase())}.png — click to open"></td>
       <td>
         <span class="name">${esc(c.name)}</span>
         <span class="entry">${esc(c.entry)}</span>
@@ -183,6 +212,11 @@ function render(){
       <td class="nums">${numsHtml(c.numbers)}</td>
       <td class="up">${esc(c.upgrade||"none")}</td>
       <td><button class="copy" data-cmd="card THEWICKEN-${esc(c.entry)}" title="copy console command">card THEWICKEN-${esc(c.entry)}</button></td>
+      <td class="artcell">
+        <span class="artbadge art-${art}">${artLabel}</span>
+        <button class="afinal ${art==="final"?"on":""}" data-entry="${esc(c.entry)}" ${isNone?"disabled":""}
+          title="${isNone?"Add real art first (still a card.png duplicate)":(art==="final"?"Flagged Final — click to unflag":"Flag art as Final")}">${art==="final"?"★ final":"☆ final"}</button>
+      </td>
       <td class="tcell">
         <button class="tog ${c.tested?"on":""}" data-entry="${esc(c.entry)}" title="${c.tested?"Tested — click to clear":"Not tested — click to mark tested"}">${c.tested?"✅":"❌"}</button>
       </td>`;
@@ -235,8 +269,49 @@ document.addEventListener("click", async (e)=>{
     }
     return;
   }
+  // thumbnail -> open full image in new tab
+  const img = e.target.closest(".thumb img");
+  if(img){ window.open(img.src, "_blank"); return; }
+
+  // Art-Final flag toggle
+  const af = e.target.closest(".afinal");
+  if(af && !af.disabled){
+    const entry = af.dataset.entry;
+    const card = CARDS.find(c=>c.entry===entry);
+    const next = !card.artFinal;
+    card.artFinal = next;
+    card.art = next ? "final" : "placeholder"; // optimistic (button disabled when art is "none")
+    render(); renderMakeup();
+    if(SERVER){
+      try{
+        const r = await fetch("/api/artfinal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry,artFinal:next})});
+        if(!r.ok) throw new Error(await r.text());
+        const j = await r.json();
+        card.art = j.art; render(); renderMakeup(); // reconcile with server's hash-based truth
+      }catch(err){
+        card.artFinal = !next; card.art = next ? "placeholder" : "final"; render(); renderMakeup();
+        document.body.classList.add("nosrv");
+        alert("Could not save Art-Final change — is the server running?\n"+err);
+      }
+    } else { document.body.classList.add("nosrv"); }
+    return;
+  }
+
+  // Export no-art png filenames
+  if(e.target.closest("#exportUnfinished")){
+    const names = CARDS.filter(c=>(c.art||"none")==="none").map(c=>c.entry.toLowerCase()+".png").sort();
+    const ok = await copyText(names.join("\n"));
+    const btn = document.getElementById("exportUnfinished");
+    const old = btn.textContent;
+    btn.textContent = ok ? `copied ${names.length} names!` : "copy failed";
+    setTimeout(()=>{ btn.textContent = old; }, 1200);
+    return;
+  }
+
   const untested = e.target.closest('[data-t="untested"]');
   if(untested){ untested.classList.toggle("on"); state.untested=!state.untested; render(); }
+  const noart = e.target.closest('[data-t="noart"]');
+  if(noart){ noart.classList.toggle("on"); state.noart=!state.noart; render(); }
 });
 
 document.getElementById("q").addEventListener("input", e=>{ state.q=e.target.value; render(); });

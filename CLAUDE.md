@@ -125,7 +125,7 @@ Every card is documented in **`Docs/card-data/cards.json`** (source of truth), r
 node Docs/card-data/regen.js          # rebuild cards.json from the .cs files + localization
 node Docs/card-data/regen.js --check  # no-write drift check (exit 1 if stale)
 ```
-`regen.js` parses the card classes, **preserves each card's `tested` flag and curated `note`**, and **auto-clears `TESTED` for any card whose mechanics changed** — that is the user's "clear TESTED when the design changes" rule, automated. Treat running `regen.js` as part of finishing any card edit (alongside `dotnet build`). Do not hand-maintain a parallel markdown list — `cards.json` is the only card doc.
+`regen.js` parses the card classes, **preserves each card's `tested` flag, `artFinal` flag, and curated `note`**, and **auto-clears `TESTED` for any card whose mechanics changed** — that is the user's "clear TESTED when the design changes" rule, automated. Treat running `regen.js` as part of finishing any card edit (alongside `dotnet build`). Do not hand-maintain a parallel markdown list — `cards.json` is the only card doc.
 
 ## Potion traits & brewing
 
