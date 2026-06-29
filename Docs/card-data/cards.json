@@ -156,7 +156,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": [
@@ -178,7 +178,7 @@
       },
       "upgrade": "ExtraDamage +4",
       "note": "Chromatic Claws: an Attack that scales with how many potions are in your belt right now.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -271,7 +271,7 @@
       },
       "upgrade": "none",
       "note": "Internal Chant: gain Block, then gain Vigor equal to the total number of debuffs across every creature in combat (the player and all enemies).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -295,7 +295,7 @@
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -344,7 +344,7 @@
       },
       "upgrade": "WeakPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -368,7 +368,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -457,7 +457,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -478,7 +478,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Respects Gather Herbs (rare) and upgrade-rarity effects when rolling the utility potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -549,7 +549,7 @@
       },
       "upgrade": "none",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -574,7 +574,7 @@
       },
       "upgrade": "Damage +3, HexPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -664,7 +664,7 @@
       "numbers": {},
       "upgrade": "Potions +1",
       "note": "Brew: upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -756,7 +756,7 @@
       },
       "upgrade": "Brambles +2",
       "note": "Spend X energy to pile Brambles on yourself, 7 at a time, X times — a fast way to stack a big Bramble count.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -897,7 +897,7 @@
       },
       "upgrade": "ExtraDamage +1",
       "note": "Nettles: an AoE Attack that scales with your Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -965,7 +965,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1358,7 +1358,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1445,7 +1445,7 @@
       },
       "upgrade": "Replay +1",
       "note": "Extract Life: an Attack that also enchants a random card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1493,7 +1493,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1623,7 +1623,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1668,7 +1668,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1712,7 +1712,7 @@
       },
       "upgrade": "Brambles +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -1760,7 +1760,7 @@
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1785,7 +1785,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Cat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1853,7 +1853,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Owl familiar token: forge your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1948,7 +1948,7 @@
       },
       "upgrade": "Damage +1",
       "note": "Porcupine familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -1973,7 +1973,7 @@
       },
       "upgrade": "none",
       "note": "Pocket Rats token; exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2065,7 +2065,7 @@
       },
       "upgrade": "none",
       "note": "Wormy: a playable nuisance status (from Wormy Apple).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"

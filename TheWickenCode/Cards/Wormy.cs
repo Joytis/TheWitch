@@ -10,8 +10,8 @@ namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
 /// Wormy: a playable nuisance status (from Wormy Apple). Pay 1 energy to clear one, but it bites — lose 1 life
-/// and gain 1 Weak. Retain keeps it clinging to your hand; Exhaust removes it once played. Token rarity keeps
-/// it out of random rewards.
+/// and gain 1 Weak. Retain keeps it clinging to your hand; Exhaust removes it once played. Status rarity keeps
+/// it out of random rewards (like base-game Wound).
 /// </summary>
 public sealed class Wormy : WickenCard
 {
@@ -29,7 +29,7 @@ public sealed class Wormy : WickenCard
     ];
 
     public Wormy()
-        : base(1, CardType.Status, CardRarity.Token, TargetType.Self)
+        : base(1, CardType.Status, CardRarity.Status, TargetType.Self)
     {
     }
 
