@@ -1,11 +1,15 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Potions;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
+/// <summary>Rattling Bottles: an attack that also crams every empty potion slot full of rocks.</summary>
 public sealed class RattlingBottles : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -14,14 +18,23 @@ public sealed class RattlingBottles : WickenCard
         HoverTipFactory.FromPotion<PotionShapedRock>(),
     ];
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new DamageVar(15m, ValueProp.Move)
+    ];
+
     public RattlingBottles()
-        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
 
         int empty = Owner.PotionSlots.Count(p => p == null);
         for (int i = 0; i < empty; i++)
@@ -30,5 +43,5 @@ public sealed class RattlingBottles : WickenCard
         }
     }
 
-    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5m);
 }

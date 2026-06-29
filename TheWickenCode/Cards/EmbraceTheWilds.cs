@@ -2,14 +2,26 @@ using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Random;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Transform every card in your hand into a random familiar token card, free for the rest of combat.</summary>
+/// <summary>
+/// Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the
+/// rest of combat. The draw penalty rides on <see cref="EmbraceTheWildsPower" />; each summon applies one stack
+/// of a random familiar's <see cref="FamiliarPower" /> (pulled from every registered familiar power).
+/// </summary>
 public sealed class EmbraceTheWilds : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new DynamicVar("DrawReduction", 3m),
+        new DynamicVar("Familiars", 5m)
+    ];
 
     public EmbraceTheWilds()
         : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
@@ -18,18 +30,25 @@ public sealed class EmbraceTheWilds : WickenCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var rng = Owner.RunState.Rng.CombatCardGeneration;
-        List<CardModel> handCards = PileType.Hand.GetPile(Owner).Cards
-            .Where(c => c.IsTransformable)
-            .ToList();
-        foreach (CardModel original in handCards)
+        await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
+
+        await PowerCmd.Apply<EmbraceTheWildsPower>(
+            choiceContext, Owner.Creature, DynamicVars["DrawReduction"].BaseValue, Owner.Creature, this);
+
+        List<PowerModel> familiarPowers = ModelDb.AllPowers.Where(p => p is FamiliarPower).ToList();
+        if (familiarPowers.Count == 0)
         {
-            CardModel canonical = rng.NextItem(FamiliarCardRegistry.AllCanonical)!;
-            CardModel familiarCard = CombatState!.CreateCard(canonical, Owner);
-            familiarCard.EnergyCost.SetThisCombat(0);
-            await CardCmd.Transform(original, familiarCard);
+            return;
+        }
+
+        Rng rng = Owner.RunState.Rng.CombatCardGeneration;
+        int summons = DynamicVars["Familiars"].IntValue;
+        for (int i = 0; i < summons; i++)
+        {
+            PowerModel familiar = rng.NextItem(familiarPowers)!;
+            await PowerCmd.Apply(choiceContext, familiar.ToMutable(), Owner.Creature, 1m, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["Familiars"].UpgradeValueBy(1m);
 }

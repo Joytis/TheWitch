@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Cards;
 
 namespace TheWicken.TheWickenCode.Extensions;
 
@@ -41,4 +42,12 @@ public static class CombatHistoryQueries
     /// </summary>
     public static int CardsPlayedThisCombat<T>(Creature player) where T : CardModel =>
         History?.CardPlaysFinished.Count(e => e.CardPlay.Card is T && e.CardPlay.Card.Owner.Creature == player) ?? 0;
+
+    /// <summary>
+    /// How many Rat familiar token cards (anything marked <see cref="IRatCard" /> — Rats, Plague, Nibble) this
+    /// player has finished playing this combat. Excludes the in-progress play, so a Nibble read during its own
+    /// <c>OnPlay</c> counts only the rats before it. Used by Nibble's per-rat damage scaling.
+    /// </summary>
+    public static int RatCardsPlayedThisCombat(Creature player) =>
+        History?.CardPlaysFinished.Count(e => e.CardPlay.Card is IRatCard && e.CardPlay.Card.Owner.Creature == player) ?? 0;
 }

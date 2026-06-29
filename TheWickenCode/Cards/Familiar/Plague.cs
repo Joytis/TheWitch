@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>Rat familiar token: draw, then everyone (you + all enemies) loses Strength.</summary>
-public sealed class Plague : WickenFamiliarCard
+public sealed class Plague : WickenFamiliarCard, IRatCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<StrengthPower>(),

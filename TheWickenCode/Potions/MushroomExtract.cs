@@ -32,13 +32,27 @@ public sealed class MushroomExtract : WickenPotion
             await CardCmd.Discard(choiceContext, hand);
         }
 
-        List<CardModel> drawn = (await CardPileCmd.Draw(choiceContext, 6m, Owner)).ToList();
         Rng rng = Owner.RunState.Rng.CombatCardGeneration;
-        foreach (CardModel card in drawn)
+        CardPile drawPile = PileType.Draw.GetPile(Owner);
+        for (int i = 0; i < 6; i++)
         {
-            MushroomedCards.Mark(card, rng);
-            card.SetToFreeThisCombat();
-            CardCmd.Preview(card);
+            // Mark the next card BEFORE drawing it, so its gibberish name/desc + mystery art are already
+            // applied during the draw flight animation — the player never sees the real card face.
+            await CardPileCmd.ShuffleIfNecessary(choiceContext, Owner);
+            CardModel? next = drawPile.Cards.FirstOrDefault();
+            if (next == null)
+            {
+                break;
+            }
+            MushroomedCards.Mark(next, rng);
+
+            CardModel? drawn = await CardPileCmd.Draw(choiceContext, Owner);
+            if (drawn == null)
+            {
+                break;
+            }
+            drawn.SetToFreeThisCombat();
+            CardCmd.Preview(drawn);
         }
     }
 }

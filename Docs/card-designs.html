@@ -243,10 +243,12 @@ function buildTagChips(){
 }
 
 function renderMatrix(){
-  const roles = ROLES.filter(r => CARDS.some(c => (c.role||[]).includes(r)));
+  // Familiar payloads (Token rarity) aren't draftable cards — exclude from the makeup matrix.
+  const MAT = CARDS.filter(c=>c.rarity!=="Token");
+  const roles = ROLES.filter(r => MAT.some(c => (c.role||[]).includes(r)));
   const grid = {}; MECH.forEach(m=>{ grid[m]={}; roles.forEach(r=>grid[m][r]=0); });
   const mTot = {}, rTot = {};
-  CARDS.forEach(c=>{
+  MAT.forEach(c=>{
     (c.mechanics||["None"]).forEach(m=>{
       mTot[m]=(mTot[m]||0)+1;
       (c.role||["Standalone"]).forEach(r=>{ if(grid[m]&&r in grid[m]) grid[m][r]++; });
@@ -262,7 +264,7 @@ function renderMatrix(){
   const foot = `<tr><td class="lab">Σ</td>${roles.map(r=>`<td><b>${rTot[r]||0}</b></td>`).join("")}<td></td></tr>`;
   document.getElementById("matrix").innerHTML =
     `<table class="matrix"><thead>${head}</thead><tbody>${body}${foot}</tbody></table>` +
-    `<div class="sub" style="margin-top:6px">Cards with multiple tags count in each cell they span, so rows/columns may exceed the card total. Red row = core mechanic with no Payoff.</div>`;
+    `<div class="sub" style="margin-top:6px">Cards with multiple tags count in each cell they span, so rows/columns may exceed the card total. Familiar token payloads (Token rarity) are excluded. Red row = core mechanic with no Payoff.</div>`;
 }
 
 function renderMakeup(){
