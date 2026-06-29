@@ -895,6 +895,23 @@
       ]
     },
     {
+      "name": "Grind Down",
+      "entry": "GRIND_DOWN",
+      "file": "TheWickenCode/Cards/GrindDown.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Exhaust a card to create a Potion. Its type sets the potion's effect, its rarity its potency.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Herbal Remedy",
       "entry": "HERBAL_REMEDY",
       "file": "TheWickenCode/Cards/HerbalRemedy.cs",
@@ -922,11 +939,11 @@
       "name": "Hexblast",
       "entry": "HEXBLAST",
       "file": "TheWickenCode/Cards/Hexblast.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 12 damage. Apply 3 Hex.",
+      "text": "Apply 3 Hex. Deal 12 damage for each unique debuff on the enemy.",
       "numbers": {
         "Hex": 3,
         "Damage": 12
@@ -1074,6 +1091,46 @@
       "role": [
         "Generator"
       ]
+    },
+    {
+      "name": "Refuse Pile",
+      "entry": "REFUSE_PILE",
+      "file": "TheWickenCode/Cards/RefusePile.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 11 Block. Add 2 Rats to both your draw and discard piles.",
+      "numbers": {
+        "Block": 11,
+        "Cards": 2
+      },
+      "upgrade": "Block +4",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
+      "name": "Rip Veins",
+      "entry": "RIP_VEINS",
+      "file": "TheWickenCode/Cards/RipVeins.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Deal 15 damage to ALL enemies. Apply 2 Vulnerable to ALL characters.",
+      "numbers": {
+        "Vulnerable": 2,
+        "Damage": 15
+      },
+      "upgrade": "Damage +5",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Ritual Sacrifice",
@@ -1449,6 +1506,25 @@
       ]
     },
     {
+      "name": "Cursed Spellbook",
+      "entry": "CURSED_SPELLBOOK",
+      "file": "TheWickenCode/Cards/CursedSpellbook.cs",
+      "cost": 0,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, draw 1 fewer card and gain 1 extra Energy.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "Energy +1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Dance Around the Cauldron",
       "entry": "DANCE_AROUND_THE_CAULDRON",
       "file": "TheWickenCode/Cards/DanceAroundTheCauldron.cs",
@@ -1790,16 +1866,17 @@
       "entry": "CLAW_EYES",
       "file": "TheWickenCode/Cards/Familiar/ClawEyes.cs",
       "cost": 0,
-      "type": "Skill",
+      "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Apply 1 Weak.",
+      "text": "Deal 5 damage. Apply 1 Weak.",
       "numbers": {
-        "Weak": 1
+        "Weak": 1,
+        "Damage": 5
       },
-      "upgrade": "Weak +1",
+      "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2072,13 +2149,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Apply 1 Vulnerable.",
+      "text": "Apply 2 Vulnerable.",
       "numbers": {
-        "Vulnerable": 1
+        "Vulnerable": 2
       },
       "upgrade": "Vulnerable +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"

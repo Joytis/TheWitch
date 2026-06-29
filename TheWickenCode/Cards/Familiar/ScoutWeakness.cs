@@ -15,7 +15,7 @@ public sealed class ScoutWeakness : WickenFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<VulnerablePower>(1m),
+        new PowerVar<VulnerablePower>(2m),
     ];
 
     public ScoutWeakness()
