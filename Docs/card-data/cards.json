@@ -241,14 +241,14 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 15 damage. Gain 2 Weak.",
+      "text": "Deal 20 damage. Gain 2 Weak.",
       "numbers": {
         "Weak": 2,
-        "Damage": 15
+        "Damage": 20
       },
-      "upgrade": "Damage +5, Weak +1",
+      "upgrade": "Damage +5",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -559,6 +559,27 @@
       ]
     },
     {
+      "name": "Bear Familiar",
+      "entry": "BEAR_FAMILIAR",
+      "file": "TheWickenCode/Cards/BearFamiliar.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Summon a Bear Familiar. At the start of your turn, add a Hibernate or Mutilate to your hand.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
       "name": "Bind in Blood",
       "entry": "BIND_IN_BLOOD",
       "file": "TheWickenCode/Cards/BindInBlood.cs",
@@ -587,17 +608,17 @@
       "name": "Bottle Wall",
       "entry": "BOTTLE_WALL",
       "file": "TheWickenCode/Cards/BottleWall.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 8 Block. Gain {PerPotion:diff()} Block for each potion used this turn.",
+      "text": "Gain 7 Block. Create a Fortifier potion.",
       "numbers": {
-        "Block": 8
+        "Block": 7
       },
-      "upgrade": "Block +2, PerPotion +2",
+      "upgrade": "Block +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -610,17 +631,18 @@
       "name": "Bramble Shield",
       "entry": "BRAMBLE_SHIELD",
       "file": "TheWickenCode/Cards/BrambleShield.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 7 Block. Gain {PerBramble:diff()} Block for each Bramble created this turn.",
+      "text": "Gain 10 Block. Gain 10 Brambles.",
       "numbers": {
-        "Block": 7
+        "Brambles": 10,
+        "Block": 10
       },
-      "upgrade": "PerBramble +1",
+      "upgrade": "Block +3, Brambles +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -743,6 +765,25 @@
       ]
     },
     {
+      "name": "Consume Youth",
+      "entry": "CONSUME_YOUTH",
+      "file": "TheWickenCode/Cards/ConsumeYouth.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 20 damage. Deals double damage to enemies above half HP.",
+      "numbers": {
+        "Damage": 20
+      },
+      "upgrade": "Damage +6",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Creeping Vines",
       "entry": "CREEPING_VINES",
       "file": "TheWickenCode/Cards/CreepingVines.cs",
@@ -812,6 +853,25 @@
       ]
     },
     {
+      "name": "Feast With Wolves",
+      "entry": "FEAST_WITH_WOLVES",
+      "file": "TheWickenCode/Cards/FeastWithWolves.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Draw until you draw an Attack card.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Find Familiar",
       "entry": "FIND_FAMILIAR",
       "file": "TheWickenCode/Cards/FindFamiliar.cs",
@@ -857,6 +917,26 @@
       "role": [
         "Payoff"
       ]
+    },
+    {
+      "name": "Hexblast",
+      "entry": "HEXBLAST",
+      "file": "TheWickenCode/Cards/Hexblast.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 12 damage. Apply 3 Hex.",
+      "numbers": {
+        "Hex": 3,
+        "Damage": 12
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Light the Candle",
@@ -1044,16 +1124,16 @@
       "entry": "ROTTING_ROOTS",
       "file": "TheWickenCode/Cards/RottingRoots.cs",
       "cost": 1,
-      "type": "Power",
+      "type": "Skill",
       "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Whenever you use a Potion, gain 3 Brambles.",
+      "target": "AnyEnemy",
+      "text": "Gain 1 Weak. An enemy loses {StrengthLoss:diff()} Strength this turn.",
       "numbers": {
-        "RottingRoots": 3
+        "Weak": 1
       },
-      "upgrade": "RottingRootsPower +2",
+      "upgrade": "StrengthLoss +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1132,17 +1212,18 @@
       "name": "Vicious Barbs",
       "entry": "VICIOUS_BARBS",
       "file": "TheWickenCode/Cards/ViciousBarbs.cs",
-      "cost": 1,
-      "type": "Power",
+      "cost": 2,
+      "type": "Attack",
       "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Brambles deal 3 additional damage.",
+      "target": "AnyEnemy",
+      "text": "Discard your hand. Deal 5 damage and gain 4 Brambles for each card discarded.",
       "numbers": {
-        "ViciousBarbs": 3
+        "Brambles": 4,
+        "Damage": 5
       },
-      "upgrade": "ViciousBarbsPower +2",
+      "upgrade": "Damage +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1230,27 +1311,6 @@
       },
       "upgrade": "Damage +5",
       "note": "Exhausts; applies a random familiar power with no cosmetic pet.",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Generator"
-      ]
-    },
-    {
-      "name": "Bear Familiar",
-      "entry": "BEAR_FAMILIAR",
-      "file": "TheWickenCode/Cards/BearFamiliar.cs",
-      "cost": 2,
-      "type": "Power",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Summon a Bear Familiar. At the start of your turn, add a Hibernate or Mutilate to your hand.",
-      "numbers": {},
-      "upgrade": "Cost -1",
-      "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1354,11 +1414,11 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon a Chimera Familiar. You draw 2 fewer cards each turn, but at the start of your turn add 3 random Familiar cards to your hand.",
+      "text": "Summon a Chimera Familiar. You draw 1 fewer card each turn, but at the start of your turn add 2 random Familiar cards to your hand.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1417,11 +1477,11 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Transform all cards in your hand into random Familiar cards. They cost 0 this combat.",
+      "text": "Summon {Familiars:diff()} random Familiars. Draw {DrawReduction} fewer cards at the start of each turn.",
       "numbers": {},
-      "upgrade": "Cost -1",
-      "note": "Exhausts.",
-      "tested": true,
+      "upgrade": "Familiars +1",
+      "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1485,15 +1545,15 @@
       "name": "Gather Herbs",
       "entry": "GATHER_HERBS",
       "file": "TheWickenCode/Cards/GatherHerbs.cs",
-      "cost": 0,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
       "text": "Copy the next Potion you create.",
       "numbers": {},
-      "upgrade": "custom (see code)",
+      "upgrade": "Cost -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1616,14 +1676,16 @@
       "entry": "RATTLING_BOTTLES",
       "file": "TheWickenCode/Cards/RattlingBottles.cs",
       "cost": 2,
-      "type": "Skill",
+      "type": "Attack",
       "rarity": "Rare",
-      "target": "Self",
-      "text": "Fill your empty potion slots with Rocks.",
-      "numbers": {},
-      "upgrade": "custom (see code)",
+      "target": "AnyEnemy",
+      "text": "Deal 15 damage. Fill your empty potion slots with Rocks.",
+      "numbers": {
+        "Damage": 15
+      },
+      "upgrade": "Damage +5",
       "note": "Exhausts.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1909,6 +1971,26 @@
       "role": [
         "Token"
       ]
+    },
+    {
+      "name": "Nibble",
+      "entry": "NIBBLE",
+      "file": "TheWickenCode/Cards/Familiar/Nibble.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Token",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 1 damage for each Rat card played this combat.",
+      "numbers": {
+        "CalculationBase": 1,
+        "ExtraDamage": 1
+      },
+      "upgrade": "ExtraDamage +1",
+      "note": "Rat familiar token.",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Plague",

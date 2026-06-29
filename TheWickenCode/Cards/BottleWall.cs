@@ -1,36 +1,36 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Potions;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
+/// <summary>Bottle Wall: gain Block and brew up a Fortifier potion.</summary>
 public sealed class BottleWall : WickenCard
 {
     public override bool GainsBlock => true;
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPotion<Fortifier>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(8m, ValueProp.Move),
-        new DynamicVar("PerPotion", 6m)
+        new BlockVar(7m, ValueProp.Move)
     ];
 
     public BottleWall()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        int used = CombatHistoryQueries.PotionsUsedThisTurn(Owner.Creature, CombatState);
-        decimal total = DynamicVars.Block.BaseValue + DynamicVars["PerPotion"].IntValue * used;
-        await CreatureCmd.GainBlock(Owner.Creature, total, ValueProp.Move, cardPlay);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
+        await PotionCmd.TryToProcure<Fortifier>(Owner);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Block.UpgradeValueBy(2m);
-        DynamicVars["PerPotion"].UpgradeValueBy(2m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(1m);
 }

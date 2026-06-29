@@ -4,6 +4,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Random;
 using TheWicken.TheWickenCode.Extensions;
 
@@ -43,6 +44,12 @@ public static class MushroomedCards
     }
 
     public static bool TryGet(CardModel card, out Gibberish gibberish) => Store.TryGetValue(card, out gibberish!);
+
+    private static Texture2D? _mystery;
+
+    /// <summary>The shared "mystery" portrait used for every mushroomed card (falls back to card.png if missing).</summary>
+    public static Texture2D? MysteryPortrait =>
+        _mystery ??= ResourceLoader.Load<Texture2D>("mystery.png".CardImagePath(), null, ResourceLoader.CacheMode.Reuse);
 
     private static Gibberish Generate(Rng rng)
     {
@@ -101,18 +108,37 @@ internal static class MushroomedDescriptionPatch
 [HarmonyPatch(typeof(CardModel), "get_Portrait")]
 internal static class MushroomedPortraitPatch
 {
-    private static Texture2D? _mystery;
-
     private static void Postfix(CardModel __instance, ref Texture2D __result)
     {
-        if (!MushroomedCards.TryGet(__instance, out _))
+        if (MushroomedCards.TryGet(__instance, out _) && MushroomedCards.MysteryPortrait is { } mystery)
+        {
+            __result = mystery;
+        }
+    }
+}
+
+/// <summary>
+/// The model-level <c>get_Portrait</c> patch can be bypassed when the JIT inlines that trivial getter at
+/// <c>NCard.Reload</c>'s call site, leaving the rendered card showing its real art. This forces the swap on the
+/// view itself: after a card view reloads, if its model is mushroomed, overwrite the portrait TextureRect.
+/// </summary>
+[HarmonyPatch(typeof(NCard), "Reload")]
+internal static class MushroomedNCardPortraitPatch
+{
+    private static readonly AccessTools.FieldRef<NCard, TextureRect> PortraitField =
+        AccessTools.FieldRefAccess<NCard, TextureRect>("_portrait");
+    private static readonly AccessTools.FieldRef<NCard, TextureRect> AncientPortraitField =
+        AccessTools.FieldRefAccess<NCard, TextureRect>("_ancientPortrait");
+
+    private static void Postfix(NCard __instance)
+    {
+        if (__instance.Model is not { } model
+            || !MushroomedCards.TryGet(model, out _)
+            || MushroomedCards.MysteryPortrait is not { } mystery)
         {
             return;
         }
-        _mystery ??= ResourceLoader.Load<Texture2D>("mystery.png".CardImagePath(), null, ResourceLoader.CacheMode.Reuse);
-        if (_mystery != null)
-        {
-            __result = _mystery;
-        }
+        PortraitField(__instance).Texture = mystery;
+        AncientPortraitField(__instance).Texture = mystery;
     }
 }

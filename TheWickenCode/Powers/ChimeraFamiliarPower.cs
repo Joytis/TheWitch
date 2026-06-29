@@ -12,14 +12,14 @@ namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
 /// Counter marking how many Chimera familiars the player currently has. Unlike other familiars, Chimera
-/// trades hand size for volume: each stack draws 2 fewer cards each turn (<see cref="ModifyHandDraw" />)
-/// but creates 3 random familiar token-cards at the start of your turn (<see cref="AfterPlayerTurnStart" />).
+/// trades hand size for volume: each stack draws 1 fewer card each turn (<see cref="ModifyHandDraw" />)
+/// but creates 2 random familiar token-cards at the start of your turn (<see cref="AfterPlayerTurnStart" />).
 /// See <see cref="FamiliarPower" />.
 /// </summary>
 public sealed class ChimeraFamiliarPower : FamiliarPower
 {
-    private const int CardsPerStack = 3;
-    private const int DrawReductionPerStack = 2;
+    private const int CardsPerStack = 2;
+    private const int DrawReductionPerStack = 1;
 
     protected override WickenPet Pet => ModelDb.Monster<ChimeraPet>();
 

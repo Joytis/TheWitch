@@ -16,7 +16,7 @@ public sealed class GatherHerbs : WickenCard
     ];
 
     public GatherHerbs()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -26,5 +26,5 @@ public sealed class GatherHerbs : WickenCard
         await PowerCmd.Apply<NextPotionCopiedPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

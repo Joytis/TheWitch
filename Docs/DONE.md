@@ -4,6 +4,93 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 58. Card Change: Bramble Shield
+- **Done:** 2026-06-29
+- **Changed:** New design (2e Uncommon Skill, Self) — Gain 10 Block + gain 10 `BramblesPower`. Upgrade → +3 Block, +3 Brambles. Dropped the old "7 + 2/bramble-created-this-turn" scaling (and `BramblesCreatedThisTurn` usage).
+- **Decisions:** Read the note's "Upgrade +3 brambles, +3 damage" as **+3 Brambles / +3 Block** — Brambles already covers the retaliation "damage", so the second clause reads as the card's defensive value (Block). Flag for sign-off if "+3 damage" meant something else.
+- **Files:** [BrambleShield.cs](TheWickenCode/Cards/BrambleShield.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: block + brambles, upgrade values.
+
+### 57. Card Redesign: Vicious Barbs
+- **Done:** 2026-06-29
+- **Changed:** New design (2e Uncommon Attack, AnyEnemy) — Discard your hand; deal **5 damage and gain 4 Brambles per card discarded** (lump `Damage×count` hit + `BramblesPower×count`). Upgrade → +2 damage/card. Replaces the old "Brambles deal extra retaliation damage" power.
+- **Decisions:** **User-resolved** (AskUserQuestion) — per-card payload = 5 damage + 4 Brambles ("block" was a typo, dropped). Per-card values shown on the card face (Brambleburst pattern, "for each card discarded"), total computed in `OnPlay`; empty hand = no-op. **Orphan:** old `ViciousBarbsPower` (brambles-retaliation boost, read by `BramblesPower.BeforeDamageReceived`) now unreferenced — left registered (build green) but dead; flagged for removal if undesired.
+- **Files:** [ViciousBarbs.cs](TheWickenCode/Cards/ViciousBarbs.cs); `cards.json`; regen. (`Powers/ViciousBarbsPower.cs` now orphaned.)
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: discard-hand count, damage + brambles scaling, empty-hand no-op.
+
+### 56. Card Redesign: Rotting Roots
+- **Done:** 2026-06-29
+- **Changed:** New design (1e Uncommon Skill, AnyEnemy, Exhaust) — Gain 1 Weak (self) + target enemy loses 10 Strength **this turn** (reverts at turn end). Upgrade → +3 Strength loss. New `RottingRootsStrengthDownPower : TemporaryStrengthPower, ICustomModel` (the base-game DarkShackles pattern — Title/Description/icon inherited from the base + `OriginModel`, so no mod loc needed; `ICustomModel` added to get the mod ID prefix, silencing analyzer STS003). Replaces the old "gain Brambles on potion use" power identity.
+- **Decisions:** Used the canonical `TemporaryStrengthPower` "lose X Strength this turn" primitive (DarkShackles) rather than permanent `-Strength`. Self-Weak is a flat 1 (not upgraded). **Orphan:** the old `RottingRootsPower` (brambles-on-potion-use) is now unreferenced — left registered (its loc keys still present, build green) but dead; flagged for removal if undesired.
+- **Files:** new `Powers/RottingRootsStrengthDownPower.cs`; [RottingRoots.cs](TheWickenCode/Cards/RottingRoots.cs); `cards.json`; regen. (`Powers/RottingRootsPower.cs` now orphaned.)
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: strength reverts at turn end, self-Weak, **temp-strength-down icon renders** (modded `TemporaryStrengthPower` subclass — icon path unverified).
+
+### 55. Card Change: Rattling Bottles → Attack
+- **Done:** 2026-06-29
+- **Changed:** Rattling Bottles is now an **Attack** (was Skill): 2e Rare, `DamageVar(15)` dealt to `AnyEnemy`, then fills every empty potion slot with `PotionShapedRock` (unchanged). Upgrade → +5 damage (was "remove Exhaust"). Keeps Exhaust at both levels.
+- **Files:** [RattlingBottles.cs](TheWickenCode/Cards/RattlingBottles.cs); `cards.json` (desc += damage clause); regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: damage + rock-fill, Exhaust.
+
+### 54. Card Change: Bear Familiar rarity
+- **Done:** 2026-06-29
+- **Changed:** Bear Familiar `CardRarity.Rare` → `Uncommon`. Nothing else touched.
+- **Files:** [BearFamiliar.cs](TheWickenCode/Cards/BearFamiliar.cs); regen.
+- **Verified:** build 0/0, regen OK.
+
+### 53. Card Change: Chimera Familiar tuning
+- **Done:** 2026-06-29
+- **Changed:** `ChimeraFamiliarPower` `CardsPerStack` 3→2, `DrawReductionPerStack` 2→1. Updated power doc comment + card localization ("draw 1 fewer card… add 2 random Familiar cards").
+- **Files:** [ChimeraFamiliarPower.cs](TheWickenCode/Powers/ChimeraFamiliarPower.cs); `cards.json` (CHIMERA_FAMILIAR.description); regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: per-turn token count + draw reduction.
+
+### 52. Card Change: Gather Herbs cost
+- **Done:** 2026-06-29
+- **Changed:** Cost 0 → **1**; upgrade now reduces cost back to **0** (`EnergyCost.UpgradeBy(-1)`, replacing the old "remove Exhaust" upgrade). Effect (copy next potion created) + Exhaust unchanged.
+- **Decisions:** Read the note's "Upgrade +1e" as **restoring the free cost** (cost-down upgrade), the only sensible reading once base cost rose to 1. Flagged in the item; no further sign-off needed.
+- **Files:** [GatherHerbs.cs](TheWickenCode/Cards/GatherHerbs.cs); regen (no loc text change — cost shows via the card frame).
+- **Verified:** build 0/0, regen OK.
+
+### 51. New card: Nibble (Rat familiar token)
+- **Done:** 2026-06-29
+- **Changed:** New `Nibble` token (0e Attack, Token, `IRatCard`) — deals **1 damage per Rat card played this combat, including itself**, via the Soul Storm `CalculatedDamageVar` pattern (`CalculationBaseVar(1)` = itself + `ExtraDamageVar(1)` × prior-rat count). New `IRatCard` marker on `Rats`/`Plague`/`Nibble`; new `CombatHistoryQueries.RatCardsPlayedThisCombat`. `RatFamiliarPower` converted `FamiliarPower<Plague>` → `LootTableFamiliarPower` rolling **Plague + Nibble** (equal weight); RatFamiliar hover tips now preview both. Upgrade → +1 per-rat damage.
+- **Decisions:** **User-resolved** (AskUserQuestion) — Rat familiar spawn pool = Plague + Nibble; Rats stays a Pocket-Rats-only token. Nibble counts **itself** (base 1) so a fresh Nibble with no prior rats still hits for 1, not 0. Live count excludes the in-progress play (`CardPlaysFinished`), so base-1 supplies the "+1 for itself".
+- **Files:** new `Cards/Familiar/Nibble.cs`, `Cards/Familiar/IRatCard.cs`; [RatFamiliarPower.cs](TheWickenCode/Powers/RatFamiliarPower.cs), [RatFamiliar.cs](TheWickenCode/Cards/RatFamiliar.cs), `Cards/Familiar/Rats.cs`, `Cards/Familiar/Plague.cs`, `Extensions/CombatHistoryQueries.cs`; `cards.json`; regen. Placeholder art `nibble.png` (+big) — needs art.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: live damage scaling renders, loot-table roll, hover previews. Needs art.
+
+### 50. New card: Feast With Wolves
+- **Done:** 2026-06-29
+- **Changed:** New `FeastWithWolves` (1e Uncommon Attack, AnyEnemy) — deal 9 damage, then draw one card at a time until an Attack is drawn (loop exits on `Draw == null`, i.e. empty piles / full hand). Upgrade → +3 damage.
+- **Decisions:** Upgrade = +3 damage (note silent on upgrades for new cards).
+- **Files:** new `Cards/FeastWithWolves.cs`; `cards.json`; regen. Placeholder art `feast_with_wolves.png` (+big) — needs art.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: draw-until-attack loop, no soft-lock on empty deck. Needs art.
+
+### 49. New card: Hexblast
+- **Done:** 2026-06-29
+- **Changed:** New `Hexblast` (1e Uncommon Attack, AnyEnemy) — deal 12 damage, apply 3 `HexPower`. Hover tip for Hex. Upgrade → +3 damage.
+- **Decisions:** Upgrade = +3 damage (note silent).
+- **Files:** new `Cards/Hexblast.cs`; `cards.json`; regen. Placeholder art `hexblast.png` (+big) — needs art.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest. Needs art.
+
+### 48. New card: Consume Youth
+- **Done:** 2026-06-29
+- **Changed:** New `ConsumeYouth` (2e Uncommon Attack, AnyEnemy) — deal 20 damage, **doubled vs a target above half HP** (`CurrentHp*2 > MaxHp`). Upgrade → +6 base damage.
+- **Decisions:** Conditional double computed in `OnPlay` (not a live `CalculatedDamageVar`) — the doubling depends on the chosen target's HP, not a board count, so a simple branch is correct and the card face shows the base 20. Upgrade = +6 (note silent).
+- **Files:** new `Cards/ConsumeYouth.cs`; `cards.json`; regen. Placeholder art `consume_youth.png` (+big) — needs art.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: double-damage threshold. Needs art.
+
+### 47. Card Redesign: Embrace the Wilds
+- **Done:** 2026-06-29
+- **Changed:** New design (3e Rare Skill, Exhaust) — apply `EmbraceTheWildsPower` (new combat-scoped Debuff, draws **3 fewer** cards/turn via `ModifyHandDraw`, `Amount` = cards reduced) and **summon 5 random familiars** by applying one stack of a random `FamiliarPower` pulled from `ModelDb.AllPowers.Where(is FamiliarPower)`. Upgrade → +1 familiar (6). Replaces the old "transform hand into random familiar cards".
+- **Decisions:** "Random familiars" = every registered `FamiliarPower` (Wolf/Bear/Crow/Cat/Owl/Porcupine/Rat/Sloth/**Chimera** included — accepted that Chimera can compound the draw penalty). Summon applies the power directly (`PotionCmd`-style `.ToMutable()` + non-generic `PowerCmd.Apply`) so pets/turn-start tokens all wire up via `AfterApplied`; stacks if the same familiar rolls twice. Draw penalty modeled as `Amount`-cards (apply 3 stacks) so the smartDescription number matches the reduction.
+- **Files:** new `Powers/EmbraceTheWildsPower.cs`; [EmbraceTheWilds.cs](TheWickenCode/Cards/EmbraceTheWilds.cs); `cards.json`, `powers.json`; regen. Placeholder art `embrace_the_wilds_power.png` (power) — needs art.
+- **Verified:** build 0/0, regen OK. ⚠️ **Heavy playtest**: persistent −3 draw across turns, 5 random summons + pets, MP power-apply path. Needs power art.
+
+### 46. Card Change: Bottle Wall
+- **Done:** 2026-06-29
+- **Changed:** New design (2e Uncommon Skill, Self) — Gain 7 Block + create a `Fortifier` potion (`PotionCmd.TryToProcure<Fortifier>`). Upgrade → +1 Block. Dropped the old "8 + 6/potion-used-this-turn" scaling (and the `PotionsUsedThisTurn` query usage).
+- **Files:** [BottleWall.cs](TheWickenCode/Cards/BottleWall.cs); `cards.json`; regen. Fortifier hover tip added.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: block + potion grant.
+
 ### 45. New relic: Wormy's Apple
 - **Done:** 2026-06-28
 - **Changed:** New `WormysApple` (Wicken-unique relic, Uncommon) — on pickup gain 10 Max HP (`CreatureCmd.GainMaxHp`, `MaxHpVar`, per BigMushroom); every combat, `BeforeHandDraw` on turn 1 adds 1 `Wormy` to your hand (per base-game Toolbox). Reuses the `Wormy` status from item 44.

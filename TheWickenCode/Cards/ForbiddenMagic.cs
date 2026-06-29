@@ -15,7 +15,7 @@ public sealed class ForbiddenMagic : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(15m, ValueProp.Move),
+        new DamageVar(20m, ValueProp.Move),
         new PowerVar<WeakPower>(2m)
     ];
 
@@ -38,6 +38,5 @@ public sealed class ForbiddenMagic : WickenCard
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(5m);
-        DynamicVars.Weak.UpgradeValueBy(1m);
     }
 }

@@ -1,21 +1,27 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Pocket Rats token: tiny attack with a lifesteal nibble. Exhausts.</summary>
-public sealed class Rats : WickenFamiliarCard, IRatCard
+/// <summary>Hexblast: solid damage plus a stack of Hex.</summary>
+public sealed class Hexblast : WickenCard
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move),
-        new DynamicVar("Heal", 1m)
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
-    public Rats()
-        : base(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new DamageVar(12m, ValueProp.Move),
+        new PowerVar<HexPower>(3m)
+    ];
+
+    public Hexblast()
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -27,6 +33,8 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
+        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

@@ -18,21 +18,24 @@ public sealed class BrambleShield : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(7m, ValueProp.Move),
-        new DynamicVar("PerBramble", 2m)
+        new BlockVar(10m, ValueProp.Move),
+        new PowerVar<BramblesPower>(10m)
     ];
 
     public BrambleShield()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        int made = CombatHistoryQueries.BramblesCreatedThisTurn(Owner.Creature, CombatState);
-        decimal total = DynamicVars.Block.BaseValue + DynamicVars["PerBramble"].IntValue * made;
-        await CreatureCmd.GainBlock(Owner.Creature, total, ValueProp.Move, cardPlay);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
+        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["PerBramble"].UpgradeValueBy(1m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars.Brambles().UpgradeValueBy(3m);
+    }
 }

@@ -20,9 +20,7 @@ public sealed class BramblesPower : WickenPower
 		if (target == Owner && dealer != null && (props.IsPoweredAttack() || cardSource is Omnislice))
 		{
 			Flash();
-			// Vicious Barbs adds flat damage to each bramble retaliation.
-			int bonus = Owner.GetPowerAmount<ViciousBarbsPower>();
-			await CreatureCmd.Damage(choiceContext, dealer, Amount + bonus, ValueProp.Unpowered | ValueProp.SkipHurtAnim, Owner, null);
+			await CreatureCmd.Damage(choiceContext, dealer, Amount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, Owner, null);
 			// Hedge Prison makes brambles permanent: skip the per-trigger decrement.
 			if (Owner.GetPowerAmount<HedgePrisonPower>() == 0)
 			{
