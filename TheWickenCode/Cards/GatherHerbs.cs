@@ -16,7 +16,7 @@ public sealed class GatherHerbs : WickenCard
     ];
 
     public GatherHerbs()
-        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 

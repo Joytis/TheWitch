@@ -14,5 +14,9 @@
   "THEWICKEN-VIAL_OF_SMOKE.title": "Vial of Smoke",
   "THEWICKEN-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
   "THEWICKEN-SLICING_BREW.title": "Slicing Brew",
-  "THEWICKEN-SLICING_BREW.description": "Deal [blue]{Damage}[/blue] damage [blue]{Repeat}[/blue] times."
+  "THEWICKEN-SLICING_BREW.description": "Deal [blue]{Damage}[/blue] damage [blue]{Repeat}[/blue] times.",
+  "THEWICKEN-MUSHROOM_EXTRACT.title": "Mushroom Extract",
+  "THEWICKEN-MUSHROOM_EXTRACT.description": "Discard your hand and draw [blue]6[/blue] cards. They cost [blue]0[/blue] for the rest of combat, but they're... silly...",
+  "THEWICKEN-WORMY_APPLE.title": "Wormy Apple",
+  "THEWICKEN-WORMY_APPLE.description": "Heal [blue]15[/blue] life. Add [blue]3[/blue] [gold]Wormy[/gold] to your hand."
 }

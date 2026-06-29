@@ -11,7 +11,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class BroomStrike : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<NextFamiliarFreePower>(),
+        HoverTipFactory.FromPower<NextPowerFreePower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
@@ -31,7 +31,7 @@ public sealed class BroomStrike : WickenCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<NextFamiliarFreePower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<NextPowerFreePower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);

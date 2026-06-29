@@ -30,6 +30,8 @@ const CLASSES = {
   silent: "SilentCardPool",
   necrobinder: "NecrobinderCardPool",
   ironclad: "IroncladCardPool",
+  defect: "DefectCardPool",
+  regent: "RegentCardPool",
 };
 
 const pascalToSnake = (s) =>

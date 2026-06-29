@@ -9,7 +9,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class Ferocity : WickenFamiliarCard
 {
     public Ferocity()
-        : base(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
 

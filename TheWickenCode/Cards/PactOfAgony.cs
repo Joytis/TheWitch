@@ -3,41 +3,45 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Pact of Agony: take on Vulnerable yourself to sap the Strength of all enemies.</summary>
+/// <summary>Pact of Agony: bleed yourself and clog your deck to wither every enemy with Weak.</summary>
 public sealed class PactOfAgony : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<VulnerablePower>(),
-        HoverTipFactory.FromPower<StrengthPower>(),
+        HoverTipFactory.FromCard<Wound>(),
+        HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<VulnerablePower>(3m),
-        new DynamicVar("StrengthLoss", 2m)
+        new HpLossVar(3m),
+        new CardsVar(2),
+        new PowerVar<WeakPower>(3m)
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public PactOfAgony()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<VulnerablePower>(choiceContext, Owner.Creature, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
-        int loss = DynamicVars["StrengthLoss"].IntValue;
-        await PowerCmd.Apply<StrengthPower>(choiceContext, CombatState!.HittableEnemies, -loss, Owner.Creature, this);
+        await CreatureCmd.Damage(choiceContext, Owner.Creature, DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this);
+        for (int i = 0; i < DynamicVars.Cards.IntValue; i++)
+        {
+            CardModel wound = CombatState!.CreateCard<Wound>(Owner);
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(wound, PileType.Discard, Owner));
+        }
+        await PowerCmd.Apply<WeakPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["WeakPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Vulnerable.UpgradeValueBy(2m);
-        DynamicVars["StrengthLoss"].UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => DynamicVars["WeakPower"].UpgradeValueBy(2m);
 }

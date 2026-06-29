@@ -4,6 +4,131 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 45. New relic: Wormy's Apple
+- **Done:** 2026-06-28
+- **Changed:** New `WormysApple` (Wicken-unique relic, Uncommon) — on pickup gain 10 Max HP (`CreatureCmd.GainMaxHp`, `MaxHpVar`, per BigMushroom); every combat, `BeforeHandDraw` on turn 1 adds 1 `Wormy` to your hand (per base-game Toolbox). Reuses the `Wormy` status from item 44.
+- **Decisions:** "Gain 10 HP" read as **+10 Max HP** (StS relic convention) — flagged for sign-off. Wicken pool via `WickenRelic` `[Pool]`. Null-guarded `PlayerCombatState` (mod has Nullable on).
+- **Files:** new `Relics/WormysApple.cs`; `relics.json`. Placeholder art `wormysapple.png` (+ `_outline`/`big`).
+- **Verified:** build 0/0. ⚠️ Needs art + playtest (Max-HP on pickup, Wormy every combat) + HP-interpretation sign-off.
+
+### 44. New potion: Wormy Apple (+ Wormy status card)
+- **Done:** 2026-06-28
+- **Changed:** New `WormyApple` potion (Uncommon, CombatOnly, Self) — heal 15 life, then add 3 `Wormy` to your hand (`CreateCard<Wormy>` ×3 + `AddGeneratedCardsToCombat`). New `Wormy` card (Status, Token rarity, 1e, Self, Retain+Exhaust, `MaxUpgradeLevel 0`) — on play: lose 1 life (`HpLossVar`, Unblockable|Unpowered|Move) + gain 1 Weak (self). `PotionTraits.Manual` += Defensive.
+- **Decisions:** Wormy is a *playable* nuisance (1e to clear, Retain keeps it sticky, Exhaust removes once played). Token rarity keeps it out of random rewards while staying registered/generatable. Placed in the character `WickenCardPool` (reachable by `AllCardPools` → no "You monster!"). Weak applies to the player (downside). Potion tagged Defensive (net heal).
+- **Files:** new `Potions/WormyApple.cs`, `Cards/Wormy.cs`; `Potions/Brewing/PotionTraits.cs`; `potions.json`, `cards.json`; regen. Placeholder art `wormyapple.png` + `wormy.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs art + playtest (status generation, Retain/Exhaust, self-Weak).
+
+### 43. Removed card: Rootcraft (+ Bursting Roots chain)
+- **Done:** 2026-06-28
+- **Changed:** Deleted `Rootcraft` card. Its power `BurstingRootsPower` was applied by no other card, so removed it too — plus its loc and the `CardUpgradeTracker` Bursting-Roots branch + `TakePendingBrambles`/`PendingBrambles` (the tracker's Twinroot-relic branch is kept). Removed art (`rootcraft.png` + `big/` + `.import`).
+- **Decisions:** Removing the card orphaned the power and its driver code → removed the whole exclusive chain for a clean delete; left `CardUpgradeTracker` in place for Twinroot.
+- **Files:** deleted `Cards/Rootcraft.cs` (+uid), `Powers/BurstingRootsPower.cs` (+uid), art; edited `Patches/CardUpgradeTracker.cs`; `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Twinroot still drives `CardUpgradeTracker` — playtest that relic to confirm untouched.
+
+### 42. New familiar token: Knowledge (Owl table)
+- **Done:** 2026-06-28
+- **Changed:** New `Knowledge` (Owl familiar token, 1e Skill, Self) — upgrade 1 card in your hand (Upgraded: all upgradable hand cards). In-combat `CardCmd.Upgrade`, so it lasts only the rest of the fight. Mirrors base-game `Armaments` (branches on `IsUpgraded`; uses `CardSelectCmd.FromHandForUpgrade`). Converted `OwlFamiliarPower` from `FamiliarPower<Wisdom>` to `LootTableFamiliarPower` (Wisdom + Knowledge).
+- **Decisions:** "Rest of combat" is automatic — combat upgrades don't persist to the master deck. Upgraded form (all-hand) = the auto-upgraded token when the Owl summon is upgraded.
+- **Files:** new `Cards/Familiar/Knowledge.cs`; `Powers/OwlFamiliarPower.cs`; `cards.json`; regen. Placeholder art `knowledge.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs art + playtest (Owl now rolls Wisdom OR Knowledge).
+
+### 41. New familiar token: Curiosity (Cat table)
+- **Done:** 2026-06-28
+- **Changed:** New `Curiosity` (Cat familiar token, 0e Skill, Self) — draw 2 cards, then put 1 card from your hand on top of your draw pile. Upgraded: draw 3 (user-chosen). Mirrors base-game `ThinkingAhead` (`CardSelectCmd.FromHand` → `CardPileCmd.Add(..., PileType.Draw, CardPilePosition.Top)`). Converted `CatFamiliarPower` (`FamiliarPower<Ferocity>`) to `LootTableFamiliarPower` (Ferocity + Curiosity).
+- **Decisions:** Upgrade = draw 3 (put 1 back), per user.
+- **Files:** new `Cards/Familiar/Curiosity.cs`; `Powers/CatFamiliarPower.cs`; `cards.json`; regen. Placeholder art `curiosity.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs art + playtest.
+
+### 40. New familiar token: Bristle (Porcupine table)
+- **Done:** 2026-06-28
+- **Changed:** New `Bristle` (Porcupine familiar token, 0e Skill, Self) — gain 8 Brambles (Upgraded: 10). Converted `PorcupineFamiliarPower` (`FamiliarPower<Quills>`) to `LootTableFamiliarPower` (Quills + Bristle).
+- **Files:** new `Cards/Familiar/Bristle.cs`; `Powers/PorcupineFamiliarPower.cs`; `cards.json`; regen. Placeholder art `bristle.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs art + playtest.
+
+### 39. Card rework: Quills
+- **Done:** 2026-06-28
+- **Changed:** Quills (Porcupine token) → 1e (was 0), Attack: deal 3 damage 4 times (`DamageVar` + `RepeatVar(4)` + `WithHitCount`). Upgraded: 4×4. Dropped the old Brambles gain + its hover tip/usings.
+- **Files:** `Cards/Familiar/Quills.cs`; `cards.json`; regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest.
+
+### 38. Card rework: Pact of Agony
+- **Done:** 2026-06-28
+- **Changed:** Pact of Agony → Skill, Common (was Uncommon), 1e, Exhaust: lose 3 life (`HpLossVar`, Unblockable|Unpowered|Move), add 2 `Wound` to discard (per `FightThrough`), ALL enemies gain 3 Weak (`WeakPower` → `HittableEnemies`). Upgrade: +2 Weak (→5). Dropped the old Vulnerable-self / Strength-drain design + its vars.
+- **Decisions:** User-finalized note + chose Weak base 3 / upgrade +2. Kept `TargetType.Self` (AoE Weak applied in code). Wound → discard (base-game default).
+- **Files:** `Cards/PactOfAgony.cs`; `cards.json`; regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest.
+
+### 37. New potion: Mushroom Extract (+ gibberish card patches)
+- **Done:** 2026-06-28
+- **Changed:** New `MushroomExtract` potion (Rare, CombatOnly, Self) — discard your hand, draw 6 cards; those 6 (your real cards) are "mushroomed" for the rest of combat: `SetToFreeThisCombat()` (cost 0) + random-letter gibberish name/description + `mystery.png` art. New `Patches/MushroomedCards.cs`: a per-instance registry (`ConditionalWeakTable<CardModel, Gibberish>`, generated once, auto-GC'd at combat end) + 3 Harmony postfixes — `CardModel.get_Title`, `GetDescriptionForPile(PileType, Creature)`, `get_Portrait` — that substitute gibberish/mystery art for tagged instances only. `PotionTraits.Manual` += Utility.
+- **Decisions:** User-resolved — cost-0 = rest of combat; gibberish sticks to the real cards (combat-scoped); gibberish = procedural random letters/syllables (stable per card); art → `mystery.png`. Cost handled via `SetToFreeThisCombat` (no extra power). Cosmetic override done at the model layer (non-virtual `get_Portrait`/`GetDescriptionForPile` catch all card types; `get_Title` is virtual so a rare base-game card that overrides Title — e.g. Wither — would show its real title; acceptable edge).
+- **Files:** new `Potions/MushroomExtract.cs`, `Patches/MushroomedCards.cs`; `Potions/Brewing/PotionTraits.cs`; `potions.json`. Needs art: `mystery.png` (card portrait, falls back to `card.png`) + potion icon `mushroomextract.png`.
+- **Verified:** build 0/0. ⚠️ **Cannot runtime-verify** — Harmony UI patches (title/desc/portrait), draw/discard, and cost-0 are compile-only. **Needs in-game playtest** (gibberish renders + layout, art swap, cost-0 persists for combat, no leak to non-mushroomed cards) + art (`mystery.png`, `mushroomextract.png`).
+
+### 36. Card rework: Creeping Vines
+- **Done:** 2026-06-28
+- **Changed:** Creeping Vines now single-player self-target: spend X energy, gain 7 Brambles per hit, X times. Dropped the `MultiplayerOnly` constraint + random-ally flinging; loop now applies to `Owner.Creature`. Base 5→7, upgrade still +2 (→9). Keeps `HasEnergyCostX`. Loc "to a random ally" → "[b]X[/b] times" (self).
+- **Decisions:** Per user — retarget to self, single-player (was MP co-op). Upgrade +2 per note.
+- **Files:** `Cards/CreepingVines.cs`; `cards.json`; regen `cards.json`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest (X-cost loop).
+
+### 35. Card rework: Nettles
+- **Done:** 2026-06-28
+- **Changed:** Nettles → 2e (was 1), Uncommon (was Common), Attack/AllEnemies. Deal 8 + 2 per Bramble to all enemies, now via live `CalculatedDamageVar` (Rend shape: `CalculationBase 8` + `ExtraDamage 2` × `Owner.Creature.GetPowerAmount<BramblesPower>()`) so the Bramble-scaled total renders on the card face instead of being computed only at play. Upgrade: per-Bramble 2→3 (`ExtraDamage +1`).
+- **Decisions:** User chose "+1 per bramble" upgrade. Converted the old static-display + play-time-bonus to the live CalculatedDamage pattern per CLAUDE.md (combat-scaled numbers must render live).
+- **Files:** `Cards/Nettles.cs`; `cards.json`; regen `cards.json`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest (live Bramble scaling on AoE).
+
+### 34. New card: Internal Chant
+- **Done:** 2026-06-28
+- **Changed:** New `InternalChant` (Skill, Common, 1, Self) — gain 8 Block, then gain Vigor equal to the total debuffs across **all creatures** (player + every enemy). Debuff count uses the base-game `Rend` filter (`PowerType.Debuff`, excluding `ITemporaryPower`); Vigor applied via `PowerCmd.Apply<VigorPower>` only when count > 0. Vigor hover tip.
+- **Decisions:** Raw note "gain 1 vigorous for All debuffs" → user clarified "Vigor per debuff on ALL characters" → counts `CombatState.Creatures`. Note omitted cost/type/rarity → 1e Common Skill. Name set by user (was placeholder "Spite"). No upgrade specified → none added (default MaxUpgradeLevel still applies; no `OnUpgrade`).
+- **Files:** new `Cards/InternalChant.cs`; `cards.json`; regen `cards.json`. Placeholder art `internalchant.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest + art (`Images: Generate missing sizes` → `Godot: Import assets`).
+
+### 33. New card: Extract Life
+- **Done:** 2026-06-28
+- **Changed:** New `ExtractLife` (Attack, Rare, 1, AnyEnemy) — deal 12 damage, then a random card in your hand gains Replay 2 and Exhaust. Replay enchant via base-game `HiddenGem` pattern (`BaseReplayCount += Replay`, `CardCmd.Preview`); Exhaust via public `AddKeyword`. Upgrade: +1 Replay. Replay static hover tip.
+- **Decisions:** Picks from Hand (the played card is in Play pile, so excluded); skips Unplayable cards. Upgrade adds Replay (matches HiddenGem) per note "Add one replay".
+- **Files:** new `Cards/ExtractLife.cs`; `cards.json`; regen `cards.json`. Placeholder art `extractlife.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest (Replay enchant + Exhaust interaction) + art.
+
+### 32. New card: Chromatic Claws
+- **Done:** 2026-06-28
+- **Changed:** New `ChromaticClaws` (Attack, Common, 1, AnyEnemy) — deal 8 damage for each potion in your belt. Live-scaling via the Soul Storm `CalculatedDamageVar` shape (`CalculationBase 0` + `ExtraDamage 8` × `Owner.PotionSlots.Count(p => p != null)`), not BaseValue mutation. Upgrade: +4 per potion.
+- **Decisions:** Belt count = non-null `PotionSlots` (per `RattlingBottles`). Name set by user (was placeholder "Bottle Toss"). Note omitted upgrade → +4 ExtraDamage.
+- **Files:** new `Cards/ChromaticClaws.cs`; `cards.json`; regen `cards.json`. Placeholder art `chromaticclaws.png`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest + art.
+
+### 31. Card rework: Bind in Blood
+- **Done:** 2026-06-28
+- **Changed:** Bind in Blood retyped Skill→**Attack**, Common→**Uncommon**, target Self→AnyEnemy. Now: deal 10 damage, add 2 `Wound` to discard (`CombatState.CreateCard<Wound>` + `AddGeneratedCardToCombat` to Discard, per `FightThrough`), apply 3 Hex. Upgrade: +3 damage, +1 Hex. Removed now-orphaned `BindInBloodPower` (+ loc, + uid). Wound + Hex hover tips.
+- **Decisions:** Wound destination = discard (base-game Wound convention). `BindInBloodPower` had no other refs → deleted.
+- **Files:** `Cards/BindInBlood.cs`; deleted `Powers/BindInBloodPower.cs` (+uid); `cards.json`, `powers.json`; regen `cards.json`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest.
+
+### 30. Card rework: Broom Strike
+- **Done:** 2026-06-28
+- **Changed:** Broom Strike rider changed from "next Familiar power free" to "next **Power** free **this turn**" (Attack body/damage unchanged). New `NextPowerFreePower` (any `CardType.Power` → cost 0; consume in `BeforeCardPlayed`; self-remove in `AfterSideTurnEnd` so it expires that turn). Retired `NextFamiliarFreePower` (no other refs) and its loc; renamed loc key to `NEXT_POWER_FREE_POWER`. Hover tip updated.
+- **Decisions:** "This turn" expiry modeled on base-game `RagePower` (`AfterSideTurnEnd` + `participants.Contains(Owner)` → `PowerCmd.Remove`).
+- **Files:** `Cards/BroomStrike.cs`; new `Powers/NextPowerFreePower.cs`; deleted `Powers/NextFamiliarFreePower.cs` (+uid); `cards.json`, `powers.json`; regen `cards.json`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest (energy-discount + turn-end expiry).
+
+### 29. Card rework: Chimera Familiar
+- **Done:** 2026-06-28
+- **Changed:** `ChimeraFamiliarPower` now draws **2 fewer cards/stack** each turn (`ModifyHandDraw` −2 × Amount) and creates **3 random familiar cards/stack** at turn start (override `AfterPlayerTurnStart`, `FamiliarCardRegistry.CreateRandom(count = 3 × Amount)`). Card itself unchanged (Rare Power 1e, −1 energy upgrade). Loc updated.
+- **Decisions:** Both effects scale per stack for consistency with the counter model. Draw reduction via the `ModifyHandDraw` hook.
+- **Files:** `Powers/ChimeraFamiliarPower.cs`; `cards.json`; regen `cards.json`.
+- **Verified:** build 0/0, regen OK. ⚠️ Needs playtest (draw-hook + turn-start timing; behavior with multiple stacks).
+
+### 28. Removed card: Cursed Bloodline
+- **Done:** 2026-06-28
+- **Changed:** Deleted `CursedBloodline` card + `CursedBloodlinePower` (only self-referenced; no external refs). Removed `.cs`/`.cs.uid` for both, loc keys from `cards.json` + `powers.json`. No art existed (was placeholder).
+- **Files:** deleted `Cards/CursedBloodline.cs` (+uid), `Powers/CursedBloodlinePower.cs` (+uid); `cards.json`, `powers.json`; regen `cards.json`.
+- **Verified:** build 0/0 (analyzer would fail on orphan loc — clean), regen OK.
+
+---
+
 ### 27. New card: Prices Paid (+ new potion: Slicing Brew)
 - **Done:** 2026-06-28
 - **Changed:** New `PricesPaid` (Attack, Common, 1) — lose 3 HP (`HpLossVar`, Unblockable|Unpowered|Move), deal 6 damage, `PotionCmd.TryToProcure<SlicingBrew>`. New `SlicingBrew` potion (Token, CombatOnly, AnyEnemy): deals 3 damage 3 times (`DamageVar` + `RepeatVar`, loop of `CreatureCmd.Damage`). Added to `PotionTraits.Manual` = `Damage`.

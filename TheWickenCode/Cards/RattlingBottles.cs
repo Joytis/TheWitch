@@ -15,7 +15,7 @@ public sealed class RattlingBottles : WickenCard
     ];
 
     public RattlingBottles()
-        : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -30,5 +30,5 @@ public sealed class RattlingBottles : WickenCard
         }
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 }

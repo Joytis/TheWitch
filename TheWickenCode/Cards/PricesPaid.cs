@@ -16,7 +16,7 @@ public sealed class PricesPaid : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new HpLossVar(3m),
+        new HpLossVar(1m),
         new DamageVar(6m, ValueProp.Move)
     ];
 

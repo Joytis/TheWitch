@@ -24,7 +24,15 @@ const readData = () => JSON.parse(fs.readFileSync(JSON_PATH, "utf8"));
 const writeData = (d) => fs.writeFileSync(JSON_PATH, JSON.stringify(d, null, 2) + "\n");
 
 const md5 = (buf) => crypto.createHash("md5").update(buf).digest("hex");
-const bigPathFor = (entry) => path.join(BIG_DIR, entry.toLowerCase() + ".png");
+// Big portrait lives at big/<entry>.png, but familiar token cards author their art under
+// big/familiar/<entry>.png (mirrors WickenFamiliarCard's `familiar/` PortraitPath prefix).
+// Check the root first, then the familiar/ subdir; fall back to the root path when neither exists.
+const bigPathFor = (entry) => {
+  const root = path.join(BIG_DIR, entry.toLowerCase() + ".png");
+  if (fs.existsSync(root)) return root;
+  const fam = path.join(BIG_DIR, "familiar", entry.toLowerCase() + ".png");
+  return fs.existsSync(fam) ? fam : root;
+};
 const hashFile = (file) => { try { return md5(fs.readFileSync(file)); } catch { return null; } };
 
 // Known placeholder images (the generic card backs). Any big art matching one of these is "No Art".
@@ -105,7 +113,7 @@ const server = http.createServer((req, res) => {
   }
 
   // --- base-game reference data (read-only): /silent.json, /necrobinder.json
-  if (req.method === "GET" && /^\/(silent|necrobinder|ironclad)\.json/.test(req.url)) {
+  if (req.method === "GET" && /^\/(silent|necrobinder|ironclad|defect|regent)\.json/.test(req.url)) {
     const name = req.url.split("?")[0].slice(1);
     try {
       return send(res, 200, fs.readFileSync(path.join(HERE, name)), "application/json; charset=utf-8");

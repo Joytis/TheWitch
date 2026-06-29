@@ -10,7 +10,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class ToilAndTrouble : WickenCard
 {
     public ToilAndTrouble()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 

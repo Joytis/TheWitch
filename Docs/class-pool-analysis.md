@@ -1,16 +1,17 @@
 # Base-Game Class Pool Analysis
 
 Reference study of how Slay the Spire 2's base characters are built, done to inform Wicken
-design. For each class we categorized every card on two axes and looked at the resulting
+design. For all five base characters we categorized every card on two axes and looked at the resulting
 shape. The point is not the raw counts — it's the **patterns** that separate a real mechanical
 *pillar* from a splashed keyword, and the healthy ratios a pillar should hit.
 
 ## Where the data lives
 
-- **Interactive view:** [card-designs.html](card-designs.html) — tabs for Wicken / Silent /
-  Necrobinder / Ironclad, each with filter chips and a live Mechanic × Role matrix.
-- **Data:** `Docs/card-data/{silent,necrobinder,ironclad}.json` (base-game, read-only) and
-  `cards.json` (Wicken). Each card carries `mechanics[]` and `role[]` tags.
+- **Interactive view:** [card-designs.html](card-designs.html) — tabs for Wicken and all five
+  base classes (Silent / Necrobinder / Ironclad / Defect / Regent), each with filter chips and a
+  live Mechanic × Role matrix.
+- **Data:** `Docs/card-data/{silent,necrobinder,ironclad,defect,regent}.json` (base-game,
+  read-only) and `cards.json` (Wicken). Each card carries `mechanics[]` and `role[]` tags.
 - **Regen:** `node Docs/card-data/gen-basegame.js [class]` rebuilds the base-game files from the
   decompiled `gamedata/` source, **preserving the curated tags** (like `regen.js` preserves
   `tested`). gamedata/ is gitignored, so the committed JSON is the snapshot.
@@ -74,6 +75,8 @@ Share of each pool that touches **no** pillar (`None`):
 | Class | None-share |
 |---|---|
 | Silent | 63% |
+| Regent | 52% |
+| Defect | 48% |
 | Ironclad | 46% |
 | Necrobinder | 41% |
 | **Wicken (for contrast)** | **16%** |
@@ -153,6 +156,56 @@ suite. The cheapest way to widen.
 - **Soul** — a generated token-card resource (Grave Warden, Reave, Capture Spirit make Souls;
   Soul Storm cashes them). 8:1 — thin, the spend-it-built-like-self-acting cautionary case.
 - **Ethereal** — the payoff-heavy "harvest the incidentals" pillar (see lesson above).
+
+## Defect — 88 cards · Orbs · Focus
+
+| mech \ role | Gen | Payoff | Enabler | Standalone | Σ |
+|---|---|---|---|---|---|
+| Orbs | 24 | 17 | 5 | 0 | 41 |
+| Focus | 4 | 2 | 0 | 0 | 6 |
+| None | 0 | 0 | 0 | 42 | 42 |
+
+- **The most mono-thematic class.** Orbs is one giant engine (41 cards, 24 gen : 17 payoff) and
+  everything else is generic. Channel an orb (Zap, Cold Snap, Chaos, Tempest) ↔ evoke / trigger
+  all orbs (Dualcast, Multicast, Tesla Coil, Shatter, Barrage scales per orb). Textbook spend-it
+  balance.
+- **Focus** is not really a second pillar — it's the orb *amplifier* (6 cards: Defragment, Biased
+  Cognition, Hotfix raise Focus; Hyperbeam spends it). It only matters *because* of orbs. Defect
+  is effectively a **one-pillar class** done very deep.
+- **"Powers"** felt like a theme (Defect has the most Power-type cards) but has **zero payoff
+  cards** — nobody rewards *playing* a power. Card-type density ≠ a mechanic. Good reminder that
+  the pillar test is about payoffs, not flavor or card-type counts.
+
+## Regent — 88 cards · Stars · Forge (· Vigor, vestigial)
+
+| mech \ role | Gen | Payoff | Enabler | Standalone | Σ |
+|---|---|---|---|---|---|
+| Stars | 12 | 19 | 0 | 0 | 30 |
+| Forge | 11 | 1 | 4 | 0 | 12 |
+| Vigor | 2 | 0 | 0 | 0 | 2 |
+| None | 0 | 0 | 1 | 45 | 46 |
+
+- **Stars** — a *spend-it* resource done right, and an instructive variant: payoffs (19) outnumber
+  generators (12) because the payoffs are **star-cost cards** (Devastate, Seven Stars, Meteor
+  Shower, etc. — pay Stars on play for a big effect). Gaining Stars (Venerate, Gather Light, Glow)
+  fuels a deck full of expensive star-sinks. The cost-to-cast *is* the payoff distribution.
+- **Forge** — a *self-acting* resource (permanently enhances your cards), so it's generator-heavy
+  (11 gen : 1 payoff) and that's **correct**, same logic as Strength/Poison. You stack Forge and
+  it keeps paying you passively; you don't need cards to "spend" it.
+- **Vigor** (2 cards) is vestigial — kept tagged to show it's *not* a pillar.
+- **No debuff pillar despite heavy Weak/Vulnerable.** Regent applies them widely (15 refs each)
+  but **nothing scales off them** — the exact Weak-is-a-rider finding from Silent and Ironclad,
+  now a third time. Cosmic/royal flavor (Kingly*, Hegemony, Monarch's Gaze, Royalties' gold)
+  is *flavor*, not a mechanic — no shared payoff.
+
+### Note: classes have 1–4 pillars, not a fixed 3
+
+The five base classes don't all hit the same count. Necrobinder (4: Osty/Soul/Doom/Ethereal) and
+Ironclad (4: +Vulnerable) are pillar-rich; Silent (3) is classic; **Defect is essentially 1**
+(Orbs, with Focus as its amplifier); **Regent is 2** (Stars + Forge). More pillars isn't better —
+Defect's single deep engine is one of the most beloved archetypes. The takeaway for Wicken: a
+character can be excellent with **few pillars done deep** (each with a real payoff cluster) rather
+than many pillars spread thin.
 
 ---
 

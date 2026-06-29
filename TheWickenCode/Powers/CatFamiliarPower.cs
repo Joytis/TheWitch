@@ -5,7 +5,12 @@ using TheWicken.TheWickenCode.Monsters;
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>Counter marking how many Cat familiars the player currently has. See <see cref="FamiliarPower" />.</summary>
-public sealed class CatFamiliarPower : FamiliarPower<Ferocity>
+public sealed class CatFamiliarPower : LootTableFamiliarPower
 {
     protected override WickenPet Pet => ModelDb.Monster<CatPet>();
+
+    protected override FamiliarLootTable BuildLootTable() =>
+        new FamiliarLootTable()
+            .Add<Ferocity>()
+            .Add<Curiosity>();
 }

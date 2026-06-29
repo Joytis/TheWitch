@@ -14,7 +14,7 @@ public sealed class UnstableReaction : WickenCard
     ];
 
     public UnstableReaction()
-        : base(2, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
+        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
     {
     }
 

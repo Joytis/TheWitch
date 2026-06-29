@@ -1,0 +1,1792 @@
+{
+  "generated": "from gamedata",
+  "class": "regent",
+  "cards": [
+    {
+      "name": "Defend",
+      "entry": "DEFEND_REGENT",
+      "file": "gamedata/src/Core/Models/Cards/DefendRegent.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Falling Star",
+      "entry": "FALLING_STAR",
+      "file": "gamedata/src/Core/Models/Cards/FallingStar.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Apply 1 Weak. Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Weak": 1,
+        "Damage": 8
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Strike",
+      "entry": "STRIKE_REGENT",
+      "file": "gamedata/src/Core/Models/Cards/StrikeRegent.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Venerate",
+      "entry": "VENERATE",
+      "file": "gamedata/src/Core/Models/Cards/Venerate.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 2.",
+      "numbers": {
+        "Stars": 2
+      },
+      "upgrade": "Stars +1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Astral Pulse",
+      "entry": "ASTRAL_PULSE",
+      "file": "gamedata/src/Core/Models/Cards/AstralPulse.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 6 damage to ALL enemies twice.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "BEGONE!",
+      "entry": "BEGONE",
+      "file": "gamedata/src/Core/Models/Cards/Begone.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Choose a card in your Hand to Transform into Minion Strike.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Celestial Might",
+      "entry": "CELESTIAL_MIGHT",
+      "file": "gamedata/src/Core/Models/Cards/CelestialMight.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage 3 times.",
+      "numbers": {
+        "Damage": 6,
+        "Repeat": 3
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Cloak of Stars",
+      "entry": "CLOAK_OF_STARS",
+      "file": "gamedata/src/Core/Models/Cards/CloakOfStars.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 7 Block.",
+      "numbers": {
+        "Block": 7
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Collision Course",
+      "entry": "COLLISION_COURSE",
+      "file": "gamedata/src/Core/Models/Cards/CollisionCourse.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 11 damage. Add a Debris into your Hand.",
+      "numbers": {
+        "Damage": 11
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Cosmic Indifference",
+      "entry": "COSMIC_INDIFFERENCE",
+      "file": "gamedata/src/Core/Models/Cards/CosmicIndifference.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 6 Block. Put a card from your Discard Pile on top of your Draw Pile.",
+      "numbers": {
+        "Block": 6
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Crescent Spear",
+      "entry": "CRESCENT_SPEAR",
+      "file": "gamedata/src/Core/Models/Cards/CrescentSpear.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 2 additional damage for ALL your cards that have a {singleStarIcon} cost.",
+      "numbers": {
+        "CalculationBase": 8,
+        "ExtraDamage": 2
+      },
+      "upgrade": "ExtraDamage +1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Crush Under",
+      "entry": "CRUSH_UNDER",
+      "file": "gamedata/src/Core/Models/Cards/CrushUnder.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 7 damage to ALL enemies. All enemies lose {StrengthLoss:diff()} Strength this turn.",
+      "numbers": {
+        "Damage": 7
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Gather Light",
+      "entry": "GATHER_LIGHT",
+      "file": "gamedata/src/Core/Models/Cards/GatherLight.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 8 Block. Gain 1.",
+      "numbers": {
+        "Block": 8,
+        "Stars": 1
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Glitterstream",
+      "entry": "GLITTERSTREAM",
+      "file": "gamedata/src/Core/Models/Cards/Glitterstream.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 11 Block. Next turn, gain {BlockNextTurn:diff()} Block.",
+      "numbers": {
+        "Block": 11
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Glow",
+      "entry": "GLOW",
+      "file": "gamedata/src/Core/Models/Cards/Glow.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 1. Draw 1 card. Next turn, draw 1 card.",
+      "numbers": {
+        "Stars": 1,
+        "Cards": 1
+      },
+      "upgrade": "Stars +1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Guiding Star",
+      "entry": "GUIDING_STAR",
+      "file": "gamedata/src/Core/Models/Cards/GuidingStar.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 12 damage. Draw 2 cards.",
+      "numbers": {
+        "Damage": 12,
+        "Cards": 2
+      },
+      "upgrade": "Damage +1, Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hidden Cache",
+      "entry": "HIDDEN_CACHE",
+      "file": "gamedata/src/Core/Models/Cards/HiddenCache.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 1. Next turn, gain 3.",
+      "numbers": {
+        "StarNextTurn": 3,
+        "Stars": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Know Thy Place",
+      "entry": "KNOW_THY_PLACE",
+      "file": "gamedata/src/Core/Models/Cards/KnowThyPlace.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Apply 1 Weak. Apply 1 Vulnerable.",
+      "numbers": {
+        "Weak": 1,
+        "Vulnerable": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Patter",
+      "entry": "PATTER",
+      "file": "gamedata/src/Core/Models/Cards/Patter.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 8 Block. Gain 2 Vigor.",
+      "numbers": {
+        "Vigor": 2,
+        "Block": 8
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "Vigor"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Photon Cut",
+      "entry": "PHOTON_CUT",
+      "file": "gamedata/src/Core/Models/Cards/PhotonCut.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Draw 1 card. Put 1 card from your Hand on top of your Draw Pile.",
+      "numbers": {
+        "Damage": 10,
+        "Cards": 1
+      },
+      "upgrade": "Damage +3, Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Refine Blade",
+      "entry": "REFINE_BLADE",
+      "file": "gamedata/src/Core/Models/Cards/RefineBlade.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Forge 9. Next turn, gain 1.",
+      "numbers": {
+        "Forge": 9,
+        "Energy": 1
+      },
+      "upgrade": "Forge +4",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Solar Strike",
+      "entry": "SOLAR_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/SolarStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Gain 1.",
+      "numbers": {
+        "Damage": 9,
+        "Stars": 1
+      },
+      "upgrade": "Damage +1, Stars +1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Spoils of Battle",
+      "entry": "SPOILS_OF_BATTLE",
+      "file": "gamedata/src/Core/Models/Cards/SpoilsOfBattle.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Forge 5. Draw 2 cards.",
+      "numbers": {
+        "Forge": 5,
+        "Cards": 2
+      },
+      "upgrade": "Forge +3",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Wrought in War",
+      "entry": "WROUGHT_IN_WAR",
+      "file": "gamedata/src/Core/Models/Cards/WroughtInWar.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Forge 7.",
+      "numbers": {
+        "Damage": 7,
+        "Forge": 7
+      },
+      "upgrade": "Damage +2, Forge +2",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Alignment",
+      "entry": "ALIGNMENT",
+      "file": "gamedata/src/Core/Models/Cards/Alignment.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 2.",
+      "numbers": {
+        "Energy": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Black Hole",
+      "entry": "BLACK_HOLE",
+      "file": "gamedata/src/Core/Models/Cards/BlackHole.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you spend or gain {singleStarIcon}, deal 3 damage to ALL enemies.",
+      "numbers": {
+        "BlackHole": 3
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Bulwark",
+      "entry": "BULWARK",
+      "file": "gamedata/src/Core/Models/Cards/Bulwark.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 12 Block. Forge 10.",
+      "numbers": {
+        "Block": 12,
+        "Forge": 10
+      },
+      "upgrade": "Block +3, Forge +3",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "CHARGE!!",
+      "entry": "CHARGE",
+      "file": "gamedata/src/Core/Models/Cards/Charge.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Choose 2 cards in your Draw Pile to Transform into Minion Dive Bomb|Minion Dive Bombs}.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Child of the Stars",
+      "entry": "CHILD_OF_THE_STARS",
+      "file": "gamedata/src/Core/Models/Cards/ChildOfTheStars.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you spend {singleStarIcon}, gain {BlockForStars:diff()} Block for each {singleStarIcon} spent.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Conqueror",
+      "entry": "CONQUEROR",
+      "file": "gamedata/src/Core/Models/Cards/Conqueror.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Forge 3. Sovereign Blade deals double damage to the enemy this turn.",
+      "numbers": {
+        "Forge": 3
+      },
+      "upgrade": "Forge +2",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Convergence",
+      "entry": "CONVERGENCE",
+      "file": "gamedata/src/Core/Models/Cards/Convergence.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Next turn, gain 1 and 1. Retain your Hand this turn.",
+      "numbers": {
+        "Energy": 1,
+        "Stars": 1
+      },
+      "upgrade": "Stars +1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Devastate",
+      "entry": "DEVASTATE",
+      "file": "gamedata/src/Core/Models/Cards/Devastate.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 30 damage.",
+      "numbers": {
+        "Damage": 30
+      },
+      "upgrade": "Damage +10",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Furnace",
+      "entry": "FURNACE",
+      "file": "gamedata/src/Core/Models/Cards/Furnace.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, Forge 5.",
+      "numbers": {
+        "Forge": 5
+      },
+      "upgrade": "Forge +2",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Gamma Blast",
+      "entry": "GAMMA_BLAST",
+      "file": "gamedata/src/Core/Models/Cards/GammaBlast.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 13 damage. Apply 2 Weak. Apply 2 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 2,
+        "Weak": 2,
+        "Damage": 13
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Glimmer",
+      "entry": "GLIMMER",
+      "file": "gamedata/src/Core/Models/Cards/Glimmer.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 3 cards. Put {PutBack:diff()} cards from your Hand on top of your Draw Pile.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hegemony",
+      "entry": "HEGEMONY",
+      "file": "gamedata/src/Core/Models/Cards/Hegemony.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 15 damage. Next turn, gain 2.",
+      "numbers": {
+        "Damage": 15,
+        "Energy": 2
+      },
+      "upgrade": "Damage +3, Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Kingly Kick",
+      "entry": "KINGLY_KICK",
+      "file": "gamedata/src/Core/Models/Cards/KinglyKick.cs",
+      "cost": 4,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 27 damage. Whenever you draw this card, reduce its cost by 1.",
+      "numbers": {
+        "Damage": 27
+      },
+      "upgrade": "Damage +8",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Kingly Punch",
+      "entry": "KINGLY_PUNCH",
+      "file": "gamedata/src/Core/Models/Cards/KinglyPunch.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Whenever you draw this card, increase its damage by {Increase:diff()} this combat.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Knockout Blow",
+      "entry": "KNOCKOUT_BLOW",
+      "file": "gamedata/src/Core/Models/Cards/KnockoutBlow.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 30 damage. If this kills an enemy, gain 5.",
+      "numbers": {
+        "Damage": 30,
+        "Stars": 5
+      },
+      "upgrade": "Damage +8",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Largesse",
+      "entry": "LARGESSE",
+      "file": "gamedata/src/Core/Models/Cards/Largesse.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyAlly",
+      "text": "Another player adds 1 random{IfUpgraded:show: Upgraded} Colorless card to their Hand.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Lunar Blast",
+      "entry": "LUNAR_BLAST",
+      "file": "gamedata/src/Core/Models/Cards/LunarBlast.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 4 damage for each Skill already played this turn.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 4,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Manifest Authority",
+      "entry": "MANIFEST_AUTHORITY",
+      "file": "gamedata/src/Core/Models/Cards/ManifestAuthority.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 7 Block. Add 1 random{IfUpgraded:show: Upgraded} Colorless card into your Hand.",
+      "numbers": {
+        "Block": 7
+      },
+      "upgrade": "Block +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Monologue",
+      "entry": "MONOLOGUE",
+      "file": "gamedata/src/Core/Models/Cards/Monologue.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you play a card this turn, gain {Power:diff()} Strength this turn.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Orbit",
+      "entry": "ORBIT",
+      "file": "gamedata/src/Core/Models/Cards/Orbit.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Every {energyPrefix:energyIcons(4)} you spend, gain 1.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Pale Blue Dot",
+      "entry": "PALE_BLUE_DOT",
+      "file": "gamedata/src/Core/Models/Cards/PaleBlueDot.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "If you play {CardPlay} or more cards in a turn, draw 1 card at the start of your next turn.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Parry",
+      "entry": "PARRY",
+      "file": "gamedata/src/Core/Models/Cards/Parry.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Sovereign Blade now gains 10 Block.",
+      "numbers": {
+        "Parry": 10
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Particle Wall",
+      "entry": "PARTICLE_WALL",
+      "file": "gamedata/src/Core/Models/Cards/ParticleWall.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 9 Block. Return this card to your Hand.",
+      "numbers": {
+        "Block": 9
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Pillar of Creation",
+      "entry": "PILLAR_OF_CREATION",
+      "file": "gamedata/src/Core/Models/Cards/PillarOfCreation.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you create a card, gain 3 Block.",
+      "numbers": {
+        "Block": 3
+      },
+      "upgrade": "Block +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Prophesize",
+      "entry": "PROPHESIZE",
+      "file": "gamedata/src/Core/Models/Cards/Prophesize.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 6 cards.",
+      "numbers": {
+        "Cards": 6
+      },
+      "upgrade": "Cards +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Quasar",
+      "entry": "QUASAR",
+      "file": "gamedata/src/Core/Models/Cards/Quasar.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Choose 1 of 3 random Colorless cards to add into your Hand.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Radiate",
+      "entry": "RADIATE",
+      "file": "gamedata/src/Core/Models/Cards/Radiate.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Deal 3 damage to ALL enemies for each 1 gained this turn.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 3,
+        "Stars": 1,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Reflect",
+      "entry": "REFLECT",
+      "file": "gamedata/src/Core/Models/Cards/Reflect.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 15 Block. Blocked attack damage is reflected to your attacker this turn.",
+      "numbers": {
+        "Block": 15
+      },
+      "upgrade": "Block +5",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Resonance",
+      "entry": "RESONANCE",
+      "file": "gamedata/src/Core/Models/Cards/Resonance.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Gain 1 Strength. ALL enemies lose 1 Strength.",
+      "numbers": {
+        "Strength": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Royal Gamble",
+      "entry": "ROYAL_GAMBLE",
+      "file": "gamedata/src/Core/Models/Cards/RoyalGamble.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 9 {singleStarIcon}.",
+      "numbers": {
+        "Stars": 9
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Shining Strike",
+      "entry": "SHINING_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/ShiningStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Gain 2. Put this card on top of your Draw Pile.",
+      "numbers": {
+        "Damage": 8,
+        "Stars": 2
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Spectrum Shift",
+      "entry": "SPECTRUM_SHIFT",
+      "file": "gamedata/src/Core/Models/Cards/SpectrumShift.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, add 1 random Colorless card into your Hand.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Stardust",
+      "entry": "STARDUST",
+      "file": "gamedata/src/Core/Models/Cards/Stardust.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "RandomEnemy",
+      "text": "Deal 5 damage to a random enemy X times.",
+      "numbers": {
+        "Damage": 5
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Summon Forth",
+      "entry": "SUMMON_FORTH",
+      "file": "gamedata/src/Core/Models/Cards/SummonForth.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Put Sovereign Blade into your Hand from anywhere. Forge 8.",
+      "numbers": {
+        "Forge": 8
+      },
+      "upgrade": "Forge +3",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Supermassive",
+      "entry": "SUPERMASSIVE",
+      "file": "gamedata/src/Core/Models/Cards/Supermassive.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 3 additional damage for each card you created this combat.",
+      "numbers": {
+        "CalculationBase": 5,
+        "ExtraDamage": 3
+      },
+      "upgrade": "ExtraDamage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Terraforming",
+      "entry": "TERRAFORMING",
+      "file": "gamedata/src/Core/Models/Cards/Terraforming.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 6 Vigor.",
+      "numbers": {
+        "Vigor": 6
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Vigor"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Arsenal",
+      "entry": "ARSENAL",
+      "file": "gamedata/src/Core/Models/Cards/Arsenal.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you create a card, gain 1 Strength.",
+      "numbers": {
+        "Arsenal": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Beat into Shape",
+      "entry": "BEAT_INTO_SHAPE",
+      "file": "gamedata/src/Core/Models/Cards/BeatIntoShape.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage. Forge {CalculatedForge:diff()}. Forges an additional 5 for every other time you've hit the enemy this turn.",
+      "numbers": {
+        "Damage": 5,
+        "CalculationBase": 5,
+        "CalculationExtra": 5
+      },
+      "upgrade": "Damage +2, CalculationBase +2, CalculationExtra +2",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Big Bang",
+      "entry": "BIG_BANG",
+      "file": "gamedata/src/Core/Models/Cards/BigBang.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Draw 1 card. Gain 1. Gain 1. Forge 5.",
+      "numbers": {
+        "Cards": 1,
+        "Energy": 1,
+        "Stars": 1,
+        "Forge": 5
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars",
+        "Forge"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Bombardment",
+      "entry": "BOMBARDMENT",
+      "file": "gamedata/src/Core/Models/Cards/Bombardment.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 18 damage. At the start of your turn, if this is in your Exhaust Pile, play it.",
+      "numbers": {
+        "Damage": 18
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Bundle of Joy",
+      "entry": "BUNDLE_OF_JOY",
+      "file": "gamedata/src/Core/Models/Cards/BundleOfJoy.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Add 3 random Colorless cards into your Hand.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Comet",
+      "entry": "COMET",
+      "file": "gamedata/src/Core/Models/Cards/Comet.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 33 damage. Apply 3 Weak. Apply 3 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 3,
+        "Weak": 3,
+        "Damage": 33
+      },
+      "upgrade": "Damage +11",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Crash Landing",
+      "entry": "CRASH_LANDING",
+      "file": "gamedata/src/Core/Models/Cards/CrashLanding.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 21 damage to ALL enemies. Fill your Hand with Debris.",
+      "numbers": {
+        "Damage": 21
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Decisions, Decisions",
+      "entry": "DECISIONS_DECISIONS",
+      "file": "gamedata/src/Core/Models/Cards/DecisionsDecisions.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Draw 3 cards. Choose a Skill in your Hand and play it 3 times.",
+      "numbers": {
+        "Cards": 3,
+        "Repeat": 3
+      },
+      "upgrade": "Cards +2",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Dying Star",
+      "entry": "DYING_STAR",
+      "file": "gamedata/src/Core/Models/Cards/DyingStar.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 9 damage to ALL enemies. ALL enemies lose {StrengthLoss:diff()} Strength this turn.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Foregone Conclusion",
+      "entry": "FOREGONE_CONCLUSION",
+      "file": "gamedata/src/Core/Models/Cards/ForegoneConclusion.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Next turn, put 2 cards from your Draw Pile into your Hand.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Genesis",
+      "entry": "GENESIS",
+      "file": "gamedata/src/Core/Models/Cards/Genesis.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, gain {StarsPerTurn:starIcons()}.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "GUARDS!!!",
+      "entry": "GUARDS",
+      "file": "gamedata/src/Core/Models/Cards/Guards.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Transform any number of cards in your Hand into Minion Sacrifice.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hammer Time",
+      "entry": "HAMMER_TIME",
+      "file": "gamedata/src/Core/Models/Cards/HammerTime.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you Forge, all allies Forge as well.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Heavenly Drill",
+      "entry": "HEAVENLY_DRILL",
+      "file": "gamedata/src/Core/Models/Cards/HeavenlyDrill.cs",
+      "cost": "X",
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage X times. Double X if it's 4 or more.",
+      "numbers": {
+        "Damage": 8,
+        "Energy": 4
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Heirloom Hammer",
+      "entry": "HEIRLOOM_HAMMER",
+      "file": "gamedata/src/Core/Models/Cards/HeirloomHammer.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 20 damage. Choose a Colorless card in your Hand. Add a copy of that card into your Hand.",
+      "numbers": {
+        "Damage": 20,
+        "Repeat": 1
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "I Am Invincible",
+      "entry": "I_AM_INVINCIBLE",
+      "file": "gamedata/src/Core/Models/Cards/IAmInvincible.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 10 Block. At the end of your turn, if this is on top of your Draw Pile, play it.",
+      "numbers": {
+        "Block": 10
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Make It So",
+      "entry": "MAKE_IT_SO",
+      "file": "gamedata/src/Core/Models/Cards/MakeItSo.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Every 3 Skills you play in a turn, put this into your Hand.",
+      "numbers": {
+        "Damage": 6,
+        "Cards": 3
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Monarch's Gaze",
+      "entry": "MONARCHS_GAZE",
+      "file": "gamedata/src/Core/Models/Cards/MonarchsGaze.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you attack an enemy, it loses {StrengthLoss:diff()} Strength this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Neutron Aegis",
+      "entry": "NEUTRON_AEGIS",
+      "file": "gamedata/src/Core/Models/Cards/NeutronAegis.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 8 Plating.",
+      "numbers": {
+        "Plating": 8
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Royalties",
+      "entry": "ROYALTIES",
+      "file": "gamedata/src/Core/Models/Cards/Royalties.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the end of combat, gain 30 Gold.",
+      "numbers": {
+        "Gold": 30
+      },
+      "upgrade": "Gold +10",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Seeking Edge",
+      "entry": "SEEKING_EDGE",
+      "file": "gamedata/src/Core/Models/Cards/SeekingEdge.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Forge 7. Sovereign Blade now deals damage to ALL enemies.",
+      "numbers": {
+        "Forge": 7
+      },
+      "upgrade": "Forge +4",
+      "mechanics": [
+        "Forge"
+      ],
+      "role": [
+        "Generator",
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Seven Stars",
+      "entry": "SEVEN_STARS",
+      "file": "gamedata/src/Core/Models/Cards/SevenStars.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 7 damage to ALL enemies 7 times.",
+      "numbers": {
+        "Damage": 7,
+        "Repeat": 7
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Sword Sage",
+      "entry": "SWORD_SAGE",
+      "file": "gamedata/src/Core/Models/Cards/SwordSage.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Sovereign Blade gains Replay 1.",
+      "numbers": {
+        "SwordSage": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "The Smith",
+      "entry": "THE_SMITH",
+      "file": "gamedata/src/Core/Models/Cards/TheSmith.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Forge 30.",
+      "numbers": {
+        "Forge": 30
+      },
+      "upgrade": "Forge +10",
+      "mechanics": [
+        "Stars",
+        "Forge"
+      ],
+      "role": [
+        "Payoff",
+        "Generator"
+      ]
+    },
+    {
+      "name": "Tyranny",
+      "entry": "TYRANNY",
+      "file": "gamedata/src/Core/Models/Cards/Tyranny.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, draw 1 card and Exhaust 1 card from your Hand.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Void Form",
+      "entry": "VOID_FORM",
+      "file": "gamedata/src/Core/Models/Cards/VoidForm.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "End your turn. The first 2 you play each turn are free to play.",
+      "numbers": {
+        "VoidForm": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Meteor Shower",
+      "entry": "METEOR_SHOWER",
+      "file": "gamedata/src/Core/Models/Cards/MeteorShower.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Ancient",
+      "target": "AllEnemies",
+      "text": "Deal 14 damage to ALL enemies. Apply 2 Weak and Vulnerable to ALL enemies.",
+      "numbers": {
+        "Vulnerable": 2,
+        "Weak": 2,
+        "Damage": 14
+      },
+      "upgrade": "Damage +7",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "The Sealed Throne",
+      "entry": "THE_SEALED_THRONE",
+      "file": "gamedata/src/Core/Models/Cards/TheSealedThrone.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Whenever you play a card, gain {singleStarIcon}.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Stars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    }
+  ]
+}
