@@ -119,6 +119,8 @@ public static class PotionTraits
         [typeof(BottledRot)] = PotionOrientation.Offensive,             // Poison ALL enemies
         [typeof(BuddyInABottle)] = PotionOrientation.Utility,           // adds a random Familiar summon card
         [typeof(VialOfSmoke)] = PotionOrientation.Defensive,            // card-only Block potion (Light the Candle)
+        [typeof(MushroomExtract)] = PotionOrientation.Utility,          // discard hand, draw 6 free gibberish cards
+        [typeof(WormyApple)] = PotionOrientation.Defensive,             // heal 15 (downside: adds 3 Wormy statuses)
     };
 
     /// <summary>Orientation of a potion (manual table first, inference fallback). Cached per Type.</summary>

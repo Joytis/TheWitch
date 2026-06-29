@@ -14,9 +14,7 @@ Nightshade
 Wild Herbs
 Creeping Moss
 Gather Moss
-Light the Candle
 Bad Luck
-Soul Knot
 Wicked Smile
 Witch's Curse
 Bewitching Guise

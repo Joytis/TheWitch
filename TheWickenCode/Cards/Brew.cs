@@ -17,7 +17,7 @@ public sealed class Brew : WickenCard
     ];
 
     public Brew()
-        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

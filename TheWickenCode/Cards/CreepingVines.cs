@@ -1,7 +1,5 @@
-using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -11,13 +9,10 @@ using TheWicken.TheWickenCode.Extensions;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Co-op (MP-only): spend X energy to fling 5 Brambles onto a random ally, X times — the brambles
-/// scatter across the team. A random ally (yourself included) is rolled fresh for each hit.
+/// Spend X energy to pile Brambles on yourself, 7 at a time, X times — a fast way to stack a big Bramble count.
 /// </summary>
 public sealed class CreepingVines : WickenCard
 {
-    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-
     protected override bool HasEnergyCostX => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -25,7 +20,7 @@ public sealed class CreepingVines : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(5m)
+        new PowerVar<BramblesPower>(7m)
     ];
 
     public CreepingVines()
@@ -35,19 +30,11 @@ public sealed class CreepingVines : WickenCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<Creature> allies = CombatState!.GetTeammatesOf(Owner.Creature)
-            .Where(c => c != null && c.IsAlive && c.IsPlayer)
-            .ToList();
-        if (allies.Count == 0)
-        {
-            return;
-        }
         decimal brambles = DynamicVars.Brambles().BaseValue;
         int times = ResolveEnergyXValue();
         for (int i = 0; i < times; i++)
         {
-            Creature target = Owner.RunState.Rng.CombatTargets.NextItem(allies)!;
-            await PowerCmd.Apply<BramblesPower>(choiceContext, target, brambles, Owner.Creature, this);
+            await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, brambles, Owner.Creature, this);
         }
     }
 

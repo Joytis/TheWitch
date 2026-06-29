@@ -1,28 +1,21 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Porcupine familiar token: small attack that grows your Brambles.</summary>
+/// <summary>Porcupine familiar token: a rapid multi-hit attack.</summary>
 public sealed class Quills : WickenFamiliarCard
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<BramblesPower>(),
-    ];
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(2m, ValueProp.Move),
-        new PowerVar<BramblesPower>(4m)
+        new DamageVar(3m, ValueProp.Move),
+        new RepeatVar(4)
     ];
 
     public Quills()
-        : base(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
 
@@ -30,16 +23,12 @@ public sealed class Quills : WickenFamiliarCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount(DynamicVars["Repeat"].IntValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(1m);
-        DynamicVars.Brambles().UpgradeValueBy(2m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
 }

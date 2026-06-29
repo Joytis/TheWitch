@@ -1,0 +1,1767 @@
+{
+  "generated": "from gamedata",
+  "class": "defect",
+  "cards": [
+    {
+      "name": "Defend",
+      "entry": "DEFEND_DEFECT",
+      "file": "gamedata/src/Core/Models/Cards/DefendDefect.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Dualcast",
+      "entry": "DUALCAST",
+      "file": "gamedata/src/Core/Models/Cards/Dualcast.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Evoke your rightmost Orb twice.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Strike",
+      "entry": "STRIKE_DEFECT",
+      "file": "gamedata/src/Core/Models/Cards/StrikeDefect.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Zap",
+      "entry": "ZAP",
+      "file": "gamedata/src/Core/Models/Cards/Zap.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Channel 1 Lightning.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Ball Lightning",
+      "entry": "BALL_LIGHTNING",
+      "file": "gamedata/src/Core/Models/Cards/BallLightning.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Channel 1 Lightning.",
+      "numbers": {
+        "Damage": 7
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Barrage",
+      "entry": "BARRAGE",
+      "file": "gamedata/src/Core/Models/Cards/Barrage.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage for each Channeled Orb.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 5,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Beam Cell",
+      "entry": "BEAM_CELL",
+      "file": "gamedata/src/Core/Models/Cards/BeamCell.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Damage": 3
+      },
+      "upgrade": "Damage +1, Vulnerable +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Boost Away",
+      "entry": "BOOST_AWAY",
+      "file": "gamedata/src/Core/Models/Cards/BoostAway.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 6 Block. Add a Dazed into your Discard Pile.",
+      "numbers": {
+        "Block": 6
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Charge Battery",
+      "entry": "CHARGE_BATTERY",
+      "file": "gamedata/src/Core/Models/Cards/ChargeBattery.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 7 Block. Next turn, gain 1.",
+      "numbers": {
+        "Block": 7,
+        "Energy": 1
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Claw",
+      "entry": "CLAW",
+      "file": "gamedata/src/Core/Models/Cards/Claw.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. Increase the damage of ALL Claw cards by {Increase:diff()} this combat.",
+      "numbers": {
+        "Damage": 3
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Cold Snap",
+      "entry": "COLD_SNAP",
+      "file": "gamedata/src/Core/Models/Cards/ColdSnap.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Channel 1 Frost.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Compile Driver",
+      "entry": "COMPILE_DRIVER",
+      "file": "gamedata/src/Core/Models/Cards/CompileDriver.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Draw 1 card for each unique Orb you have.{InCombat: (Draw {CalculatedCards:diff()} cards)|}",
+      "numbers": {
+        "Damage": 7,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Coolheaded",
+      "entry": "COOLHEADED",
+      "file": "gamedata/src/Core/Models/Cards/Coolheaded.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Channel 1 Frost. Draw 1 card.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Focused Strike",
+      "entry": "FOCUSED_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/FocusedStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Gain 1 Focus this turn.",
+      "numbers": {
+        "Focus": 1,
+        "Damage": 9
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "Focus"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Go for the Eyes",
+      "entry": "GO_FOR_THE_EYES",
+      "file": "gamedata/src/Core/Models/Cards/GoForTheEyes.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. If the enemy intends to attack, apply 1 Weak.",
+      "numbers": {
+        "Weak": 1,
+        "Damage": 3
+      },
+      "upgrade": "Damage +1, Weak +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Gunk Up",
+      "entry": "GUNK_UP",
+      "file": "gamedata/src/Core/Models/Cards/GunkUp.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 4 damage 3 times. Add a Slimed into your Discard Pile.",
+      "numbers": {
+        "Damage": 4,
+        "Repeat": 3
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hologram",
+      "entry": "HOLOGRAM",
+      "file": "gamedata/src/Core/Models/Cards/Hologram.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 3 Block. Put a card from your Discard Pile into your Hand.",
+      "numbers": {
+        "Block": 3
+      },
+      "upgrade": "Block +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hotfix",
+      "entry": "HOTFIX",
+      "file": "gamedata/src/Core/Models/Cards/Hotfix.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 2 Focus this turn.",
+      "numbers": {
+        "Focus": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Focus"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Leap",
+      "entry": "LEAP",
+      "file": "gamedata/src/Core/Models/Cards/Leap.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 9 Block.",
+      "numbers": {
+        "Block": 9
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Lightning Rod",
+      "entry": "LIGHTNING_ROD",
+      "file": "gamedata/src/Core/Models/Cards/LightningRod.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 4 Block. At the start of the next {:diff() turns}, Channel 1 Lightning.",
+      "numbers": {
+        "LightningRod": 2,
+        "Block": 4
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Momentum Strike",
+      "entry": "MOMENTUM_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/MomentumStrike.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Reduce this card's cost to 0 {energyPrefix:energyIcons(1)}.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Sweeping Beam",
+      "entry": "SWEEPING_BEAM",
+      "file": "gamedata/src/Core/Models/Cards/SweepingBeam.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "Deal 6 damage to ALL enemies. Draw 1 card.",
+      "numbers": {
+        "Damage": 6,
+        "Cards": 1
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "TURBO",
+      "entry": "TURBO",
+      "file": "gamedata/src/Core/Models/Cards/Turbo.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 2. Add a Void into your Discard Pile.",
+      "numbers": {
+        "Energy": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Uproar",
+      "entry": "UPROAR",
+      "file": "gamedata/src/Core/Models/Cards/Uproar.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage twice. Play a random Attack from your Draw Pile.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Boot Sequence",
+      "entry": "BOOT_SEQUENCE",
+      "file": "gamedata/src/Core/Models/Cards/BootSequence.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 10 Block.",
+      "numbers": {
+        "Block": 10
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Bulk Up",
+      "entry": "BULK_UP",
+      "file": "gamedata/src/Core/Models/Cards/BulkUp.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Lose {OrbSlots:diff()} Orb Slots. Gain 2 Strength. Gain 2 Dexterity.",
+      "numbers": {
+        "Strength": 2,
+        "Dexterity": 2
+      },
+      "upgrade": "Strength +1, Dexterity +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Capacitor",
+      "entry": "CAPACITOR",
+      "file": "gamedata/src/Core/Models/Cards/Capacitor.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 2 Orb Slots.",
+      "numbers": {
+        "Repeat": 2
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Chaos",
+      "entry": "CHAOS",
+      "file": "gamedata/src/Core/Models/Cards/Chaos.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Channel 1 random Orb.",
+      "numbers": {
+        "Repeat": 1
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Chill",
+      "entry": "CHILL",
+      "file": "gamedata/src/Core/Models/Cards/Chill.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Channel 1 Frost for each enemy.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Compact",
+      "entry": "COMPACT",
+      "file": "gamedata/src/Core/Models/Cards/Compact.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 6 Block. Transform all Status cards in your Hand into Fuel.",
+      "numbers": {
+        "Block": 6
+      },
+      "upgrade": "Block +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Darkness",
+      "entry": "DARKNESS",
+      "file": "gamedata/src/Core/Models/Cards/Darkness.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Channel 1 Dark. Trigger the passive ability of all Dark Orbs.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Double Energy",
+      "entry": "DOUBLE_ENERGY",
+      "file": "gamedata/src/Core/Models/Cards/DoubleEnergy.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Double your Energy.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Energy Surge",
+      "entry": "ENERGY_SURGE",
+      "file": "gamedata/src/Core/Models/Cards/EnergySurge.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AllAllies",
+      "text": "ALL players gain 2.",
+      "numbers": {
+        "Energy": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Feral",
+      "entry": "FERAL",
+      "file": "gamedata/src/Core/Models/Cards/Feral.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "The first time times} you play a 0{energyPrefix:energyIcons(1)} Attack each turn, return it to your Hand.",
+      "numbers": {
+        "Feral": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Fight Through",
+      "entry": "FIGHT_THROUGH",
+      "file": "gamedata/src/Core/Models/Cards/FightThrough.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 13 Block. Add 2 Wounds into your Discard Pile.",
+      "numbers": {
+        "Block": 13
+      },
+      "upgrade": "Block +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "FTL",
+      "entry": "FTL",
+      "file": "gamedata/src/Core/Models/Cards/Ftl.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage. If you have played fewer than {PlayMax:diff()} cards this turn, draw 1 card.",
+      "numbers": {
+        "Damage": 5,
+        "Cards": 1
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Fusion",
+      "entry": "FUSION",
+      "file": "gamedata/src/Core/Models/Cards/Fusion.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Channel 1 Plasma.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Glacier",
+      "entry": "GLACIER",
+      "file": "gamedata/src/Core/Models/Cards/Glacier.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 6 Block. Channel 2 Frost.",
+      "numbers": {
+        "Block": 6
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Glasswork",
+      "entry": "GLASSWORK",
+      "file": "gamedata/src/Core/Models/Cards/Glasswork.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 5 Block. Channel 1 Glass.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Hailstorm",
+      "entry": "HAILSTORM",
+      "file": "gamedata/src/Core/Models/Cards/Hailstorm.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the end of your turn, if you have Frost, deal 6 damage to ALL enemies.",
+      "numbers": {
+        "Hailstorm": 6
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Iteration",
+      "entry": "ITERATION",
+      "file": "gamedata/src/Core/Models/Cards/Iteration.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "The first time you draw a Status each turn, draw 2 cards.",
+      "numbers": {
+        "Iteration": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Loop",
+      "entry": "LOOP",
+      "file": "gamedata/src/Core/Models/Cards/Loop.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, trigger the passive ability of your rightmost Orb{IfUpgraded:show: 2 times}.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Null",
+      "entry": "NULL",
+      "file": "gamedata/src/Core/Models/Cards/Null.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Apply 2 Weak. Channel 1 Dark.",
+      "numbers": {
+        "Weak": 2,
+        "Damage": 10
+      },
+      "upgrade": "Damage +3, Weak +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Overclock",
+      "entry": "OVERCLOCK",
+      "file": "gamedata/src/Core/Models/Cards/Overclock.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 2 cards. Add a Burn into your Discard Pile.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Refract",
+      "entry": "REFRACT",
+      "file": "gamedata/src/Core/Models/Cards/Refract.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage twice. Channel 2 Glass.",
+      "numbers": {
+        "Repeat": 2,
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Rocket Punch",
+      "entry": "ROCKET_PUNCH",
+      "file": "gamedata/src/Core/Models/Cards/RocketPunch.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 13 damage. Draw 1 card. Whenever you create a Status, reduce this card's cost to 0 {energyPrefix:energyIcons(1)} until played.",
+      "numbers": {
+        "Damage": 13,
+        "Cards": 1
+      },
+      "upgrade": "Damage +1, Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Scavenge",
+      "entry": "SCAVENGE",
+      "file": "gamedata/src/Core/Models/Cards/Scavenge.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Exhaust a card. Next turn, gain 2.",
+      "numbers": {
+        "Energy": 2
+      },
+      "upgrade": "Energy +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Scrape",
+      "entry": "SCRAPE",
+      "file": "gamedata/src/Core/Models/Cards/Scrape.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 7 damage. Draw 4 cards. Discard all cards drawn this way that do not cost 0 {energyPrefix:energyIcons(1)}.",
+      "numbers": {
+        "Damage": 7,
+        "Cards": 4
+      },
+      "upgrade": "Damage +3, Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Shadow Shield",
+      "entry": "SHADOW_SHIELD",
+      "file": "gamedata/src/Core/Models/Cards/ShadowShield.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 11 Block. Channel 1 Dark.",
+      "numbers": {
+        "Block": 11
+      },
+      "upgrade": "Block +4",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Skim",
+      "entry": "SKIM",
+      "file": "gamedata/src/Core/Models/Cards/Skim.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Draw 3 cards.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Smokestack",
+      "entry": "SMOKESTACK",
+      "file": "gamedata/src/Core/Models/Cards/Smokestack.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you create a Status, deal 5 damage to ALL enemies.",
+      "numbers": {
+        "Smokestack": 5
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Storm",
+      "entry": "STORM",
+      "file": "gamedata/src/Core/Models/Cards/Storm.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you play a Power, Channel 1 Lightning.",
+      "numbers": {
+        "Storm": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Subroutine",
+      "entry": "SUBROUTINE",
+      "file": "gamedata/src/Core/Models/Cards/Subroutine.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you play a Power, gain {energyPrefix:energyIcons(1)}.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Sunder",
+      "entry": "SUNDER",
+      "file": "gamedata/src/Core/Models/Cards/Sunder.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 24 damage. If this kills an enemy, gain 3.",
+      "numbers": {
+        "Damage": 24,
+        "Energy": 3
+      },
+      "upgrade": "Damage +8",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Synchronize",
+      "entry": "SYNCHRONIZE",
+      "file": "gamedata/src/Core/Models/Cards/Synchronize.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 2 Focus this turn for each unique Orb you have.{InCombat: (Gain {CalculatedFocus:diff()} Focus)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "CalculationExtra": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs",
+        "Focus"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Synthesis",
+      "entry": "SYNTHESIS",
+      "file": "gamedata/src/Core/Models/Cards/Synthesis.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 14 damage. The next Power you play costs 0 {energyPrefix:energyIcons(1)}.",
+      "numbers": {
+        "Damage": 14
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Tempest",
+      "entry": "TEMPEST",
+      "file": "gamedata/src/Core/Models/Cards/Tempest.cs",
+      "cost": "X",
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Channel X Lightning.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Tesla Coil",
+      "entry": "TESLA_COIL",
+      "file": "gamedata/src/Core/Models/Cards/TeslaCoil.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. Trigger all Lightning against the enemy.",
+      "numbers": {
+        "Damage": 3
+      },
+      "upgrade": "Damage +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Thunder",
+      "entry": "THUNDER",
+      "file": "gamedata/src/Core/Models/Cards/Thunder.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you Evoke Lightning, deal 6 damage to each enemy hit.",
+      "numbers": {
+        "Thunder": 6
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "White Noise",
+      "entry": "WHITE_NOISE",
+      "file": "gamedata/src/Core/Models/Cards/WhiteNoise.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Add a random Power into your Hand. It's free to play this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Adaptive Strike",
+      "entry": "ADAPTIVE_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/AdaptiveStrike.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 18 damage. Add a 0{energyPrefix:energyIcons(1)} copy of this card into your Discard Pile.",
+      "numbers": {
+        "Damage": 18
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "All for One",
+      "entry": "ALL_FOR_ONE",
+      "file": "gamedata/src/Core/Models/Cards/AllForOne.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage. Put ALL 0{energyPrefix:energyIcons(1)} cards from your Discard Pile into your Hand.",
+      "numbers": {
+        "Damage": 10
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Buffer",
+      "entry": "BUFFER",
+      "file": "gamedata/src/Core/Models/Cards/Buffer.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Prevent the next time times} you would lose HP.",
+      "numbers": {
+        "Buffer": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Consuming Shadow",
+      "entry": "CONSUMING_SHADOW",
+      "file": "gamedata/src/Core/Models/Cards/ConsumingShadow.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Channel 2 Dark. At the end of your turn, Evoke your leftmost Orb.",
+      "numbers": {
+        "ConsumingShadow": 1,
+        "Repeat": 2
+      },
+      "upgrade": "Repeat +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Coolant",
+      "entry": "COOLANT",
+      "file": "gamedata/src/Core/Models/Cards/Coolant.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, gain 2 Block for each unique Orb you have.",
+      "numbers": {
+        "Coolant": 2
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Creative AI",
+      "entry": "CREATIVE_AI",
+      "file": "gamedata/src/Core/Models/Cards/CreativeAi.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, add a random Power into your Hand.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Defragment",
+      "entry": "DEFRAGMENT",
+      "file": "gamedata/src/Core/Models/Cards/Defragment.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 1 Focus.",
+      "numbers": {
+        "Focus": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Focus"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Echo Form",
+      "entry": "ECHO_FORM",
+      "file": "gamedata/src/Core/Models/Cards/EchoForm.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "The first card you play each turn is played an extra time.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Flak Cannon",
+      "entry": "FLAK_CANNON",
+      "file": "gamedata/src/Core/Models/Cards/FlakCannon.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "RandomEnemy",
+      "text": "Exhaust ALL your Status cards. Deal 8 damage to a random enemy for each card Exhausted.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 8,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +3",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Genetic Algorithm",
+      "entry": "GENETIC_ALGORITHM",
+      "file": "gamedata/src/Core/Models/Cards/GeneticAlgorithm.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain {Block:diff()} Block. Permanently increase this card's Block by {Increase:diff()}.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Helix Drill",
+      "entry": "HELIX_DRILL",
+      "file": "gamedata/src/Core/Models/Cards/HelixDrill.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage for each {energyPrefix:energyIcons(1)} previously spent this turn.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 3,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Hyperbeam",
+      "entry": "HYPERBEAM",
+      "file": "gamedata/src/Core/Models/Cards/Hyperbeam.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 28 damage to ALL enemies. Lose 3 Focus.",
+      "numbers": {
+        "Focus": 3,
+        "Damage": 28
+      },
+      "upgrade": "Damage +8",
+      "mechanics": [
+        "Focus"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Ice Lance",
+      "entry": "ICE_LANCE",
+      "file": "gamedata/src/Core/Models/Cards/IceLance.cs",
+      "cost": 3,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 19 damage. Channel 3 Frost.",
+      "numbers": {
+        "Damage": 19,
+        "Repeat": 3
+      },
+      "upgrade": "Damage +5",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Ignition",
+      "entry": "IGNITION",
+      "file": "gamedata/src/Core/Models/Cards/Ignition.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AnyAlly",
+      "text": "Another player Channels Plasma.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Machine Learning",
+      "entry": "MACHINE_LEARNING",
+      "file": "gamedata/src/Core/Models/Cards/MachineLearning.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, draw 1 additional card.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Meteor Strike",
+      "entry": "METEOR_STRIKE",
+      "file": "gamedata/src/Core/Models/Cards/MeteorStrike.cs",
+      "cost": 5,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 24 damage. Channel 3 Plasma.",
+      "numbers": {
+        "Damage": 24
+      },
+      "upgrade": "Damage +6",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Modded",
+      "entry": "MODDED",
+      "file": "gamedata/src/Core/Models/Cards/Modded.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 1 Orb Slot. Draw 1 card. Increase this card's cost by 1.",
+      "numbers": {
+        "Repeat": 1,
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Multi-Cast",
+      "entry": "MULTI_CAST",
+      "file": "gamedata/src/Core/Models/Cards/MultiCast.cs",
+      "cost": "X",
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Evoke your rightmost Orb X times.",
+      "numbers": {},
+      "upgrade": "none",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Rainbow",
+      "entry": "RAINBOW",
+      "file": "gamedata/src/Core/Models/Cards/Rainbow.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Channel 1 Lightning. Channel 1 Frost. Channel 1 Dark.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Reboot",
+      "entry": "REBOOT",
+      "file": "gamedata/src/Core/Models/Cards/Reboot.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Shuffle ALL your cards into your Draw Pile. Draw 4 cards.",
+      "numbers": {
+        "Cards": 4
+      },
+      "upgrade": "Cards +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Shatter",
+      "entry": "SHATTER",
+      "file": "gamedata/src/Core/Models/Cards/Shatter.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AllEnemies",
+      "text": "Deal 7 damage to ALL enemies. Evoke all of your Orbs twice.",
+      "numbers": {
+        "Damage": 7
+      },
+      "upgrade": "Damage +4",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Signal Boost",
+      "entry": "SIGNAL_BOOST",
+      "file": "gamedata/src/Core/Models/Cards/SignalBoost.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "The next Power you play is played an additional time.",
+      "numbers": {
+        "SignalBoost": 1
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Spinner",
+      "entry": "SPINNER",
+      "file": "gamedata/src/Core/Models/Cards/Spinner.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "At the start of your turn, Channel 1 Glass.",
+      "numbers": {
+        "Spinner": 1
+      },
+      "upgrade": "none",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Supercritical",
+      "entry": "SUPERCRITICAL",
+      "file": "gamedata/src/Core/Models/Cards/Supercritical.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 4.",
+      "numbers": {
+        "Energy": 4
+      },
+      "upgrade": "Energy +2",
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Trash to Treasure",
+      "entry": "TRASH_TO_TREASURE",
+      "file": "gamedata/src/Core/Models/Cards/TrashToTreasure.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you create a Status, Channel 1 random Orb.",
+      "numbers": {},
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Voltaic",
+      "entry": "VOLTAIC",
+      "file": "gamedata/src/Core/Models/Cards/Voltaic.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Channel Lightning equal to the Lightning already Channeled this combat.{InCombat: (Channel {CalculatedChannels:diff()} Lightning)|}",
+      "numbers": {
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Generator",
+        "Payoff"
+      ]
+    },
+    {
+      "name": "Biased Cognition",
+      "entry": "BIASED_COGNITION",
+      "file": "gamedata/src/Core/Models/Cards/BiasedCognition.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Gain 4 Focus. At the start of your turn, lose 1 Focus.",
+      "numbers": {
+        "Focus": 4,
+        "BiasedCognition": 1
+      },
+      "upgrade": "custom",
+      "mechanics": [
+        "Focus"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Quadcast",
+      "entry": "QUADCAST",
+      "file": "gamedata/src/Core/Models/Cards/Quadcast.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Evoke your rightmost Orb 4 times.",
+      "numbers": {
+        "Repeat": 4
+      },
+      "upgrade": "Cost -1",
+      "mechanics": [
+        "Orbs"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    }
+  ]
+}

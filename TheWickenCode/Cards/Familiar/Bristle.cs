@@ -8,28 +8,26 @@ using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class LavenderAndSage : WickenCard
+/// <summary>Porcupine familiar token: a free skill that piles on Brambles.</summary>
+public sealed class Bristle : WickenFamiliarCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1),
-        new PowerVar<BramblesPower>(7m)
+        new PowerVar<BramblesPower>(8m)
     ];
 
-    public LavenderAndSage()
-        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+    public Bristle()
+        : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Brambles().UpgradeValueBy(2m);
 }

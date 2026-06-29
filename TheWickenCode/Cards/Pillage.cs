@@ -10,11 +10,11 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class Pillage : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move)
+        new DamageVar(9m, ValueProp.Move)
     ];
 
     public Pillage()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

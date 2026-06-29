@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cj1ljhpewag3o"
-path="res://.godot/imported/scout.png-72427aa1f16cfb857a76ac9e97c95ae7.ctex"
+path="res://.godot/imported/scout_weakness.png-72427aa1f16cfb857a76ac9e97c95ae7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/familiar/scout.png"
-dest_files=["res://.godot/imported/scout.png-72427aa1f16cfb857a76ac9e97c95ae7.ctex"]
+source_file="res://TheWicken/images/card_portraits/familiar/scout_weakness.png"
+dest_files=["res://.godot/imported/scout_weakness.png-72427aa1f16cfb857a76ac9e97c95ae7.ctex"]
 
 [params]
 

@@ -14,7 +14,7 @@ public sealed class Spines : WickenCard
 	public override bool GainsBlock => true;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(5m, ValueProp.Move),
+        new BlockVar(7m, ValueProp.Move),
         new PowerVar<BramblesPower>(3m)
     ];
 
