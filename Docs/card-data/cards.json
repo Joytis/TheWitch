@@ -427,14 +427,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 5 Block. Gain 3 Brambles.",
+      "text": "Gain 7 Block. Gain 3 Brambles.",
       "numbers": {
         "Brambles": 3,
-        "Block": 5
+        "Block": 7
       },
       "upgrade": "Block +3, Brambles +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2056,7 +2056,7 @@
       "file": "TheWickenCode/Cards/Wormy.cs",
       "cost": 1,
       "type": "Status",
-      "rarity": "Token",
+      "rarity": "Status",
       "target": "Self",
       "text": "Lose 1 life. Gain 1 Weak.",
       "numbers": {
@@ -2065,7 +2065,7 @@
       },
       "upgrade": "none",
       "note": "Wormy: a playable nuisance status (from Wormy Apple).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
