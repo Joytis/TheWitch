@@ -19,4 +19,4 @@ Work queue for TheWicken mod. Source of new items: [TODO_STAGING.md](TODO_STAGIN
 
 ## Queue (top = next)
 
-🎉 **Queue empty — items 46–58 done.** Full record in [DONE.md](DONE.md). Drop new raw notes in [TODO_STAGING.md](TODO_STAGING.md); ingest them here when they arrive.
+🎉 **Queue empty — items 46–65 done.** Full record in [DONE.md](DONE.md). Drop new raw notes in [TODO_STAGING.md](TODO_STAGING.md); ingest them here when they arrive.

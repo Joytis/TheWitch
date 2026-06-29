@@ -4,6 +4,52 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 65. Card Change: Claw Eyes
+- **Done:** 2026-06-29
+- **Changed:** Crow familiar token `ClawEyes` now an **Attack** (was Skill): deal 5 damage + apply 1 Weak (was Weak only). Upgrade → +3 damage (replaces the old +1 Weak upgrade; base Weak stays 1).
+- **Files:** [ClawEyes.cs](TheWickenCode/Cards/Familiar/ClawEyes.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: damage + Weak, Crow loot-table roll still grants it.
+
+### 64. New card: Cursed Spellbook
+- **Done:** 2026-06-29
+- **Changed:** New `CursedSpellbook` (0e Rare Power, Self) — applies `CursedSpellbookPower`: at each turn start you draw 1 fewer card but gain extra Energy (`ModifyHandDraw −1` + `ModifyEnergyGain +Amount`). Amount = the card's `EnergyVar` (1, +1 per upgrade). Upgrade → +1 Energy granted.
+- **Decisions:** Power is `StackType.Single` — replaying refreshes rather than compounding the draw penalty; an upgraded copy just raises the Energy (Amount). Draw penalty is a flat −1 (the book's curse), not per-stack. Energy bonus lives in `Amount` (not DynamicVars) — same save/MP caveat as `GrantsUpgradedCards`. Marked `PowerType.Buff` (net engine).
+- **Files:** new `Cards/CursedSpellbook.cs`, `Powers/CursedSpellbookPower.cs`; `cards.json`, `powers.json`; regen. Placeholder art `cursed_spellbook.png` (+big) — needs art + Godot import.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: −1 draw + extra energy each turn persists, upgrade raises energy.
+
+### 63. New card: Rip Veins
+- **Done:** 2026-06-29
+- **Changed:** New `RipVeins` (2e Uncommon Attack, AllEnemies) — deal 15 damage to all enemies (`TargetingAllOpponents`), then apply 2 `VulnerablePower` to **all characters** = every enemy (`CombatState.HittableEnemies`) **and the player** (self-Vulnerable downside). Upgrade → +5 damage.
+- **Decisions:** "ALL characters" read as enemies + self (StS "character" = any creature) — the self-Vulnerable is the intended risk. Upgrade = +5 damage (note silent — design call). AoE pattern from Ambush.
+- **Files:** new `Cards/RipVeins.cs`; `cards.json`; regen. Placeholder art `rip_veins.png` (+big) — needs art + Godot import.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: AoE damage + Vulnerable on enemies *and* self.
+
+### 62. New card: Grind Down
+- **Done:** 2026-06-29
+- **Changed:** New `GrindDown` (1e Uncommon Skill, Self, Exhaust) — `CardSelectCmd.FromHand` to pick a hand card, `CardCmd.Exhaust` it, then grant a potion whose **orientation** comes from the card type (Attack→Offensive, Skill→Defensive, Power→Utility, else Utility) and **rarity** from the card rarity (Rare→Rare, Uncommon→Uncommon, else Common), via `PotionCatalog.Random(Query(orientation, rarity))`. Upgrade → −1e.
+- **Decisions:** Null-pool fallback drops the rarity filter (orientation-only) so a card with no matching potion still yields something. Status/Curse types default to Utility. Grants via `.ToMutable()` + `PotionCmd.TryToProcure`.
+- **Files:** new `Cards/GrindDown.cs`; `cards.json`; regen. Placeholder art `grind_down.png` (+big) — needs art + Godot import.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: hand-select + exhaust, type/rarity → potion mapping, empty-hand cancel.
+
+### 61. Card Rework: Hexblast (supersedes item 49)
+- **Done:** 2026-06-29
+- **Changed:** Hexblast now 2e (was 1e): apply 3 `HexPower` first, then deal **12 damage per unique debuff** on the target (`Powers.Where(Type==Debuff).Select(GetType).Distinct().Count()`). Hex applied before the count so it always tallies ≥1. Upgrade → +3 per-debuff damage.
+- **Decisions:** Per-debuff value shown as flat `DamageVar(12)` with "for each unique debuff" text (Brambleburst pattern) — no live `CalculatedDamageVar`, since the target (and its debuffs) isn't known until played. Counts *unique debuff types*, not stacks.
+- **Files:** [Hexblast.cs](TheWickenCode/Cards/Hexblast.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: debuff-count scaling incl. the just-applied Hex.
+
+### 60. New card: Refuse Pile
+- **Done:** 2026-06-29
+- **Changed:** New `RefusePile` (2e Uncommon Skill, Self) — gain 11 Block, then create `Rats` tokens via `CombatState.CreateCard<Rats>` and `AddGeneratedCardToCombat` ×2 into the draw pile and ×2 into the discard pile. Upgrade → +4 Block.
+- **Decisions:** "Add 2 rats to your draw and discard pile" = 2 into each pile (4 total). Generated path (not plain Add) so card-creation payoffs fire. Upgrade = +4 Block (note silent — design call).
+- **Files:** new `Cards/RefusePile.cs`; `cards.json`; regen. Placeholder art `refuse_pile.png` (+big) — needs art + Godot import.
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: block + 2 Rats in draw/discard each.
+
+### 59. Card Change: Bramble Shield (re-note — no-op)
+- **Done:** 2026-06-29
+- **Changed:** Nothing. Re-note ("2e, gain 10 block, gain 10 Brambles") already matches the item-58 state; kept the +3/+3 upgrade (re-note silent on it). Verified current code matches, no edit made.
+- **Verified:** matches existing; build untouched.
+
 ### 58. Card Change: Bramble Shield
 - **Done:** 2026-06-29
 - **Changed:** New design (2e Uncommon Skill, Self) — Gain 10 Block + gain 10 `BramblesPower`. Upgrade → +3 Block, +3 Brambles. Dropped the old "7 + 2/bramble-created-this-turn" scaling (and `BramblesCreatedThisTurn` usage).
