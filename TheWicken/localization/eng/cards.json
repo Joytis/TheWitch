@@ -81,6 +81,7 @@
   "THEWICKEN-BRISTLE.description": "Gain {BramblesPower:diff()} [gold]Brambles[/gold].",
   "THEWICKEN-CURIOSITY.title": "Curiosity",
   "THEWICKEN-CURIOSITY.description": "Draw {Cards:diff()} cards. Put a card from your hand on top of your draw pile.",
+  "THEWICKEN-CURIOSITY.selectionScreenPrompt": "Put a card on top of your draw pile",
   "THEWICKEN-KNOWLEDGE.title": "Knowledge",
   "THEWICKEN-KNOWLEDGE.description": "{IfUpgraded:show:Upgrade ALL cards in your hand for the rest of combat.|Upgrade a card in your hand for the rest of combat.}",
   "THEWICKEN-WORMY.title": "Wormy",
