@@ -248,7 +248,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -434,7 +434,7 @@
       },
       "upgrade": "Block +3, Brambles +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -570,7 +570,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -618,7 +618,7 @@
       },
       "upgrade": "Block +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -642,7 +642,7 @@
       },
       "upgrade": "Block +3, Brambles +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -778,7 +778,7 @@
       },
       "upgrade": "Damage +6",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -866,7 +866,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -906,7 +906,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -950,7 +950,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -1107,7 +1107,7 @@
       },
       "upgrade": "Block +4",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -1127,7 +1127,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -1190,7 +1190,7 @@
       },
       "upgrade": "StrengthLoss +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1280,7 +1280,7 @@
       },
       "upgrade": "Damage +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1475,7 +1475,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1519,7 +1519,7 @@
       },
       "upgrade": "Energy +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -1557,7 +1557,7 @@
       "numbers": {},
       "upgrade": "Familiars +1",
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1629,7 +1629,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1761,7 +1761,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1876,7 +1876,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2064,7 +2064,7 @@
       },
       "upgrade": "ExtraDamage +1",
       "note": "Rat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -2155,7 +2155,7 @@
       },
       "upgrade": "Vulnerable +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2224,7 +2224,7 @@
       },
       "upgrade": "none",
       "note": "Wormy: a playable nuisance status (from Wormy Apple).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
