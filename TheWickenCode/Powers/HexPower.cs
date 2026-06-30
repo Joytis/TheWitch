@@ -10,9 +10,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Hex (enemy debuff): when the hexed enemy <em>next attacks</em>, its attack damage is also dealt to every
-/// other enemy and every player. One stack is consumed per attack. The splash uses raw <c>CreatureCmd.Damage</c>
-/// (not an <c>AttackCommand</c>), so it does not recurse back into <see cref="AfterAttack" />.
+/// Hex (enemy debuff): when the hexed attacker <em>next attacks</em>, its attack damage rebounds onto the
+/// attacker itself and all of its allies (in addition to the attack's normal targets). One stack is consumed
+/// per attack. The splash uses raw <c>CreatureCmd.Damage</c> (not an <c>AttackCommand</c>), so it does not
+/// recurse back into <see cref="AfterAttack" />.
 /// </summary>
 public sealed class HexPower : WickenPower
 {
@@ -37,9 +38,10 @@ public sealed class HexPower : WickenPower
         }
 
         Flash();
-        List<Creature> targets = combat.GetOpponentsOf(Owner)
-            .Concat(combat.GetTeammatesOf(Owner))
-            .Where(c => c != null && c != Owner && c.IsAlive)
+        List<Creature> targets = combat.GetTeammatesOf(Owner)
+            .Append(Owner)
+            .Where(c => c != null && c.IsAlive)
+            .Distinct()
             .ToList();
         if (targets.Count > 0)
         {

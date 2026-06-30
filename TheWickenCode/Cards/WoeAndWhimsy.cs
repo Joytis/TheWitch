@@ -1,29 +1,40 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Create a random familiar token-card into your hand (upgraded when this card is upgraded).</summary>
+/// <summary>Woe and Whimsy: gain Vigor and Block.</summary>
 public sealed class WoeAndWhimsy : WickenCard
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<VigorPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(2)
+        new PowerVar<VigorPower>(5m),
+        new BlockVar(5m, ValueProp.Move)
     ];
 
     public WoeAndWhimsy()
-        : base(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        List<CardModel> cards = FamiliarCardRegistry.CreateRandom(
-            Owner, DynamicVars.Cards.IntValue, CombatState!, Owner.RunState.Rng.CombatCardGeneration, IsUpgraded);
-        var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner, CardPilePosition.Random);
-        CardCmd.PreviewCardPileAdd(generated);
+        await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, DynamicVars["VigorPower"].IntValue, Owner.Creature, this);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars["VigorPower"].UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

@@ -9,12 +9,14 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class CatFamiliar : WickenCard, IFamiliarSummon
 {
     public CatFamiliar()
-        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Ferocity>(IsUpgraded)
+        HoverTipFactory.FromPower<CatFamiliarPower>(),
+        HoverTipFactory.FromCard<Ferocity>(IsUpgraded),
+        HoverTipFactory.FromCard<Curiosity>(IsUpgraded),
     ];
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -22,6 +24,4 @@ public sealed class CatFamiliar : WickenCard, IFamiliarSummon
 		await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
 		await GainFamiliar<CatFamiliarPower>(choiceContext);
 	}
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

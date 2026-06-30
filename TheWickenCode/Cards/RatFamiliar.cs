@@ -8,9 +8,8 @@ namespace TheWicken.TheWickenCode.Cards;
 
 public sealed class RatFamiliar : WickenCard, IFamiliarSummon
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<RatFamiliarPower>(),
         HoverTipFactory.FromCard<Plague>(IsUpgraded),
         HoverTipFactory.FromCard<Nibble>(IsUpgraded),
     ];

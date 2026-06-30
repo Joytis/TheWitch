@@ -3,22 +3,17 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWicken.TheWickenCode.Potions.Brewing;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>
-/// Chromatic Claws: an Attack that scales with how many potions are in your belt right now. Built on the
-/// <see cref="CalculatedDamageVar" /> (Soul Storm) pattern so the live total — ExtraDamage × belt potions —
-/// renders correctly on the card face instead of mutating BaseValue.
-/// </summary>
+/// <summary>Chromatic Claws: an Attack that swaps a random belt potion for a fresh random one.</summary>
 public sealed class ChromaticClaws : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CalculationBaseVar(0m),
-        new ExtraDamageVar(8m),
-        new CalculatedDamageVar(ValueProp.Move)
-            .WithMultiplier((card, _) => card.Owner?.PotionSlots.Count(p => p != null) ?? 0),
+        new DamageVar(8m, ValueProp.Move)
     ];
 
     public ChromaticClaws()
@@ -29,12 +24,28 @@ public sealed class ChromaticClaws : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
+
+        var rng = Owner.RunState.Rng.CombatPotionGeneration;
+        List<PotionModel> belt = Owner.Potions.ToList();
+        if (belt.Count == 0)
+        {
+            return;
+        }
+
+        PotionModel toDiscard = rng.NextItem(belt)!;
+        await PotionCmd.Discard(toDiscard);
+
+        PotionModel? created = PotionCatalog.Random(PotionCatalog.Query(), rng);
+        if (created != null)
+        {
+            await PotionCmd.TryToProcure(created.ToMutable(), Owner);
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(4m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

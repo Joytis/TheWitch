@@ -4,6 +4,60 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 74. Card Change: Chromatic Claws — redesign
+- **Done:** 2026-06-29
+- **Changed:** Dropped the belt-count damage scaling (`CalculatedDamageVar`) for flat `DamageVar(8, Move)`. New effect: deal 8, then if the belt has ≥1 potion, discard a random one (`Owner.Potions` + `rng.NextItem` → `PotionCmd.Discard`) and create a random potion (`PotionCatalog.Random(PotionCatalog.Query())` → `TryToProcure`). Guarded so the create only fires when a discard happened (empty belt → just the attack). 1e Common Attack kept. **Design call:** note gave no upgrade → +3 damage (8→11).
+- **Files:** [ChromaticClaws.cs](TheWickenCode/Cards/ChromaticClaws.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: empty belt = no create; otherwise swaps one potion; created potion is from the Randomizable pool (any orientation/rarity).
+
+### 73. Card Change: Cursed Bottles — Power → Attack
+- **Done:** 2026-06-29
+- **Changed:** Redesigned from a Hex-on-potion-use Power to a 2e Uncommon **Attack** (AnyEnemy): deal 3 damage ×3 (`WithHitCount(3)`) + apply 3 Hex (`PowerVar<HexPower>(3)` → `Apply<HexPower>`). Kept the Hex hover tip. Deleted the orphaned `CursedBottlesPower` (.cs/.uid + cards.json/powers.json keys) — only this card used it. **Design call:** note gave no upgrade → +1 damage per hit (3→4).
+- **Files:** [CursedBottles.cs](TheWickenCode/Cards/CursedBottles.cs); deleted `CursedBottlesPower.cs`; `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0 (loc analyzer clean = power keys gone), regen OK (TESTED cleared). ⚠️ Playtest: 3×3 damage + 3 Hex stacks; Hex rebounds on the enemy's next attack.
+
+### 72. Card Change: Woe and Whimsy — redesign
+- **Done:** 2026-06-29
+- **Changed:** `WoeAndWhimsy` redesigned from "add 2 random Familiar cards" to "Gain 5 Vigor. Gain 5 Block." Upgrade → +2 Vigor, +2 Block. `PowerVar<VigorPower>(5)` + `BlockVar(5)` (Patter/InternalChant pattern); added Vigor hover tip; dropped the `FamiliarCardRegistry`/`Models` usings. Loc token `{VigorPower:diff()}` (matches base-game `WeakPower`-style token naming; C# access via `DynamicVars["VigorPower"]`). **Design call:** note didn't mention cost/rarity — kept 0e Common Skill. ⚠️ Flag: 5 Block + 5 Vigor for 0 energy on a Common is a strong stat package; worth a balance look in playtest.
+- **Files:** [WoeAndWhimsy.cs](TheWickenCode/Cards/WoeAndWhimsy.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: gains 5 Vigor + 5 Block; upgrade +2/+2; check 0-cost balance.
+
+### 71. Bug fix: Roomy Satchel potion slots don't visually contract
+- **Done:** 2026-06-29
+- **Changed:** Root cause is base-game UI: `NPotionContainer` is the only `MaxPotionCountChanged` subscriber and its `GrowPotionHolders` handler **only adds** holder nodes (`for i = _holders.Count; i < newMax`) — it never removes them on shrink, because the base game never lowers max potion count mid-run. Roomy Satchel reverts its bonus slots in `AfterCombatEnd`, so the model contracted but the empty holders lingered. Added a Harmony **postfix** on `NPotionContainer.GrowPotionHolders` that, when the new count < current holder count, `QueueFree`s the surplus holders, trims `_holders`, and re-runs `UpdateNavigation` (private members reached via `Traverse`). Mirrors the existing `WickenPetVisualsPatch` patch style; model already discards/migrates potions out of the doomed slots before the event, so trimmed holders are empty.
+- **Files:** new [PotionBeltShrinkPatch.cs](TheWickenCode/Potions/PotionBeltShrinkPatch.cs).
+- **Verified:** build 0/0. ⚠️ Harmony UI patch — compile-only; **must playtest**: play Roomy Satchel, finish the fight, confirm the belt shrinks back to base count (and an over-cap potion is dropped as before).
+
+### 70. Familiar localized-text + tooltip pass
+- **Done:** 2026-06-29
+- **Changed:** Reworked every familiar's display. Summon-card text simplified to just "Summon a/an `<Name>` Familiar" (dropped the inline "at start of turn add X" clause). Each `FamiliarPower` description now reads "At the start of your turn, create a random `<Name>` Familiar card" with a count-scaling `smartDescription`. Summon-card `ExtraHoverTips` now lead with the familiar power tip, then list **every** loot-table token: fixed Cat (was Ferocity ×2 → Ferocity + Curiosity), added the missing Owl→Knowledge and Porcupine→Bristle, and added the power tip to Bear/Crow/Rat/Wolf. **Chimera** gets a power-only tip (no per-card tips — pulls the whole pool); per a user decision its power text keeps the **accurate** full behavior ("draw 1 fewer card and create 2 random Familiar cards") rather than the note's simplified line, so the downside + 2-card count stay visible.
+- **Files:** all 8 summon cards (`OwlFamiliar`/`CatFamiliar`/`BearFamiliar`/`CrowFamiliar`/`RatFamiliar`/`PorcupineFamiliar`/`WolfFamiliar`/`ChimeraFamiliar`.cs); `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0, regen OK (8 familiar summons TESTED-cleared). ⚠️ Playtest: hover each summon card — power tip + correct token list; Chimera shows power only; live power tooltip scales with stacks.
+
+### 69. Card Change: Plague — redesign
+- **Done:** 2026-06-29
+- **Changed:** Rat-token `Plague` redesigned from a Skill (draw + self/enemy Strength loss) to an **Attack**: "Deal 4 damage to ALL enemies. ALL enemies lose 1 Strength." Upgrade → +2 damage (was +1 enemy Strength). AoE via `TargetingAllOpponents` + `PowerCmd.Apply<StrengthPower>(-1)` on `HittableEnemies` (Ambush AoE pattern). Kept `IRatCard`/Token; base exhaust still applies. **Design call:** note said "All enemies take 4 damage and lose 1 strength" with no card type — made it an Attack (matches Rats/ClawEyes damage-token precedent); dropped the old draw + self-debuff.
+- **Files:** [Plague.cs](TheWickenCode/Cards/Familiar/Plague.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: AoE damage + Strength loss; Nibble's rat-count scaling still sees Plague (`IRatCard` intact).
+
+### 68. Cut: Sloth familiar
+- **Done:** 2026-06-29
+- **Changed:** Removed the Sloth familiar entirely — summon `SlothFamiliar`, power `SlothFamiliarPower`, pet `SlothPet`, token `Laze`. Deleted all `.cs`(+`.uid`) and art (`sloth_familiar.png`/`laze.png` big+small +`.import`), removed loc keys (cards.json: LAZE, SLOTH_FAMILIAR; powers.json: SLOTH_FAMILIAR_POWER), and dropped "Sloth" from the `FamiliarCardRegistry` doc comment. Registration is reflection-based, so deleting the files deregisters; Chimera/Embrace-the-Wilds pull the live `WickenFamiliarCard` pool, so Laze auto-drops with no hardcoded reference to fix.
+- **Files:** deleted `SlothFamiliar.cs`, `SlothFamiliarPower.cs`, `SlothPet.cs`, `Laze.cs` (+uids + art); [FamiliarCardRegistry.cs](TheWickenCode/Cards/Familiar/FamiliarCardRegistry.cs); `cards.json`, `powers.json`; regen (97 cards, −2).
+- **Verified:** build 0/0 (loc analyzer clean = no orphan keys), grep clean for Sloth/Laze in code. ⚠️ Playtest: Chimera/Embrace-the-Wilds no longer roll Sloth/Laze.
+
+### 67. Card Change: Dance Around the Cauldron — redesign
+- **Done:** 2026-06-29
+- **Changed:** `DanceAroundTheCauldronPower` now draws 1 card per Skill played this turn (was: make a Wicked Brew). Switched hook `BeforeCardPlayed`→`AfterCardPlayed` (Draw needs a `PlayerChoiceContext`, which only the After hook provides); preserved the original self-exclusion by capturing the source card in `AfterApplied` and skipping it via `ReferenceEquals`. Card gained `Exhaust` keyword; removed the WickedBrew hover tip + `Potions` import. Upgrade stays −1 energy.
+- **Files:** [DanceAroundTheCauldronPower.cs](TheWickenCode/Powers/DanceAroundTheCauldronPower.cs), [DanceAroundTheCauldron.cs](TheWickenCode/Cards/DanceAroundTheCauldron.cs); `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: each non-Dance Skill draws 1; Dance itself doesn't; buff clears at turn end; card exhausts. Note: `sourceCard` is plain power state (not serialized for save/MP), fine for a turn-scoped buff.
+
+### 66. Card Change: Double, Double — redesign
+- **Done:** 2026-06-29
+- **Changed:** `DoubleDouble` now deals 5 damage twice (was 4×2) and enchants a random **Draw Pile** card with Replay 1 (HiddenGem/ExtractLife pattern: `BaseReplayCount += Replay` + `CardCmd.Preview`). Dropped the `NextPotionDoubledPower` apply + hover tip; upgrade is now +3 damage (was +2). **Design call:** note said "a random card in your deck" → targeted the Draw Pile (worded "Draw Pile" in loc) to differentiate from ExtractLife's hand-enchant. Deleted the now-orphaned `NextPotionDoubledPower` (.cs/.uid + 3 powers.json keys) — only DoubleDouble referenced it.
+- **Files:** [DoubleDouble.cs](TheWickenCode/Cards/DoubleDouble.cs); deleted `NextPotionDoubledPower.cs`(+.uid); `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0, regen OK (TESTED auto-cleared). ⚠️ Playtest: Replay lands on a Draw Pile card; double-hit damage.
+
 ### 65. Card Change: Claw Eyes
 - **Done:** 2026-06-29
 - **Changed:** Crow familiar token `ClawEyes` now an **Attack** (was Skill): deal 5 damage + apply 1 Weak (was Weak only). Upgrade → +3 damage (replaces the old +1 Weak upgrade; base Weak stays 1).
