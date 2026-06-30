@@ -4,14 +4,14 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using TheWicken.TheWickenCode.Potions;
+using MegaCrit.Sts2.Core.Models;
 
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Dance Around the Cauldron: for the rest of this turn, each Skill the player plays makes a
-/// <see cref="WickedBrew" />. Removes itself at the end of the turn. The Dance card that applies this buff does
-/// NOT count itself — the buff isn't on the creature yet when its own <c>BeforeCardPlayed</c> fires.
+/// Dance Around the Cauldron: for the rest of this turn, each Skill the player plays draws a card.
+/// Removes itself at the end of the turn. The Dance card that applies this buff does NOT count itself —
+/// we capture its source card on apply and skip it (the buff is now live when its own AfterCardPlayed fires).
 /// </summary>
 public sealed class DanceAroundTheCauldronPower : WickenPower
 {
@@ -19,11 +19,19 @@ public sealed class DanceAroundTheCauldronPower : WickenPower
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override async Task BeforeCardPlayed(CardPlay cardPlay)
+    private CardModel? sourceCard;
+
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        sourceCard = cardSource;
+        return Task.CompletedTask;
+    }
+
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner.Creature != Owner
             || cardPlay.Card.Type != CardType.Skill
-            || cardPlay.Card.Pile?.Type is not (PileType.Hand or PileType.Play))
+            || ReferenceEquals(cardPlay.Card, sourceCard))
         {
             return;
         }
@@ -33,7 +41,7 @@ public sealed class DanceAroundTheCauldronPower : WickenPower
         }
 
         Flash();
-        await PotionCmd.TryToProcure<WickedBrew>(player);
+        await CardPileCmd.Draw(choiceContext, 1m, player);
     }
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)

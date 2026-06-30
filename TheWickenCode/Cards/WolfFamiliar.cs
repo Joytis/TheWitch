@@ -9,6 +9,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class WolfFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<WolfFamiliarPower>(),
         HoverTipFactory.FromCard<Gnash>(IsUpgraded),
     ];
 

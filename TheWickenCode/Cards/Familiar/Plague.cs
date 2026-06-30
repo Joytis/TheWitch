@@ -4,10 +4,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Rat familiar token: draw, then everyone (you + all enemies) loses Strength.</summary>
+/// <summary>Rat familiar token: AoE hit that also saps every enemy's Strength.</summary>
 public sealed class Plague : WickenFamiliarCard, IRatCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -15,24 +16,24 @@ public sealed class Plague : WickenFamiliarCard, IRatCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1),
+        new DamageVar(4m, ValueProp.Move),
         new DynamicVar("StrengthLoss", 1m),
-        new DynamicVar("EnemyStrengthLoss", 2m),
     ];
 
     public Plague()
-        : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+        : base(0, CardType.Attack, CardRarity.Token, TargetType.AllEnemies)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-        int loss = DynamicVars["StrengthLoss"].IntValue;
-        int enemyLoss = DynamicVars["EnemyStrengthLoss"].IntValue;
-        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, -loss, Owner.Creature, this);
-        await PowerCmd.Apply<StrengthPower>(choiceContext, CombatState!.HittableEnemies, -enemyLoss, Owner.Creature, this);
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .TargetingAllOpponents(CombatState!)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, CombatState!.HittableEnemies, -DynamicVars["StrengthLoss"].IntValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["EnemyStrengthLoss"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }

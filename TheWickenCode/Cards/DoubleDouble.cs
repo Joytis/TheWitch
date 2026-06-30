@@ -1,24 +1,26 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>"Double, double, toil and trouble" — hit twice, then your next potion this turn fires twice.</summary>
+/// <summary>"Double, double, toil and trouble" — hit twice, then enchant a random Draw Pile card with Replay.</summary>
 public sealed class DoubleDouble : WickenCard
 {
     private const int Hits = 2;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<NextPotionDoubledPower>(),
+        HoverTipFactory.Static(StaticHoverTip.ReplayStatic),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(4m, ValueProp.Move)
+        new DamageVar(5m, ValueProp.Move),
+        new IntVar("Replay", 1m)
     ];
 
     public DoubleDouble()
@@ -35,8 +37,21 @@ public sealed class DoubleDouble : WickenCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<NextPotionDoubledPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+
+        List<CardModel> deck = PileType.Draw.GetPile(Owner).Cards
+            .Where(c => !c.Keywords.Contains(CardKeyword.Unplayable))
+            .ToList();
+        if (deck.Count == 0)
+        {
+            return;
+        }
+        CardModel? chosen = Owner.RunState.Rng.CombatCardSelection.NextItem(deck);
+        if (chosen != null)
+        {
+            chosen.BaseReplayCount += DynamicVars["Replay"].IntValue;
+            CardCmd.Preview(chosen);
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

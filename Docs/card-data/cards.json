@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-29",
+  "generated": "2026-06-30",
   "cards": [
     {
       "name": "Bush",
@@ -158,7 +158,9 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
+      "mechanics": [
+        "Familiars"
+      ],
       "role": [
         "Enabler"
       ]
@@ -171,12 +173,11 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage for each potion in your belt.",
+      "text": "Deal 8 damage. Discard a random Potion, then create a random Potion.",
       "numbers": {
-        "CalculationBase": 0,
-        "ExtraDamage": 8
+        "Damage": 8
       },
-      "upgrade": "ExtraDamage +4",
+      "upgrade": "Damage +3",
       "note": "Chromatic Claws: an Attack that scales with how many potions are in your belt right now.",
       "tested": true,
       "artFinal": false,
@@ -216,7 +217,7 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 6 Brambles. Upgrade 1 random card in your hand.",
+      "text": "Gain 6 Brambles. Upgrade 1 random card in your Hand.",
       "numbers": {
         "Brambles": 6,
         "Cards": 1
@@ -336,7 +337,7 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Lose 3 life. Add 2 Wound to your discard pile. ALL enemies gain 3 Weak.",
+      "text": "Lose 3 HP. Add 2 Wound into your Discard Pile. ALL enemies gain 3 Weak.",
       "numbers": {
         "Weak": 3,
         "HpLoss": 3,
@@ -543,32 +544,33 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Add 2 random Familiar cards to your hand.",
+      "text": "Gain 5 Vigor. Gain 5 Block.",
       "numbers": {
-        "Cards": 2
+        "Vigor": 5,
+        "Block": 5
       },
-      "upgrade": "none",
+      "upgrade": "Block +2, VigorPower +2",
       "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
       ]
     },
     {
       "name": "Bear Familiar",
       "entry": "BEAR_FAMILIAR",
       "file": "TheWickenCode/Cards/BearFamiliar.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Summon a Bear Familiar. At the start of your turn, add a Hibernate or Mutilate to your hand.",
+      "text": "Summon a Bear Familiar.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "note": "",
       "tested": true,
       "artFinal": false,
@@ -587,7 +589,7 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. Add 2 Wound to your discard pile. Apply 3 Hex.",
+      "text": "Deal 10 damage. Add 2 Wound into your Discard Pile. Apply 3 Hex.",
       "numbers": {
         "Hex": 3,
         "Damage": 10,
@@ -598,10 +600,10 @@
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Brambles"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
       ]
     },
     {
@@ -624,7 +626,7 @@
         "Potions"
       ],
       "role": [
-        "Payoff"
+        "Generator"
       ]
     },
     {
@@ -648,7 +650,7 @@
         "Brambles"
       ],
       "role": [
-        "Payoff"
+        "Generator"
       ]
     },
     {
@@ -700,13 +702,13 @@
       "name": "Cat Familiar",
       "entry": "CAT_FAMILIAR",
       "file": "TheWickenCode/Cards/CatFamiliar.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Summon a Cat Familiar. At the start of your turn, add a Ferocity to your hand.",
+      "text": "Summon a Cat Familiar.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "note": "Summons a cosmetic cat pet alongside the familiar power.",
       "tested": true,
       "artFinal": false,
@@ -749,7 +751,7 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Whenever you create a card or potion, gain 3 Block.",
+      "text": "Whenever you create a card or Potion, gain 3 Block.",
       "numbers": {
         "CloakOfMoonlight": 3
       },
@@ -758,7 +760,8 @@
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "Familiars",
+        "Potions"
       ],
       "role": [
         "Payoff"
@@ -780,8 +783,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Creeping Vines",
@@ -811,22 +818,23 @@
       "entry": "CURSED_BOTTLES",
       "file": "TheWickenCode/Cards/CursedBottles.cs",
       "cost": 2,
-      "type": "Power",
+      "type": "Attack",
       "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Whenever you use a Potion, Hex 1 random enemy.",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage 3 times. Apply 3 Hex.",
       "numbers": {
-        "CursedBottles": 1
+        "Hex": 3,
+        "Damage": 3
       },
-      "upgrade": "CursedBottlesPower +1",
+      "upgrade": "Damage +1",
       "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Potions"
+        "None"
       ],
       "role": [
-        "Payoff"
+        "Standalone"
       ]
     },
     {
@@ -837,19 +845,19 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 4 damage twice. The next time you use a Potion, create a copy of it.",
+      "text": "Deal 5 damage twice. Give a random card in your Draw Pile Replay {Replay}.",
       "numbers": {
-        "Damage": 4
+        "Damage": 5
       },
-      "upgrade": "Damage +2",
+      "upgrade": "Damage +3",
       "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Potions"
+        "None"
       ],
       "role": [
-        "Payoff"
+        "Standalone"
       ]
     },
     {
@@ -868,8 +876,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Find Familiar",
@@ -879,7 +891,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Add 1 Familiar power from your draw or discard pile to your hand.",
+      "text": "Add 1 Familiar power from your Draw Pile or Discard Pile into your Hand.",
       "numbers": {
         "Cards": 1
       },
@@ -908,8 +920,12 @@
       "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Herbal Remedy",
@@ -952,8 +968,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Light the Candle",
@@ -963,7 +983,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Upgrade 2 random cards in your hand. Create a Vial of Smoke.",
+      "text": "Upgrade 2 random cards in your Hand. Create a Vial of Smoke.",
       "numbers": {
         "Cards": 2
       },
@@ -1007,11 +1027,11 @@
       "name": "Owl Familiar",
       "entry": "OWL_FAMILIAR",
       "file": "TheWickenCode/Cards/OwlFamiliar.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Summon an Owl Familiar. At the start of your turn, add a Wisdom to your hand.",
+      "text": "Summon an Owl Familiar.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Summons a cosmetic owl pet alongside the familiar power.",
@@ -1079,7 +1099,7 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Summon a Porcupine Familiar. At the start of your turn, add a Quills to your hand.",
+      "text": "Summon a Porcupine Familiar.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1100,7 +1120,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 11 Block. Add 2 Rats to both your draw and discard piles.",
+      "text": "Gain 11 Block. Add 2 Rats into both your Draw Pile and Discard Pile.",
       "numbers": {
         "Block": 11,
         "Cards": 2
@@ -1109,8 +1129,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Rip Veins",
@@ -1129,8 +1153,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Ritual Sacrifice",
@@ -1193,10 +1221,10 @@
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Brambles"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
       ]
     },
     {
@@ -1215,27 +1243,6 @@
       "artFinal": false,
       "mechanics": [
         "Potions"
-      ],
-      "role": [
-        "Generator"
-      ]
-    },
-    {
-      "name": "Sloth Familiar",
-      "entry": "SLOTH_FAMILIAR",
-      "file": "TheWickenCode/Cards/SlothFamiliar.cs",
-      "cost": 2,
-      "type": "Power",
-      "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Summon a Sloth Familiar. At the start of your turn, add a Laze to your hand.",
-      "numbers": {},
-      "upgrade": "Cost -1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
       ],
       "role": [
         "Generator"
@@ -1273,7 +1280,7 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Discard your hand. Deal 5 damage and gain 4 Brambles for each card discarded.",
+      "text": "Discard your Hand. Deal 5 damage and gain 4 Brambles for each card discarded.",
       "numbers": {
         "Brambles": 4,
         "Damage": 5
@@ -1318,7 +1325,7 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Summon a Wolf Familiar. At the start of your turn, add a Gnash to your hand.",
+      "text": "Summon a Wolf Familiar.",
       "numbers": {},
       "upgrade": "none",
       "note": "",
@@ -1408,7 +1415,7 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you use a potion, create a Wicked Brew.",
+      "text": "Whenever you use a Potion, create a Wicked Brew.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1450,7 +1457,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Create The Cauldron, a powerful Potion.",
+      "text": "Create The Cauldron.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
@@ -1471,7 +1478,7 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon a Chimera Familiar. You draw 1 fewer card each turn, but at the start of your turn add 2 random Familiar cards to your hand.",
+      "text": "Summon a Chimera Familiar.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1492,7 +1499,7 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon a Crow Familiar. At the start of your turn, add a Scout Weakness, Claw Eyes, or Shiny! to your hand.",
+      "text": "Summon a Crow Familiar.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1521,8 +1528,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Dance Around the Cauldron",
@@ -1532,17 +1543,17 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you play a Skill this turn, make a Wicked Brew.",
+      "text": "Whenever you play a Skill this turn, draw a card.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Potions"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
       ]
     },
     {
@@ -1575,7 +1586,7 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Deal 12 damage. A random card in your hand gains Replay {Replay:diff()} and Exhaust.",
+      "text": "Deal 12 damage. A random card in your Hand gains Replay {Replay:diff()} and Exhaust.",
       "numbers": {
         "Damage": 12
       },
@@ -1656,7 +1667,7 @@
         "Brambles"
       ],
       "role": [
-        "Generator"
+        "Enabler"
       ]
     },
     {
@@ -1690,7 +1701,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Put all Familiar powers from your draw and discard piles into your hand.",
+      "text": "Put all Familiar powers from your Draw Pile and Discard Pile into your Hand.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
@@ -1711,7 +1722,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Add 3 Rats to your hand.",
+      "text": "Add 3 Rats into your Hand.",
       "numbers": {
         "Cards": 3
       },
@@ -1734,7 +1745,7 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon a Rat Familiar. At the start of your turn, add a Plague to your hand.",
+      "text": "Summon a Rat Familiar.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
@@ -1893,7 +1904,7 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Draw 2 cards. Put a card from your hand on top of your draw pile.",
+      "text": "Draw 2 cards. Put a card from your Hand on top of your Draw Pile.",
       "numbers": {
         "Cards": 2
       },
@@ -1988,7 +1999,7 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Upgrade a card in your hand for the rest of combat.",
+      "text": "Upgrade a card in your Hand for the rest of combat.",
       "numbers": {},
       "upgrade": "none",
       "note": "Owl familiar token: forge your hand.",
@@ -2000,30 +2011,6 @@
       "role": [
         "Token",
         "Enabler"
-      ]
-    },
-    {
-      "name": "Laze",
-      "entry": "LAZE",
-      "file": "TheWickenCode/Cards/Familiar/Laze.cs",
-      "cost": 0,
-      "type": "Skill",
-      "rarity": "Token",
-      "target": "Self",
-      "text": "Draw 1 card. Gain 8 Block.",
-      "numbers": {
-        "Cards": 1,
-        "Block": 8
-      },
-      "upgrade": "Block +3",
-      "note": "Sloth familiar token.",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Token"
       ]
     },
     {
@@ -2066,22 +2053,26 @@
       "note": "Rat familiar token.",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Plague",
       "entry": "PLAGUE",
       "file": "TheWickenCode/Cards/Familiar/Plague.cs",
       "cost": 0,
-      "type": "Skill",
+      "type": "Attack",
       "rarity": "Token",
-      "target": "Self",
-      "text": "You lose {StrengthLoss:diff()} Strength. ALL enemies lose {EnemyStrengthLoss:diff()} Strength.",
+      "target": "AllEnemies",
+      "text": "Deal 4 damage to ALL enemies. ALL enemies lose {StrengthLoss} Strength.",
       "numbers": {
-        "Cards": 1
+        "Damage": 4
       },
-      "upgrade": "EnemyStrengthLoss +1",
+      "upgrade": "Damage +2",
       "note": "Rat familiar token.",
       "tested": true,
       "artFinal": false,
@@ -2110,12 +2101,10 @@
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars",
-        "Brambles"
+        "Familiars"
       ],
       "role": [
-        "Token",
-        "Generator"
+        "Token"
       ]
     },
     {
@@ -2172,7 +2161,7 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain {Gold:diff()} gold.",
+      "text": "Gain {Gold:diff()} Gold.",
       "numbers": {},
       "upgrade": "Gold +5",
       "note": "",
@@ -2217,7 +2206,7 @@
       "type": "Status",
       "rarity": "Status",
       "target": "Self",
-      "text": "Lose 1 life. Gain 1 Weak.",
+      "text": "Lose 1 HP. Gain 1 Weak.",
       "numbers": {
         "Weak": 1,
         "HpLoss": 1

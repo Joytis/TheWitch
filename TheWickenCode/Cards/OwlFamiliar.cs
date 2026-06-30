@@ -9,12 +9,14 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class OwlFamiliar : WickenCard, IFamiliarSummon
 {
     public OwlFamiliar()
-        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Wisdom>(IsUpgraded)
+        HoverTipFactory.FromPower<OwlFamiliarPower>(),
+        HoverTipFactory.FromCard<Wisdom>(IsUpgraded),
+        HoverTipFactory.FromCard<Knowledge>(IsUpgraded),
     ];
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -3,9 +3,9 @@
   "THEWICKEN-LARGE_POCKETS.description": "Upon pickup, gain [blue]{PotionSlots}[/blue] potion {PotionSlots:plural:slot|slots}.",
   "THEWICKEN-LARGE_POCKETS.flavor": "Deep pockets, deeper secrets — always room for one more bottle.",
   "THEWICKEN-TWINROOT.title": "Twinroot",
-  "THEWICKEN-TWINROOT.description": "Whenever you upgrade a card, add a copy of it to your deck.",
+  "THEWICKEN-TWINROOT.description": "Whenever you [gold]Upgrade[/gold] a card, add a copy of it into your [gold]Deck[/gold].",
   "THEWICKEN-TWINROOT.flavor": "Cut one root and two grow back — the hedge-witch's oldest trick.",
   "THEWICKEN-WORMYS_APPLE.title": "Wormy's Apple",
-  "THEWICKEN-WORMYS_APPLE.description": "Upon pickup, gain [blue]{MaxHp}[/blue] Max HP. At the start of each combat, add a [gold]Wormy[/gold] to your hand.",
+  "THEWICKEN-WORMYS_APPLE.description": "Upon pickup, gain [green]{MaxHp}[/green] Max HP. At the start of each combat, add a [gold]Wormy[/gold] into your [gold]Hand[/gold].",
   "THEWICKEN-WORMYS_APPLE.flavor": "Sweet to the core — and the core's already taken."
 }

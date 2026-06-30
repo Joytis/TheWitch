@@ -9,7 +9,9 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class PorcupineFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<PorcupineFamiliarPower>(),
         HoverTipFactory.FromCard<Quills>(IsUpgraded),
+        HoverTipFactory.FromCard<Bristle>(IsUpgraded),
     ];
 
     public PorcupineFamiliar()

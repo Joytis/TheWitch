@@ -21,7 +21,7 @@ public static class FamiliarCardRegistry
 
     /// <summary>
     /// Canonical models for every familiar *summon* card — the <see cref="IFamiliarSummon" /> Power cards
-    /// (Owl, Cat, Rat, Porcupine, Bear, Crow, Wolf, Sloth, Chimera). Backs Embrace the Wilds.
+    /// (Owl, Cat, Rat, Porcupine, Bear, Crow, Wolf, Chimera). Backs Embrace the Wilds.
     /// </summary>
     public static IReadOnlyList<CardModel> AllSummonCanonical =>
         ModelDb.AllCards.OfType<IFamiliarSummon>().Cast<CardModel>().ToList();

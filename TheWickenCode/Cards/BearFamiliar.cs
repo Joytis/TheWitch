@@ -9,12 +9,13 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class BearFamiliar : WickenCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<BearFamiliarPower>(),
         HoverTipFactory.FromCard<Hibernate>(IsUpgraded),
         HoverTipFactory.FromCard<Mutilate>(IsUpgraded),
     ];
 
     public BearFamiliar()
-        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
@@ -23,6 +24,4 @@ public sealed class BearFamiliar : WickenCard, IFamiliarSummon
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
         await GainFamiliar<BearFamiliarPower>(choiceContext);
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
