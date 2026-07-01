@@ -132,7 +132,7 @@
       },
       "upgrade": "WeakPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -156,7 +156,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -526,7 +526,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -573,7 +573,7 @@
       },
       "upgrade": "Block +3, VigorPower +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -891,7 +891,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -938,7 +938,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1031,7 +1031,7 @@
       },
       "upgrade": "StrengthPower +2",
       "note": "Multiplayer-only.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1147,7 +1147,7 @@
       },
       "upgrade": "Block +5, Cards +2",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1191,7 +1191,7 @@
       },
       "upgrade": "RottingRootsPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1284,7 +1284,7 @@
       },
       "upgrade": "Block +2, HexPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -1561,7 +1561,7 @@
       "numbers": {},
       "upgrade": "Familiars +1",
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1675,7 +1675,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": []
@@ -1692,7 +1692,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1802,7 +1802,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -2058,7 +2058,7 @@
       },
       "upgrade": "Damage +1",
       "note": "Rat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"

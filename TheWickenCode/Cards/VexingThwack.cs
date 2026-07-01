@@ -21,7 +21,7 @@ public sealed class VexingThwack : WickenCard
     ];
 
     public VexingThwack()
-        : base(3, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
