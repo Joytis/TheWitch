@@ -24,7 +24,7 @@ public sealed class EmbraceTheWilds : WickenCard
     ];
 
     public EmbraceTheWilds()
-        : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 

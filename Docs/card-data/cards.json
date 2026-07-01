@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-30",
+  "generated": "2026-07-01",
   "cards": [
     {
       "name": "Bush",
@@ -540,7 +540,7 @@
       "name": "Woe and Whimsy",
       "entry": "WOE_AND_WHIMSY",
       "file": "TheWickenCode/Cards/WoeAndWhimsy.cs",
-      "cost": 0,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
@@ -549,9 +549,9 @@
         "Vigor": 5,
         "Block": 5
       },
-      "upgrade": "Block +2, VigorPower +2",
+      "upgrade": "Block +3, VigorPower +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -914,11 +914,11 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Exhaust a card to create a Potion. Its type sets the potion's effect, its rarity its potency.",
+      "text": "Exhaust a card. Turn it into a Potion. Its type sets the potion's effect, its rarity its potency.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1052,14 +1052,14 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "AllAllies",
-      "text": "Gain 5 Weak. Other allies gain 2 Strength.",
+      "text": "Gain 5 Weak. Other allies gain 4 Strength.",
       "numbers": {
         "Weak": 5,
-        "Strength": 2
+        "Strength": 4
       },
       "upgrade": "StrengthPower +2",
       "note": "Multiplayer-only.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1560,7 +1560,7 @@
       "name": "Embrace the Wilds",
       "entry": "EMBRACE_THE_WILDS",
       "file": "TheWickenCode/Cards/EmbraceTheWilds.cs",
-      "cost": 3,
+      "cost": 2,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
@@ -1568,7 +1568,7 @@
       "numbers": {},
       "upgrade": "Familiars +1",
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2044,14 +2044,13 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal {CalculatedDamage:diff()} damage. Deals 1 damage for each Rat card played this combat.",
+      "text": "Deal 1 damage. Hits once for each Rat card played this combat, including itself.",
       "numbers": {
-        "CalculationBase": 1,
-        "ExtraDamage": 1
+        "Damage": 1
       },
-      "upgrade": "ExtraDamage +1",
+      "upgrade": "Damage +1",
       "note": "Rat familiar token.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
