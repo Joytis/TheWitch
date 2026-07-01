@@ -3,39 +3,31 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Rotting Roots: sap an enemy's Strength for the turn, at the cost of a little Weak on yourself.</summary>
+/// <summary>Rotting Roots: a slow rot — every turn all enemies wither and the witch mends a little.</summary>
 public sealed class RottingRoots : WickenCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<StrengthPower>(),
-        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<RottingRootsPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("StrengthLoss", 10m),
-        new PowerVar<WeakPower>(1m)
+        new PowerVar<RottingRootsPower>(5m)
     ];
 
     public RottingRoots()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<WeakPower>(choiceContext, Owner.Creature, DynamicVars.Weak.BaseValue, Owner.Creature, this);
-        await PowerCmd.Apply<RottingRootsStrengthDownPower>(
-            choiceContext, cardPlay.Target, DynamicVars["StrengthLoss"].BaseValue, Owner.Creature, this);
+        await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
+        await PowerCmd.Apply<RottingRootsPower>(choiceContext, Owner.Creature, DynamicVars["RottingRootsPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["StrengthLoss"].UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["RottingRootsPower"].UpgradeValueBy(2m);
 }

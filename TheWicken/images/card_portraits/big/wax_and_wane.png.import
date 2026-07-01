@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6wmnxlo2f0j1"
-path="res://.godot/imported/cursed_bottles.png-631631087025cb3f02517064bb2ddf9d.ctex"
+uid="uid://crgf8a65e03d0"
+path="res://.godot/imported/wax_and_wane.png-e21b656afd6c0f09c6c50d3d30b53617.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/cursed_bottles.png"
-dest_files=["res://.godot/imported/cursed_bottles.png-631631087025cb3f02517064bb2ddf9d.ctex"]
+source_file="res://TheWicken/images/card_portraits/big/wax_and_wane.png"
+dest_files=["res://.godot/imported/wax_and_wane.png-e21b656afd6c0f09c6c50d3d30b53617.ctex"]
 
 [params]
 

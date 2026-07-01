@@ -21,6 +21,11 @@ public sealed class BramblesPower : WickenPower
 		{
 			Flash();
 			await CreatureCmd.Damage(choiceContext, dealer, Amount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, Owner, null);
+			// Hemlock: bramble retaliation also seeds the attacker with 1 Hex.
+			if (Owner.GetPowerAmount<HemlockPower>() > 0)
+			{
+				await PowerCmd.Apply<TheWicken.TheWickenCode.Powers.HexPower>(choiceContext, dealer, 1m, Owner, null);
+			}
 			// Hedge Prison makes brambles permanent: skip the per-trigger decrement.
 			if (Owner.GetPowerAmount<HedgePrisonPower>() == 0)
 			{

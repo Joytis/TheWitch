@@ -4,6 +4,71 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 89. Card Change: Hidden in Smoke — Intangible skill → turn-start smoke Power
+- **Done:** 2026-06-30
+- **Changed:** Reworked from `2e Rare Skill` (gain Intangible, Exhaust) to `2e, Rare, Power, Self` — **At the start of your turn, create a Vial of Smoke potion.** New `Powers/HiddenInSmokePower.cs` (Buff/Single, `AfterPlayerTurnStart` → `PotionCmd.TryToProcure<VialOfSmoke>(player)`). Card now applies the power; hover tips show the power + the `VialOfSmoke` potion. Loc rewritten (cards.json + new `THEWICKEN-HIDDEN_IN_SMOKE_POWER.*`).
+- **Design calls:** "Bottle of Smoke" → the mod's existing card-only `VialOfSmoke` (Token, defensive Block potion; same one Light the Candle brews). Note gave no upgrade → kept the prior **−1 Energy** upgrade. Dropped Intangible + Exhaust entirely. `IntangiblePower` is base-game — no orphan.
+- **Files:** [HiddenInSmoke.cs](TheWickenCode/Cards/HiddenInSmoke.cs), `Powers/HiddenInSmokePower.cs` (new); `cards.json`, `powers.json`; regen (TESTED cleared).
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: a Vial of Smoke appears in the belt each turn start (respects potion-slot limits via TryToProcure).
+
+### 88. Card Change: Ritual Sacrifice — add card draw
+- **Done:** 2026-06-30
+- **Changed:** Kept `1e, Uncommon, Skill, Self` + sacrifice-a-Familiar → **Gain 25 Block. Draw 3 cards.** Added `CardsVar(3)` and a `CardPileCmd.Draw(ctx, Cards, Owner)` inside the existing `if (sacrificed)` gate (draw only fires on a successful sacrifice, matching the block). Upgrade now **+5 Block, +2 cards** (was +5 block only). Loc adds the draw line with `{Cards:plural:card|cards}`.
+- **Files:** [RitualSacrifice.cs](TheWickenCode/Cards/RitualSacrifice.cs); `cards.json`; regen (TESTED cleared).
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: no sacrifice available → no block, no draw (both gated).
+
+### 87. Card Change: Rotting Roots — skill → turn-start rot Power
+- **Done:** 2026-06-30
+- **Changed:** Reworked from `1e Uncommon Skill` (self-Weak + enemy Strength-down) to `1e, Uncommon, Power, Self` — **At the start of your turn, ALL enemies lose 5 HP and you gain 1 HP.** New `Powers/RottingRootsPower.cs` (Counter, `AfterPlayerTurnStart`): unblockable HP-loss to `combat.HittableEnemies` (`ValueProp.Unblockable | Unpowered`) then `CreatureCmd.Heal(Owner, 1)`. Card applies the power with Amount = 5. Loc rewritten (cards.json + new `THEWICKEN-ROTTING_ROOTS_POWER.*`).
+- **Design calls:** Note gave **no upgrade** → chose **+2 enemy HP-loss** (5→7); heal fixed at 1 (constant, not a var). ⚠️ The old `RottingRootsStrengthDownPower.cs` is now **orphaned dead code** (only Rotting Roots referenced it) — left in place per surgical-change rule; flag for deletion if unwanted.
+- **Files:** [RottingRoots.cs](TheWickenCode/Cards/RottingRoots.cs), `Powers/RottingRootsPower.cs` (new); `cards.json`, `powers.json`; regen (TESTED cleared).
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest turn-start damage-all + self-heal; combat-hook behavior compile-checked only.
+
+### 86. Card Change: Soul Knot — damage-reflect → debuff-spread
+- **Done:** 2026-06-30
+- **Changed:** Reworked `SoulKnotPower` from "attacks on you splash all enemies" (`AfterDamageReceived`) to **"debuffs you apply to an enemy also apply to ALL enemies"** (`AfterPowerAmountChanged`, base-game **OutbreakPower** pattern). Card cost 3→2 (`2e, Rare, Power, Self`); upgrade kept as −1 Energy per the (revised) staging note. Loc updated in cards.json + powers.json.
+- **Design calls:** Hook fires on the player's powers for every power change → filtered to `applier == Owner && amount > 0 && power.Type == Debuff && landed enemy (Side != player)`. Copy uses `ModelDb.DebugPower(power.GetType()).ToMutable()` + non-generic `PowerCmd.Apply(power,…)` so any debuff type spreads generically. Two guards: a `_spreading` bool (kills the infinite re-trigger loop) and an "enemy doesn't already have this power" filter (stops already-AoE cards from compounding stacks). `silent: true` on the copies to avoid pause spam.
+- **Files:** [SoulKnot.cs](TheWickenCode/Cards/SoulKnot.cs), [SoulKnotPower.cs](TheWickenCode/Powers/SoulKnotPower.cs); `cards.json`, `powers.json`; regen (TESTED cleared).
+- **Verified:** build 0/0, regen OK. ⚠️ Playtest: single-target debuff (Hex/Weak/Vuln) spreads to all enemies once; no infinite loop; already-AoE debuff cards don't double up (the "lacking it" filter). Harmony/combat-hook behavior is compile-checked only.
+
+### 85. Card Rename + Change: Cursed Bottles → Wax and Wane
+- **Done:** 2026-06-30
+- **Changed:** Full rename `CursedBottles` → `WaxAndWane` (class + file + `.cs.uid` removed; loc key `THEWICKEN-CURSED_BOTTLES` → `THEWICKEN-WAX_AND_WANE`; art `cursed_bottles.png`/`big` → `wax_and_wane.png`/`big` via `git mv`, stale `.import` deleted). New design: converted multi-hit Attack (3×3 dmg + Hex) → `1e, Uncommon, Skill, AnyEnemy` — **Gain 9 Block. Apply 1 Hex.** Upgrade **+2 Block, +1 Hex.** Vars `BlockVar(9, Move)` + `PowerVar<HexPower>(1)`; `GainsBlock => true` (Bottle Wall pattern).
+- **Design calls:** Kept `TargetType.AnyEnemy` — a Skill that gains Block (self) *and* applies Hex needs an enemy target for the debuff; block goes to self via `Owner.Creature`. No dangling refs to the old class (grep clean outside its own file + historical DONE).
+- **Files:** `Cards/WaxAndWane.cs` (new), `Cards/CursedBottles.cs`(+`.uid`) removed; `cards.json`; art renamed; regen (+Wax and Wane / −Cursed Bottles).
+- **Verified:** build 0/0, regen OK. ⚠️ Art files renamed — user must run **Godot: Import assets** to regenerate `.import`. Playtest block+hex + upgrade.
+
+### 84. New Card: Hemlock — Bramble → Hex payoff Power
+- **Done:** 2026-06-30
+- **Changed:** New `1e, Power, Rare` card (`Cards/Hemlock.cs`) applying a new `HemlockPower` (`Powers/HemlockPower.cs`, Buff/Single marker). Bramble retaliation now checks the bramble owner for `HemlockPower` and, if present, applies **1 Hex** to the creature it damaged (`BramblesPower.BeforeDamageReceived`, right after the return-damage). Upgrade = **Innate** (`AddKeyword(CardKeyword.Innate)`, Aggression pattern). Loc added: `THEWICKEN-HEMLOCK.*` (cards.json), `THEWICKEN-HEMLOCK_POWER.*` (powers.json).
+- **Design calls:** Modeled on base-game Aggression (1e/Power/Rare/Self, apply-power + Innate-on-upgrade). `HexPower` name collides with the game's own `HexPower` — fully-qualified `TheWicken.TheWickenCode.Powers.HexPower` in both Hemlock's hover tips and BramblesPower's apply call (and qualified the game's `BramblesPower` in Hemlock's tip). Effect lives in BramblesPower (single trigger site), power is a passive toggle.
+- **Files:** `Cards/Hemlock.cs` (new), `Powers/HemlockPower.cs` (new), [BramblesPower.cs](TheWickenCode/Powers/BramblesPower.cs); `cards.json` + `powers.json`; regen (+added Hemlock).
+- **Verified:** build 0/0, regen OK. ⚠️ Placeholder art — needs `images/card_portraits/hemlock.png` (+big) then Godot import. ⚠️ Playtest: bramble retaliation applies 1 Hex when Hemlock active; upgraded copy is Innate.
+
+### 83. Card Change: Hexblast — detonate debuffs
+- **Done:** 2026-06-30
+- **Changed:** Reworked from "apply Hex, then deal damage × unique-debuff count" to a **detonate**: counts unique debuff types on the target, deals `10 × count` in one hit, then removes every one of those debuff powers (`PowerCmd.Remove`). No longer applies Hex. Vars trimmed to a single `DamageVar(10)`; upgrade still `+3` per-debuff (→13). Chose **unique debuff type** (not per-stack) to match the prior tally; removed hover tip (no longer references Hex).
+- **Files:** [Hexblast.cs](TheWickenCode/Cards/Hexblast.cs); `cards.json` (loc + Docs regen).
+- **Verified:** build 0/0, regen (TESTED cleared). ⚠️ Playtest: damage = 10 × distinct debuffs, all debuffs cleared after.
+
+### 82. Card Change: Bewitching Grin — Attack → AoE Weak skill
+- **Done:** 2026-06-30
+- **Changed:** Converted from a single-target Attack (damage + Hex) to `1e, Common, Skill, AllEnemies` — **ALL enemies gain 2 Weak. Exhaust.** Upgrade `+1 Weak` (2→3). Vars now just `PowerVar<WeakPower>(2)`; added `Exhaust` keyword; applies Weak to `CombatState.HittableEnemies` (Plague/Pact of Agony pattern); hover tip swapped Hex→Weak.
+- **Files:** [BewitchingGrin.cs](TheWickenCode/Cards/BewitchingGrin.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen (TESTED cleared).
+
+### 81. Card Change: Vexing Thwack — single hit
+- **Done:** 2026-06-30
+- **Changed:** Dropped the `RepeatVar(2)` multi-hit; now a single-hit Attack — **Deal 8 damage. Apply 3 Hex.** Damage 10→8, base Hex 2→3. Cost/rarity/type/target unchanged (`3e, Common, Attack, AnyEnemy` — note specified no new cost) and upgrade left as-is (`+2 Hex`).
+- **Files:** [VexingThwack.cs](TheWickenCode/Cards/VexingThwack.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen (TESTED cleared).
+
+### 80. Card Change: Bind in Blood — pure Hex skill
+- **Done:** 2026-06-30
+- **Changed:** Reworked from `1e Uncommon Attack` (damage + 2 Wounds + Hex) to `0e, Common, Skill, AnyEnemy` — **Lose 3 HP. Apply 3 Hex.** Upgrade `+2 Hex` (3→5). Vars now `HpLossVar(3)` + `PowerVar<HexPower>(3)`; self HP loss via `CreatureCmd.Damage(Unblockable|Unpowered|Move)` (Pact of Agony pattern), Hex applied to target; hover tips trimmed to Hex only.
+- **Files:** [BindInBlood.cs](TheWickenCode/Cards/BindInBlood.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen (TESTED cleared).
+
 ### 78. Card Change: Nibble — damage scaling → hit-count scaling
 - **Done:** 2026-06-30
 - **Changed:** Nibble now deals a flat 1 damage but **hits** `1 + RatCardsPlayedThisCombat` times (was: flat 1 hit with live-scaling per-hit damage via `CalculatedDamageVar`). Swapped to the Brambleburst/Hexblast flat-`DamageVar` + `WithHitCount(count)` shape (hit count computed in `OnPlay`, same as those cards' scaling display). Upgrade changed from "+1 extra damage per rat" to "+1 base damage per hit" (1→2), since rat-count scaling now lives entirely in hit count.

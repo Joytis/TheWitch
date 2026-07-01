@@ -1,12 +1,10 @@
-Pact of Agony
 Green Hex
-Choking Vines
 Decoct
 Foul Draught
 Shatter the Veil
 Impulsive Actions
 Cackle
-Wax and Wane
+
 Call the Coven
 Shield the Coven
 Eye of Newt
@@ -34,7 +32,6 @@ Unfinished Spell
 Infernal Chant
 Chant to the Devil
 Rattling Bones
-Rattling Bottle
 Tiny Bottle
 Favorite Spellbook
 Cursed Spellbook
