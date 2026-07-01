@@ -8,20 +8,13 @@ using TheWicken.TheWickenCode.Extensions;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Rat familiar token. Swarm payoff: deals 1 damage for every Rat card (Rats, Plague, Nibble) played this
-/// combat, including itself. Built on the <see cref="CalculatedDamageVar" /> Soul Storm pattern so the live
-/// total renders on the card face: base 1 (this Nibble) + 1 per prior Rat card played.
+/// Rat familiar token. Swarm payoff: hits once for every Rat card (Rats, Plague, Nibble) played this
+/// combat, including itself — base 1 hit (this Nibble) + 1 hit per prior Rat card played this combat.
 /// </summary>
 public sealed class Nibble : WickenFamiliarCard, IRatCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CalculationBaseVar(1m),
-        new ExtraDamageVar(1m),
-        new CalculatedDamageVar(ValueProp.Move)
-            .WithMultiplier((card, _) =>
-                card.Owner?.Creature is { } creature
-                    ? CombatHistoryQueries.RatCardsPlayedThisCombat(creature)
-                    : 0),
+        new DamageVar(1m, ValueProp.Move)
     ];
 
     public Nibble()
@@ -32,12 +25,14 @@ public sealed class Nibble : WickenFamiliarCard, IRatCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+        int hits = 1 + (Owner?.Creature is { } creature ? CombatHistoryQueries.RatCardsPlayedThisCombat(creature) : 0);
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount(hits)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
 }

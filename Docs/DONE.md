@@ -4,6 +4,30 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 78. Card Change: Nibble — damage scaling → hit-count scaling
+- **Done:** 2026-06-30
+- **Changed:** Nibble now deals a flat 1 damage but **hits** `1 + RatCardsPlayedThisCombat` times (was: flat 1 hit with live-scaling per-hit damage via `CalculatedDamageVar`). Swapped to the Brambleburst/Hexblast flat-`DamageVar` + `WithHitCount(count)` shape (hit count computed in `OnPlay`, same as those cards' scaling display). Upgrade changed from "+1 extra damage per rat" to "+1 base damage per hit" (1→2), since rat-count scaling now lives entirely in hit count.
+- **Files:** [Nibble.cs](TheWickenCode/Cards/Familiar/Nibble.cs); `cards.json`; regen.
+- **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: hit count = 1 (self) + prior Rat-card plays this combat; upgrade raises per-hit damage 1→2.
+
+### 77. Card Change: Familiar pet art should reflect summon-card art
+- **Done:** 2026-06-30
+- **Changed:** Verified only — no code change. All 8 `WickenPet` subclasses (`Monsters/*Pet.cs`) already set `TexturePath` to their own summon card's portrait via `"<name>_familiar.png".CardImagePath()`, and every `FamiliarPower.Pet` maps 1:1 to the matching pet class (Bear→BearPet, Cat→CatPet, Chimera→ChimeraPet, Crow→CrowPet, Owl→OwlPet, Porcupine→PorcupinePet, Rat→RatPet, Wolf→WolfPet). The visible mismatch the user is seeing is that 4 of 9 familiar art files (`chimera_familiar.png`, `crow_familiar.png`, `porcupine_familiar.png`, `rat_familiar.png`) are still the shared default-fallback placeholder (identical file hash to `find_familiar.png`) — a missing-art gap, not a pet/card art linkage bug.
+- **Files:** none.
+- **Verified:** code inspection only (no build needed — no `.cs` touched). Real art still needed for Chimera/Crow/Porcupine/Rat familiars (card portrait, which the pet will automatically pick up once authored).
+
+### 76. Card Bug: Rotting Roots — broken variable token
+- **Done:** 2026-06-30
+- **Changed:** `RottingRoots.cs` builds its Weak var as `new PowerVar<WeakPower>(1m)`, which keys itself `"WeakPower"` (per `PowerVar<T>`'s ctor — matches base game's `DynamicVarSet.Weak` accessor reading `_vars["WeakPower"]`), but the localization string referenced `{Weak:diff()}`, a key that doesn't exist — hence the broken display. Fixed the loc token to `{WeakPower:diff()}`.
+- **Files:** `cards.json` (`THEWICKEN-ROTTING_ROOTS.description`).
+- **Verified:** build 0/0. Text now renders "Gain 1 Weak." correctly.
+
+### 75. Card Change: Grind Down — wording
+- **Done:** 2026-06-30
+- **Changed:** Description first line reworded from "Exhaust a card to create a Potion." to "Exhaust a card. Turn it into a Potion." per the user's requested phrasing; kept the existing second line (type→effect, rarity→potency). No `.cs`/effect change.
+- **Files:** `cards.json` (`THEWICKEN-GRIND_DOWN.description`).
+- **Verified:** build 0/0.
+
 ### 74. Card Change: Chromatic Claws — redesign
 - **Done:** 2026-06-29
 - **Changed:** Dropped the belt-count damage scaling (`CalculatedDamageVar`) for flat `DamageVar(8, Move)`. New effect: deal 8, then if the belt has ≥1 potion, discard a random one (`Owner.Potions` + `rng.NextItem` → `PotionCmd.Discard`) and create a random potion (`PotionCatalog.Random(PotionCatalog.Query())` → `TryToProcure`). Guarded so the create only fires when a discard happened (empty belt → just the attack). 1e Common Attack kept. **Design call:** note gave no upgrade → +3 damage (8→11).

@@ -21,7 +21,7 @@ public sealed class PactOfFury : WickenCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<WeakPower>(5m),
-        new PowerVar<StrengthPower>(2m)
+        new PowerVar<StrengthPower>(4m)
     ];
 
     public PactOfFury()
