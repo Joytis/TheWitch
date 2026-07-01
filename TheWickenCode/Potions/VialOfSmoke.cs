@@ -21,7 +21,7 @@ public sealed class VialOfSmoke : WickenPotion
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(7m, ValueProp.Unpowered)
+        new BlockVar(8m, ValueProp.Unpowered)
     ];
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)

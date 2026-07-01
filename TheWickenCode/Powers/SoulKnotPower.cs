@@ -1,18 +1,19 @@
 using System.Linq;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Soul Knot: whenever an attack lands on the owner — whether it eats block or HP — every enemy takes that
-/// much damage too (see <see cref="DamageResult.TotalDamage" />). The splash uses raw <c>CreatureCmd.Damage</c>
-/// against enemies only, so it never recurses back into <see cref="AfterDamageReceived" /> on the owner.
+/// Soul Knot: whenever the witch applies a debuff to an enemy, that same debuff (same amount) also lands on
+/// every OTHER enemy — spreading your curses across the whole room. Implemented off
+/// <see cref="AbstractModel.AfterPowerAmountChanged" /> (the base-game Outbreak pattern): the hook fires on the
+/// player's powers for every power change, so we filter to "a debuff I just applied to an enemy" and copy it.
+/// A <see cref="_spreading" /> re-entrancy guard stops the copies from re-triggering the spread (infinite loop),
+/// and we only copy onto enemies that don't already have that debuff so an already-AoE card doesn't compound.
 /// </summary>
 public sealed class SoulKnotPower : WickenPower
 {
@@ -20,20 +21,42 @@ public sealed class SoulKnotPower : WickenPower
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
+    private bool _spreading;
+
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        if (target != Owner || result.TotalDamage <= 0 || Owner.CombatState is not { } combat)
+        if (_spreading || applier != Owner || amount <= 0m || power.Type != PowerType.Debuff)
         {
             return;
         }
 
-        Flash();
-        List<Creature> enemies = combat.GetOpponentsOf(Owner)
-            .Where(c => c != null && c.IsAlive)
-            .ToList();
-        if (enemies.Count > 0)
+        Creature landed = power.Owner;
+        if (landed == null || landed.Side == Owner.Side || Owner.CombatState is not { } combat)
         {
-            await CreatureCmd.Damage(choiceContext, enemies, result.TotalDamage, ValueProp.Unpowered, Owner, null);
+            return;
+        }
+
+        List<Creature> others = combat.HittableEnemies
+            .Where(e => e != landed && e.IsAlive && e.GetPower(power.Id) == null)
+            .ToList();
+        if (others.Count == 0)
+        {
+            return;
+        }
+
+        _spreading = true;
+        try
+        {
+            Flash();
+            foreach (Creature enemy in others)
+            {
+                PowerModel copy = (PowerModel)ModelDb.DebugPower(power.GetType()).ToMutable();
+                await PowerCmd.Apply(choiceContext, copy, enemy, amount, Owner, cardSource, silent: true);
+            }
+        }
+        finally
+        {
+            _spreading = false;
         }
     }
 }

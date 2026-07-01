@@ -1,19 +1,16 @@
-using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Hex (enemy debuff): when the hexed attacker <em>next attacks</em>, its attack damage rebounds onto the
-/// attacker itself and all of its allies (in addition to the attack's normal targets). One stack is consumed
-/// per attack. The splash uses raw <c>CreatureCmd.Damage</c> (not an <c>AttackCommand</c>), so it does not
-/// recurse back into <see cref="AfterAttack" />.
+/// Hex (enemy debuff): at the end of the hexed enemy's turn, drain 1 Strength from it and give that Strength to
+/// the witch who cast the Hex (<see cref="Applier" />), then remove one stack. A decrementing, consistent power
+/// drain — Hex is the thematic means of stealing Strength over time; Strength does the payoff work.
 /// </summary>
 public sealed class HexPower : WickenPower
 {
@@ -21,31 +18,22 @@ public sealed class HexPower : WickenPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
-        if (command.Attacker != Owner || Amount <= 0 || Owner.CombatState is not { } combat)
-        {
-            return;
-        }
-
-        decimal damage = command.Results.SelectMany(hit => hit).Sum(d => d.TotalDamage);
-
-        // Consume one stack before splashing.
-        await PowerCmd.Decrement(this);
-        if (damage <= 0m)
+        if (Amount <= 0 || !participants.Contains(Owner))
         {
             return;
         }
 
         Flash();
-        List<Creature> targets = combat.GetTeammatesOf(Owner)
-            .Append(Owner)
-            .Where(c => c != null && c.IsAlive)
-            .Distinct()
-            .ToList();
-        if (targets.Count > 0)
+
+        // Enemy loses 1 Strength (can go negative), the witch gains it.
+        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, -1m, Owner, null);
+        if (Applier is { IsAlive: true } witch)
         {
-            await CreatureCmd.Damage(choiceContext, targets, damage, ValueProp.Unpowered, Owner, null);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, witch, 1m, witch, null);
         }
+
+        await PowerCmd.Decrement(this);
     }
 }

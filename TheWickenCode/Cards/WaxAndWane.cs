@@ -8,33 +8,35 @@ using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Vexing Thwack: a multi-hit Attack that also seeds the target with Hex.</summary>
-public sealed class VexingThwack : WickenCard
+/// <summary>Wax and Wane: shore up with Block while cursing the target with Hex.</summary>
+public sealed class WaxAndWane : WickenCard
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move),
-        new PowerVar<HexPower>(3m)
+        new BlockVar(9m, ValueProp.Move),
+        new PowerVar<HexPower>(1m)
     ];
 
-    public VexingThwack()
-        : base(3, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    public WaxAndWane()
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
         await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Block.UpgradeValueBy(2m);
+        DynamicVars["HexPower"].UpgradeValueBy(1m);
+    }
 }

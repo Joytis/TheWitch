@@ -12,7 +12,8 @@ public sealed class RitualSacrifice : WickenCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(25m, ValueProp.Move)
+        new BlockVar(25m, ValueProp.Move),
+        new CardsVar(3)
     ];
 
     public RitualSacrifice()
@@ -28,8 +29,13 @@ public sealed class RitualSacrifice : WickenCard
         if (sacrificed)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(5m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Block.UpgradeValueBy(5m);
+        DynamicVars.Cards.UpgradeValueBy(2m);
+    }
 }

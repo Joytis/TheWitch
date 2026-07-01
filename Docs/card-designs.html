@@ -113,7 +113,7 @@
     <span id="roles"></span>
     <span class="chip onlyDev" data-t="untested">untested only</span>
     <span class="chip onlyDev" data-t="noart">no-art only</span>
-    <button class="chip btn onlyDev" id="exportUnfinished" title="Copy newline-separated png filenames for every card whose big art is still a card.png duplicate">⧉ export no-art names</button>
+    <button class="chip btn onlyDev" id="exportUnfinished" title="Copy png filename + name, type/rarity, and description for every card whose big art is still a card.png duplicate — art direction reference">⧉ export no-art names</button>
     <div class="prog">
       <span id="count"></span>
       <div class="bar onlyDev"><i id="barfill"></i></div>
@@ -198,7 +198,7 @@ async function load(){
     render();
   }catch(e){
     document.getElementById("rows").innerHTML =
-      `<tr><td colspan="11" style="color:#ffb3b3">Could not load ${cfg.file}. ${MODE==="dev"?"Start the server: <code>node Docs/card-data/server.js</code>":"Run the generator to produce it."}</td></tr>`;
+      `<tr><td colspan="12" style="color:#ffb3b3">Could not load ${cfg.file}. ${MODE==="dev"?"Start the server: <code>node Docs/card-data/server.js</code>":"Run the generator to produce it."}</td></tr>`;
   }
 }
 
@@ -206,7 +206,7 @@ function buildHead(){
   const dev = MODE==="dev";
   const cols = [];
   if(dev) cols.push(`<th>Art</th>`);
-  cols.push(`<th data-k="name">Card</th>`,`<th data-k="cost">Cost/Type</th>`,`<th data-k="rarity">Rarity</th>`,`<th>Category</th>`,`<th>Text</th>`,`<th>Numbers</th>`,`<th>Upgrade</th>`);
+  cols.push(`<th data-k="name">Card</th>`,`<th data-k="cost">Cost</th>`,`<th data-k="type">Type</th>`,`<th data-k="rarity">Rarity</th>`,`<th>Category</th>`,`<th>Text</th>`,`<th>Numbers</th>`,`<th>Upgrade</th>`);
   if(dev) cols.push(`<th>Add</th>`,`<th data-k="art">Art State</th>`,`<th data-k="tested">Tested</th>`);
   document.getElementById("head").innerHTML = cols.join("");
   document.querySelectorAll("th[data-k]").forEach(th=>{
@@ -318,6 +318,7 @@ function visible(){
     let r=0;
     if(state.sort==="rarity") r = rk(a)-rk(b) || a.name.localeCompare(b.name);
     else if(state.sort==="cost") r = (parseInt(a.cost)||0)-(parseInt(b.cost)||0) || a.name.localeCompare(b.name);
+    else if(state.sort==="type") r = String(a.type).localeCompare(String(b.type)) || a.name.localeCompare(b.name);
     else if(state.sort==="tested") r = (a.tested?1:0)-(b.tested?1:0) || a.name.localeCompare(b.name);
     else if(state.sort==="art") r = (ART_RANK[a.art||"none"]-ART_RANK[b.art||"none"]) || a.name.localeCompare(b.name);
     else r = String(a[state.sort]).localeCompare(String(b[state.sort]));
@@ -368,7 +369,8 @@ function render(){
         <span class="entry">${esc(c.entry)}</span>
         ${c.note?`<span class="note">${esc(c.note)}</span>`:""}
       </td>
-      <td class="meta">${esc(String(c.cost))} · ${esc(c.type)}<br><span class="badge">${esc(c.target)}</span></td>
+      <td class="meta">${esc(String(c.cost))}</td>
+      <td class="meta">${esc(c.type)}<br><span class="badge">${esc(c.target)}</span></td>
       <td><span class="rar" style="background:${color}33;color:${color}">${esc(c.rarity)}</span></td>
       <td>${catHtml(c)}</td>
       <td class="text">${esc(c.text)}</td>
@@ -454,11 +456,16 @@ document.addEventListener("click", async (e)=>{
       return;
     }
     if(e.target.closest("#exportUnfinished")){
-      const names = CARDS.filter(c=>(c.art||"none")==="none").map(c=>c.entry.toLowerCase()+".png").sort();
-      const ok = await copyText(names.join("\n"));
+      const rows = CARDS.filter(c=>(c.art||"none")==="none")
+        .sort((a,b)=>a.entry.localeCompare(b.entry))
+        .map(c=>{
+          const desc = (c.text||"").replace(/\s*\n\s*/g," ").trim();
+          return `${c.entry.toLowerCase()}.png — ${c.name} (${c.type}, ${c.rarity})${desc?` — ${desc}`:""}`;
+        });
+      const ok = await copyText(rows.join("\n"));
       const btn = document.getElementById("exportUnfinished");
       const old = btn.textContent;
-      btn.textContent = ok ? `copied ${names.length} names!` : "copy failed";
+      btn.textContent = ok ? `copied ${rows.length} cards!` : "copy failed";
       setTimeout(()=>{ btn.textContent = old; }, 1200);
       return;
     }

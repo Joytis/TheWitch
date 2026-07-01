@@ -123,17 +123,40 @@
       "entry": "BEWITCHING_GRIN",
       "file": "TheWickenCode/Cards/BewitchingGrin.cs",
       "cost": 1,
-      "type": "Attack",
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "AllEnemies",
+      "text": "ALL enemies gain 2 Weak. Exhaust.",
+      "numbers": {
+        "Weak": 2
+      },
+      "upgrade": "WeakPower +1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
+      "name": "Bind in Blood",
+      "entry": "BIND_IN_BLOOD",
+      "file": "TheWickenCode/Cards/BindInBlood.cs",
+      "cost": 0,
+      "type": "Skill",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 3 damage. Apply 3 Hex.",
+      "text": "Lose 3 HP. Apply 3 Hex.",
       "numbers": {
         "Hex": 3,
-        "Damage": 3
+        "HpLoss": 3
       },
-      "upgrade": "Damage +3",
+      "upgrade": "HexPower +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -496,15 +519,14 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage 2 times. Apply 2 Hex.",
+      "text": "Deal 8 damage. Apply 3 Hex.",
       "numbers": {
-        "Hex": 2,
-        "Damage": 10,
-        "Repeat": 2
+        "Hex": 3,
+        "Damage": 8
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -579,31 +601,6 @@
       ],
       "role": [
         "Generator"
-      ]
-    },
-    {
-      "name": "Bind in Blood",
-      "entry": "BIND_IN_BLOOD",
-      "file": "TheWickenCode/Cards/BindInBlood.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal 10 damage. Add 2 Wound into your Discard Pile. Apply 3 Hex.",
-      "numbers": {
-        "Hex": 3,
-        "Damage": 10,
-        "Cards": 2
-      },
-      "upgrade": "Damage +3, HexPower +1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
       ]
     },
     {
@@ -814,30 +811,6 @@
       ]
     },
     {
-      "name": "Cursed Bottles",
-      "entry": "CURSED_BOTTLES",
-      "file": "TheWickenCode/Cards/CursedBottles.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal 3 damage 3 times. Apply 3 Hex.",
-      "numbers": {
-        "Hex": 3,
-        "Damage": 3
-      },
-      "upgrade": "Damage +1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
-      ]
-    },
-    {
       "name": "Double, Double",
       "entry": "DOUBLE_DOUBLE",
       "file": "TheWickenCode/Cards/DoubleDouble.cs",
@@ -959,14 +932,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Apply 3 Hex. Deal 12 damage for each unique debuff on the enemy.",
+      "text": "Detonate all debuffs on the enemy. Deal 10 damage for each debuff removed.",
       "numbers": {
-        "Hex": 3,
-        "Damage": 12
+        "Damage": 10
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1168,13 +1140,14 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Sacrifice a Familiar. Gain 25 Block.",
+      "text": "Sacrifice a Familiar. Gain 25 Block. Draw 3 cards.",
       "numbers": {
-        "Block": 25
+        "Block": 25,
+        "Cards": 3
       },
-      "upgrade": "Block +5",
+      "upgrade": "Block +5, Cards +2",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1209,16 +1182,16 @@
       "entry": "ROTTING_ROOTS",
       "file": "TheWickenCode/Cards/RottingRoots.cs",
       "cost": 1,
-      "type": "Skill",
+      "type": "Power",
       "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Gain 1 Weak. An enemy loses {StrengthLoss:diff()} Strength this turn.",
+      "target": "Self",
+      "text": "At the start of your turn, ALL enemies lose 5 HP and you gain 1 HP.",
       "numbers": {
-        "Weak": 1
+        "RottingRoots": 5
       },
-      "upgrade": "StrengthLoss +3",
+      "upgrade": "RottingRootsPower +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1295,6 +1268,26 @@
       "role": [
         "Generator"
       ]
+    },
+    {
+      "name": "Wax and Wane",
+      "entry": "WAX_AND_WANE",
+      "file": "TheWickenCode/Cards/WaxAndWane.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Gain 9 Block. Apply 1 Hex.",
+      "numbers": {
+        "Hex": 1,
+        "Block": 9
+      },
+      "upgrade": "Block +2, HexPower +1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Wild Growth",
@@ -1671,20 +1664,35 @@
       ]
     },
     {
+      "name": "Hemlock",
+      "entry": "HEMLOCK",
+      "file": "TheWickenCode/Cards/Hemlock.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Your Brambles apply 1 Hex when they retaliate.",
+      "numbers": {},
+      "upgrade": "custom (see code)",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Hidden in Smoke",
       "entry": "HIDDEN_IN_SMOKE",
       "file": "TheWickenCode/Cards/HiddenInSmoke.cs",
       "cost": 2,
-      "type": "Skill",
+      "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 1 Intangible.",
-      "numbers": {
-        "Intangible": 1
-      },
+      "text": "At the start of your turn, create a Vial of Smoke potion.",
+      "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1786,15 +1794,15 @@
       "name": "Soul Knot",
       "entry": "SOUL_KNOT",
       "file": "TheWickenCode/Cards/SoulKnot.cs",
-      "cost": 3,
+      "cost": 2,
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you are attacked, even to Block, ALL enemies take that much damage.",
+      "text": "Whenever you apply a debuff to an enemy, apply it to ALL enemies.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
