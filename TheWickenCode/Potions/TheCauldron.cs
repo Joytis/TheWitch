@@ -57,6 +57,17 @@ public sealed class TheCauldron : WickenPotion
         }
     }
 
+    /// <summary>Re-apply poured state from the sidecar save (see <c>CauldronSaveState</c>) after a run load.</summary>
+    public void RestoreState(decimal strength, decimal heal, decimal energy, decimal cleanse, decimal intangible)
+    {
+        AssertMutable();
+        DynamicVars["StrengthPower"].BaseValue = strength;
+        DynamicVars["Heal"].BaseValue = heal;
+        DynamicVars["Energy"].BaseValue = energy;
+        DynamicVars["Cleanse"].BaseValue = cleanse;
+        DynamicVars["IntangiblePower"].BaseValue = intangible;
+    }
+
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
         Creature self = Owner.Creature;

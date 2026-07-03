@@ -4,6 +4,13 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 108b. Cauldron follow-ups: conditional tooltip + sidecar save persistence
+- **Done:** 2026-07-03
+- **Changed:** (1) Cauldron tooltip now shows effect lines **only when > 0** via SmartFormat `ConditionalFormatter` (`{Var:cond:>0?...|}` — registered in `LocManager.LoadLocFormatters`; base-game example `SOVEREIGN_BLADE`): leads with "An evil concoction.", then Strength/Heal/Energy/cleanse/Intangible lines appear as poured. Cackle card text stays vague. (2) **Poured state now survives save/quit/resume**: new [CauldronSavePatch.cs](TheWickenCode/Potions/CauldronSavePatch.cs) — sidecar JSON in the Godot user dir (`user://thewicken_cauldron_state.json`) mapping (PlayerRng.Seed, slot index) → stats. Write: Harmony postfix on `Player.ToSerializable` (every run-save snapshot; deletes file when no filled Cauldron). Restore: postfix on private `Player.LoadPotions` (runs inside `FromSerializable` *after* `PlayerRng` is restored, so the seed key is valid). Seed mismatch → stale file ignored; all IO try/caught (fail-safe = empty Cauldron). `TheCauldron.RestoreState(...)` added.
+- **Why sidecar:** `SerializablePotion` is id+slot only and `ExtraPlayerFields` is a fixed source-gen schema — no in-save extension point exists.
+- **Files:** `CauldronSavePatch.cs` (new), [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs), `potions.json`.
+- **Verified:** build 0/0. ⚠️ Playtest: pour → save+quit → resume → tooltip still shows stats; new run ignores stale file. Not MP-synced (remote clients rebuild from packets).
+
 ### 108. Card Redesign: Cackle — pour potions into the Cauldron
 - **Done:** 2026-07-02
 - **Changed:** Cackle (kept `2e, Skill, Rare, Exhaust`, upgrade −1e) now: **discard every belt potion except The Cauldron** (creating one if absent), then pour the discarded count in. **The Cauldron rewritten as an accumulator** (old AoE dmg/Block/Brambles/Weak effect gone): per poured potion **+2 Strength, +3 HP heal** (cumulative across casts); one Cackle cast pouring **2+ unlocks "Gain 2 Energy"**, **3+ "Remove one debuff"**, **4+ "Gain 1 Intangible"** (thresholds unlock, don't stack — note only marked Str/heal cumulative). On use: apply Strength, heal, energy, remove first debuff, Intangible. Empty Cauldron does nothing. Loc rewritten (card + potion; potion text shows live var amounts).

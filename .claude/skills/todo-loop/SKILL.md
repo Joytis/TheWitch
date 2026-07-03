@@ -31,11 +31,15 @@ Before coding, use `AskUserQuestion` for decisions that are truly the user's and
 5. **Finish**: remove the item from `TODO.md`; append it to `DONE.md` with a one-line summary, the design decisions you made, the files, and `build 0/0`.
 6. Loop. Stop only at a real blocker, a build failure, or an empty queue. Honor any pacing the user sets ("grind to next blocker" = don't checkpoint until blocked).
 
+**Batching:** cheap same-type items (content cuts, one-line stat changes) may share ONE build gate — claim each item first, implement the batch, build once, then write each item's own DONE entry. Never batch across types or past anything risky.
+
+**Staging is live:** the user may drop new notes into `TODO_STAGING.md` while the loop runs — a note can even revise an item you just finished. Re-check staging after each build gate and before declaring the queue empty; ingest (or apply directly if it supersedes work still fresh in context) and clear the line.
+
 ## Conventions & gotchas
 
 - **Parallelize safely.** Independent, file-isolated work (research; a mechanical multi-file refactor where each agent owns distinct `.cs` files) → spawn agents. But **shared JSON** (`cards.json`/`powers.json`/`relics.json`) is a single conflict surface — serialize those edits yourself; never let parallel agents write the same JSON file. Agents should not run `dotnet build` (shared output) — build once yourself after.
 - **Localization plurals:** use the `Plural` tag `{Var:plural:singular|plural}` (and `{Var:diff()}` for the number + upgrade preview), never "card(s)".
-- **Removing content:** delete the `.cs` (+ `.cs.uid`), the localization keys (the analyzer flags orphans → build fails), and the art (`.png` + `.png.import`); grep for dangling references first (hover tips, `[Pool]` lists, powers applied by other cards). Registration is reflection-based, so deleting the file deregisters it.
+- **Removing content:** delete the `.cs` (+ `.cs.uid`), the localization keys (the analyzer flags orphans → build fails), and the art (`.png` + `.png.import`); grep for dangling references first (hover tips, `[Pool]` lists, powers applied by other cards). Registration is reflection-based, so deleting the file deregisters it. **Also check what the cut content *grants*:** a cut card can orphan a payload potion/power that only it procured (Concoct → Villainous Brew) — surface the orphan and ask (`AskUserQuestion`) whether to cascade the cut; deleting user-unnamed files unprompted gets denied.
 - **Renaming a card:** full rename = class + file + id-derived localization keys + art path (`Id.Entry`-derived). Rename the `.png`, delete the stale `.import`, and tell the user to run the **Godot: Import assets** task.
 - **New content** can ship with placeholder art (paths fall back + log); flag the missing art and the `Images: Generate missing sizes` → `Godot: Import assets` follow-up.
 - **Can't verify runtime.** Harmony patches, combat hooks, and MP behavior compile-check only — explicitly flag these for an in-game playtest in the DONE entry.
