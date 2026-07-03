@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
 
@@ -15,31 +16,26 @@ namespace TheWicken.TheWickenCode.Potions.Brewing;
 /// </summary>
 public static class PotionUpgrade
 {
-    /// <summary>Upgrade <paramref name="count" /> random belt potions, re-rolling the target each time.</summary>
+    /// <summary>
+    /// Upgrade <paramref name="count" /> random belt potions. The belt is snapshotted and shuffled once up
+    /// front, then the first <paramref name="count" /> distinct potions are upgraded — so the same potion is
+    /// never picked twice and freshly created upgrades are never re-upgraded in the same call.
+    /// </summary>
     public static async Task UpgradeRandomPotions(Player player, Rng rng, int count = 1)
     {
-        for (int i = 0; i < count; i++)
-        {
-            await UpgradeOneRandomPotion(player, rng);
-        }
-    }
-
-    private static async Task UpgradeOneRandomPotion(Player player, Rng rng)
-    {
         var potions = player.Potions.ToList();
-        if (potions.Count == 0)
-        {
-            return;
-        }
+        potions.UnstableShuffle(rng);
 
-        PotionModel target = rng.NextItem(potions)!;
-        BrewResult upgrade = BrewBook.Brew(target, target, rng);
-        if (!upgrade.Success)
+        foreach (PotionModel target in potions.Take(count))
         {
-            return; // nothing higher to upgrade into — leave the potion as-is.
-        }
+            BrewResult upgrade = BrewBook.Brew(target, target, rng);
+            if (!upgrade.Success)
+            {
+                continue; // nothing higher to upgrade into — leave the potion as-is.
+            }
 
-        await PotionCmd.Discard(target);
-        await PotionCmd.TryToProcure(upgrade.Potion!.ToMutable(), player);
+            await PotionCmd.Discard(target);
+            await PotionCmd.TryToProcure(upgrade.Potion!.ToMutable(), player);
+        }
     }
 }

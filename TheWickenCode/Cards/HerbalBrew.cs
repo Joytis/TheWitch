@@ -7,9 +7,11 @@ using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class ToilAndTrouble : WickenCard
+public sealed class HerbalBrew : WickenCard
 {
-    public ToilAndTrouble()
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    public HerbalBrew()
         : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
@@ -18,8 +20,7 @@ public sealed class ToilAndTrouble : WickenCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        var rarity = IsUpgraded ? PotionRarity.Uncommon : PotionRarity.Common;
-        rarity = await NextPotionRarePower.MakeNextRare(Owner, rarity);
+        var rarity = await NextPotionRarePower.MakeNextRare(Owner, PotionRarity.Common);
         rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, rarity);
         var potion = PotionCatalog.Random(
             PotionCatalog.Query(orientation: PotionOrientation.Utility, rarity: rarity),
@@ -30,4 +31,6 @@ public sealed class ToilAndTrouble : WickenCard
             await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
         }
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

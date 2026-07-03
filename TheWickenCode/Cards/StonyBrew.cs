@@ -3,13 +3,16 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using TheWicken.TheWickenCode.Potions.Brewing;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class StoneSkin : WickenCard
+public sealed class StonyBrew : WickenCard
 {
-    public StoneSkin()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self)
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    public StonyBrew()
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 
@@ -17,14 +20,17 @@ public sealed class StoneSkin : WickenCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        var rarity = IsUpgraded ? PotionRarity.Uncommon : PotionRarity.Common;
-        var potionModel = PotionCatalog.Random(
+        var rarity = await NextPotionRarePower.MakeNextRare(Owner, PotionRarity.Common);
+        rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, rarity);
+        var potion = PotionCatalog.Random(
             PotionCatalog.Query(orientation: PotionOrientation.Defensive, rarity: rarity),
             Owner.RunState.Rng.CombatPotionGeneration);
 
-        if (potionModel != null)
+        if (potion != null)
         {
-            await PotionCmd.TryToProcure(potionModel.ToMutable(), Owner);
+            await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
         }
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -7,9 +7,11 @@ using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class SomethingWicked : WickenCard
+public sealed class WickedBrew : WickenCard
 {
-    public SomethingWicked()
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    public WickedBrew()
         : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
@@ -18,8 +20,7 @@ public sealed class SomethingWicked : WickenCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        var rarity = IsUpgraded ? PotionRarity.Uncommon : PotionRarity.Common;
-        rarity = await NextPotionRarePower.MakeNextRare(Owner, rarity);
+        var rarity = await NextPotionRarePower.MakeNextRare(Owner, PotionRarity.Common);
         rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, rarity);
         var potion = PotionCatalog.Random(
             PotionCatalog.Query(orientation: PotionOrientation.Offensive, rarity: rarity),
@@ -31,8 +32,5 @@ public sealed class SomethingWicked : WickenCard
         }
     }
 
-    protected override void OnUpgrade()
-    {
-        EnergyCost.UpgradeBy(-1);
-    }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

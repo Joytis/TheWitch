@@ -9,14 +9,14 @@ using TheWicken.TheWickenCode.Potions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Favorite Spellbook: a 0-cost value engine — Brambles, draw, energy, and a Wicked Brew. Exhausts (until upgraded).</summary>
+/// <summary>Favorite Spellbook: a 0-cost value engine — Brambles, draw, energy, and a Noxious Brew. Exhausts (until upgraded).</summary>
 public sealed class FavoriteSpellbook : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
-        HoverTipFactory.FromPotion<WickedBrew>(),
+        HoverTipFactory.FromPotion<NoxiousBrew>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
@@ -36,7 +36,7 @@ public sealed class FavoriteSpellbook : WickenCard
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
         await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
-        await PotionCmd.TryToProcure<WickedBrew>(Owner);
+        await PotionCmd.TryToProcure<NoxiousBrew>(Owner);
     }
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);

@@ -3,7 +3,9 @@ using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWicken.TheWickenCode.Potions.Brewing;
@@ -11,8 +13,8 @@ using TheWicken.TheWickenCode.Potions.Brewing;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// ExtractEssence: deal damage; on unblocked damage, create a Common potion themed around the enemy hit
-/// (offensive enemy -> offensive potion, blocker -> defensive, debuffer -> utility). See <see cref="EnemyEssence" />.
+/// ExtractEssence: deal damage; on unblocked damage, create a random potion whose rarity matches the
+/// encounter tier — Common in normal fights, Uncommon vs elites, Rare vs bosses.
 /// </summary>
 public sealed class ExtractEssence : WickenCard
 {
@@ -46,8 +48,14 @@ public sealed class ExtractEssence : WickenCard
             return;
         }
 
-        PotionModel? potion = EnemyEssence.RollThematicPotion(target, Owner.RunState.Rng.CombatPotionGeneration);
-        ArgumentNullException.ThrowIfNull(potion, "potion");
+        PotionRarity rarity = Owner.RunState.CurrentMapPoint?.PointType switch
+        {
+            MapPointType.Boss => PotionRarity.Rare,
+            MapPointType.Elite => PotionRarity.Uncommon,
+            _ => PotionRarity.Common,
+        };
+        PotionModel? potion = PotionCatalog.Random(
+            PotionCatalog.Query(rarity: rarity), Owner.RunState.Rng.CombatPotionGeneration);
         if (potion != null)
         {
             await PotionCmd.TryToProcure(potion.ToMutable(), Owner);

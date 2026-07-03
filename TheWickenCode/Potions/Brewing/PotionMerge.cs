@@ -12,8 +12,8 @@ public enum MergeKind
 {
     /// <summary>Belt is empty — nothing happens.</summary>
     NothingToMerge,
-    /// <summary>Exactly one potion held — it is replaced with a <see cref="WickedBrew" />.</summary>
-    SingleToWickedBrew,
+    /// <summary>Exactly one potion held — it is replaced with a <see cref="NoxiousBrew" />.</summary>
+    SingleToNoxiousBrew,
     /// <summary>Two potions are brewed into a higher-rarity result (see <see cref="MergeOutcome.Brew" />).</summary>
     Brewed,
 }
@@ -48,7 +48,7 @@ public readonly struct MergeOutcome
 /// Shared "merge two potions" behavior, used by both the <c>mergepotions</c> dev command and the Brew card.
 ///
 /// Rules mirror the brewing design: take the first two belt potions and brew them (<see cref="BrewBook" />);
-/// with a single potion, replace it with a <see cref="WickedBrew" />; with none, do nothing.
+/// with a single potion, replace it with a <see cref="NoxiousBrew" />; with none, do nothing.
 /// </summary>
 public static class PotionMerge
 {
@@ -68,8 +68,8 @@ public static class PotionMerge
 
         if (potions.Count == 1)
         {
-            return new MergeOutcome(MergeKind.SingleToWickedBrew, potions[0], null, default,
-                $"Only one potion ({potions[0].Id.Entry}) — replacing with WICKED_BREW.");
+            return new MergeOutcome(MergeKind.SingleToNoxiousBrew, potions[0], null, default,
+                $"Only one potion ({potions[0].Id.Entry}) — replacing with NOXIOUS_BREW.");
         }
 
         PotionModel a = potions[0];
@@ -78,7 +78,7 @@ public static class PotionMerge
 
         string description = brew.Success
             ? $"Merged {a.Id.Entry} + {b.Id.Entry} -> {brew.Potion!.Id.Entry} ({brew.Rarity}, via {brew.MatchKind})."
-            : $"Merged {a.Id.Entry} + {b.Id.Entry} -> no candidate; granting WICKED_BREW.";
+            : $"Merged {a.Id.Entry} + {b.Id.Entry} -> no candidate; granting NOXIOUS_BREW.";
 
         return new MergeOutcome(MergeKind.Brewed, a, b, brew, description);
     }
@@ -88,9 +88,9 @@ public static class PotionMerge
     {
         switch (outcome.Kind)
         {
-            case MergeKind.SingleToWickedBrew:
+            case MergeKind.SingleToNoxiousBrew:
                 await PotionCmd.Discard(outcome.InputA!);
-                await PotionCmd.TryToProcure<WickedBrew>(player);
+                await PotionCmd.TryToProcure<NoxiousBrew>(player);
                 break;
 
             case MergeKind.Brewed:
@@ -102,7 +102,7 @@ public static class PotionMerge
                 }
                 else
                 {
-                    await PotionCmd.TryToProcure<WickedBrew>(player);
+                    await PotionCmd.TryToProcure<NoxiousBrew>(player);
                 }
                 break;
 

@@ -111,12 +111,10 @@ public static class PotionTraits
         [typeof(KingsCourage)] = PotionOrientation.Utility,             // Forge (upgrade)
 
         // ---------------- Modded (TheWicken) ----------------
-        [typeof(WickedBrew)] = PotionOrientation.Offensive,             // card-only offensive brew (deal damage)
+        [typeof(NoxiousBrew)] = PotionOrientation.Offensive,            // card-only offensive brew (deal damage)
         [typeof(SlicingBrew)] = PotionOrientation.Offensive,            // card-only multi-hit damage (Prices Paid)
-        [typeof(VillainousBrew)] = PotionOrientation.Offensive,         // stronger card-only offensive brew
-        [typeof(TheCauldron)] = PotionOrientation.Offensive,            // does a bit of everything; leans offensive
+        [typeof(TheCauldron)] = PotionOrientation.Offensive,            // Cackle accumulator (Strength + heal); leans offensive
         [typeof(Fertilizer)] = PotionOrientation.Offensive,             // gains Brambles, tagged offensive by design
-        [typeof(BottledRot)] = PotionOrientation.Offensive,             // Poison ALL enemies
         [typeof(BuddyInABottle)] = PotionOrientation.Utility,           // adds a random Familiar summon card
         [typeof(VialOfSmoke)] = PotionOrientation.Defensive,            // card-only Block potion (Light the Candle)
         [typeof(MushroomExtract)] = PotionOrientation.Utility,          // discard hand, draw 6 free gibberish cards

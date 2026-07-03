@@ -20,8 +20,8 @@
   "THEWICKEN-NEXT_SKILL_DISCOUNT_POWER.description": "The next [gold]Skill[/gold] you play costs [blue]1[/blue].",
   "THEWICKEN-NEXT_SKILL_DISCOUNT_POWER.smartDescription": "The next [gold]Skill[/gold] you play costs [blue]1[/blue].",
   "THEWICKEN-NEXT_SKILL_DISCOUNT_POWER.title": "Discounted Skill",
-  "THEWICKEN-BOTTOMLESS_CAULDRON_POWER.description": "Whenever you use a [gold]Potion[/gold] other than a [gold]Wicked Brew[/gold], create a [gold]Wicked Brew[/gold].",
-  "THEWICKEN-BOTTOMLESS_CAULDRON_POWER.smartDescription": "Whenever you use a [gold]Potion[/gold] other than a [gold]Wicked Brew[/gold], create a [gold]Wicked Brew[/gold].",
+  "THEWICKEN-BOTTOMLESS_CAULDRON_POWER.description": "Whenever you use a [gold]Potion[/gold] other than a [gold]Noxious Brew[/gold], create a [gold]Noxious Brew[/gold].",
+  "THEWICKEN-BOTTOMLESS_CAULDRON_POWER.smartDescription": "Whenever you use a [gold]Potion[/gold] other than a [gold]Noxious Brew[/gold], create a [gold]Noxious Brew[/gold].",
   "THEWICKEN-BOTTOMLESS_CAULDRON_POWER.title": "Bottomless Cauldron",
   "THEWICKEN-CLOAK_OF_MOONLIGHT_POWER.description": "Whenever you create a card or [gold]Potion[/gold], gain [blue]1[/blue] [gold]Block[/gold].",
   "THEWICKEN-CLOAK_OF_MOONLIGHT_POWER.smartDescription": "Whenever you create a card or [gold]Potion[/gold], gain [blue]{Amount}[/blue] [gold]Block[/gold].",
@@ -79,5 +79,11 @@
   "THEWICKEN-ROTTING_ROOTS_POWER.title": "Rotting Roots",
   "THEWICKEN-HIDDEN_IN_SMOKE_POWER.description": "At the start of your turn, create a [gold]Vial of Smoke[/gold] potion.",
   "THEWICKEN-HIDDEN_IN_SMOKE_POWER.smartDescription": "At the start of your turn, create a [gold]Vial of Smoke[/gold] potion.",
-  "THEWICKEN-HIDDEN_IN_SMOKE_POWER.title": "Hidden in Smoke"
+  "THEWICKEN-HIDDEN_IN_SMOKE_POWER.title": "Hidden in Smoke",
+  "THEWICKEN-BONFIRE_POWER.title": "Bonfire",
+  "THEWICKEN-BONFIRE_POWER.description": "When possible, spend [blue]{Amount}[/blue] [gold]Brambles[/gold] to play cards instead of [gold]Energy[/gold].",
+  "THEWICKEN-BONFIRE_POWER.smartDescription": "When possible, spend [blue]{Amount}[/blue] [gold]Brambles[/gold] to play cards instead of [gold]Energy[/gold].",
+  "THEWICKEN-REPURPOSE_POWER.title": "Repurpose",
+  "THEWICKEN-REPURPOSE_POWER.description": "At the start of your turn, draw a random card from your [gold]Discard Pile[/gold], then discard a card.",
+  "THEWICKEN-REPURPOSE_POWER.smartDescription": "At the start of your turn, draw a random card from your [gold]Discard Pile[/gold], then discard a card."
 }

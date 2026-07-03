@@ -4,6 +4,124 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 108. Card Redesign: Cackle — pour potions into the Cauldron
+- **Done:** 2026-07-02
+- **Changed:** Cackle (kept `2e, Skill, Rare, Exhaust`, upgrade −1e) now: **discard every belt potion except The Cauldron** (creating one if absent), then pour the discarded count in. **The Cauldron rewritten as an accumulator** (old AoE dmg/Block/Brambles/Weak effect gone): per poured potion **+2 Strength, +3 HP heal** (cumulative across casts); one Cackle cast pouring **2+ unlocks "Gain 2 Energy"**, **3+ "Remove one debuff"**, **4+ "Gain 1 Intangible"** (thresholds unlock, don't stack — note only marked Str/heal cumulative). On use: apply Strength, heal, energy, remove first debuff, Intangible. Empty Cauldron does nothing. Loc rewritten (card + potion; potion text shows live var amounts).
+- **⚠️ Known limitation:** potions serialize as **id + slot only** (`SerializablePotion`) — poured state lives in the mutable instance's DynamicVars and **does not survive save/quit/resume** (Cauldron reverts to empty). Same class of caveat as `FamiliarPower.GrantsUpgradedCards`. Flagged rather than blocked; needs a custom save patch if persistence matters.
+- **Files:** [Cackle.cs](TheWickenCode/Cards/Cackle.cs), [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs); `cards.json`, `potions.json`; [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs) comment; regen (TESTED cleared).
+- **Verified:** build 0/0, regen `--check` clean. ⚠️ Playtest: belt-text refresh after pouring (BaseValue mutation display), threshold unlocks, discard-then-procure with a full belt.
+
+### 107. New Card: Bonfire — 2e Rare Power (Brambles pay for cards)
+- **Done:** 2026-07-02
+- **Changed:** New Power card + `BonfirePower` (Buff/**Counter — Amount is the Bramble PRICE**, 5 base / 4 upgraded via `PowerVar` upgrade −1): **when possible, spend `Amount` Brambles to play cards instead of Energy.** No cost-substitution hook exists in the game, so it's built from two hooks: `TryModifyEnergyCostInCombat` zeroes a card's cost while (cost > 0 ∧ Brambles ≥ price), remembering the card in a transient `_substituted` set; `BeforeCardPlayed` consumes that entry and burns `price` Brambles via `PowerCmd.ModifyAmount` on the BramblesPower. Cards already at 0 cost (natively or via earlier hooks) burn nothing.
+- **Design calls:** Re-playing Bonfire never stacks the price up — card `OnPlay` applies fresh or lowers the existing Amount to the cheaper price, never adds. Substitution is mandatory while affordable (per the note's "when possible"). `_substituted` is transient combat-local state (not serialized) — MP/save-mid-play edge flagged.
+- **Files:** [Bonfire.cs](TheWickenCode/Cards/Bonfire.cs), [BonfirePower.cs](TheWickenCode/Powers/BonfirePower.cs) (new); `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0. ⚠️ No art (`bonfire.png`) — placeholder active. **Playtest hard**: cost display turns 0 at ≥5 Brambles, Brambles burn exactly once per played card, X-cost cards, auto-play interactions.
+
+### 106. New Card: Repurpose — 1e Rare Power
+- **Done:** 2026-07-02
+- **Changed:** New Power card + `RepurposePower` (Buff/Single): **at the start of your turn, draw a random card from your Discard Pile, then discard a card.** Pull = `rng.NextItem(discard)` + plain `CardPileCmd.Add` (moving an existing card, not generating); discard = base-game DaggerThrow pattern (`CardSelectCmd.FromHandForDiscard` → `CardCmd.Discard`). Skips entirely when the discard pile is empty (no free filter-discard). Note gave no upgrade → chose **−1 Energy**.
+- **Files:** [Repurpose.cs](TheWickenCode/Cards/Repurpose.cs), [RepurposePower.cs](TheWickenCode/Powers/RepurposePower.cs) (new); `cards.json`, `powers.json`; regen.
+- **Verified:** build 0/0. ⚠️ No art (`repurpose.png`) — placeholder active. Playtest: turn-start pull + discard prompt ordering vs familiar tokens.
+
+### 105. New Card: Salt and Ash — 1e Uncommon Skill
+- **Done:** 2026-07-02
+- **Changed:** New card: **Gain 8 Block. Gain 6 more Block if you have a debuff** (`Owner.Creature.Powers.Any(p => p.Type == PowerType.Debuff)`). Note gave no upgrade → chose **+3 base / +2 bonus** (8→11, 6→8). Second `BlockVar("BonusBlock", …)` for the conditional line.
+- **Files:** [SaltAndAsh.cs](TheWickenCode/Cards/SaltAndAsh.cs) (new); `cards.json`; regen.
+- **Verified:** build 0/0. ⚠️ No art yet (`salt_and_ash.png` small+big) — placeholder fallback active; run `py tools/gen-image-sizes.py` + Godot import once art exists.
+
+### 104. Card Change: Bottle Barrage — live hit-count display
+- **Done:** 2026-07-02
+- **Changed:** Card face now shows how many times it will hit (= potions created this combat), using the base-game **Barrage** pattern verbatim: `CalculationBaseVar(0) + CalculationExtraVar(1) + CalculatedVar("CalculatedHits").WithMultiplier(→ PotionsCreatedTracker.CountFor)`. `OnPlay` reads the hit count from the CalculatedVar (single source of truth). Loc adds Barrage's `{InCombat:\n(Hits {CalculatedHits:diff()} …)|}` line — count only renders in combat.
+- **Files:** [BottleBarrage.cs](TheWickenCode/Cards/BottleBarrage.cs); `cards.json`; regen (TESTED cleared).
+- **Verified:** build 0/0. ⚠️ Playtest: count updates as potions are created.
+
+### 103. Familiar tokens go to the front of the hand
+- **Done:** 2026-07-02
+- **Changed:** `FamiliarPower.AfterPlayerTurnStart` now passes `CardPilePosition.Top` to `CardPileCmd.AddGeneratedCardToCombat` (the game's own optional positioning param; default was `Bottom`). Generated-card path (history + `AfterCardGeneratedForCombat`) unchanged.
+- **Files:** [FamiliarPower.cs](TheWickenCode/Powers/FamiliarPower.cs).
+- **Verified:** build 0/0. ⚠️ Playtest: tokens appear at the left/front of the hand at turn start.
+
+### 102. Bug Fix: Roomy Satchel — potions stranded when the belt shrinks (confirmed)
+- **Done:** 2026-07-02
+- **Root cause (confirmed by reading game source):** when max potion count shrinks at combat end, `Player.SetMaxPotionCountInternal` migrates potions from doomed slots into earlier empty slots **silently — no event fires**. The UI node for a migrated potion therefore still lives in a doomed holder, and `PotionBeltShrinkPatch` freed that holder — freeing the potion's node with it. Result: a potion that exists in the model but is invisible and unusable on screen (reload restores it). This matches both reported symptoms ("visuals strange", "lose access"). The *slot count* itself reverts correctly (`RoomySatchelPower.AfterCombatEnd` → `LoseMaxPotionCount(Amount)`); no permanent slot loss found in the model layer.
+- **Fix:** the patch now re-seats stranded potions before/after trimming — for every kept holder whose displayed potion doesn't match `player.PotionSlots[slot]`, it creates a fresh `NPotion` node in the right holder.
+- **Files:** [PotionBeltShrinkPatch.cs](TheWickenCode/Potions/PotionBeltShrinkPatch.cs).
+- **Verified:** build 0/0. ⚠️ Playtest required (Harmony/UI): fill bonus slots, end combat, confirm surviving potions stay visible/usable and belt shrinks cleanly.
+
+### 101. Brew-card trio rename + rework (Stony Brew / Wicked Brew / Herbal Brew)
+- **Done:** 2026-07-02
+- **Changed:** Full renames: **Skin of Stone (`StoneSkin`) → Stony Brew**, **Something Wicked (`SomethingWicked`) → Wicked Brew**, **Toil and Trouble (`ToilAndTrouble`) → Herbal Brew**. All three now identical shape: `1e, Common, Skill, Self, Exhaust` — create a **Common** potion of their orientation (Defensive/Offensive/Utility); **upgrade −1 Energy** (replaces the old Common→Uncommon rarity upgrade). All three keep/gain the `NextPotionRarePower`/`NextPotionUpgradedPower` rarity hooks (Stony Brew previously lacked them).
+- **Design calls:** The existing **Wicked Brew potion → Noxious Brew** (`NoxiousBrew`; name freed for the card — loc keys share one namespace so they'd collide). Updated all refs: Favorite Spellbook, Bottomless Cauldron (card + power), `PotionMerge` (`SingleToNoxiousBrew`), `PotionTraits.Manual`. Art renamed (`stony_brew`/`wicked_brew`/`herbal_brew` small+big; stale `.import` deleted). Dropped the `{IfUpgraded:show:Potion+|Potion}` marker from card text — upgrade no longer changes the potion.
+- **Files:** [StonyBrew.cs](TheWickenCode/Cards/StonyBrew.cs), [WickedBrew.cs](TheWickenCode/Cards/WickedBrew.cs), [HerbalBrew.cs](TheWickenCode/Cards/HerbalBrew.cs), [NoxiousBrew.cs](TheWickenCode/Potions/NoxiousBrew.cs), [FavoriteSpellbook.cs](TheWickenCode/Cards/FavoriteSpellbook.cs), [BottomlessCauldron.cs](TheWickenCode/Cards/BottomlessCauldron.cs), [BottomlessCauldronPower.cs](TheWickenCode/Powers/BottomlessCauldronPower.cs), [PotionMerge.cs](TheWickenCode/Potions/Brewing/PotionMerge.cs), [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs); `cards.json`, `potions.json`, `powers.json`; art renames.
+- **Verified:** build 0/0, regen OK. ⚠️ **Run the "Godot: Import assets" task** (renamed art needs re-import). Playtest the three brews + Bottomless Cauldron loop guard.
+
+### 100. Bug Fix: Brew could pick the same potion twice
+- **Done:** 2026-07-02
+- **Changed:** `PotionUpgrade.UpgradeRandomPotions` re-rolled the live belt each iteration — it could hit the same potion twice and re-upgrade its own freshly created output. Now: snapshot the belt once, `UnstableShuffle` (game's own shuffle extension), upgrade the first N distinct potions. A potion with no higher tier is skipped (`continue`), not a dead stop.
+- **Files:** [PotionUpgrade.cs](TheWickenCode/Potions/Brewing/PotionUpgrade.cs).
+- **Verified:** build 0/0. ⚠️ Playtest: Brew+ (2 upgrades) with 2+ potions upgrades two different ones.
+
+### 99. Card Change: Extract Essence — random potion by encounter tier
+- **Done:** 2026-07-02
+- **Changed:** Dropped the enemy-property-themed pick (`EnemyEssence.RollThematicPotion`); on unblocked damage the card now grants `PotionCatalog.Random(Query(rarity:))` where rarity = `Owner.RunState.CurrentMapPoint?.PointType` → Boss=Rare, Elite=Uncommon, else Common. Deleted the now-orphaned `Brewing/EnemyEssence.cs` (only this card used it). Loc unchanged ("extract a Potion" still accurate).
+- **Files:** [ExtractEssence.cs](TheWickenCode/Cards/ExtractEssence.cs); deleted `EnemyEssence.cs`.
+- **Verified:** build 0/0. ⚠️ Playtest: elite/boss fights yield Uncommon/Rare potions.
+
+### 98. Card Change: Embrace the Wilds — Skill → Power
+- **Done:** 2026-07-02
+- **Changed:** `CardType.Skill` → `CardType.Power`; dropped the `Exhaust` keyword (Powers leave the deck inherently). Effect unchanged: apply `EmbraceTheWildsPower` (draw −3/turn) + summon 5 random familiars; upgrade still +1 familiar.
+- **Files:** [EmbraceTheWilds.cs](TheWickenCode/Cards/EmbraceTheWilds.cs); regen (TESTED cleared).
+- **Verified:** build 0/0.
+
+### 97. Card Change: Plague — apply 1 Hex to ALL enemies, upgrade −1e
+- **Done:** 2026-07-02
+- **Changed:** Rat token reworked from `1e Attack AllEnemies` (4 dmg AoE + Strength-down) to **`1e, Skill, AllEnemies` — Apply 1 Hex to ALL enemies. Upgrade: −1 Energy** (was +2 dmg). Uses `PowerCmd.Apply<HexPower>` on `CombatState.HittableEnemies`. Original staging note said single Hex; a follow-up staging note (same day) revised to ALL enemies — implemented the revision. Loc rewritten.
+- **Files:** [Plague.cs](TheWickenCode/Cards/Familiar/Plague.cs); `cards.json`; regen (TESTED cleared).
+- **Verified:** build 0/0.
+
+### 96. Card Change: Nettles — 8 AoE +1 per Bramble, upgrade +3
+- **Done:** 2026-07-02
+- **Changed:** Already on the `CalculatedDamageVar` (Soul Storm) shape; `ExtraDamageVar` 2→**1** per Bramble, upgrade changed from +1 extra-damage to **+3 base** (`DynamicVars.CalculationBase.UpgradeValueBy(3m)`). Cost/type/rarity untouched (2e Uncommon AoE Attack). Loc unchanged (diff() renders the base bump).
+- **Files:** [Nettles.cs](TheWickenCode/Cards/Nettles.cs); regen (TESTED cleared).
+- **Verified:** build 0/0.
+
+### 95. Card Change: Stuck in the Bush — 0e Rare: 8 Brambles + 2 Vulnerable
+- **Done:** 2026-07-02
+- **Changed:** Reworked from `2e Uncommon` (20 Block + 2 self-Vulnerable) to **`0e, Skill, Rare, Self` — Gain 8 Brambles. Gain 2 Vulnerable.** Note gave no upgrade → chose **+3 Brambles** (8→11), Vulnerable fixed at 2. Loc rewritten.
+- **Files:** [StuckInTheBush.cs](TheWickenCode/Cards/StuckInTheBush.cs); `cards.json`; regen (TESTED cleared).
+- **Verified:** build 0/0.
+
+### 94. Card Change: Ambush! — 2e, 15 damage
+- **Done:** 2026-07-02
+- **Changed:** Cost 3→**2**, AoE damage 20→**15**. Kept Exhaust, random-familiar summon, and the +5 damage upgrade.
+- **Files:** [Ambush.cs](TheWickenCode/Cards/Ambush.cs); regen (TESTED cleared).
+- **Verified:** build 0/0.
+
+### 93. Cut: Concoct (+ orphaned Villainous Brew potion)
+- **Done:** 2026-07-02
+- **Changed:** Deleted `Cards/Concoct.cs` (+`.uid`), loc keys, art. Cutting it orphaned the **Villainous Brew** potion (Token rarity; only Concoct+ granted it) — user approved cutting it too: deleted `Potions/VillainousBrew.cs` (+`.uid`), `potions.json` keys, `PotionTraits.Manual` entry. **Wicked Brew potion kept** (still granted by Favorite Spellbook, Bottomless Cauldron, PotionMerge); its comment ref to Concoct updated to Favorite Spellbook.
+- **Files:** deleted `Concoct.cs`, `VillainousBrew.cs`, art; `cards.json`, `potions.json`, [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs), [WickedBrew.cs](TheWickenCode/Potions/WickedBrew.cs) (comment).
+- **Verified:** build 0/0, regen OK (removed: Concoct).
+
+### 92. Cut: Bottled Rot (potion)
+- **Done:** 2026-07-02
+- **Changed:** Deleted `Potions/BottledRot.cs` (+`.uid`), `potions.json` keys, `PotionTraits.Manual` entry, art (`images/potions/bottled_rot.png` + `.import`). Reason: Poison-ALL overlap with Silent. No card/relic granted it (grep clean).
+- **Files:** deleted `BottledRot.cs`, art; `potions.json`, [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs).
+- **Verified:** build 0/0.
+
+### 91. Cut: Infernal Chant
+- **Done:** 2026-07-02
+- **Changed:** Deleted `Cards/InternalChant.cs` (+`.uid`) — file/id spelled "Internal", note said "infernal", same card (only chant card in pool). Removed `THEWICKEN-INTERNAL_CHANT.*` loc keys + art (`internal_chant.png` small/big + `.import`). No dangling refs.
+- **Files:** deleted `InternalChant.cs`, art; `cards.json`.
+- **Verified:** build 0/0, regen OK (removed: Internal Chant).
+
+### 90. Cut: Rip Veins
+- **Done:** 2026-07-02
+- **Changed:** Deleted `Cards/RipVeins.cs` (+`.uid`) — identical to a Necrobinder card. Removed `THEWICKEN-RIP_VEINS.*` loc keys + art (`rip_veins.png` small/big + `.import`). No dangling refs.
+- **Files:** deleted `RipVeins.cs`, art; `cards.json`.
+- **Verified:** build 0/0, regen OK (removed: Rip Veins).
+
 ### 89. Card Change: Hidden in Smoke — Intangible skill → turn-start smoke Power
 - **Done:** 2026-06-30
 - **Changed:** Reworked from `2e Rare Skill` (gain Intangible, Exhaust) to `2e, Rare, Power, Self` — **At the start of your turn, create a Vial of Smoke potion.** New `Powers/HiddenInSmokePower.cs` (Buff/Single, `AfterPlayerTurnStart` → `PotionCmd.TryToProcure<VialOfSmoke>(player)`). Card now applies the power; hover tips show the power + the `VialOfSmoke` potion. Loc rewritten (cards.json + new `THEWICKEN-HIDDEN_IN_SMOKE_POWER.*`).
