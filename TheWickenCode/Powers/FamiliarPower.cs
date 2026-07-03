@@ -62,7 +62,8 @@ public abstract class FamiliarPower : WickenPower
             CardModel card = CreateTurnStartCard(player, combat, rng);
             // Use the "generated" path (not a plain Add) so the card counts as created — records combat
             // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
-            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
+            // Top = front of the hand, so familiar tokens land before the drawn cards.
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
         }
     }
 

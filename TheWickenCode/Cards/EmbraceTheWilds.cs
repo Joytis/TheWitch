@@ -16,15 +16,13 @@ namespace TheWicken.TheWickenCode.Cards;
 /// </summary>
 public sealed class EmbraceTheWilds : WickenCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DynamicVar("DrawReduction", 3m),
         new DynamicVar("Familiars", 5m)
     ];
 
     public EmbraceTheWilds()
-        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
 

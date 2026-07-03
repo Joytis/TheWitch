@@ -20,7 +20,7 @@ public sealed class Nettles : WickenCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CalculationBaseVar(8m),
-        new ExtraDamageVar(2m),
+        new ExtraDamageVar(1m),
         new CalculatedDamageVar(ValueProp.Move)
             .WithMultiplier((card, _) => card.Owner?.Creature.GetPowerAmount<BramblesPower>() ?? 0),
     ];
@@ -39,5 +39,5 @@ public sealed class Nettles : WickenCard
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
 }

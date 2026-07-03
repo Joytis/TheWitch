@@ -8,11 +8,11 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Potions;
 
-public sealed class WickedBrew : WickenPotion
+public sealed class NoxiousBrew : WickenPotion
 {
-    // Token rarity keeps WickedBrew out of the random drop/shop pool (PotionFactory
-    // only rolls Common/Uncommon/Rare) while staying registered so Concoct's
-    // PotionCmd.TryToProcure<WickedBrew> can still grant it. Card-only by design.
+    // Token rarity keeps NoxiousBrew out of the random drop/shop pool (PotionFactory
+    // only rolls Common/Uncommon/Rare) while staying registered so Favorite Spellbook's
+    // PotionCmd.TryToProcure<NoxiousBrew> can still grant it. Card-only by design.
     public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;

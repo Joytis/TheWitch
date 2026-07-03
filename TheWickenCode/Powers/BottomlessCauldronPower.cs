@@ -7,8 +7,8 @@ using TheWicken.TheWickenCode.Potions;
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// Bottomless Cauldron: whenever the player uses a potion <em>other than a Wicked Brew</em>, create a
-/// <see cref="WickedBrew" />. The Wicked Brew exclusion is essential — without it, using a created Wicked
+/// Bottomless Cauldron: whenever the player uses a potion <em>other than a Noxious Brew</em>, create a
+/// <see cref="NoxiousBrew" />. The Noxious Brew exclusion is essential — without it, using a created Noxious
 /// Brew would create another, looping into infinite potions. Passive toggle (Single stack). Uses the
 /// context-free <c>PotionCmd.TryToProcure&lt;T&gt;(Player)</c> overload.
 /// </summary>
@@ -20,10 +20,10 @@ public sealed class BottomlessCauldronPower : WickenPower
 
     public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
-        if (potion.Owner == Owner.Player && potion is not WickedBrew)
+        if (potion.Owner == Owner.Player && potion is not NoxiousBrew)
         {
             Flash();
-            await PotionCmd.TryToProcure<WickedBrew>(Owner.Player);
+            await PotionCmd.TryToProcure<NoxiousBrew>(Owner.Player);
         }
     }
 }
