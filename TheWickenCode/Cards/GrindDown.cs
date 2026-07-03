@@ -15,8 +15,6 @@ namespace TheWicken.TheWickenCode.Cards;
 /// </summary>
 public sealed class GrindDown : WickenCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     public GrindDown()
         : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {

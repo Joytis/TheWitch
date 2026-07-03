@@ -22,12 +22,12 @@ public sealed class Fertilize : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(6m),
+        new PowerVar<BramblesPower>(4m),
         new CardsVar(1)
     ];
 
     public Fertilize()
-        : base(2, CardType.Skill, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 

@@ -13,7 +13,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class Mutilate : WickenFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(30m, ValueProp.Move)
+        new DamageVar(22m, ValueProp.Move)
     ];
 
     public Mutilate()
@@ -29,5 +29,5 @@ public sealed class Mutilate : WickenFamiliarCard
             ValueProp.Move | ValueProp.Unblockable, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(10m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(8m);
 }

@@ -23,7 +23,7 @@ public sealed class RattlingBottles : WickenCard
     ];
 
     public RattlingBottles()
-        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
     {
     }
 
