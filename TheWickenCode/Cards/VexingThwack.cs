@@ -17,7 +17,7 @@ public sealed class VexingThwack : WickenCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(8m, ValueProp.Move),
-        new PowerVar<HexPower>(3m)
+        new PowerVar<HexPower>(1m)
     ];
 
     public VexingThwack()

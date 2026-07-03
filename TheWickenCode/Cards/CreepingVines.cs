@@ -15,6 +15,10 @@ public sealed class CreepingVines : WickenCard
 {
     protected override bool HasEnergyCostX => true;
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [
+		CardKeyword.Exhaust,
+    ];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
     ];

@@ -15,7 +15,7 @@ public sealed class Hemlock : WickenCard
     ];
 
     public Hemlock()
-        : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
 

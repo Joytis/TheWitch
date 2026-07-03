@@ -19,7 +19,7 @@ public sealed class BrambleShield : WickenCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(10m, ValueProp.Move),
-        new PowerVar<BramblesPower>(10m)
+        new PowerVar<BramblesPower>(5m)
     ];
 
     public BrambleShield()

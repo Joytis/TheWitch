@@ -21,7 +21,7 @@ public sealed class Plague : WickenFamiliarCard, IRatCard
     ];
 
     public Plague()
-        : base(0, CardType.Attack, CardRarity.Token, TargetType.AllEnemies)
+        : base(1, CardType.Attack, CardRarity.Token, TargetType.AllEnemies)
     {
     }
 

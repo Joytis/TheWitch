@@ -13,7 +13,7 @@ public sealed class Hibernate : WickenFamiliarCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(15m, ValueProp.Move),
-        new DynamicVar("Heal", 3m)
+        new DynamicVar("Heal", 2m)
     ];
 
     public Hibernate()

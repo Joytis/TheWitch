@@ -12,3 +12,10 @@ their strength/block/buffs convert into brewing/potion fuel.
   brewing/upgrade, and whether it's a debuff-on-enemy or a standalone card/relic effect.
 - Not Hex — Hex is locked as "steal power at the end of an enemy's turn" (power flows to the
   witch/coven). This is a separate Potion-pillar concept worth revisiting later.
+
+
+- Common: draft a familiar card. It's necessary
+- Attack/block - create a random familiar card
+- Rework the common Brambles shield. Or maybe rework Bramble Shield? 
+- Maybe that bramble attack should exhaust your hand like demon fire?
+
