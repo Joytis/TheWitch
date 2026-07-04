@@ -1,31 +1,53 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models;
+using TheWicken.TheWickenCode.Potions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Witchcraft: spend X energy to brew X random potions. Exhaust.</summary>
-public sealed class Witchcraft : WickenCard
+/// <summary>
+/// Cackle: pour the whole belt into the Cauldron. Discards every potion except The Cauldron (creating one
+/// if needed), then feeds the discarded count into <see cref="TheCauldron.PourPotions" /> — per potion:
+/// +2 Strength and +3 heal on use; 2+ poured also unlocks Energy, 3+ a debuff cleanse, 4+ Intangible.
+/// </summary>
+public sealed class Cackle : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override bool HasEnergyCostX => true;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPotion<TheCauldron>(),
+    ];
 
-    public Witchcraft()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+    public Cackle()
+        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        int count = ResolveEnergyXValue() + (IsUpgraded ? 1 : 0);
-        for (int i = 0; i < count; i++)
+        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
+        List<PotionModel> poured = Owner.Potions.Where(p => p is not TheCauldron).ToList();
+        foreach (PotionModel potion in poured)
         {
-            await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-            await PotionCmd.TryToProcure(
-                PotionFactory.CreateRandomPotionInCombat(Owner, Owner.RunState.Rng.CombatPotionGeneration).ToMutable(),
-                Owner);
+            await PotionCmd.Discard(potion);
+        }
+
+        TheCauldron? cauldron = Owner.Potions.OfType<TheCauldron>().FirstOrDefault();
+        if (cauldron == null)
+        {
+            await PotionCmd.TryToProcure<TheCauldron>(Owner);
+            cauldron = Owner.Potions.OfType<TheCauldron>().FirstOrDefault();
+        }
+
+        if (cauldron != null && poured.Count > 0)
+        {
+            cauldron.PourPotions(poured.Count);
         }
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
