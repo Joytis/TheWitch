@@ -25,6 +25,11 @@ const GD = path.join(ROOT, "gamedata", "src", "Core", "Models", "Cards");
 const POOL = path.join(ROOT, "gamedata", "src", "Core", "Models", "CardPools");
 const LOC_PATH = path.join(ROOT, "gamedata", "localization", "eng", "cards.json");
 
+if (!fs.existsSync(GD)) {
+  console.error("gamedata/ decompile not present (it is gitignored, local-only) — nothing to parse.");
+  process.exit(1);
+}
+
 // className of the source CardPool -> output basename
 const CLASSES = {
   silent: "SilentCardPool",

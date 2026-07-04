@@ -6,13 +6,14 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Vicious Barbs: dump your hand to fuel a scaling hit and a pile of Brambles — 5 damage and 4 Brambles per card discarded.</summary>
-public sealed class ViciousBarbs : WickenCard
+/// <summary>Mulch (renamed from Vicious Barbs): EXHAUST your hand to fuel a scaling hit and a pile of Brambles — 5 damage and 4 Brambles per card exhausted.</summary>
+public sealed class Mulch : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
@@ -23,8 +24,8 @@ public sealed class ViciousBarbs : WickenCard
         new PowerVar<BramblesPower>(4m)
     ];
 
-    public ViciousBarbs()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    public Mulch()
+        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
     {
     }
 
@@ -39,7 +40,10 @@ public sealed class ViciousBarbs : WickenCard
             return;
         }
 
-        await CardCmd.Discard(choiceContext, hand);
+        foreach (CardModel card in hand)
+        {
+            await CardCmd.Exhaust(choiceContext, card);
+        }
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue * count)
             .FromCard(this)
             .Targeting(cardPlay.Target)

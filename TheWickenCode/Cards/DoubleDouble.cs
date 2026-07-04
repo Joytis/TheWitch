@@ -19,12 +19,12 @@ public sealed class DoubleDouble : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move),
+        new DamageVar(3m, ValueProp.Move),
         new IntVar("Replay", 1m)
     ];
 
     public DoubleDouble()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

@@ -14,6 +14,11 @@ their strength/block/buffs convert into brewing/potion fuel.
   witch/coven). This is a separate Potion-pillar concept worth revisiting later.
 
 
+0 mana
+add wounds 
+lose life
+add strength to cauldron
+
 - Common: draft a familiar card. It's necessary
 - Attack/block - create a random familiar card
 - Rework the common Brambles shield. Or maybe rework Bramble Shield? 

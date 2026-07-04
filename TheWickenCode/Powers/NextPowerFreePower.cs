@@ -15,7 +15,7 @@ namespace TheWicken.TheWickenCode.Powers;
 /// The player's next Power card costs 0 to play, but only THIS TURN — the discount is lost at the end of
 /// the owner's turn if unused. Applied by Broom Strike. Mirrors the base game's <c>FreePowerPower</c> pattern:
 /// discount via <c>TryModifyEnergyCostInCombatLate</c>, consume in <c>BeforeCardPlayed</c> (which runs before
-/// the applying card's own play, so it never self-consumes), and self-remove in <c>AfterPlayerTurnEnd</c>.
+/// the applying card's own play, so it never self-consumes), and self-remove in <c>AfterSideTurnEnd</c>.
 /// </summary>
 public sealed class NextPowerFreePower : WickenPower
 {

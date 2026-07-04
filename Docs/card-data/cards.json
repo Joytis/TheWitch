@@ -1,28 +1,27 @@
 {
-  "generated": "2026-07-03",
+  "generated": "2026-07-04",
   "cards": [
     {
-      "name": "Bush",
-      "entry": "BUSH",
-      "file": "TheWickenCode/Cards/Bush.cs",
+      "name": "Brew",
+      "entry": "BREW",
+      "file": "TheWickenCode/Cards/Brew.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Apply 1 Weak. Gain 2 Brambles.",
+      "text": "Apply 1 Weak. Stir a random Potion into The Cauldron.",
       "numbers": {
-        "Brambles": 2,
         "Weak": 1
       },
-      "upgrade": "Brambles +2",
-      "note": "",
+      "upgrade": "Weak +2",
+      "note": "Brew (starter): apply Weak, then stir a RANDOM belt potion into The Cauldron (+2 Strength / +3 Heal to its stats; the potion is consumed).",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Brambles"
+        "Potions"
       ],
       "role": [
-        "Generator"
+        "Payoff"
       ]
     },
     {
@@ -132,7 +131,7 @@
       },
       "upgrade": "WeakPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -189,6 +188,30 @@
       ]
     },
     {
+      "name": "Call the Pack",
+      "entry": "CALL_THE_PACK",
+      "file": "TheWickenCode/Cards/CallThePack.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Shuffle 2 Gnash into your Draw Pile.",
+      "numbers": {
+        "Damage": 6,
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "note": "",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
       "name": "Chromatic Claws",
       "entry": "CHROMATIC_CLAWS",
       "file": "TheWickenCode/Cards/ChromaticClaws.cs",
@@ -219,14 +242,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 4 Brambles. Upgrade 1 random card in your Hand.",
+      "text": "Gain 5 Brambles. Upgrade 1 random card in your Hand.",
       "numbers": {
-        "Brambles": 4,
+        "Brambles": 5,
         "Cards": 1
       },
       "upgrade": "Brambles +1, Cards +1",
       "note": "Fertilize (renamed from Serrated Bones): gain Brambles and upgrade random card(s) in your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -271,11 +294,15 @@
       "text": "Create a utility Potion.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "",
-      "tested": false,
+      "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Lavender and Sage",
@@ -285,9 +312,9 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Draw 1 card. Gain 7 Brambles.",
+      "text": "Draw 1 card. Add 2 Vigor to The Cauldron.",
       "numbers": {
-        "Brambles": 7,
+        "Vigor": 2,
         "Cards": 1
       },
       "upgrade": "Cards +1",
@@ -295,11 +322,10 @@
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Brambles"
+        "Potions"
       ],
       "role": [
-        "Generator",
-        "Enabler"
+        "Generator"
       ]
     },
     {
@@ -351,30 +377,6 @@
       ]
     },
     {
-      "name": "Prices Paid",
-      "entry": "PRICES_PAID",
-      "file": "TheWickenCode/Cards/PricesPaid.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Common",
-      "target": "AnyEnemy",
-      "text": "Lose 1 HP. Deal 6 damage. Create a Slicing Brew.",
-      "numbers": {
-        "HpLoss": 1,
-        "Damage": 6
-      },
-      "upgrade": "Damage +3",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Generator"
-      ]
-    },
-    {
       "name": "Spines",
       "entry": "SPINES",
       "file": "TheWickenCode/Cards/Spines.cs",
@@ -422,6 +424,30 @@
       ]
     },
     {
+      "name": "Steal Bones",
+      "entry": "STEAL_BONES",
+      "file": "TheWickenCode/Cards/StealBones.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Add 5 Block to The Cauldron.",
+      "numbers": {
+        "Damage": 6,
+        "Block": 5
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
       "name": "Stony Brew",
       "entry": "STONY_BREW",
       "file": "TheWickenCode/Cards/StonyBrew.cs",
@@ -432,11 +458,15 @@
       "text": "Create a defensive Potion.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "",
-      "tested": false,
+      "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Vexing Thwack",
@@ -453,7 +483,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -482,7 +512,7 @@
         "None"
       ],
       "role": [
-        "Standalone"
+        "Enabler"
       ]
     },
     {
@@ -496,11 +526,15 @@
       "text": "Create an offensive Potion.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "",
-      "tested": false,
+      "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Woe and Whimsy",
@@ -524,6 +558,29 @@
       ],
       "role": [
         "Standalone"
+      ]
+    },
+    {
+      "name": "Ambush!",
+      "entry": "AMBUSH",
+      "file": "TheWickenCode/Cards/Ambush.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Deal 8 damage to ALL enemies. Create a random Familiar card.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +3",
+      "note": "Exhausts; applies a random familiar power with no cosmetic pet.",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
       ]
     },
     {
@@ -585,7 +642,7 @@
       },
       "upgrade": "Block +3, Brambles +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -615,28 +672,6 @@
       ],
       "role": [
         "Payoff"
-      ]
-    },
-    {
-      "name": "Brew",
-      "entry": "BREW",
-      "file": "TheWickenCode/Cards/Brew.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Upgrade {Potions:diff()} random Potions.",
-      "numbers": {},
-      "upgrade": "Potions +1",
-      "note": "Brew: upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Payoff",
-        "Enabler"
       ]
     },
     {
@@ -755,16 +790,37 @@
       ]
     },
     {
+      "name": "Distill",
+      "entry": "DISTILL",
+      "file": "TheWickenCode/Cards/Distill.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Upgrade {Potions:diff()} random Potions.",
+      "numbers": {},
+      "upgrade": "Potions +1",
+      "note": "Distill (renamed from Brew): upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
       "name": "Double, Double",
       "entry": "DOUBLE_DOUBLE",
       "file": "TheWickenCode/Cards/DoubleDouble.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage twice. Give a random card in your Draw Pile Replay {Replay}.",
+      "text": "Deal 3 damage twice. Give a random card in your Draw Pile Replay {Replay}.",
       "numbers": {
-        "Damage": 5
+        "Damage": 3
       },
       "upgrade": "Damage +3",
       "note": "",
@@ -835,7 +891,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -904,7 +960,7 @@
         "Cards": 2
       },
       "upgrade": "Cards +2",
-      "note": "Light the Candle: upgrade random cards in your hand (those upgrades also fire Bursting Roots / Twinroot), then create a Vial of Smoke.",
+      "note": "Light the Candle: upgrade random cards in your hand (via <c>CardCmd.Upgrade</c> so any on-upgrade listeners fire), then create a Vial of Smoke.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -930,7 +986,7 @@
       },
       "upgrade": "CalculationBase +3",
       "note": "Nettles: an AoE Attack that scales with your Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1008,21 +1064,24 @@
       ]
     },
     {
-      "name": "Porcupine Familiar",
-      "entry": "PORCUPINE_FAMILIAR",
-      "file": "TheWickenCode/Cards/PorcupineFamiliar.cs",
+      "name": "Prices Paid",
+      "entry": "PRICES_PAID",
+      "file": "TheWickenCode/Cards/PricesPaid.cs",
       "cost": 1,
-      "type": "Power",
+      "type": "Attack",
       "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Summon a Porcupine Familiar.",
-      "numbers": {},
-      "upgrade": "Cost -1",
+      "target": "AnyEnemy",
+      "text": "Lose 1 HP. Deal 6 damage. Create a Slicing Brew.",
+      "numbers": {
+        "HpLoss": 1,
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
       "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "Potions"
       ],
       "role": [
         "Generator"
@@ -1134,10 +1193,14 @@
       },
       "upgrade": "Block +3, BonusBlock +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Share the Brew",
@@ -1161,19 +1224,19 @@
       ]
     },
     {
-      "name": "Vicious Barbs",
-      "entry": "VICIOUS_BARBS",
-      "file": "TheWickenCode/Cards/ViciousBarbs.cs",
-      "cost": 2,
-      "type": "Attack",
+      "name": "Stuck in a Bush",
+      "entry": "STUCK_IN_A_BUSH",
+      "file": "TheWickenCode/Cards/StuckInABush.cs",
+      "cost": 0,
+      "type": "Skill",
       "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Discard your Hand. Deal 5 damage and gain 4 Brambles for each card discarded.",
+      "target": "Self",
+      "text": "Gain 8 Brambles. Gain 2 Vulnerable.",
       "numbers": {
-        "Brambles": 4,
-        "Damage": 5
+        "Brambles": 8,
+        "Vulnerable": 2
       },
-      "upgrade": "Damage +2",
+      "upgrade": "Brambles +3",
       "note": "",
       "tested": true,
       "artFinal": false,
@@ -1201,8 +1264,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Wild Growth",
@@ -1270,29 +1337,6 @@
       ]
     },
     {
-      "name": "Ambush!",
-      "entry": "AMBUSH",
-      "file": "TheWickenCode/Cards/Ambush.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Rare",
-      "target": "AllEnemies",
-      "text": "Deal 15 damage to ALL enemies. Summon a random Familiar.",
-      "numbers": {
-        "Damage": 15
-      },
-      "upgrade": "Damage +5",
-      "note": "Exhausts; applies a random familiar power with no cosmetic pet.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Generator"
-      ]
-    },
-    {
       "name": "Bonfire",
       "entry": "BONFIRE",
       "file": "TheWickenCode/Cards/Bonfire.cs",
@@ -1306,10 +1350,14 @@
       },
       "upgrade": "BonfirePower -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Bottle Barrage",
@@ -1327,7 +1375,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Hurl the whole belt: one 10-damage hit per potion you've brewed this combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1348,13 +1396,14 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
       ],
       "role": [
-        "Generator"
+        "Generator",
+        "Payoff"
       ]
     },
     {
@@ -1376,27 +1425,6 @@
       ],
       "role": [
         "Payoff"
-      ]
-    },
-    {
-      "name": "Cackle",
-      "entry": "CACKLE",
-      "file": "TheWickenCode/Cards/Cackle.cs",
-      "cost": 2,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Pour all of your Potions into The Cauldron.",
-      "numbers": {},
-      "upgrade": "Cost -1",
-      "note": "Cackle: pour the whole belt into the Cauldron.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Generator"
       ]
     },
     {
@@ -1461,7 +1489,7 @@
         "None"
       ],
       "role": [
-        "Standalone"
+        "Enabler"
       ]
     },
     {
@@ -1482,7 +1510,7 @@
         "None"
       ],
       "role": [
-        "Standalone"
+        "Enabler"
       ]
     },
     {
@@ -1497,14 +1525,13 @@
       "numbers": {},
       "upgrade": "Familiars +1",
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
       ],
       "role": [
-        "Generator",
-        "Enabler"
+        "Generator"
       ]
     },
     {
@@ -1528,33 +1555,6 @@
       ],
       "role": [
         "Standalone"
-      ]
-    },
-    {
-      "name": "Favorite Spellbook",
-      "entry": "FAVORITE_SPELLBOOK",
-      "file": "TheWickenCode/Cards/FavoriteSpellbook.cs",
-      "cost": 0,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Gain 2 Brambles. Draw 1 card. Gain 1. Create a Noxious Brew.",
-      "numbers": {
-        "Brambles": 2,
-        "Cards": 1,
-        "Energy": 1
-      },
-      "upgrade": "custom (see code)",
-      "note": "Exhausts until upgraded.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Brambles",
-        "Potions"
-      ],
-      "role": [
-        "Generator",
-        "Enabler"
       ]
     },
     {
@@ -1611,10 +1611,14 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Hidden in Smoke",
@@ -1631,10 +1635,57 @@
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "None"
+        "Potions"
       ],
       "role": [
-        "Standalone"
+        "Generator"
+      ]
+    },
+    {
+      "name": "Lich Powder",
+      "entry": "LICH_POWDER",
+      "file": "TheWickenCode/Cards/LichPowder.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Add 1 Intangible to The Cauldron.",
+      "numbers": {
+        "Intangible": 1
+      },
+      "upgrade": "Cost -1",
+      "note": "",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Mulch",
+      "entry": "MULCH",
+      "file": "TheWickenCode/Cards/Mulch.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Exhaust your Hand. Deal 5 damage and gain 4 Brambles for each card Exhausted.",
+      "numbers": {
+        "Brambles": 4,
+        "Damage": 5
+      },
+      "upgrade": "Damage +2",
+      "note": "",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
       ]
     },
     {
@@ -1716,7 +1767,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1738,10 +1789,14 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Soul Knot",
@@ -1756,30 +1811,6 @@
       "upgrade": "Cost -1",
       "note": "",
       "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
-      ]
-    },
-    {
-      "name": "Stuck in the Bush",
-      "entry": "STUCK_IN_THE_BUSH",
-      "file": "TheWickenCode/Cards/StuckInTheBush.cs",
-      "cost": 0,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Gain 8 Brambles. Gain 2 Vulnerable.",
-      "numbers": {
-        "Brambles": 8,
-        "Vulnerable": 2
-      },
-      "upgrade": "Brambles +3",
-      "note": "",
-      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1812,49 +1843,45 @@
       ]
     },
     {
-      "name": "Witchcraft",
-      "entry": "WITCHCRAFT",
-      "file": "TheWickenCode/Cards/Witchcraft.cs",
-      "cost": "X",
-      "type": "Skill",
+      "name": "Wicker Form",
+      "entry": "WICKER_FORM",
+      "file": "TheWickenCode/Cards/WickerForm.cs",
+      "cost": 2,
+      "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Create X Potions.",
+      "text": "If you would create a card or Potion, instead create a Rake.",
       "numbers": {},
-      "upgrade": "none",
-      "note": "Exhausts.",
+      "upgrade": "Cost -1",
+      "note": "",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Potions"
+        "Brambles"
       ],
       "role": [
         "Generator"
       ]
     },
     {
-      "name": "Bristle",
-      "entry": "BRISTLE",
-      "file": "TheWickenCode/Cards/Familiar/Bristle.cs",
-      "cost": 0,
+      "name": "Witchcraft",
+      "entry": "WITCHCRAFT",
+      "file": "TheWickenCode/Cards/Witchcraft.cs",
+      "cost": 2,
       "type": "Skill",
-      "rarity": "Token",
+      "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 8 Brambles.",
-      "numbers": {
-        "Brambles": 8
-      },
-      "upgrade": "Brambles +2",
-      "note": "",
+      "text": "Pour all of your Potions into The Cauldron.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "Witchcraft (renamed from Cackle): pour the whole belt into the Cauldron.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars",
-        "Brambles"
+        "Potions"
       ],
       "role": [
-        "Token",
-        "Generator"
+        "Payoff"
       ]
     },
     {
@@ -1988,7 +2015,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Owl familiar token: forge your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2012,7 +2039,7 @@
       },
       "upgrade": "Damage +8",
       "note": "Bear familiar token: heavy hit that ignores Block.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2058,7 +2085,7 @@
       },
       "upgrade": "Cost -1",
       "note": "Rat familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2068,27 +2095,29 @@
       ]
     },
     {
-      "name": "Quills",
-      "entry": "QUILLS",
-      "file": "TheWickenCode/Cards/Familiar/Quills.cs",
-      "cost": 1,
+      "name": "Rake",
+      "entry": "RAKE",
+      "file": "TheWickenCode/Cards/Rake.cs",
+      "cost": 0,
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 3 damage 4 times.",
+      "text": "Deal 6 damage. Gain 4 Brambles. Draw 1 card.",
       "numbers": {
-        "Damage": 3,
-        "Repeat": 4
+        "Brambles": 4,
+        "Damage": 6,
+        "Cards": 1
       },
-      "upgrade": "Damage +1",
-      "note": "Porcupine familiar token.",
+      "upgrade": "Damage +2, Brambles +1",
+      "note": "Rake: the token every card/potion creation becomes while Wicker Form is active.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "Brambles"
       ],
       "role": [
-        "Token"
+        "Token",
+        "Generator"
       ]
     },
     {
@@ -2103,7 +2132,7 @@
       "numbers": {
         "Damage": 5
       },
-      "upgrade": "none",
+      "upgrade": "Damage +2, Heal +1",
       "note": "Pocket Rats token; exhausts.",
       "tested": true,
       "artFinal": false,
@@ -2180,6 +2209,50 @@
       "role": [
         "Token",
         "Enabler"
+      ]
+    },
+    {
+      "name": "Catalyst",
+      "entry": "CATALYST",
+      "file": "TheWickenCode/Cards/Catalyst.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Duplicate Potions you create.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "Catalyst: the Wicken's unique Ancient card (granted by Dusty Tome — any <c>CardRarity.Ancient</c> card in the pool outside the transcendence map qualifies).",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ]
+    },
+    {
+      "name": "Infuse",
+      "entry": "INFUSE",
+      "file": "TheWickenCode/Cards/Infuse.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Ancient",
+      "target": "Self",
+      "text": "Choose and Exhaust 2 cards. Stir them into The Cauldron.",
+      "numbers": {
+        "Cards": 2
+      },
+      "upgrade": "Cards +1",
+      "note": "Infuse: the Ancient (transcended) form of Brew — choose and Exhaust cards from your hand, stirring each into The Cauldron as if it were a potion (+2 Strength / +3 Heal apiece).",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
       ]
     },
     {

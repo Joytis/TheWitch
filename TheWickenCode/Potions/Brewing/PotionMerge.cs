@@ -45,7 +45,9 @@ public readonly struct MergeOutcome
 }
 
 /// <summary>
-/// Shared "merge two potions" behavior, used by both the <c>mergepotions</c> dev command and the Brew card.
+/// Shared "merge two potions" behavior. Currently only the <c>mergepotions</c> dev command uses it (the
+/// Distill card goes through <c>PotionUpgrade</c> instead) — if no shipped content picks this path back up,
+/// it can be folded into the console command.
 ///
 /// Rules mirror the brewing design: take the first two belt potions and brew them (<see cref="BrewBook" />);
 /// with a single potion, replace it with a <see cref="NoxiousBrew" />; with none, do nothing.

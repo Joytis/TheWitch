@@ -11,8 +11,8 @@ using TheWicken.TheWickenCode.Potions;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Light the Candle: upgrade random cards in your hand (those upgrades also fire Bursting Roots / Twinroot),
-/// then create a Vial of Smoke.
+/// Light the Candle: upgrade random cards in your hand (via <c>CardCmd.Upgrade</c> so any on-upgrade listeners
+/// fire), then create a Vial of Smoke.
 /// </summary>
 public sealed class LightTheCandle : WickenCard
 {

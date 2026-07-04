@@ -21,7 +21,7 @@ public sealed class PricesPaid : WickenCard
     ];
 
     public PricesPaid()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

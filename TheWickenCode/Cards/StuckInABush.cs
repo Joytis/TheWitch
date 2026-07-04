@@ -4,11 +4,12 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Powers;
 using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class StuckInTheBush : WickenCard
+public sealed class StuckInABush : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
@@ -20,8 +21,8 @@ public sealed class StuckInTheBush : WickenCard
         new PowerVar<VulnerablePower>(2m)
     ];
 
-    public StuckInTheBush()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+    public StuckInABush()
+        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

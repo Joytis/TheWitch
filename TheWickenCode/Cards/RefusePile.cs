@@ -38,9 +38,8 @@ public sealed class RefusePile : WickenCard
 
     private async Task AddRats(int count, PileType pile)
     {
-        for (int i = 0; i < count; i++)
+        foreach (Rats rat in FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, count, CombatState, IsUpgraded))
         {
-            CardModel rat = CombatState!.CreateCard<Rats>(Owner);
             await CardPileCmd.AddGeneratedCardToCombat(rat, pile, Owner);
         }
     }

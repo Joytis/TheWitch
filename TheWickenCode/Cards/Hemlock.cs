@@ -10,7 +10,7 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class Hemlock : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<MegaCrit.Sts2.Core.Models.Powers.BramblesPower>(),
+        HoverTipFactory.FromPower<BramblesPower>(),
         HoverTipFactory.FromPower<HexPower>(),
     ];
 

@@ -7,13 +7,14 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Powers;
 using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
 /// Fertilize (renamed from Serrated Bones): gain Brambles and upgrade random card(s) in your hand. The in-hand
-/// upgrades go through <c>CardCmd.Upgrade</c>, so they also trigger Bursting Roots / Twinroot if present.
+/// upgrades go through <c>CardCmd.Upgrade</c> so any on-upgrade listeners fire.
 /// </summary>
 public sealed class Fertilize : WickenCard
 {
@@ -22,7 +23,7 @@ public sealed class Fertilize : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(4m),
+        new PowerVar<BramblesPower>(5m),
         new CardsVar(1)
     ];
 

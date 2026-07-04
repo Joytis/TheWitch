@@ -78,10 +78,8 @@ public static class PotionTraits
         [typeof(SkillPotion)] = PotionOrientation.Defensive,            // add a free random Skill card
 
         // ---------------- Utility (buff / energy / draw / card & potion gen / upgrade) ----------------
-        // next card is played an extra time
-        [typeof(Duplicator)] = PotionOrientation.Utility | PotionOrientation.Offensive | PotionOrientation.Defensive,               
-        // add a free Attack, Skill and Power
-        [typeof(OrobicAcid)] = PotionOrientation.Utility | PotionOrientation.Offensive | PotionOrientation.Defensive,
+        [typeof(Duplicator)] = PotionOrientation.Utility,               // next card is played an extra time
+        [typeof(OrobicAcid)] = PotionOrientation.Utility,               // add a free Attack, Skill and Power
         [typeof(EssenceOfDarkness)] = PotionOrientation.Utility,        // channel a Dark orb per orb slot
         [typeof(StableSerum)] = PotionOrientation.Utility,              // Retain your Hand
         [typeof(PotionOfCapacity)] = PotionOrientation.Utility,         // gain Orb slots
@@ -113,7 +111,7 @@ public static class PotionTraits
         // ---------------- Modded (TheWicken) ----------------
         [typeof(NoxiousBrew)] = PotionOrientation.Offensive,            // card-only offensive brew (deal damage)
         [typeof(SlicingBrew)] = PotionOrientation.Offensive,            // card-only multi-hit damage (Prices Paid)
-        [typeof(TheCauldron)] = PotionOrientation.Offensive,            // Cackle accumulator (Strength + heal); leans offensive
+        [typeof(TheCauldron)] = PotionOrientation.Offensive,            // Witchcraft accumulator (Strength + heal); leans offensive
         [typeof(Fertilizer)] = PotionOrientation.Offensive,             // gains Brambles, tagged offensive by design
         [typeof(BuddyInABottle)] = PotionOrientation.Utility,           // adds a random Familiar summon card
         [typeof(VialOfSmoke)] = PotionOrientation.Defensive,            // card-only Block potion (Light the Candle)

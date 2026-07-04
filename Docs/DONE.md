@@ -4,6 +4,75 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 129–130. Ancient cards: Infuse (transcended Brew) + Catalyst (unique ancient)
+- **Done:** 2026-07-03
+- **Changed:** (129) **Infuse** — 0e Skill `CardRarity.Ancient`: choose and Exhaust 2 hand cards (`CardSelectCmd.FromCombatPile` + `ExhaustSelectionPrompt`, Cleanse pattern), stir each into The Cauldron (`Stir(count)` = +2 Str/+3 Heal apiece; Cauldron procured if absent). Upgrade → 3 cards. **Event hookup**: new [AncientTranscendencePatch.cs](TheWickenCode/Patches/AncientTranscendencePatch.cs) — Harmony getter postfix on Archaic Tooth's private static `TranscendenceUpgrades`, adding `Brew → Infuse` (Bash→Break pattern). Getter rebuilds per access, so `TranscendenceCards` (DustyTome's exclusion list) picks it up too. (130) **Catalyst** — 1e Power `CardRarity.Ancient`, upgrade → 0e: applies permanent `CatalystPower` ("Duplicate Potions you create") — NextPotionCopiedPower's copy logic minus the stack decrement, skips The Cauldron, instance-scoped reentry guard. **Hookup automatic**: DustyTome rolls any pool card with `CardRarity.Ancient` not in `TranscendenceCards`.
+- **Files:** `Infuse.cs`, `Catalyst.cs`, `CatalystPower.cs`, `AncientTranscendencePatch.cs` (all new); `cards.json`, `powers.json`; regen (100 cards, Ancient 2). Tags: Infuse = Potions/Generator, Catalyst = Potions/Enabler.
+- **Verified:** build 0/0, regen clean. ⚠️ No art (`infuse.png`, `catalyst.png`) — placeholders. **Playtest**: Ancient event offering both patterns (Archaic Tooth transforms Brew→Infuse, upgraded-Brew→Infuse+; Dusty Tome grants Catalyst+), Catalyst × Gather Herbs stacking, Catalyst under Wicker Form.
+
+### 128. Vicious Barbs → Mulch: Rare, Exhaust-your-hand
+- **Done:** 2026-07-03
+- **Changed:** Full rename (class `Mulch`, id `THEWICKEN-MULCH`, loc, art `vicious_barbs.png`→`mulch.png`, stale `.import` deleted). Uncommon→Rare. Now **Exhausts** the hand (FiendFire loop: `CardCmd.Exhaust` per card) instead of discarding; payload unchanged (5 dmg + 4 Brambles per card, upgrade +2 dmg/card).
+- **Verified:** build 0/0, regen shows rename. ⚠️ Playtest: exhaust triggers (Wormy/Rake interactions).
+
+### 127. Stuck in a Bush: Rare → Uncommon
+- **Done:** 2026-07-03 — ctor rarity only. build 0/0; TESTED cleared.
+
+### 126. Ambush! redesign: 1e Uncommon, 8 dmg ALL, create random familiar card
+- **Done:** 2026-07-03
+- **Changed:** Was 2e Rare "15 ALL + Summon random Familiar (random FamiliarPower) + Exhaust". Now 1e Uncommon: Deal 8 to ALL, **create one random familiar token card in hand** (`FamiliarCardRegistry.CreateRandom` + generated-path add). Exhaust dropped (not in the new spec). Upgrade → +3 damage (my call; old was +5).
+- **Files:** [Ambush.cs](TheWickenCode/Cards/Ambush.cs), `cards.json`.
+- **Verified:** build 0/0.
+
+### 125. Witchcraft swap: old Witchcraft cut, Cackle renamed Witchcraft
+- **Done:** 2026-07-03
+- **Changed:** (user-resolved conflict) Deleted the old "Create X Potions" Witchcraft (class, its loc desc). Renamed **Cackle → Witchcraft** — same effect (pour belt into Cauldron, 2e Rare Exhaust, −1e upgrade), claims `THEWICKEN-WITCHCRAFT` keys, uses the existing `witchcraft.png` art. **Cackle's art moved to Call the Pack** (`cackle.png`→`call_the_pack.png`, both sizes; stale imports deleted). All "Cackle" code-comment mentions updated (TheCauldron, PotionTraits, NextPotion* powers).
+- **Verified:** build 0/0. ⚠️ Godot: Import assets (art renames).
+
+### 124. CUT Favorite Spellbook
+- **Done:** 2026-07-03 — deleted card + loc + art. Noxious Brew potion intentionally kept (Bottomless Cauldron still creates it). build 0/0.
+
+### 123. Prices Paid: Common → Uncommon
+- **Done:** 2026-07-03 — ctor rarity only. build 0/0; TESTED cleared.
+
+### 121. Double Double: cost −1, damage −2
+- **Done:** 2026-07-03
+- **Changed:** 2e→1e, 5→3 damage ×2 hits. Upgrade unchanged (+3 dmg).
+- **Files:** [DoubleDouble.cs](TheWickenCode/Cards/DoubleDouble.cs); regen (TESTED cleared).
+- **Verified:** build 0/0.
+
+### 120. New Card: Call the Pack — 1e Common Attack
+- **Done:** 2026-07-03
+- **Changed:** Deal 6 damage; shuffle 2 **Gnash** into the Draw Pile (`AddGeneratedCardToCombat(Draw, Random)` — generated path, so card-creation payoffs fire; plain un-upgraded tokens). Upgrade → 3 Gnash (Cards +1).
+- **Files:** [CallThePack.cs](TheWickenCode/Cards/CallThePack.cs) (new), `cards.json`. ⚠️ No art (`call_the_pack.png`) — placeholder.
+- **Verified:** build 0/0.
+
+### 119. New Cards: Wicker Form (2e Rare Power) + Rake token — creation-replacement engine
+- **Done:** 2026-07-03
+- **Changed:** **Wicker Form**: "If you would create a card or Potion, instead create a Rake." Upgrade → 1e. Applies marker `WickerFormPower` (Buff/None). **Rake** (0e Attack Token, main pool — Token rarity keeps it out of rewards): Deal 6, gain 4 Brambles, draw 1; upgrade +2 dmg/+1 Brambles. Replacement lives in [WickerFormReplacementPatch.cs](TheWickenCode/Patches/WickerFormReplacementPatch.cs): (a) Harmony prefix on `CardPileCmd.AddGeneratedCardsToCombat` (the single generated-card funnel) swaps every non-Rake generated card owned by the power's owner for a fresh Rake; (b) prefix on `PotionCmd.TryToProcure(PotionModel, Player, int)` cancels an in-combat procure and generates a Rake into the hand instead (returns a `NotAllowed` failure result). Rake-in → Rake-out guard prevents re-entry. Power is combat-scoped, so out-of-combat potion rewards/shops untouched.
+- **Design calls:** Replacement is total — familiars' turn-start tokens, potion-payload cards, The Cauldron procures, everything becomes Rakes while active (that's the card's promise). No Exhaust on Rake (not specified; it's a WickenCard token, not a familiar card).
+- **Files:** `WickerForm.cs`, `Rake.cs`, `WickerFormPower.cs`, `WickerFormReplacementPatch.cs` (all new); `cards.json`, `powers.json`. ⚠️ No art ×2 — placeholders.
+- **Verified:** build 0/0. ⚠️ **Playtest hard** (async Harmony prefixes): familiar turn-start replacement, Brew/Cackle under Wicker Form, Gather Herbs + Wicker Form interaction, MP.
+
+### 114–118. Cauldron stat expansion + support cards + Gather Herbs guard
+- **Done:** 2026-07-03
+- **Changed:** (114) `TheCauldron` gains **Vigor** + **Block** stat vars (OnUse applies when > 0; conditional tooltip lines added; dict-schema sidecar persists them automatically) plus two extension points: `AddStat(varName, amount)` and static `EnsureInBelt(player)` (find-or-procure, shared by all "add X to The Cauldron" cards). (115) **Lavender and Sage** reworked: Draw 1 + **add 2 Vigor to The Cauldron** (creates it if absent); upgrade Draw +1; Brambles dropped. (116) New **Steal Bones** — 1e Common Attack: Deal 6, add 5 Block to The Cauldron; upgrade +3 dmg. (**Name change from staging:** "Salt and Ash" already exists as a Block skill — user chose to keep both and named the new attack Steal Bones.) (117) New **Midnight Oil** (working name, user may rename) — 2e Rare Skill: add 1 Intangible to The Cauldron; upgrade → 1e. (118) `NextPotionCopiedPower` (Gather Herbs) now **never copies The Cauldron** and doesn't consume a stack for it.
+- **Files:** [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs), [LavenderAndSage.cs](TheWickenCode/Cards/LavenderAndSage.cs), `StealBones.cs` + `MidnightOil.cs` (new), [NextPotionCopiedPower.cs](TheWickenCode/Powers/NextPotionCopiedPower.cs); `cards.json`, `potions.json`. ⚠️ No art for Steal Bones / Midnight Oil — placeholders.
+- **Verified:** build 0/0. ⚠️ Playtest: Vigor/Block lines appear in tooltip only when fed; sidecar round-trip with new stats.
+
+### 110–113. Starter rework: Bush out, Brew (Stir) in; renames Stuck in a Bush + Distill
+- **Done:** 2026-07-03
+- **Changed:** (110) **Bush cut** (card, loc, art). (111) **Stuck in the Bush → Stuck in a Bush** (class `StuckInABush`, id/loc keys, art renamed `stuck_in_a_bush.png`, stale `.import` deleted). (112) **Brew → Distill** (class, id/loc keys, art renamed `distill.png`) — freeing the name. (113) `TheCauldron.Stir(count=1)` extracted (+2 Str/+3 Heal per potion, no thresholds — `PourPotions` now = `Stir(count)` + Cackle's per-cast threshold unlocks). New **Brew starter** (0e Skill, AnyEnemy): Apply 1 Weak; **stir a RANDOM belt potion into The Cauldron** (potion discarded; Cauldron procured only when there's something to stir — no empty-Cauldron belt clog); upgrade → Weak 3. Starting deck: Bush → Brew.
+- **Design calls:** Random stir consumes via `PotionCmd.Discard` then `Stir()`; belt-empty = Weak only. Extract Essence (generator) + Brew (payoff) = starter potion loop per staging note.
+- **Files:** deleted `Bush.cs`; `StuckInABush.cs`, `Distill.cs` (renamed), [Brew.cs](TheWickenCode/Cards/Brew.cs) (new), [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs), [Wicken.cs](TheWickenCode/Character/Wicken.cs); `cards.json`; art renames. ⚠️ Run **Godot: Import assets** (renamed art needs fresh `.import`; new Brew uses placeholder art — old `brew.png` followed the Distill rename).
+- **Verified:** build 0/0, regen clean. ⚠️ Playtest: starter Brew with empty belt / full belt / existing Cauldron; save/resume Stir state.
+
+### 109. CUT Porcupine familiar chain (Bristle art → Spines)
+- **Done:** 2026-07-03
+- **Changed:** Deleted `PorcupineFamiliar` card, `PorcupineFamiliarPower`, `PorcupinePet`, and BOTH its tokens `Quills` + `Bristle` (user-confirmed) — .cs + .uid + loc keys (`cards.json` ×3, `powers.json` ×1) + art (`porcupine_familiar`, `familiar/quills`, `familiar/bristle`, both sizes, + `.import`). Per user correction, **Bristle's art now lives on as Spines' art** (copied over `spines.png` + `big/spines.png` before deleting). Chimera/random-familiar pools shrink automatically (reflection-based registry); registry doc comment updated.
+- **Files:** 5 deleted .cs, `cards.json`, `powers.json`, art moves.
+- **Verified:** build 0/0. Godot: Import assets recommended (art bytes changed under existing spines `.import`).
+
 ### 108b. Cauldron follow-ups: conditional tooltip + sidecar save persistence
 - **Done:** 2026-07-03
 - **Changed:** (1) Cauldron tooltip now shows effect lines **only when > 0** via SmartFormat `ConditionalFormatter` (`{Var:cond:>0?...|}` — registered in `LocManager.LoadLocFormatters`; base-game example `SOVEREIGN_BLADE`): leads with "An evil concoction.", then Strength/Heal/Energy/cleanse/Intangible lines appear as poured. Cackle card text stays vague. (2) **Poured state now survives save/quit/resume**: new [CauldronSavePatch.cs](TheWickenCode/Potions/CauldronSavePatch.cs) — sidecar JSON in the Godot user dir (`user://thewicken_cauldron_state.json`) mapping (PlayerRng.Seed, slot index) → stats. Write: Harmony postfix on `Player.ToSerializable` (every run-save snapshot; deletes file when no filled Cauldron). Restore: postfix on private `Player.LoadPotions` (runs inside `FromSerializable` *after* `PlayerRng` is restored, so the seed key is valid). Seed mismatch → stale file ignored; all IO try/caught (fail-safe = empty Cauldron). `TheCauldron.RestoreState(...)` added.
