@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Powers;
 using TheWicken.TheWickenCode.Cards;
 
 namespace TheWicken.TheWickenCode.Extensions;

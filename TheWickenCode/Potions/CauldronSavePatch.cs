@@ -25,19 +25,12 @@ namespace TheWicken.TheWickenCode.Potions;
 /// </summary>
 public static class CauldronSaveState
 {
-    private sealed class SlotState
-    {
-        public decimal Strength { get; set; }
-        public decimal Heal { get; set; }
-        public decimal Energy { get; set; }
-        public decimal Cleanse { get; set; }
-        public decimal Intangible { get; set; }
-    }
-
     private sealed class SaveFile
     {
         public uint Seed { get; set; }
-        public Dictionary<int, SlotState> Slots { get; set; } = [];
+
+        // slot index → (var name → base value); var-name keyed so new Cauldron effects persist automatically.
+        public Dictionary<int, Dictionary<string, decimal>> Slots { get; set; } = [];
     }
 
     private static string FilePath =>
@@ -47,20 +40,13 @@ public static class CauldronSaveState
     {
         try
         {
-            var slots = new Dictionary<int, SlotState>();
+            var slots = new Dictionary<int, Dictionary<string, decimal>>();
             for (int i = 0; i < player.PotionSlots.Count; i++)
             {
                 if (player.PotionSlots[i] is TheCauldron cauldron &&
-                    cauldron.DynamicVars["StrengthPower"].BaseValue + cauldron.DynamicVars["Heal"].BaseValue > 0)
+                    cauldron.DynamicVars.Values.Any(v => v.BaseValue != 0m))
                 {
-                    slots[i] = new SlotState
-                    {
-                        Strength = cauldron.DynamicVars["StrengthPower"].BaseValue,
-                        Heal = cauldron.DynamicVars["Heal"].BaseValue,
-                        Energy = cauldron.DynamicVars["Energy"].BaseValue,
-                        Cleanse = cauldron.DynamicVars["Cleanse"].BaseValue,
-                        Intangible = cauldron.DynamicVars["IntangiblePower"].BaseValue,
-                    };
+                    slots[i] = cauldron.DynamicVars.ToDictionary(kv => kv.Key, kv => kv.Value.BaseValue);
                 }
             }
 
@@ -94,11 +80,11 @@ public static class CauldronSaveState
                 return; // stale file from an older run — ignore.
             }
 
-            foreach ((int slot, SlotState state) in data.Slots)
+            foreach ((int slot, Dictionary<string, decimal> state) in data.Slots)
             {
                 if (slot < player.PotionSlots.Count && player.PotionSlots[slot] is TheCauldron cauldron)
                 {
-                    cauldron.RestoreState(state.Strength, state.Heal, state.Energy, state.Cleanse, state.Intangible);
+                    cauldron.RestoreState(state);
                 }
             }
         }

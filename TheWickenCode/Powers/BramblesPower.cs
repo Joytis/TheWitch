@@ -3,11 +3,11 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWicken.TheWickenCode.Powers;
 
-namespace MegaCrit.Sts2.Core.Models.Powers;
+namespace TheWicken.TheWickenCode.Powers;
 
 public sealed class BramblesPower : WickenPower
 {
@@ -24,7 +24,7 @@ public sealed class BramblesPower : WickenPower
 			// Hemlock: bramble retaliation also seeds the attacker with 1 Hex.
 			if (Owner.GetPowerAmount<HemlockPower>() > 0)
 			{
-				await PowerCmd.Apply<TheWicken.TheWickenCode.Powers.HexPower>(choiceContext, dealer, 1m, Owner, null);
+				await PowerCmd.Apply<HexPower>(choiceContext, dealer, 1m, Owner, null);
 			}
 			// Hedge Prison makes brambles permanent: skip the per-trigger decrement.
 			if (Owner.GetPowerAmount<HedgePrisonPower>() == 0)

@@ -111,7 +111,7 @@ public abstract class FamiliarPower : WickenPower
 public abstract class FamiliarPower<TCard> : FamiliarPower where TCard : WickenFamiliarCard
 {
     protected override CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng) =>
-        WickenCard.CreateFamiliarCards<TCard>(owner, 1, combat, GrantsUpgradedCards).First();
+        FamiliarCardRegistry.CreateFamiliarCards<TCard>(owner, 1, combat, GrantsUpgradedCards).First();
 }
 
 /// <summary>
@@ -132,7 +132,7 @@ public sealed class FamiliarLootTable
             throw new ArgumentOutOfRangeException(nameof(weight), "Loot-table weight must be positive.");
         }
 
-        _entries.Add((weight, (owner, combat, upgraded) => WickenCard.CreateFamiliarCards<TCard>(owner, 1, combat, upgraded).First()));
+        _entries.Add((weight, (owner, combat, upgraded) => FamiliarCardRegistry.CreateFamiliarCards<TCard>(owner, 1, combat, upgraded).First()));
         _totalWeight += weight;
         return this;
     }

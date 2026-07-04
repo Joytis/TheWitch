@@ -4,19 +4,21 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using TheWicken.TheWickenCode.Extensions;
+using TheWicken.TheWickenCode.Potions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
+/// <summary>Lavender and Sage: draw, then add Vigor to The Cauldron's stats (creating it if absent).</summary>
 public sealed class LavenderAndSage : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<BramblesPower>(),
+        HoverTipFactory.FromPower<VigorPower>(),
+        HoverTipFactory.FromPotion<TheCauldron>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(1),
-        new PowerVar<BramblesPower>(7m)
+        new PowerVar<VigorPower>(2m)
     ];
 
     public LavenderAndSage()
@@ -28,7 +30,7 @@ public sealed class LavenderAndSage : WickenCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
+        (await TheCauldron.EnsureInBelt(Owner))?.AddStat("VigorPower", DynamicVars["VigorPower"].BaseValue);
     }
 
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);

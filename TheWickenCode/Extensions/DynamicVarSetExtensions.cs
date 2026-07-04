@@ -1,6 +1,7 @@
 using Godot;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Extensions;
 

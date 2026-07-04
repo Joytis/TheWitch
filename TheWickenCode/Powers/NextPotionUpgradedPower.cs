@@ -9,9 +9,9 @@ namespace TheWicken.TheWickenCode.Powers;
 /// <summary>
 /// Gather Herbs buff (counter): the next potion the Wicken <em>creates</em> is rolled one rarity higher.
 /// One stack is consumed per upgraded creation. Honored only by the Wicken's own rarity-rolling potion
-/// creators (Something Wicked, Toil and Trouble) via <see cref="UpgradeRarity" /> — deliberately NOT a global
-/// procurement hook, so relic/event potions are untouched. Fixed-output creators (Blood Boiling = always Rare,
-/// Cackle/Brew = specific potions) don't call it, so the buff waits for a potion it can actually upgrade.
+/// creators (the Brew trio via <c>OrientationBrewCard</c>) through <see cref="UpgradeRarity" /> — deliberately
+/// NOT a global procurement hook, so relic/event potions are untouched. Fixed-output creators (Witchcraft =
+/// specific potion) don't call it, so the buff waits for a potion it can actually upgrade.
 /// </summary>
 public sealed class NextPotionUpgradedPower : WickenPower
 {

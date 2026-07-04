@@ -29,4 +29,10 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
             .Execute(choiceContext);
         await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
     }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars["Heal"].UpgradeValueBy(1m);
+    }
 }

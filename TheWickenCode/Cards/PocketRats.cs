@@ -27,7 +27,7 @@ public sealed class PocketRats : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        List<Rats> cards = CreateFamiliarCards<Rats>(Owner, DynamicVars.Cards.IntValue, CombatState, false).ToList();
+        List<Rats> cards = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
         var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner, CardPilePosition.Random);
         CardCmd.PreviewCardPileAdd(generated);
     }

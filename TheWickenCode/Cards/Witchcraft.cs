@@ -9,11 +9,12 @@ using TheWicken.TheWickenCode.Potions;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Cackle: pour the whole belt into the Cauldron. Discards every potion except The Cauldron (creating one
-/// if needed), then feeds the discarded count into <see cref="TheCauldron.PourPotions" /> — per potion:
-/// +2 Strength and +3 heal on use; 2+ poured also unlocks Energy, 3+ a debuff cleanse, 4+ Intangible.
+/// Witchcraft (renamed from Cackle): pour the whole belt into the Cauldron. Discards every potion except
+/// The Cauldron (creating one if needed), then feeds the discarded count into
+/// <see cref="TheCauldron.PourPotions" /> — per potion: +2 Strength and +3 heal on use; 2+ poured also
+/// unlocks Energy, 3+ a debuff cleanse, 4+ Intangible.
 /// </summary>
-public sealed class Cackle : WickenCard
+public sealed class Witchcraft : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -21,7 +22,7 @@ public sealed class Cackle : WickenCard
         HoverTipFactory.FromPotion<TheCauldron>(),
     ];
 
-    public Cackle()
+    public Witchcraft()
         : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }

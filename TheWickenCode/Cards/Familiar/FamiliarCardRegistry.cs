@@ -21,10 +21,31 @@ public static class FamiliarCardRegistry
 
     /// <summary>
     /// Canonical models for every familiar *summon* card — the <see cref="IFamiliarSummon" /> Power cards
-    /// (Owl, Cat, Rat, Porcupine, Bear, Crow, Wolf, Chimera). Backs Embrace the Wilds.
+    /// (Owl, Cat, Rat, Bear, Crow, Wolf, Chimera). Backs Embrace the Wilds.
     /// </summary>
     public static IReadOnlyList<CardModel> AllSummonCanonical =>
         ModelDb.AllCards.OfType<IFamiliarSummon>().Cast<CardModel>().ToList();
+
+    /// <summary>
+    /// Create <paramref name="amount" /> real familiar cards of type <typeparamref name="T" /> for
+    /// <paramref name="owner" /> (upgraded if <paramref name="isUpgraded" />).
+    /// </summary>
+    public static IEnumerable<T> CreateFamiliarCards<T>(Player owner, int amount, ICombatState? combatState, bool isUpgraded)
+        where T : WickenFamiliarCard
+    {
+        ArgumentNullException.ThrowIfNull(combatState, "combatState");
+        List<T> list = new List<T>();
+        for (int i = 0; i < amount; i++)
+        {
+            var newCard = combatState.CreateCard<T>(owner);
+            list.Add(newCard);
+            if (isUpgraded)
+            {
+                CardCmd.Upgrade(newCard);
+            }
+        }
+        return list;
+    }
 
     /// <summary>
     /// Create <paramref name="amount" /> real familiar cards for <paramref name="owner" />, each a

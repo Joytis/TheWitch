@@ -7,16 +7,16 @@ using TheWicken.TheWickenCode.Potions.Brewing;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Brew: upgrade a random potion in the player's belt to a higher-rarity one sharing its traits
-/// (see <see cref="PotionUpgrade" />). Upgraded, it upgrades two. Does nothing if the belt is empty.
+/// Distill (renamed from Brew): upgrade a random potion in the player's belt to a higher-rarity one sharing
+/// its traits (see <see cref="PotionUpgrade" />). Upgraded, it upgrades two. Does nothing if the belt is empty.
 /// </summary>
-public sealed class Brew : WickenCard
+public sealed class Distill : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DynamicVar("Potions", 1m)
     ];
 
-    public Brew()
+    public Distill()
         : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }

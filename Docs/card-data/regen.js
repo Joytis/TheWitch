@@ -94,12 +94,21 @@ function parseSummary(src) {
   return sentence.trim();
 }
 
-function parseCard(file) {
-  const src = fs.readFileSync(file, "utf8");
-  const cls = src.match(/public\s+sealed\s+class\s+(\w+)\s*:/) || src.match(/public\s+class\s+(\w+)\s*:/);
+function parseCard(file, srcByClass) {
+  let src = fs.readFileSync(file, "utf8");
+  const cls = src.match(/public\s+sealed\s+class\s+(\w+)\s*:\s*(\w+)/) || src.match(/public\s+class\s+(\w+)\s*:\s*(\w+)/);
   if (!cls) return null;
   const className = cls[1];
   if (SKIP.has(className)) return null;
+
+  // A card may inherit its ctor/vars/OnUpgrade from an intermediate abstract base
+  // (e.g. the Brew trio : OrientationBrewCard). Append base-class source so the
+  // field regexes below can fall through to it; child declarations match first.
+  let parent = cls[2];
+  while (parent && !SKIP.has(parent) && srcByClass && srcByClass[parent]) {
+    src += "\n" + srcByClass[parent].src;
+    parent = srcByClass[parent].parent;
+  }
 
   const ctor = src.match(
     /:\s*base\(\s*([^,]+?)\s*,\s*CardType\.(\w+)\s*,\s*CardRarity\.(\w+)\s*,\s*TargetType\.(\w+)\s*\)/
@@ -152,7 +161,14 @@ function renderText(desc, vars) {
 function build() {
   const loc = loadLoc();
   const files = listCardFiles(CARDS_DIR);
-  const parsed = files.map(parseCard).filter(Boolean);
+  // index abstract/intermediate bases by class name for ctor-inheritance fallthrough
+  const srcByClass = {};
+  for (const f of files) {
+    const s = fs.readFileSync(f, "utf8");
+    const m = s.match(/public\s+(?:abstract\s+|sealed\s+)?class\s+(\w+)\s*:\s*(\w+)/);
+    if (m) srcByClass[m[1]] = { src: s, parent: m[2] };
+  }
+  const parsed = files.map((f) => parseCard(f, srcByClass)).filter(Boolean);
 
   const cards = parsed.map((p) => {
     const title = loc[`${MOD_PREFIX}${p.entry}.title`] || p.className;

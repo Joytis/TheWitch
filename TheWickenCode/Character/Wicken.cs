@@ -33,7 +33,7 @@ public class Wicken : PlaceholderCharacterModel
         ModelDb.Card<DefendWicken>(),
         ModelDb.Card<DefendWicken>(),
         ModelDb.Card<ExtractEssence>(),
-        ModelDb.Card<Bush>(),
+        ModelDb.Card<Brew>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
