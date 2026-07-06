@@ -105,7 +105,7 @@ public abstract class FamiliarPower : WickenPower
 /// <summary>
 /// Convenience base for the common case: a familiar that always produces the same single token card
 /// <typeparamref name="TCard" />. Single-type familiar powers just declare <c>: FamiliarPower&lt;TCard&gt;</c>.
-/// Familiars that produce several different cards (Bear, Chimera) extend <see cref="FamiliarPower" /> directly
+/// Familiars that produce several different cards (Bear) extend <see cref="FamiliarPower" /> directly
 /// and override <see cref="CreateTurnStartCard" />.
 /// </summary>
 public abstract class FamiliarPower<TCard> : FamiliarPower where TCard : WickenFamiliarCard

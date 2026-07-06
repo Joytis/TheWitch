@@ -14,7 +14,7 @@ public sealed class SoulKnot : WickenCard
     ];
 
     public SoulKnot()
-        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
 

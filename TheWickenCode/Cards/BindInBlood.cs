@@ -21,7 +21,7 @@ public sealed class BindInBlood : WickenCard
     ];
 
     public BindInBlood()
-        : base(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

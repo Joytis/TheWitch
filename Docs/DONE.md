@@ -4,6 +4,122 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 159 + 160 + 161. New cards: Thirst, Strike Fear, Needle Whip
+- **Done:** 2026-07-06 (shared gate)
+- **159 Thirst** ([Thirst.cs](../TheWickenCode/Cards/Thirst.cs) + [ThirstPower.cs](../TheWickenCode/Powers/ThirstPower.cs)): 1e Power Rare — new counter power on `AfterCardDrawn` (owner-guarded): gain `Amount` Vigor per card drawn; upgrade applies 2 stacks' worth (1→2 per draw).
+- **160 Strike Fear** ([StrikeFear.cs](../TheWickenCode/Cards/StrikeFear.cs)): 1e Attack Common — 6 dmg + 1 Vulnerable; upgrade +2/+1.
+- **161 Needle Whip** ([NeedleWhip.cs](../TheWickenCode/Cards/NeedleWhip.cs)): 1e Attack Common — 9 dmg + 3 Brambles; upgrade +3 Brambles. (Reuses the retired NEEDLE_WHIP name from pre-audit builds; fresh id/implementation.)
+- **Verified:** build 0/0, regen 100→103 cards. ⚠️ No art (`thirst.png`, `strike_fear.png`, `needle_whip.png`) — placeholders. Playtest Thirst: Vigor per draw incl. turn-start hand draw (fires on `fromHandDraw` too — by design; flag if start-of-turn draws shouldn't count).
+
+### 158. New card: Taste of Blood
+- **Done:** 2026-07-06 — [TasteOfBlood.cs](../TheWickenCode/Cards/TasteOfBlood.cs): 0e Attack Common — deal 3, gain 3 Vigor; upgrade +2 dmg / +1 Vigor, exactly per note. build 0/0, regen 99→100 cards. ⚠️ No art (`taste_of_blood.png`) — placeholder.
+
+### 156. Repurpose → Polymorph: transform a draw-pile card into a familiar
+- **Done:** 2026-07-06
+- **Changed:** Full rename+rework: deleted `Repurpose.cs` AND its now-orphaned `RepurposePower.cs` (+ loc keys; Repurpose was its only applier — same orphan policy as NextPowerFreePower). New [Polymorph.cs](../TheWickenCode/Cards/Polymorph.cs) — 0e Skill Rare Exhaust: `CardSelectCmd.FromCombatPile` over the draw pile (with the REQUIRED `.selectionScreenPrompt` loc key — the Find Familiar lesson), then `CardCmd.Transform(chosen, CombatState.CreateCard(randomSummon, Owner))` where the summon is rolled from `FamiliarCardRegistry.AllSummonCanonical`. Upgrade: `RemoveKeyword(Exhaust)`. **Design call:** "Deck" implemented as **combat-scoped draw-pile transform** (not a permanent master-deck change) — matches the in-combat select+transform pattern; flag if permanence was intended. No art existed (placeholder continues as `polymorph.png`).
+- **Verified:** build 0/0, regen shows swap. ⚠️ Playtest after publish: selector opens, transform lands in draw pile, upgraded repeat-cast.
+
+### 155. Pact of Beasts rework
+- **Done:** 2026-07-05 — [PactOfBeasts.cs](../TheWickenCode/Cards/PactOfBeasts.cs): added "Lose 3 HP" (HpLossVar, unblockable/unpowered self-damage) and widened the sweep from `IFamiliarSummon` only to `IFamiliarSummon or WickenFamiliarCard` — generated token cards in draw/discard now come to hand too, per the note. Cost 1e + upgrade −1e were already as specced. Loc updated. build 0/0, regen clean.
+
+### 153 + 154 + 157. Deep Roots (new), Rat Familiar rarity, Hide in a Bush (new)
+- **Done:** 2026-07-05 (shared gate)
+- **153 Deep Roots** ([DeepRoots.cs](../TheWickenCode/Cards/DeepRoots.cs) + [DeepRootsPower.cs](../TheWickenCode/Powers/DeepRootsPower.cs)): 1e Power Uncommon — new counter power, `AfterPlayerTurnStart` → gain `Amount` Brambles (3, upgrade +2 → 5; RottingRoots pattern). Amount = per-turn yield so double-casting stacks.
+- **154 Rat Familiar**: Rare→Uncommon (ctor only).
+- **157 Hide in a Bush** ([HideInABush.cs](../TheWickenCode/Cards/HideInABush.cs)): 1e Skill Common, gain 9 Block. **Design call:** upgrade +3 Block (note gave none).
+- **Verified:** build 0/0, regen 97→99 cards. ⚠️ No art (`deep_roots.png`, `hide_in_a_bush.png`) — placeholders. Playtest Deep Roots turn-start trigger.
+
+### 150. Vexing Thwack → Vexing Strike, back to Common
+- **Done:** 2026-07-05 — full rename: class/file `VexingStrike`, id `THEWICKEN-VEXING_STRIKE`, loc keys, art `vexing_thwack.png`→`vexing_strike.png` both sizes (stale `.import`s deleted). Rarity reverted Uncommon→Common (supersedes item 145 from earlier today). Effect unchanged (8 dmg + 1 Hex, upgrade +2 Hex). build 0/0, regen shows swap. ⚠️ Run **Godot: Import assets** (art rename).
+
+### 147 + 148. CUT Herbal Remedy + Moondrop Tea
+- **Done:** 2026-07-05 — deleted both `.cs` files, loc keys, art (both sizes + `.import`s). No dangling refs (grep clean); no orphaned payloads (Herbal Remedy only consumed potions). Moondrop Tea's item-123 rarity bump from earlier today is moot. build 0/0, regen 99→97 cards. ⚠️ **Godot: Import assets** after art deletions.
+
+### 146 + 149 + 151 + 152. Stat/effect batch
+- **Done:** 2026-07-05 (shared gate)
+- **146 Ritual Sacrifice** ([RitualSacrifice.cs](../TheWickenCode/Cards/RitualSacrifice.cs)): added "Deal 25 damage" (upgrade additionally +5). **Design call:** card was Self-targeted — damage needs a target, so TargetType → AnyEnemy, and the hit sits inside the "if sacrificed" branch like the block/draw payoff; confirm both.
+- **149 Hexblast**: per-debuff damage 10→20.
+- **151 Bind in Blood**: Common→Uncommon (ctor only).
+- **152 Rats token** ([Rats.cs](../TheWickenCode/Cards/Familiar/Rats.cs)): added "Draw 1 card" (CardsVar + Draw after the heal; user's local edits preserved).
+- **Verified:** build 0/0, regen clean, TESTED cleared (also flagged Nettles — user's own local edit).
+
+### 137. Steal Bones → Read the Bones (+ NextPowerFreePower cleanup)
+- **Done:** 2026-07-05
+- **Changed:** (design completed by user in Q&A, superseding the truncated staging note) **Read the Bones** — 1e Attack Common AnyEnemy: "If the enemy intends to attack, draw 2 cards. Otherwise, deal 9 damage." Intent check + gold-glow mirror base-game **Go for the Eyes** (`Monster?.IntendsToAttack`). Full rename: deleted `StealBones.cs`, new [ReadTheBones.cs](../TheWickenCode/Cards/ReadTheBones.cs), loc keys replaced (no art existed). Cauldron interaction dropped; stale Brew mention in TheCauldron.cs comment cleaned. **Design call:** upgrade = +3 damage (9→12; user gave none) — confirm/adjust. Also **deleted orphaned `NextPowerFreePower`** (+ loc) per user answer.
+- **Verified:** build 0/0, regen clean (99 cards). ⚠️ Playtest: intent branch vs non-attacking enemy, glow in hand.
+
+### 144 + 145. Woe and Whimsy + Vexing Thwack: Common → Uncommon
+- **Done:** 2026-07-05 — ctor rarity only, both. (Ingested + implemented directly from staging; never queued.) build 0/0, regen clean, TESTED cleared.
+
+### 143. Stampede redesign: 8 dmg + familiars trample ALL
+- **Done:** 2026-07-05 — [Stampede.cs](../TheWickenCode/Cards/Stampede.cs): now always deals 8 to the target (old version dealt NOTHING with zero familiars), then a second AoE attack — 3 damage × `Familiars.Count` hits via `WithHitCount` + `TargetingAllOpponents`. Upgrade kept +3 primary damage (note silent). Loc rewritten. Also applied the user's staging **revision to 142**: Pact of Agony now creates **1** Wound (was 2 in the first note). build 0/0, regen clean.
+
+### 141 + 142. Chromatic Claws → Experiment; Pact of Agony redesign
+- **Done:** 2026-07-05 (shared gate)
+- **141 Experiment** ([Experiment.cs](../TheWickenCode/Cards/Experiment.cs)): full rename (class + id `THEWICKEN-EXPERIMENT` + loc + art `chromatic_claws.png`→`experiment.png`, stale `.import` deleted; no big variant existed). Attack→Skill: Gain 7 Block, then the same discard-random/create-random potion swap. **Design call:** note's "Upgrade: +3 damage" is impossible on a damage-less Skill — implemented as **+3 Block**; confirm.
+- **142 Pact of Agony** ([PactOfAgony.cs](../TheWickenCode/Cards/PactOfAgony.cs)): now 1e **Attack** AllEnemies — Lose 2 HP (was 3), add 2 Wounds to discard, deal **15 to ALL** (Ambush `TargetingAllOpponents` shape); Weak effect dropped. Kept Exhaust + Common (note silent). **Design call:** upgrade = **+5 damage** (old +2 Weak no longer applies); confirm.
+- **Verified:** build 0/0, regen clean. ⚠️ Run **Godot: Import assets** (art rename). Playtest both.
+
+### 140. Broom Strike redesign: 12 dmg + play a random Skill from the draw pile
+- **Done:** 2026-07-05 — [BroomStrike.cs](../TheWickenCode/Cards/BroomStrike.cs): 15→12 damage (upgrade +3 unchanged), old "next Power costs 0" effect replaced with the BeatDown/Catastrophe auto-play shape — filter draw-pile Skills (excl. Unplayable), `StableShuffle(Rng.Shuffle)` pick one, `CardCmd.AutoPlay` (random `CombatTargets` target for AnyEnemy skills, null-guarded). "Deck" interpreted as **draw pile** (Catastrophe precedent). ⚠️ **`NextPowerFreePower` is now orphaned** (BroomStrike was its only applier) — left in place pending user call, see question. build 0/0, regen clean.
+
+### 135 + 136 + 139. Cauldron-card redesigns + Bewitching Grin block
+- **Done:** 2026-07-05 (shared gate)
+- **135 Lich Powder** ([LichPowder.cs](../TheWickenCode/Cards/LichPowder.cs)): now "Gain 1 Intangible. Lose 2 Strength." (self-Strength applied negative), upgrade −1 Strength loss (2→1, shown via `{StrengthPower:diff()}`); Cauldron interaction dropped. Cost/type/rarity unchanged (already 3e Skill Rare).
+- **136 Lavender and Sage** ([LavenderAndSage.cs](../TheWickenCode/Cards/LavenderAndSage.cs)): now "Draw 1 card. Gain 4 Brambles." (BramblesPower), upgrade +1 card; Cauldron interaction dropped.
+- **139 Bewitching Grin** ([BewitchingGrin.cs](../TheWickenCode/Cards/BewitchingGrin.cs)): added "Gain 5 Block" ahead of the existing 2 Weak to ALL. **Design calls (note was terse):** kept AllEnemies targeting, Exhaust, 1e Common, and the +1 Weak upgrade — note didn't mention them; flag if the intent was single-target or no Exhaust.
+- **Verified:** build 0/0, regen clean, TESTED cleared ×3. Note: The Cauldron's remaining sources are Witchcraft / StealBones / DanceAroundTheCauldron — still not orphaned.
+
+### 134. CUT Chimera Familiar (full cascade)
+- **Done:** 2026-07-05 — deleted `ChimeraFamiliar.cs`, `ChimeraFamiliarPower.cs`, `ChimeraPet.cs`, loc keys (card + power), art `chimera_familiar.png` both sizes + `.import`s. Registry is reflection-based (`OfType<IFamiliarSummon>`) so Embrace the Wilds / random-summon rolls self-adjust — no code refs remained; cleaned the four comment/cref mentions (CursedSpellbookPower, EmbraceTheWildsPower, FamiliarPower, FamiliarCardRegistry). No orphans: Chimera had no unique token cards (it rolled the shared pool). build 0/0, regen 100→99 cards. ⚠️ Run **Godot: Import assets** after art deletion; playtest a save that had a Chimera power active (removed content in old saves).
+
+### 133 + 138. Bottle Barrage Rare→Uncommon 10→7 dmg; Forbidden Magic Common→Uncommon
+- **Done:** 2026-07-05 — [BottleBarrage.cs](../TheWickenCode/Cards/BottleBarrage.cs): `DamageVar` 10→7 (per-hit damage; the Barrage `CalculatedHits` shape untouched), rarity Rare→Uncommon. [ForbiddenMagic.cs](../TheWickenCode/Cards/ForbiddenMagic.cs): ctor rarity only. Shared gate, build 0/0, regen clean; TESTED cleared on both.
+
+### 132. Refuse Pile: Rats visibly fly into the piles
+- **Done:** 2026-07-05 — [RefusePile.cs](../TheWickenCode/Cards/RefusePile.cs) `AddRats` switched to the Call the Pack pattern: plural `AddGeneratedCardsToCombat(..., CardPilePosition.Random)` + `CardCmd.PreviewCardPileAdd(generated)` so the Rats spawn center screen and fly to draw/discard instead of silently appearing. build 0/0. ⚠️ Playtest the animation (both piles, upgraded 3+3).
+
+### 131. Consume Youth: live doubled-damage preview
+- **Done:** 2026-07-05
+- **Changed:** [ConsumeYouth.cs](../TheWickenCode/Cards/ConsumeYouth.cs) rebuilt on the Soul Storm shape: `CalculationBaseVar(20)` + `ExtraDamageVar(20)` + `CalculatedDamageVar.WithMultiplier((_, target) => target above half HP ? 1 : 0)` — targeting a healthy enemy now previews 40 (52 upgraded) live; the same var drives the actual hit, replacing the hand-rolled `×2` in OnPlay. Upgrade bumps both halves +6 to keep the doubled hit exactly 2×. Loc `{Damage:diff()}` → `{CalculatedDamage:diff()}`.
+- **Verified:** build 0/0, regen clean. ⚠️ Playtest (after publish for the loc change): hover-target above/below half HP shows 40/20; damage dealt matches preview.
+
+### 130. BUG: Find Familiar hang — missing `.selectionScreenPrompt` loc key; draw-pile-only search
+- **Done:** 2026-07-05
+- **Root cause (from game log 6/28 + decompiled `CardModel.cs:128-136`):** `CardModel.SelectionScreenPrompt` THROWS `InvalidOperationException("No selection screen prompt for …")` when the id-derived loc key `<ID>.selectionScreenPrompt` doesn't exist. `THEWICKEN-FIND_FAMILIAR.selectionScreenPrompt` was never added, so `OnPlay` died before the selector opened — the play action completed with exception and the card froze center screen. (Log shows Curiosity hit the same throw on 6/28; its key exists in the repo now — **loc changes ship via `dotnet publish`, not plain build**, so playtest after a publish.)
+- **Changed:** [FindFamiliar.cs](../TheWickenCode/Cards/FindFamiliar.cs) now searches the **draw pile only** (Droplet of Precognition / Seeker Strike shape; discard fallback dropped per the design note); added the `selectionScreenPrompt` key + trimmed "or Discard Pile" from the description in `cards.json`.
+- **Verified:** build 0/0, regen clean. ⚠️ **Playtest after `dotnet publish`** (loc is packed in the .pck): play Find Familiar with familiars in draw pile (selector opens), with none (returns empty, card discards), upgraded (2 picks).
+
+### 129. Familiar summon upgrades: upgraded tokens instead of −1e
+- **Done:** 2026-07-05
+- **Changed:** Removed `EnergyCost.UpgradeBy(-1)` from Owl/Crow/Rat/Chimera Familiar (Wolf/Bear/Cat never had one — all summons cost 1e). Upgrade effect is now purely "tokens created are upgraded" via the existing `GainFamiliar` → `FamiliarPower.GrantsUpgradedCards` plumbing (verified in [WickenCard.cs:42-51](../TheWickenCode/Cards/WickenCard.cs)). All 7 summon loc descriptions now show the upgrade: `[gold]{IfUpgraded:show:X Familiar+|X Familiar}[/gold]` (REAVE/Pocket Rats convention). Hover tips already passed `IsUpgraded` on all 7 — no change needed there.
+- **Verified:** build 0/0, regen clean (TESTED cleared on the 4 changed summons). ⚠️ Playtest: upgraded summon shows "Summon a X Familiar+", turn-start tokens arrive upgraded, tooltip previews upgraded token faces.
+
+### 127–128. CUT Brew + Infuse; new Oxidizers (starter) + Rip Soul (Ancient)
+- **Done:** 2026-07-05
+- **Changed:** Deleted [Brew.cs] and [Infuse.cs] (no art existed — placeholders; loc keys replaced in place). TheCauldron NOT orphaned (Witchcraft/StealBones/LichPowder/LavenderAndSage/DanceAroundTheCauldron still use it). New **Oxidizers** — 1e Skill Basic Self, upgrade → 0e: applies 1 stack of new **OxidizersPower** ("the next Potion you play this turn is played again"). Power = Counter buff, one stack per potion, expires at turn end (base-game **BurstPower** pattern). Replay implementation: `AfterPotionUsed` reflection-invokes protected `PotionModel.OnUse` directly — `OnUseWrapper` is unusable for replay (its `RemoveBeforeUse` throws on the already-removed potion, and it re-fires `AfterPotionUsed` → infinite loop). `ThrowingPlayerChoiceContext` (ReptileTrinket precedent) is safe: no base-game or mod potion prompts a choice in `OnUse`. New **Rip Soul** — 2e Attack Ancient, 15 dmg (+5 on upgrade), 3 Hex, create 3 random potions (`PotionCatalog.Random(Query())` per ChromaticClaws). Starting deck: Brew→Oxidizers ([Wicken.cs](../TheWickenCode/Character/Wicken.cs)); [AncientTranscendencePatch.cs](../TheWickenCode/Patches/AncientTranscendencePatch.cs) now maps Oxidizers→RipSoul.
+- **Files:** deleted `Cards/Brew.cs`, `Cards/Infuse.cs`; new `Cards/Oxidizers.cs`, `Cards/RipSoul.cs`, `Powers/OxidizersPower.cs`; `Wicken.cs`, `AncientTranscendencePatch.cs`, `cards.json` loc, `powers.json` loc; regen (100 cards, Ancient 2).
+- **Verified:** build 0/0, regen clean. ⚠️ No art: `oxidizers.png`, `rip_soul.png` (placeholders + log). **Playtest**: Oxidizers replay (esp. The Cauldron and MushroomExtract doubled), turn-end expiry, stacked casts; Archaic Tooth transforming Oxidizers→Rip Soul; Rip Soul potion triple-create with Catalyst.
+
+### 125. RoomySatchel adversarial review — full-belt shrink crash + slot-leak fix
+- **Done:** 2026-07-05
+- **Findings (verified against decompiled `Player.cs` / `NPotionContainer.cs`):**
+  1. **Full-belt crash (fixed):** `Player.SetMaxPotionCountInternal` migrates each doomed slot's potion to `_potionSlots.IndexOf(null)` with no `-1` check — with every slot full there is no null, so it writes `_potionSlots[-1]` → `ArgumentOutOfRangeException` at combat end. Unreachable in vanilla (base game never shrinks). Fix in [RoomySatchelPower.cs](../TheWickenCode/Powers/RoomySatchelPower.cs): pre-discard overflow potions (top slot down, `PotionCmd.Discard`) until potion count ≤ kept slots, *then* `LoseMaxPotionCount` — migration then always finds an empty kept slot (kept region full ⇒ no doomed potions remain, so no migration at all).
+  2. **Mid-combat removal leak (fixed):** a buff strip removes the power via `PowerCmd.Remove` → `AfterRemoved` fires but `AfterCombatEnd` never does (power detached) → slots became permanent. Added `AfterRemoved` override calling the same revert. No double-fire: combat-end teardown uses `RemoveAllPowersInternalExcept` which explicitly skips `AfterRemoved`. Death path guarded (`oldOwner.IsDead` → skip; run is over anyway).
+  3. **Shrink patch re-seat logic reviewed, OK:** migration only moves doomed-slot potions into *empty* kept holders, so the `holders[slot].Potion?.Model != potion` re-seat condition can't clobber an occupied holder; discard events fire while all holders still exist.
+- **Verified:** build 0/0. ⚠️ **Playtest matrix:** end combat with (a) belt full incl. satchel slots, (b) potions sitting in the bonus slots (should discard), (c) play card twice / upgraded (stack = 5 slots), (d) UI belt contracts with no orphaned potion nodes.
+
+### 124. BUG: Mushroom Extract crash on third card — NCard.Reload postfix NRE
+- **Done:** 2026-07-05
+- **Changed:** [MushroomedCards.cs](../TheWickenCode/Patches/MushroomedCards.cs) `MushroomedNCardPortraitPatch` now bails when `!__instance.IsNodeReady()`. Root cause: `NCard.Model` setter calls `Reload()` which early-returns before `_Ready` has run — but the Harmony postfix still executed and dereferenced `_portrait`/`_ancientPortrait` (both null until `_Ready`), NRE-ing mid-draw for mushroomed cards only, on code paths that assign `Model` before the node enters the tree (e.g. `CardCmd.Preview` spawns). Matches "two cards fine, crash on third". No crash log existed (all godot logs end cleanly, predate report) — diagnosis from decompiled `NCard.cs` (Model setter → Reload → `IsNodeReady()` guard).
+- **Verified:** build 0/0. ⚠️ **Playtest required**: drink Mushroom Extract with ≥3 cards drawn (incl. a reshuffle mid-draw) — confirm no crash and gibberish/mystery art renders on all 6.
+
+### 126. Bottle Wall: Uncommon → Rare, add Exhaust
+- **Done:** 2026-07-05 — ctor rarity + `CanonicalKeywords => [CardKeyword.Exhaust]`. [BottleWall.cs](../TheWickenCode/Cards/BottleWall.cs). build 0/0 (shared gate with 123); regen clean, TESTED cleared.
+
+### 123. Moondrop Tea: Common → Uncommon
+- **Done:** 2026-07-05 — ctor rarity only. [MoondropTea.cs](../TheWickenCode/Cards/MoondropTea.cs). build 0/0; regen clean, TESTED cleared.
+
 ### 129–130. Ancient cards: Infuse (transcended Brew) + Catalyst (unique ancient)
 - **Done:** 2026-07-03
 - **Changed:** (129) **Infuse** — 0e Skill `CardRarity.Ancient`: choose and Exhaust 2 hand cards (`CardSelectCmd.FromCombatPile` + `ExhaustSelectionPrompt`, Cleanse pattern), stir each into The Cauldron (`Stir(count)` = +2 Str/+3 Heal apiece; Cauldron procured if absent). Upgrade → 3 cards. **Event hookup**: new [AncientTranscendencePatch.cs](TheWickenCode/Patches/AncientTranscendencePatch.cs) — Harmony getter postfix on Archaic Tooth's private static `TranscendenceUpgrades`, adding `Brew → Infuse` (Bash→Break pattern). Getter rebuilds per access, so `TranscendenceCards` (DustyTome's exclusion list) picks it up too. (130) **Catalyst** — 1e Power `CardRarity.Ancient`, upgrade → 0e: applies permanent `CatalystPower` ("Duplicate Potions you create") — NextPotionCopiedPower's copy logic minus the stack decrement, skips The Cauldron, instance-scoped reentry guard. **Hookup automatic**: DustyTome rolls any pool card with `CardRarity.Ancient` not in `TranscendenceCards`.

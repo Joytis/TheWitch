@@ -9,7 +9,7 @@ namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
 /// Registry of every familiar token-card (all <see cref="WickenFamiliarCard" /> subtypes). Backs the
-/// "random familiar card" effects — Woe and Whimsy, Chimera Familiar, Embrace the Wilds.
+/// "random familiar card" effects — Woe and Whimsy, Embrace the Wilds.
 /// Canonical models come from <see cref="ModelDb.AllCards" />; the <c>WickenFamiliarCardPool</c> is
 /// shared (<c>IsShared =&gt; true</c>), so all familiar cards are present there.
 /// </summary>
@@ -21,7 +21,7 @@ public static class FamiliarCardRegistry
 
     /// <summary>
     /// Canonical models for every familiar *summon* card — the <see cref="IFamiliarSummon" /> Power cards
-    /// (Owl, Cat, Rat, Bear, Crow, Wolf, Chimera). Backs Embrace the Wilds.
+    /// (Owl, Cat, Rat, Bear, Crow, Wolf). Backs Embrace the Wilds.
     /// </summary>
     public static IReadOnlyList<CardModel> AllSummonCanonical =>
         ModelDb.AllCards.OfType<IFamiliarSummon>().Cast<CardModel>().ToList();

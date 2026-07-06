@@ -12,11 +12,11 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class Hexblast : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(10m, ValueProp.Move)
+        new DamageVar(20m, ValueProp.Move)
     ];
 
     public Hexblast()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
     {
     }
 

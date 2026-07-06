@@ -15,7 +15,7 @@ public sealed class RatFamiliar : WickenCard, IFamiliarSummon
     ];
 
     public RatFamiliar()
-        : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
@@ -24,6 +24,4 @@ public sealed class RatFamiliar : WickenCard, IFamiliarSummon
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
         await GainFamiliar<RatFamiliarPower>(choiceContext);
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

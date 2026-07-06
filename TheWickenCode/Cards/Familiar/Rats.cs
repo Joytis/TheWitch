@@ -11,7 +11,8 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(5m, ValueProp.Move),
-        new DynamicVar("Heal", 1m)
+        new DynamicVar("Heal", 1m),
+        new CardsVar(1)
     ];
 
     public Rats()
@@ -28,11 +29,11 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars["Heal"].UpgradeValueBy(1m);
     }
 }

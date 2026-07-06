@@ -6,7 +6,7 @@ namespace TheWicken.TheWickenCode.Powers;
 /// <summary>
 /// Cursed Spellbook engine: each turn you draw one fewer card but gain <see cref="PowerModel.Amount" /> extra
 /// Energy. Single-stack — replaying the book refreshes rather than compounding the draw penalty (an upgraded
-/// copy just raises the Energy). Draw hook mirrors <see cref="ChimeraFamiliarPower.ModifyHandDraw" />; energy
+/// copy just raises the Energy). Draw hook mirrors <see cref="EmbraceTheWildsPower.ModifyHandDraw" />; energy
 /// hook mirrors the base-game <c>NoEnergyGainPower.ModifyEnergyGain</c>.
 /// </summary>
 public sealed class CursedSpellbookPower : WickenPower

@@ -3,24 +3,24 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Vexing Thwack: a multi-hit Attack that also seeds the target with Hex.</summary>
-public sealed class VexingThwack : WickenCard
+/// <summary>Strike Fear: a jab that leaves the target flinching — damage plus Vulnerable.</summary>
+public sealed class StrikeFear : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<HexPower>(),
+        HoverTipFactory.FromPower<VulnerablePower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move),
-        new PowerVar<HexPower>(1m)
+        new DamageVar(6m, ValueProp.Move),
+        new PowerVar<VulnerablePower>(1m)
     ];
 
-    public VexingThwack()
+    public StrikeFear()
         : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
@@ -33,8 +33,12 @@ public sealed class VexingThwack : WickenCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Vulnerable.UpgradeValueBy(1m);
+    }
 }

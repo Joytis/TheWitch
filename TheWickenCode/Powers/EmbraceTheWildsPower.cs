@@ -6,7 +6,7 @@ namespace TheWicken.TheWickenCode.Powers;
 /// <summary>
 /// Embrace the Wilds downside (counter): the player draws fewer cards at the start of each turn — the price
 /// paid for the burst of familiars the card summons. Persists for the combat; <see cref="Amount" /> is the
-/// number of cards reduced. See <see cref="ChimeraFamiliarPower.ModifyHandDraw" /> for the same hook.
+/// number of cards reduced.
 /// </summary>
 public sealed class EmbraceTheWildsPower : WickenPower
 {

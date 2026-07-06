@@ -9,8 +9,8 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class BagOfTeeth : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(1m, ValueProp.Move),
-        new RepeatVar(6)
+        new DamageVar(2m, ValueProp.Move),
+        new RepeatVar(4)
     ];
 
     public BagOfTeeth()
@@ -29,5 +29,5 @@ public sealed class BagOfTeeth : WickenCard
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Repeat"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars["Repeat"].UpgradeValueBy(1m);
 }

@@ -4,20 +4,20 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using TheWicken.TheWickenCode.Potions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Lich Powder: banks Intangible into The Cauldron's stats (creating it if absent).</summary>
+/// <summary>Lich Powder: become untouchable at the cost of your vigor — gain Intangible, lose Strength.</summary>
 public sealed class LichPowder : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<IntangiblePower>(),
-        HoverTipFactory.FromPotion<TheCauldron>(),
+        HoverTipFactory.FromPower<StrengthPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<IntangiblePower>(1m)
+        new PowerVar<IntangiblePower>(1m),
+        new PowerVar<StrengthPower>(2m),
     ];
 
     public LichPowder()
@@ -28,8 +28,10 @@ public sealed class LichPowder : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        (await TheCauldron.EnsureInBelt(Owner))?.AddStat("IntangiblePower", DynamicVars["IntangiblePower"].BaseValue);
+        await PowerCmd.Apply<IntangiblePower>(choiceContext, Owner.Creature, DynamicVars["IntangiblePower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, -DynamicVars["StrengthPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    // Upgrade softens the drawback: lose 1 Strength instead of 2.
+    protected override void OnUpgrade() => DynamicVars["StrengthPower"].UpgradeValueBy(-1m);
 }

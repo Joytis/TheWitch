@@ -3,33 +3,38 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Lavender and Sage: draw a card and grow a thicket of Brambles.</summary>
-public sealed class LavenderAndSage : WickenCard
+/// <summary>Needle Whip: lash out with a thorned vine — damage plus Brambles.</summary>
+public sealed class NeedleWhip : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1),
-        new PowerVar<BramblesPower>(4m),
+        new DamageVar(9m, ValueProp.Move),
+        new PowerVar<BramblesPower>(3m)
     ];
 
-    public LavenderAndSage()
-        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+    public NeedleWhip()
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars["BramblesPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars["BramblesPower"].UpgradeValueBy(3m);
 }

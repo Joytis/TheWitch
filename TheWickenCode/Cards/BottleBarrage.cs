@@ -8,7 +8,7 @@ using TheWicken.TheWickenCode.Patches;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Hurl the whole belt: one 10-damage hit per potion you've brewed this combat. The hit count renders live
+/// Hurl the whole belt: one 7-damage hit per potion you've brewed this combat. The hit count renders live
 /// on the card face via the base-game Barrage pattern (CalculatedVar of base 0 + extra 1 × potions created).
 /// </summary>
 public sealed class BottleBarrage : WickenCard
@@ -16,7 +16,7 @@ public sealed class BottleBarrage : WickenCard
     private const string _calculatedHitsKey = "CalculatedHits";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(10m, ValueProp.Move),
+        new DamageVar(7m, ValueProp.Move),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar(_calculatedHitsKey)
@@ -24,7 +24,7 @@ public sealed class BottleBarrage : WickenCard
     ];
 
     public BottleBarrage()
-        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

@@ -16,7 +16,7 @@ public sealed class Bonfire : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BonfirePower>(5m)
+        new PowerVar<BonfirePower>(3m)
     ];
 
     public Bonfire()

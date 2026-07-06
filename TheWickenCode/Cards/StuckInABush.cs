@@ -17,7 +17,7 @@ public sealed class StuckInABush : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(8m),
+        new PowerVar<BramblesPower>(10m),
         new PowerVar<VulnerablePower>(2m)
     ];
 

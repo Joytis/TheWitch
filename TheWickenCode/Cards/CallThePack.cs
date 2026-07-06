@@ -15,8 +15,8 @@ public sealed class CallThePack : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(6m, ValueProp.Move),
-        new CardsVar(2)
+        new DamageVar(8m, ValueProp.Move),
+        new CardsVar(1)
     ];
 
     public CallThePack()

@@ -155,10 +155,10 @@
       },
       "upgrade": "Block +3",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -321,10 +321,10 @@
       },
       "upgrade": "Damage +1",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -463,10 +463,10 @@
       },
       "upgrade": "Energy +1",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -602,10 +602,10 @@
       },
       "upgrade": "Block +1",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -699,10 +699,10 @@
       },
       "upgrade": "Block +4",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -818,10 +818,10 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -877,10 +877,10 @@
       },
       "upgrade": "Cards +1",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -919,10 +919,10 @@
       },
       "upgrade": "Damage +1, Cards +1",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1020,10 +1020,10 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1378,10 +1378,10 @@
       },
       "upgrade": "Damage +3",
       "mechanics": [
-        "None"
+        "Status"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1694,10 +1694,12 @@
       "numbers": {},
       "upgrade": "custom",
       "mechanics": [
-        "Orbs"
+        "Orbs",
+        "Status"
       ],
       "role": [
-        "Generator"
+        "Generator",
+        "Payoff"
       ]
     },
     {
