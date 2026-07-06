@@ -59,7 +59,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Oxidizers (starter): the next potion you play this turn is played again — one stack of <see cref=\"OxidizersPower\" />.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -106,7 +106,7 @@
       },
       "upgrade": "Repeat +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -130,7 +130,7 @@
       },
       "upgrade": "WeakPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -153,7 +153,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Broom Strike: swat with the broom, then sweep a random Skill out of the draw pile and play it (the base-game BeatDown/Catastrophe auto-play shape: filter, shuffle-pick, <c>CardCmd.AutoPlay</c> with a random target for enemy-targeted picks).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -177,7 +177,7 @@
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -199,7 +199,7 @@
         "Block": 7
       },
       "upgrade": "Block +3",
-      "note": "",
+      "note": "Experiment (was Chromatic Claws): block up while swapping a random belt potion for a fresh one of the SAME rarity and orientation (GrindDown fallback chain: strict → orientation-only → any, so a Token/Event payload like a Rock still swaps into something real).",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -269,7 +269,7 @@
       },
       "upgrade": "Block +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -293,7 +293,7 @@
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -317,7 +317,7 @@
       },
       "upgrade": "BramblesPower +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -342,7 +342,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -366,7 +366,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Read the Bones (was Steal Bones): divine the enemy's next move — if it intends to attack, draw cards; otherwise strike it.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -413,7 +413,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -458,7 +458,7 @@
       },
       "upgrade": "Damage +2, Vulnerable +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -482,7 +482,7 @@
       },
       "upgrade": "Damage +2, VigorPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -506,7 +506,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -523,13 +523,13 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 10 Block. The next Skill you play costs 1.",
+      "text": "Gain 10 Block. The next Skill you play costs 1 {energyPrefix:energyIcons(1)}.",
       "numbers": {
         "Block": 10
       },
       "upgrade": "Block +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -618,7 +618,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -643,7 +643,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Hurl the whole belt: one 7-damage hit per potion you've brewed this combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -778,8 +778,8 @@
       "target": "AnyEnemy",
       "text": "Deal {CalculatedDamage:diff()} damage. Deals double damage to enemies above half HP.",
       "numbers": {
-        "CalculationBase": 20,
-        "ExtraDamage": 20
+        "CalculationBase": 15,
+        "ExtraDamage": 15
       },
       "upgrade": "ExtraDamage +6, CalculationBase +6",
       "note": "Consume Youth: a heavy hit that doubles against a healthy (above half HP) target.",
@@ -829,7 +829,7 @@
       },
       "upgrade": "DeepRootsPower +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -919,7 +919,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Tutor: choose a familiar summon Power card (an <see cref=\"IFamiliarSummon\" />) from your draw pile and add it to your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -943,7 +943,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1012,7 +1012,7 @@
       },
       "upgrade": "CalculationBase +3",
       "note": "Nettles: an AoE Attack that scales with your Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1033,7 +1033,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Summons a cosmetic owl pet alongside the familiar power.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1125,7 +1125,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1174,7 +1174,7 @@
       },
       "upgrade": "Block +5, Cards +2, Damage +5",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1212,13 +1212,13 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "At the start of your turn, ALL enemies lose 5 HP and you gain 1 HP.",
+      "text": "At the start of your turn, ALL enemies lose 5 HP and you heal 1 HP.",
       "numbers": {
         "RottingRoots": 5
       },
       "upgrade": "RottingRootsPower +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1286,7 +1286,7 @@
       },
       "upgrade": "Brambles +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1355,7 +1355,7 @@
       },
       "upgrade": "Block +3, VigorPower +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1422,7 +1422,7 @@
       },
       "upgrade": "BonfirePower -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1439,7 +1439,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 7 Block. Create a Fortifier potion.",
+      "text": "Gain 7 Block. Create a Fortifier.",
       "numbers": {
         "Block": 7
       },
@@ -1509,7 +1509,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1679,7 +1679,7 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Detonate all debuffs on the enemy. Deal 20 damage for each debuff removed.",
+      "text": "Deal 20 damage for each unique debuff on the enemy, then remove them.",
       "numbers": {
         "Damage": 20
       },
@@ -1702,11 +1702,11 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "At the start of your turn, create a Vial of Smoke potion.",
+      "text": "At the start of your turn, create a Vial of Smoke.",
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Exhausts.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1730,7 +1730,7 @@
       },
       "upgrade": "StrengthPower -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1777,7 +1777,7 @@
       },
       "upgrade": "Cost -1",
       "note": "Pact of Beasts: bleed for the pack — round up EVERY familiar card (summon Powers *and* generated token cards) from your draw and discard piles into your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1821,7 +1821,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "Polymorph (was Repurpose): choose a card in your draw pile — it transforms into a random familiar summon Power card (<see cref=\"IFamiliarSummon\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1866,7 +1866,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1889,7 +1889,7 @@
       },
       "upgrade": "ThirstPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1906,13 +1906,13 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Destroy all of your potions. Deal 20 damage to ALL enemies for each.",
+      "text": "Destroy all of your Potions. Deal 20 damage to ALL enemies for each.",
       "numbers": {
         "Damage": 20
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1933,7 +1933,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2216,7 +2216,7 @@
       },
       "upgrade": "Damage +2",
       "note": "Pocket Rats token; exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2330,7 +2330,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Rip Soul: the Ancient (transcended) form of Oxidizers — tear the soul out of an enemy: heavy damage, 3 Hex, and 3 random potions.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",
