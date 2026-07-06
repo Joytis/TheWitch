@@ -61,8 +61,12 @@
       "note": "Oxidizers (starter): the next potion you play this turn is played again — one stack of <see cref=\"OxidizersPower\" />.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ]
     },
     {
       "name": "Strike",
@@ -152,10 +156,10 @@
       "tested": false,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "None"
       ],
       "role": [
-        "Enabler"
+        "Standalone"
       ]
     },
     {
@@ -198,8 +202,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Fertilize",
@@ -263,8 +271,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Lavender and Sage",
@@ -284,8 +296,7 @@
       "tested": false,
       "artFinal": false,
       "mechanics": [
-        "Potions",
-        "Debuff/Buff"
+        "Brambles"
       ],
       "role": [
         "Generator"
@@ -308,8 +319,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Pact of Agony",
@@ -330,10 +345,10 @@
       "tested": false,
       "artFinal": false,
       "mechanics": [
-        "Debuff/Buff"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
       ]
     },
     {
@@ -353,8 +368,12 @@
       "note": "Read the Bones (was Steal Bones): divine the enemy's next move — if it intends to attack, draw cards; otherwise strike it.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
     },
     {
       "name": "Spines",
@@ -441,8 +460,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Taste of Blood",
@@ -461,8 +484,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Vexing Strike",
@@ -481,8 +508,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Weathered Witch Hat",
@@ -800,8 +831,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Distill",
@@ -936,29 +971,6 @@
       ],
       "role": [
         "Generator"
-      ]
-    },
-    {
-      "name": "Hexblast",
-      "entry": "HEXBLAST",
-      "file": "TheWickenCode/Cards/Hexblast.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Detonate all debuffs on the enemy. Deal 20 damage for each debuff removed.",
-      "numbers": {
-        "Damage": 20
-      },
-      "upgrade": "Damage +3",
-      "note": "",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Debuff/Buff"
-      ],
-      "role": [
-        "Payoff"
       ]
     },
     {
@@ -1660,6 +1672,29 @@
       ]
     },
     {
+      "name": "Hexblast",
+      "entry": "HEXBLAST",
+      "file": "TheWickenCode/Cards/Hexblast.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Detonate all debuffs on the enemy. Deal 20 damage for each debuff removed.",
+      "numbers": {
+        "Damage": 20
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
       "name": "Hidden in Smoke",
       "entry": "HIDDEN_IN_SMOKE",
       "file": "TheWickenCode/Cards/HiddenInSmoke.cs",
@@ -1698,10 +1733,10 @@
       "tested": false,
       "artFinal": false,
       "mechanics": [
-        "Potions"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
       ]
     },
     {
@@ -1788,8 +1823,12 @@
       "note": "Polymorph (was Repurpose): choose a card in your draw pile — it transforms into a random familiar summon Power card (<see cref=\"IFamiliarSummon\" />).",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Rattling Bottles",
@@ -1852,8 +1891,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Unstable Reaction",
@@ -2289,8 +2332,13 @@
       "note": "Rip Soul: the Ancient (transcended) form of Oxidizers — tear the soul out of an enemy: heavy damage, 3 Hex, and 3 random potions.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Debuff/Buff",
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Wormy",

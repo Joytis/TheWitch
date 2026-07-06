@@ -79,7 +79,7 @@ Share of each pool that touches **no** pillar (`None`):
 | Regent | 41% |
 | Defect | 36% |
 | Necrobinder | 41% |
-| **Wicken (for contrast)** | **16%** |
+| **Wicken (for contrast)** | **18%** |
 
 Base classes devote roughly half their cards to generic block / draw / vanilla attacks /
 splashed debuffs. That neutral mass is what makes a deck *draftable* — flexible glue that works
@@ -235,18 +235,31 @@ than many pillars spread thin.
 
 ## How this maps onto Wicken (the reason for the study)
 
-Wicken pillars: **Brambles · Potions · Familiars** (86 cards, only 16% None).
+Wicken pillars: **Brambles · Potions · Familiars · Debuff/Buff** (103 cards incl. 14 tokens, 18% None).
 
-- **Familiars** (14 gen : 5 payoff, +12 token cards) is a summon archetype — its benchmark is
-  Necrobinder's Osty at ~1:1. The gap is payoff cards (scale-per-familiar, sacrifice-for-value),
-  not more summons.
-- **Brambles** (13 gen : 4 payoff) is the open question: it depends whether Brambles is
+| mech \ role | Gen | Payoff | Enabler | Token | Σ |
+|---|---|---|---|---|---|
+| Familiars | 12 | 5 | 5 | 13 | 32 |
+| Potions | 14 | 6 | 7 | 0 | 24 |
+| Brambles | 12 | 5 | 2 | 1 | 17 |
+| Debuff/Buff | 10 | 3 | 1 | 3 | 17 |
+| None | 0 | 0 | 3 | 0 | 19 |
+
+- **Familiars** (12 gen : 5 payoff : 5 enabler, +13 token cards) is a summon archetype — its
+  benchmark is Necrobinder's Osty at ~1:1. The gap is payoff cards (scale-per-familiar,
+  sacrifice-for-value), not more summons.
+- **Brambles** (12 gen : 5 payoff) is the open question: it depends whether Brambles is
   *self-acting* (then generator-heavy is fine, à la Poison/Strength) or *spend-it* (then it owes
   payoffs, à la Osty/Exhaust). Decide which, then size accordingly.
-- **Potions** (14 : 8 : 6) is the healthiest pillar — generators, payoffs, and enablers all
-  present, the only one that looks like a finished archetype.
-- Wicken's **16% neutral** vs. the base ~41–63% means far less draftable glue — a deliberate
+- **Potions** (14 : 6 : 7) remains the healthiest pillar — generators, payoffs, and enablers all
+  present.
+- **Debuff/Buff** (Hex enemies / gain Vigor → big multi-attacks and Strength drain) is the 4th
+  pillar, added 2026-07. 10 gen : 3 payoff looks lopsided, but the resource is *half self-acting*:
+  stolen Strength and Vigor amplify every attack on their own (Strength/Poison logic), so only the
+  debuff-exploit half (Hexblast, Soul Knot, Bag of Teeth) needs dedicated payoffs. Another 1–2
+  Uncommon/Rare payoffs (a Vigor-scaling or per-debuff attack) would firm it up.
+- Wicken's **18% neutral** vs. the base ~36–63% means far less draftable glue — a deliberate
   saturation trade.
 
-The "payoff cluster" test (lesson 1) is the gate for any proposed 4th Wicken mechanic: it's only
+The "payoff cluster" test (lesson 1) is the gate for any proposed 5th Wicken mechanic: it's only
 a pillar if 3–4 cards *exploit* it, not just apply it.
