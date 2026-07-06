@@ -69,6 +69,9 @@
   .m-Brambles,.m-Poison{background:#3a6b3a33;color:#7fd17f}
   .m-Potions,.m-Soul{background:#3a5a7b33;color:#74b6e6}
   .m-Familiars,.m-Osty{background:#7b4a8a33;color:#d28fe6}
+  .m-Debuff\/Buff{background:#8a2a3a33;color:#ff8fa8}
+  .m-Status{background:#4a4a2a33;color:#c6c67f}
+  .m-Colorless{background:#55555533;color:#cfcfcf}
   .m-Shivs{background:#5a5f6b33;color:#b9c4d6}
   .m-Discard{background:#7b5a2a33;color:#e0b24a}
   .m-Doom{background:#7b2a4a33;color:#e68fa8}
@@ -138,12 +141,12 @@ const ROLES = ["Generator","Payoff","Enabler","Token","Standalone"];
 // Per-tab config. `dev` = the mod's own cards (cards.json) with art/tested tooling + server writes.
 // `ref` = read-only base-game reference pulled from decompiled source.
 const CLASSES = {
-  wicken:      { label:"Wicken",      file:"cards.json",       mode:"dev", mechanics:["Brambles","Potions","Familiars","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
+  wicken:      { label:"Wicken",      file:"cards.json",       mode:"dev", mechanics:["Brambles","Potions","Familiars","Debuff/Buff","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
   silent:      { label:"Silent",      file:"silent.json",      mode:"ref", mechanics:["Poison","Shivs","Discard","None"],       note:"Base-game reference (decompiled). Pillars: Poison · Shivs · Discard." },
   necrobinder: { label:"Necrobinder", file:"necrobinder.json", mode:"ref", mechanics:["Osty","Soul","Doom","Ethereal","None"], note:"Base-game reference (decompiled). Pillars: Osty (summons) · Soul · Doom · Ethereal." },
   ironclad:    { label:"Ironclad",    file:"ironclad.json",    mode:"ref", mechanics:["Strength","Exhaust","Self-Harm","Vulnerable","None"], note:"Base-game reference (decompiled). Pillars: Strength · Exhaust · Self-Harm · Vulnerable." },
-  defect:      { label:"Defect",      file:"defect.json",      mode:"ref", mechanics:["Orbs","Focus","None"],                       note:"Base-game reference (decompiled). Pillars: Orbs (Channel/Evoke) · Focus." },
-  regent:      { label:"Regent",      file:"regent.json",      mode:"ref", mechanics:["Stars","Forge","Vigor","None"],              note:"Base-game reference (decompiled). Pillars: Stars · Forge (Vigor is vestigial, 2 cards)." },
+  defect:      { label:"Defect",      file:"defect.json",      mode:"ref", mechanics:["Orbs","Focus","Status","None"],              note:"Base-game reference (decompiled). Pillars: Orbs (Channel/Evoke) · Focus (amplifier) · Status (self-inflict + convert)." },
+  regent:      { label:"Regent",      file:"regent.json",      mode:"ref", mechanics:["Stars","Forge","Colorless","Vigor","None"], note:"Base-game reference (decompiled). Pillars: Stars · Forge (incl. Sovereign Blade cards) · Colorless (Vigor is vestigial, 2 cards)." },
 };
 
 let CARDS = [];

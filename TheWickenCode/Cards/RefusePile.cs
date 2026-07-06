@@ -38,10 +38,10 @@ public sealed class RefusePile : WickenCard
 
     private async Task AddRats(int count, PileType pile)
     {
-        foreach (Rats rat in FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, count, CombatState, IsUpgraded))
-        {
-            await CardPileCmd.AddGeneratedCardToCombat(rat, pile, Owner);
-        }
+        var rats = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, count, CombatState, IsUpgraded);
+        // Preview so the Rats visibly fly into the pile instead of just appearing (Call the Pack pattern).
+        var generated = await CardPileCmd.AddGeneratedCardsToCombat(rats, pile, Owner, CardPilePosition.Random);
+        CardCmd.PreviewCardPileAdd(generated);
     }
 
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);

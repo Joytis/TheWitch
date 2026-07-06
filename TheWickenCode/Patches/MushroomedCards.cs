@@ -132,7 +132,11 @@ internal static class MushroomedNCardPortraitPatch
 
     private static void Postfix(NCard __instance)
     {
-        if (__instance.Model is not { } model
+        // Reload() itself early-returns when the node isn't ready (Model can be assigned before _Ready
+        // runs, e.g. by CardCmd.Preview spawns) — the portrait TextureRects are still null then, so this
+        // postfix must bail out too or it NREs and kills the whole draw action.
+        if (!__instance.IsNodeReady()
+            || __instance.Model is not { } model
             || !MushroomedCards.TryGet(model, out _)
             || MushroomedCards.MysteryPortrait is not { } mystery)
         {

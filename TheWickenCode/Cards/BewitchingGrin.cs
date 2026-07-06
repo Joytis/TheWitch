@@ -4,17 +4,21 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Bewitching Grin: a cheap one-shot skill that saps every enemy with Weak.</summary>
+/// <summary>Bewitching Grin: a cheap one-shot skill — block up while sapping every enemy with Weak.</summary>
 public sealed class BewitchingGrin : WickenCard
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new BlockVar(5m, ValueProp.Move),
         new PowerVar<WeakPower>(2m)
     ];
 
@@ -27,6 +31,7 @@ public sealed class BewitchingGrin : WickenCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
         await PowerCmd.Apply<WeakPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["WeakPower"].BaseValue, Owner.Creature, this);
     }
 

@@ -7,10 +7,12 @@ using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
+/// <summary>Stampede: strike one enemy, then the whole menagerie tramples — each familiar hits ALL enemies.</summary>
 public sealed class Stampede : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move)
+        new DamageVar(8m, ValueProp.Move),
+        new DynamicVar("FamiliarDamage", 3m)
     ];
 
     public Stampede()
@@ -21,16 +23,21 @@ public sealed class Stampede : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
+
         int familiars = Familiars.Count(Owner.Creature);
         if (familiars <= 0)
         {
             return;
         }
-
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        await DamageCmd.Attack(DynamicVars["FamiliarDamage"].BaseValue)
             .WithHitCount(familiars)
             .FromCard(this)
-            .Targeting(cardPlay.Target)
+            .TargetingAllOpponents(CombatState!)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
     }

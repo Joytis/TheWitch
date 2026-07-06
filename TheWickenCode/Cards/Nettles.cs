@@ -27,7 +27,7 @@ public sealed class Nettles : WickenCard
     ];
 
     public Nettles()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
     {
     }
 

@@ -3,24 +3,25 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWicken.TheWickenCode.Powers;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class ForbiddenMagic : WickenCard
+/// <summary>Vexing Strike (was Vexing Thwack): an Attack that also seeds the target with Hex.</summary>
+public sealed class VexingStrike : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(20m, ValueProp.Move),
-        new PowerVar<WeakPower>(2m)
+        new DamageVar(8m, ValueProp.Move),
+        new PowerVar<HexPower>(1m)
     ];
 
-    public ForbiddenMagic()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    public VexingStrike()
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
@@ -32,11 +33,8 @@ public sealed class ForbiddenMagic : WickenCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<WeakPower>(choiceContext, Owner.Creature, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(5m);
-    }
+    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(2m);
 }

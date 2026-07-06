@@ -75,9 +75,9 @@ Share of each pool that touches **no** pillar (`None`):
 | Class | None-share |
 |---|---|
 | Silent | 63% |
-| Regent | 52% |
-| Defect | 48% |
 | Ironclad | 46% |
+| Regent | 41% |
+| Defect | 36% |
 | Necrobinder | 41% |
 | **Wicken (for contrast)** | **16%** |
 
@@ -157,33 +157,42 @@ suite. The cheapest way to widen.
   Soul Storm cashes them). 8:1 — thin, the spend-it-built-like-self-acting cautionary case.
 - **Ethereal** — the payoff-heavy "harvest the incidentals" pillar (see lesson above).
 
-## Defect — 88 cards · Orbs · Focus
+## Defect — 88 cards · Orbs · Focus · Status
 
 | mech \ role | Gen | Payoff | Enabler | Standalone | Σ |
 |---|---|---|---|---|---|
 | Orbs | 24 | 17 | 5 | 0 | 41 |
 | Focus | 4 | 2 | 0 | 0 | 6 |
-| None | 0 | 0 | 0 | 42 | 42 |
+| Status | 5 | 6 | 0 | 0 | 11 |
+| None | 0 | 0 | 0 | 32 | 32 |
 
-- **The most mono-thematic class.** Orbs is one giant engine (41 cards, 24 gen : 17 payoff) and
-  everything else is generic. Channel an orb (Zap, Cold Snap, Chaos, Tempest) ↔ evoke / trigger
-  all orbs (Dualcast, Multicast, Tesla Coil, Shatter, Barrage scales per orb). Textbook spend-it
-  balance.
+- **Orbs is one giant engine** (41 cards, 24 gen : 17 payoff). Channel an orb (Zap, Cold Snap,
+  Chaos, Tempest) ↔ evoke / trigger all orbs (Dualcast, Multicast, Tesla Coil, Shatter, Barrage
+  scales per orb). Textbook spend-it balance.
 - **Focus** is not really a second pillar — it's the orb *amplifier* (6 cards: Defragment, Biased
-  Cognition, Hotfix raise Focus; Hyperbeam spends it). It only matters *because* of orbs. Defect
-  is effectively a **one-pillar class** done very deep.
+  Cognition, Hotfix raise Focus; Hyperbeam spends it). It only matters *because* of orbs.
+- **Status** (found on a re-pass; initially misread as generic filler) is a real second pillar,
+  5 gen : 6 payoff. The generators are **above-rate cards whose downside is the Status** — Boost
+  Away (6 Block for 0 + Dazed), TURBO (2 Energy + Void), Overclock (draw 2 for 0 + Burn), Gunk Up,
+  Fight Through — and the payoffs convert that cost into a resource: Smokestack / Rocket Punch /
+  Trash to Treasure trigger **on creating** a Status (Trash to Treasure bridges straight into
+  Orbs), while Iteration (on draw), Compact (transform to Fuel), and Flak Cannon (exhaust-all,
+  damage-per) exploit Statuses **in hand** — including ones enemies inflicted, so the payoffs
+  double as anti-Status tech. Structurally this is the Ethereal model *with* its own generator
+  suite: self-inflicted downsides recast as fuel.
 - **"Powers"** felt like a theme (Defect has the most Power-type cards) but has **zero payoff
   cards** — nobody rewards *playing* a power. Card-type density ≠ a mechanic. Good reminder that
   the pillar test is about payoffs, not flavor or card-type counts.
 
-## Regent — 88 cards · Stars · Forge (· Vigor, vestigial)
+## Regent — 88 cards · Stars · Forge · Colorless (· Vigor, vestigial)
 
 | mech \ role | Gen | Payoff | Enabler | Standalone | Σ |
 |---|---|---|---|---|---|
-| Stars | 12 | 19 | 0 | 0 | 30 |
-| Forge | 11 | 1 | 4 | 0 | 12 |
+| Stars | 13 | 19 | 0 | 0 | 30 |
+| Forge | 11 | 1 | 6 | 0 | 14 |
+| Colorless | 5 | 5 | 0 | 0 | 9 |
 | Vigor | 2 | 0 | 0 | 0 | 2 |
-| None | 0 | 0 | 1 | 45 | 46 |
+| None | 0 | 0 | 0 | 36 | 36 |
 
 - **Stars** — a *spend-it* resource done right, and an instructive variant: payoffs (19) outnumber
   generators (12) because the payoffs are **star-cost cards** (Devastate, Seven Stars, Meteor
@@ -191,7 +200,21 @@ suite. The cheapest way to widen.
   fuels a deck full of expensive star-sinks. The cost-to-cast *is* the payoff distribution.
 - **Forge** — a *self-acting* resource (permanently enhances your cards), so it's generator-heavy
   (11 gen : 1 payoff) and that's **correct**, same logic as Strength/Poison. You stack Forge and
-  it keeps paying you passively; you don't need cards to "spend" it.
+  it keeps paying you passively; you don't need cards to "spend" it. The pillar includes the
+  **Sovereign Blade** suite — SB is the signature card Forge enhances, and five cards consider it
+  directly: Conqueror (SB double damage), Parry (SB gains Block), Summon Forth (tutor SB),
+  Seeking Edge (SB hits ALL), Sword Sage (SB gains Replay). These are Forge *enablers* — they
+  widen what the forged blade does rather than generating or spending Forge.
+- **Colorless** (found on a re-pass, like Defect's Status) is a real third pillar, 5 gen : 4
+  dedicated payoffs. Generators pull from the ColorlessCardPool: Manifest Authority, Quasar
+  (star-cost, doubles into Stars), Spectrum Shift (every turn), Bundle of Joy (3 at once),
+  Largesse (MP, gifts an ally one). Payoffs are **card-creation scalers** — Supermassive (damage
+  per card created this combat), Pillar of Creation (Block per creation), Arsenal (Strength per
+  creation) all hook `AfterCardGeneratedForCombat` — plus Heirloom Hammer (copy a Colorless in
+  hand, the only strictly-Colorless payoff). Note the payoffs count *any* creation, so the
+  minion-transform cards (BEGONE!, CHARGE!!, GUARDS!!) and Debris producers (Collision Course,
+  Crash Landing) feed them too — left untagged as incidental fuel, same call as Defect's
+  enemy-inflicted Statuses. This is the same hook family Wicken's Cloak of Moonlight listens to.
 - **Vigor** (2 cards) is vestigial — kept tagged to show it's *not* a pillar.
 - **No debuff pillar despite heavy Weak/Vulnerable.** Regent applies them widely (15 refs each)
   but **nothing scales off them** — the exact Weak-is-a-rider finding from Silent and Ironclad,
@@ -201,9 +224,10 @@ suite. The cheapest way to widen.
 ### Note: classes have 1–4 pillars, not a fixed 3
 
 The five base classes don't all hit the same count. Necrobinder (4: Osty/Soul/Doom/Ethereal) and
-Ironclad (4: +Vulnerable) are pillar-rich; Silent (3) is classic; **Defect is essentially 1**
-(Orbs, with Focus as its amplifier); **Regent is 2** (Stars + Forge). More pillars isn't better —
-Defect's single deep engine is one of the most beloved archetypes. The takeaway for Wicken: a
+Ironclad (4: +Vulnerable) are pillar-rich; Silent (3) is classic; **Defect is 2** (Orbs done very
+deep, with Focus as its amplifier, plus the smaller Status pillar); **Regent is 3** (Stars +
+Forge + Colorless). More pillars isn't better — Defect's deep Orb engine is one of the most
+beloved archetypes. The takeaway for Wicken: a
 character can be excellent with **few pillars done deep** (each with a real payoff cluster) rather
 than many pillars spread thin.
 

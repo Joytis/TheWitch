@@ -25,6 +25,4 @@ public sealed class CrowFamiliar : WickenCard, IFamiliarSummon
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
         await GainFamiliar<CrowFamiliarPower>(choiceContext);
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

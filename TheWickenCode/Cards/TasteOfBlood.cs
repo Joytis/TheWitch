@@ -3,25 +3,25 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWicken.TheWickenCode.Potions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Steal Bones: a strike that banks Block into The Cauldron's stats (creating it if absent).</summary>
-public sealed class StealBones : WickenCard
+/// <summary>Taste of Blood: a free nip that whets the appetite — small hit, Vigor for the next one.</summary>
+public sealed class TasteOfBlood : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPotion<TheCauldron>(),
+        HoverTipFactory.FromPower<VigorPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(6m, ValueProp.Move),
-        new BlockVar(5m, ValueProp.Unpowered)
+        new DamageVar(3m, ValueProp.Move),
+        new PowerVar<VigorPower>(3m)
     ];
 
-    public StealBones()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    public TasteOfBlood()
+        : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
@@ -33,9 +33,12 @@ public sealed class StealBones : WickenCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-
-        (await TheCauldron.EnsureInBelt(Owner))?.AddStat("Block", DynamicVars.Block.BaseValue);
+        await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, DynamicVars["VigorPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars["VigorPower"].UpgradeValueBy(1m);
+    }
 }

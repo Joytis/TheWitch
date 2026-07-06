@@ -1,4 +1,3 @@
-using System.Linq;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -9,11 +8,11 @@ using MegaCrit.Sts2.Core.Models;
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Tutor: choose a familiar summon Power card (an <see cref="IFamiliarSummon" />) from your draw or discard
-/// pile and add it to your hand. Free to play. Uses <c>CardSelectCmd.FromCombatPile</c> (the base-game tutor
-/// pattern — see Dredge) rather than <c>FromSimpleGrid</c>: the simple grid is for brand-new/reward cards and
-/// soft-locks when handed cards that already live in a combat pile. The selector is single-pile, so we point it
-/// at whichever pile actually holds familiars; with none, it returns empty and the card just discards.
+/// Tutor: choose a familiar summon Power card (an <see cref="IFamiliarSummon" />) from your draw pile and add
+/// it to your hand. Free to play. Mirrors the base-game Droplet of Precognition / Seeker Strike shape:
+/// <c>CardSelectCmd.FromCombatPile</c> over the draw pile with a <c>SelectionScreenPrompt</c>. That prompt is a
+/// REQUIRED loc key (<c>.selectionScreenPrompt</c>) — the getter throws without it, which is what previously
+/// killed the play action mid-animation and left the card hanging center screen.
 /// </summary>
 public sealed class FindFamiliar : WickenCard
 {
@@ -30,14 +29,9 @@ public sealed class FindFamiliar : WickenCard
     {
         static bool IsFamiliar(CardModel c) => c is IFamiliarSummon;
 
-        // The selector takes one combat pile; familiar summon (Power) cards live in the Draw pile in practice,
-        // but fall back to Discard so the tutor still works if one ended up there.
-        CardPile draw = PileType.Draw.GetPile(Owner);
-        CardPile pile = draw.Cards.Any(IsFamiliar) ? draw : PileType.Discard.GetPile(Owner);
-
         IEnumerable<CardModel> chosen = await CardSelectCmd.FromCombatPile(
             choiceContext,
-            pile,
+            PileType.Draw.GetPile(Owner),
             Owner,
             new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue),
             IsFamiliar);

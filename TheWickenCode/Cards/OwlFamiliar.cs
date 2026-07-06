@@ -24,6 +24,4 @@ public sealed class OwlFamiliar : WickenCard, IFamiliarSummon
 		await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
 		await GainFamiliar<OwlFamiliarPower>(choiceContext);
 	}
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -13,16 +13,18 @@ public sealed class RitualSacrifice : WickenCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(25m, ValueProp.Move),
-        new CardsVar(3)
+        new CardsVar(3),
+        new DamageVar(25m, ValueProp.Move)
     ];
 
     public RitualSacrifice()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
         bool sacrificed = await Familiars.RemoveRandom(Owner.Creature, Owner.RunState.Rng.CombatTargets);
@@ -30,6 +32,11 @@ public sealed class RitualSacrifice : WickenCard
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                .FromCard(this)
+                .Targeting(cardPlay.Target)
+                .WithHitFx("vfx/vfx_attack_slash")
+                .Execute(choiceContext);
         }
     }
 
@@ -37,5 +44,6 @@ public sealed class RitualSacrifice : WickenCard
     {
         DynamicVars.Block.UpgradeValueBy(5m);
         DynamicVars.Cards.UpgradeValueBy(2m);
+        DynamicVars.Damage.UpgradeValueBy(5m);
     }
 }

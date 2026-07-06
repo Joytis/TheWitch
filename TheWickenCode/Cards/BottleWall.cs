@@ -13,6 +13,8 @@ public sealed class BottleWall : WickenCard
 {
     public override bool GainsBlock => true;
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPotion<Fortifier>(),
     ];
@@ -22,7 +24,7 @@ public sealed class BottleWall : WickenCard
     ];
 
     public BottleWall()
-        : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 

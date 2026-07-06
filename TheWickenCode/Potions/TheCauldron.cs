@@ -87,7 +87,7 @@ public sealed class TheCauldron : WickenPotion
 
     /// <summary>
     /// Stir <paramref name="count" /> potions in: +2 Strength / +3 Heal each. The per-potion accumulation
-    /// shared by every "stir a potion into the Cauldron" effect (Brew, Witchcraft). No threshold bonuses —
+    /// shared by every "stir a potion into the Cauldron" effect (Witchcraft). No threshold bonuses —
     /// those are Witchcraft's per-cast pour extras (see <see cref="PourPotions" />).
     /// </summary>
     public void Stir(int count = 1)

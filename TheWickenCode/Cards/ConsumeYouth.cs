@@ -6,11 +6,19 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Consume Youth: a heavy hit that doubles against a healthy (above half HP) target.</summary>
+/// <summary>
+/// Consume Youth: a heavy hit that doubles against a healthy (above half HP) target. Uses the Soul Storm
+/// <see cref="CalculatedDamageVar" /> shape (base + extra × multiplier, multiplier = 1 while the target is
+/// above half HP) so the card face previews the doubled number live when targeting a healthy enemy.
+/// </summary>
 public sealed class ConsumeYouth : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(20m, ValueProp.Move)
+        new CalculationBaseVar(20m),
+        new ExtraDamageVar(20m),
+        new CalculatedDamageVar(ValueProp.Move)
+            .WithMultiplier(static (_, target) =>
+                target is { } t && t.CurrentHp * 2 > t.MaxHp ? 1m : 0m),
     ];
 
     public ConsumeYouth()
@@ -21,14 +29,17 @@ public sealed class ConsumeYouth : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        bool aboveHalf = cardPlay.Target.CurrentHp * 2 > cardPlay.Target.MaxHp;
-        decimal damage = aboveHalf ? DynamicVars.Damage.BaseValue * 2m : DynamicVars.Damage.BaseValue;
-        await DamageCmd.Attack(damage)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
+    // Both halves scale so the doubled hit stays exactly 2× (26 → 52 upgraded).
+    protected override void OnUpgrade()
+    {
+        DynamicVars["CalculationBase"].UpgradeValueBy(6m);
+        DynamicVars.ExtraDamage.UpgradeValueBy(6m);
+    }
 }

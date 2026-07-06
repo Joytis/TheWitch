@@ -812,10 +812,10 @@
       "numbers": {},
       "upgrade": "none",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -854,10 +854,10 @@
       },
       "upgrade": "Block +1",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -932,7 +932,7 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Forge"
       ],
       "role": [
         "Enabler"
@@ -972,10 +972,10 @@
       },
       "upgrade": "Block +1",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1010,10 +1010,12 @@
       "numbers": {},
       "upgrade": "none",
       "mechanics": [
-        "Stars"
+        "Stars",
+        "Colorless"
       ],
       "role": [
-        "Payoff"
+        "Payoff",
+        "Generator"
       ]
     },
     {
@@ -1134,10 +1136,10 @@
       },
       "upgrade": "Cost -1",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -1196,10 +1198,10 @@
       },
       "upgrade": "ExtraDamage +1",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1236,10 +1238,10 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1322,10 +1324,10 @@
       },
       "upgrade": "Cards +1",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Generator"
       ]
     },
     {
@@ -1521,10 +1523,10 @@
       },
       "upgrade": "Damage +5",
       "mechanics": [
-        "None"
+        "Colorless"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ]
     },
     {
@@ -1682,10 +1684,10 @@
       },
       "upgrade": "Cost -1",
       "mechanics": [
-        "None"
+        "Forge"
       ],
       "role": [
-        "Standalone"
+        "Enabler"
       ]
     },
     {
