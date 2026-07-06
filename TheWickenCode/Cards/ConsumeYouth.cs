@@ -14,8 +14,8 @@ namespace TheWicken.TheWickenCode.Cards;
 public sealed class ConsumeYouth : WickenCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CalculationBaseVar(20m),
-        new ExtraDamageVar(20m),
+        new CalculationBaseVar(15m),
+        new ExtraDamageVar(15m),
         new CalculatedDamageVar(ValueProp.Move)
             .WithMultiplier(static (_, target) =>
                 target is { } t && t.CurrentHp * 2 > t.MaxHp ? 1m : 0m),

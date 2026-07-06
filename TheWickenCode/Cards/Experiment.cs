@@ -1,6 +1,7 @@
 using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -9,7 +10,11 @@ using TheWicken.TheWickenCode.Potions.Brewing;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Experiment (was Chromatic Claws): block up while swapping a random belt potion for a fresh random one.</summary>
+/// <summary>
+/// Experiment (was Chromatic Claws): block up while swapping a random belt potion for a fresh one of the
+/// SAME rarity and orientation (GrindDown fallback chain: strict → orientation-only → any, so a Token/Event
+/// payload like a Rock still swaps into something real).
+/// </summary>
 public sealed class Experiment : WickenCard
 {
     public override bool GainsBlock => true;
@@ -35,9 +40,13 @@ public sealed class Experiment : WickenCard
         }
 
         PotionModel toDiscard = rng.NextItem(belt)!;
+        PotionOrientation orientation = PotionTraits.OrientationOf(toDiscard);
+        PotionRarity rarity = toDiscard.Rarity;
         await PotionCmd.Discard(toDiscard);
 
-        PotionModel? created = PotionCatalog.Random(PotionCatalog.Query(), rng);
+        PotionModel? created = PotionCatalog.Random(PotionCatalog.Query(orientation: orientation, rarity: rarity), rng)
+            ?? PotionCatalog.Random(PotionCatalog.Query(orientation: orientation), rng)
+            ?? PotionCatalog.Random(PotionCatalog.Query(), rng);
         if (created != null)
         {
             await PotionCmd.TryToProcure(created.ToMutable(), Owner);

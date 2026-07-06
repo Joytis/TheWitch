@@ -4,6 +4,15 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 164. Rake → Token (verified no-op)
+- **Done:** 2026-07-06 — Rake already declares `CardRarity.Token` ([Rake.cs:32](../TheWickenCode/Cards/Rake.cs)). Verified against decompiled `CardFactory`: rewards/shops match `c.Rarity == <rolled Common/Uncommon/Rare>` and transformations filter to that range, so Token never surfaces regardless of pool membership. No change made. If Rake was actually sighted in a reward/shop in-game, that's a different bug — report where it appeared.
+
+### 162 + 163. BUG: Experiment potion matching; Hexblast unique-debuff wording
+- **Done:** 2026-07-06 (shared gate)
+- **162 Experiment** ([Experiment.cs](../TheWickenCode/Cards/Experiment.cs)): the created potion now matches the discarded potion's **rarity + orientation** — `PotionTraits.OrientationOf(toDiscard)` + `toDiscard.Rarity` captured *before* the discard, then the GrindDown fallback chain (strict → orientation-only → any) so Token/Event payloads (e.g. a Rattling Bottles Rock) still swap into something real. Card text unchanged (still accurate).
+- **163 Hexblast**: code already counted each debuff **type** once (`GroupBy(GetType)` — one power instance per type regardless of stacks); loc now says "for each **unique** debuff" to match.
+- **Verified:** build 0/0, regen clean. ⚠️ Playtest Experiment: discard a Common offensive → get a Common offensive; belt with only a Rock → fallback path.
+
 ### 159 + 160 + 161. New cards: Thirst, Strike Fear, Needle Whip
 - **Done:** 2026-07-06 (shared gate)
 - **159 Thirst** ([Thirst.cs](../TheWickenCode/Cards/Thirst.cs) + [ThirstPower.cs](../TheWickenCode/Powers/ThirstPower.cs)): 1e Power Rare — new counter power on `AfterCardDrawn` (owner-guarded): gain `Amount` Vigor per card drawn; upgrade applies 2 stacks' worth (1→2 per draw).
