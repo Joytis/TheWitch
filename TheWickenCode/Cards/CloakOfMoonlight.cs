@@ -28,5 +28,5 @@ public sealed class CloakOfMoonlight : WickenCard
         await PowerCmd.Apply<CloakOfMoonlightPower>(choiceContext, Owner.Creature, DynamicVars["CloakOfMoonlightPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["CloakOfMoonlightPower"].UpgradeValueBy(1m);
 }

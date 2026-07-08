@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
+using TheWicken.TheWickenCode.Extensions;
+
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
@@ -21,6 +23,7 @@ public sealed class Knowledge : WickenFamiliarCard
     {
         if (IsUpgraded)
         {
+            WickenFx.EnchantShimmer();
             foreach (CardModel card in PileType.Hand.GetPile(Owner).Cards.Where(c => c.IsUpgradable))
             {
                 CardCmd.Upgrade(card);
@@ -31,6 +34,7 @@ public sealed class Knowledge : WickenFamiliarCard
         CardModel? card2 = await CardSelectCmd.FromHandForUpgrade(choiceContext, Owner, this);
         if (card2 != null)
         {
+            WickenFx.EnchantShimmer();
             CardCmd.Upgrade(card2);
         }
     }

@@ -32,7 +32,7 @@ public sealed class UnstableReaction : WickenCard
                 .WithHitCount(potions.Count)
                 .FromCard(this)
                 .TargetingAllOpponents(CombatState!)
-                .WithHitFx("vfx/vfx_attack_slash")
+                .WithHitFx("vfx/vfx_rock_shatter", "event:/sfx/characters/attack_fire")
                 .Execute(choiceContext);
         }
     }

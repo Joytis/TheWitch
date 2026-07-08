@@ -30,7 +30,7 @@ public sealed class CallThePack : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
 
         var gnashes = FamiliarCardRegistry.CreateFamiliarCards<Gnash>(Owner, DynamicVars.Cards.IntValue, CombatState, false);

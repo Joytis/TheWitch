@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -25,6 +26,8 @@ public sealed class Mutilate : WickenFamiliarCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await CreatureCmd.TriggerAnim(Owner.Creature, "Attack", Owner.Character.AttackAnimDelay);
+        VfxCmd.PlayOnCreatureCenter(cardPlay.Target, "vfx/vfx_heavy_blunt");
+        NDebugAudioManager.Instance?.Play("heavy_attack.mp3");
         await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage.BaseValue,
             ValueProp.Move | ValueProp.Unblockable, Owner.Creature, this);
     }

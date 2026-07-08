@@ -25,7 +25,7 @@ public sealed class Ferocity : WickenFamiliarCard
             .WithHitCount(2)
             .FromCard(this)
 			.Targeting(cardPlay.Target)
-			.WithHitFx("vfx/vfx_attack_slash")
+			.WithHitFx("vfx/vfx_scratch")
 			.Execute(choiceContext);
     }
 

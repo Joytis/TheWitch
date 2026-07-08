@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models;
+using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Powers;
 
@@ -17,6 +19,13 @@ public sealed class HexPower : WickenPower
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    /// <summary>Hex signature on every application: occult gaze + doom sting on the hexed creature.</summary>
+    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        WickenFx.HexGaze(Owner);
+        await Task.CompletedTask;
+    }
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {

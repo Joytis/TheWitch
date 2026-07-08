@@ -4,6 +4,79 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 186. Shiny! (Crow token): +Gain 2 Energy
+- **Done:** 2026-07-07 (claude) — [Shiny.cs](../TheWickenCode/Cards/Familiar/Shiny.cs): now Gain 10 Gold **and Gain 2 Energy**. Gold sfx (`gold_1`) + coin-explosion vfx were already in place — no vfx change needed. Upgrade unchanged (+5 Gold).
+- **Verified:** build 0/0; regen (Shiny! TESTED cleared). ⚠️ Playtest: 2 Energy on play.
+
+### 185. New card: Hasty Brew (fast mana)
+- **Done:** 2026-07-07 (claude) — [HastyBrew.cs](../TheWickenCode/Cards/HastyBrew.cs): 1e Skill Uncommon — Create a base-game **Energy Potion** (`PotionCmd.TryToProcure<EnergyPotion>`, gives 2 Energy when drunk); Exhaust; upgrade `RemoveKeyword(Exhaust)` (base-game Chill/Discovery pattern). Hover tip previews the potion.
+- **Design calls:** Name "Hasty Brew" (fits the Brew naming family; no loc collision).
+- **Verified:** build 0/0; regen (+Hasty Brew). ⚠️ No art (`hasty_brew.png`) — placeholder. Playtest: full-belt TryToProcure no-op.
+
+### 184. Wormy Apple potion: hover tip previews the Wormy card
+- **Done:** 2026-07-07 (claude) — Read the note as: the *Wormy Apple potion* (which adds 3 Wormy status cards) should preview the Wormy card it references. [WormyApple.cs](../TheWickenCode/Potions/WormyApple.cs): `ExtraHoverTips => [HoverTipFactory.FromCard<Wormy>()]` (PotionModel supports ExtraHoverTips natively). Flag if the intent was instead the Wormy *card* referencing something.
+- **Verified:** build 0/0; regen n/a (potion). ⚠️ Playtest hover.
+
+### 183. Rake renders as colorless token
+- **Done:** 2026-07-07 (claude) — [Rake.cs](../TheWickenCode/Cards/Rake.cs): `public override CardPoolModel VisualCardPool => ModelDb.CardPool<TokenCardPool>();` — the game's built-in "belongs to one pool, looks like another" hook (base-game Trash Heap/Clash pattern); `TokenCardPool.IsColorless => true` drives the colorless frame/energy icon. Actual pool membership unchanged (registration/`TryToProcure` intact).
+- **Verified:** build 0/0; regen no-op (visual only). ⚠️ Playtest: hover Rake via Wicker Form preview — frame should be colorless.
+
+### 182. Spines + Hide in a Bush → one card: Hide in a Bush (Spines mechanics + art)
+- **Done:** 2026-07-07 (claude, user-confirmed interpretation) — Old plain-Block HideInABush.cs deleted; Spines.cs git-mv'd to [HideInABush.cs](../TheWickenCode/Cards/HideInABush.cs) with class/id renamed (mechanics unchanged: 7 Block + 3 Brambles, upgrade +3/+1). Art: `spines.png` (both sizes) copied to `hide_in_a_bush.png`, spines art + stale `.import`s deleted. Loc: SPINES keys removed; HIDE_IN_A_BUSH description now Block + Brambles. No other code refs existed (StuckInABush unrelated).
+- **Verified:** build 0/0; regen (101 cards, −Spines, Hide in a Bush TESTED cleared). ⚠️ Run **Godot: Import assets** (new `hide_in_a_bush.png` has no `.import` yet).
+
+### 181. New card: Tinder
+- **Done:** 2026-07-07 (claude) — [Tinder.cs](../TheWickenCode/Cards/Tinder.cs): 0e Skill Common, Self — choose a hand card, Exhaust it, gain 1 Energy (upgrade +1 → 2). Select/exhaust pattern copied from Grind Down (`CardSelectCmd.FromHand` + `ExhaustSelectionPrompt`).
+- **Verified:** build 0/0; regen (102 cards, +Tinder). ⚠️ No art (`tinder.png`) — placeholder.
+
+### 180. CUT Consume Youth
+- **Done:** 2026-07-07 (claude) — Deleted `ConsumeYouth.cs`/`.uid`, loc keys, `consume_youth.png` (both sizes + .imports). Grep found no other references (standalone attack, no payloads).
+- **Verified:** build 0/0; regen (101 cards).
+
+### 179. Rats → Scavenge; CUT Nibble; Rat loot table = Plague + Scavenge
+- **Done:** 2026-07-07 (claude) — [Scavenge.cs](../TheWickenCode/Cards/Familiar/Scavenge.cs) (git-mv from Rats.cs; class/id renamed, mechanics unchanged: 5 dmg + heal 1 + draw 1). **Nibble deleted** (.cs/.uid + nibble.png both sizes + .imports; its uncommitted per-rat-hits edits died with it — per explicit staging note). [RatFamiliarPower.cs](../TheWickenCode/Powers/RatFamiliarPower.cs) table now Plague + Scavenge. Hover tips updated in RatFamiliar/PocketRats/RefusePile; loc keys RATS→SCAVENGE, NIBBLE removed; Pocket Rats + Refuse Pile texts now say `{IfUpgraded:show:Scavenge+|Scavenge}`; IRatCard/CombatHistoryQueries comments updated.
+- **Verified:** build 0/0; regen (+Scavenge, −Nibble −Rats; Refuse Pile/Pocket Rats TESTED cleared). ⚠️ No art (`scavenge.png` — rats.png never existed) — placeholder. Run **Godot: Import assets** after art lands.
+
+### 178. Cat Familiar: Nimble (Gain 1 Energy) replaces Curiosity
+- **Done:** 2026-07-07 (claude) — New token [Nimble.cs](../TheWickenCode/Cards/Familiar/Nimble.cs): 0e Skill Token Self, `PlayerCmd.GainEnergy` 1 (upgrade +1); inherits Exhaust from `WickenFamiliarCard`. Cat loot table now Ferocity + Nimble ([CatFamiliarPower.cs](../TheWickenCode/Powers/CatFamiliarPower.cs)); [CatFamiliar.cs](../TheWickenCode/Cards/CatFamiliar.cs) hover tip swapped. **Curiosity deleted** (.cs + .uid + loc keys; no art existed; FamiliarCardRegistry is reflection-based — no ref updates needed).
+- **Design calls:** Token named "Nimble" (agility theme, no loc-key collision).
+- **Verified:** build 0/0; regen (+Nimble, −Curiosity). ⚠️ No art (`nimble.png`) — placeholder. Playtest: upgraded Cat grants Nimble+ (2 Energy).
+
+### 177. Claw Eyes: 15 dmg + 3 Vulnerable
+- **Done:** 2026-07-07 (claude) — [ClawEyes.cs](../TheWickenCode/Cards/Familiar/ClawEyes.cs): was 5 dmg + 1 Weak → now 15 dmg + 3 Vulnerable (hover tip + loc swapped to Vulnerable). Kept upgrade +3 dmg and token Exhaust convention.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 176. Gather Herbs: upgrade = next TWO potions copied
+- **Done:** 2026-07-07 (claude) — [GatherHerbs.cs](../TheWickenCode/Cards/GatherHerbs.cs): new `PowerVar<NextPotionCopiedPower>(1)`; upgrade now +1 stack (replaces the old cost −1 on an already-0-cost card). Power already consumes one stack per creation — no power change. Loc mirrors the power's smartDescription: "The next {N:diff()} Potion(s) you create is/are copied" (plural tags).
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 174 + 175. Pact of Agony & Read the Bones redesigns (shared gate)
+- **Done:** 2026-07-07 (claude)
+- **174 Pact of Agony** ([PactOfAgony.cs](../TheWickenCode/Cards/PactOfAgony.cs)): Common→Uncommon; HP cost removed; 2 Wounds (was 1) to discard; 20 dmg ALL (was 15). Kept Exhaust and upgrade +5 dmg (note didn't say otherwise).
+- **175 Read the Bones** ([ReadTheBones.cs](../TheWickenCode/Cards/ReadTheBones.cs)): full redesign — now 1e **Skill** Common, single target: Apply 2 Hex + base-game `DrawCardsNextTurnPower` 2 (draw 2 next turn). Intent-check/gold-glow mechanic removed. Needed `using HexPower = ...Powers.HexPower` alias (base game also has a HexPower). Upgrade = +1 Hex (my pick — note didn't specify).
+- **Verified:** build 0/0; regen clean. ⚠️ Playtest: next-turn draw stacks with multiple plays; Hex hover tip.
+
+### 173. Weathered Witch Hat: next Skill costs 1 less
+- **Done:** 2026-07-07 (claude) — [NextSkillDiscountPower.cs](../TheWickenCode/Powers/NextSkillDiscountPower.cs): `TryModifyEnergyCostInCombatLate` now `Max(originalCost − 1, 0)` (returns false when unchanged, e.g. 0-cost skills) instead of `Min(originalCost, 1)`. Card unchanged; loc updated in cards.json + powers.json ("costs 1 less"). Consume-on-next-skill behavior unchanged (still decrements even for 0-cost skills — matches prior semantics).
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: 0-cost skill doesn't waste... actually it DOES consume the stack (pre-existing behavior) — flag if undesired.
+
+### 171 + 172. Stampede & Prices Paid upgrade reworks (shared gate)
+- **Done:** 2026-07-07 (claude)
+- **171 Stampede** ([Stampede.cs](../TheWickenCode/Cards/Stampede.cs)): upgrade now `FamiliarDamage` +2 (3→5 per familiar) instead of base +3; loc reworded to "Deal {FamiliarDamage:diff()} damage to ALL enemies for each of your Familiars" (+`diff()` so the upgrade previews green).
+- **172 Prices Paid** ([PricesPaid.cs](../TheWickenCode/Cards/PricesPaid.cs)): new `Brews` var (1); upgrade = +1 HP loss (1→2) and +1 Slicing Brew (1→2), replacing the old +3 damage; `OnPlay` loops procure; loc uses `{Brews:diff()}` + plural tag.
+- **Design calls:** Stampede upgrade amount = +2 per familiar (note didn't specify).
+- **Verified:** build 0/0; regen clean (TESTED cleared for both). ⚠️ Playtest: Prices Paid+ with full belt (TryToProcure overflow), Stampede+ preview numbers.
+
+### 165–170. Patty playtest batch: stat/loc tweaks (shared gate)
+- **Done:** 2026-07-07 (claude)
+- **165 Gnash** ([Gnash.cs](../TheWickenCode/Cards/Familiar/Gnash.cs)): per-hit scaling `ExtraDamageVar` 5→3 (base 5 and upgrade +2 unchanged).
+- **166 Wicker Form**: verified no-op — already costs 3 ([WickerForm.cs](../TheWickenCode/Cards/WickerForm.cs), uncommitted local edit predates loop).
+- **167 Lich Powder** ([LichPowder.cs](../TheWickenCode/Cards/LichPowder.cs)): cost 3→1.
+- **168 Bottomless Cauldron** ([BottomlessCauldron.cs](../TheWickenCode/Cards/BottomlessCauldron.cs)): cost 3→2 (upgrade still −1 → 1e upgraded).
+- **169 Cloak of Moonlight** ([CloakOfMoonlight.cs](../TheWickenCode/Cards/CloakOfMoonlight.cs)): upgrade now `CloakOfMoonlightPower` +1 (3→4 block per creation) instead of cost 2→1; loc already uses `{CloakOfMoonlightPower:diff()}` so green preview works.
+- **170 Broken Pact** (loc only): "Sacrifice a **random** [gold]Familiar[/gold]" — matches `Familiars.RemoveRandom` mechanics.
+- **Verified:** build 0/0; regen clean (TESTED auto-cleared for the 5 changed cards).
+
 ### 164. Rake → Token (verified no-op)
 - **Done:** 2026-07-06 — Rake already declares `CardRarity.Token` ([Rake.cs:32](../TheWickenCode/Cards/Rake.cs)). Verified against decompiled `CardFactory`: rewards/shops match `c.Rarity == <rolled Common/Uncommon/Rare>` and transformations filter to that range, so Token never surfaces regardless of pool membership. No change made. If Rake was actually sighted in a reward/shop in-game, that's a different bug — report where it appeared.
 

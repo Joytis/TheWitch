@@ -26,6 +26,7 @@ public sealed class ScoutWeakness : WickenFamiliarCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        VfxCmd.PlayOnCreatureCenter(cardPlay.Target, VfxCmd.gazePath);
         await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
     }
 

@@ -47,7 +47,7 @@ public sealed class Mulch : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue * count)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_thrash", null, "heavy_attack.mp3")
             .Execute(choiceContext);
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue * count, Owner.Creature, this);
     }

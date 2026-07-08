@@ -62,5 +62,5 @@ public sealed class ExtractEssence : WickenCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
 }

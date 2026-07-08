@@ -8,6 +8,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using TheWicken.TheWickenCode.Potions;
 
+using TheWicken.TheWickenCode.Extensions;
+
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
@@ -39,6 +41,7 @@ public sealed class LightTheCandle : WickenCard
         {
             CardModel pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(upgradable)!;
             upgradable.Remove(pick);
+            WickenFx.EnchantShimmer();
             CardCmd.Upgrade(pick);
         }
 

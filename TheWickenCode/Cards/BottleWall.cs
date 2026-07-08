@@ -20,7 +20,7 @@ public sealed class BottleWall : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(7m, ValueProp.Move)
+        new BlockVar(8m, ValueProp.Move)
     ];
 
     public BottleWall()
@@ -34,5 +34,5 @@ public sealed class BottleWall : WickenCard
         await PotionCmd.TryToProcure<Fortifier>(Owner);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);
 }

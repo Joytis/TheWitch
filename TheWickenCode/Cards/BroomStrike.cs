@@ -32,7 +32,7 @@ public sealed class BroomStrike : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_heavy_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
 
         CardModel? skill = PileType.Draw.GetPile(Owner).Cards

@@ -36,7 +36,7 @@ public sealed class ExtractLife : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bloody_impact")
             .Execute(choiceContext);
 
         List<CardModel> hand = PileType.Hand.GetPile(Owner).Cards

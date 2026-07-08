@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cedlwisbd1jbh"
-path="res://.godot/imported/nibble.png-d0b2d13e802608351c33a7ddbec603a5.ctex"
+uid="uid://daoh8vbtfl2mg"
+path="res://.godot/imported/hide_in_a_bush.png-8f061c17c27b233e64968ee00211f85a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWicken/images/card_portraits/nibble.png"
-dest_files=["res://.godot/imported/nibble.png-d0b2d13e802608351c33a7ddbec603a5.ctex"]
+source_file="res://TheWicken/images/card_portraits/big/hide_in_a_bush.png"
+dest_files=["res://.godot/imported/hide_in_a_bush.png-8f061c17c27b233e64968ee00211f85a.ctex"]
 
 [params]
 

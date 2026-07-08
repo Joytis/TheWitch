@@ -36,7 +36,7 @@ public sealed class Nettles : WickenCard
         await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this)
             .TargetingAllOpponents(CombatState!)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_scratch")
             .Execute(choiceContext);
     }
 

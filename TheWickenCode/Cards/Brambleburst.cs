@@ -37,7 +37,7 @@ public sealed class Brambleburst : WickenCard
             .WithHitCount(brambles)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_thrash", null, "heavy_attack.mp3")
             .Execute(choiceContext);
         await PowerCmd.Remove<BramblesPower>(Owner.Creature);
     }

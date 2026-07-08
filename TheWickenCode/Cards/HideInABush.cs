@@ -10,7 +10,8 @@ using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-public sealed class Spines : WickenCard
+/// <summary>Hide in a Bush (formerly Spines): Block plus Brambles.</summary>
+public sealed class HideInABush : WickenCard
 {
 	public override bool GainsBlock => true;
 
@@ -19,7 +20,7 @@ public sealed class Spines : WickenCard
         new PowerVar<BramblesPower>(3m)
     ];
 
-	public Spines()
+	public HideInABush()
 		: base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 	{
 	}

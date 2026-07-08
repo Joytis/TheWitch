@@ -11,7 +11,7 @@ public sealed class RatFamiliar : WickenCard, IFamiliarSummon
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<RatFamiliarPower>(),
         HoverTipFactory.FromCard<Plague>(IsUpgraded),
-        HoverTipFactory.FromCard<Nibble>(IsUpgraded),
+        HoverTipFactory.FromCard<Scavenge>(IsUpgraded),
     ];
 
     public RatFamiliar()

@@ -35,7 +35,7 @@ public sealed class RitualSacrifice : WickenCard
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this)
                 .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_slash")
+                .WithHitFx("vfx/vfx_spooky_scream", null, "heavy_attack.mp3")
                 .Execute(choiceContext);
         }
     }

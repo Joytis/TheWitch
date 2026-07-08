@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Pact of Agony: bleed yourself and clog your deck for a heavy strike on every enemy.</summary>
+/// <summary>Pact of Agony: clog your deck with Wounds for a heavy strike on every enemy.</summary>
 public sealed class PactOfAgony : WickenCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -17,21 +17,19 @@ public sealed class PactOfAgony : WickenCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new HpLossVar(2m),
-        new CardsVar(1),
-        new DamageVar(15m, ValueProp.Move)
+        new CardsVar(2),
+        new DamageVar(20m, ValueProp.Move)
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public PactOfAgony()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this);
         for (int i = 0; i < DynamicVars.Cards.IntValue; i++)
         {
             CardModel wound = CombatState!.CreateCard<Wound>(Owner);
@@ -40,7 +38,7 @@ public sealed class PactOfAgony : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .TargetingAllOpponents(CombatState!)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bloody_impact")
             .Execute(choiceContext);
     }
 

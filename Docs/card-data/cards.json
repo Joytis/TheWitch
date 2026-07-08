@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-06",
+  "generated": "2026-07-08",
   "cards": [
     {
       "name": "Defend",
@@ -36,9 +36,9 @@
       "numbers": {
         "Damage": 8
       },
-      "upgrade": "Damage +3",
+      "upgrade": "Damage +6",
       "note": "ExtractEssence: deal damage; on unblocked damage, create a random potion whose rarity matches the encounter tier — Common in normal fights, Uncommon vs elites, Rare vs bosses.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -99,14 +99,14 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 2 damage 4 times.",
+      "text": "Deal 1 damage 6 times.",
       "numbers": {
-        "Damage": 2,
-        "Repeat": 4
+        "Damage": 1,
+        "Repeat": 6
       },
-      "upgrade": "Repeat +1",
+      "upgrade": "Repeat +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -263,13 +263,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 9 Block.",
+      "text": "Gain 7 Block. Gain 3 Brambles.",
       "numbers": {
-        "Block": 9
+        "Brambles": 3,
+        "Block": 7
       },
-      "upgrade": "Block +3",
+      "upgrade": "Block +3, Brambles +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -286,14 +287,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Draw 1 card. Gain 4 Brambles.",
+      "text": "Draw 1 card. Gain 5 Brambles.",
       "numbers": {
-        "Brambles": 4,
+        "Brambles": 5,
         "Cards": 1
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -327,76 +328,27 @@
       ]
     },
     {
-      "name": "Pact of Agony",
-      "entry": "PACT_OF_AGONY",
-      "file": "TheWickenCode/Cards/PactOfAgony.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Common",
-      "target": "AllEnemies",
-      "text": "Lose 2 HP. Add 1 Wound into your Discard Pile. Deal 15 damage to ALL enemies.",
-      "numbers": {
-        "HpLoss": 2,
-        "Cards": 1,
-        "Damage": 15
-      },
-      "upgrade": "Damage +5",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
-      ]
-    },
-    {
       "name": "Read the Bones",
       "entry": "READ_THE_BONES",
       "file": "TheWickenCode/Cards/ReadTheBones.cs",
       "cost": 1,
-      "type": "Attack",
+      "type": "Skill",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "If the enemy intends to attack, draw 2 cards. Otherwise, deal 9 damage.",
+      "text": "Apply 2 Hex. Next turn, draw 2 cards.",
       "numbers": {
-        "Cards": 2,
-        "Damage": 9
+        "Hex": 2,
+        "Cards": 2
       },
-      "upgrade": "Damage +3",
-      "note": "Read the Bones (was Steal Bones): divine the enemy's next move — if it intends to attack, draw cards; otherwise strike it.",
-      "tested": true,
+      "upgrade": "HexPower +1",
+      "note": "Read the Bones: curse the enemy now, divine your next draw — apply Hex, then draw extra cards next turn (base-game <see cref=\"DrawCardsNextTurnPower\" />).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
       ],
       "role": [
         "Standalone"
-      ]
-    },
-    {
-      "name": "Spines",
-      "entry": "SPINES",
-      "file": "TheWickenCode/Cards/Spines.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Common",
-      "target": "Self",
-      "text": "Gain 7 Block. Gain 3 Brambles.",
-      "numbers": {
-        "Brambles": 3,
-        "Block": 7
-      },
-      "upgrade": "Block +3, Brambles +1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Brambles"
-      ],
-      "role": [
-        "Generator"
       ]
     },
     {
@@ -407,13 +359,13 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. Your Familiars each deal {FamiliarDamage} damage to ALL enemies.",
+      "text": "Deal 8 damage. Deal {FamiliarDamage:diff()} damage to ALL enemies for each of your Familiars.",
       "numbers": {
         "Damage": 8
       },
-      "upgrade": "Damage +3",
+      "upgrade": "FamiliarDamage +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -492,6 +444,23 @@
       ]
     },
     {
+      "name": "Tinder",
+      "entry": "TINDER",
+      "file": "TheWickenCode/Cards/Tinder.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Exhaust a card. Gain {Energy:diff()} Energy.",
+      "numbers": {},
+      "upgrade": "Energy +1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Vexing Strike",
       "entry": "VEXING_STRIKE",
       "file": "TheWickenCode/Cards/VexingStrike.cs",
@@ -523,7 +492,7 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 10 Block. The next Skill you play costs 1 {energyPrefix:energyIcons(1)}.",
+      "text": "Gain 10 Block. The next Skill you play costs 1 less.",
       "numbers": {
         "Block": 10
       },
@@ -631,7 +600,7 @@
       "name": "Bottle Barrage",
       "entry": "BOTTLE_BARRAGE",
       "file": "TheWickenCode/Cards/BottleBarrage.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
@@ -643,7 +612,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Hurl the whole belt: one 7-damage hit per potion you've brewed this combat.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -756,9 +725,9 @@
       "numbers": {
         "CloakOfMoonlight": 3
       },
-      "upgrade": "Cost -1",
+      "upgrade": "CloakOfMoonlightPower +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -766,30 +735,6 @@
       ],
       "role": [
         "Payoff"
-      ]
-    },
-    {
-      "name": "Consume Youth",
-      "entry": "CONSUME_YOUTH",
-      "file": "TheWickenCode/Cards/ConsumeYouth.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal {CalculatedDamage:diff()} damage. Deals double damage to enemies above half HP.",
-      "numbers": {
-        "CalculationBase": 15,
-        "ExtraDamage": 15
-      },
-      "upgrade": "ExtraDamage +6, CalculationBase +6",
-      "note": "Consume Youth: a heavy hit that doubles against a healthy (above half HP) target.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
       ]
     },
     {
@@ -842,7 +787,7 @@
       "name": "Distill",
       "entry": "DISTILL",
       "file": "TheWickenCode/Cards/Distill.cs",
-      "cost": 1,
+      "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
@@ -850,7 +795,7 @@
       "numbers": {},
       "upgrade": "Potions +1",
       "note": "Distill (renamed from Brew): upgrade a random potion in the player's belt to a higher-rarity one sharing its traits (see <see cref=\"PotionUpgrade\" />).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -974,6 +919,23 @@
       ]
     },
     {
+      "name": "Hasty Brew",
+      "entry": "HASTY_BREW",
+      "file": "TheWickenCode/Cards/HastyBrew.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Create an Energy Potion.",
+      "numbers": {},
+      "upgrade": "custom (see code)",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Light the Candle",
       "entry": "LIGHT_THE_CANDLE",
       "file": "TheWickenCode/Cards/LightTheCandle.cs",
@@ -1043,6 +1005,30 @@
       ]
     },
     {
+      "name": "Pact of Agony",
+      "entry": "PACT_OF_AGONY",
+      "file": "TheWickenCode/Cards/PactOfAgony.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AllEnemies",
+      "text": "Add 2 Wounds into your Discard Pile. Deal 20 damage to ALL enemies.",
+      "numbers": {
+        "Cards": 2,
+        "Damage": 20
+      },
+      "upgrade": "Damage +5",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ]
+    },
+    {
       "name": "Pact of Fury",
       "entry": "PACT_OF_FURY",
       "file": "TheWickenCode/Cards/PactOfFury.cs",
@@ -1097,14 +1083,14 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 1 HP. Deal 6 damage. Create a Slicing Brew.",
+      "text": "Lose 1 HP. Deal 6 damage. Create {Brews:diff()} Slicing Brews.",
       "numbers": {
         "HpLoss": 1,
         "Damage": 6
       },
-      "upgrade": "Damage +3",
+      "upgrade": "HpLoss +1, Brews +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1142,14 +1128,14 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 11 Block. Add 2 Rats into both your Draw Pile and Discard Pile.",
+      "text": "Gain 11 Block. Add 2 Scavenge into both your Draw Pile and Discard Pile.",
       "numbers": {
         "Block": 11,
         "Cards": 2
       },
       "upgrade": "Block +4",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1439,11 +1425,11 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 7 Block. Create a Fortifier.",
+      "text": "Gain 8 Block. Create a Fortifier.",
       "numbers": {
-        "Block": 7
+        "Block": 8
       },
-      "upgrade": "Block +1",
+      "upgrade": "Block +4",
       "note": "",
       "tested": false,
       "artFinal": false,
@@ -1458,7 +1444,7 @@
       "name": "Bottomless Cauldron",
       "entry": "BOTTOMLESS_CAULDRON",
       "file": "TheWickenCode/Cards/BottomlessCauldron.cs",
-      "cost": 3,
+      "cost": 2,
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
@@ -1466,7 +1452,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1484,11 +1470,11 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Sacrifice a Familiar. Heal {Heal:diff()} HP.",
+      "text": "Sacrifice a random Familiar. Heal {Heal:diff()} HP.",
       "numbers": {},
       "upgrade": "Heal +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1610,15 +1596,17 @@
       "name": "Gather Herbs",
       "entry": "GATHER_HERBS",
       "file": "TheWickenCode/Cards/GatherHerbs.cs",
-      "cost": 1,
+      "cost": 0,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Copy the next Potion you create.",
-      "numbers": {},
-      "upgrade": "Cost -1",
+      "text": "The next 1 Potion you create is copied.",
+      "numbers": {
+        "NextPotionCopied": 1
+      },
+      "upgrade": "NextPotionCopiedPower +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1719,7 +1707,7 @@
       "name": "Lich Powder",
       "entry": "LICH_POWDER",
       "file": "TheWickenCode/Cards/LichPowder.cs",
-      "cost": 3,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
@@ -1730,7 +1718,7 @@
       },
       "upgrade": "StrengthPower -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1794,13 +1782,13 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Add 3 Rats into your Hand.",
+      "text": "Add 3 Scavenge into your Hand.",
       "numbers": {
         "Cards": 3
       },
       "upgrade": "Cards +1",
       "note": "Exhausts.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1925,7 +1913,7 @@
       "name": "Wicker Form",
       "entry": "WICKER_FORM",
       "file": "TheWickenCode/Cards/WickerForm.cs",
-      "cost": 2,
+      "cost": 3,
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
@@ -1933,7 +1921,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1971,14 +1959,14 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Apply 1 Weak.",
+      "text": "Deal 15 damage. Apply 3 Vulnerable.",
       "numbers": {
-        "Weak": 1,
-        "Damage": 5
+        "Vulnerable": 3,
+        "Damage": 15
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -1986,30 +1974,6 @@
       ],
       "role": [
         "Token"
-      ]
-    },
-    {
-      "name": "Curiosity",
-      "entry": "CURIOSITY",
-      "file": "TheWickenCode/Cards/Familiar/Curiosity.cs",
-      "cost": 0,
-      "type": "Skill",
-      "rarity": "Token",
-      "target": "Self",
-      "text": "Draw 2 cards. Put a card from your Hand on top of your Draw Pile.",
-      "numbers": {
-        "Cards": 2
-      },
-      "upgrade": "Cards +1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Token",
-        "Enabler"
       ]
     },
     {
@@ -2044,14 +2008,14 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal {CalculatedDamage:diff()} damage. Deals 5 additional damage for each Gnash played this combat.",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 3 additional damage for each Gnash played this combat.",
       "numbers": {
         "CalculationBase": 5,
-        "ExtraDamage": 5
+        "ExtraDamage": 3
       },
       "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2129,27 +2093,21 @@
       ]
     },
     {
-      "name": "Nibble",
-      "entry": "NIBBLE",
-      "file": "TheWickenCode/Cards/Familiar/Nibble.cs",
+      "name": "Nimble",
+      "entry": "NIMBLE",
+      "file": "TheWickenCode/Cards/Familiar/Nimble.cs",
       "cost": 0,
-      "type": "Attack",
+      "type": "Skill",
       "rarity": "Token",
-      "target": "AnyEnemy",
-      "text": "Deal 1 damage. Hits once for each Rat card played this combat, including itself.",
-      "numbers": {
-        "Damage": 1
-      },
-      "upgrade": "Damage +1",
-      "note": "Rat familiar token.",
-      "tested": true,
+      "target": "Self",
+      "text": "Gain {Energy:diff()} Energy.",
+      "numbers": {},
+      "upgrade": "Energy +1",
+      "note": "",
+      "tested": false,
       "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Token"
-      ]
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Plague",
@@ -2202,9 +2160,9 @@
       ]
     },
     {
-      "name": "Rats",
-      "entry": "RATS",
-      "file": "TheWickenCode/Cards/Familiar/Rats.cs",
+      "name": "Scavenge",
+      "entry": "SCAVENGE",
+      "file": "TheWickenCode/Cards/Familiar/Scavenge.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -2214,16 +2172,12 @@
         "Damage": 5,
         "Cards": 1
       },
-      "upgrade": "Damage +2",
-      "note": "Pocket Rats token; exhausts.",
-      "tested": true,
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false,
       "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Token"
-      ]
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Scout Weakness",
@@ -2257,11 +2211,11 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain {Gold:diff()} Gold.",
+      "text": "Gain {Gold:diff()} Gold. Gain {Energy:diff()} Energy.",
       "numbers": {},
       "upgrade": "Gold +5",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"

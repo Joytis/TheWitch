@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
 using TheWicken.TheWickenCode.Cards;
+using TheWicken.TheWickenCode.Extensions;
 using TheWicken.TheWickenCode.Monsters;
 
 namespace TheWicken.TheWickenCode.Powers;
@@ -74,6 +75,9 @@ public abstract class FamiliarPower : WickenPower
         {
             return;
         }
+
+        // Summon signature: ghostly aura + summon sting on every familiar gained (assets preloaded via Wicken.ExtraAssetPaths).
+        WickenFx.SummonFlourish(Owner);
 
         if (FindPet(player) != null)
         {

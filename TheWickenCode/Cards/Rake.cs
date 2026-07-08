@@ -3,6 +3,9 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWicken.TheWickenCode.Extensions;
 using TheWicken.TheWickenCode.Powers;
@@ -16,6 +19,9 @@ namespace TheWicken.TheWickenCode.Cards;
 /// </summary>
 public sealed class Rake : WickenCard
 {
+    // Reads as a colorless token, not a witch card (Trash Heap / Clash VisualCardPool pattern).
+    public override CardPoolModel VisualCardPool => ModelDb.CardPool<TokenCardPool>();
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -39,7 +45,8 @@ public sealed class Rake : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            // Thorn hit: swamp-green slice (preloaded via Wicken.ExtraAssetPaths).
+            .WithHitVfxNode(t => NThinSliceVfx.Create(t, VfxColor.Swamp))
             .Execute(choiceContext);
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);

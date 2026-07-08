@@ -16,7 +16,7 @@ public sealed class Gnash : WickenFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CalculationBaseVar(5m),
-        new ExtraDamageVar(5m),
+        new ExtraDamageVar(3m),
         new CalculatedDamageVar(ValueProp.Move)
             .WithMultiplier((card, _) =>
                 card.Owner?.Creature is { } creature
@@ -35,7 +35,7 @@ public sealed class Gnash : WickenFamiliarCard
         await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
     }
 

@@ -16,7 +16,7 @@ public sealed class CatFamiliar : WickenCard, IFamiliarSummon
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<CatFamiliarPower>(),
         HoverTipFactory.FromCard<Ferocity>(IsUpgraded),
-        HoverTipFactory.FromCard<Curiosity>(IsUpgraded),
+        HoverTipFactory.FromCard<Nimble>(IsUpgraded),
     ];
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -26,7 +26,7 @@ public sealed class Stampede : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
 
         int familiars = Familiars.Count(Owner.Creature);
@@ -38,9 +38,9 @@ public sealed class Stampede : WickenCard
             .WithHitCount(familiars)
             .FromCard(this)
             .TargetingAllOpponents(CombatState!)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_thrash")
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["FamiliarDamage"].UpgradeValueBy(2m);
 }
