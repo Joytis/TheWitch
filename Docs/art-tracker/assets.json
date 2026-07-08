@@ -1,0 +1,251 @@
+{
+  "comment": "Non-card art assets for the art tracker. Hand-maintained. Per asset: 'artist' (who is working on it — fill in manually) and 'done': true when final art is in. Status is DERIVED: done → Done; artist set → In Progress; else Placeholder. Cards are NOT listed here — they come from ../card-data/cards.json (artFinal) + ./card-briefs.json (artist/brief).",
+  "categories": [
+    {
+      "id": "potions",
+      "title": "Potions",
+      "dims": "256x256",
+      "assets": [
+        {
+          "name": "Fertilizer",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Common",
+          "orientation": "Defensive",
+          "effect": "Gain Brambles.",
+          "path": "TheWitch/images/potions/fertilizer.png"
+        },
+        {
+          "name": "Wormy Apple",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Uncommon",
+          "orientation": "Neutral",
+          "effect": "Heal HP. Add Wormy cards into your Hand.",
+          "path": "TheWitch/images/potions/wormy_apple.png"
+        },
+        {
+          "name": "Slicing Brew",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Token",
+          "orientation": "Offensive",
+          "effect": "Deal damage multiple times. (Card-only payload: Prices Paid)",
+          "path": "TheWitch/images/potions/slicing_brew.png"
+        },
+        {
+          "name": "Buddy in a Bottle",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Rare",
+          "orientation": "Utility",
+          "effect": "Add a random Familiar into your Hand for free this turn.",
+          "path": "TheWitch/images/potions/buddy_in_a_bottle.png"
+        },
+        {
+          "name": "Vial of Smoke",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Token",
+          "orientation": "Defensive",
+          "effect": "Gain Block. (Card-only payload: Light the Candle / Hidden in Smoke)",
+          "path": "TheWitch/images/potions/vial_of_smoke.png"
+        },
+        {
+          "name": "Noxious Brew",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Token",
+          "orientation": "Offensive",
+          "effect": "Deal damage. (Card-only payload: Bottomless Cauldron)",
+          "path": "TheWitch/images/potions/noxious_brew.png"
+        },
+        {
+          "name": "The Cauldron",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Token",
+          "orientation": "Utility",
+          "effect": "Evil concoction — mixed effect from poured-in potions (pairs with Witchcraft).",
+          "path": "TheWitch/images/potions/the_cauldron.png"
+        },
+        {
+          "name": "Mushroom Extract",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Rare",
+          "orientation": "Utility",
+          "effect": "Discard Hand, draw 6 cards that cost 0 for the rest of combat.",
+          "path": "TheWitch/images/potions/mushroom_extract.png"
+        }
+      ]
+    },
+    {
+      "id": "relics",
+      "title": "Relics",
+      "dims": "256x256",
+      "assets": [
+        {
+          "name": "Large Pockets",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Starter",
+          "effect": "Upon pickup gain potion slots. Starting relic.",
+          "path": "TheWitch/images/relics/big/large_pockets.png"
+        },
+        {
+          "name": "Wormy's Apple",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Uncommon",
+          "effect": "Upon pickup gain Max HP. Each combat, add a Wormy into your Hand.",
+          "path": "TheWitch/images/relics/big/wormys_apple.png"
+        }
+      ]
+    },
+    {
+      "id": "pets",
+      "title": "Familiar Pets",
+      "dims": "Flexible — sprite is scaled in code (~0.4x). Match card-art res, e.g. 1000x760.",
+      "assets": [
+        {
+          "name": "Wolf Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; currently reuses Wolf Familiar card art.",
+          "path": "TheWitch/images/card_portraits/big/wolf_familiar.png"
+        },
+        {
+          "name": "Bear Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; currently reuses Bear Familiar card art.",
+          "path": "TheWitch/images/card_portraits/big/bear_familiar.png"
+        },
+        {
+          "name": "Owl Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; currently reuses Owl Familiar card art.",
+          "path": "TheWitch/images/card_portraits/big/owl_familiar.png"
+        },
+        {
+          "name": "Cat Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; currently reuses Cat Familiar card art.",
+          "path": "TheWitch/images/card_portraits/big/cat_familiar.png"
+        },
+        {
+          "name": "Rat Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; currently reuses Rat Familiar card art.",
+          "path": "TheWitch/images/card_portraits/big/rat_familiar.png"
+        },
+        {
+          "name": "Crow Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; currently reuses Crow Familiar card art.",
+          "path": "TheWitch/images/card_portraits/big/crow_familiar.png"
+        }
+      ]
+    },
+    {
+      "id": "charui",
+      "title": "Character & UI",
+      "dims": "",
+      "assets": [
+        {
+          "name": "Character Select Portrait",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "132x195",
+          "effect": "Character select screen portrait.",
+          "path": "TheWitch/images/charui/char_select_char_name.png"
+        },
+        {
+          "name": "Character Select Portrait (Locked)",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "132x195",
+          "effect": "Locked-state variant of the select portrait.",
+          "path": "TheWitch/images/charui/char_select_char_name_locked.png"
+        },
+        {
+          "name": "Character Icon",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "128x128",
+          "effect": "Small in-run character badge icon.",
+          "path": "TheWitch/images/charui/character_icon_char_name.png"
+        },
+        {
+          "name": "Map Marker",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "128x128",
+          "effect": "Icon shown on the world map.",
+          "path": "TheWitch/images/charui/map_marker_char_name.png"
+        },
+        {
+          "name": "Big Energy Icon",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "74x74",
+          "effect": "Large energy orb icon.",
+          "path": "TheWitch/images/charui/big_energy.png"
+        },
+        {
+          "name": "Text Energy Icon",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "24x24",
+          "effect": "Small inline energy icon used in card text.",
+          "path": "TheWitch/images/charui/text_energy.png"
+        },
+        {
+          "name": "Combat Body Sprite / Animations",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "TBD — full animated sprite set",
+          "effect": "The in-combat character body. No override exists yet (PlaceholderCharacterModel) — renders as base-game Ironclad. Biggest missing asset.",
+          "path": ""
+        },
+        {
+          "name": "Card Frame Fallbacks",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "dims": "card 1000x760 / potion 256x256 / relic 94x94 + 256x256 / power 64x64 + 256x256",
+          "effect": "Generic fallback images (card.png, potion.png, relic.png, relic_outline.png, power.png, mystery.png) shown when a specific asset is missing.",
+          "path": "TheWitch/images/card_portraits/mystery.png"
+        }
+      ]
+    }
+  ]
+}

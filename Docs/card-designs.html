@@ -56,6 +56,11 @@
   .afinal:disabled{opacity:.3;cursor:not-allowed}
   .afinal.on{border-color:var(--ok);color:var(--ok)}
   .tcell{text-align:center;white-space:nowrap}
+  .bfield{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 8px;font:12px "Segoe UI",system-ui,sans-serif}
+  .bfield:focus{outline:none;border-color:var(--accent)}
+  .bfield.saved{border-color:var(--ok)}
+  input.aartist{width:90px}
+  textarea.abrief{width:170px;min-height:28px;resize:vertical;line-height:1.35}
   .tog{cursor:pointer;font-size:18px;background:none;border:none;color:var(--no)}
   .tog.on{color:var(--ok)}
   .badge{font-size:10px;color:var(--muted);display:block}
@@ -150,6 +155,7 @@ const CLASSES = {
 };
 
 let CARDS = [];
+let BRIEFS = {};
 let CLS = "witch";
 let MECH = CLASSES.witch.mechanics;
 let MODE = "dev";
@@ -193,6 +199,10 @@ async function load(){
     document.getElementById("subline").innerHTML = cfg.note + (d.generated ? ` <span class="muted">· ${d.generated}</span>` : "");
     SERVER = (location.protocol === "http:" || location.protocol === "https:");
     if(MODE==="dev" && !SERVER) document.body.classList.add("nosrv");
+    if(MODE==="dev" && SERVER){
+      try{ BRIEFS = (await (await fetch("/briefs.json?_="+Date.now())).json()).briefs || {}; }
+      catch(e){ BRIEFS = {}; }
+    }
     buildHead();
     buildRarityChips();
     buildTagChips();
@@ -210,7 +220,7 @@ function buildHead(){
   const cols = [];
   if(dev) cols.push(`<th>Art</th>`);
   cols.push(`<th data-k="name">Card</th>`,`<th data-k="cost">Cost</th>`,`<th data-k="type">Type</th>`,`<th data-k="rarity">Rarity</th>`,`<th>Category</th>`,`<th>Text</th>`,`<th>Numbers</th>`,`<th>Upgrade</th>`);
-  if(dev) cols.push(`<th>Add</th>`,`<th data-k="art">Art State</th>`,`<th data-k="tested">Tested</th>`);
+  if(dev) cols.push(`<th>Artist</th>`,`<th>Art Brief</th>`,`<th>Add</th>`,`<th data-k="art">Art State</th>`,`<th data-k="tested">Tested</th>`);
   document.getElementById("head").innerHTML = cols.join("");
   document.querySelectorAll("th[data-k]").forEach(th=>{
     th.onclick=()=>{ const k=th.dataset.k; state.dir = (state.sort===k)? -state.dir : 1; state.sort=k; render(); };
@@ -355,7 +365,10 @@ function render(){
       const isNone = art === "none";
       const artLabel = {none:"No Art", placeholder:"Placeholder", final:"Final"}[art];
       html += `<td class="thumb"><img loading="lazy" src="art/${esc(c.entry)}.png?v=${imgver}" class="${isNone?"noart":""}" alt="" title="${esc(c.entry.toLowerCase())}.png — click to open"></td>`;
+      const bf = BRIEFS[c.name] || {};
       var devTail = `
+        <td><input class="bfield aartist" data-name="${esc(c.name)}" value="${esc(bf.artist||"")}" placeholder="—" title="Artist working on this card (saved on change)"></td>
+        <td><textarea class="bfield abrief" data-name="${esc(c.name)}" rows="1" placeholder="notes for the artist…" title="Art brief (saved on change)">${esc(bf.brief||"")}</textarea></td>
         <td><button class="copy" data-cmd="card THEWITCH-${esc(c.entry)}" title="copy console command">card THEWITCH-${esc(c.entry)}</button></td>
         <td class="artcell">
           <span class="artbadge art-${art}">${artLabel}</span>
@@ -482,6 +495,27 @@ document.addEventListener("click", async (e)=>{
 });
 
 document.getElementById("q").addEventListener("input", e=>{ state.q=e.target.value; render(); });
+
+// Artist / Art-Brief fields: save both values for the row whenever either changes.
+document.addEventListener("change", async (e)=>{
+  const f = e.target.closest(".bfield");
+  if(!f || MODE!=="dev") return;
+  const name = f.dataset.name;
+  const tr = f.closest("tr");
+  const artist = (tr.querySelector(".aartist")?.value || "").trim();
+  const brief = (tr.querySelector(".abrief")?.value || "").trim();
+  if(artist || brief) BRIEFS[name] = { artist, brief }; else delete BRIEFS[name];
+  if(SERVER){
+    try{
+      const r = await fetch("/api/brief",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,artist,brief})});
+      if(!r.ok) throw new Error(await r.text());
+      f.classList.add("saved"); setTimeout(()=>f.classList.remove("saved"), 800);
+    }catch(err){
+      document.body.classList.add("nosrv");
+      alert("Could not save Artist/Brief change — is the server running?\n"+err);
+    }
+  } else { document.body.classList.add("nosrv"); }
+});
 
 document.body.classList.add("devmode");
 buildTabs();
