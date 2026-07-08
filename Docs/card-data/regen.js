@@ -253,6 +253,10 @@ function main() {
 
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + "\n");
   console.log(`Wrote ${path.relative(ROOT, OUT_PATH).split(path.sep).join("/")}`);
+
+  // keep the static art tracker page in sync with the fresh card data
+  require("child_process").execFileSync(process.execPath,
+    [path.join(ROOT, "Docs", "art-tracker", "regen-art-tracker.js")], { stdio: "inherit" });
 }
 
 main();

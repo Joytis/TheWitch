@@ -23,6 +23,24 @@ function send(res, code, body, type) {
 const readData = () => JSON.parse(fs.readFileSync(JSON_PATH, "utf8"));
 const writeData = (d) => fs.writeFileSync(JSON_PATH, JSON.stringify(d, null, 2) + "\n");
 
+// Artist + art-brief per card (hand-authored via the page) -> Docs/art-tracker/card-briefs.json
+const BRIEFS_PATH = path.join(DOCS_DIR, "art-tracker", "card-briefs.json");
+const readBriefs = () => JSON.parse(fs.readFileSync(BRIEFS_PATH, "utf8"));
+const writeBriefs = (d) => fs.writeFileSync(BRIEFS_PATH, JSON.stringify(d, null, 2) + "\n");
+
+// Regenerate the static art-tracker page (the team-facing view) after any write.
+// Debounced + fire-and-forget so rapid edits don't stack processes.
+let regenTimer = null;
+function regenTracker() {
+  clearTimeout(regenTimer);
+  regenTimer = setTimeout(() => {
+    const child = require("child_process").execFile(
+      process.execPath, [path.join(DOCS_DIR, "art-tracker", "regen-art-tracker.js")],
+      (err) => { if (err) console.error("art-tracker regen failed:", err.message); });
+    child.unref?.();
+  }, 400);
+}
+
 const md5 = (buf) => crypto.createHash("md5").update(buf).digest("hex");
 // Big portrait lives at big/<entry>.png, but familiar token cards author their art under
 // big/familiar/<entry>.png (mirrors WitchFamiliarCard's `familiar/` PortraitPath prefix).
@@ -79,6 +97,7 @@ const server = http.createServer((req, res) => {
         if (!card) return send(res, 404, JSON.stringify({ error: "no such entry" }), "application/json");
         card[field] = !!body[valKey];
         writeData(data);
+        if (field === "artFinal") regenTracker(); // Done-status feeds the static tracker
         const art = computeArtStates(data.cards)[card.entry];
         send(res, 200, JSON.stringify({ ok: true, entry: card.entry, [field]: card[field], art }), "application/json");
       } catch (e) {
@@ -86,6 +105,33 @@ const server = http.createServer((req, res) => {
       }
     });
     return;
+  }
+
+  // --- artist + art brief per card --------------------------------------
+  if (req.method === "POST" && req.url === "/api/brief") {
+    let raw = "";
+    req.on("data", (c) => (raw += c));
+    req.on("end", () => {
+      try {
+        const body = JSON.parse(raw); // { name, artist, brief }
+        if (!body.name) return send(res, 400, JSON.stringify({ error: "name required" }), "application/json");
+        const data = readBriefs();
+        const artist = String(body.artist || "").trim();
+        const brief = String(body.brief || "").trim();
+        if (!artist && !brief) delete data.briefs[body.name];
+        else data.briefs[body.name] = { artist, brief };
+        writeBriefs(data);
+        regenTracker();
+        send(res, 200, JSON.stringify({ ok: true, name: body.name, artist, brief }), "application/json");
+      } catch (e) {
+        send(res, 400, JSON.stringify({ error: String(e) }), "application/json");
+      }
+    });
+    return;
+  }
+  if (req.method === "GET" && req.url.startsWith("/briefs.json")) {
+    try { return send(res, 200, fs.readFileSync(BRIEFS_PATH), "application/json; charset=utf-8"); }
+    catch { return send(res, 200, JSON.stringify({ briefs: {} }), "application/json"); }
   }
 
   // --- thumbnails: /art/<ENTRY>.png  (falls back to placeholder) --------
