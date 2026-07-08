@@ -1,6 +1,6 @@
 ---
 name: regen
-description: Regenerate all card/art tracking docs from repo state — rebuilds Docs/card-data/cards.json from the card .cs sources AND regenerates the static art tracker page Docs/art-tracker.html. Use when the user says "/regen", "regen the docs", "update the art tracker", or after adding/editing cards or art assets.
+description: Regenerate all card/art tracking docs from repo state — rebuilds Docs/card-data/cards.json from the card .cs sources AND regenerates the static art tracker page pages/art-tracker.html. Use when the user says "/regen", "regen the docs", "update the art tracker", or after adding/editing cards or art assets.
 ---
 
 # Regen (card database + art tracker)
@@ -12,7 +12,7 @@ node Docs/card-data/regen.js
 ```
 
 - Rebuilds `Docs/card-data/cards.json` from the card `.cs` files + localization (preserves `tested`, `artFinal`, curated `note`/`mechanics`/`role`; auto-clears `TESTED` on mechanically-changed cards).
-- Then automatically runs `Docs/art-tracker/regen-art-tracker.js`, which rewrites **`Docs/art-tracker.html`** — the static, self-contained art tracker (GitHub-Pages-servable; images by repo-relative path).
+- Then automatically runs `Docs/art-tracker/regen-art-tracker.js`, which rewrites **`pages/art-tracker.html`** — the static, self-contained art tracker (GitHub-Pages-servable; images by repo-relative path).
 
 `node Docs/card-data/regen.js --check` = drift check only (exit 1 if stale), writes nothing.
 
