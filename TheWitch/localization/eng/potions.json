@@ -1,0 +1,18 @@
+{
+  "THEWITCH-NOXIOUS_BREW.title": "Noxious Brew",
+  "THEWITCH-NOXIOUS_BREW.description": "Deal [blue]{Damage}[/blue] damage.",
+  "THEWITCH-THE_CAULDRON.title": "The Cauldron",
+  "THEWITCH-THE_CAULDRON.description": "An evil concoction.{StrengthPower:cond:>0?\nGain [blue]{StrengthPower}[/blue] [gold]Strength[/gold].|}{VigorPower:cond:>0?\nGain [blue]{VigorPower}[/blue] [gold]Vigor[/gold].|}{Block:cond:>0?\nGain [blue]{Block}[/blue] [gold]Block[/gold].|}{Heal:cond:>0?\nHeal [green]{Heal}[/green] HP.|}{Energy:cond:>0?\nGain [blue]{Energy}[/blue] [gold]Energy[/gold].|}{Cleanse:cond:>0?\nRemove a debuff.|}{IntangiblePower:cond:>0?\nGain [blue]{IntangiblePower}[/blue] [gold]Intangible[/gold].|}",
+  "THEWITCH-FERTILIZER.title": "Fertilizer",
+  "THEWITCH-FERTILIZER.description": "Gain [blue]{BramblesPower}[/blue] [gold]Brambles[/gold].",
+  "THEWITCH-BUDDY_IN_A_BOTTLE.title": "Buddy in a Bottle",
+  "THEWITCH-BUDDY_IN_A_BOTTLE.description": "Add a random [gold]Familiar[/gold] into your [gold]Hand[/gold]. It's free to play this turn.",
+  "THEWITCH-VIAL_OF_SMOKE.title": "Vial of Smoke",
+  "THEWITCH-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
+  "THEWITCH-SLICING_BREW.title": "Slicing Brew",
+  "THEWITCH-SLICING_BREW.description": "Deal [blue]{Damage}[/blue] damage [blue]{Repeat}[/blue] times.",
+  "THEWITCH-MUSHROOM_EXTRACT.title": "Mushroom Extract",
+  "THEWITCH-MUSHROOM_EXTRACT.description": "Discard your [gold]Hand[/gold] and draw [blue]6[/blue] cards. They cost [blue]0[/blue] for the rest of combat, but they're... silly...",
+  "THEWITCH-WORMY_APPLE.title": "Wormy Apple",
+  "THEWITCH-WORMY_APPLE.description": "Heal [green]{Heal}[/green] HP. Add [blue]{Cards}[/blue] [gold]Wormy[/gold] into your [gold]Hand[/gold]."
+}

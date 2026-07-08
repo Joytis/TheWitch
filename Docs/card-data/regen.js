@@ -5,7 +5,7 @@
  *   node Docs/card-data/regen.js          (rewrites cards.json + prints a report)
  *   node Docs/card-data/regen.js --check  (no write; exits 1 if drift found — for CI/pre-commit)
  *
- * It parses every card class in TheWickenCode/Cards (+ Familiar/) for the mechanical fields
+ * It parses every card class in TheWitchCode/Cards (+ Familiar/) for the mechanical fields
  * (cost / type / rarity / target / numbers / upgrade) and the localization JSON for name + text.
  *
  * PRESERVED across runs (keyed by entry): `tested` flag and any curated `note`.
@@ -16,13 +16,13 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");                 // repo root
-const CARDS_DIR = path.join(ROOT, "TheWickenCode", "Cards");
-const LOC_PATH = path.join(ROOT, "TheWicken", "localization", "eng", "cards.json");
+const CARDS_DIR = path.join(ROOT, "TheWitchCode", "Cards");
+const LOC_PATH = path.join(ROOT, "TheWitch", "localization", "eng", "cards.json");
 const OUT_PATH = path.join(__dirname, "cards.json");
-const MOD_PREFIX = "THEWICKEN-";
+const MOD_PREFIX = "THEWITCH-";
 
 // Base classes / interfaces / registries — not real cards.
-const SKIP = new Set(["WickenCard", "WickenFamiliarCard", "IFamiliarSummon", "FamiliarCardRegistry"]);
+const SKIP = new Set(["WitchCard", "WitchFamiliarCard", "IFamiliarSummon", "FamiliarCardRegistry"]);
 const RAR_ORDER = ["Starter", "Common", "Uncommon", "Rare", "Special", "Token"];
 const RAR_MAP = { Basic: "Starter" }; // CardRarity.Basic is the starter rarity
 
@@ -138,7 +138,7 @@ function parseCard(file, srcByClass) {
 // ---------- localization ----------
 function loadLoc() {
   const raw = JSON.parse(fs.readFileSync(LOC_PATH, "utf8"));
-  return raw; // flat map of "THEWICKEN-ENTRY.field" -> string
+  return raw; // flat map of "THEWITCH-ENTRY.field" -> string
 }
 
 function renderText(desc, vars) {

@@ -1,6 +1,6 @@
 # Slay the Spire 2 — Localization Text Formatting Standards
 
-Reverse-engineered from the base game's English localization (`gamedata/localization/eng/`, ~600 cards + powers/relics/potions). This is the house style our `TheWicken/localization/eng/` strings should match so they read as native game text.
+Reverse-engineered from the base game's English localization (`gamedata/localization/eng/`, ~600 cards + powers/relics/potions). This is the house style our `TheWitch/localization/eng/` strings should match so they read as native game text.
 
 ---
 

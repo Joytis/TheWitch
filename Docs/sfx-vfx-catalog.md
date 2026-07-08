@@ -1,6 +1,6 @@
 # SFX / VFX Catalog & API (base game reference)
 
-Distilled from `gamedata/` sweep (2026-07). Companion: [sfx-vfx-proposal.md](sfx-vfx-proposal.md) (Wicken usage plan), helper `TheWickenCode/Extensions/WickenFx.cs`.
+Distilled from `gamedata/` sweep (2026-07). Companion: [sfx-vfx-proposal.md](sfx-vfx-proposal.md) (Witch usage plan), helper `TheWitchCode/Extensions/WitchFx.cs`.
 
 ## API
 
@@ -55,5 +55,5 @@ Monster impact materials (`DamageSfxType`): `event:/sfx/enemy/enemy_impact_enemy
 Debug mp3s (tmpSfx / `NDebugAudioManager`): `heavy_attack.mp3`, `slash_attack.mp3`, `blunt_attack.mp3`, `dagger_throw.mp3`, `doom_apply.mp3`, `lightning_orb_evoke.mp3`, `gain_potion.mp3`, `potion_slosh_1..3.mp3`, `hiss.mp3`, `hey.mp3`, `card_exhaust`, `battle_start_1/2.mp3`.
 
 ## Mod custom audio/vfx
-- Custom vfx: ship `.tscn`, load via `ResourceLoader.Load<PackedScene>("res://TheWicken/...")` + `Instantiate<Node2D>()` + `AddChildSafely`; register path for preload.
+- Custom vfx: ship `.tscn`, load via `ResourceLoader.Load<PackedScene>("res://TheWitch/...")` + `Instantiate<Node2D>()` + `AddChildSafely`; register path for preload.
 - Custom sfx: mp3 via `NDebugAudioManager` route (`res://debug_audio/` pathing; needs preload registration). FMOD banks not moddable practically — reuse base events.

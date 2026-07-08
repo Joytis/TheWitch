@@ -5,28 +5,28 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 ---
 
 ### 186. Shiny! (Crow token): +Gain 2 Energy
-- **Done:** 2026-07-07 (claude) — [Shiny.cs](../TheWickenCode/Cards/Familiar/Shiny.cs): now Gain 10 Gold **and Gain 2 Energy**. Gold sfx (`gold_1`) + coin-explosion vfx were already in place — no vfx change needed. Upgrade unchanged (+5 Gold).
+- **Done:** 2026-07-07 (claude) — [Shiny.cs](../TheWitchCode/Cards/Familiar/Shiny.cs): now Gain 10 Gold **and Gain 2 Energy**. Gold sfx (`gold_1`) + coin-explosion vfx were already in place — no vfx change needed. Upgrade unchanged (+5 Gold).
 - **Verified:** build 0/0; regen (Shiny! TESTED cleared). ⚠️ Playtest: 2 Energy on play.
 
 ### 185. New card: Hasty Brew (fast mana)
-- **Done:** 2026-07-07 (claude) — [HastyBrew.cs](../TheWickenCode/Cards/HastyBrew.cs): 1e Skill Uncommon — Create a base-game **Energy Potion** (`PotionCmd.TryToProcure<EnergyPotion>`, gives 2 Energy when drunk); Exhaust; upgrade `RemoveKeyword(Exhaust)` (base-game Chill/Discovery pattern). Hover tip previews the potion.
+- **Done:** 2026-07-07 (claude) — [HastyBrew.cs](../TheWitchCode/Cards/HastyBrew.cs): 1e Skill Uncommon — Create a base-game **Energy Potion** (`PotionCmd.TryToProcure<EnergyPotion>`, gives 2 Energy when drunk); Exhaust; upgrade `RemoveKeyword(Exhaust)` (base-game Chill/Discovery pattern). Hover tip previews the potion.
 - **Design calls:** Name "Hasty Brew" (fits the Brew naming family; no loc collision).
 - **Verified:** build 0/0; regen (+Hasty Brew). ⚠️ No art (`hasty_brew.png`) — placeholder. Playtest: full-belt TryToProcure no-op.
 
 ### 184. Wormy Apple potion: hover tip previews the Wormy card
-- **Done:** 2026-07-07 (claude) — Read the note as: the *Wormy Apple potion* (which adds 3 Wormy status cards) should preview the Wormy card it references. [WormyApple.cs](../TheWickenCode/Potions/WormyApple.cs): `ExtraHoverTips => [HoverTipFactory.FromCard<Wormy>()]` (PotionModel supports ExtraHoverTips natively). Flag if the intent was instead the Wormy *card* referencing something.
+- **Done:** 2026-07-07 (claude) — Read the note as: the *Wormy Apple potion* (which adds 3 Wormy status cards) should preview the Wormy card it references. [WormyApple.cs](../TheWitchCode/Potions/WormyApple.cs): `ExtraHoverTips => [HoverTipFactory.FromCard<Wormy>()]` (PotionModel supports ExtraHoverTips natively). Flag if the intent was instead the Wormy *card* referencing something.
 - **Verified:** build 0/0; regen n/a (potion). ⚠️ Playtest hover.
 
 ### 183. Rake renders as colorless token
-- **Done:** 2026-07-07 (claude) — [Rake.cs](../TheWickenCode/Cards/Rake.cs): `public override CardPoolModel VisualCardPool => ModelDb.CardPool<TokenCardPool>();` — the game's built-in "belongs to one pool, looks like another" hook (base-game Trash Heap/Clash pattern); `TokenCardPool.IsColorless => true` drives the colorless frame/energy icon. Actual pool membership unchanged (registration/`TryToProcure` intact).
+- **Done:** 2026-07-07 (claude) — [Rake.cs](../TheWitchCode/Cards/Rake.cs): `public override CardPoolModel VisualCardPool => ModelDb.CardPool<TokenCardPool>();` — the game's built-in "belongs to one pool, looks like another" hook (base-game Trash Heap/Clash pattern); `TokenCardPool.IsColorless => true` drives the colorless frame/energy icon. Actual pool membership unchanged (registration/`TryToProcure` intact).
 - **Verified:** build 0/0; regen no-op (visual only). ⚠️ Playtest: hover Rake via Wicker Form preview — frame should be colorless.
 
 ### 182. Spines + Hide in a Bush → one card: Hide in a Bush (Spines mechanics + art)
-- **Done:** 2026-07-07 (claude, user-confirmed interpretation) — Old plain-Block HideInABush.cs deleted; Spines.cs git-mv'd to [HideInABush.cs](../TheWickenCode/Cards/HideInABush.cs) with class/id renamed (mechanics unchanged: 7 Block + 3 Brambles, upgrade +3/+1). Art: `spines.png` (both sizes) copied to `hide_in_a_bush.png`, spines art + stale `.import`s deleted. Loc: SPINES keys removed; HIDE_IN_A_BUSH description now Block + Brambles. No other code refs existed (StuckInABush unrelated).
+- **Done:** 2026-07-07 (claude, user-confirmed interpretation) — Old plain-Block HideInABush.cs deleted; Spines.cs git-mv'd to [HideInABush.cs](../TheWitchCode/Cards/HideInABush.cs) with class/id renamed (mechanics unchanged: 7 Block + 3 Brambles, upgrade +3/+1). Art: `spines.png` (both sizes) copied to `hide_in_a_bush.png`, spines art + stale `.import`s deleted. Loc: SPINES keys removed; HIDE_IN_A_BUSH description now Block + Brambles. No other code refs existed (StuckInABush unrelated).
 - **Verified:** build 0/0; regen (101 cards, −Spines, Hide in a Bush TESTED cleared). ⚠️ Run **Godot: Import assets** (new `hide_in_a_bush.png` has no `.import` yet).
 
 ### 181. New card: Tinder
-- **Done:** 2026-07-07 (claude) — [Tinder.cs](../TheWickenCode/Cards/Tinder.cs): 0e Skill Common, Self — choose a hand card, Exhaust it, gain 1 Energy (upgrade +1 → 2). Select/exhaust pattern copied from Grind Down (`CardSelectCmd.FromHand` + `ExhaustSelectionPrompt`).
+- **Done:** 2026-07-07 (claude) — [Tinder.cs](../TheWitchCode/Cards/Tinder.cs): 0e Skill Common, Self — choose a hand card, Exhaust it, gain 1 Energy (upgrade +1 → 2). Select/exhaust pattern copied from Grind Down (`CardSelectCmd.FromHand` + `ExhaustSelectionPrompt`).
 - **Verified:** build 0/0; regen (102 cards, +Tinder). ⚠️ No art (`tinder.png`) — placeholder.
 
 ### 180. CUT Consume Youth
@@ -34,183 +34,183 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 - **Verified:** build 0/0; regen (101 cards).
 
 ### 179. Rats → Scavenge; CUT Nibble; Rat loot table = Plague + Scavenge
-- **Done:** 2026-07-07 (claude) — [Scavenge.cs](../TheWickenCode/Cards/Familiar/Scavenge.cs) (git-mv from Rats.cs; class/id renamed, mechanics unchanged: 5 dmg + heal 1 + draw 1). **Nibble deleted** (.cs/.uid + nibble.png both sizes + .imports; its uncommitted per-rat-hits edits died with it — per explicit staging note). [RatFamiliarPower.cs](../TheWickenCode/Powers/RatFamiliarPower.cs) table now Plague + Scavenge. Hover tips updated in RatFamiliar/PocketRats/RefusePile; loc keys RATS→SCAVENGE, NIBBLE removed; Pocket Rats + Refuse Pile texts now say `{IfUpgraded:show:Scavenge+|Scavenge}`; IRatCard/CombatHistoryQueries comments updated.
+- **Done:** 2026-07-07 (claude) — [Scavenge.cs](../TheWitchCode/Cards/Familiar/Scavenge.cs) (git-mv from Rats.cs; class/id renamed, mechanics unchanged: 5 dmg + heal 1 + draw 1). **Nibble deleted** (.cs/.uid + nibble.png both sizes + .imports; its uncommitted per-rat-hits edits died with it — per explicit staging note). [RatFamiliarPower.cs](../TheWitchCode/Powers/RatFamiliarPower.cs) table now Plague + Scavenge. Hover tips updated in RatFamiliar/PocketRats/RefusePile; loc keys RATS→SCAVENGE, NIBBLE removed; Pocket Rats + Refuse Pile texts now say `{IfUpgraded:show:Scavenge+|Scavenge}`; IRatCard/CombatHistoryQueries comments updated.
 - **Verified:** build 0/0; regen (+Scavenge, −Nibble −Rats; Refuse Pile/Pocket Rats TESTED cleared). ⚠️ No art (`scavenge.png` — rats.png never existed) — placeholder. Run **Godot: Import assets** after art lands.
 
 ### 178. Cat Familiar: Nimble (Gain 1 Energy) replaces Curiosity
-- **Done:** 2026-07-07 (claude) — New token [Nimble.cs](../TheWickenCode/Cards/Familiar/Nimble.cs): 0e Skill Token Self, `PlayerCmd.GainEnergy` 1 (upgrade +1); inherits Exhaust from `WickenFamiliarCard`. Cat loot table now Ferocity + Nimble ([CatFamiliarPower.cs](../TheWickenCode/Powers/CatFamiliarPower.cs)); [CatFamiliar.cs](../TheWickenCode/Cards/CatFamiliar.cs) hover tip swapped. **Curiosity deleted** (.cs + .uid + loc keys; no art existed; FamiliarCardRegistry is reflection-based — no ref updates needed).
+- **Done:** 2026-07-07 (claude) — New token [Nimble.cs](../TheWitchCode/Cards/Familiar/Nimble.cs): 0e Skill Token Self, `PlayerCmd.GainEnergy` 1 (upgrade +1); inherits Exhaust from `WitchFamiliarCard`. Cat loot table now Ferocity + Nimble ([CatFamiliarPower.cs](../TheWitchCode/Powers/CatFamiliarPower.cs)); [CatFamiliar.cs](../TheWitchCode/Cards/CatFamiliar.cs) hover tip swapped. **Curiosity deleted** (.cs + .uid + loc keys; no art existed; FamiliarCardRegistry is reflection-based — no ref updates needed).
 - **Design calls:** Token named "Nimble" (agility theme, no loc-key collision).
 - **Verified:** build 0/0; regen (+Nimble, −Curiosity). ⚠️ No art (`nimble.png`) — placeholder. Playtest: upgraded Cat grants Nimble+ (2 Energy).
 
 ### 177. Claw Eyes: 15 dmg + 3 Vulnerable
-- **Done:** 2026-07-07 (claude) — [ClawEyes.cs](../TheWickenCode/Cards/Familiar/ClawEyes.cs): was 5 dmg + 1 Weak → now 15 dmg + 3 Vulnerable (hover tip + loc swapped to Vulnerable). Kept upgrade +3 dmg and token Exhaust convention.
+- **Done:** 2026-07-07 (claude) — [ClawEyes.cs](../TheWitchCode/Cards/Familiar/ClawEyes.cs): was 5 dmg + 1 Weak → now 15 dmg + 3 Vulnerable (hover tip + loc swapped to Vulnerable). Kept upgrade +3 dmg and token Exhaust convention.
 - **Verified:** build 0/0; regen (TESTED cleared).
 
 ### 176. Gather Herbs: upgrade = next TWO potions copied
-- **Done:** 2026-07-07 (claude) — [GatherHerbs.cs](../TheWickenCode/Cards/GatherHerbs.cs): new `PowerVar<NextPotionCopiedPower>(1)`; upgrade now +1 stack (replaces the old cost −1 on an already-0-cost card). Power already consumes one stack per creation — no power change. Loc mirrors the power's smartDescription: "The next {N:diff()} Potion(s) you create is/are copied" (plural tags).
+- **Done:** 2026-07-07 (claude) — [GatherHerbs.cs](../TheWitchCode/Cards/GatherHerbs.cs): new `PowerVar<NextPotionCopiedPower>(1)`; upgrade now +1 stack (replaces the old cost −1 on an already-0-cost card). Power already consumes one stack per creation — no power change. Loc mirrors the power's smartDescription: "The next {N:diff()} Potion(s) you create is/are copied" (plural tags).
 - **Verified:** build 0/0; regen (TESTED cleared).
 
 ### 174 + 175. Pact of Agony & Read the Bones redesigns (shared gate)
 - **Done:** 2026-07-07 (claude)
-- **174 Pact of Agony** ([PactOfAgony.cs](../TheWickenCode/Cards/PactOfAgony.cs)): Common→Uncommon; HP cost removed; 2 Wounds (was 1) to discard; 20 dmg ALL (was 15). Kept Exhaust and upgrade +5 dmg (note didn't say otherwise).
-- **175 Read the Bones** ([ReadTheBones.cs](../TheWickenCode/Cards/ReadTheBones.cs)): full redesign — now 1e **Skill** Common, single target: Apply 2 Hex + base-game `DrawCardsNextTurnPower` 2 (draw 2 next turn). Intent-check/gold-glow mechanic removed. Needed `using HexPower = ...Powers.HexPower` alias (base game also has a HexPower). Upgrade = +1 Hex (my pick — note didn't specify).
+- **174 Pact of Agony** ([PactOfAgony.cs](../TheWitchCode/Cards/PactOfAgony.cs)): Common→Uncommon; HP cost removed; 2 Wounds (was 1) to discard; 20 dmg ALL (was 15). Kept Exhaust and upgrade +5 dmg (note didn't say otherwise).
+- **175 Read the Bones** ([ReadTheBones.cs](../TheWitchCode/Cards/ReadTheBones.cs)): full redesign — now 1e **Skill** Common, single target: Apply 2 Hex + base-game `DrawCardsNextTurnPower` 2 (draw 2 next turn). Intent-check/gold-glow mechanic removed. Needed `using HexPower = ...Powers.HexPower` alias (base game also has a HexPower). Upgrade = +1 Hex (my pick — note didn't specify).
 - **Verified:** build 0/0; regen clean. ⚠️ Playtest: next-turn draw stacks with multiple plays; Hex hover tip.
 
 ### 173. Weathered Witch Hat: next Skill costs 1 less
-- **Done:** 2026-07-07 (claude) — [NextSkillDiscountPower.cs](../TheWickenCode/Powers/NextSkillDiscountPower.cs): `TryModifyEnergyCostInCombatLate` now `Max(originalCost − 1, 0)` (returns false when unchanged, e.g. 0-cost skills) instead of `Min(originalCost, 1)`. Card unchanged; loc updated in cards.json + powers.json ("costs 1 less"). Consume-on-next-skill behavior unchanged (still decrements even for 0-cost skills — matches prior semantics).
+- **Done:** 2026-07-07 (claude) — [NextSkillDiscountPower.cs](../TheWitchCode/Powers/NextSkillDiscountPower.cs): `TryModifyEnergyCostInCombatLate` now `Max(originalCost − 1, 0)` (returns false when unchanged, e.g. 0-cost skills) instead of `Min(originalCost, 1)`. Card unchanged; loc updated in cards.json + powers.json ("costs 1 less"). Consume-on-next-skill behavior unchanged (still decrements even for 0-cost skills — matches prior semantics).
 - **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: 0-cost skill doesn't waste... actually it DOES consume the stack (pre-existing behavior) — flag if undesired.
 
 ### 171 + 172. Stampede & Prices Paid upgrade reworks (shared gate)
 - **Done:** 2026-07-07 (claude)
-- **171 Stampede** ([Stampede.cs](../TheWickenCode/Cards/Stampede.cs)): upgrade now `FamiliarDamage` +2 (3→5 per familiar) instead of base +3; loc reworded to "Deal {FamiliarDamage:diff()} damage to ALL enemies for each of your Familiars" (+`diff()` so the upgrade previews green).
-- **172 Prices Paid** ([PricesPaid.cs](../TheWickenCode/Cards/PricesPaid.cs)): new `Brews` var (1); upgrade = +1 HP loss (1→2) and +1 Slicing Brew (1→2), replacing the old +3 damage; `OnPlay` loops procure; loc uses `{Brews:diff()}` + plural tag.
+- **171 Stampede** ([Stampede.cs](../TheWitchCode/Cards/Stampede.cs)): upgrade now `FamiliarDamage` +2 (3→5 per familiar) instead of base +3; loc reworded to "Deal {FamiliarDamage:diff()} damage to ALL enemies for each of your Familiars" (+`diff()` so the upgrade previews green).
+- **172 Prices Paid** ([PricesPaid.cs](../TheWitchCode/Cards/PricesPaid.cs)): new `Brews` var (1); upgrade = +1 HP loss (1→2) and +1 Slicing Brew (1→2), replacing the old +3 damage; `OnPlay` loops procure; loc uses `{Brews:diff()}` + plural tag.
 - **Design calls:** Stampede upgrade amount = +2 per familiar (note didn't specify).
 - **Verified:** build 0/0; regen clean (TESTED cleared for both). ⚠️ Playtest: Prices Paid+ with full belt (TryToProcure overflow), Stampede+ preview numbers.
 
 ### 165–170. Patty playtest batch: stat/loc tweaks (shared gate)
 - **Done:** 2026-07-07 (claude)
-- **165 Gnash** ([Gnash.cs](../TheWickenCode/Cards/Familiar/Gnash.cs)): per-hit scaling `ExtraDamageVar` 5→3 (base 5 and upgrade +2 unchanged).
-- **166 Wicker Form**: verified no-op — already costs 3 ([WickerForm.cs](../TheWickenCode/Cards/WickerForm.cs), uncommitted local edit predates loop).
-- **167 Lich Powder** ([LichPowder.cs](../TheWickenCode/Cards/LichPowder.cs)): cost 3→1.
-- **168 Bottomless Cauldron** ([BottomlessCauldron.cs](../TheWickenCode/Cards/BottomlessCauldron.cs)): cost 3→2 (upgrade still −1 → 1e upgraded).
-- **169 Cloak of Moonlight** ([CloakOfMoonlight.cs](../TheWickenCode/Cards/CloakOfMoonlight.cs)): upgrade now `CloakOfMoonlightPower` +1 (3→4 block per creation) instead of cost 2→1; loc already uses `{CloakOfMoonlightPower:diff()}` so green preview works.
+- **165 Gnash** ([Gnash.cs](../TheWitchCode/Cards/Familiar/Gnash.cs)): per-hit scaling `ExtraDamageVar` 5→3 (base 5 and upgrade +2 unchanged).
+- **166 Wicker Form**: verified no-op — already costs 3 ([WickerForm.cs](../TheWitchCode/Cards/WickerForm.cs), uncommitted local edit predates loop).
+- **167 Lich Powder** ([LichPowder.cs](../TheWitchCode/Cards/LichPowder.cs)): cost 3→1.
+- **168 Bottomless Cauldron** ([BottomlessCauldron.cs](../TheWitchCode/Cards/BottomlessCauldron.cs)): cost 3→2 (upgrade still −1 → 1e upgraded).
+- **169 Cloak of Moonlight** ([CloakOfMoonlight.cs](../TheWitchCode/Cards/CloakOfMoonlight.cs)): upgrade now `CloakOfMoonlightPower` +1 (3→4 block per creation) instead of cost 2→1; loc already uses `{CloakOfMoonlightPower:diff()}` so green preview works.
 - **170 Broken Pact** (loc only): "Sacrifice a **random** [gold]Familiar[/gold]" — matches `Familiars.RemoveRandom` mechanics.
 - **Verified:** build 0/0; regen clean (TESTED auto-cleared for the 5 changed cards).
 
 ### 164. Rake → Token (verified no-op)
-- **Done:** 2026-07-06 — Rake already declares `CardRarity.Token` ([Rake.cs:32](../TheWickenCode/Cards/Rake.cs)). Verified against decompiled `CardFactory`: rewards/shops match `c.Rarity == <rolled Common/Uncommon/Rare>` and transformations filter to that range, so Token never surfaces regardless of pool membership. No change made. If Rake was actually sighted in a reward/shop in-game, that's a different bug — report where it appeared.
+- **Done:** 2026-07-06 — Rake already declares `CardRarity.Token` ([Rake.cs:32](../TheWitchCode/Cards/Rake.cs)). Verified against decompiled `CardFactory`: rewards/shops match `c.Rarity == <rolled Common/Uncommon/Rare>` and transformations filter to that range, so Token never surfaces regardless of pool membership. No change made. If Rake was actually sighted in a reward/shop in-game, that's a different bug — report where it appeared.
 
 ### 162 + 163. BUG: Experiment potion matching; Hexblast unique-debuff wording
 - **Done:** 2026-07-06 (shared gate)
-- **162 Experiment** ([Experiment.cs](../TheWickenCode/Cards/Experiment.cs)): the created potion now matches the discarded potion's **rarity + orientation** — `PotionTraits.OrientationOf(toDiscard)` + `toDiscard.Rarity` captured *before* the discard, then the GrindDown fallback chain (strict → orientation-only → any) so Token/Event payloads (e.g. a Rattling Bottles Rock) still swap into something real. Card text unchanged (still accurate).
+- **162 Experiment** ([Experiment.cs](../TheWitchCode/Cards/Experiment.cs)): the created potion now matches the discarded potion's **rarity + orientation** — `PotionTraits.OrientationOf(toDiscard)` + `toDiscard.Rarity` captured *before* the discard, then the GrindDown fallback chain (strict → orientation-only → any) so Token/Event payloads (e.g. a Rattling Bottles Rock) still swap into something real. Card text unchanged (still accurate).
 - **163 Hexblast**: code already counted each debuff **type** once (`GroupBy(GetType)` — one power instance per type regardless of stacks); loc now says "for each **unique** debuff" to match.
 - **Verified:** build 0/0, regen clean. ⚠️ Playtest Experiment: discard a Common offensive → get a Common offensive; belt with only a Rock → fallback path.
 
 ### 159 + 160 + 161. New cards: Thirst, Strike Fear, Needle Whip
 - **Done:** 2026-07-06 (shared gate)
-- **159 Thirst** ([Thirst.cs](../TheWickenCode/Cards/Thirst.cs) + [ThirstPower.cs](../TheWickenCode/Powers/ThirstPower.cs)): 1e Power Rare — new counter power on `AfterCardDrawn` (owner-guarded): gain `Amount` Vigor per card drawn; upgrade applies 2 stacks' worth (1→2 per draw).
-- **160 Strike Fear** ([StrikeFear.cs](../TheWickenCode/Cards/StrikeFear.cs)): 1e Attack Common — 6 dmg + 1 Vulnerable; upgrade +2/+1.
-- **161 Needle Whip** ([NeedleWhip.cs](../TheWickenCode/Cards/NeedleWhip.cs)): 1e Attack Common — 9 dmg + 3 Brambles; upgrade +3 Brambles. (Reuses the retired NEEDLE_WHIP name from pre-audit builds; fresh id/implementation.)
+- **159 Thirst** ([Thirst.cs](../TheWitchCode/Cards/Thirst.cs) + [ThirstPower.cs](../TheWitchCode/Powers/ThirstPower.cs)): 1e Power Rare — new counter power on `AfterCardDrawn` (owner-guarded): gain `Amount` Vigor per card drawn; upgrade applies 2 stacks' worth (1→2 per draw).
+- **160 Strike Fear** ([StrikeFear.cs](../TheWitchCode/Cards/StrikeFear.cs)): 1e Attack Common — 6 dmg + 1 Vulnerable; upgrade +2/+1.
+- **161 Needle Whip** ([NeedleWhip.cs](../TheWitchCode/Cards/NeedleWhip.cs)): 1e Attack Common — 9 dmg + 3 Brambles; upgrade +3 Brambles. (Reuses the retired NEEDLE_WHIP name from pre-audit builds; fresh id/implementation.)
 - **Verified:** build 0/0, regen 100→103 cards. ⚠️ No art (`thirst.png`, `strike_fear.png`, `needle_whip.png`) — placeholders. Playtest Thirst: Vigor per draw incl. turn-start hand draw (fires on `fromHandDraw` too — by design; flag if start-of-turn draws shouldn't count).
 
 ### 158. New card: Taste of Blood
-- **Done:** 2026-07-06 — [TasteOfBlood.cs](../TheWickenCode/Cards/TasteOfBlood.cs): 0e Attack Common — deal 3, gain 3 Vigor; upgrade +2 dmg / +1 Vigor, exactly per note. build 0/0, regen 99→100 cards. ⚠️ No art (`taste_of_blood.png`) — placeholder.
+- **Done:** 2026-07-06 — [TasteOfBlood.cs](../TheWitchCode/Cards/TasteOfBlood.cs): 0e Attack Common — deal 3, gain 3 Vigor; upgrade +2 dmg / +1 Vigor, exactly per note. build 0/0, regen 99→100 cards. ⚠️ No art (`taste_of_blood.png`) — placeholder.
 
 ### 156. Repurpose → Polymorph: transform a draw-pile card into a familiar
 - **Done:** 2026-07-06
-- **Changed:** Full rename+rework: deleted `Repurpose.cs` AND its now-orphaned `RepurposePower.cs` (+ loc keys; Repurpose was its only applier — same orphan policy as NextPowerFreePower). New [Polymorph.cs](../TheWickenCode/Cards/Polymorph.cs) — 0e Skill Rare Exhaust: `CardSelectCmd.FromCombatPile` over the draw pile (with the REQUIRED `.selectionScreenPrompt` loc key — the Find Familiar lesson), then `CardCmd.Transform(chosen, CombatState.CreateCard(randomSummon, Owner))` where the summon is rolled from `FamiliarCardRegistry.AllSummonCanonical`. Upgrade: `RemoveKeyword(Exhaust)`. **Design call:** "Deck" implemented as **combat-scoped draw-pile transform** (not a permanent master-deck change) — matches the in-combat select+transform pattern; flag if permanence was intended. No art existed (placeholder continues as `polymorph.png`).
+- **Changed:** Full rename+rework: deleted `Repurpose.cs` AND its now-orphaned `RepurposePower.cs` (+ loc keys; Repurpose was its only applier — same orphan policy as NextPowerFreePower). New [Polymorph.cs](../TheWitchCode/Cards/Polymorph.cs) — 0e Skill Rare Exhaust: `CardSelectCmd.FromCombatPile` over the draw pile (with the REQUIRED `.selectionScreenPrompt` loc key — the Find Familiar lesson), then `CardCmd.Transform(chosen, CombatState.CreateCard(randomSummon, Owner))` where the summon is rolled from `FamiliarCardRegistry.AllSummonCanonical`. Upgrade: `RemoveKeyword(Exhaust)`. **Design call:** "Deck" implemented as **combat-scoped draw-pile transform** (not a permanent master-deck change) — matches the in-combat select+transform pattern; flag if permanence was intended. No art existed (placeholder continues as `polymorph.png`).
 - **Verified:** build 0/0, regen shows swap. ⚠️ Playtest after publish: selector opens, transform lands in draw pile, upgraded repeat-cast.
 
 ### 155. Pact of Beasts rework
-- **Done:** 2026-07-05 — [PactOfBeasts.cs](../TheWickenCode/Cards/PactOfBeasts.cs): added "Lose 3 HP" (HpLossVar, unblockable/unpowered self-damage) and widened the sweep from `IFamiliarSummon` only to `IFamiliarSummon or WickenFamiliarCard` — generated token cards in draw/discard now come to hand too, per the note. Cost 1e + upgrade −1e were already as specced. Loc updated. build 0/0, regen clean.
+- **Done:** 2026-07-05 — [PactOfBeasts.cs](../TheWitchCode/Cards/PactOfBeasts.cs): added "Lose 3 HP" (HpLossVar, unblockable/unpowered self-damage) and widened the sweep from `IFamiliarSummon` only to `IFamiliarSummon or WitchFamiliarCard` — generated token cards in draw/discard now come to hand too, per the note. Cost 1e + upgrade −1e were already as specced. Loc updated. build 0/0, regen clean.
 
 ### 153 + 154 + 157. Deep Roots (new), Rat Familiar rarity, Hide in a Bush (new)
 - **Done:** 2026-07-05 (shared gate)
-- **153 Deep Roots** ([DeepRoots.cs](../TheWickenCode/Cards/DeepRoots.cs) + [DeepRootsPower.cs](../TheWickenCode/Powers/DeepRootsPower.cs)): 1e Power Uncommon — new counter power, `AfterPlayerTurnStart` → gain `Amount` Brambles (3, upgrade +2 → 5; RottingRoots pattern). Amount = per-turn yield so double-casting stacks.
+- **153 Deep Roots** ([DeepRoots.cs](../TheWitchCode/Cards/DeepRoots.cs) + [DeepRootsPower.cs](../TheWitchCode/Powers/DeepRootsPower.cs)): 1e Power Uncommon — new counter power, `AfterPlayerTurnStart` → gain `Amount` Brambles (3, upgrade +2 → 5; RottingRoots pattern). Amount = per-turn yield so double-casting stacks.
 - **154 Rat Familiar**: Rare→Uncommon (ctor only).
-- **157 Hide in a Bush** ([HideInABush.cs](../TheWickenCode/Cards/HideInABush.cs)): 1e Skill Common, gain 9 Block. **Design call:** upgrade +3 Block (note gave none).
+- **157 Hide in a Bush** ([HideInABush.cs](../TheWitchCode/Cards/HideInABush.cs)): 1e Skill Common, gain 9 Block. **Design call:** upgrade +3 Block (note gave none).
 - **Verified:** build 0/0, regen 97→99 cards. ⚠️ No art (`deep_roots.png`, `hide_in_a_bush.png`) — placeholders. Playtest Deep Roots turn-start trigger.
 
 ### 150. Vexing Thwack → Vexing Strike, back to Common
-- **Done:** 2026-07-05 — full rename: class/file `VexingStrike`, id `THEWICKEN-VEXING_STRIKE`, loc keys, art `vexing_thwack.png`→`vexing_strike.png` both sizes (stale `.import`s deleted). Rarity reverted Uncommon→Common (supersedes item 145 from earlier today). Effect unchanged (8 dmg + 1 Hex, upgrade +2 Hex). build 0/0, regen shows swap. ⚠️ Run **Godot: Import assets** (art rename).
+- **Done:** 2026-07-05 — full rename: class/file `VexingStrike`, id `THEWITCH-VEXING_STRIKE`, loc keys, art `vexing_thwack.png`→`vexing_strike.png` both sizes (stale `.import`s deleted). Rarity reverted Uncommon→Common (supersedes item 145 from earlier today). Effect unchanged (8 dmg + 1 Hex, upgrade +2 Hex). build 0/0, regen shows swap. ⚠️ Run **Godot: Import assets** (art rename).
 
 ### 147 + 148. CUT Herbal Remedy + Moondrop Tea
 - **Done:** 2026-07-05 — deleted both `.cs` files, loc keys, art (both sizes + `.import`s). No dangling refs (grep clean); no orphaned payloads (Herbal Remedy only consumed potions). Moondrop Tea's item-123 rarity bump from earlier today is moot. build 0/0, regen 99→97 cards. ⚠️ **Godot: Import assets** after art deletions.
 
 ### 146 + 149 + 151 + 152. Stat/effect batch
 - **Done:** 2026-07-05 (shared gate)
-- **146 Ritual Sacrifice** ([RitualSacrifice.cs](../TheWickenCode/Cards/RitualSacrifice.cs)): added "Deal 25 damage" (upgrade additionally +5). **Design call:** card was Self-targeted — damage needs a target, so TargetType → AnyEnemy, and the hit sits inside the "if sacrificed" branch like the block/draw payoff; confirm both.
+- **146 Ritual Sacrifice** ([RitualSacrifice.cs](../TheWitchCode/Cards/RitualSacrifice.cs)): added "Deal 25 damage" (upgrade additionally +5). **Design call:** card was Self-targeted — damage needs a target, so TargetType → AnyEnemy, and the hit sits inside the "if sacrificed" branch like the block/draw payoff; confirm both.
 - **149 Hexblast**: per-debuff damage 10→20.
 - **151 Bind in Blood**: Common→Uncommon (ctor only).
-- **152 Rats token** ([Rats.cs](../TheWickenCode/Cards/Familiar/Rats.cs)): added "Draw 1 card" (CardsVar + Draw after the heal; user's local edits preserved).
+- **152 Rats token** ([Rats.cs](../TheWitchCode/Cards/Familiar/Rats.cs)): added "Draw 1 card" (CardsVar + Draw after the heal; user's local edits preserved).
 - **Verified:** build 0/0, regen clean, TESTED cleared (also flagged Nettles — user's own local edit).
 
 ### 137. Steal Bones → Read the Bones (+ NextPowerFreePower cleanup)
 - **Done:** 2026-07-05
-- **Changed:** (design completed by user in Q&A, superseding the truncated staging note) **Read the Bones** — 1e Attack Common AnyEnemy: "If the enemy intends to attack, draw 2 cards. Otherwise, deal 9 damage." Intent check + gold-glow mirror base-game **Go for the Eyes** (`Monster?.IntendsToAttack`). Full rename: deleted `StealBones.cs`, new [ReadTheBones.cs](../TheWickenCode/Cards/ReadTheBones.cs), loc keys replaced (no art existed). Cauldron interaction dropped; stale Brew mention in TheCauldron.cs comment cleaned. **Design call:** upgrade = +3 damage (9→12; user gave none) — confirm/adjust. Also **deleted orphaned `NextPowerFreePower`** (+ loc) per user answer.
+- **Changed:** (design completed by user in Q&A, superseding the truncated staging note) **Read the Bones** — 1e Attack Common AnyEnemy: "If the enemy intends to attack, draw 2 cards. Otherwise, deal 9 damage." Intent check + gold-glow mirror base-game **Go for the Eyes** (`Monster?.IntendsToAttack`). Full rename: deleted `StealBones.cs`, new [ReadTheBones.cs](../TheWitchCode/Cards/ReadTheBones.cs), loc keys replaced (no art existed). Cauldron interaction dropped; stale Brew mention in TheCauldron.cs comment cleaned. **Design call:** upgrade = +3 damage (9→12; user gave none) — confirm/adjust. Also **deleted orphaned `NextPowerFreePower`** (+ loc) per user answer.
 - **Verified:** build 0/0, regen clean (99 cards). ⚠️ Playtest: intent branch vs non-attacking enemy, glow in hand.
 
 ### 144 + 145. Woe and Whimsy + Vexing Thwack: Common → Uncommon
 - **Done:** 2026-07-05 — ctor rarity only, both. (Ingested + implemented directly from staging; never queued.) build 0/0, regen clean, TESTED cleared.
 
 ### 143. Stampede redesign: 8 dmg + familiars trample ALL
-- **Done:** 2026-07-05 — [Stampede.cs](../TheWickenCode/Cards/Stampede.cs): now always deals 8 to the target (old version dealt NOTHING with zero familiars), then a second AoE attack — 3 damage × `Familiars.Count` hits via `WithHitCount` + `TargetingAllOpponents`. Upgrade kept +3 primary damage (note silent). Loc rewritten. Also applied the user's staging **revision to 142**: Pact of Agony now creates **1** Wound (was 2 in the first note). build 0/0, regen clean.
+- **Done:** 2026-07-05 — [Stampede.cs](../TheWitchCode/Cards/Stampede.cs): now always deals 8 to the target (old version dealt NOTHING with zero familiars), then a second AoE attack — 3 damage × `Familiars.Count` hits via `WithHitCount` + `TargetingAllOpponents`. Upgrade kept +3 primary damage (note silent). Loc rewritten. Also applied the user's staging **revision to 142**: Pact of Agony now creates **1** Wound (was 2 in the first note). build 0/0, regen clean.
 
 ### 141 + 142. Chromatic Claws → Experiment; Pact of Agony redesign
 - **Done:** 2026-07-05 (shared gate)
-- **141 Experiment** ([Experiment.cs](../TheWickenCode/Cards/Experiment.cs)): full rename (class + id `THEWICKEN-EXPERIMENT` + loc + art `chromatic_claws.png`→`experiment.png`, stale `.import` deleted; no big variant existed). Attack→Skill: Gain 7 Block, then the same discard-random/create-random potion swap. **Design call:** note's "Upgrade: +3 damage" is impossible on a damage-less Skill — implemented as **+3 Block**; confirm.
-- **142 Pact of Agony** ([PactOfAgony.cs](../TheWickenCode/Cards/PactOfAgony.cs)): now 1e **Attack** AllEnemies — Lose 2 HP (was 3), add 2 Wounds to discard, deal **15 to ALL** (Ambush `TargetingAllOpponents` shape); Weak effect dropped. Kept Exhaust + Common (note silent). **Design call:** upgrade = **+5 damage** (old +2 Weak no longer applies); confirm.
+- **141 Experiment** ([Experiment.cs](../TheWitchCode/Cards/Experiment.cs)): full rename (class + id `THEWITCH-EXPERIMENT` + loc + art `chromatic_claws.png`→`experiment.png`, stale `.import` deleted; no big variant existed). Attack→Skill: Gain 7 Block, then the same discard-random/create-random potion swap. **Design call:** note's "Upgrade: +3 damage" is impossible on a damage-less Skill — implemented as **+3 Block**; confirm.
+- **142 Pact of Agony** ([PactOfAgony.cs](../TheWitchCode/Cards/PactOfAgony.cs)): now 1e **Attack** AllEnemies — Lose 2 HP (was 3), add 2 Wounds to discard, deal **15 to ALL** (Ambush `TargetingAllOpponents` shape); Weak effect dropped. Kept Exhaust + Common (note silent). **Design call:** upgrade = **+5 damage** (old +2 Weak no longer applies); confirm.
 - **Verified:** build 0/0, regen clean. ⚠️ Run **Godot: Import assets** (art rename). Playtest both.
 
 ### 140. Broom Strike redesign: 12 dmg + play a random Skill from the draw pile
-- **Done:** 2026-07-05 — [BroomStrike.cs](../TheWickenCode/Cards/BroomStrike.cs): 15→12 damage (upgrade +3 unchanged), old "next Power costs 0" effect replaced with the BeatDown/Catastrophe auto-play shape — filter draw-pile Skills (excl. Unplayable), `StableShuffle(Rng.Shuffle)` pick one, `CardCmd.AutoPlay` (random `CombatTargets` target for AnyEnemy skills, null-guarded). "Deck" interpreted as **draw pile** (Catastrophe precedent). ⚠️ **`NextPowerFreePower` is now orphaned** (BroomStrike was its only applier) — left in place pending user call, see question. build 0/0, regen clean.
+- **Done:** 2026-07-05 — [BroomStrike.cs](../TheWitchCode/Cards/BroomStrike.cs): 15→12 damage (upgrade +3 unchanged), old "next Power costs 0" effect replaced with the BeatDown/Catastrophe auto-play shape — filter draw-pile Skills (excl. Unplayable), `StableShuffle(Rng.Shuffle)` pick one, `CardCmd.AutoPlay` (random `CombatTargets` target for AnyEnemy skills, null-guarded). "Deck" interpreted as **draw pile** (Catastrophe precedent). ⚠️ **`NextPowerFreePower` is now orphaned** (BroomStrike was its only applier) — left in place pending user call, see question. build 0/0, regen clean.
 
 ### 135 + 136 + 139. Cauldron-card redesigns + Bewitching Grin block
 - **Done:** 2026-07-05 (shared gate)
-- **135 Lich Powder** ([LichPowder.cs](../TheWickenCode/Cards/LichPowder.cs)): now "Gain 1 Intangible. Lose 2 Strength." (self-Strength applied negative), upgrade −1 Strength loss (2→1, shown via `{StrengthPower:diff()}`); Cauldron interaction dropped. Cost/type/rarity unchanged (already 3e Skill Rare).
-- **136 Lavender and Sage** ([LavenderAndSage.cs](../TheWickenCode/Cards/LavenderAndSage.cs)): now "Draw 1 card. Gain 4 Brambles." (BramblesPower), upgrade +1 card; Cauldron interaction dropped.
-- **139 Bewitching Grin** ([BewitchingGrin.cs](../TheWickenCode/Cards/BewitchingGrin.cs)): added "Gain 5 Block" ahead of the existing 2 Weak to ALL. **Design calls (note was terse):** kept AllEnemies targeting, Exhaust, 1e Common, and the +1 Weak upgrade — note didn't mention them; flag if the intent was single-target or no Exhaust.
+- **135 Lich Powder** ([LichPowder.cs](../TheWitchCode/Cards/LichPowder.cs)): now "Gain 1 Intangible. Lose 2 Strength." (self-Strength applied negative), upgrade −1 Strength loss (2→1, shown via `{StrengthPower:diff()}`); Cauldron interaction dropped. Cost/type/rarity unchanged (already 3e Skill Rare).
+- **136 Lavender and Sage** ([LavenderAndSage.cs](../TheWitchCode/Cards/LavenderAndSage.cs)): now "Draw 1 card. Gain 4 Brambles." (BramblesPower), upgrade +1 card; Cauldron interaction dropped.
+- **139 Bewitching Grin** ([BewitchingGrin.cs](../TheWitchCode/Cards/BewitchingGrin.cs)): added "Gain 5 Block" ahead of the existing 2 Weak to ALL. **Design calls (note was terse):** kept AllEnemies targeting, Exhaust, 1e Common, and the +1 Weak upgrade — note didn't mention them; flag if the intent was single-target or no Exhaust.
 - **Verified:** build 0/0, regen clean, TESTED cleared ×3. Note: The Cauldron's remaining sources are Witchcraft / StealBones / DanceAroundTheCauldron — still not orphaned.
 
 ### 134. CUT Chimera Familiar (full cascade)
 - **Done:** 2026-07-05 — deleted `ChimeraFamiliar.cs`, `ChimeraFamiliarPower.cs`, `ChimeraPet.cs`, loc keys (card + power), art `chimera_familiar.png` both sizes + `.import`s. Registry is reflection-based (`OfType<IFamiliarSummon>`) so Embrace the Wilds / random-summon rolls self-adjust — no code refs remained; cleaned the four comment/cref mentions (CursedSpellbookPower, EmbraceTheWildsPower, FamiliarPower, FamiliarCardRegistry). No orphans: Chimera had no unique token cards (it rolled the shared pool). build 0/0, regen 100→99 cards. ⚠️ Run **Godot: Import assets** after art deletion; playtest a save that had a Chimera power active (removed content in old saves).
 
 ### 133 + 138. Bottle Barrage Rare→Uncommon 10→7 dmg; Forbidden Magic Common→Uncommon
-- **Done:** 2026-07-05 — [BottleBarrage.cs](../TheWickenCode/Cards/BottleBarrage.cs): `DamageVar` 10→7 (per-hit damage; the Barrage `CalculatedHits` shape untouched), rarity Rare→Uncommon. [ForbiddenMagic.cs](../TheWickenCode/Cards/ForbiddenMagic.cs): ctor rarity only. Shared gate, build 0/0, regen clean; TESTED cleared on both.
+- **Done:** 2026-07-05 — [BottleBarrage.cs](../TheWitchCode/Cards/BottleBarrage.cs): `DamageVar` 10→7 (per-hit damage; the Barrage `CalculatedHits` shape untouched), rarity Rare→Uncommon. [ForbiddenMagic.cs](../TheWitchCode/Cards/ForbiddenMagic.cs): ctor rarity only. Shared gate, build 0/0, regen clean; TESTED cleared on both.
 
 ### 132. Refuse Pile: Rats visibly fly into the piles
-- **Done:** 2026-07-05 — [RefusePile.cs](../TheWickenCode/Cards/RefusePile.cs) `AddRats` switched to the Call the Pack pattern: plural `AddGeneratedCardsToCombat(..., CardPilePosition.Random)` + `CardCmd.PreviewCardPileAdd(generated)` so the Rats spawn center screen and fly to draw/discard instead of silently appearing. build 0/0. ⚠️ Playtest the animation (both piles, upgraded 3+3).
+- **Done:** 2026-07-05 — [RefusePile.cs](../TheWitchCode/Cards/RefusePile.cs) `AddRats` switched to the Call the Pack pattern: plural `AddGeneratedCardsToCombat(..., CardPilePosition.Random)` + `CardCmd.PreviewCardPileAdd(generated)` so the Rats spawn center screen and fly to draw/discard instead of silently appearing. build 0/0. ⚠️ Playtest the animation (both piles, upgraded 3+3).
 
 ### 131. Consume Youth: live doubled-damage preview
 - **Done:** 2026-07-05
-- **Changed:** [ConsumeYouth.cs](../TheWickenCode/Cards/ConsumeYouth.cs) rebuilt on the Soul Storm shape: `CalculationBaseVar(20)` + `ExtraDamageVar(20)` + `CalculatedDamageVar.WithMultiplier((_, target) => target above half HP ? 1 : 0)` — targeting a healthy enemy now previews 40 (52 upgraded) live; the same var drives the actual hit, replacing the hand-rolled `×2` in OnPlay. Upgrade bumps both halves +6 to keep the doubled hit exactly 2×. Loc `{Damage:diff()}` → `{CalculatedDamage:diff()}`.
+- **Changed:** [ConsumeYouth.cs](../TheWitchCode/Cards/ConsumeYouth.cs) rebuilt on the Soul Storm shape: `CalculationBaseVar(20)` + `ExtraDamageVar(20)` + `CalculatedDamageVar.WithMultiplier((_, target) => target above half HP ? 1 : 0)` — targeting a healthy enemy now previews 40 (52 upgraded) live; the same var drives the actual hit, replacing the hand-rolled `×2` in OnPlay. Upgrade bumps both halves +6 to keep the doubled hit exactly 2×. Loc `{Damage:diff()}` → `{CalculatedDamage:diff()}`.
 - **Verified:** build 0/0, regen clean. ⚠️ Playtest (after publish for the loc change): hover-target above/below half HP shows 40/20; damage dealt matches preview.
 
 ### 130. BUG: Find Familiar hang — missing `.selectionScreenPrompt` loc key; draw-pile-only search
 - **Done:** 2026-07-05
-- **Root cause (from game log 6/28 + decompiled `CardModel.cs:128-136`):** `CardModel.SelectionScreenPrompt` THROWS `InvalidOperationException("No selection screen prompt for …")` when the id-derived loc key `<ID>.selectionScreenPrompt` doesn't exist. `THEWICKEN-FIND_FAMILIAR.selectionScreenPrompt` was never added, so `OnPlay` died before the selector opened — the play action completed with exception and the card froze center screen. (Log shows Curiosity hit the same throw on 6/28; its key exists in the repo now — **loc changes ship via `dotnet publish`, not plain build**, so playtest after a publish.)
-- **Changed:** [FindFamiliar.cs](../TheWickenCode/Cards/FindFamiliar.cs) now searches the **draw pile only** (Droplet of Precognition / Seeker Strike shape; discard fallback dropped per the design note); added the `selectionScreenPrompt` key + trimmed "or Discard Pile" from the description in `cards.json`.
+- **Root cause (from game log 6/28 + decompiled `CardModel.cs:128-136`):** `CardModel.SelectionScreenPrompt` THROWS `InvalidOperationException("No selection screen prompt for …")` when the id-derived loc key `<ID>.selectionScreenPrompt` doesn't exist. `THEWITCH-FIND_FAMILIAR.selectionScreenPrompt` was never added, so `OnPlay` died before the selector opened — the play action completed with exception and the card froze center screen. (Log shows Curiosity hit the same throw on 6/28; its key exists in the repo now — **loc changes ship via `dotnet publish`, not plain build**, so playtest after a publish.)
+- **Changed:** [FindFamiliar.cs](../TheWitchCode/Cards/FindFamiliar.cs) now searches the **draw pile only** (Droplet of Precognition / Seeker Strike shape; discard fallback dropped per the design note); added the `selectionScreenPrompt` key + trimmed "or Discard Pile" from the description in `cards.json`.
 - **Verified:** build 0/0, regen clean. ⚠️ **Playtest after `dotnet publish`** (loc is packed in the .pck): play Find Familiar with familiars in draw pile (selector opens), with none (returns empty, card discards), upgraded (2 picks).
 
 ### 129. Familiar summon upgrades: upgraded tokens instead of −1e
 - **Done:** 2026-07-05
-- **Changed:** Removed `EnergyCost.UpgradeBy(-1)` from Owl/Crow/Rat/Chimera Familiar (Wolf/Bear/Cat never had one — all summons cost 1e). Upgrade effect is now purely "tokens created are upgraded" via the existing `GainFamiliar` → `FamiliarPower.GrantsUpgradedCards` plumbing (verified in [WickenCard.cs:42-51](../TheWickenCode/Cards/WickenCard.cs)). All 7 summon loc descriptions now show the upgrade: `[gold]{IfUpgraded:show:X Familiar+|X Familiar}[/gold]` (REAVE/Pocket Rats convention). Hover tips already passed `IsUpgraded` on all 7 — no change needed there.
+- **Changed:** Removed `EnergyCost.UpgradeBy(-1)` from Owl/Crow/Rat/Chimera Familiar (Wolf/Bear/Cat never had one — all summons cost 1e). Upgrade effect is now purely "tokens created are upgraded" via the existing `GainFamiliar` → `FamiliarPower.GrantsUpgradedCards` plumbing (verified in [WitchCard.cs:42-51](../TheWitchCode/Cards/WitchCard.cs)). All 7 summon loc descriptions now show the upgrade: `[gold]{IfUpgraded:show:X Familiar+|X Familiar}[/gold]` (REAVE/Pocket Rats convention). Hover tips already passed `IsUpgraded` on all 7 — no change needed there.
 - **Verified:** build 0/0, regen clean (TESTED cleared on the 4 changed summons). ⚠️ Playtest: upgraded summon shows "Summon a X Familiar+", turn-start tokens arrive upgraded, tooltip previews upgraded token faces.
 
 ### 127–128. CUT Brew + Infuse; new Oxidizers (starter) + Rip Soul (Ancient)
 - **Done:** 2026-07-05
-- **Changed:** Deleted [Brew.cs] and [Infuse.cs] (no art existed — placeholders; loc keys replaced in place). TheCauldron NOT orphaned (Witchcraft/StealBones/LichPowder/LavenderAndSage/DanceAroundTheCauldron still use it). New **Oxidizers** — 1e Skill Basic Self, upgrade → 0e: applies 1 stack of new **OxidizersPower** ("the next Potion you play this turn is played again"). Power = Counter buff, one stack per potion, expires at turn end (base-game **BurstPower** pattern). Replay implementation: `AfterPotionUsed` reflection-invokes protected `PotionModel.OnUse` directly — `OnUseWrapper` is unusable for replay (its `RemoveBeforeUse` throws on the already-removed potion, and it re-fires `AfterPotionUsed` → infinite loop). `ThrowingPlayerChoiceContext` (ReptileTrinket precedent) is safe: no base-game or mod potion prompts a choice in `OnUse`. New **Rip Soul** — 2e Attack Ancient, 15 dmg (+5 on upgrade), 3 Hex, create 3 random potions (`PotionCatalog.Random(Query())` per ChromaticClaws). Starting deck: Brew→Oxidizers ([Wicken.cs](../TheWickenCode/Character/Wicken.cs)); [AncientTranscendencePatch.cs](../TheWickenCode/Patches/AncientTranscendencePatch.cs) now maps Oxidizers→RipSoul.
-- **Files:** deleted `Cards/Brew.cs`, `Cards/Infuse.cs`; new `Cards/Oxidizers.cs`, `Cards/RipSoul.cs`, `Powers/OxidizersPower.cs`; `Wicken.cs`, `AncientTranscendencePatch.cs`, `cards.json` loc, `powers.json` loc; regen (100 cards, Ancient 2).
+- **Changed:** Deleted [Brew.cs] and [Infuse.cs] (no art existed — placeholders; loc keys replaced in place). TheCauldron NOT orphaned (Witchcraft/StealBones/LichPowder/LavenderAndSage/DanceAroundTheCauldron still use it). New **Oxidizers** — 1e Skill Basic Self, upgrade → 0e: applies 1 stack of new **OxidizersPower** ("the next Potion you play this turn is played again"). Power = Counter buff, one stack per potion, expires at turn end (base-game **BurstPower** pattern). Replay implementation: `AfterPotionUsed` reflection-invokes protected `PotionModel.OnUse` directly — `OnUseWrapper` is unusable for replay (its `RemoveBeforeUse` throws on the already-removed potion, and it re-fires `AfterPotionUsed` → infinite loop). `ThrowingPlayerChoiceContext` (ReptileTrinket precedent) is safe: no base-game or mod potion prompts a choice in `OnUse`. New **Rip Soul** — 2e Attack Ancient, 15 dmg (+5 on upgrade), 3 Hex, create 3 random potions (`PotionCatalog.Random(Query())` per ChromaticClaws). Starting deck: Brew→Oxidizers ([Witch.cs](../TheWitchCode/Character/Witch.cs)); [AncientTranscendencePatch.cs](../TheWitchCode/Patches/AncientTranscendencePatch.cs) now maps Oxidizers→RipSoul.
+- **Files:** deleted `Cards/Brew.cs`, `Cards/Infuse.cs`; new `Cards/Oxidizers.cs`, `Cards/RipSoul.cs`, `Powers/OxidizersPower.cs`; `Witch.cs`, `AncientTranscendencePatch.cs`, `cards.json` loc, `powers.json` loc; regen (100 cards, Ancient 2).
 - **Verified:** build 0/0, regen clean. ⚠️ No art: `oxidizers.png`, `rip_soul.png` (placeholders + log). **Playtest**: Oxidizers replay (esp. The Cauldron and MushroomExtract doubled), turn-end expiry, stacked casts; Archaic Tooth transforming Oxidizers→Rip Soul; Rip Soul potion triple-create with Catalyst.
 
 ### 125. RoomySatchel adversarial review — full-belt shrink crash + slot-leak fix
 - **Done:** 2026-07-05
 - **Findings (verified against decompiled `Player.cs` / `NPotionContainer.cs`):**
-  1. **Full-belt crash (fixed):** `Player.SetMaxPotionCountInternal` migrates each doomed slot's potion to `_potionSlots.IndexOf(null)` with no `-1` check — with every slot full there is no null, so it writes `_potionSlots[-1]` → `ArgumentOutOfRangeException` at combat end. Unreachable in vanilla (base game never shrinks). Fix in [RoomySatchelPower.cs](../TheWickenCode/Powers/RoomySatchelPower.cs): pre-discard overflow potions (top slot down, `PotionCmd.Discard`) until potion count ≤ kept slots, *then* `LoseMaxPotionCount` — migration then always finds an empty kept slot (kept region full ⇒ no doomed potions remain, so no migration at all).
+  1. **Full-belt crash (fixed):** `Player.SetMaxPotionCountInternal` migrates each doomed slot's potion to `_potionSlots.IndexOf(null)` with no `-1` check — with every slot full there is no null, so it writes `_potionSlots[-1]` → `ArgumentOutOfRangeException` at combat end. Unreachable in vanilla (base game never shrinks). Fix in [RoomySatchelPower.cs](../TheWitchCode/Powers/RoomySatchelPower.cs): pre-discard overflow potions (top slot down, `PotionCmd.Discard`) until potion count ≤ kept slots, *then* `LoseMaxPotionCount` — migration then always finds an empty kept slot (kept region full ⇒ no doomed potions remain, so no migration at all).
   2. **Mid-combat removal leak (fixed):** a buff strip removes the power via `PowerCmd.Remove` → `AfterRemoved` fires but `AfterCombatEnd` never does (power detached) → slots became permanent. Added `AfterRemoved` override calling the same revert. No double-fire: combat-end teardown uses `RemoveAllPowersInternalExcept` which explicitly skips `AfterRemoved`. Death path guarded (`oldOwner.IsDead` → skip; run is over anyway).
   3. **Shrink patch re-seat logic reviewed, OK:** migration only moves doomed-slot potions into *empty* kept holders, so the `holders[slot].Potion?.Model != potion` re-seat condition can't clobber an occupied holder; discard events fire while all holders still exist.
 - **Verified:** build 0/0. ⚠️ **Playtest matrix:** end combat with (a) belt full incl. satchel slots, (b) potions sitting in the bonus slots (should discard), (c) play card twice / upgraded (stack = 5 slots), (d) UI belt contracts with no orphaned potion nodes.
 
 ### 124. BUG: Mushroom Extract crash on third card — NCard.Reload postfix NRE
 - **Done:** 2026-07-05
-- **Changed:** [MushroomedCards.cs](../TheWickenCode/Patches/MushroomedCards.cs) `MushroomedNCardPortraitPatch` now bails when `!__instance.IsNodeReady()`. Root cause: `NCard.Model` setter calls `Reload()` which early-returns before `_Ready` has run — but the Harmony postfix still executed and dereferenced `_portrait`/`_ancientPortrait` (both null until `_Ready`), NRE-ing mid-draw for mushroomed cards only, on code paths that assign `Model` before the node enters the tree (e.g. `CardCmd.Preview` spawns). Matches "two cards fine, crash on third". No crash log existed (all godot logs end cleanly, predate report) — diagnosis from decompiled `NCard.cs` (Model setter → Reload → `IsNodeReady()` guard).
+- **Changed:** [MushroomedCards.cs](../TheWitchCode/Patches/MushroomedCards.cs) `MushroomedNCardPortraitPatch` now bails when `!__instance.IsNodeReady()`. Root cause: `NCard.Model` setter calls `Reload()` which early-returns before `_Ready` has run — but the Harmony postfix still executed and dereferenced `_portrait`/`_ancientPortrait` (both null until `_Ready`), NRE-ing mid-draw for mushroomed cards only, on code paths that assign `Model` before the node enters the tree (e.g. `CardCmd.Preview` spawns). Matches "two cards fine, crash on third". No crash log existed (all godot logs end cleanly, predate report) — diagnosis from decompiled `NCard.cs` (Model setter → Reload → `IsNodeReady()` guard).
 - **Verified:** build 0/0. ⚠️ **Playtest required**: drink Mushroom Extract with ≥3 cards drawn (incl. a reshuffle mid-draw) — confirm no crash and gibberish/mystery art renders on all 6.
 
 ### 126. Bottle Wall: Uncommon → Rare, add Exhaust
-- **Done:** 2026-07-05 — ctor rarity + `CanonicalKeywords => [CardKeyword.Exhaust]`. [BottleWall.cs](../TheWickenCode/Cards/BottleWall.cs). build 0/0 (shared gate with 123); regen clean, TESTED cleared.
+- **Done:** 2026-07-05 — ctor rarity + `CanonicalKeywords => [CardKeyword.Exhaust]`. [BottleWall.cs](../TheWitchCode/Cards/BottleWall.cs). build 0/0 (shared gate with 123); regen clean, TESTED cleared.
 
 ### 123. Moondrop Tea: Common → Uncommon
-- **Done:** 2026-07-05 — ctor rarity only. [MoondropTea.cs](../TheWickenCode/Cards/MoondropTea.cs). build 0/0; regen clean, TESTED cleared.
+- **Done:** 2026-07-05 — ctor rarity only. [MoondropTea.cs](../TheWitchCode/Cards/MoondropTea.cs). build 0/0; regen clean, TESTED cleared.
 
 ### 129–130. Ancient cards: Infuse (transcended Brew) + Catalyst (unique ancient)
 - **Done:** 2026-07-03
-- **Changed:** (129) **Infuse** — 0e Skill `CardRarity.Ancient`: choose and Exhaust 2 hand cards (`CardSelectCmd.FromCombatPile` + `ExhaustSelectionPrompt`, Cleanse pattern), stir each into The Cauldron (`Stir(count)` = +2 Str/+3 Heal apiece; Cauldron procured if absent). Upgrade → 3 cards. **Event hookup**: new [AncientTranscendencePatch.cs](TheWickenCode/Patches/AncientTranscendencePatch.cs) — Harmony getter postfix on Archaic Tooth's private static `TranscendenceUpgrades`, adding `Brew → Infuse` (Bash→Break pattern). Getter rebuilds per access, so `TranscendenceCards` (DustyTome's exclusion list) picks it up too. (130) **Catalyst** — 1e Power `CardRarity.Ancient`, upgrade → 0e: applies permanent `CatalystPower` ("Duplicate Potions you create") — NextPotionCopiedPower's copy logic minus the stack decrement, skips The Cauldron, instance-scoped reentry guard. **Hookup automatic**: DustyTome rolls any pool card with `CardRarity.Ancient` not in `TranscendenceCards`.
+- **Changed:** (129) **Infuse** — 0e Skill `CardRarity.Ancient`: choose and Exhaust 2 hand cards (`CardSelectCmd.FromCombatPile` + `ExhaustSelectionPrompt`, Cleanse pattern), stir each into The Cauldron (`Stir(count)` = +2 Str/+3 Heal apiece; Cauldron procured if absent). Upgrade → 3 cards. **Event hookup**: new [AncientTranscendencePatch.cs](TheWitchCode/Patches/AncientTranscendencePatch.cs) — Harmony getter postfix on Archaic Tooth's private static `TranscendenceUpgrades`, adding `Brew → Infuse` (Bash→Break pattern). Getter rebuilds per access, so `TranscendenceCards` (DustyTome's exclusion list) picks it up too. (130) **Catalyst** — 1e Power `CardRarity.Ancient`, upgrade → 0e: applies permanent `CatalystPower` ("Duplicate Potions you create") — NextPotionCopiedPower's copy logic minus the stack decrement, skips The Cauldron, instance-scoped reentry guard. **Hookup automatic**: DustyTome rolls any pool card with `CardRarity.Ancient` not in `TranscendenceCards`.
 - **Files:** `Infuse.cs`, `Catalyst.cs`, `CatalystPower.cs`, `AncientTranscendencePatch.cs` (all new); `cards.json`, `powers.json`; regen (100 cards, Ancient 2). Tags: Infuse = Potions/Generator, Catalyst = Potions/Enabler.
 - **Verified:** build 0/0, regen clean. ⚠️ No art (`infuse.png`, `catalyst.png`) — placeholders. **Playtest**: Ancient event offering both patterns (Archaic Tooth transforms Brew→Infuse, upgraded-Brew→Infuse+; Dusty Tome grants Catalyst+), Catalyst × Gather Herbs stacking, Catalyst under Wicker Form.
 
 ### 128. Vicious Barbs → Mulch: Rare, Exhaust-your-hand
 - **Done:** 2026-07-03
-- **Changed:** Full rename (class `Mulch`, id `THEWICKEN-MULCH`, loc, art `vicious_barbs.png`→`mulch.png`, stale `.import` deleted). Uncommon→Rare. Now **Exhausts** the hand (FiendFire loop: `CardCmd.Exhaust` per card) instead of discarding; payload unchanged (5 dmg + 4 Brambles per card, upgrade +2 dmg/card).
+- **Changed:** Full rename (class `Mulch`, id `THEWITCH-MULCH`, loc, art `vicious_barbs.png`→`mulch.png`, stale `.import` deleted). Uncommon→Rare. Now **Exhausts** the hand (FiendFire loop: `CardCmd.Exhaust` per card) instead of discarding; payload unchanged (5 dmg + 4 Brambles per card, upgrade +2 dmg/card).
 - **Verified:** build 0/0, regen shows rename. ⚠️ Playtest: exhaust triggers (Wormy/Rake interactions).
 
 ### 127. Stuck in a Bush: Rare → Uncommon
@@ -219,12 +219,12 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 ### 126. Ambush! redesign: 1e Uncommon, 8 dmg ALL, create random familiar card
 - **Done:** 2026-07-03
 - **Changed:** Was 2e Rare "15 ALL + Summon random Familiar (random FamiliarPower) + Exhaust". Now 1e Uncommon: Deal 8 to ALL, **create one random familiar token card in hand** (`FamiliarCardRegistry.CreateRandom` + generated-path add). Exhaust dropped (not in the new spec). Upgrade → +3 damage (my call; old was +5).
-- **Files:** [Ambush.cs](TheWickenCode/Cards/Ambush.cs), `cards.json`.
+- **Files:** [Ambush.cs](TheWitchCode/Cards/Ambush.cs), `cards.json`.
 - **Verified:** build 0/0.
 
 ### 125. Witchcraft swap: old Witchcraft cut, Cackle renamed Witchcraft
 - **Done:** 2026-07-03
-- **Changed:** (user-resolved conflict) Deleted the old "Create X Potions" Witchcraft (class, its loc desc). Renamed **Cackle → Witchcraft** — same effect (pour belt into Cauldron, 2e Rare Exhaust, −1e upgrade), claims `THEWICKEN-WITCHCRAFT` keys, uses the existing `witchcraft.png` art. **Cackle's art moved to Call the Pack** (`cackle.png`→`call_the_pack.png`, both sizes; stale imports deleted). All "Cackle" code-comment mentions updated (TheCauldron, PotionTraits, NextPotion* powers).
+- **Changed:** (user-resolved conflict) Deleted the old "Create X Potions" Witchcraft (class, its loc desc). Renamed **Cackle → Witchcraft** — same effect (pour belt into Cauldron, 2e Rare Exhaust, −1e upgrade), claims `THEWITCH-WITCHCRAFT` keys, uses the existing `witchcraft.png` art. **Cackle's art moved to Call the Pack** (`cackle.png`→`call_the_pack.png`, both sizes; stale imports deleted). All "Cackle" code-comment mentions updated (TheCauldron, PotionTraits, NextPotion* powers).
 - **Verified:** build 0/0. ⚠️ Godot: Import assets (art renames).
 
 ### 124. CUT Favorite Spellbook
@@ -236,33 +236,33 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 ### 121. Double Double: cost −1, damage −2
 - **Done:** 2026-07-03
 - **Changed:** 2e→1e, 5→3 damage ×2 hits. Upgrade unchanged (+3 dmg).
-- **Files:** [DoubleDouble.cs](TheWickenCode/Cards/DoubleDouble.cs); regen (TESTED cleared).
+- **Files:** [DoubleDouble.cs](TheWitchCode/Cards/DoubleDouble.cs); regen (TESTED cleared).
 - **Verified:** build 0/0.
 
 ### 120. New Card: Call the Pack — 1e Common Attack
 - **Done:** 2026-07-03
 - **Changed:** Deal 6 damage; shuffle 2 **Gnash** into the Draw Pile (`AddGeneratedCardToCombat(Draw, Random)` — generated path, so card-creation payoffs fire; plain un-upgraded tokens). Upgrade → 3 Gnash (Cards +1).
-- **Files:** [CallThePack.cs](TheWickenCode/Cards/CallThePack.cs) (new), `cards.json`. ⚠️ No art (`call_the_pack.png`) — placeholder.
+- **Files:** [CallThePack.cs](TheWitchCode/Cards/CallThePack.cs) (new), `cards.json`. ⚠️ No art (`call_the_pack.png`) — placeholder.
 - **Verified:** build 0/0.
 
 ### 119. New Cards: Wicker Form (2e Rare Power) + Rake token — creation-replacement engine
 - **Done:** 2026-07-03
-- **Changed:** **Wicker Form**: "If you would create a card or Potion, instead create a Rake." Upgrade → 1e. Applies marker `WickerFormPower` (Buff/None). **Rake** (0e Attack Token, main pool — Token rarity keeps it out of rewards): Deal 6, gain 4 Brambles, draw 1; upgrade +2 dmg/+1 Brambles. Replacement lives in [WickerFormReplacementPatch.cs](TheWickenCode/Patches/WickerFormReplacementPatch.cs): (a) Harmony prefix on `CardPileCmd.AddGeneratedCardsToCombat` (the single generated-card funnel) swaps every non-Rake generated card owned by the power's owner for a fresh Rake; (b) prefix on `PotionCmd.TryToProcure(PotionModel, Player, int)` cancels an in-combat procure and generates a Rake into the hand instead (returns a `NotAllowed` failure result). Rake-in → Rake-out guard prevents re-entry. Power is combat-scoped, so out-of-combat potion rewards/shops untouched.
-- **Design calls:** Replacement is total — familiars' turn-start tokens, potion-payload cards, The Cauldron procures, everything becomes Rakes while active (that's the card's promise). No Exhaust on Rake (not specified; it's a WickenCard token, not a familiar card).
+- **Changed:** **Wicker Form**: "If you would create a card or Potion, instead create a Rake." Upgrade → 1e. Applies marker `WickerFormPower` (Buff/None). **Rake** (0e Attack Token, main pool — Token rarity keeps it out of rewards): Deal 6, gain 4 Brambles, draw 1; upgrade +2 dmg/+1 Brambles. Replacement lives in [WickerFormReplacementPatch.cs](TheWitchCode/Patches/WickerFormReplacementPatch.cs): (a) Harmony prefix on `CardPileCmd.AddGeneratedCardsToCombat` (the single generated-card funnel) swaps every non-Rake generated card owned by the power's owner for a fresh Rake; (b) prefix on `PotionCmd.TryToProcure(PotionModel, Player, int)` cancels an in-combat procure and generates a Rake into the hand instead (returns a `NotAllowed` failure result). Rake-in → Rake-out guard prevents re-entry. Power is combat-scoped, so out-of-combat potion rewards/shops untouched.
+- **Design calls:** Replacement is total — familiars' turn-start tokens, potion-payload cards, The Cauldron procures, everything becomes Rakes while active (that's the card's promise). No Exhaust on Rake (not specified; it's a WitchCard token, not a familiar card).
 - **Files:** `WickerForm.cs`, `Rake.cs`, `WickerFormPower.cs`, `WickerFormReplacementPatch.cs` (all new); `cards.json`, `powers.json`. ⚠️ No art ×2 — placeholders.
 - **Verified:** build 0/0. ⚠️ **Playtest hard** (async Harmony prefixes): familiar turn-start replacement, Brew/Cackle under Wicker Form, Gather Herbs + Wicker Form interaction, MP.
 
 ### 114–118. Cauldron stat expansion + support cards + Gather Herbs guard
 - **Done:** 2026-07-03
 - **Changed:** (114) `TheCauldron` gains **Vigor** + **Block** stat vars (OnUse applies when > 0; conditional tooltip lines added; dict-schema sidecar persists them automatically) plus two extension points: `AddStat(varName, amount)` and static `EnsureInBelt(player)` (find-or-procure, shared by all "add X to The Cauldron" cards). (115) **Lavender and Sage** reworked: Draw 1 + **add 2 Vigor to The Cauldron** (creates it if absent); upgrade Draw +1; Brambles dropped. (116) New **Steal Bones** — 1e Common Attack: Deal 6, add 5 Block to The Cauldron; upgrade +3 dmg. (**Name change from staging:** "Salt and Ash" already exists as a Block skill — user chose to keep both and named the new attack Steal Bones.) (117) New **Midnight Oil** (working name, user may rename) — 2e Rare Skill: add 1 Intangible to The Cauldron; upgrade → 1e. (118) `NextPotionCopiedPower` (Gather Herbs) now **never copies The Cauldron** and doesn't consume a stack for it.
-- **Files:** [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs), [LavenderAndSage.cs](TheWickenCode/Cards/LavenderAndSage.cs), `StealBones.cs` + `MidnightOil.cs` (new), [NextPotionCopiedPower.cs](TheWickenCode/Powers/NextPotionCopiedPower.cs); `cards.json`, `potions.json`. ⚠️ No art for Steal Bones / Midnight Oil — placeholders.
+- **Files:** [TheCauldron.cs](TheWitchCode/Potions/TheCauldron.cs), [LavenderAndSage.cs](TheWitchCode/Cards/LavenderAndSage.cs), `StealBones.cs` + `MidnightOil.cs` (new), [NextPotionCopiedPower.cs](TheWitchCode/Powers/NextPotionCopiedPower.cs); `cards.json`, `potions.json`. ⚠️ No art for Steal Bones / Midnight Oil — placeholders.
 - **Verified:** build 0/0. ⚠️ Playtest: Vigor/Block lines appear in tooltip only when fed; sidecar round-trip with new stats.
 
 ### 110–113. Starter rework: Bush out, Brew (Stir) in; renames Stuck in a Bush + Distill
 - **Done:** 2026-07-03
 - **Changed:** (110) **Bush cut** (card, loc, art). (111) **Stuck in the Bush → Stuck in a Bush** (class `StuckInABush`, id/loc keys, art renamed `stuck_in_a_bush.png`, stale `.import` deleted). (112) **Brew → Distill** (class, id/loc keys, art renamed `distill.png`) — freeing the name. (113) `TheCauldron.Stir(count=1)` extracted (+2 Str/+3 Heal per potion, no thresholds — `PourPotions` now = `Stir(count)` + Cackle's per-cast threshold unlocks). New **Brew starter** (0e Skill, AnyEnemy): Apply 1 Weak; **stir a RANDOM belt potion into The Cauldron** (potion discarded; Cauldron procured only when there's something to stir — no empty-Cauldron belt clog); upgrade → Weak 3. Starting deck: Bush → Brew.
 - **Design calls:** Random stir consumes via `PotionCmd.Discard` then `Stir()`; belt-empty = Weak only. Extract Essence (generator) + Brew (payoff) = starter potion loop per staging note.
-- **Files:** deleted `Bush.cs`; `StuckInABush.cs`, `Distill.cs` (renamed), [Brew.cs](TheWickenCode/Cards/Brew.cs) (new), [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs), [Wicken.cs](TheWickenCode/Character/Wicken.cs); `cards.json`; art renames. ⚠️ Run **Godot: Import assets** (renamed art needs fresh `.import`; new Brew uses placeholder art — old `brew.png` followed the Distill rename).
+- **Files:** deleted `Bush.cs`; `StuckInABush.cs`, `Distill.cs` (renamed), [Brew.cs](TheWitchCode/Cards/Brew.cs) (new), [TheCauldron.cs](TheWitchCode/Potions/TheCauldron.cs), [Witch.cs](TheWitchCode/Character/Witch.cs); `cards.json`; art renames. ⚠️ Run **Godot: Import assets** (renamed art needs fresh `.import`; new Brew uses placeholder art — old `brew.png` followed the Distill rename).
 - **Verified:** build 0/0, regen clean. ⚠️ Playtest: starter Brew with empty belt / full belt / existing Cauldron; save/resume Stir state.
 
 ### 109. CUT Porcupine familiar chain (Bristle art → Spines)
@@ -273,240 +273,240 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ### 108b. Cauldron follow-ups: conditional tooltip + sidecar save persistence
 - **Done:** 2026-07-03
-- **Changed:** (1) Cauldron tooltip now shows effect lines **only when > 0** via SmartFormat `ConditionalFormatter` (`{Var:cond:>0?...|}` — registered in `LocManager.LoadLocFormatters`; base-game example `SOVEREIGN_BLADE`): leads with "An evil concoction.", then Strength/Heal/Energy/cleanse/Intangible lines appear as poured. Cackle card text stays vague. (2) **Poured state now survives save/quit/resume**: new [CauldronSavePatch.cs](TheWickenCode/Potions/CauldronSavePatch.cs) — sidecar JSON in the Godot user dir (`user://thewicken_cauldron_state.json`) mapping (PlayerRng.Seed, slot index) → stats. Write: Harmony postfix on `Player.ToSerializable` (every run-save snapshot; deletes file when no filled Cauldron). Restore: postfix on private `Player.LoadPotions` (runs inside `FromSerializable` *after* `PlayerRng` is restored, so the seed key is valid). Seed mismatch → stale file ignored; all IO try/caught (fail-safe = empty Cauldron). `TheCauldron.RestoreState(...)` added.
+- **Changed:** (1) Cauldron tooltip now shows effect lines **only when > 0** via SmartFormat `ConditionalFormatter` (`{Var:cond:>0?...|}` — registered in `LocManager.LoadLocFormatters`; base-game example `SOVEREIGN_BLADE`): leads with "An evil concoction.", then Strength/Heal/Energy/cleanse/Intangible lines appear as poured. Cackle card text stays vague. (2) **Poured state now survives save/quit/resume**: new [CauldronSavePatch.cs](TheWitchCode/Potions/CauldronSavePatch.cs) — sidecar JSON in the Godot user dir (`user://thewitch_cauldron_state.json`) mapping (PlayerRng.Seed, slot index) → stats. Write: Harmony postfix on `Player.ToSerializable` (every run-save snapshot; deletes file when no filled Cauldron). Restore: postfix on private `Player.LoadPotions` (runs inside `FromSerializable` *after* `PlayerRng` is restored, so the seed key is valid). Seed mismatch → stale file ignored; all IO try/caught (fail-safe = empty Cauldron). `TheCauldron.RestoreState(...)` added.
 - **Why sidecar:** `SerializablePotion` is id+slot only and `ExtraPlayerFields` is a fixed source-gen schema — no in-save extension point exists.
-- **Files:** `CauldronSavePatch.cs` (new), [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs), `potions.json`.
+- **Files:** `CauldronSavePatch.cs` (new), [TheCauldron.cs](TheWitchCode/Potions/TheCauldron.cs), `potions.json`.
 - **Verified:** build 0/0. ⚠️ Playtest: pour → save+quit → resume → tooltip still shows stats; new run ignores stale file. Not MP-synced (remote clients rebuild from packets).
 
 ### 108. Card Redesign: Cackle — pour potions into the Cauldron
 - **Done:** 2026-07-02
 - **Changed:** Cackle (kept `2e, Skill, Rare, Exhaust`, upgrade −1e) now: **discard every belt potion except The Cauldron** (creating one if absent), then pour the discarded count in. **The Cauldron rewritten as an accumulator** (old AoE dmg/Block/Brambles/Weak effect gone): per poured potion **+2 Strength, +3 HP heal** (cumulative across casts); one Cackle cast pouring **2+ unlocks "Gain 2 Energy"**, **3+ "Remove one debuff"**, **4+ "Gain 1 Intangible"** (thresholds unlock, don't stack — note only marked Str/heal cumulative). On use: apply Strength, heal, energy, remove first debuff, Intangible. Empty Cauldron does nothing. Loc rewritten (card + potion; potion text shows live var amounts).
 - **⚠️ Known limitation:** potions serialize as **id + slot only** (`SerializablePotion`) — poured state lives in the mutable instance's DynamicVars and **does not survive save/quit/resume** (Cauldron reverts to empty). Same class of caveat as `FamiliarPower.GrantsUpgradedCards`. Flagged rather than blocked; needs a custom save patch if persistence matters.
-- **Files:** [Cackle.cs](TheWickenCode/Cards/Cackle.cs), [TheCauldron.cs](TheWickenCode/Potions/TheCauldron.cs); `cards.json`, `potions.json`; [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs) comment; regen (TESTED cleared).
+- **Files:** [Cackle.cs](TheWitchCode/Cards/Cackle.cs), [TheCauldron.cs](TheWitchCode/Potions/TheCauldron.cs); `cards.json`, `potions.json`; [PotionTraits.cs](TheWitchCode/Potions/Brewing/PotionTraits.cs) comment; regen (TESTED cleared).
 - **Verified:** build 0/0, regen `--check` clean. ⚠️ Playtest: belt-text refresh after pouring (BaseValue mutation display), threshold unlocks, discard-then-procure with a full belt.
 
 ### 107. New Card: Bonfire — 2e Rare Power (Brambles pay for cards)
 - **Done:** 2026-07-02
 - **Changed:** New Power card + `BonfirePower` (Buff/**Counter — Amount is the Bramble PRICE**, 5 base / 4 upgraded via `PowerVar` upgrade −1): **when possible, spend `Amount` Brambles to play cards instead of Energy.** No cost-substitution hook exists in the game, so it's built from two hooks: `TryModifyEnergyCostInCombat` zeroes a card's cost while (cost > 0 ∧ Brambles ≥ price), remembering the card in a transient `_substituted` set; `BeforeCardPlayed` consumes that entry and burns `price` Brambles via `PowerCmd.ModifyAmount` on the BramblesPower. Cards already at 0 cost (natively or via earlier hooks) burn nothing.
 - **Design calls:** Re-playing Bonfire never stacks the price up — card `OnPlay` applies fresh or lowers the existing Amount to the cheaper price, never adds. Substitution is mandatory while affordable (per the note's "when possible"). `_substituted` is transient combat-local state (not serialized) — MP/save-mid-play edge flagged.
-- **Files:** [Bonfire.cs](TheWickenCode/Cards/Bonfire.cs), [BonfirePower.cs](TheWickenCode/Powers/BonfirePower.cs) (new); `cards.json`, `powers.json`; regen.
+- **Files:** [Bonfire.cs](TheWitchCode/Cards/Bonfire.cs), [BonfirePower.cs](TheWitchCode/Powers/BonfirePower.cs) (new); `cards.json`, `powers.json`; regen.
 - **Verified:** build 0/0. ⚠️ No art (`bonfire.png`) — placeholder active. **Playtest hard**: cost display turns 0 at ≥5 Brambles, Brambles burn exactly once per played card, X-cost cards, auto-play interactions.
 
 ### 106. New Card: Repurpose — 1e Rare Power
 - **Done:** 2026-07-02
 - **Changed:** New Power card + `RepurposePower` (Buff/Single): **at the start of your turn, draw a random card from your Discard Pile, then discard a card.** Pull = `rng.NextItem(discard)` + plain `CardPileCmd.Add` (moving an existing card, not generating); discard = base-game DaggerThrow pattern (`CardSelectCmd.FromHandForDiscard` → `CardCmd.Discard`). Skips entirely when the discard pile is empty (no free filter-discard). Note gave no upgrade → chose **−1 Energy**.
-- **Files:** [Repurpose.cs](TheWickenCode/Cards/Repurpose.cs), [RepurposePower.cs](TheWickenCode/Powers/RepurposePower.cs) (new); `cards.json`, `powers.json`; regen.
+- **Files:** [Repurpose.cs](TheWitchCode/Cards/Repurpose.cs), [RepurposePower.cs](TheWitchCode/Powers/RepurposePower.cs) (new); `cards.json`, `powers.json`; regen.
 - **Verified:** build 0/0. ⚠️ No art (`repurpose.png`) — placeholder active. Playtest: turn-start pull + discard prompt ordering vs familiar tokens.
 
 ### 105. New Card: Salt and Ash — 1e Uncommon Skill
 - **Done:** 2026-07-02
 - **Changed:** New card: **Gain 8 Block. Gain 6 more Block if you have a debuff** (`Owner.Creature.Powers.Any(p => p.Type == PowerType.Debuff)`). Note gave no upgrade → chose **+3 base / +2 bonus** (8→11, 6→8). Second `BlockVar("BonusBlock", …)` for the conditional line.
-- **Files:** [SaltAndAsh.cs](TheWickenCode/Cards/SaltAndAsh.cs) (new); `cards.json`; regen.
+- **Files:** [SaltAndAsh.cs](TheWitchCode/Cards/SaltAndAsh.cs) (new); `cards.json`; regen.
 - **Verified:** build 0/0. ⚠️ No art yet (`salt_and_ash.png` small+big) — placeholder fallback active; run `py tools/gen-image-sizes.py` + Godot import once art exists.
 
 ### 104. Card Change: Bottle Barrage — live hit-count display
 - **Done:** 2026-07-02
 - **Changed:** Card face now shows how many times it will hit (= potions created this combat), using the base-game **Barrage** pattern verbatim: `CalculationBaseVar(0) + CalculationExtraVar(1) + CalculatedVar("CalculatedHits").WithMultiplier(→ PotionsCreatedTracker.CountFor)`. `OnPlay` reads the hit count from the CalculatedVar (single source of truth). Loc adds Barrage's `{InCombat:\n(Hits {CalculatedHits:diff()} …)|}` line — count only renders in combat.
-- **Files:** [BottleBarrage.cs](TheWickenCode/Cards/BottleBarrage.cs); `cards.json`; regen (TESTED cleared).
+- **Files:** [BottleBarrage.cs](TheWitchCode/Cards/BottleBarrage.cs); `cards.json`; regen (TESTED cleared).
 - **Verified:** build 0/0. ⚠️ Playtest: count updates as potions are created.
 
 ### 103. Familiar tokens go to the front of the hand
 - **Done:** 2026-07-02
 - **Changed:** `FamiliarPower.AfterPlayerTurnStart` now passes `CardPilePosition.Top` to `CardPileCmd.AddGeneratedCardToCombat` (the game's own optional positioning param; default was `Bottom`). Generated-card path (history + `AfterCardGeneratedForCombat`) unchanged.
-- **Files:** [FamiliarPower.cs](TheWickenCode/Powers/FamiliarPower.cs).
+- **Files:** [FamiliarPower.cs](TheWitchCode/Powers/FamiliarPower.cs).
 - **Verified:** build 0/0. ⚠️ Playtest: tokens appear at the left/front of the hand at turn start.
 
 ### 102. Bug Fix: Roomy Satchel — potions stranded when the belt shrinks (confirmed)
 - **Done:** 2026-07-02
 - **Root cause (confirmed by reading game source):** when max potion count shrinks at combat end, `Player.SetMaxPotionCountInternal` migrates potions from doomed slots into earlier empty slots **silently — no event fires**. The UI node for a migrated potion therefore still lives in a doomed holder, and `PotionBeltShrinkPatch` freed that holder — freeing the potion's node with it. Result: a potion that exists in the model but is invisible and unusable on screen (reload restores it). This matches both reported symptoms ("visuals strange", "lose access"). The *slot count* itself reverts correctly (`RoomySatchelPower.AfterCombatEnd` → `LoseMaxPotionCount(Amount)`); no permanent slot loss found in the model layer.
 - **Fix:** the patch now re-seats stranded potions before/after trimming — for every kept holder whose displayed potion doesn't match `player.PotionSlots[slot]`, it creates a fresh `NPotion` node in the right holder.
-- **Files:** [PotionBeltShrinkPatch.cs](TheWickenCode/Potions/PotionBeltShrinkPatch.cs).
+- **Files:** [PotionBeltShrinkPatch.cs](TheWitchCode/Potions/PotionBeltShrinkPatch.cs).
 - **Verified:** build 0/0. ⚠️ Playtest required (Harmony/UI): fill bonus slots, end combat, confirm surviving potions stay visible/usable and belt shrinks cleanly.
 
 ### 101. Brew-card trio rename + rework (Stony Brew / Wicked Brew / Herbal Brew)
 - **Done:** 2026-07-02
 - **Changed:** Full renames: **Skin of Stone (`StoneSkin`) → Stony Brew**, **Something Wicked (`SomethingWicked`) → Wicked Brew**, **Toil and Trouble (`ToilAndTrouble`) → Herbal Brew**. All three now identical shape: `1e, Common, Skill, Self, Exhaust` — create a **Common** potion of their orientation (Defensive/Offensive/Utility); **upgrade −1 Energy** (replaces the old Common→Uncommon rarity upgrade). All three keep/gain the `NextPotionRarePower`/`NextPotionUpgradedPower` rarity hooks (Stony Brew previously lacked them).
 - **Design calls:** The existing **Wicked Brew potion → Noxious Brew** (`NoxiousBrew`; name freed for the card — loc keys share one namespace so they'd collide). Updated all refs: Favorite Spellbook, Bottomless Cauldron (card + power), `PotionMerge` (`SingleToNoxiousBrew`), `PotionTraits.Manual`. Art renamed (`stony_brew`/`wicked_brew`/`herbal_brew` small+big; stale `.import` deleted). Dropped the `{IfUpgraded:show:Potion+|Potion}` marker from card text — upgrade no longer changes the potion.
-- **Files:** [StonyBrew.cs](TheWickenCode/Cards/StonyBrew.cs), [WickedBrew.cs](TheWickenCode/Cards/WickedBrew.cs), [HerbalBrew.cs](TheWickenCode/Cards/HerbalBrew.cs), [NoxiousBrew.cs](TheWickenCode/Potions/NoxiousBrew.cs), [FavoriteSpellbook.cs](TheWickenCode/Cards/FavoriteSpellbook.cs), [BottomlessCauldron.cs](TheWickenCode/Cards/BottomlessCauldron.cs), [BottomlessCauldronPower.cs](TheWickenCode/Powers/BottomlessCauldronPower.cs), [PotionMerge.cs](TheWickenCode/Potions/Brewing/PotionMerge.cs), [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs); `cards.json`, `potions.json`, `powers.json`; art renames.
+- **Files:** [StonyBrew.cs](TheWitchCode/Cards/StonyBrew.cs), [WickedBrew.cs](TheWitchCode/Cards/WickedBrew.cs), [HerbalBrew.cs](TheWitchCode/Cards/HerbalBrew.cs), [NoxiousBrew.cs](TheWitchCode/Potions/NoxiousBrew.cs), [FavoriteSpellbook.cs](TheWitchCode/Cards/FavoriteSpellbook.cs), [BottomlessCauldron.cs](TheWitchCode/Cards/BottomlessCauldron.cs), [BottomlessCauldronPower.cs](TheWitchCode/Powers/BottomlessCauldronPower.cs), [PotionMerge.cs](TheWitchCode/Potions/Brewing/PotionMerge.cs), [PotionTraits.cs](TheWitchCode/Potions/Brewing/PotionTraits.cs); `cards.json`, `potions.json`, `powers.json`; art renames.
 - **Verified:** build 0/0, regen OK. ⚠️ **Run the "Godot: Import assets" task** (renamed art needs re-import). Playtest the three brews + Bottomless Cauldron loop guard.
 
 ### 100. Bug Fix: Brew could pick the same potion twice
 - **Done:** 2026-07-02
 - **Changed:** `PotionUpgrade.UpgradeRandomPotions` re-rolled the live belt each iteration — it could hit the same potion twice and re-upgrade its own freshly created output. Now: snapshot the belt once, `UnstableShuffle` (game's own shuffle extension), upgrade the first N distinct potions. A potion with no higher tier is skipped (`continue`), not a dead stop.
-- **Files:** [PotionUpgrade.cs](TheWickenCode/Potions/Brewing/PotionUpgrade.cs).
+- **Files:** [PotionUpgrade.cs](TheWitchCode/Potions/Brewing/PotionUpgrade.cs).
 - **Verified:** build 0/0. ⚠️ Playtest: Brew+ (2 upgrades) with 2+ potions upgrades two different ones.
 
 ### 99. Card Change: Extract Essence — random potion by encounter tier
 - **Done:** 2026-07-02
 - **Changed:** Dropped the enemy-property-themed pick (`EnemyEssence.RollThematicPotion`); on unblocked damage the card now grants `PotionCatalog.Random(Query(rarity:))` where rarity = `Owner.RunState.CurrentMapPoint?.PointType` → Boss=Rare, Elite=Uncommon, else Common. Deleted the now-orphaned `Brewing/EnemyEssence.cs` (only this card used it). Loc unchanged ("extract a Potion" still accurate).
-- **Files:** [ExtractEssence.cs](TheWickenCode/Cards/ExtractEssence.cs); deleted `EnemyEssence.cs`.
+- **Files:** [ExtractEssence.cs](TheWitchCode/Cards/ExtractEssence.cs); deleted `EnemyEssence.cs`.
 - **Verified:** build 0/0. ⚠️ Playtest: elite/boss fights yield Uncommon/Rare potions.
 
 ### 98. Card Change: Embrace the Wilds — Skill → Power
 - **Done:** 2026-07-02
 - **Changed:** `CardType.Skill` → `CardType.Power`; dropped the `Exhaust` keyword (Powers leave the deck inherently). Effect unchanged: apply `EmbraceTheWildsPower` (draw −3/turn) + summon 5 random familiars; upgrade still +1 familiar.
-- **Files:** [EmbraceTheWilds.cs](TheWickenCode/Cards/EmbraceTheWilds.cs); regen (TESTED cleared).
+- **Files:** [EmbraceTheWilds.cs](TheWitchCode/Cards/EmbraceTheWilds.cs); regen (TESTED cleared).
 - **Verified:** build 0/0.
 
 ### 97. Card Change: Plague — apply 1 Hex to ALL enemies, upgrade −1e
 - **Done:** 2026-07-02
 - **Changed:** Rat token reworked from `1e Attack AllEnemies` (4 dmg AoE + Strength-down) to **`1e, Skill, AllEnemies` — Apply 1 Hex to ALL enemies. Upgrade: −1 Energy** (was +2 dmg). Uses `PowerCmd.Apply<HexPower>` on `CombatState.HittableEnemies`. Original staging note said single Hex; a follow-up staging note (same day) revised to ALL enemies — implemented the revision. Loc rewritten.
-- **Files:** [Plague.cs](TheWickenCode/Cards/Familiar/Plague.cs); `cards.json`; regen (TESTED cleared).
+- **Files:** [Plague.cs](TheWitchCode/Cards/Familiar/Plague.cs); `cards.json`; regen (TESTED cleared).
 - **Verified:** build 0/0.
 
 ### 96. Card Change: Nettles — 8 AoE +1 per Bramble, upgrade +3
 - **Done:** 2026-07-02
 - **Changed:** Already on the `CalculatedDamageVar` (Soul Storm) shape; `ExtraDamageVar` 2→**1** per Bramble, upgrade changed from +1 extra-damage to **+3 base** (`DynamicVars.CalculationBase.UpgradeValueBy(3m)`). Cost/type/rarity untouched (2e Uncommon AoE Attack). Loc unchanged (diff() renders the base bump).
-- **Files:** [Nettles.cs](TheWickenCode/Cards/Nettles.cs); regen (TESTED cleared).
+- **Files:** [Nettles.cs](TheWitchCode/Cards/Nettles.cs); regen (TESTED cleared).
 - **Verified:** build 0/0.
 
 ### 95. Card Change: Stuck in the Bush — 0e Rare: 8 Brambles + 2 Vulnerable
 - **Done:** 2026-07-02
 - **Changed:** Reworked from `2e Uncommon` (20 Block + 2 self-Vulnerable) to **`0e, Skill, Rare, Self` — Gain 8 Brambles. Gain 2 Vulnerable.** Note gave no upgrade → chose **+3 Brambles** (8→11), Vulnerable fixed at 2. Loc rewritten.
-- **Files:** [StuckInTheBush.cs](TheWickenCode/Cards/StuckInTheBush.cs); `cards.json`; regen (TESTED cleared).
+- **Files:** [StuckInTheBush.cs](TheWitchCode/Cards/StuckInTheBush.cs); `cards.json`; regen (TESTED cleared).
 - **Verified:** build 0/0.
 
 ### 94. Card Change: Ambush! — 2e, 15 damage
 - **Done:** 2026-07-02
 - **Changed:** Cost 3→**2**, AoE damage 20→**15**. Kept Exhaust, random-familiar summon, and the +5 damage upgrade.
-- **Files:** [Ambush.cs](TheWickenCode/Cards/Ambush.cs); regen (TESTED cleared).
+- **Files:** [Ambush.cs](TheWitchCode/Cards/Ambush.cs); regen (TESTED cleared).
 - **Verified:** build 0/0.
 
 ### 93. Cut: Concoct (+ orphaned Villainous Brew potion)
 - **Done:** 2026-07-02
 - **Changed:** Deleted `Cards/Concoct.cs` (+`.uid`), loc keys, art. Cutting it orphaned the **Villainous Brew** potion (Token rarity; only Concoct+ granted it) — user approved cutting it too: deleted `Potions/VillainousBrew.cs` (+`.uid`), `potions.json` keys, `PotionTraits.Manual` entry. **Wicked Brew potion kept** (still granted by Favorite Spellbook, Bottomless Cauldron, PotionMerge); its comment ref to Concoct updated to Favorite Spellbook.
-- **Files:** deleted `Concoct.cs`, `VillainousBrew.cs`, art; `cards.json`, `potions.json`, [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs), [WickedBrew.cs](TheWickenCode/Potions/WickedBrew.cs) (comment).
+- **Files:** deleted `Concoct.cs`, `VillainousBrew.cs`, art; `cards.json`, `potions.json`, [PotionTraits.cs](TheWitchCode/Potions/Brewing/PotionTraits.cs), [WickedBrew.cs](TheWitchCode/Potions/WickedBrew.cs) (comment).
 - **Verified:** build 0/0, regen OK (removed: Concoct).
 
 ### 92. Cut: Bottled Rot (potion)
 - **Done:** 2026-07-02
 - **Changed:** Deleted `Potions/BottledRot.cs` (+`.uid`), `potions.json` keys, `PotionTraits.Manual` entry, art (`images/potions/bottled_rot.png` + `.import`). Reason: Poison-ALL overlap with Silent. No card/relic granted it (grep clean).
-- **Files:** deleted `BottledRot.cs`, art; `potions.json`, [PotionTraits.cs](TheWickenCode/Potions/Brewing/PotionTraits.cs).
+- **Files:** deleted `BottledRot.cs`, art; `potions.json`, [PotionTraits.cs](TheWitchCode/Potions/Brewing/PotionTraits.cs).
 - **Verified:** build 0/0.
 
 ### 91. Cut: Infernal Chant
 - **Done:** 2026-07-02
-- **Changed:** Deleted `Cards/InternalChant.cs` (+`.uid`) — file/id spelled "Internal", note said "infernal", same card (only chant card in pool). Removed `THEWICKEN-INTERNAL_CHANT.*` loc keys + art (`internal_chant.png` small/big + `.import`). No dangling refs.
+- **Changed:** Deleted `Cards/InternalChant.cs` (+`.uid`) — file/id spelled "Internal", note said "infernal", same card (only chant card in pool). Removed `THEWITCH-INTERNAL_CHANT.*` loc keys + art (`internal_chant.png` small/big + `.import`). No dangling refs.
 - **Files:** deleted `InternalChant.cs`, art; `cards.json`.
 - **Verified:** build 0/0, regen OK (removed: Internal Chant).
 
 ### 90. Cut: Rip Veins
 - **Done:** 2026-07-02
-- **Changed:** Deleted `Cards/RipVeins.cs` (+`.uid`) — identical to a Necrobinder card. Removed `THEWICKEN-RIP_VEINS.*` loc keys + art (`rip_veins.png` small/big + `.import`). No dangling refs.
+- **Changed:** Deleted `Cards/RipVeins.cs` (+`.uid`) — identical to a Necrobinder card. Removed `THEWITCH-RIP_VEINS.*` loc keys + art (`rip_veins.png` small/big + `.import`). No dangling refs.
 - **Files:** deleted `RipVeins.cs`, art; `cards.json`.
 - **Verified:** build 0/0, regen OK (removed: Rip Veins).
 
 ### 89. Card Change: Hidden in Smoke — Intangible skill → turn-start smoke Power
 - **Done:** 2026-06-30
-- **Changed:** Reworked from `2e Rare Skill` (gain Intangible, Exhaust) to `2e, Rare, Power, Self` — **At the start of your turn, create a Vial of Smoke potion.** New `Powers/HiddenInSmokePower.cs` (Buff/Single, `AfterPlayerTurnStart` → `PotionCmd.TryToProcure<VialOfSmoke>(player)`). Card now applies the power; hover tips show the power + the `VialOfSmoke` potion. Loc rewritten (cards.json + new `THEWICKEN-HIDDEN_IN_SMOKE_POWER.*`).
+- **Changed:** Reworked from `2e Rare Skill` (gain Intangible, Exhaust) to `2e, Rare, Power, Self` — **At the start of your turn, create a Vial of Smoke potion.** New `Powers/HiddenInSmokePower.cs` (Buff/Single, `AfterPlayerTurnStart` → `PotionCmd.TryToProcure<VialOfSmoke>(player)`). Card now applies the power; hover tips show the power + the `VialOfSmoke` potion. Loc rewritten (cards.json + new `THEWITCH-HIDDEN_IN_SMOKE_POWER.*`).
 - **Design calls:** "Bottle of Smoke" → the mod's existing card-only `VialOfSmoke` (Token, defensive Block potion; same one Light the Candle brews). Note gave no upgrade → kept the prior **−1 Energy** upgrade. Dropped Intangible + Exhaust entirely. `IntangiblePower` is base-game — no orphan.
-- **Files:** [HiddenInSmoke.cs](TheWickenCode/Cards/HiddenInSmoke.cs), `Powers/HiddenInSmokePower.cs` (new); `cards.json`, `powers.json`; regen (TESTED cleared).
+- **Files:** [HiddenInSmoke.cs](TheWitchCode/Cards/HiddenInSmoke.cs), `Powers/HiddenInSmokePower.cs` (new); `cards.json`, `powers.json`; regen (TESTED cleared).
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: a Vial of Smoke appears in the belt each turn start (respects potion-slot limits via TryToProcure).
 
 ### 88. Card Change: Ritual Sacrifice — add card draw
 - **Done:** 2026-06-30
 - **Changed:** Kept `1e, Uncommon, Skill, Self` + sacrifice-a-Familiar → **Gain 25 Block. Draw 3 cards.** Added `CardsVar(3)` and a `CardPileCmd.Draw(ctx, Cards, Owner)` inside the existing `if (sacrificed)` gate (draw only fires on a successful sacrifice, matching the block). Upgrade now **+5 Block, +2 cards** (was +5 block only). Loc adds the draw line with `{Cards:plural:card|cards}`.
-- **Files:** [RitualSacrifice.cs](TheWickenCode/Cards/RitualSacrifice.cs); `cards.json`; regen (TESTED cleared).
+- **Files:** [RitualSacrifice.cs](TheWitchCode/Cards/RitualSacrifice.cs); `cards.json`; regen (TESTED cleared).
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: no sacrifice available → no block, no draw (both gated).
 
 ### 87. Card Change: Rotting Roots — skill → turn-start rot Power
 - **Done:** 2026-06-30
-- **Changed:** Reworked from `1e Uncommon Skill` (self-Weak + enemy Strength-down) to `1e, Uncommon, Power, Self` — **At the start of your turn, ALL enemies lose 5 HP and you gain 1 HP.** New `Powers/RottingRootsPower.cs` (Counter, `AfterPlayerTurnStart`): unblockable HP-loss to `combat.HittableEnemies` (`ValueProp.Unblockable | Unpowered`) then `CreatureCmd.Heal(Owner, 1)`. Card applies the power with Amount = 5. Loc rewritten (cards.json + new `THEWICKEN-ROTTING_ROOTS_POWER.*`).
+- **Changed:** Reworked from `1e Uncommon Skill` (self-Weak + enemy Strength-down) to `1e, Uncommon, Power, Self` — **At the start of your turn, ALL enemies lose 5 HP and you gain 1 HP.** New `Powers/RottingRootsPower.cs` (Counter, `AfterPlayerTurnStart`): unblockable HP-loss to `combat.HittableEnemies` (`ValueProp.Unblockable | Unpowered`) then `CreatureCmd.Heal(Owner, 1)`. Card applies the power with Amount = 5. Loc rewritten (cards.json + new `THEWITCH-ROTTING_ROOTS_POWER.*`).
 - **Design calls:** Note gave **no upgrade** → chose **+2 enemy HP-loss** (5→7); heal fixed at 1 (constant, not a var). ⚠️ The old `RottingRootsStrengthDownPower.cs` is now **orphaned dead code** (only Rotting Roots referenced it) — left in place per surgical-change rule; flag for deletion if unwanted.
-- **Files:** [RottingRoots.cs](TheWickenCode/Cards/RottingRoots.cs), `Powers/RottingRootsPower.cs` (new); `cards.json`, `powers.json`; regen (TESTED cleared).
+- **Files:** [RottingRoots.cs](TheWitchCode/Cards/RottingRoots.cs), `Powers/RottingRootsPower.cs` (new); `cards.json`, `powers.json`; regen (TESTED cleared).
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest turn-start damage-all + self-heal; combat-hook behavior compile-checked only.
 
 ### 86. Card Change: Soul Knot — damage-reflect → debuff-spread
 - **Done:** 2026-06-30
 - **Changed:** Reworked `SoulKnotPower` from "attacks on you splash all enemies" (`AfterDamageReceived`) to **"debuffs you apply to an enemy also apply to ALL enemies"** (`AfterPowerAmountChanged`, base-game **OutbreakPower** pattern). Card cost 3→2 (`2e, Rare, Power, Self`); upgrade kept as −1 Energy per the (revised) staging note. Loc updated in cards.json + powers.json.
 - **Design calls:** Hook fires on the player's powers for every power change → filtered to `applier == Owner && amount > 0 && power.Type == Debuff && landed enemy (Side != player)`. Copy uses `ModelDb.DebugPower(power.GetType()).ToMutable()` + non-generic `PowerCmd.Apply(power,…)` so any debuff type spreads generically. Two guards: a `_spreading` bool (kills the infinite re-trigger loop) and an "enemy doesn't already have this power" filter (stops already-AoE cards from compounding stacks). `silent: true` on the copies to avoid pause spam.
-- **Files:** [SoulKnot.cs](TheWickenCode/Cards/SoulKnot.cs), [SoulKnotPower.cs](TheWickenCode/Powers/SoulKnotPower.cs); `cards.json`, `powers.json`; regen (TESTED cleared).
+- **Files:** [SoulKnot.cs](TheWitchCode/Cards/SoulKnot.cs), [SoulKnotPower.cs](TheWitchCode/Powers/SoulKnotPower.cs); `cards.json`, `powers.json`; regen (TESTED cleared).
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: single-target debuff (Hex/Weak/Vuln) spreads to all enemies once; no infinite loop; already-AoE debuff cards don't double up (the "lacking it" filter). Harmony/combat-hook behavior is compile-checked only.
 
 ### 85. Card Rename + Change: Cursed Bottles → Wax and Wane
 - **Done:** 2026-06-30
-- **Changed:** Full rename `CursedBottles` → `WaxAndWane` (class + file + `.cs.uid` removed; loc key `THEWICKEN-CURSED_BOTTLES` → `THEWICKEN-WAX_AND_WANE`; art `cursed_bottles.png`/`big` → `wax_and_wane.png`/`big` via `git mv`, stale `.import` deleted). New design: converted multi-hit Attack (3×3 dmg + Hex) → `1e, Uncommon, Skill, AnyEnemy` — **Gain 9 Block. Apply 1 Hex.** Upgrade **+2 Block, +1 Hex.** Vars `BlockVar(9, Move)` + `PowerVar<HexPower>(1)`; `GainsBlock => true` (Bottle Wall pattern).
+- **Changed:** Full rename `CursedBottles` → `WaxAndWane` (class + file + `.cs.uid` removed; loc key `THEWITCH-CURSED_BOTTLES` → `THEWITCH-WAX_AND_WANE`; art `cursed_bottles.png`/`big` → `wax_and_wane.png`/`big` via `git mv`, stale `.import` deleted). New design: converted multi-hit Attack (3×3 dmg + Hex) → `1e, Uncommon, Skill, AnyEnemy` — **Gain 9 Block. Apply 1 Hex.** Upgrade **+2 Block, +1 Hex.** Vars `BlockVar(9, Move)` + `PowerVar<HexPower>(1)`; `GainsBlock => true` (Bottle Wall pattern).
 - **Design calls:** Kept `TargetType.AnyEnemy` — a Skill that gains Block (self) *and* applies Hex needs an enemy target for the debuff; block goes to self via `Owner.Creature`. No dangling refs to the old class (grep clean outside its own file + historical DONE).
 - **Files:** `Cards/WaxAndWane.cs` (new), `Cards/CursedBottles.cs`(+`.uid`) removed; `cards.json`; art renamed; regen (+Wax and Wane / −Cursed Bottles).
 - **Verified:** build 0/0, regen OK. ⚠️ Art files renamed — user must run **Godot: Import assets** to regenerate `.import`. Playtest block+hex + upgrade.
 
 ### 84. New Card: Hemlock — Bramble → Hex payoff Power
 - **Done:** 2026-06-30
-- **Changed:** New `1e, Power, Rare` card (`Cards/Hemlock.cs`) applying a new `HemlockPower` (`Powers/HemlockPower.cs`, Buff/Single marker). Bramble retaliation now checks the bramble owner for `HemlockPower` and, if present, applies **1 Hex** to the creature it damaged (`BramblesPower.BeforeDamageReceived`, right after the return-damage). Upgrade = **Innate** (`AddKeyword(CardKeyword.Innate)`, Aggression pattern). Loc added: `THEWICKEN-HEMLOCK.*` (cards.json), `THEWICKEN-HEMLOCK_POWER.*` (powers.json).
-- **Design calls:** Modeled on base-game Aggression (1e/Power/Rare/Self, apply-power + Innate-on-upgrade). `HexPower` name collides with the game's own `HexPower` — fully-qualified `TheWicken.TheWickenCode.Powers.HexPower` in both Hemlock's hover tips and BramblesPower's apply call (and qualified the game's `BramblesPower` in Hemlock's tip). Effect lives in BramblesPower (single trigger site), power is a passive toggle.
-- **Files:** `Cards/Hemlock.cs` (new), `Powers/HemlockPower.cs` (new), [BramblesPower.cs](TheWickenCode/Powers/BramblesPower.cs); `cards.json` + `powers.json`; regen (+added Hemlock).
+- **Changed:** New `1e, Power, Rare` card (`Cards/Hemlock.cs`) applying a new `HemlockPower` (`Powers/HemlockPower.cs`, Buff/Single marker). Bramble retaliation now checks the bramble owner for `HemlockPower` and, if present, applies **1 Hex** to the creature it damaged (`BramblesPower.BeforeDamageReceived`, right after the return-damage). Upgrade = **Innate** (`AddKeyword(CardKeyword.Innate)`, Aggression pattern). Loc added: `THEWITCH-HEMLOCK.*` (cards.json), `THEWITCH-HEMLOCK_POWER.*` (powers.json).
+- **Design calls:** Modeled on base-game Aggression (1e/Power/Rare/Self, apply-power + Innate-on-upgrade). `HexPower` name collides with the game's own `HexPower` — fully-qualified `TheWitch.TheWitchCode.Powers.HexPower` in both Hemlock's hover tips and BramblesPower's apply call (and qualified the game's `BramblesPower` in Hemlock's tip). Effect lives in BramblesPower (single trigger site), power is a passive toggle.
+- **Files:** `Cards/Hemlock.cs` (new), `Powers/HemlockPower.cs` (new), [BramblesPower.cs](TheWitchCode/Powers/BramblesPower.cs); `cards.json` + `powers.json`; regen (+added Hemlock).
 - **Verified:** build 0/0, regen OK. ⚠️ Placeholder art — needs `images/card_portraits/hemlock.png` (+big) then Godot import. ⚠️ Playtest: bramble retaliation applies 1 Hex when Hemlock active; upgraded copy is Innate.
 
 ### 83. Card Change: Hexblast — detonate debuffs
 - **Done:** 2026-06-30
 - **Changed:** Reworked from "apply Hex, then deal damage × unique-debuff count" to a **detonate**: counts unique debuff types on the target, deals `10 × count` in one hit, then removes every one of those debuff powers (`PowerCmd.Remove`). No longer applies Hex. Vars trimmed to a single `DamageVar(10)`; upgrade still `+3` per-debuff (→13). Chose **unique debuff type** (not per-stack) to match the prior tally; removed hover tip (no longer references Hex).
-- **Files:** [Hexblast.cs](TheWickenCode/Cards/Hexblast.cs); `cards.json` (loc + Docs regen).
+- **Files:** [Hexblast.cs](TheWitchCode/Cards/Hexblast.cs); `cards.json` (loc + Docs regen).
 - **Verified:** build 0/0, regen (TESTED cleared). ⚠️ Playtest: damage = 10 × distinct debuffs, all debuffs cleared after.
 
 ### 82. Card Change: Bewitching Grin — Attack → AoE Weak skill
 - **Done:** 2026-06-30
 - **Changed:** Converted from a single-target Attack (damage + Hex) to `1e, Common, Skill, AllEnemies` — **ALL enemies gain 2 Weak. Exhaust.** Upgrade `+1 Weak` (2→3). Vars now just `PowerVar<WeakPower>(2)`; added `Exhaust` keyword; applies Weak to `CombatState.HittableEnemies` (Plague/Pact of Agony pattern); hover tip swapped Hex→Weak.
-- **Files:** [BewitchingGrin.cs](TheWickenCode/Cards/BewitchingGrin.cs); `cards.json`; regen.
+- **Files:** [BewitchingGrin.cs](TheWitchCode/Cards/BewitchingGrin.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen (TESTED cleared).
 
 ### 81. Card Change: Vexing Thwack — single hit
 - **Done:** 2026-06-30
 - **Changed:** Dropped the `RepeatVar(2)` multi-hit; now a single-hit Attack — **Deal 8 damage. Apply 3 Hex.** Damage 10→8, base Hex 2→3. Cost/rarity/type/target unchanged (`3e, Common, Attack, AnyEnemy` — note specified no new cost) and upgrade left as-is (`+2 Hex`).
-- **Files:** [VexingThwack.cs](TheWickenCode/Cards/VexingThwack.cs); `cards.json`; regen.
+- **Files:** [VexingThwack.cs](TheWitchCode/Cards/VexingThwack.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen (TESTED cleared).
 
 ### 80. Card Change: Bind in Blood — pure Hex skill
 - **Done:** 2026-06-30
 - **Changed:** Reworked from `1e Uncommon Attack` (damage + 2 Wounds + Hex) to `0e, Common, Skill, AnyEnemy` — **Lose 3 HP. Apply 3 Hex.** Upgrade `+2 Hex` (3→5). Vars now `HpLossVar(3)` + `PowerVar<HexPower>(3)`; self HP loss via `CreatureCmd.Damage(Unblockable|Unpowered|Move)` (Pact of Agony pattern), Hex applied to target; hover tips trimmed to Hex only.
-- **Files:** [BindInBlood.cs](TheWickenCode/Cards/BindInBlood.cs); `cards.json`; regen.
+- **Files:** [BindInBlood.cs](TheWitchCode/Cards/BindInBlood.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen (TESTED cleared).
 
 ### 78. Card Change: Nibble — damage scaling → hit-count scaling
 - **Done:** 2026-06-30
 - **Changed:** Nibble now deals a flat 1 damage but **hits** `1 + RatCardsPlayedThisCombat` times (was: flat 1 hit with live-scaling per-hit damage via `CalculatedDamageVar`). Swapped to the Brambleburst/Hexblast flat-`DamageVar` + `WithHitCount(count)` shape (hit count computed in `OnPlay`, same as those cards' scaling display). Upgrade changed from "+1 extra damage per rat" to "+1 base damage per hit" (1→2), since rat-count scaling now lives entirely in hit count.
-- **Files:** [Nibble.cs](TheWickenCode/Cards/Familiar/Nibble.cs); `cards.json`; regen.
+- **Files:** [Nibble.cs](TheWitchCode/Cards/Familiar/Nibble.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: hit count = 1 (self) + prior Rat-card plays this combat; upgrade raises per-hit damage 1→2.
 
 ### 77. Card Change: Familiar pet art should reflect summon-card art
 - **Done:** 2026-06-30
-- **Changed:** Verified only — no code change. All 8 `WickenPet` subclasses (`Monsters/*Pet.cs`) already set `TexturePath` to their own summon card's portrait via `"<name>_familiar.png".CardImagePath()`, and every `FamiliarPower.Pet` maps 1:1 to the matching pet class (Bear→BearPet, Cat→CatPet, Chimera→ChimeraPet, Crow→CrowPet, Owl→OwlPet, Porcupine→PorcupinePet, Rat→RatPet, Wolf→WolfPet). The visible mismatch the user is seeing is that 4 of 9 familiar art files (`chimera_familiar.png`, `crow_familiar.png`, `porcupine_familiar.png`, `rat_familiar.png`) are still the shared default-fallback placeholder (identical file hash to `find_familiar.png`) — a missing-art gap, not a pet/card art linkage bug.
+- **Changed:** Verified only — no code change. All 8 `WitchPet` subclasses (`Monsters/*Pet.cs`) already set `TexturePath` to their own summon card's portrait via `"<name>_familiar.png".CardImagePath()`, and every `FamiliarPower.Pet` maps 1:1 to the matching pet class (Bear→BearPet, Cat→CatPet, Chimera→ChimeraPet, Crow→CrowPet, Owl→OwlPet, Porcupine→PorcupinePet, Rat→RatPet, Wolf→WolfPet). The visible mismatch the user is seeing is that 4 of 9 familiar art files (`chimera_familiar.png`, `crow_familiar.png`, `porcupine_familiar.png`, `rat_familiar.png`) are still the shared default-fallback placeholder (identical file hash to `find_familiar.png`) — a missing-art gap, not a pet/card art linkage bug.
 - **Files:** none.
 - **Verified:** code inspection only (no build needed — no `.cs` touched). Real art still needed for Chimera/Crow/Porcupine/Rat familiars (card portrait, which the pet will automatically pick up once authored).
 
 ### 76. Card Bug: Rotting Roots — broken variable token
 - **Done:** 2026-06-30
 - **Changed:** `RottingRoots.cs` builds its Weak var as `new PowerVar<WeakPower>(1m)`, which keys itself `"WeakPower"` (per `PowerVar<T>`'s ctor — matches base game's `DynamicVarSet.Weak` accessor reading `_vars["WeakPower"]`), but the localization string referenced `{Weak:diff()}`, a key that doesn't exist — hence the broken display. Fixed the loc token to `{WeakPower:diff()}`.
-- **Files:** `cards.json` (`THEWICKEN-ROTTING_ROOTS.description`).
+- **Files:** `cards.json` (`THEWITCH-ROTTING_ROOTS.description`).
 - **Verified:** build 0/0. Text now renders "Gain 1 Weak." correctly.
 
 ### 75. Card Change: Grind Down — wording
 - **Done:** 2026-06-30
 - **Changed:** Description first line reworded from "Exhaust a card to create a Potion." to "Exhaust a card. Turn it into a Potion." per the user's requested phrasing; kept the existing second line (type→effect, rarity→potency). No `.cs`/effect change.
-- **Files:** `cards.json` (`THEWICKEN-GRIND_DOWN.description`).
+- **Files:** `cards.json` (`THEWITCH-GRIND_DOWN.description`).
 - **Verified:** build 0/0.
 
 ### 74. Card Change: Chromatic Claws — redesign
 - **Done:** 2026-06-29
 - **Changed:** Dropped the belt-count damage scaling (`CalculatedDamageVar`) for flat `DamageVar(8, Move)`. New effect: deal 8, then if the belt has ≥1 potion, discard a random one (`Owner.Potions` + `rng.NextItem` → `PotionCmd.Discard`) and create a random potion (`PotionCatalog.Random(PotionCatalog.Query())` → `TryToProcure`). Guarded so the create only fires when a discard happened (empty belt → just the attack). 1e Common Attack kept. **Design call:** note gave no upgrade → +3 damage (8→11).
-- **Files:** [ChromaticClaws.cs](TheWickenCode/Cards/ChromaticClaws.cs); `cards.json`; regen.
+- **Files:** [ChromaticClaws.cs](TheWitchCode/Cards/ChromaticClaws.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: empty belt = no create; otherwise swaps one potion; created potion is from the Randomizable pool (any orientation/rarity).
 
 ### 73. Card Change: Cursed Bottles — Power → Attack
 - **Done:** 2026-06-29
 - **Changed:** Redesigned from a Hex-on-potion-use Power to a 2e Uncommon **Attack** (AnyEnemy): deal 3 damage ×3 (`WithHitCount(3)`) + apply 3 Hex (`PowerVar<HexPower>(3)` → `Apply<HexPower>`). Kept the Hex hover tip. Deleted the orphaned `CursedBottlesPower` (.cs/.uid + cards.json/powers.json keys) — only this card used it. **Design call:** note gave no upgrade → +1 damage per hit (3→4).
-- **Files:** [CursedBottles.cs](TheWickenCode/Cards/CursedBottles.cs); deleted `CursedBottlesPower.cs`; `cards.json`, `powers.json`; regen.
+- **Files:** [CursedBottles.cs](TheWitchCode/Cards/CursedBottles.cs); deleted `CursedBottlesPower.cs`; `cards.json`, `powers.json`; regen.
 - **Verified:** build 0/0 (loc analyzer clean = power keys gone), regen OK (TESTED cleared). ⚠️ Playtest: 3×3 damage + 3 Hex stacks; Hex rebounds on the enemy's next attack.
 
 ### 72. Card Change: Woe and Whimsy — redesign
 - **Done:** 2026-06-29
 - **Changed:** `WoeAndWhimsy` redesigned from "add 2 random Familiar cards" to "Gain 5 Vigor. Gain 5 Block." Upgrade → +2 Vigor, +2 Block. `PowerVar<VigorPower>(5)` + `BlockVar(5)` (Patter/InternalChant pattern); added Vigor hover tip; dropped the `FamiliarCardRegistry`/`Models` usings. Loc token `{VigorPower:diff()}` (matches base-game `WeakPower`-style token naming; C# access via `DynamicVars["VigorPower"]`). **Design call:** note didn't mention cost/rarity — kept 0e Common Skill. ⚠️ Flag: 5 Block + 5 Vigor for 0 energy on a Common is a strong stat package; worth a balance look in playtest.
-- **Files:** [WoeAndWhimsy.cs](TheWickenCode/Cards/WoeAndWhimsy.cs); `cards.json`; regen.
+- **Files:** [WoeAndWhimsy.cs](TheWitchCode/Cards/WoeAndWhimsy.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: gains 5 Vigor + 5 Block; upgrade +2/+2; check 0-cost balance.
 
 ### 71. Bug fix: Roomy Satchel potion slots don't visually contract
 - **Done:** 2026-06-29
-- **Changed:** Root cause is base-game UI: `NPotionContainer` is the only `MaxPotionCountChanged` subscriber and its `GrowPotionHolders` handler **only adds** holder nodes (`for i = _holders.Count; i < newMax`) — it never removes them on shrink, because the base game never lowers max potion count mid-run. Roomy Satchel reverts its bonus slots in `AfterCombatEnd`, so the model contracted but the empty holders lingered. Added a Harmony **postfix** on `NPotionContainer.GrowPotionHolders` that, when the new count < current holder count, `QueueFree`s the surplus holders, trims `_holders`, and re-runs `UpdateNavigation` (private members reached via `Traverse`). Mirrors the existing `WickenPetVisualsPatch` patch style; model already discards/migrates potions out of the doomed slots before the event, so trimmed holders are empty.
-- **Files:** new [PotionBeltShrinkPatch.cs](TheWickenCode/Potions/PotionBeltShrinkPatch.cs).
+- **Changed:** Root cause is base-game UI: `NPotionContainer` is the only `MaxPotionCountChanged` subscriber and its `GrowPotionHolders` handler **only adds** holder nodes (`for i = _holders.Count; i < newMax`) — it never removes them on shrink, because the base game never lowers max potion count mid-run. Roomy Satchel reverts its bonus slots in `AfterCombatEnd`, so the model contracted but the empty holders lingered. Added a Harmony **postfix** on `NPotionContainer.GrowPotionHolders` that, when the new count < current holder count, `QueueFree`s the surplus holders, trims `_holders`, and re-runs `UpdateNavigation` (private members reached via `Traverse`). Mirrors the existing `WitchPetVisualsPatch` patch style; model already discards/migrates potions out of the doomed slots before the event, so trimmed holders are empty.
+- **Files:** new [PotionBeltShrinkPatch.cs](TheWitchCode/Potions/PotionBeltShrinkPatch.cs).
 - **Verified:** build 0/0. ⚠️ Harmony UI patch — compile-only; **must playtest**: play Roomy Satchel, finish the fight, confirm the belt shrinks back to base count (and an over-cap potion is dropped as before).
 
 ### 70. Familiar localized-text + tooltip pass
@@ -518,31 +518,31 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 ### 69. Card Change: Plague — redesign
 - **Done:** 2026-06-29
 - **Changed:** Rat-token `Plague` redesigned from a Skill (draw + self/enemy Strength loss) to an **Attack**: "Deal 4 damage to ALL enemies. ALL enemies lose 1 Strength." Upgrade → +2 damage (was +1 enemy Strength). AoE via `TargetingAllOpponents` + `PowerCmd.Apply<StrengthPower>(-1)` on `HittableEnemies` (Ambush AoE pattern). Kept `IRatCard`/Token; base exhaust still applies. **Design call:** note said "All enemies take 4 damage and lose 1 strength" with no card type — made it an Attack (matches Rats/ClawEyes damage-token precedent); dropped the old draw + self-debuff.
-- **Files:** [Plague.cs](TheWickenCode/Cards/Familiar/Plague.cs); `cards.json`; regen.
+- **Files:** [Plague.cs](TheWitchCode/Cards/Familiar/Plague.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: AoE damage + Strength loss; Nibble's rat-count scaling still sees Plague (`IRatCard` intact).
 
 ### 68. Cut: Sloth familiar
 - **Done:** 2026-06-29
-- **Changed:** Removed the Sloth familiar entirely — summon `SlothFamiliar`, power `SlothFamiliarPower`, pet `SlothPet`, token `Laze`. Deleted all `.cs`(+`.uid`) and art (`sloth_familiar.png`/`laze.png` big+small +`.import`), removed loc keys (cards.json: LAZE, SLOTH_FAMILIAR; powers.json: SLOTH_FAMILIAR_POWER), and dropped "Sloth" from the `FamiliarCardRegistry` doc comment. Registration is reflection-based, so deleting the files deregisters; Chimera/Embrace-the-Wilds pull the live `WickenFamiliarCard` pool, so Laze auto-drops with no hardcoded reference to fix.
-- **Files:** deleted `SlothFamiliar.cs`, `SlothFamiliarPower.cs`, `SlothPet.cs`, `Laze.cs` (+uids + art); [FamiliarCardRegistry.cs](TheWickenCode/Cards/Familiar/FamiliarCardRegistry.cs); `cards.json`, `powers.json`; regen (97 cards, −2).
+- **Changed:** Removed the Sloth familiar entirely — summon `SlothFamiliar`, power `SlothFamiliarPower`, pet `SlothPet`, token `Laze`. Deleted all `.cs`(+`.uid`) and art (`sloth_familiar.png`/`laze.png` big+small +`.import`), removed loc keys (cards.json: LAZE, SLOTH_FAMILIAR; powers.json: SLOTH_FAMILIAR_POWER), and dropped "Sloth" from the `FamiliarCardRegistry` doc comment. Registration is reflection-based, so deleting the files deregisters; Chimera/Embrace-the-Wilds pull the live `WitchFamiliarCard` pool, so Laze auto-drops with no hardcoded reference to fix.
+- **Files:** deleted `SlothFamiliar.cs`, `SlothFamiliarPower.cs`, `SlothPet.cs`, `Laze.cs` (+uids + art); [FamiliarCardRegistry.cs](TheWitchCode/Cards/Familiar/FamiliarCardRegistry.cs); `cards.json`, `powers.json`; regen (97 cards, −2).
 - **Verified:** build 0/0 (loc analyzer clean = no orphan keys), grep clean for Sloth/Laze in code. ⚠️ Playtest: Chimera/Embrace-the-Wilds no longer roll Sloth/Laze.
 
 ### 67. Card Change: Dance Around the Cauldron — redesign
 - **Done:** 2026-06-29
 - **Changed:** `DanceAroundTheCauldronPower` now draws 1 card per Skill played this turn (was: make a Wicked Brew). Switched hook `BeforeCardPlayed`→`AfterCardPlayed` (Draw needs a `PlayerChoiceContext`, which only the After hook provides); preserved the original self-exclusion by capturing the source card in `AfterApplied` and skipping it via `ReferenceEquals`. Card gained `Exhaust` keyword; removed the WickedBrew hover tip + `Potions` import. Upgrade stays −1 energy.
-- **Files:** [DanceAroundTheCauldronPower.cs](TheWickenCode/Powers/DanceAroundTheCauldronPower.cs), [DanceAroundTheCauldron.cs](TheWickenCode/Cards/DanceAroundTheCauldron.cs); `cards.json`, `powers.json`; regen.
+- **Files:** [DanceAroundTheCauldronPower.cs](TheWitchCode/Powers/DanceAroundTheCauldronPower.cs), [DanceAroundTheCauldron.cs](TheWitchCode/Cards/DanceAroundTheCauldron.cs); `cards.json`, `powers.json`; regen.
 - **Verified:** build 0/0, regen OK (TESTED cleared). ⚠️ Playtest: each non-Dance Skill draws 1; Dance itself doesn't; buff clears at turn end; card exhausts. Note: `sourceCard` is plain power state (not serialized for save/MP), fine for a turn-scoped buff.
 
 ### 66. Card Change: Double, Double — redesign
 - **Done:** 2026-06-29
 - **Changed:** `DoubleDouble` now deals 5 damage twice (was 4×2) and enchants a random **Draw Pile** card with Replay 1 (HiddenGem/ExtractLife pattern: `BaseReplayCount += Replay` + `CardCmd.Preview`). Dropped the `NextPotionDoubledPower` apply + hover tip; upgrade is now +3 damage (was +2). **Design call:** note said "a random card in your deck" → targeted the Draw Pile (worded "Draw Pile" in loc) to differentiate from ExtractLife's hand-enchant. Deleted the now-orphaned `NextPotionDoubledPower` (.cs/.uid + 3 powers.json keys) — only DoubleDouble referenced it.
-- **Files:** [DoubleDouble.cs](TheWickenCode/Cards/DoubleDouble.cs); deleted `NextPotionDoubledPower.cs`(+.uid); `cards.json`, `powers.json`; regen.
+- **Files:** [DoubleDouble.cs](TheWitchCode/Cards/DoubleDouble.cs); deleted `NextPotionDoubledPower.cs`(+.uid); `cards.json`, `powers.json`; regen.
 - **Verified:** build 0/0, regen OK (TESTED auto-cleared). ⚠️ Playtest: Replay lands on a Draw Pile card; double-hit damage.
 
 ### 65. Card Change: Claw Eyes
 - **Done:** 2026-06-29
 - **Changed:** Crow familiar token `ClawEyes` now an **Attack** (was Skill): deal 5 damage + apply 1 Weak (was Weak only). Upgrade → +3 damage (replaces the old +1 Weak upgrade; base Weak stays 1).
-- **Files:** [ClawEyes.cs](TheWickenCode/Cards/Familiar/ClawEyes.cs); `cards.json`; regen.
+- **Files:** [ClawEyes.cs](TheWitchCode/Cards/Familiar/ClawEyes.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: damage + Weak, Crow loot-table roll still grants it.
 
 ### 64. New card: Cursed Spellbook
@@ -570,7 +570,7 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 - **Done:** 2026-06-29
 - **Changed:** Hexblast now 2e (was 1e): apply 3 `HexPower` first, then deal **12 damage per unique debuff** on the target (`Powers.Where(Type==Debuff).Select(GetType).Distinct().Count()`). Hex applied before the count so it always tallies ≥1. Upgrade → +3 per-debuff damage.
 - **Decisions:** Per-debuff value shown as flat `DamageVar(12)` with "for each unique debuff" text (Brambleburst pattern) — no live `CalculatedDamageVar`, since the target (and its debuffs) isn't known until played. Counts *unique debuff types*, not stacks.
-- **Files:** [Hexblast.cs](TheWickenCode/Cards/Hexblast.cs); `cards.json`; regen.
+- **Files:** [Hexblast.cs](TheWitchCode/Cards/Hexblast.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: debuff-count scaling incl. the just-applied Hex.
 
 ### 60. New card: Refuse Pile
@@ -589,53 +589,53 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 - **Done:** 2026-06-29
 - **Changed:** New design (2e Uncommon Skill, Self) — Gain 10 Block + gain 10 `BramblesPower`. Upgrade → +3 Block, +3 Brambles. Dropped the old "7 + 2/bramble-created-this-turn" scaling (and `BramblesCreatedThisTurn` usage).
 - **Decisions:** Read the note's "Upgrade +3 brambles, +3 damage" as **+3 Brambles / +3 Block** — Brambles already covers the retaliation "damage", so the second clause reads as the card's defensive value (Block). Flag for sign-off if "+3 damage" meant something else.
-- **Files:** [BrambleShield.cs](TheWickenCode/Cards/BrambleShield.cs); `cards.json`; regen.
+- **Files:** [BrambleShield.cs](TheWitchCode/Cards/BrambleShield.cs); `cards.json`; regen.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: block + brambles, upgrade values.
 
 ### 57. Card Redesign: Vicious Barbs
 - **Done:** 2026-06-29
 - **Changed:** New design (2e Uncommon Attack, AnyEnemy) — Discard your hand; deal **5 damage and gain 4 Brambles per card discarded** (lump `Damage×count` hit + `BramblesPower×count`). Upgrade → +2 damage/card. Replaces the old "Brambles deal extra retaliation damage" power.
 - **Decisions:** **User-resolved** (AskUserQuestion) — per-card payload = 5 damage + 4 Brambles ("block" was a typo, dropped). Per-card values shown on the card face (Brambleburst pattern, "for each card discarded"), total computed in `OnPlay`; empty hand = no-op. **Orphan:** old `ViciousBarbsPower` (brambles-retaliation boost, read by `BramblesPower.BeforeDamageReceived`) now unreferenced — left registered (build green) but dead; flagged for removal if undesired.
-- **Files:** [ViciousBarbs.cs](TheWickenCode/Cards/ViciousBarbs.cs); `cards.json`; regen. (`Powers/ViciousBarbsPower.cs` now orphaned.)
+- **Files:** [ViciousBarbs.cs](TheWitchCode/Cards/ViciousBarbs.cs); `cards.json`; regen. (`Powers/ViciousBarbsPower.cs` now orphaned.)
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: discard-hand count, damage + brambles scaling, empty-hand no-op.
 
 ### 56. Card Redesign: Rotting Roots
 - **Done:** 2026-06-29
 - **Changed:** New design (1e Uncommon Skill, AnyEnemy, Exhaust) — Gain 1 Weak (self) + target enemy loses 10 Strength **this turn** (reverts at turn end). Upgrade → +3 Strength loss. New `RottingRootsStrengthDownPower : TemporaryStrengthPower, ICustomModel` (the base-game DarkShackles pattern — Title/Description/icon inherited from the base + `OriginModel`, so no mod loc needed; `ICustomModel` added to get the mod ID prefix, silencing analyzer STS003). Replaces the old "gain Brambles on potion use" power identity.
 - **Decisions:** Used the canonical `TemporaryStrengthPower` "lose X Strength this turn" primitive (DarkShackles) rather than permanent `-Strength`. Self-Weak is a flat 1 (not upgraded). **Orphan:** the old `RottingRootsPower` (brambles-on-potion-use) is now unreferenced — left registered (its loc keys still present, build green) but dead; flagged for removal if undesired.
-- **Files:** new `Powers/RottingRootsStrengthDownPower.cs`; [RottingRoots.cs](TheWickenCode/Cards/RottingRoots.cs); `cards.json`; regen. (`Powers/RottingRootsPower.cs` now orphaned.)
+- **Files:** new `Powers/RottingRootsStrengthDownPower.cs`; [RottingRoots.cs](TheWitchCode/Cards/RottingRoots.cs); `cards.json`; regen. (`Powers/RottingRootsPower.cs` now orphaned.)
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: strength reverts at turn end, self-Weak, **temp-strength-down icon renders** (modded `TemporaryStrengthPower` subclass — icon path unverified).
 
 ### 55. Card Change: Rattling Bottles → Attack
 - **Done:** 2026-06-29
 - **Changed:** Rattling Bottles is now an **Attack** (was Skill): 2e Rare, `DamageVar(15)` dealt to `AnyEnemy`, then fills every empty potion slot with `PotionShapedRock` (unchanged). Upgrade → +5 damage (was "remove Exhaust"). Keeps Exhaust at both levels.
-- **Files:** [RattlingBottles.cs](TheWickenCode/Cards/RattlingBottles.cs); `cards.json` (desc += damage clause); regen.
+- **Files:** [RattlingBottles.cs](TheWitchCode/Cards/RattlingBottles.cs); `cards.json` (desc += damage clause); regen.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: damage + rock-fill, Exhaust.
 
 ### 54. Card Change: Bear Familiar rarity
 - **Done:** 2026-06-29
 - **Changed:** Bear Familiar `CardRarity.Rare` → `Uncommon`. Nothing else touched.
-- **Files:** [BearFamiliar.cs](TheWickenCode/Cards/BearFamiliar.cs); regen.
+- **Files:** [BearFamiliar.cs](TheWitchCode/Cards/BearFamiliar.cs); regen.
 - **Verified:** build 0/0, regen OK.
 
 ### 53. Card Change: Chimera Familiar tuning
 - **Done:** 2026-06-29
 - **Changed:** `ChimeraFamiliarPower` `CardsPerStack` 3→2, `DrawReductionPerStack` 2→1. Updated power doc comment + card localization ("draw 1 fewer card… add 2 random Familiar cards").
-- **Files:** [ChimeraFamiliarPower.cs](TheWickenCode/Powers/ChimeraFamiliarPower.cs); `cards.json` (CHIMERA_FAMILIAR.description); regen.
+- **Files:** [ChimeraFamiliarPower.cs](TheWitchCode/Powers/ChimeraFamiliarPower.cs); `cards.json` (CHIMERA_FAMILIAR.description); regen.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: per-turn token count + draw reduction.
 
 ### 52. Card Change: Gather Herbs cost
 - **Done:** 2026-06-29
 - **Changed:** Cost 0 → **1**; upgrade now reduces cost back to **0** (`EnergyCost.UpgradeBy(-1)`, replacing the old "remove Exhaust" upgrade). Effect (copy next potion created) + Exhaust unchanged.
 - **Decisions:** Read the note's "Upgrade +1e" as **restoring the free cost** (cost-down upgrade), the only sensible reading once base cost rose to 1. Flagged in the item; no further sign-off needed.
-- **Files:** [GatherHerbs.cs](TheWickenCode/Cards/GatherHerbs.cs); regen (no loc text change — cost shows via the card frame).
+- **Files:** [GatherHerbs.cs](TheWitchCode/Cards/GatherHerbs.cs); regen (no loc text change — cost shows via the card frame).
 - **Verified:** build 0/0, regen OK.
 
 ### 51. New card: Nibble (Rat familiar token)
 - **Done:** 2026-06-29
 - **Changed:** New `Nibble` token (0e Attack, Token, `IRatCard`) — deals **1 damage per Rat card played this combat, including itself**, via the Soul Storm `CalculatedDamageVar` pattern (`CalculationBaseVar(1)` = itself + `ExtraDamageVar(1)` × prior-rat count). New `IRatCard` marker on `Rats`/`Plague`/`Nibble`; new `CombatHistoryQueries.RatCardsPlayedThisCombat`. `RatFamiliarPower` converted `FamiliarPower<Plague>` → `LootTableFamiliarPower` rolling **Plague + Nibble** (equal weight); RatFamiliar hover tips now preview both. Upgrade → +1 per-rat damage.
 - **Decisions:** **User-resolved** (AskUserQuestion) — Rat familiar spawn pool = Plague + Nibble; Rats stays a Pocket-Rats-only token. Nibble counts **itself** (base 1) so a fresh Nibble with no prior rats still hits for 1, not 0. Live count excludes the in-progress play (`CardPlaysFinished`), so base-1 supplies the "+1 for itself".
-- **Files:** new `Cards/Familiar/Nibble.cs`, `Cards/Familiar/IRatCard.cs`; [RatFamiliarPower.cs](TheWickenCode/Powers/RatFamiliarPower.cs), [RatFamiliar.cs](TheWickenCode/Cards/RatFamiliar.cs), `Cards/Familiar/Rats.cs`, `Cards/Familiar/Plague.cs`, `Extensions/CombatHistoryQueries.cs`; `cards.json`; regen. Placeholder art `nibble.png` (+big) — needs art.
+- **Files:** new `Cards/Familiar/Nibble.cs`, `Cards/Familiar/IRatCard.cs`; [RatFamiliarPower.cs](TheWitchCode/Powers/RatFamiliarPower.cs), [RatFamiliar.cs](TheWitchCode/Cards/RatFamiliar.cs), `Cards/Familiar/Rats.cs`, `Cards/Familiar/Plague.cs`, `Extensions/CombatHistoryQueries.cs`; `cards.json`; regen. Placeholder art `nibble.png` (+big) — needs art.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: live damage scaling renders, loot-table roll, hover previews. Needs art.
 
 ### 50. New card: Feast With Wolves
@@ -663,26 +663,26 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 - **Done:** 2026-06-29
 - **Changed:** New design (3e Rare Skill, Exhaust) — apply `EmbraceTheWildsPower` (new combat-scoped Debuff, draws **3 fewer** cards/turn via `ModifyHandDraw`, `Amount` = cards reduced) and **summon 5 random familiars** by applying one stack of a random `FamiliarPower` pulled from `ModelDb.AllPowers.Where(is FamiliarPower)`. Upgrade → +1 familiar (6). Replaces the old "transform hand into random familiar cards".
 - **Decisions:** "Random familiars" = every registered `FamiliarPower` (Wolf/Bear/Crow/Cat/Owl/Porcupine/Rat/Sloth/**Chimera** included — accepted that Chimera can compound the draw penalty). Summon applies the power directly (`PotionCmd`-style `.ToMutable()` + non-generic `PowerCmd.Apply`) so pets/turn-start tokens all wire up via `AfterApplied`; stacks if the same familiar rolls twice. Draw penalty modeled as `Amount`-cards (apply 3 stacks) so the smartDescription number matches the reduction.
-- **Files:** new `Powers/EmbraceTheWildsPower.cs`; [EmbraceTheWilds.cs](TheWickenCode/Cards/EmbraceTheWilds.cs); `cards.json`, `powers.json`; regen. Placeholder art `embrace_the_wilds_power.png` (power) — needs art.
+- **Files:** new `Powers/EmbraceTheWildsPower.cs`; [EmbraceTheWilds.cs](TheWitchCode/Cards/EmbraceTheWilds.cs); `cards.json`, `powers.json`; regen. Placeholder art `embrace_the_wilds_power.png` (power) — needs art.
 - **Verified:** build 0/0, regen OK. ⚠️ **Heavy playtest**: persistent −3 draw across turns, 5 random summons + pets, MP power-apply path. Needs power art.
 
 ### 46. Card Change: Bottle Wall
 - **Done:** 2026-06-29
 - **Changed:** New design (2e Uncommon Skill, Self) — Gain 7 Block + create a `Fortifier` potion (`PotionCmd.TryToProcure<Fortifier>`). Upgrade → +1 Block. Dropped the old "8 + 6/potion-used-this-turn" scaling (and the `PotionsUsedThisTurn` query usage).
-- **Files:** [BottleWall.cs](TheWickenCode/Cards/BottleWall.cs); `cards.json`; regen. Fortifier hover tip added.
+- **Files:** [BottleWall.cs](TheWitchCode/Cards/BottleWall.cs); `cards.json`; regen. Fortifier hover tip added.
 - **Verified:** build 0/0, regen OK. ⚠️ Playtest: block + potion grant.
 
 ### 45. New relic: Wormy's Apple
 - **Done:** 2026-06-28
-- **Changed:** New `WormysApple` (Wicken-unique relic, Uncommon) — on pickup gain 10 Max HP (`CreatureCmd.GainMaxHp`, `MaxHpVar`, per BigMushroom); every combat, `BeforeHandDraw` on turn 1 adds 1 `Wormy` to your hand (per base-game Toolbox). Reuses the `Wormy` status from item 44.
-- **Decisions:** "Gain 10 HP" read as **+10 Max HP** (StS relic convention) — flagged for sign-off. Wicken pool via `WickenRelic` `[Pool]`. Null-guarded `PlayerCombatState` (mod has Nullable on).
+- **Changed:** New `WormysApple` (Witch-unique relic, Uncommon) — on pickup gain 10 Max HP (`CreatureCmd.GainMaxHp`, `MaxHpVar`, per BigMushroom); every combat, `BeforeHandDraw` on turn 1 adds 1 `Wormy` to your hand (per base-game Toolbox). Reuses the `Wormy` status from item 44.
+- **Decisions:** "Gain 10 HP" read as **+10 Max HP** (StS relic convention) — flagged for sign-off. Witch pool via `WitchRelic` `[Pool]`. Null-guarded `PlayerCombatState` (mod has Nullable on).
 - **Files:** new `Relics/WormysApple.cs`; `relics.json`. Placeholder art `wormysapple.png` (+ `_outline`/`big`).
 - **Verified:** build 0/0. ⚠️ Needs art + playtest (Max-HP on pickup, Wormy every combat) + HP-interpretation sign-off.
 
 ### 44. New potion: Wormy Apple (+ Wormy status card)
 - **Done:** 2026-06-28
 - **Changed:** New `WormyApple` potion (Uncommon, CombatOnly, Self) — heal 15 life, then add 3 `Wormy` to your hand (`CreateCard<Wormy>` ×3 + `AddGeneratedCardsToCombat`). New `Wormy` card (Status, Token rarity, 1e, Self, Retain+Exhaust, `MaxUpgradeLevel 0`) — on play: lose 1 life (`HpLossVar`, Unblockable|Unpowered|Move) + gain 1 Weak (self). `PotionTraits.Manual` += Defensive.
-- **Decisions:** Wormy is a *playable* nuisance (1e to clear, Retain keeps it sticky, Exhaust removes once played). Token rarity keeps it out of random rewards while staying registered/generatable. Placed in the character `WickenCardPool` (reachable by `AllCardPools` → no "You monster!"). Weak applies to the player (downside). Potion tagged Defensive (net heal).
+- **Decisions:** Wormy is a *playable* nuisance (1e to clear, Retain keeps it sticky, Exhaust removes once played). Token rarity keeps it out of random rewards while staying registered/generatable. Placed in the character `WitchCardPool` (reachable by `AllCardPools` → no "You monster!"). Weak applies to the player (downside). Potion tagged Defensive (net heal).
 - **Files:** new `Potions/WormyApple.cs`, `Cards/Wormy.cs`; `Potions/Brewing/PotionTraits.cs`; `potions.json`, `cards.json`; regen. Placeholder art `wormyapple.png` + `wormy.png`.
 - **Verified:** build 0/0, regen OK. ⚠️ Needs art + playtest (status generation, Retain/Exhaust, self-Weak).
 
@@ -899,45 +899,45 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ### 14. Serrated Bones → Fertilize (rename + new effect)
 - **Done:** 2026-06-27
-- **Changed:** Full rename `SerratedBones` → `Fertilize` (class, file, id `THEWICKEN-FERTILIZE`, localization, art `serrated_bones.png`→`fertilize.png`). New effect: **"Gain 6 Brambles. Upgrade {Cards} random card(s) in your hand."** (Brambles 6→7, Cards 1→2 on upgrade). The in-hand upgrades go through `CardCmd.Upgrade`, so they also trigger Bursting Roots / Twinroot.
-- **Files:** `TheWickenCode/Cards/Fertilize.cs` (replaces `SerratedBones.cs`), `cards.json`, art renamed.
+- **Changed:** Full rename `SerratedBones` → `Fertilize` (class, file, id `THEWITCH-FERTILIZE`, localization, art `serrated_bones.png`→`fertilize.png`). New effect: **"Gain 6 Brambles. Upgrade {Cards} random card(s) in your hand."** (Brambles 6→7, Cards 1→2 on upgrade). The in-hand upgrades go through `CardCmd.Upgrade`, so they also trigger Bursting Roots / Twinroot.
+- **Files:** `TheWitchCode/Cards/Fertilize.cs` (replaces `SerratedBones.cs`), `cards.json`, art renamed.
 - **Verified:** build 0/0. ⚠️ Art is the old Serrated Bones image under the new name; old `.import` removed → run **Godot: Import assets** to regenerate before publish.
 
 ### Rotting Roots → potion trigger (user-directed mid-run change)
 - **Done:** 2026-06-27
 - **Changed:** `RottingRootsPower` now gains `Amount` Brambles **whenever you use a potion** (was: whenever you apply a Debuff). Uses `AfterPotionUsed` + `ThrowingPlayerChoiceContext` (the hook gives no context). `powers.json` synced to match (card text was already potion-based). ⚠️ **Now functionally identical to Bitter Root** — flag if you want them differentiated or one removed.
-- **Files:** `TheWickenCode/Powers/RottingRootsPower.cs`, `powers.json`.
+- **Files:** `TheWitchCode/Powers/RottingRootsPower.cs`, `powers.json`.
 - **Verified:** build 0/0.
 
 ### 12. Stop the Wicked-Brew downgrade fallback on merge
 - **Done:** 2026-06-27
 - **Changed:** `BrewBook.Brew` now broadens its last-resort pool to any rarity ≥ the step-up rarity (excluding inputs) when the exact step-up rarity holds only the inputs — so a 2-potion brew yields a real higher potion instead of the Token Wicked Brew (downgrade feel). Per the "just the fallback" decision, the Rare ceiling is left as-is (the core step-up was already implemented in `NextRarity`).
-- **Files:** `TheWickenCode/Potions/Brewing/BrewBook.cs`.
+- **Files:** `TheWitchCode/Potions/Brewing/BrewBook.cs`.
 - **Verified:** build 0/0.
 
 ### 11. New Relic: Twinroot (duplicate card on upgrade)
 - **Done:** 2026-06-27
 - **Changed:** New `Twinroot` relic (Rare). On any card upgrade — in combat AND at rest-site/events — adds a copy of the upgraded card to your deck. Driven by the shared `CardUpgradeTracker` Harmony patch (synchronous `CreateDupe` + `Deck.AddInternal`).
 - **Decisions:** Name "Twinroot" (mine — rename freely). Dup goes to the permanent **deck** in both cases (consistent; in-combat copies appear next combats). Rarity Rare (powerful effect) — tune as needed.
-- **Files:** `TheWickenCode/Relics/Twinroot.cs` (new), `TheWickenCode/Patches/CardUpgradeTracker.cs` (shared), `relics.json`.
+- **Files:** `TheWitchCode/Relics/Twinroot.cs` (new), `TheWitchCode/Patches/CardUpgradeTracker.cs` (shared), `relics.json`.
 - **Verified:** build 0/0. ⚠️ **Needs in-game + MP playtest** — Harmony-runtime deck mutation; can't be statically verified. Art is placeholder until added (`relics/twinroot[_outline].png`, `big/twinroot.png`).
 
 ### 10. New card Rootcraft + power Bursting Roots (+ upgrade hook)
 - **Done:** 2026-06-27
 - **Changed:** New `CardUpgradeTracker` Harmony patch on `CardModel.UpgradeInternal` (the one chokepoint for in-combat AND rest-site upgrades). New `BurstingRootsPower` (Buff): when you upgrade a card **in hand during combat**, gain {Amount} Brambles — the sync patch enqueues the owed Brambles, the power drains+applies them async in `AfterCardPlayed`. New `Rootcraft` Power card (1, Uncommon) applies Bursting Roots; upgrade raises Brambles-per-upgrade 1→2.
-- **Files:** `TheWickenCode/Patches/CardUpgradeTracker.cs`, `TheWickenCode/Powers/BurstingRootsPower.cs`, `TheWickenCode/Cards/Rootcraft.cs` (all new), `cards.json`, `powers.json`.
+- **Files:** `TheWitchCode/Patches/CardUpgradeTracker.cs`, `TheWitchCode/Powers/BurstingRootsPower.cs`, `TheWitchCode/Cards/Rootcraft.cs` (all new), `cards.json`, `powers.json`.
 - **Verified:** build 0/0. ⚠️ **Needs in-game playtest** — Harmony-runtime reaction + the enqueue/flush timing. Art is placeholder (`card_portraits/rootcraft.png` + big, `powers/bursting_roots_power.png`).
 
 ### 7. Redesign Dance Around the Cauldron
 - **Done:** 2026-06-27
 - **Changed:** `DanceAroundTheCauldronPower` now makes a `WickedBrew` on **each Skill played this turn** (via `BeforeCardPlayed`), self-removes at turn end. Dropped the per-unspent-energy-at-turn-end behavior. The Dance card doesn't self-trigger (buff isn't on the creature yet at its own `BeforeCardPlayed`). Card unchanged (cost 1, upgrade →0).
-- **Files:** `TheWickenCode/Powers/DanceAroundTheCauldronPower.cs`, `cards.json`, `powers.json`
+- **Files:** `TheWitchCode/Powers/DanceAroundTheCauldronPower.cs`, `cards.json`, `powers.json`
 - **Verified:** build 0/0.
 
 ### 6. Redesign Gathering Herbs
 - **Done:** 2026-06-27
 - **Changed:** New `NextPotionRarePower` (forces the next *created* potion to Rare). `GatherHerbs` now applies it instead of `NextPotionUpgradedPower`. The two rarity-rolling creators (`SomethingWicked`, `ToilAndTrouble`) call `MakeNextRare` before `UpgradeRarity`, so the buff is honored. `NextPotionUpgradedPower` kept (still referenced by those creators; just no longer granted by any card).
-- **Files:** `TheWickenCode/Powers/NextPotionRarePower.cs` (new), `Cards/GatherHerbs.cs`, `Cards/SomethingWicked.cs`, `Cards/ToilAndTrouble.cs`, `cards.json`, `powers.json`
+- **Files:** `TheWitchCode/Powers/NextPotionRarePower.cs` (new), `Cards/GatherHerbs.cs`, `Cards/SomethingWicked.cs`, `Cards/ToilAndTrouble.cs`, `cards.json`, `powers.json`
 - **Verified:** build 0/0.
 
 ### 9. Kill the debuff sub-theme (surgical)
@@ -963,21 +963,21 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 ### 8. Unstable Reaction → 20 damage per potion ("Exploding Brew")
 - **Done:** 2026-06-27
 - **Changed:** `UnstableReaction` per-potion `DamageVar` 10 → 20 (still discards all potions, then hits all enemies once per potion). Upgrade delta left at +3. Confirmed with user this is the card the "Exploding Brew" note meant.
-- **Files:** `TheWickenCode/Cards/UnstableReaction.cs`
+- **Files:** `TheWitchCode/Cards/UnstableReaction.cs`
 - **Verified:** dotnet build → 0/0.
 
 ### 2. Fix Extract Essence potion pool leak
 - **Done:** 2026-06-27
-- **Changed:** Off-color potions (e.g. a Defect potion) leaked because `EnemyEssence` rolled from `PotionCatalog.Query(Common)` = **all** registered pools. Added `PotionCatalog.WickenAndShared` (potions whose `Pool` is `WickenPotionPool` or base `SharedPotionPool` — mirrors `PotionFactory.GetPotionOptions`), and scoped `EnemyEssence.CombatCommons()` to it, filtered to Common rarity + `CanBeGeneratedInCombat`.
-- **Files:** `TheWickenCode/Potions/Brewing/PotionCatalog.cs`, `TheWickenCode/Potions/Brewing/EnemyEssence.cs`
+- **Changed:** Off-color potions (e.g. a Defect potion) leaked because `EnemyEssence` rolled from `PotionCatalog.Query(Common)` = **all** registered pools. Added `PotionCatalog.WitchAndShared` (potions whose `Pool` is `WitchPotionPool` or base `SharedPotionPool` — mirrors `PotionFactory.GetPotionOptions`), and scoped `EnemyEssence.CombatCommons()` to it, filtered to Common rarity + `CanBeGeneratedInCombat`.
+- **Files:** `TheWitchCode/Potions/Brewing/PotionCatalog.cs`, `TheWitchCode/Potions/Brewing/EnemyEssence.cs`
 - **Verified:** dotnet build → 0/0.
 
 ### 1. Fix Find Familiar soft-lock
 - **Done:** 2026-06-27
-- **Changed:** Reworked `FindFamiliar.OnPlay` to gather `WickenFamiliarCard`s from draw+discard, **guard the empty case** (return → card just discards, never opens an empty selection screen = the soft-lock), and select via `CardSelectCmd.FromSimpleGrid`. Cost lowered to **0**. Upgrade now pulls an **extra** Familiar (`CardsVar` 1→2) instead of cutting cost. Localization updated with the `Plural` tag.
-- **Decisions:** "Familiar card" = `WickenFamiliarCard` tokens (matches `PactOfBeasts` + the gold keyword), not `IFamiliarSummon` summon cards. "Your deck" in combat = draw+discard piles. The staging note's "Reagent" card doesn't exist; used `PactOfBeasts`' guarded gather pattern as the reference.
-- **Files:** `TheWickenCode/Cards/FindFamiliar.cs`, `TheWicken/localization/eng/cards.json` (`THEWICKEN-FIND_FAMILIAR`)
-- **Verified:** `dotnet build TheWicken.csproj` → 0 warnings, 0 errors.
+- **Changed:** Reworked `FindFamiliar.OnPlay` to gather `WitchFamiliarCard`s from draw+discard, **guard the empty case** (return → card just discards, never opens an empty selection screen = the soft-lock), and select via `CardSelectCmd.FromSimpleGrid`. Cost lowered to **0**. Upgrade now pulls an **extra** Familiar (`CardsVar` 1→2) instead of cutting cost. Localization updated with the `Plural` tag.
+- **Decisions:** "Familiar card" = `WitchFamiliarCard` tokens (matches `PactOfBeasts` + the gold keyword), not `IFamiliarSummon` summon cards. "Your deck" in combat = draw+discard piles. The staging note's "Reagent" card doesn't exist; used `PactOfBeasts`' guarded gather pattern as the reference.
+- **Files:** `TheWitchCode/Cards/FindFamiliar.cs`, `TheWitch/localization/eng/cards.json` (`THEWITCH-FIND_FAMILIAR`)
+- **Verified:** `dotnet build TheWitch.csproj` → 0 warnings, 0 errors.
 
 <!-- Append completed items above this line. Template:
 

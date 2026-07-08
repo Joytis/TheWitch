@@ -1,17 +1,17 @@
 # Base-Game Class Pool Analysis
 
-Reference study of how Slay the Spire 2's base characters are built, done to inform Wicken
+Reference study of how Slay the Spire 2's base characters are built, done to inform Witch
 design. For all five base characters we categorized every card on two axes and looked at the resulting
 shape. The point is not the raw counts — it's the **patterns** that separate a real mechanical
 *pillar* from a splashed keyword, and the healthy ratios a pillar should hit.
 
 ## Where the data lives
 
-- **Interactive view:** [card-designs.html](card-designs.html) — tabs for Wicken and all five
+- **Interactive view:** [card-designs.html](card-designs.html) — tabs for Witch and all five
   base classes (Silent / Necrobinder / Ironclad / Defect / Regent), each with filter chips and a
   live Mechanic × Role matrix.
 - **Data:** `Docs/card-data/{silent,necrobinder,ironclad,defect,regent}.json` (base-game,
-  read-only) and `cards.json` (Wicken). Each card carries `mechanics[]` and `role[]` tags.
+  read-only) and `cards.json` (Witch). Each card carries `mechanics[]` and `role[]` tags.
 - **Regen:** `node Docs/card-data/gen-basegame.js [class]` rebuilds the base-game files from the
   decompiled `gamedata/` source, **preserving the curated tags** (like `regen.js` preserves
   `tested`). gamedata/ is gitignored, so the committed JSON is the snapshot.
@@ -26,7 +26,7 @@ reading the card's actual effect (OnPlay / powers / hooks), not its name. `None`
 - **Payoff** — scales off / consumes it (damage per minion, double the debuff, spend the resource).
 - **Enabler** — synergy glue: tutor, retain, discount, draw, energy that feeds the mechanic.
 - **Standalone** — generic stats with no pillar interaction (plain damage/block/rider debuff).
-- **Token** — (Wicken only) a generated payload card, e.g. familiar tokens.
+- **Token** — (Witch only) a generated payload card, e.g. familiar tokens.
 
 A card can carry several of each. In the matrices below, a multi-tag card counts in every cell
 it spans, so rows/columns can exceed the card total.
@@ -79,11 +79,11 @@ Share of each pool that touches **no** pillar (`None`):
 | Regent | 41% |
 | Defect | 36% |
 | Necrobinder | 41% |
-| **Wicken (for contrast)** | **18%** |
+| **Witch (for contrast)** | **18%** |
 
 Base classes devote roughly half their cards to generic block / draw / vanilla attacks /
 splashed debuffs. That neutral mass is what makes a deck *draftable* — flexible glue that works
-in any build. Wicken is ~3× more mechanic-saturated: tight identity, but thin on the connective
+in any build. Witch is ~3× more mechanic-saturated: tight identity, but thin on the connective
 tissue that smooths draws. Not necessarily wrong, but a deliberate trade to be aware of.
 
 ### Payoff-light themes can still be cheap to add — the "Ethereal model"
@@ -214,7 +214,7 @@ suite. The cheapest way to widen.
   hand, the only strictly-Colorless payoff). Note the payoffs count *any* creation, so the
   minion-transform cards (BEGONE!, CHARGE!!, GUARDS!!) and Debris producers (Collision Course,
   Crash Landing) feed them too — left untagged as incidental fuel, same call as Defect's
-  enemy-inflicted Statuses. This is the same hook family Wicken's Cloak of Moonlight listens to.
+  enemy-inflicted Statuses. This is the same hook family Witch's Cloak of Moonlight listens to.
 - **Vigor** (2 cards) is vestigial — kept tagged to show it's *not* a pillar.
 - **No debuff pillar despite heavy Weak/Vulnerable.** Regent applies them widely (15 refs each)
   but **nothing scales off them** — the exact Weak-is-a-rider finding from Silent and Ironclad,
@@ -227,15 +227,15 @@ The five base classes don't all hit the same count. Necrobinder (4: Osty/Soul/Do
 Ironclad (4: +Vulnerable) are pillar-rich; Silent (3) is classic; **Defect is 2** (Orbs done very
 deep, with Focus as its amplifier, plus the smaller Status pillar); **Regent is 3** (Stars +
 Forge + Colorless). More pillars isn't better — Defect's deep Orb engine is one of the most
-beloved archetypes. The takeaway for Wicken: a
+beloved archetypes. The takeaway for Witch: a
 character can be excellent with **few pillars done deep** (each with a real payoff cluster) rather
 than many pillars spread thin.
 
 ---
 
-## How this maps onto Wicken (the reason for the study)
+## How this maps onto Witch (the reason for the study)
 
-Wicken pillars: **Brambles · Potions · Familiars · Debuff/Buff** (103 cards incl. 14 tokens, 18% None).
+Witch pillars: **Brambles · Potions · Familiars · Debuff/Buff** (103 cards incl. 14 tokens, 18% None).
 
 | mech \ role | Gen | Payoff | Enabler | Token | Σ |
 |---|---|---|---|---|---|
@@ -258,8 +258,8 @@ Wicken pillars: **Brambles · Potions · Familiars · Debuff/Buff** (103 cards i
   stolen Strength and Vigor amplify every attack on their own (Strength/Poison logic), so only the
   debuff-exploit half (Hexblast, Soul Knot, Bag of Teeth) needs dedicated payoffs. Another 1–2
   Uncommon/Rare payoffs (a Vigor-scaling or per-debuff attack) would firm it up.
-- Wicken's **18% neutral** vs. the base ~36–63% means far less draftable glue — a deliberate
+- Witch's **18% neutral** vs. the base ~36–63% means far less draftable glue — a deliberate
   saturation trade.
 
-The "payoff cluster" test (lesson 1) is the gate for any proposed 5th Wicken mechanic: it's only
+The "payoff cluster" test (lesson 1) is the gate for any proposed 5th Witch mechanic: it's only
 a pillar if 3–4 cards *exploit* it, not just apply it.

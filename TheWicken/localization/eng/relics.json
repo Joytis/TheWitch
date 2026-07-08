@@ -1,8 +1,0 @@
-{
-  "THEWICKEN-LARGE_POCKETS.title": "Large Pockets",
-  "THEWICKEN-LARGE_POCKETS.description": "Upon pickup, gain [blue]{PotionSlots}[/blue] potion {PotionSlots:plural:slot|slots}.",
-  "THEWICKEN-LARGE_POCKETS.flavor": "Deep pockets, deeper secrets — always room for one more bottle.",
-  "THEWICKEN-WORMYS_APPLE.title": "Wormy's Apple",
-  "THEWICKEN-WORMYS_APPLE.description": "Upon pickup, gain [green]{MaxHp}[/green] Max HP. At the start of each combat, add a [gold]Wormy[/gold] into your [gold]Hand[/gold].",
-  "THEWICKEN-WORMYS_APPLE.flavor": "Sweet to the core — and the core's already taken."
-}

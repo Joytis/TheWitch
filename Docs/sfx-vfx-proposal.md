@@ -1,4 +1,4 @@
-# SFX / VFX Augmentation Proposal — Wicken Cards
+# SFX / VFX Augmentation Proposal — Witch Cards
 
 Source: full sweep of `gamedata/` (decompiled). Two halves: (1) how the base game uses sfx/vfx, classified; (2) proposed per-card augmentations reusing base assets (no custom Godot scenes / FMOD banks required).
 
@@ -34,7 +34,7 @@ Source: full sweep of `gamedata/` (decompiled). Two halves: (1) how the base gam
 | Cards/transform | `NCardTransformVfx`, `NCardUpgradeVfx`, `NCardEnchantVfx` | `event:/sfx/ui/cards/card_transform`, `enchant_shimmer` | upgrades/transforms |
 | Fullscreen drama | `VfxCmd.PlayFullScreenInCombat` | — | Adrenaline, Dramatic Entrance |
 
-## 2. Wicken palette (house style)
+## 2. Witch palette (house style)
 
 Pick one recolor identity per mechanic so pool reads coherently:
 - **Potions** → green/swamp splashes + gas (`PlaySplashVfx` tints, `NGaseousImpactVfx`, `NSmokePuffVfx(Green)`).

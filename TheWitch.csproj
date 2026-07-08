@@ -38,17 +38,17 @@
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*" />
         <!-- Generates a .pck file when building if only using simple assets. May not work on all setups. Uncomment to test. -->
         <!-- <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All" /> -->
-        <AdditionalFiles Include="TheWicken/localization/**/*.json"/> <!-- Used by analyzer -->
+        <AdditionalFiles Include="TheWitch/localization/**/*.json"/> <!-- Used by analyzer -->
     </ItemGroup>
 
     <ItemGroup>
         <Compile Remove="gamedata/**" />
-        <Compile Remove="TheWicken/**" />
+        <Compile Remove="TheWitch/**" />
         <Compile Remove="materials/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
         <EmbeddedResource Remove="gamedata/**" />
-        <EmbeddedResource Remove="TheWicken/**" />
+        <EmbeddedResource Remove="TheWitch/**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />
         <EmbeddedResource Remove="images/**" />
@@ -57,15 +57,15 @@
     <ItemGroup>
         <None Condition="Exists('Directory.Build.props')" Include="Directory.Build.props"/>
         <None Include=".gitignore" />
-        <None Include="TheWicken.json" />
+        <None Include="TheWitch.json" />
         <None Include="project.godot"/>
-        <None Include="TheWicken/**" />
+        <None Include="TheWitch/**" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TheWicken\images\card_portraits\big\" />
-      <Folder Include="TheWicken\images\powers\big\" />
-      <Folder Include="TheWicken\images\relics\big\" />
+      <Folder Include="TheWitch\images\card_portraits\big\" />
+      <Folder Include="TheWitch\images\powers\big\" />
+      <Folder Include="TheWitch\images\relics\big\" />
     </ItemGroup>
     
     <Target Name="CheckDependencyPaths" >

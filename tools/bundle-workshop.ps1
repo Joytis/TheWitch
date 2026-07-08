@@ -7,7 +7,7 @@
     Produces an upload-ready workspace under <repo>/workshop and stages the
     deployable mod files into workshop/content. By default it first runs
     `dotnet publish` so the .pck is freshly exported, then copies the build
-    outputs (TheWicken.json/.dll/.pck) from the game's mods folder into the
+    outputs (TheWitch.json/.dll/.pck) from the game's mods folder into the
     workspace.
 
     Workspace layout consumed by ModUploader:
@@ -37,7 +37,7 @@
     Override workshop.json "visibility" (private | friends | friendsonly | public).
 
 .PARAMETER IncludePdb
-    Also copy TheWicken.pdb into content/ (debug symbols). Off by default.
+    Also copy TheWitch.pdb into content/ (debug symbols). Off by default.
 
 .PARAMETER Workspace
     Workspace directory. Defaults to <repo>/workshop.
@@ -77,8 +77,8 @@ $ErrorActionPreference = "Stop"
 
 # Repo root is the parent of this tools/ folder.
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$csproj   = Join-Path $repoRoot 'TheWicken.csproj'
-$manifest = Join-Path $repoRoot 'TheWicken.json'
+$csproj   = Join-Path $repoRoot 'TheWitch.csproj'
+$manifest = Join-Path $repoRoot 'TheWitch.json'
 
 function Write-Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 function Write-Warn2($msg) { Write-Host "[warn] $msg" -ForegroundColor Yellow }
@@ -167,7 +167,7 @@ foreach ($f in @($json, $dll, $pck)) {
 # Stale check (only meaningful when reusing outputs).
 if ($SkipPublish) {
     $pckTime = (Get-Item $pck).LastWriteTimeUtc
-    $newestSrc = Get-ChildItem -Path (Join-Path $repoRoot 'TheWickenCode'), (Join-Path $repoRoot 'TheWicken') -Recurse -File -ErrorAction SilentlyContinue |
+    $newestSrc = Get-ChildItem -Path (Join-Path $repoRoot 'TheWitchCode'), (Join-Path $repoRoot 'TheWitch') -Recurse -File -ErrorAction SilentlyContinue |
         Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
     if ($newestSrc -and $newestSrc.LastWriteTimeUtc -gt $pckTime) {
         Write-Warn2 "Staged .pck ($pckTime UTC) is older than $($newestSrc.Name). Outputs may be stale -- drop -SkipPublish to rebuild."

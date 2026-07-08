@@ -6,10 +6,10 @@ uid="uid://c6sdnpnyar7tu"
 
 [deps]
 
-files=["res://import/STS2 TheWicken - Cards.Description.translation", "res://import/STS2 TheWicken - Cards.Rarity.translation", "res://import/STS2 TheWicken - Cards.Energy.translation", "res://import/STS2 TheWicken - Cards.Type.translation", "res://import/STS2 TheWicken - Cards.Mechanic.translation", "res://import/STS2 TheWicken - Cards.Upgrade.translation"]
+files=["res://import/STS2 TheWitch - Cards.Description.translation", "res://import/STS2 TheWitch - Cards.Rarity.translation", "res://import/STS2 TheWitch - Cards.Energy.translation", "res://import/STS2 TheWitch - Cards.Type.translation", "res://import/STS2 TheWitch - Cards.Mechanic.translation", "res://import/STS2 TheWitch - Cards.Upgrade.translation"]
 
-source_file="res://import/STS2 TheWicken - Cards.csv"
-dest_files=["res://import/STS2 TheWicken - Cards.Description.translation", "res://import/STS2 TheWicken - Cards.Rarity.translation", "res://import/STS2 TheWicken - Cards.Energy.translation", "res://import/STS2 TheWicken - Cards.Type.translation", "res://import/STS2 TheWicken - Cards.Mechanic.translation", "res://import/STS2 TheWicken - Cards.Upgrade.translation"]
+source_file="res://import/STS2 TheWitch - Cards.csv"
+dest_files=["res://import/STS2 TheWitch - Cards.Description.translation", "res://import/STS2 TheWitch - Cards.Rarity.translation", "res://import/STS2 TheWitch - Cards.Energy.translation", "res://import/STS2 TheWitch - Cards.Type.translation", "res://import/STS2 TheWitch - Cards.Mechanic.translation", "res://import/STS2 TheWitch - Cards.Upgrade.translation"]
 
 [params]
 

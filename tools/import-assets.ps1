@@ -2,7 +2,7 @@
 .SYNOPSIS
     Run a headless Godot in --import mode to generate the .import files (and the
     .godot/imported cache) for every asset in the project -- e.g. new .png card
-    portraits dropped under TheWicken/images.
+    portraits dropped under TheWitch/images.
 
 .DESCRIPTION
     Godot does not track raw assets directly; it tracks the generated <asset>.import
@@ -70,6 +70,6 @@ if ($proc.ExitCode -ne 0) {
 }
 
 Write-Host ""
-Write-Host "Done. .import files under TheWicken/images:"
-Get-ChildItem -Path (Join-Path $repoRoot 'TheWicken/images') -Recurse -Filter '*.import' |
+Write-Host "Done. .import files under TheWitch/images:"
+Get-ChildItem -Path (Join-Path $repoRoot 'TheWitch/images') -Recurse -Filter '*.import' |
     ForEach-Object { Write-Host "  $($_.FullName.Substring($repoRoot.Length + 1))" }
