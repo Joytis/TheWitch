@@ -5,26 +5,22 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Crow familiar token: pocket some gold and a burst of Energy. Exhausts.</summary>
-public sealed class Shiny : WickenFamiliarCard
+/// <summary>Cat familiar token: feline agility bottled as tempo — gain Energy. Exhausts.</summary>
+public sealed class Nimble : WickenFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("Gold", 10m),
-        new DynamicVar("Energy", 2m)
+        new DynamicVar("Energy", 1m)
     ];
 
-    public Shiny()
+    public Nimble()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_small");
-        SfxCmd.Play("event:/sfx/ui/gold/gold_1");
-        await PlayerCmd.GainGold(DynamicVars["Gold"].IntValue, Owner);
         await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Gold"].UpgradeValueBy(5m);
+    protected override void OnUpgrade() => DynamicVars["Energy"].UpgradeValueBy(1m);
 }

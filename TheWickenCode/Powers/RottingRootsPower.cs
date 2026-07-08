@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Powers;
 
@@ -34,6 +35,10 @@ public sealed class RottingRootsPower : WickenPower
         }
 
         Flash();
+        foreach (Creature enemy in enemies)
+        {
+            WickenFx.GreenGas(enemy); // rot tick (mirrors base Noxious Fumes; globally preloaded)
+        }
         await CreatureCmd.Damage(choiceContext, enemies, Amount, ValueProp.Unblockable | ValueProp.Unpowered, Owner, null);
         await CreatureCmd.Heal(Owner, HealPerTurn);
     }

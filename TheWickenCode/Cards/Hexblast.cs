@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
@@ -33,7 +34,9 @@ public sealed class Hexblast : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue * debuffs.Count)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            // Purple occult flame under the target (preloaded via Wicken.ExtraAssetPaths) + heavy sting.
+            .WithHitVfxNode(t => NGroundFireVfx.Create(t, VfxColor.Purple))
+            .WithHitFx(null, null, "heavy_attack.mp3")
             .Execute(choiceContext);
 
         foreach (PowerModel debuff in debuffs)

@@ -25,7 +25,7 @@ public sealed class FeastWithWolves : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
 
         // Draw one at a time until an Attack surfaces; Draw returns null when nothing more can be drawn

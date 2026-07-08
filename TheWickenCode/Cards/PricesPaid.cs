@@ -17,7 +17,8 @@ public sealed class PricesPaid : WickenCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new HpLossVar(1m),
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(6m, ValueProp.Move),
+        new DynamicVar("Brews", 1m)
     ];
 
     public PricesPaid()
@@ -34,8 +35,15 @@ public sealed class PricesPaid : WickenCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_bloody_impact")
             .Execute(choiceContext);
-        await PotionCmd.TryToProcure<SlicingBrew>(Owner);
+        for (int i = 0; i < DynamicVars["Brews"].IntValue; i++)
+        {
+            await PotionCmd.TryToProcure<SlicingBrew>(Owner);
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.HpLoss.UpgradeValueBy(1m);
+        DynamicVars["Brews"].UpgradeValueBy(1m);
+    }
 }

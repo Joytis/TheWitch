@@ -8,16 +8,16 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Crow familiar token: a small hit that also applies Weak. Exhausts.</summary>
+/// <summary>Crow familiar token: a heavy hit that also applies Vulnerable. Exhausts.</summary>
 public sealed class ClawEyes : WickenFamiliarCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<VulnerablePower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move),
-        new PowerVar<WeakPower>(1m),
+        new DamageVar(15m, ValueProp.Move),
+        new PowerVar<VulnerablePower>(3m),
     ];
 
     public ClawEyes()
@@ -31,9 +31,9 @@ public sealed class ClawEyes : WickenFamiliarCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_scratch")
             .Execute(choiceContext);
-        await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);

@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace TheWicken.TheWickenCode.Powers;
 
 /// <summary>
-/// The player's next Skill costs 1 (only ever a discount — a skill already cheaper than 1 stays cheaper).
+/// The player's next Skill costs 1 less (floor 0).
 /// Applied by Weathered Witch Hat. Same consume pattern as <c>FreeSkillPower</c>.
 /// </summary>
 public sealed class NextSkillDiscountPower : WickenPower
@@ -28,8 +28,8 @@ public sealed class NextSkillDiscountPower : WickenPower
         {
             return false;
         }
-        modifiedCost = Math.Min(originalCost, 1m);
-        return true;
+        modifiedCost = Math.Max(originalCost - 1m, 0m);
+        return modifiedCost != originalCost;
     }
 
     public override async Task BeforeCardPlayed(CardPlay cardPlay)

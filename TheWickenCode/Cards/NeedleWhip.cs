@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWicken.TheWickenCode.Powers;
 
@@ -31,7 +32,8 @@ public sealed class NeedleWhip : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            // Thorn hit: swamp-green slice (preloaded via Wicken.ExtraAssetPaths).
+            .WithHitVfxNode(t => NThinSliceVfx.Create(t, VfxColor.Swamp))
             .Execute(choiceContext);
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars["BramblesPower"].BaseValue, Owner.Creature, this);
     }

@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using TheWicken.TheWickenCode.Extensions;
 using TheWicken.TheWickenCode.Potions.Brewing;
 using TheWicken.TheWickenCode.Powers;
 
@@ -35,6 +36,14 @@ public abstract class OrientationBrewCard : WickenCard
 
         if (potion != null)
         {
+            // Orientation-coded splash layered under the generic brew puff: red = offensive,
+            // blue = defensive, green = utility.
+            WickenFx.Splash(Owner.Creature, Orientation switch
+            {
+                PotionOrientation.Offensive => new Godot.Color("d04545"),
+                PotionOrientation.Defensive => new Godot.Color("4a7bd0"),
+                _ => WickenFx.WickenGreen,
+            });
             await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
         }
     }

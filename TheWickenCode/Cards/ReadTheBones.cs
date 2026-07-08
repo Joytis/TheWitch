@@ -1,47 +1,41 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Models.Powers;
+using TheWicken.TheWickenCode.Powers;
+using HexPower = TheWicken.TheWickenCode.Powers.HexPower;
 
 namespace TheWicken.TheWickenCode.Cards;
 
 /// <summary>
-/// Read the Bones (was Steal Bones): divine the enemy's next move — if it intends to attack, draw cards;
-/// otherwise strike it. Intent check + gold glow mirror the base-game Go for the Eyes.
+/// Read the Bones: curse the enemy now, divine your next draw — apply Hex, then draw extra cards next turn
+/// (base-game <see cref="DrawCardsNextTurnPower" />).
 /// </summary>
 public sealed class ReadTheBones : WickenCard
 {
-    protected override bool ShouldGlowGoldInternal =>
-        CombatState != null && (Pile?.Type != PileType.Hand
-            || CombatState.HittableEnemies.Any(e => e.Monster?.IntendsToAttack ?? false));
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<HexPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(2),
-        new DamageVar(9m, ValueProp.Move)
+        new PowerVar<HexPower>(2m),
+        new CardsVar(2)
     ];
 
     public ReadTheBones()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        if (cardPlay.Target.Monster?.IntendsToAttack ?? false)
-        {
-            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
-        }
-        else
-        {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this)
-                .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_slash")
-                .Execute(choiceContext);
-        }
+        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        VfxCmd.PlayOnCreatureCenter(Owner.Creature, VfxCmd.gazePath); // divination read
+        await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars.Cards.BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(1m);
 }

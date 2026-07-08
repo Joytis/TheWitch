@@ -12,5 +12,5 @@ public sealed class CatFamiliarPower : LootTableFamiliarPower
     protected override FamiliarLootTable BuildLootTable() =>
         new FamiliarLootTable()
             .Add<Ferocity>()
-            .Add<Curiosity>();
+            .Add<Nimble>();
 }

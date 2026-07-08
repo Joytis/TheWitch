@@ -33,7 +33,7 @@ public sealed class RattlingBottles : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_rock_shatter", null, "heavy_attack.mp3")
             .Execute(choiceContext);
 
         int empty = Owner.PotionSlots.Count(p => p == null);

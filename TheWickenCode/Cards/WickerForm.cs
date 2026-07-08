@@ -14,7 +14,7 @@ public sealed class WickerForm : WickenCard
     ];
 
     public WickerForm()
-        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
 

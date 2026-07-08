@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using TheWicken.TheWickenCode.Extensions;
 using TheWicken.TheWickenCode.Potions;
 
 namespace TheWicken.TheWickenCode.Cards;
@@ -46,6 +47,7 @@ public sealed class Witchcraft : WickenCard
 
         if (cauldron != null && poured.Count > 0)
         {
+            WickenFx.Splash(Owner.Creature, new Godot.Color("ac54b3")); // cauldron pour: purple splash
             cauldron.PourPotions(poured.Count);
         }
     }

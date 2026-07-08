@@ -138,6 +138,10 @@ Potions are a core character identity, so there's a dedicated system to **classi
 - **"Make a potion of orientation X" cards** (Something Wicked = Offensive, Toil and Trouble = Utility, Stone Skin = Defensive) just `PotionCatalog.Random(PotionCatalog.Query(orientation:, rarity:), rng)` — always `Random`, never `FirstOrDefault` (that yields the same potion every time).
 - **Dev console** (subclass `AbstractConsoleCmd`; debug-console only): `potiontraits` dumps every potion's orientation by rarity; `mergepotions` brews the first two belt potions. Code in [TheWickenCode/DevConsole/](TheWickenCode/DevConsole/).
 
+## SFX / VFX
+
+Base-game sfx/vfx API + reusable asset catalog: **[Docs/sfx-vfx-catalog.md](Docs/sfx-vfx-catalog.md)** (attack-builder `WithHitFx`/`WithHitVfxNode`, `VfxCmd` paths, `N*Vfx` node factories + which are globally preloaded, FMOD event strings, debug mp3s). Wicken house palette + per-card assignments: [Docs/sfx-vfx-proposal.md](Docs/sfx-vfx-proposal.md). Shared mechanic signatures (familiar summon flourish, brew puff, spore puff, hex gaze, bramble slice) live in [Extensions/WickenFx.cs](TheWickenCode/Extensions/WickenFx.cs) — use those helpers, don't hand-roll per card. Gotchas: non-globally-preloaded `N*Vfx` need `ExtraRunAssetPaths` on the card (powers have no such hook — power-spawned vfx must be globally preloaded or registered by the granting card); block/heal/buff/debuff/potion-procure sounds are automatic — never re-add.
+
 ## Familiars
 
 The signature mechanic. A **summon Power card** (`WolfFamiliar`, `BearFamiliar`, …, all marked `IFamiliarSummon`) applies one stack of a **`FamiliarPower`** counter via `WickenCard.GainFamiliar<TPower>()`. At each turn start every `FamiliarPower` adds one **token card** to your hand **per stack** (`AfterPlayerTurnStart`). Code: [TheWickenCode/Powers/FamiliarPower.cs](TheWickenCode/Powers/FamiliarPower.cs); summon cards in [TheWickenCode/Cards/](TheWickenCode/Cards/), token cards under `Cards/Familiar/`.

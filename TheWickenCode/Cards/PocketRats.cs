@@ -6,13 +6,13 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Pocket Rats: dump a handful of one-shot Rats straight into your hand. Exhausts.</summary>
+/// <summary>Pocket Rats: dump a handful of one-shot Scavenges straight into your hand. Exhausts.</summary>
 public sealed class PocketRats : WickenCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Rats>(IsUpgraded),
+        HoverTipFactory.FromCard<Scavenge>(IsUpgraded),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
@@ -27,7 +27,7 @@ public sealed class PocketRats : WickenCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        List<Rats> cards = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
+        List<Scavenge> cards = FamiliarCardRegistry.CreateFamiliarCards<Scavenge>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
         var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner, CardPilePosition.Random);
         CardCmd.PreviewCardPileAdd(generated);
     }

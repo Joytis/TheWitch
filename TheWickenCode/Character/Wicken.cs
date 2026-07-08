@@ -41,6 +41,15 @@ public class Wicken : PlaceholderCharacterModel
         ModelDb.Relic<LargePockets>()
     ];
     
+    // Preload the non-globally-preloaded vfx scenes used by WickenFx signatures (powers have no
+    // ExtraRunAssetPaths hook, so power-spawned vfx like the Bramble slice must preload here).
+    protected override IEnumerable<string> ExtraAssetPaths => [
+        .. MegaCrit.Sts2.Core.Nodes.Vfx.NPowerUpVfx.AssetPaths,
+        .. MegaCrit.Sts2.Core.Nodes.Vfx.NSmokePuffVfx.AssetPaths,
+        .. MegaCrit.Sts2.Core.Nodes.Vfx.NThinSliceVfx.AssetPaths,
+        .. MegaCrit.Sts2.Core.Nodes.Vfx.NGroundFireVfx.AssetPaths,
+    ];
+
     public override CardPoolModel CardPool => ModelDb.CardPool<WickenCardPool>();
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<WickenRelicPool>();
     public override PotionPoolModel PotionPool => ModelDb.PotionPool<WickenPotionPool>();

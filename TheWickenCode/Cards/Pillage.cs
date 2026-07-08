@@ -24,7 +24,7 @@ public sealed class Pillage : WickenCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_scratch")
             .Execute(choiceContext);
 
         int familiars = Familiars.Count(Owner.Creature);

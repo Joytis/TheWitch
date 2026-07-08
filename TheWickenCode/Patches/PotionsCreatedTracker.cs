@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using TheWicken.TheWickenCode.Extensions;
 
 namespace TheWicken.TheWickenCode.Patches;
 
@@ -30,6 +31,12 @@ public static class PotionsCreatedTracker
             return;
         }
         Counts.GetValue(combat, _ => new StrongBox<int>(0)).Value++;
+
+        // Potion-creation signature: green brew puff on the Wicken (gated so other characters keep vanilla feel).
+        if (player!.Character is Character.Wicken)
+        {
+            WickenFx.BrewPuff(player.Creature!);
+        }
     }
 
     /// <summary>Potions procured so far in <paramref name="combat" /> (0 if none / no live combat).</summary>

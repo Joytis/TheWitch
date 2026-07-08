@@ -24,7 +24,7 @@ public sealed class BottleBarrage : WickenCard
     ];
 
     public BottleBarrage()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -40,7 +40,7 @@ public sealed class BottleBarrage : WickenCard
             .WithHitCount(potions)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_rock_shatter", null, "blunt_attack.mp3")
             .Execute(choiceContext);
     }
 

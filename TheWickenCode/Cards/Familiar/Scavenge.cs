@@ -6,8 +6,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWicken.TheWickenCode.Cards;
 
-/// <summary>Pocket Rats token: tiny attack with a lifesteal nibble. Exhausts.</summary>
-public sealed class Rats : WickenFamiliarCard, IRatCard
+/// <summary>Rat familiar token (was Rats): tiny attack with a lifesteal nibble. Exhausts.</summary>
+public sealed class Scavenge : WickenFamiliarCard, IRatCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(5m, ValueProp.Move),
@@ -15,7 +15,7 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
         new CardsVar(1)
     ];
 
-    public Rats()
+    public Scavenge()
         : base(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
@@ -26,7 +26,7 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
         await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
@@ -34,6 +34,6 @@ public sealed class Rats : WickenFamiliarCard, IRatCard
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

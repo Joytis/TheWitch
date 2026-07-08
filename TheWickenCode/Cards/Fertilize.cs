@@ -45,6 +45,7 @@ public sealed class Fertilize : WickenCard
             if(pick != null)
             {
                 upgradable.Remove(pick);
+                WickenFx.EnchantShimmer();
                 CardCmd.Upgrade(pick);
             }
         }

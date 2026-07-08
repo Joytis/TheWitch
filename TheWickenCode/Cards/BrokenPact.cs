@@ -27,7 +27,9 @@ public sealed class BrokenPact : WickenCard
         bool sacrificed = await Familiars.RemoveRandom(Owner.Creature, Owner.RunState.Rng.CombatTargets);
         if (sacrificed)
         {
+            VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_spooky_scream");
             await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
+            VfxCmd.PlayOnCreatureCenter(Owner.Creature, VfxCmd.healPath);
         }
     }
 
