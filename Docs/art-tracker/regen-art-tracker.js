@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Generate Docs/art-tracker.html — a static, self-contained art-asset tracker
+// Generate pages/art-tracker.html — a static, self-contained art-asset tracker
 // suitable for GitHub Pages. Data sources:
 //   - ../card-data/cards.json      (cards; artFinal=true → Final)
 //   - ./card-briefs.json           (hand-maintained card art briefs / status overrides)
@@ -221,7 +221,7 @@ render();
 </html>
 `;
 
-const outPath = path.join(__dirname, '..', 'art-tracker.html');
+const outPath = path.join(root, 'pages', 'art-tracker.html');
 fs.writeFileSync(outPath, html);
 const total = cardRows.length + assetCats.reduce((n, c) => n + c.assets.length, 0);
 console.log(`art-tracker.html written: ${cardRows.length} cards + ${total - cardRows.length} other assets = ${total} rows`);
