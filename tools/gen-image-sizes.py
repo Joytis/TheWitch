@@ -4,12 +4,12 @@
 Card portraits and powers each ship in two sizes: a small portrait and a
 "big" full-art version under a ``big/`` subfolder, sharing the same filename:
 
-    TheWicken/images/card_portraits/foo.png              (small)
-    TheWicken/images/card_portraits/big/foo.png          (big)
-    TheWicken/images/card_portraits/familiar/foo.png     (small)
-    TheWicken/images/card_portraits/big/familiar/foo.png (big)
-    TheWicken/images/powers/foo.png                      (small)
-    TheWicken/images/powers/big/foo.png                  (big)
+    TheWitch/images/card_portraits/foo.png              (small)
+    TheWitch/images/card_portraits/big/foo.png          (big)
+    TheWitch/images/card_portraits/familiar/foo.png     (small)
+    TheWitch/images/card_portraits/big/familiar/foo.png (big)
+    TheWitch/images/powers/foo.png                      (small)
+    TheWitch/images/powers/big/foo.png                  (big)
 
 This script fills in whichever side is missing:
 
@@ -62,7 +62,7 @@ except ImportError:
 
 # Repo root is the parent of this tools/ folder.
 REPO_ROOT = Path(__file__).resolve().parent.parent
-IMAGES_ROOT = REPO_ROOT / "TheWicken" / "images"
+IMAGES_ROOT = REPO_ROOT / "TheWitch" / "images"
 
 # Category -> (small_dir, big_dir). Big art lives under a single "big/" mirror
 # at each portrait root, with category subfolders nested inside it (matching

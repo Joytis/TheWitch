@@ -1,4 +1,4 @@
-# Card Implementation Plan — `import/STS2 TheWicken - Cards.csv`
+# Card Implementation Plan — `import/STS2 TheWitch - Cards.csv`
 
 Durable TODO + design record for implementing the 56 designed cards. One row in the
 CSV (Bear Familiar's upgrade) is a line-continuation, so the count is **56 cards**,
@@ -19,7 +19,7 @@ not 57.
   - **Note:** deploy-copy to the game's mods/ folder is blocked while Slay the Spire 2 is running (DLL locked);
     the compile + BaseLib analyzers pass. Close the game to redeploy.
 - **2026-06-26 (Rancid Smoke — 🎉 ALL 56 CARDS DONE, 0/0):** Q4 resolved (source = your own debuffs).
-  `Cards/RancidSmoke.cs` mirrors base-game `Misery`: clone each `PowerType.Debuff` power on the Wicken
+  `Cards/RancidSmoke.cs` mirrors base-game `Misery`: clone each `PowerType.Debuff` power on the Witch
   (`ClonePreservingMutability`) and apply to all enemies — stacking onto enemies that already have it
   (`PowerCmd.FindExistingInstanceForStacking` → `ModifyAmount`), `ITemporaryPower.IgnoreNextInstance` on
   fresh applies so temp-powers don't double-tick. Exhaust; upg removes Exhaust. **The plan is complete.**
@@ -34,7 +34,7 @@ not 57.
     `PotionCmd.TryToProcure(PotionModel, Player, int)` (the generic overload routes through it), counting into a
     `ConditionalWeakTable<ICombatState, StrongBox<int>>` so it's per-combat and self-cleaning. Card =
     `WithHitCount(CountFor(CombatState))`, 10 dmg/hit (+3 upg). Counts procure *calls* (belt-full still counts);
-    combat-keyed → team total in MP. (Project already Harmony-patches — see `Monsters/WickenPetVisualsPatch.cs`.)
+    combat-keyed → team total in MP. (Project already Harmony-patches — see `Monsters/WitchPetVisualsPatch.cs`.)
   - **Witch's Curse** — potion damage carries **no card/potion source** (`CreatureCmd.Damage(.., player, null)`),
     so it can't be spotted in the damage pipeline. `WitchsCursePower` (on the enemy) instead flags the window
     between `BeforePotionUsed`/`AfterPotionUsed` — which **bracket the potion's `OnUse` body** (PotionModel
@@ -51,7 +51,7 @@ not 57.
   + `cardPlay.Target.Player`; per-ally energy = `PlayerCmd.GainEnergy/LoseEnergy(n, player)`; per-ally potion =
   `PotionFactory.CreateRandomPotionInCombat(player, Rng.CombatPotionGeneration).ToMutable()` + `PotionCmd.TryToProcure`.
   - **Circle of Rot** (AllAllies) — each teammate gains Block + 2 Weak; all enemies gain 2 Weak. **Interpretation:**
-    the "gain 2 weak" is self/ally weak (Wicken debuff-synergy theme), "apply 2 weak" hits enemies; one `WeakVar` drives both, +1 on upg.
+    the "gain 2 weak" is self/ally weak (Witch debuff-synergy theme), "apply 2 weak" hits enemies; one `WeakVar` drives both, +1 on upg.
   - **Creeping Vines** (X-cost, `HasEnergyCostX`, `ResolveEnergyXValue()`) — X times, 5 Brambles to a random ally
     rolled fresh each hit (`Rng.CombatTargets.NextItem`). Random pool = all teammates incl. self.
   - **Tiny Bottle** (AnyAlly) — drains up to 2 energy from the targeted ally (capped at their current energy); **you**
@@ -60,16 +60,16 @@ not 57.
   - These interpretations resolved the under-specified CSV text; tweak numbers/targets freely (one-liners).
   Reusable: block-to-any-creature = `CreatureCmd.GainBlock(creature, amount, ValueProp.Move, cardPlay)`;
   `PowerCmd.Apply` accepts a creature **or** `CombatState.HittableEnemies` collection.
-  **Gotcha:** `BramblesPower` is namespaced `MegaCrit.Sts2.Core.Models.Powers` (shares base loc), not `TheWicken...Powers`.
+  **Gotcha:** `BramblesPower` is namespaced `MegaCrit.Sts2.Core.Models.Powers` (shares base loc), not `TheWitch...Powers`.
 - **2026-06-26 (familiar utility — bucket A DONE, 0/0):** 5 cards + `Cards/Familiar/FamiliarCardRegistry.cs`
-  (the "random familiar card" registry = `ModelDb.AllCards.OfType<WickenFamiliarCard>()`, valid because
-  `WickenFamiliarCardPool.IsShared`; `CreateRandom` rolls `Rng.NextItem` + `ICombatState.CreateCard(canonical, owner)`):
+  (the "random familiar card" registry = `ModelDb.AllCards.OfType<WitchFamiliarCard>()`, valid because
+  `WitchFamiliarCardPool.IsShared`; `CreateRandom` rolls `Rng.NextItem` + `ICombatState.CreateCard(canonical, owner)`):
   - **Woe and Whimsy** — 1 random familiar → hand (upgraded when card is upgraded).
   - **Chimera Familiar** — Power; `ChimeraFamiliarPower` + `GainFamiliar` + `IFamiliarSummon`; shuffles 3
     (+1 upg) random familiars into Draw, matching the other familiar Power cards.
-  - **Find Familiar** — tutor: `CardSelectCmd.FromCombatPile(Draw, filter: c is WickenFamiliarCard)` →
+  - **Find Familiar** — tutor: `CardSelectCmd.FromCombatPile(Draw, filter: c is WitchFamiliarCard)` →
     `CardPileCmd.Add(.., Hand)` (ref `SecretWeapon`).
-  - **Pact of Beasts** — gather all `WickenFamiliarCard` from Draw+Discard `.Cards` → `CardPileCmd.Add(.., Hand)`.
+  - **Pact of Beasts** — gather all `WitchFamiliarCard` from Draw+Discard `.Cards` → `CardPileCmd.Add(.., Hand)`.
   - **Embrace the Wilds** — for each transformable hand card: create random familiar, `EnergyCost.SetThisCombat(0)`,
     `CardCmd.Transform(original, familiar)` (refs `Begone`/`AdaptiveStrike`).
   - Reusable: pile reads = `PileType.X.GetPile(Owner).Cards`; random card gen rng = `Owner.RunState.Rng.CombatCardGeneration`;
@@ -86,7 +86,7 @@ not 57.
   - `Powers/OwlFamiliarPower.cs`, `Powers/CatFamiliarPower.cs` — concrete powers for existing familiars.
   - `Powers/Familiars.cs` — `Count` / `On` / `Any` / `RemoveRandom(rng)` helpers (familiar count = sum
     of all `FamiliarPower` stacks; sacrifice = decrement a random one, auto-removed at 0).
-  - `Cards/WickenCard.cs` — `GainFamiliar<TPower>()` helper; wired into `OwlFamiliar` + `CatFamiliar`.
+  - `Cards/WitchCard.cs` — `GainFamiliar<TPower>()` helper; wired into `OwlFamiliar` + `CatFamiliar`.
   - Loc added for both powers in `powers.json`. **Each new familiar card must add its own
     `XFamiliarPower` + loc + a `GainFamiliar<>` call.**
 - **2026-06-25 (cont.) — more Phase 0 infra built & compiling:**
@@ -102,8 +102,8 @@ not 57.
 - **2026-06-25 (Phase 1) — 16 quick-win cards built, compiling 0/0, placeholder big art + loc done:**
   Serrated Bones, Lavender and Sage, Nettles, Brambleburst, Wild Growth, Needle Whip, Forbidden Magic,
   Stuck in the Bush, Moondrop Tea, Hexburst, Something Wicked, Toil and Trouble, Blood Boiling,
-  Rattling Bottles, Bag of Teeth, Hidden in Smoke. All `WickenCard` → auto-pooled via inherited
-  `[Pool(WickenCardPool)]`; placeholder `big/<snake>.png` copies (no `.import` — Godot regenerates on
+  Rattling Bottles, Bag of Teeth, Hidden in Smoke. All `WitchCard` → auto-pooled via inherited
+  `[Pool(WitchCardPool)]`; placeholder `big/<snake>.png` copies (no `.import` — Godot regenerates on
   publish); loc in `cards.json`.
   - Patterns established for reuse: AoE attack `DamageCmd.Attack(..).TargetingAllOpponents(CombatState!)`;
     multi-hit `.WithHitCount(DynamicVars["Repeat"].IntValue)` + `{Repeat:diff()} {Repeat:plural:time|times}`;
@@ -125,7 +125,7 @@ not 57.
     (powers.json desc for VICIOUS_BARBS_POWER/HEDGE_PRISON_POWER) left empty — card text carries the
     explanation; fill power descriptions later for polish.
 - **2026-06-26 (Phase 3) — 6 trigger cards + powers built, compiling 0/0, art + loc done.** Each card
-  applies a persistent `WickenPower` that overrides one global combat hook:
+  applies a persistent `WitchPower` that overrides one global combat hook:
   - `RottingRootsPower` — `AfterPowerAmountChanged`, filter `applier==Owner && power.Owner!=Owner &&
     Type==Debuff && amount>0` → gain Brambles (excludes self-debuffs; brambles is Buff so no loop).
   - `CursedBloodlinePower` / `BindInBloodPower` — `AfterDamageReceived`, `target==Owner &&
@@ -154,7 +154,7 @@ not 57.
   - **5 familiars** (each: `XFamiliarPower` + `GainFamiliar<>` + `IFamiliarSummon` + token spawn, **no
     pet sprite** — cosmetic, skipped): Rat→Plague×3, Porcupine→Quills×2, Bear→Hibernate+Mutilate,
     Crow→Scout×2, Sloth→Laze×2. Token "+" upgrades flow through `CreateFamiliarCards(.., IsUpgraded)`.
-  - **7 token cards** (`WickenFamiliarCard`, Token, in `Cards/Familiar/`): Plague, Quills, Hibernate,
+  - **7 token cards** (`WitchFamiliarCard`, Token, in `Cards/Familiar/`): Plague, Quills, Hibernate,
     Mutilate, Scout, Laze, Rats.
   - **Pocket Rats** (Rats×3 → hand) and **Broom Strike** (15 dmg + `NextFamiliarFreePower` from Phase 0).
   - **Deferred:** Wolf Familiar + Gnash (Pack Tactics = Open Q2); Chimera Familiar / Woe and Whimsy
@@ -164,12 +164,12 @@ not 57.
 
 ## Per-card workflow (what "done" means for each)
 
-1. C# card class in `TheWickenCode/Cards/` (familiar token-cards go in `Cards/Familiar/`).
+1. C# card class in `TheWitchCode/Cards/` (familiar token-cards go in `Cards/Familiar/`).
 2. Placeholder `big/<snake_name>.png` (copy of `big/card.png`) so art loads with the right name.
-3. Localization `title` + `description` in `TheWicken/localization/eng/cards.json` with correct dynamic-var tokens.
-4. Pool/rarity correct (`WickenCard` → main pool; familiar/token cards → `WickenFamiliarCard`, `Token` rarity).
+3. Localization `title` + `description` in `TheWitch/localization/eng/cards.json` with correct dynamic-var tokens.
+4. Pool/rarity correct (`WitchCard` → main pool; familiar/token cards → `WitchFamiliarCard`, `Token` rarity).
 
-**Image filename = `snake_case` of the class name.** e.g. class `BrambleShield` → id `THEWICKEN-BRAMBLE_SHIELD`
+**Image filename = `snake_case` of the class name.** e.g. class `BrambleShield` → id `THEWITCH-BRAMBLE_SHIELD`
 → loads `card_portraits/big/bramble_shield.png` and `card_portraits/bramble_shield.png`. Missing files fall
 back to `card.png` and log (see `StringExtensions.BigCardImagePath`), so placeholders are low-risk.
 
@@ -196,7 +196,7 @@ These are reused across many cards. Order roughly by how many cards they unblock
 | `PotionsCreatedThisCombat` | combat | Bottle Barrage | ⬜ TODO — **no history entry for potion procurement**; needs a small tracker (combat-start-applied counter power, or Harmony patch on `PotionCmd` procurement). Decide when building Bottle Barrage. |
 | `FamiliarCount` | combat | Pillage, Stampede | ✅ DONE — `Familiars.Count` over `FamiliarPower` stacks (Q1 resolved) |
 
-Implementation: likely a hidden/counter `WickenPower` per tracker (StackType.Counter), incremented
+Implementation: likely a hidden/counter `WitchPower` per tracker (StackType.Counter), incremented
 from the relevant hook. Base-game pattern: counter powers + `AfterPlayerTurnEnd`/`BeforeCombatStart` resets.
 
 ### 0b. Brambles upgrades (edit existing `BramblesPower`) — ✅ DONE
@@ -206,7 +206,7 @@ from the relevant hook. Base-game pattern: counter powers + `AfterPlayerTurnEnd`
   `PowerCmd.Apply<...>` Power cards (Phase 2).
 
 ### 0c. Trigger powers ("Whenever you …")
-**No shared base needed** — each is a one-hook `WickenPower` built with its card (Phase 3). Listed here
+**No shared base needed** — each is a one-hook `WitchPower` built with its card (Phase 3). Listed here
 only so the hooks are known. Reference base-game powers in `gamedata/src/Core/Models/Powers/`.
 | Power card | Hook | Effect |
 |---|---|---|
@@ -228,7 +228,7 @@ only so the hooks are known. Reference base-game powers in `gamedata/src/Core/Mo
   (see `StoneSkin`). Reuse for Something Wicked, Toil and Trouble, Stone Skin pattern.
 - **Rarity-up on create** ("next potion higher quality" / "+1 rarity") — ✅ DONE. `Powers/NextPotionUpgradedPower.cs`
   (counter buff) + static `UpgradeRarity(player, rarity)` (consumes a stack, bumps Common→Uncommon→Rare, caps at
-  Rare). Honored only by the Wicken's rarity-rolling creators (`SomethingWicked`, `ToilAndTrouble`) — **not** a
+  Rare). Honored only by the Witch's rarity-rolling creators (`SomethingWicked`, `ToilAndTrouble`) — **not** a
   global procurement hook. Gather Herbs applies one stack. Fixed-output creators (Blood Boiling/Cackle/Brew) skip it.
 - **Rock potion** = base-game `PotionShapedRock` (already `Token` rarity) — used by Rattling Bottles.
 - **Destroy potions + payoff** — Herbal Remedy / Unstable Reaction need a "discard/destroy all belt
@@ -239,9 +239,9 @@ only so the hooks are known. Reference base-game powers in `gamedata/src/Core/Mo
   Familiar count, sacrifice, and per-type tracking all run off this.
 - **New familiars** (Power cards that add token-cards + summon a cosmetic pet, like `OwlFamiliar`):
   Rat, Chimera, Porcupine, Bear, Crow, Wolf, Sloth. Each needs: a `XFamiliarPower` + loc, a
-  `GainFamiliar<XFamiliarPower>()` call in `OnPlay`, and may need a `WickenPet` sprite (currently
+  `GainFamiliar<XFamiliarPower>()` call in `OnPlay`, and may need a `WitchPet` sprite (currently
   only Owl/Cat pets exist) — placeholder pet or reuse generic.
-- **New token cards** (all `WickenFamiliarCard`, `Token` rarity, in `Cards/Familiar/`):
+- **New token cards** (all `WitchFamiliarCard`, `Token` rarity, in `Cards/Familiar/`):
   Plague, Quills, Hibernate, Mutilate, Scout, Gnash, Laze, Rats. (Existing: Ferocity, Wisdom.)
 - **Pack Tactics** mechanic (Wolf/Gnash) — **❓ undefined, see Open Q2**.
 - **Familiar card search / gather** — Find Familiar (tutor from draw), Pact of Beasts (all familiar
@@ -331,7 +331,7 @@ Cost / rarity / type from the CSV. "Ref" = closest base-game class in `gamedata/
 | Weathered Witch Hat | 2 / Common / Skill | 10 block, next skill costs 1 | +3 block | 0d cost reduction | ✅ |
 
 ### New token cards (created by the above, not in reward pool)
-`WickenFamiliarCard`, `Token` rarity, `Cards/Familiar/`. Image path `familiar/<snake_name>.png`.
+`WitchFamiliarCard`, `Token` rarity, `Cards/Familiar/`. Image path `familiar/<snake_name>.png`.
 | Token | From | Effect | Status |
 |---|---|---|---|
 | Plague | Rat Familiar | 0 cost: draw a card, lose 1 Str, enemies lose 1 Str | ✅ |
@@ -386,11 +386,11 @@ Pillage draws per familiar; Ritual Sacrifice = `Familiars.RemoveRandom` then blo
   Vines are **multiplayer-only**: override `MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly`
   (base-game ref: `Flanking`). The game auto-excludes them from single-player reward/shop pools, so no
   single-player fallback logic is needed. Build them with their full co-op ally behavior.
-- **Q4 — Rancid Smoke "spread all of YOUR debuffs". ✅ RESOLVED.** Source = the Wicken's own debuffs.
+- **Q4 — Rancid Smoke "spread all of YOUR debuffs". ✅ RESOLVED.** Source = the Witch's own debuffs.
   Built `Cards/RancidSmoke.cs` mirroring base-game `Misery`: clone each `PowerType.Debuff` power on
   `Owner.Creature` (`ClonePreservingMutability`) and apply to every enemy (stack via
   `FindExistingInstanceForStacking` / `ModifyAmount`; `ITemporaryPower.IgnoreNextInstance` on fresh applies).
-  The Wicken keeps hers — enemies get copies.
+  The Witch keeps hers — enemies get copies.
 - **Q5 — "The Cauldron" (Cackle). ✅ RESOLVED.** Built as a concrete potion `Potions/TheCauldron.cs`
   (granted via `PotionCmd.TryToProcure<TheCauldron>`); Cackle is a Rare Exhaust skill that creates it.
   See that file for the effect/rarity that was chosen.

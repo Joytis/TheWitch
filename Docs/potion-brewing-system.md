@@ -1,7 +1,7 @@
 # Potion Trait & Brewing System
 
-> Design record for TheWicken's potion classification + brewing feature.
-> Code lives in [`TheWickenCode/Potions/Brewing/`](../TheWickenCode/Potions/Brewing/).
+> Design record for TheWitch's potion classification + brewing feature.
+> Code lives in [`TheWitchCode/Potions/Brewing/`](../TheWitchCode/Potions/Brewing/).
 
 > **⚠️ SUPERSEDED — orientation only.** The fine-grained `PotionTrait` `[Flags]` taxonomy described below was
 > **removed**. The system now classifies every potion into a single `PotionOrientation` (Offensive / Defensive /
@@ -14,7 +14,7 @@
 
 ## Why this exists
 
-Potions are a **core identity** of TheWicken. The character needs to:
+Potions are a **core identity** of TheWitch. The character needs to:
 
 1. **Query** the set of all potions by *what they do* — "give me a defensive Common", "any potion that
    generates block" — rather than by hard-coded id lists.
@@ -42,7 +42,7 @@ mod code, layered over `ModelDb.AllPotions`.
 
 ## Trait taxonomy
 
-`PotionTrait` ([PotionTrait.cs](../TheWickenCode/Potions/Brewing/PotionTrait.cs)):
+`PotionTrait` ([PotionTrait.cs](../TheWitchCode/Potions/Brewing/PotionTrait.cs)):
 
 - **Offensive**: `Damage`, `Debuff`, `Poison`
 - **Defensive**: `Block`, `Heal`, `MaxHp`
@@ -55,7 +55,7 @@ Offensive > Defensive > Utility > Neutral.
 
 ## Auto-derivation rules
 
-In [`PotionTraits.Derive`](../TheWickenCode/Potions/Brewing/PotionTraits.cs), per var in `potion.DynamicVars.Values`:
+In [`PotionTraits.Derive`](../TheWitchCode/Potions/Brewing/PotionTraits.cs), per var in `potion.DynamicVars.Values`:
 
 | Var type | Trait |
 |----------|-------|
@@ -92,7 +92,7 @@ expected to get a manual balance pass.
 
 ## API
 
-[`PotionCatalog`](../TheWickenCode/Potions/Brewing/PotionCatalog.cs) — query over `ModelDb.AllPotions` (canonical models):
+[`PotionCatalog`](../TheWitchCode/Potions/Brewing/PotionCatalog.cs) — query over `ModelDb.AllPotions` (canonical models):
 
 ```csharp
 PotionCatalog.All                 // every registered potion
@@ -105,14 +105,14 @@ PotionCatalog.Query(require, matchAll, rarity?, usage?, randomizableOnly)   // m
 PotionCatalog.Random(pool, rng)   // pick one, or null
 ```
 
-[`PotionTraits`](../TheWickenCode/Potions/Brewing/PotionTraits.cs):
+[`PotionTraits`](../TheWitchCode/Potions/Brewing/PotionTraits.cs):
 
 ```csharp
 PotionTraits.Of(potion)            // -> PotionTrait  (cached per Type)
 PotionTraits.OrientationOf(potion) // -> PotionOrientation
 ```
 
-[`BrewBook`](../TheWickenCode/Potions/Brewing/BrewBook.cs):
+[`BrewBook`](../TheWitchCode/Potions/Brewing/BrewBook.cs):
 
 ```csharp
 BrewResult r = BrewBook.Brew(potA, potB, rng);
@@ -135,7 +135,7 @@ if (r.Success)
 ## Dev console commands
 
 Debug-only console commands (auto-registered in the mod via `AbstractConsoleCmd` subclasses in
-[`TheWickenCode/DevConsole/`](../TheWickenCode/DevConsole/); require the game's debug console enabled):
+[`TheWitchCode/DevConsole/`](../TheWitchCode/DevConsole/); require the game's debug console enabled):
 
 - **`potiontraits`** — dumps every registered potion with its classified traits + orientation, grouped by rarity,
   to the console and logs. Use this to eyeball the classification (auto-derive + overrides).
@@ -145,9 +145,9 @@ Debug-only console commands (auto-registered in the mod via `AbstractConsoleCmd`
 
 ## Enemy essence (ExtractEssence card)
 
-A second consumer of the classification layer: [`EnemyEssence`](../TheWickenCode/Potions/Brewing/EnemyEssence.cs)
+A second consumer of the classification layer: [`EnemyEssence`](../TheWitchCode/Potions/Brewing/EnemyEssence.cs)
 turns a *defeated-ish enemy's behavior* into a thematic potion, used by the
-[ExtractEssence card](../TheWickenCode/Cards/ExtractEssence.cs) ("deal damage; on unblocked damage, create a potion
+[ExtractEssence card](../TheWitchCode/Cards/ExtractEssence.cs) ("deal damage; on unblocked damage, create a potion
 themed after the enemy").
 
 - **`EnemyEssence.Classify(Creature)`** → `PotionOrientation`. It tallies the enemy's intent types across its
@@ -168,7 +168,7 @@ landing unblocked damage.
 
 ## Known limitations / open knobs
 
-- **No bespoke fused potions.** Brews resolve to an existing potion. If TheWicken's identity wants potions that
+- **No bespoke fused potions.** Brews resolve to an existing potion. If TheWitch's identity wants potions that
   literally combine two effects, that needs a flexible payload `PotionModel` — bigger build, deferred.
 - `Brew` excludes the two input Types and outputs only `Randomizable` potions (no Token/Event payloads). Loosen if
   brews should be able to produce card-only payload potions.

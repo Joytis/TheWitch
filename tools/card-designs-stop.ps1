@@ -1,4 +1,4 @@
-# Stop the Wicken card design server (the node process listening on port 7820).
+# Stop the Witch card design server (the node process listening on port 7820).
 $port = 7820
 $pids = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue |
         Select-Object -ExpandProperty OwningProcess -Unique

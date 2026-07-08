@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Wicken Card Designs</title>
+<title>Witch Card Designs</title>
 <style>
   :root{
     --bg:#15131c; --panel:#1f1b2b; --panel2:#272234; --line:#3a3350;
@@ -107,7 +107,7 @@
 <body>
 <header>
   <div class="tabs" id="tabs"></div>
-  <h1 id="title">Wicken Card Designs</h1>
+  <h1 id="title">Witch Card Designs</h1>
   <div class="sub" id="subline"></div>
   <div class="controls">
     <input type="search" id="q" placeholder="search name / text / entry…" />
@@ -141,7 +141,7 @@ const ROLES = ["Generator","Payoff","Enabler","Token","Standalone"];
 // Per-tab config. `dev` = the mod's own cards (cards.json) with art/tested tooling + server writes.
 // `ref` = read-only base-game reference pulled from decompiled source.
 const CLASSES = {
-  wicken:      { label:"Wicken",      file:"cards.json",       mode:"dev", mechanics:["Brambles","Potions","Familiars","Debuff/Buff","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
+  witch:      { label:"Witch",      file:"cards.json",       mode:"dev", mechanics:["Brambles","Potions","Familiars","Debuff/Buff","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
   silent:      { label:"Silent",      file:"silent.json",      mode:"ref", mechanics:["Poison","Shivs","Discard","None"],       note:"Base-game reference (decompiled). Pillars: Poison · Shivs · Discard." },
   necrobinder: { label:"Necrobinder", file:"necrobinder.json", mode:"ref", mechanics:["Osty","Soul","Doom","Ethereal","None"], note:"Base-game reference (decompiled). Pillars: Osty (summons) · Soul · Doom · Ethereal." },
   ironclad:    { label:"Ironclad",    file:"ironclad.json",    mode:"ref", mechanics:["Strength","Exhaust","Self-Harm","Vulnerable","None"], note:"Base-game reference (decompiled). Pillars: Strength · Exhaust · Self-Harm · Vulnerable." },
@@ -150,8 +150,8 @@ const CLASSES = {
 };
 
 let CARDS = [];
-let CLS = "wicken";
-let MECH = CLASSES.wicken.mechanics;
+let CLS = "witch";
+let MECH = CLASSES.witch.mechanics;
 let MODE = "dev";
 let SERVER = false;
 let imgver = 0;
@@ -189,7 +189,7 @@ async function load(){
     const d = await r.json();
     CARDS = d.cards;
     imgver++;
-    document.getElementById("title").textContent = cfg.label==="Wicken" ? "Wicken Card Designs" : cfg.label+" — Class Makeup";
+    document.getElementById("title").textContent = cfg.label==="Witch" ? "Witch Card Designs" : cfg.label+" — Class Makeup";
     document.getElementById("subline").innerHTML = cfg.note + (d.generated ? ` <span class="muted">· ${d.generated}</span>` : "");
     SERVER = (location.protocol === "http:" || location.protocol === "https:");
     if(MODE==="dev" && !SERVER) document.body.classList.add("nosrv");
@@ -239,7 +239,7 @@ function buildTagChips(){
       host.appendChild(el);
     });
   };
-  // only show role values actually present (Token only appears for Wicken)
+  // only show role values actually present (Token only appears for Witch)
   const rolesPresent = ROLES.filter(r => CARDS.some(c => (c.role||[]).includes(r)));
   mk(document.getElementById("mechanics"), MECH, state.mech, "m-");
   mk(document.getElementById("roles"), rolesPresent, state.role, "r-");
@@ -356,7 +356,7 @@ function render(){
       const artLabel = {none:"No Art", placeholder:"Placeholder", final:"Final"}[art];
       html += `<td class="thumb"><img loading="lazy" src="art/${esc(c.entry)}.png?v=${imgver}" class="${isNone?"noart":""}" alt="" title="${esc(c.entry.toLowerCase())}.png — click to open"></td>`;
       var devTail = `
-        <td><button class="copy" data-cmd="card THEWICKEN-${esc(c.entry)}" title="copy console command">card THEWICKEN-${esc(c.entry)}</button></td>
+        <td><button class="copy" data-cmd="card THEWITCH-${esc(c.entry)}" title="copy console command">card THEWITCH-${esc(c.entry)}</button></td>
         <td class="artcell">
           <span class="artbadge art-${art}">${artLabel}</span>
           <button class="afinal ${art==="final"?"on":""}" data-entry="${esc(c.entry)}" ${isNone?"disabled":""}

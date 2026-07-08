@@ -1,4 +1,4 @@
-// Tiny zero-dependency server for the Wicken card design page.
+// Tiny zero-dependency server for the Witch card design page.
 // Serves card-designs.html + cards.json (+ live art state + thumbnails), and persists
 // TESTED / Art-Final toggles back to cards.json.
 //   node server.js   ->  http://localhost:7820
@@ -13,7 +13,7 @@ const ROOT = path.resolve(HERE, "..", ".."); // repo root
 const DOCS_DIR = path.join(HERE, ".."); // Docs/
 const JSON_PATH = path.join(HERE, "cards.json");
 const HTML_PATH = path.join(DOCS_DIR, "card-designs.html");
-const BIG_DIR = path.join(ROOT, "TheWicken", "images", "card_portraits", "big");
+const BIG_DIR = path.join(ROOT, "TheWitch", "images", "card_portraits", "big");
 const PLACEHOLDER = path.join(BIG_DIR, "card.png"); // the "no art" duplicate source
 
 function send(res, code, body, type) {
@@ -25,7 +25,7 @@ const writeData = (d) => fs.writeFileSync(JSON_PATH, JSON.stringify(d, null, 2) 
 
 const md5 = (buf) => crypto.createHash("md5").update(buf).digest("hex");
 // Big portrait lives at big/<entry>.png, but familiar token cards author their art under
-// big/familiar/<entry>.png (mirrors WickenFamiliarCard's `familiar/` PortraitPath prefix).
+// big/familiar/<entry>.png (mirrors WitchFamiliarCard's `familiar/` PortraitPath prefix).
 // Check the root first, then the familiar/ subdir; fall back to the root path when neither exists.
 const bigPathFor = (entry) => {
   const root = path.join(BIG_DIR, entry.toLowerCase() + ".png");
@@ -38,7 +38,7 @@ const hashFile = (file) => { try { return md5(fs.readFileSync(file)); } catch { 
 // Known placeholder images (the generic card backs). Any big art matching one of these is "No Art".
 const PLACEHOLDER_FILES = [
   PLACEHOLDER,                                                            // big/card.png
-  path.join(ROOT, "TheWicken", "images", "card_portraits", "card.png"),  // small card.png
+  path.join(ROOT, "TheWitch", "images", "card_portraits", "card.png"),  // small card.png
 ];
 
 // Live art state for every card's BIG portrait, recomputed from disk on each call:
@@ -128,6 +128,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Wicken card designs -> http://localhost:${PORT}`);
+  console.log(`Witch card designs -> http://localhost:${PORT}`);
   console.log("TESTED + Art-Final flags are saved to Docs/card-data/cards.json. Ctrl+C to stop.");
 });

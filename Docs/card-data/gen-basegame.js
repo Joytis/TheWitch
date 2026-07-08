@@ -7,7 +7,7 @@
  *   node Docs/card-data/gen-basegame.js silent     (rebuild one)
  *
  * These power the per-class tabs on Docs/card-designs.html, used to study the makeup of
- * each character's pool when designing the Wicken. The mechanical fields (cost/type/rarity/
+ * each character's pool when designing the Witch. The mechanical fields (cost/type/rarity/
  * target/numbers/upgrade/text) are parsed fresh from gamedata; the curated `mechanics` and
  * `role` categorization tags are PRESERVED across runs (keyed by entry), exactly like
  * regen.js preserves `tested`/`note`. gamedata/ is gitignored, so the generated JSON is the

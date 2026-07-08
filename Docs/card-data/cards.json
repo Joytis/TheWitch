@@ -3,8 +3,8 @@
   "cards": [
     {
       "name": "Defend",
-      "entry": "DEFEND_WICKEN",
-      "file": "TheWickenCode/Cards/DefendWicken.cs",
+      "entry": "DEFEND_WITCH",
+      "file": "TheWitchCode/Cards/DefendWitch.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Starter",
@@ -27,7 +27,7 @@
     {
       "name": "Extract Essence",
       "entry": "EXTRACT_ESSENCE",
-      "file": "TheWickenCode/Cards/ExtractEssence.cs",
+      "file": "TheWitchCode/Cards/ExtractEssence.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Starter",
@@ -50,7 +50,7 @@
     {
       "name": "Oxidizers",
       "entry": "OXIDIZERS",
-      "file": "TheWickenCode/Cards/Oxidizers.cs",
+      "file": "TheWitchCode/Cards/Oxidizers.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Starter",
@@ -70,8 +70,8 @@
     },
     {
       "name": "Strike",
-      "entry": "STRIKE_WICKEN",
-      "file": "TheWickenCode/Cards/StrikeWicken.cs",
+      "entry": "STRIKE_WITCH",
+      "file": "TheWitchCode/Cards/StrikeWitch.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Starter",
@@ -94,7 +94,7 @@
     {
       "name": "Bag of Teeth",
       "entry": "BAG_OF_TEETH",
-      "file": "TheWickenCode/Cards/BagOfTeeth.cs",
+      "file": "TheWitchCode/Cards/BagOfTeeth.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -118,7 +118,7 @@
     {
       "name": "Bewitching Grin",
       "entry": "BEWITCHING_GRIN",
-      "file": "TheWickenCode/Cards/BewitchingGrin.cs",
+      "file": "TheWitchCode/Cards/BewitchingGrin.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -142,7 +142,7 @@
     {
       "name": "Broom Strike",
       "entry": "BROOM_STRIKE",
-      "file": "TheWickenCode/Cards/BroomStrike.cs",
+      "file": "TheWitchCode/Cards/BroomStrike.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Common",
@@ -165,7 +165,7 @@
     {
       "name": "Call the Pack",
       "entry": "CALL_THE_PACK",
-      "file": "TheWickenCode/Cards/CallThePack.cs",
+      "file": "TheWitchCode/Cards/CallThePack.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -189,7 +189,7 @@
     {
       "name": "Experiment",
       "entry": "EXPERIMENT",
-      "file": "TheWickenCode/Cards/Experiment.cs",
+      "file": "TheWitchCode/Cards/Experiment.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -212,7 +212,7 @@
     {
       "name": "Fertilize",
       "entry": "FERTILIZE",
-      "file": "TheWickenCode/Cards/Fertilize.cs",
+      "file": "TheWitchCode/Cards/Fertilize.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -237,7 +237,7 @@
     {
       "name": "Herbal Brew",
       "entry": "HERBAL_BREW",
-      "file": "TheWickenCode/Cards/HerbalBrew.cs",
+      "file": "TheWitchCode/Cards/HerbalBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -258,7 +258,7 @@
     {
       "name": "Hide in a Bush",
       "entry": "HIDE_IN_A_BUSH",
-      "file": "TheWickenCode/Cards/HideInABush.cs",
+      "file": "TheWitchCode/Cards/HideInABush.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -282,7 +282,7 @@
     {
       "name": "Lavender and Sage",
       "entry": "LAVENDER_AND_SAGE",
-      "file": "TheWickenCode/Cards/LavenderAndSage.cs",
+      "file": "TheWitchCode/Cards/LavenderAndSage.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -306,7 +306,7 @@
     {
       "name": "Needle Whip",
       "entry": "NEEDLE_WHIP",
-      "file": "TheWickenCode/Cards/NeedleWhip.cs",
+      "file": "TheWitchCode/Cards/NeedleWhip.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -330,7 +330,7 @@
     {
       "name": "Read the Bones",
       "entry": "READ_THE_BONES",
-      "file": "TheWickenCode/Cards/ReadTheBones.cs",
+      "file": "TheWitchCode/Cards/ReadTheBones.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -354,7 +354,7 @@
     {
       "name": "Stampede",
       "entry": "STAMPEDE",
-      "file": "TheWickenCode/Cards/Stampede.cs",
+      "file": "TheWitchCode/Cards/Stampede.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -377,7 +377,7 @@
     {
       "name": "Stony Brew",
       "entry": "STONY_BREW",
-      "file": "TheWickenCode/Cards/StonyBrew.cs",
+      "file": "TheWitchCode/Cards/StonyBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -398,7 +398,7 @@
     {
       "name": "Strike Fear",
       "entry": "STRIKE_FEAR",
-      "file": "TheWickenCode/Cards/StrikeFear.cs",
+      "file": "TheWitchCode/Cards/StrikeFear.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -422,7 +422,7 @@
     {
       "name": "Taste of Blood",
       "entry": "TASTE_OF_BLOOD",
-      "file": "TheWickenCode/Cards/TasteOfBlood.cs",
+      "file": "TheWitchCode/Cards/TasteOfBlood.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Common",
@@ -446,7 +446,7 @@
     {
       "name": "Tinder",
       "entry": "TINDER",
-      "file": "TheWickenCode/Cards/Tinder.cs",
+      "file": "TheWitchCode/Cards/Tinder.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Common",
@@ -463,7 +463,7 @@
     {
       "name": "Vexing Strike",
       "entry": "VEXING_STRIKE",
-      "file": "TheWickenCode/Cards/VexingStrike.cs",
+      "file": "TheWitchCode/Cards/VexingStrike.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -487,7 +487,7 @@
     {
       "name": "Weathered Witch Hat",
       "entry": "WEATHERED_WITCH_HAT",
-      "file": "TheWickenCode/Cards/WeatheredWitchHat.cs",
+      "file": "TheWitchCode/Cards/WeatheredWitchHat.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Common",
@@ -510,7 +510,7 @@
     {
       "name": "Wicked Brew",
       "entry": "WICKED_BREW",
-      "file": "TheWickenCode/Cards/WickedBrew.cs",
+      "file": "TheWitchCode/Cards/WickedBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -531,7 +531,7 @@
     {
       "name": "Ambush!",
       "entry": "AMBUSH",
-      "file": "TheWickenCode/Cards/Ambush.cs",
+      "file": "TheWitchCode/Cards/Ambush.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -554,7 +554,7 @@
     {
       "name": "Bear Familiar",
       "entry": "BEAR_FAMILIAR",
-      "file": "TheWickenCode/Cards/BearFamiliar.cs",
+      "file": "TheWitchCode/Cards/BearFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -575,7 +575,7 @@
     {
       "name": "Bind in Blood",
       "entry": "BIND_IN_BLOOD",
-      "file": "TheWickenCode/Cards/BindInBlood.cs",
+      "file": "TheWitchCode/Cards/BindInBlood.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -599,7 +599,7 @@
     {
       "name": "Bottle Barrage",
       "entry": "BOTTLE_BARRAGE",
-      "file": "TheWickenCode/Cards/BottleBarrage.cs",
+      "file": "TheWitchCode/Cards/BottleBarrage.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -624,7 +624,7 @@
     {
       "name": "Bramble Shield",
       "entry": "BRAMBLE_SHIELD",
-      "file": "TheWickenCode/Cards/BrambleShield.cs",
+      "file": "TheWitchCode/Cards/BrambleShield.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -648,7 +648,7 @@
     {
       "name": "Brambleburst",
       "entry": "BRAMBLEBURST",
-      "file": "TheWickenCode/Cards/Brambleburst.cs",
+      "file": "TheWitchCode/Cards/Brambleburst.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -671,7 +671,7 @@
     {
       "name": "Cat Familiar",
       "entry": "CAT_FAMILIAR",
-      "file": "TheWickenCode/Cards/CatFamiliar.cs",
+      "file": "TheWitchCode/Cards/CatFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -680,7 +680,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Summons a cosmetic cat pet alongside the familiar power.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -692,7 +692,7 @@
     {
       "name": "Circle of Rot",
       "entry": "CIRCLE_OF_ROT",
-      "file": "TheWickenCode/Cards/CircleOfRot.cs",
+      "file": "TheWitchCode/Cards/CircleOfRot.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -716,7 +716,7 @@
     {
       "name": "Cloak of Moonlight",
       "entry": "CLOAK_OF_MOONLIGHT",
-      "file": "TheWickenCode/Cards/CloakOfMoonlight.cs",
+      "file": "TheWitchCode/Cards/CloakOfMoonlight.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Uncommon",
@@ -740,7 +740,7 @@
     {
       "name": "Creeping Vines",
       "entry": "CREEPING_VINES",
-      "file": "TheWickenCode/Cards/CreepingVines.cs",
+      "file": "TheWitchCode/Cards/CreepingVines.cs",
       "cost": "X",
       "type": "Skill",
       "rarity": "Uncommon",
@@ -763,7 +763,7 @@
     {
       "name": "Deep Roots",
       "entry": "DEEP_ROOTS",
-      "file": "TheWickenCode/Cards/DeepRoots.cs",
+      "file": "TheWitchCode/Cards/DeepRoots.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -786,7 +786,7 @@
     {
       "name": "Distill",
       "entry": "DISTILL",
-      "file": "TheWickenCode/Cards/Distill.cs",
+      "file": "TheWitchCode/Cards/Distill.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -807,7 +807,7 @@
     {
       "name": "Double, Double",
       "entry": "DOUBLE_DOUBLE",
-      "file": "TheWickenCode/Cards/DoubleDouble.cs",
+      "file": "TheWitchCode/Cards/DoubleDouble.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -830,7 +830,7 @@
     {
       "name": "Feast With Wolves",
       "entry": "FEAST_WITH_WOLVES",
-      "file": "TheWickenCode/Cards/FeastWithWolves.cs",
+      "file": "TheWitchCode/Cards/FeastWithWolves.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -853,7 +853,7 @@
     {
       "name": "Find Familiar",
       "entry": "FIND_FAMILIAR",
-      "file": "TheWickenCode/Cards/FindFamiliar.cs",
+      "file": "TheWitchCode/Cards/FindFamiliar.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -876,7 +876,7 @@
     {
       "name": "Forbidden Magic",
       "entry": "FORBIDDEN_MAGIC",
-      "file": "TheWickenCode/Cards/ForbiddenMagic.cs",
+      "file": "TheWitchCode/Cards/ForbiddenMagic.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -900,7 +900,7 @@
     {
       "name": "Grind Down",
       "entry": "GRIND_DOWN",
-      "file": "TheWickenCode/Cards/GrindDown.cs",
+      "file": "TheWitchCode/Cards/GrindDown.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -921,8 +921,8 @@
     {
       "name": "Hasty Brew",
       "entry": "HASTY_BREW",
-      "file": "TheWickenCode/Cards/HastyBrew.cs",
-      "cost": 1,
+      "file": "TheWitchCode/Cards/HastyBrew.cs",
+      "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
@@ -938,7 +938,7 @@
     {
       "name": "Light the Candle",
       "entry": "LIGHT_THE_CANDLE",
-      "file": "TheWickenCode/Cards/LightTheCandle.cs",
+      "file": "TheWitchCode/Cards/LightTheCandle.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -962,7 +962,7 @@
     {
       "name": "Nettles",
       "entry": "NETTLES",
-      "file": "TheWickenCode/Cards/Nettles.cs",
+      "file": "TheWitchCode/Cards/Nettles.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -986,7 +986,7 @@
     {
       "name": "Owl Familiar",
       "entry": "OWL_FAMILIAR",
-      "file": "TheWickenCode/Cards/OwlFamiliar.cs",
+      "file": "TheWitchCode/Cards/OwlFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1007,7 +1007,7 @@
     {
       "name": "Pact of Agony",
       "entry": "PACT_OF_AGONY",
-      "file": "TheWickenCode/Cards/PactOfAgony.cs",
+      "file": "TheWitchCode/Cards/PactOfAgony.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1031,7 +1031,7 @@
     {
       "name": "Pact of Fury",
       "entry": "PACT_OF_FURY",
-      "file": "TheWickenCode/Cards/PactOfFury.cs",
+      "file": "TheWitchCode/Cards/PactOfFury.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1055,7 +1055,7 @@
     {
       "name": "Pillage",
       "entry": "PILLAGE",
-      "file": "TheWickenCode/Cards/Pillage.cs",
+      "file": "TheWitchCode/Cards/Pillage.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1078,7 +1078,7 @@
     {
       "name": "Prices Paid",
       "entry": "PRICES_PAID",
-      "file": "TheWickenCode/Cards/PricesPaid.cs",
+      "file": "TheWitchCode/Cards/PricesPaid.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1102,7 +1102,7 @@
     {
       "name": "Rat Familiar",
       "entry": "RAT_FAMILIAR",
-      "file": "TheWickenCode/Cards/RatFamiliar.cs",
+      "file": "TheWitchCode/Cards/RatFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1123,15 +1123,15 @@
     {
       "name": "Refuse Pile",
       "entry": "REFUSE_PILE",
-      "file": "TheWickenCode/Cards/RefusePile.cs",
-      "cost": 2,
+      "file": "TheWitchCode/Cards/RefusePile.cs",
+      "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 11 Block. Add 2 Scavenge into both your Draw Pile and Discard Pile.",
+      "text": "Gain 11 Block. Add 1 Scavenge into both your Draw Pile and Discard Pile.",
       "numbers": {
         "Block": 11,
-        "Cards": 2
+        "Cards": 1
       },
       "upgrade": "Block +4",
       "note": "",
@@ -1147,7 +1147,7 @@
     {
       "name": "Ritual Sacrifice",
       "entry": "RITUAL_SACRIFICE",
-      "file": "TheWickenCode/Cards/RitualSacrifice.cs",
+      "file": "TheWitchCode/Cards/RitualSacrifice.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1172,7 +1172,7 @@
     {
       "name": "Roomy Satchel",
       "entry": "ROOMY_SATCHEL",
-      "file": "TheWickenCode/Cards/RoomySatchel.cs",
+      "file": "TheWitchCode/Cards/RoomySatchel.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1193,7 +1193,7 @@
     {
       "name": "Rotting Roots",
       "entry": "ROTTING_ROOTS",
-      "file": "TheWickenCode/Cards/RottingRoots.cs",
+      "file": "TheWitchCode/Cards/RottingRoots.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1216,7 +1216,7 @@
     {
       "name": "Salt and Ash",
       "entry": "SALT_AND_ASH",
-      "file": "TheWickenCode/Cards/SaltAndAsh.cs",
+      "file": "TheWitchCode/Cards/SaltAndAsh.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1239,7 +1239,7 @@
     {
       "name": "Share the Brew",
       "entry": "SHARE_THE_BREW",
-      "file": "TheWickenCode/Cards/ShareTheBrew.cs",
+      "file": "TheWitchCode/Cards/ShareTheBrew.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1260,7 +1260,7 @@
     {
       "name": "Stuck in a Bush",
       "entry": "STUCK_IN_A_BUSH",
-      "file": "TheWickenCode/Cards/StuckInABush.cs",
+      "file": "TheWitchCode/Cards/StuckInABush.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1284,7 +1284,7 @@
     {
       "name": "Wax and Wane",
       "entry": "WAX_AND_WANE",
-      "file": "TheWickenCode/Cards/WaxAndWane.cs",
+      "file": "TheWitchCode/Cards/WaxAndWane.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1308,7 +1308,7 @@
     {
       "name": "Wild Growth",
       "entry": "WILD_GROWTH",
-      "file": "TheWickenCode/Cards/WildGrowth.cs",
+      "file": "TheWitchCode/Cards/WildGrowth.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1329,7 +1329,7 @@
     {
       "name": "Woe and Whimsy",
       "entry": "WOE_AND_WHIMSY",
-      "file": "TheWickenCode/Cards/WoeAndWhimsy.cs",
+      "file": "TheWitchCode/Cards/WoeAndWhimsy.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1353,7 +1353,7 @@
     {
       "name": "Wolf Familiar",
       "entry": "WOLF_FAMILIAR",
-      "file": "TheWickenCode/Cards/WolfFamiliar.cs",
+      "file": "TheWitchCode/Cards/WolfFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1374,7 +1374,7 @@
     {
       "name": "A Little Sip",
       "entry": "A_LITTLE_SIP",
-      "file": "TheWickenCode/Cards/ALittleSip.cs",
+      "file": "TheWitchCode/Cards/ALittleSip.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1397,7 +1397,7 @@
     {
       "name": "Bonfire",
       "entry": "BONFIRE",
-      "file": "TheWickenCode/Cards/Bonfire.cs",
+      "file": "TheWitchCode/Cards/Bonfire.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1420,7 +1420,7 @@
     {
       "name": "Bottle Wall",
       "entry": "BOTTLE_WALL",
-      "file": "TheWickenCode/Cards/BottleWall.cs",
+      "file": "TheWitchCode/Cards/BottleWall.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Rare",
@@ -1443,7 +1443,7 @@
     {
       "name": "Bottomless Cauldron",
       "entry": "BOTTOMLESS_CAULDRON",
-      "file": "TheWickenCode/Cards/BottomlessCauldron.cs",
+      "file": "TheWitchCode/Cards/BottomlessCauldron.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1465,7 +1465,7 @@
     {
       "name": "Broken Pact",
       "entry": "BROKEN_PACT",
-      "file": "TheWickenCode/Cards/BrokenPact.cs",
+      "file": "TheWitchCode/Cards/BrokenPact.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Rare",
@@ -1486,7 +1486,7 @@
     {
       "name": "Crow Familiar",
       "entry": "CROW_FAMILIAR",
-      "file": "TheWickenCode/Cards/CrowFamiliar.cs",
+      "file": "TheWitchCode/Cards/CrowFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Rare",
@@ -1507,7 +1507,7 @@
     {
       "name": "Cursed Spellbook",
       "entry": "CURSED_SPELLBOOK",
-      "file": "TheWickenCode/Cards/CursedSpellbook.cs",
+      "file": "TheWitchCode/Cards/CursedSpellbook.cs",
       "cost": 0,
       "type": "Power",
       "rarity": "Rare",
@@ -1530,7 +1530,7 @@
     {
       "name": "Dance Around the Cauldron",
       "entry": "DANCE_AROUND_THE_CAULDRON",
-      "file": "TheWickenCode/Cards/DanceAroundTheCauldron.cs",
+      "file": "TheWitchCode/Cards/DanceAroundTheCauldron.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -1551,7 +1551,7 @@
     {
       "name": "Embrace the Wilds",
       "entry": "EMBRACE_THE_WILDS",
-      "file": "TheWickenCode/Cards/EmbraceTheWilds.cs",
+      "file": "TheWitchCode/Cards/EmbraceTheWilds.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1572,7 +1572,7 @@
     {
       "name": "Extract Life",
       "entry": "EXTRACT_LIFE",
-      "file": "TheWickenCode/Cards/ExtractLife.cs",
+      "file": "TheWitchCode/Cards/ExtractLife.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Rare",
@@ -1595,7 +1595,7 @@
     {
       "name": "Gather Herbs",
       "entry": "GATHER_HERBS",
-      "file": "TheWickenCode/Cards/GatherHerbs.cs",
+      "file": "TheWitchCode/Cards/GatherHerbs.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Rare",
@@ -1618,7 +1618,7 @@
     {
       "name": "Hedge Prison",
       "entry": "HEDGE_PRISON",
-      "file": "TheWickenCode/Cards/HedgePrison.cs",
+      "file": "TheWitchCode/Cards/HedgePrison.cs",
       "cost": 3,
       "type": "Power",
       "rarity": "Rare",
@@ -1639,7 +1639,7 @@
     {
       "name": "Hemlock",
       "entry": "HEMLOCK",
-      "file": "TheWickenCode/Cards/Hemlock.cs",
+      "file": "TheWitchCode/Cards/Hemlock.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1662,7 +1662,7 @@
     {
       "name": "Hexblast",
       "entry": "HEXBLAST",
-      "file": "TheWickenCode/Cards/Hexblast.cs",
+      "file": "TheWitchCode/Cards/Hexblast.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
@@ -1685,7 +1685,7 @@
     {
       "name": "Hidden in Smoke",
       "entry": "HIDDEN_IN_SMOKE",
-      "file": "TheWickenCode/Cards/HiddenInSmoke.cs",
+      "file": "TheWitchCode/Cards/HiddenInSmoke.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1706,7 +1706,7 @@
     {
       "name": "Lich Powder",
       "entry": "LICH_POWDER",
-      "file": "TheWickenCode/Cards/LichPowder.cs",
+      "file": "TheWitchCode/Cards/LichPowder.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -1730,7 +1730,7 @@
     {
       "name": "Mulch",
       "entry": "MULCH",
-      "file": "TheWickenCode/Cards/Mulch.cs",
+      "file": "TheWitchCode/Cards/Mulch.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
@@ -1754,7 +1754,7 @@
     {
       "name": "Pact of Beasts",
       "entry": "PACT_OF_BEASTS",
-      "file": "TheWickenCode/Cards/PactOfBeasts.cs",
+      "file": "TheWitchCode/Cards/PactOfBeasts.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -1777,7 +1777,7 @@
     {
       "name": "Pocket Rats",
       "entry": "POCKET_RATS",
-      "file": "TheWickenCode/Cards/PocketRats.cs",
+      "file": "TheWitchCode/Cards/PocketRats.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -1800,7 +1800,7 @@
     {
       "name": "Polymorph",
       "entry": "POLYMORPH",
-      "file": "TheWickenCode/Cards/Polymorph.cs",
+      "file": "TheWitchCode/Cards/Polymorph.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Rare",
@@ -1821,7 +1821,7 @@
     {
       "name": "Rattling Bottles",
       "entry": "RATTLING_BOTTLES",
-      "file": "TheWickenCode/Cards/RattlingBottles.cs",
+      "file": "TheWitchCode/Cards/RattlingBottles.cs",
       "cost": 3,
       "type": "Attack",
       "rarity": "Rare",
@@ -1845,7 +1845,7 @@
     {
       "name": "Soul Knot",
       "entry": "SOUL_KNOT",
-      "file": "TheWickenCode/Cards/SoulKnot.cs",
+      "file": "TheWitchCode/Cards/SoulKnot.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Rare",
@@ -1866,7 +1866,7 @@
     {
       "name": "Thirst",
       "entry": "THIRST",
-      "file": "TheWickenCode/Cards/Thirst.cs",
+      "file": "TheWitchCode/Cards/Thirst.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Rare",
@@ -1889,7 +1889,7 @@
     {
       "name": "Unstable Reaction",
       "entry": "UNSTABLE_REACTION",
-      "file": "TheWickenCode/Cards/UnstableReaction.cs",
+      "file": "TheWitchCode/Cards/UnstableReaction.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
@@ -1912,7 +1912,7 @@
     {
       "name": "Wicker Form",
       "entry": "WICKER_FORM",
-      "file": "TheWickenCode/Cards/WickerForm.cs",
+      "file": "TheWitchCode/Cards/WickerForm.cs",
       "cost": 3,
       "type": "Power",
       "rarity": "Rare",
@@ -1933,7 +1933,7 @@
     {
       "name": "Witchcraft",
       "entry": "WITCHCRAFT",
-      "file": "TheWickenCode/Cards/Witchcraft.cs",
+      "file": "TheWitchCode/Cards/Witchcraft.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Rare",
@@ -1954,7 +1954,7 @@
     {
       "name": "Claw Eyes",
       "entry": "CLAW_EYES",
-      "file": "TheWickenCode/Cards/Familiar/ClawEyes.cs",
+      "file": "TheWitchCode/Cards/Familiar/ClawEyes.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -1979,7 +1979,7 @@
     {
       "name": "Ferocity",
       "entry": "FEROCITY",
-      "file": "TheWickenCode/Cards/Familiar/Ferocity.cs",
+      "file": "TheWitchCode/Cards/Familiar/Ferocity.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Token",
@@ -2003,7 +2003,7 @@
     {
       "name": "Gnash",
       "entry": "GNASH",
-      "file": "TheWickenCode/Cards/Familiar/Gnash.cs",
+      "file": "TheWitchCode/Cards/Familiar/Gnash.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -2027,7 +2027,7 @@
     {
       "name": "Hibernate",
       "entry": "HIBERNATE",
-      "file": "TheWickenCode/Cards/Familiar/Hibernate.cs",
+      "file": "TheWitchCode/Cards/Familiar/Hibernate.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Token",
@@ -2050,7 +2050,7 @@
     {
       "name": "Knowledge",
       "entry": "KNOWLEDGE",
-      "file": "TheWickenCode/Cards/Familiar/Knowledge.cs",
+      "file": "TheWitchCode/Cards/Familiar/Knowledge.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2072,7 +2072,7 @@
     {
       "name": "Mutilate",
       "entry": "MUTILATE",
-      "file": "TheWickenCode/Cards/Familiar/Mutilate.cs",
+      "file": "TheWitchCode/Cards/Familiar/Mutilate.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Token",
@@ -2095,7 +2095,7 @@
     {
       "name": "Nimble",
       "entry": "NIMBLE",
-      "file": "TheWickenCode/Cards/Familiar/Nimble.cs",
+      "file": "TheWitchCode/Cards/Familiar/Nimble.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2112,7 +2112,7 @@
     {
       "name": "Plague",
       "entry": "PLAGUE",
-      "file": "TheWickenCode/Cards/Familiar/Plague.cs",
+      "file": "TheWitchCode/Cards/Familiar/Plague.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Token",
@@ -2136,7 +2136,7 @@
     {
       "name": "Rake",
       "entry": "RAKE",
-      "file": "TheWickenCode/Cards/Rake.cs",
+      "file": "TheWitchCode/Cards/Rake.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -2162,7 +2162,7 @@
     {
       "name": "Scavenge",
       "entry": "SCAVENGE",
-      "file": "TheWickenCode/Cards/Familiar/Scavenge.cs",
+      "file": "TheWitchCode/Cards/Familiar/Scavenge.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -2182,7 +2182,7 @@
     {
       "name": "Scout Weakness",
       "entry": "SCOUT_WEAKNESS",
-      "file": "TheWickenCode/Cards/Familiar/ScoutWeakness.cs",
+      "file": "TheWitchCode/Cards/Familiar/ScoutWeakness.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2206,7 +2206,7 @@
     {
       "name": "Shiny!",
       "entry": "SHINY",
-      "file": "TheWickenCode/Cards/Familiar/Shiny.cs",
+      "file": "TheWitchCode/Cards/Familiar/Shiny.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2227,7 +2227,7 @@
     {
       "name": "Wisdom",
       "entry": "WISDOM",
-      "file": "TheWickenCode/Cards/Familiar/Wisdom.cs",
+      "file": "TheWitchCode/Cards/Familiar/Wisdom.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2251,7 +2251,7 @@
     {
       "name": "Catalyst",
       "entry": "CATALYST",
-      "file": "TheWickenCode/Cards/Catalyst.cs",
+      "file": "TheWitchCode/Cards/Catalyst.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Ancient",
@@ -2259,7 +2259,7 @@
       "text": "Duplicate Potions you create.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "Catalyst: the Wicken's unique Ancient card (granted by Dusty Tome — any <c>CardRarity.Ancient</c> card in the pool outside the transcendence map qualifies).",
+      "note": "Catalyst: the Witch's unique Ancient card (granted by Dusty Tome — any <c>CardRarity.Ancient</c> card in the pool outside the transcendence map qualifies).",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2272,7 +2272,7 @@
     {
       "name": "Rip Soul",
       "entry": "RIP_SOUL",
-      "file": "TheWickenCode/Cards/RipSoul.cs",
+      "file": "TheWitchCode/Cards/RipSoul.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Ancient",
@@ -2297,7 +2297,7 @@
     {
       "name": "Wormy",
       "entry": "WORMY",
-      "file": "TheWickenCode/Cards/Wormy.cs",
+      "file": "TheWitchCode/Cards/Wormy.cs",
       "cost": 1,
       "type": "Status",
       "rarity": "Status",
