@@ -8,13 +8,13 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Refuse Pile: block up and seed your piles with Scavenges — two into the draw pile, two into the discard.</summary>
+/// <summary>Refuse Pile: block up and seed your piles with Scavengers — two into the draw pile, two into the discard.</summary>
 public sealed class RefusePile : WitchCard
 {
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Scavenge>(IsUpgraded),
+        HoverTipFactory.FromCard<Scavengers>(IsUpgraded),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
@@ -38,8 +38,8 @@ public sealed class RefusePile : WitchCard
 
     private async Task AddRats(int count, PileType pile)
     {
-        var rats = FamiliarCardRegistry.CreateFamiliarCards<Scavenge>(Owner, count, CombatState, IsUpgraded);
-        // Preview so the Scavenges visibly fly into the pile instead of just appearing (Call the Pack pattern).
+        var rats = FamiliarCardRegistry.CreateFamiliarCards<Scavengers>(Owner, count, CombatState, IsUpgraded);
+        // Preview so the Scavengers visibly fly into the pile instead of just appearing (Call the Pack pattern).
         var generated = await CardPileCmd.AddGeneratedCardsToCombat(rats, pile, Owner, CardPilePosition.Random);
         CardCmd.PreviewCardPileAdd(generated);
     }

@@ -22,6 +22,10 @@
     Staging is the default. Uploading is opt-in (-Upload) because publishing to
     the Workshop is outward-facing and not trivially reversible.
 
+    After a successful upload, a Discord notification is posted if a webhook is
+    configured via $env:DISCORD_WEBHOOK_URL or tools/discord-webhook.local.txt
+    (gitignored; file contains just the webhook URL).
+
 .PARAMETER SkipPublish
     Skip `dotnet publish`; reuse whatever is already in the mods folder.
     The script warns if the staged .pck looks older than the source tree.
@@ -224,6 +228,41 @@ if ($Upload) {
     Write-Step "Upload complete."
     if ((-not $hasModId) -and (Test-Path $modIdFile)) {
         Write-Host "    new workshop item id: $(Get-Content $modIdFile -Raw)" -ForegroundColor Green
+    }
+
+    # --- Step 8: Discord notification ----------------------------------------
+    # Webhook URL comes from $env:DISCORD_WEBHOOK_URL or tools/discord-webhook.local.txt
+    # (gitignored). If neither is set, skip silently; a failed POST warns but
+    # never fails the upload.
+    $webhookUrl = $env:DISCORD_WEBHOOK_URL
+    $webhookFile = Join-Path $PSScriptRoot 'discord-webhook.local.txt'
+    if ((-not $webhookUrl) -and (Test-Path $webhookFile)) {
+        $webhookUrl = (Get-Content $webhookFile -Raw).Trim()
+    }
+    if ($webhookUrl) {
+        Write-Step "Posting update notification to Discord..."
+        $ws = Get-Content $workshopJson -Raw | ConvertFrom-Json
+        $note = if ($ws.changeNote) { $ws.changeNote } else { "(no change note)" }
+        $desc = "**Change note:** $note`n**Version:** $($mod.version)"
+        if (Test-Path $modIdFile) {
+            $itemId = (Get-Content $modIdFile -Raw).Trim()
+            $desc += "`n[View on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=$itemId)"
+        }
+        $payload = @{
+            embeds = @(@{
+                title       = "$($ws.title) updated on the Steam Workshop"
+                description = $desc
+                color       = 9534463
+            })
+        } | ConvertTo-Json -Depth 10
+        try {
+            Invoke-RestMethod -Uri $webhookUrl -Method Post -ContentType 'application/json' -Body $payload | Out-Null
+            Write-Host "    Discord notified." -ForegroundColor Green
+        } catch {
+            Write-Warn2 "Discord notification failed: $($_.Exception.Message)"
+        }
+    } else {
+        Write-Warn2 "No Discord webhook configured (set DISCORD_WEBHOOK_URL or create tools/discord-webhook.local.txt); skipping notification."
     }
 } else {
     Write-Step "Staged. To upload, run:"

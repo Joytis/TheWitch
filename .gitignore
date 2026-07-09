@@ -15,3 +15,6 @@ packages/
 /workshop/content/
 /workshop/README.md
 tools/ModUploader-win-x64/mod-uploader.log
+
+# Discord webhook URL for workshop-upload notifications (secret, machine-local)
+/tools/discord-webhook.local.txt
