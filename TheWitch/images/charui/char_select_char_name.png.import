@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bejeungxdivoy"
-path="res://.godot/imported/char_select_char_name.png-f6b7f3612935a04166f3b04164006bd7.ctex"
+path="res://.godot/imported/char_select_char_name.png-d496452746f415752d5b470e934c24ab.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/charui/char_select_char_name.png"
-dest_files=["res://.godot/imported/char_select_char_name.png-f6b7f3612935a04166f3b04164006bd7.ctex"]
+dest_files=["res://.godot/imported/char_select_char_name.png-d496452746f415752d5b470e934c24ab.ctex"]
 
 [params]
 

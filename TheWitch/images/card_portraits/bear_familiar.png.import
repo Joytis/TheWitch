@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://rd0w27o3xo0u"
-path="res://.godot/imported/bear_familiar.png-b9402d8af2e9c383aebfc17fe96dcee8.ctex"
+path="res://.godot/imported/bear_familiar.png-5971573bf497007622b21d5091863f87.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/bear_familiar.png"
-dest_files=["res://.godot/imported/bear_familiar.png-b9402d8af2e9c383aebfc17fe96dcee8.ctex"]
+dest_files=["res://.godot/imported/bear_familiar.png-5971573bf497007622b21d5091863f87.ctex"]
 
 [params]
 

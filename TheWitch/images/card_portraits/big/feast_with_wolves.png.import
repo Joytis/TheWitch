@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkyhd7pfn6qrf"
-path="res://.godot/imported/feast_with_wolves.png-92f1b7861275168f93ab6909d00ad614.ctex"
+path="res://.godot/imported/feast_with_wolves.png-5740a35d0a3c953bf2ab7039a7c35ac8.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/feast_with_wolves.png"
-dest_files=["res://.godot/imported/feast_with_wolves.png-92f1b7861275168f93ab6909d00ad614.ctex"]
+dest_files=["res://.godot/imported/feast_with_wolves.png-5740a35d0a3c953bf2ab7039a7c35ac8.ctex"]
 
 [params]
 

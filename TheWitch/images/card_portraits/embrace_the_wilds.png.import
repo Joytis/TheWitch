@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btgn7iak2k85e"
-path="res://.godot/imported/embrace_the_wilds.png-1d2fc190bad4e932cf7bc12ad3829e9a.ctex"
+path="res://.godot/imported/embrace_the_wilds.png-8ba966fbd2ade1172505b1b5b8b20fcc.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/embrace_the_wilds.png"
-dest_files=["res://.godot/imported/embrace_the_wilds.png-1d2fc190bad4e932cf7bc12ad3829e9a.ctex"]
+dest_files=["res://.godot/imported/embrace_the_wilds.png-8ba966fbd2ade1172505b1b5b8b20fcc.ctex"]
 
 [params]
 

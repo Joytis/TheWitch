@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxm26cj2r434h"
-path="res://.godot/imported/pact_of_fury.png-d01ff13d0c1a610055db5c0954377b36.ctex"
+path="res://.godot/imported/pact_of_fury.png-98f4d0d1373f7acf15e3a08f022b3cb7.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/pact_of_fury.png"
-dest_files=["res://.godot/imported/pact_of_fury.png-d01ff13d0c1a610055db5c0954377b36.ctex"]
+dest_files=["res://.godot/imported/pact_of_fury.png-98f4d0d1373f7acf15e3a08f022b3cb7.ctex"]
 
 [params]
 

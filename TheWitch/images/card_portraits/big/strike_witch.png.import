@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c48ihpsco5ftf"
-path="res://.godot/imported/strike_witch.png-2d28f13115d888f9831adaf5f8af82b9.ctex"
+path="res://.godot/imported/strike_witch.png-728eec741228b30782cdfef726b7bacc.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/strike_witch.png"
-dest_files=["res://.godot/imported/strike_witch.png-2d28f13115d888f9831adaf5f8af82b9.ctex"]
+dest_files=["res://.godot/imported/strike_witch.png-728eec741228b30782cdfef726b7bacc.ctex"]
 
 [params]
 

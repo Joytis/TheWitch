@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cf4an1q0mxyn8"
-path="res://.godot/imported/creeping_vines.png-46951e3d02cdac380a7f32cea6654f5c.ctex"
+path="res://.godot/imported/creeping_vines.png-2f80bec9cf02d65c55dc807d7fda6b68.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/creeping_vines.png"
-dest_files=["res://.godot/imported/creeping_vines.png-46951e3d02cdac380a7f32cea6654f5c.ctex"]
+dest_files=["res://.godot/imported/creeping_vines.png-2f80bec9cf02d65c55dc807d7fda6b68.ctex"]
 
 [params]
 

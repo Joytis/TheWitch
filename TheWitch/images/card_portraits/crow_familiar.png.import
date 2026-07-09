@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://klyltk83ql5a"
-path="res://.godot/imported/crow_familiar.png-e7ff07b6c12b6bf8ce4fd7d5146e2437.ctex"
+path="res://.godot/imported/crow_familiar.png-f6c6e87b553066e7cde1143ad3e6671e.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/crow_familiar.png"
-dest_files=["res://.godot/imported/crow_familiar.png-e7ff07b6c12b6bf8ce4fd7d5146e2437.ctex"]
+dest_files=["res://.godot/imported/crow_familiar.png-f6c6e87b553066e7cde1143ad3e6671e.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1p8qahsl2tvm"
-path="res://.godot/imported/distill.png-114d4dce1df4868745efebda6b1cd3f9.ctex"
+path="res://.godot/imported/distill.png-8c6f3fe31d470bbd6cb3b0da409beba7.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/distill.png"
-dest_files=["res://.godot/imported/distill.png-114d4dce1df4868745efebda6b1cd3f9.ctex"]
+dest_files=["res://.godot/imported/distill.png-8c6f3fe31d470bbd6cb3b0da409beba7.ctex"]
 
 [params]
 

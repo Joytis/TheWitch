@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmlihls3m1kpp"
-path="res://.godot/imported/defend_witch.png-4edbd97f7541c1b70a4f7f7c04da75ce.ctex"
+path="res://.godot/imported/defend_witch.png-c0acd0d67b8bfa66cdf4b7fe0f276531.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/defend_witch.png"
-dest_files=["res://.godot/imported/defend_witch.png-4edbd97f7541c1b70a4f7f7c04da75ce.ctex"]
+dest_files=["res://.godot/imported/defend_witch.png-c0acd0d67b8bfa66cdf4b7fe0f276531.ctex"]
 
 [params]
 

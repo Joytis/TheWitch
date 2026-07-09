@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b473ekvanjlnn"
-path="res://.godot/imported/broken_pact.png-84eb1899121e57216f17acdc68cd1f81.ctex"
+path="res://.godot/imported/broken_pact.png-bf59ae854f7362af94b47445884515ae.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/broken_pact.png"
-dest_files=["res://.godot/imported/broken_pact.png-84eb1899121e57216f17acdc68cd1f81.ctex"]
+dest_files=["res://.godot/imported/broken_pact.png-bf59ae854f7362af94b47445884515ae.ctex"]
 
 [params]
 

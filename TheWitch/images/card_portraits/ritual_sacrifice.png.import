@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4ur7el665rji"
-path="res://.godot/imported/ritual_sacrifice.png-e33aef41334c51d9c27a28fc53c915c8.ctex"
+path="res://.godot/imported/ritual_sacrifice.png-dbf7152d58c1e5986d418eb15f61d523.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/ritual_sacrifice.png"
-dest_files=["res://.godot/imported/ritual_sacrifice.png-e33aef41334c51d9c27a28fc53c915c8.ctex"]
+dest_files=["res://.godot/imported/ritual_sacrifice.png-dbf7152d58c1e5986d418eb15f61d523.ctex"]
 
 [params]
 

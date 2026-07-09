@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ciqje530ot1vl"
-path="res://.godot/imported/mulch.png-50a52b0b28cc939f202ab46e5eb5e06c.ctex"
+path="res://.godot/imported/mulch.png-1fd47338dd18e4588d7598720da0dbf5.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/mulch.png"
-dest_files=["res://.godot/imported/mulch.png-50a52b0b28cc939f202ab46e5eb5e06c.ctex"]
+dest_files=["res://.godot/imported/mulch.png-1fd47338dd18e4588d7598720da0dbf5.ctex"]
 
 [params]
 

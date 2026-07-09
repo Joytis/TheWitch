@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mifr6xkernjj"
-path="res://.godot/imported/bewitching_grin.png-b743e659de48b7b8b4831555f8433b73.ctex"
+path="res://.godot/imported/bewitching_grin.png-b31f11db269c497df71a96887386cd3a.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/bewitching_grin.png"
-dest_files=["res://.godot/imported/bewitching_grin.png-b743e659de48b7b8b4831555f8433b73.ctex"]
+dest_files=["res://.godot/imported/bewitching_grin.png-b31f11db269c497df71a96887386cd3a.ctex"]
 
 [params]
 

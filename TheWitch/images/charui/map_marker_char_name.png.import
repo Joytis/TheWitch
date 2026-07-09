@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0pibbjf8as0l"
-path="res://.godot/imported/map_marker_char_name.png-3f2d8443f12e52e1a072504a15646bf5.ctex"
+path="res://.godot/imported/map_marker_char_name.png-e15ab3e3f347724b868eb2778df4a6fa.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/charui/map_marker_char_name.png"
-dest_files=["res://.godot/imported/map_marker_char_name.png-3f2d8443f12e52e1a072504a15646bf5.ctex"]
+dest_files=["res://.godot/imported/map_marker_char_name.png-e15ab3e3f347724b868eb2778df4a6fa.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://p6ho5m5f0p66"
-path="res://.godot/imported/a_little_sip.png-036de95e4efbf6b861010889b0853d22.ctex"
+path="res://.godot/imported/a_little_sip.png-77927835936fb828e52b69251d65f8e0.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/a_little_sip.png"
-dest_files=["res://.godot/imported/a_little_sip.png-036de95e4efbf6b861010889b0853d22.ctex"]
+dest_files=["res://.godot/imported/a_little_sip.png-77927835936fb828e52b69251d65f8e0.ctex"]
 
 [params]
 

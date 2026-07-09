@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://joh0scwt4xit"
-path="res://.godot/imported/large_pockets.png-0a9e0e27d65f8a8e7e7a4d8ad13d2519.ctex"
+path="res://.godot/imported/large_pockets.png-099c944256fd008378dc0b96f80064b7.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/relics/big/large_pockets.png"
-dest_files=["res://.godot/imported/large_pockets.png-0a9e0e27d65f8a8e7e7a4d8ad13d2519.ctex"]
+dest_files=["res://.godot/imported/large_pockets.png-099c944256fd008378dc0b96f80064b7.ctex"]
 
 [params]
 

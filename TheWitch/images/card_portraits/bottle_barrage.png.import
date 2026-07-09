@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://np31w2jorb4d"
-path="res://.godot/imported/bottle_barrage.png-c325afac54f42cbff431ceb2b8d923e1.ctex"
+path="res://.godot/imported/bottle_barrage.png-0f0f23005d3adbb26f6c54998d3780a8.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/bottle_barrage.png"
-dest_files=["res://.godot/imported/bottle_barrage.png-c325afac54f42cbff431ceb2b8d923e1.ctex"]
+dest_files=["res://.godot/imported/bottle_barrage.png-0f0f23005d3adbb26f6c54998d3780a8.ctex"]
 
 [params]
 

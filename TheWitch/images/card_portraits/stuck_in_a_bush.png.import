@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://yn2yi17uc7vu"
-path="res://.godot/imported/stuck_in_a_bush.png-f6e74d638429942d8a05de92988e41f9.ctex"
+path="res://.godot/imported/stuck_in_a_bush.png-a1f17475e1607e5ea34fa5483bca7dd0.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/stuck_in_a_bush.png"
-dest_files=["res://.godot/imported/stuck_in_a_bush.png-f6e74d638429942d8a05de92988e41f9.ctex"]
+dest_files=["res://.godot/imported/stuck_in_a_bush.png-a1f17475e1607e5ea34fa5483bca7dd0.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://clk5f0evwrsev"
-path="res://.godot/imported/wisdom.png-199d157ce853f01ef7ceaa31110bf4bd.ctex"
+path="res://.godot/imported/wisdom.png-14e9394192283392f8c2a3a89115a0da.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/familiar/wisdom.png"
-dest_files=["res://.godot/imported/wisdom.png-199d157ce853f01ef7ceaa31110bf4bd.ctex"]
+dest_files=["res://.godot/imported/wisdom.png-14e9394192283392f8c2a3a89115a0da.ctex"]
 
 [params]
 

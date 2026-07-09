@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://culnvqxyt0vva"
-path="res://.godot/imported/cloak_of_moonlight.png-cd72235ab50e3f1cddf7bc32bf4ad5e1.ctex"
+path="res://.godot/imported/cloak_of_moonlight.png-0a576110ee693c1873103cad346ac1fa.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/cloak_of_moonlight.png"
-dest_files=["res://.godot/imported/cloak_of_moonlight.png-cd72235ab50e3f1cddf7bc32bf4ad5e1.ctex"]
+dest_files=["res://.godot/imported/cloak_of_moonlight.png-0a576110ee693c1873103cad346ac1fa.ctex"]
 
 [params]
 

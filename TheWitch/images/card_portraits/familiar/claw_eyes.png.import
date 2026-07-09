@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ci7s32gnor2wj"
-path="res://.godot/imported/claw_eyes.png-49e5d5a1d51ef2dfdb084859a587ad3d.ctex"
+path="res://.godot/imported/claw_eyes.png-b4b10f14f385fef74865f9165f3b0d4d.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/familiar/claw_eyes.png"
-dest_files=["res://.godot/imported/claw_eyes.png-49e5d5a1d51ef2dfdb084859a587ad3d.ctex"]
+dest_files=["res://.godot/imported/claw_eyes.png-b4b10f14f385fef74865f9165f3b0d4d.ctex"]
 
 [params]
 

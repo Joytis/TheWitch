@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bj75eu75wo0i3"
-path="res://.godot/imported/mystery.png-e7e24cb336c18ba9ca883b602675c762.ctex"
+path="res://.godot/imported/mystery.png-2e9f08b10cbfa675579fe536628d1f47.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/mystery.png"
-dest_files=["res://.godot/imported/mystery.png-e7e24cb336c18ba9ca883b602675c762.ctex"]
+dest_files=["res://.godot/imported/mystery.png-2e9f08b10cbfa675579fe536628d1f47.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dq7os506d1qpf"
-path="res://.godot/imported/ferocity.png-59cf67863f8a1270434d8e876b0d54ad.ctex"
+path="res://.godot/imported/ferocity.png-5d18b660087de9ee6de68d06a3c9c448.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/familiar/ferocity.png"
-dest_files=["res://.godot/imported/ferocity.png-59cf67863f8a1270434d8e876b0d54ad.ctex"]
+dest_files=["res://.godot/imported/ferocity.png-5d18b660087de9ee6de68d06a3c9c448.ctex"]
 
 [params]
 

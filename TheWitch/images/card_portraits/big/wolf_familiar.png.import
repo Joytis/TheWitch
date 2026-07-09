@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cgegrmd8nhkx"
-path="res://.godot/imported/wolf_familiar.png-365011f44492177c32e1d0f1bee514a6.ctex"
+path="res://.godot/imported/wolf_familiar.png-fec63008c4b893482fbbba4f4f4abc40.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/wolf_familiar.png"
-dest_files=["res://.godot/imported/wolf_familiar.png-365011f44492177c32e1d0f1bee514a6.ctex"]
+dest_files=["res://.godot/imported/wolf_familiar.png-fec63008c4b893482fbbba4f4f4abc40.ctex"]
 
 [params]
 

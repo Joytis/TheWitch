@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dll3p10x3akwt"
-path="res://.godot/imported/rat_familiar.png-402c7a4f7fb4247757fd39a9c453860f.ctex"
+path="res://.godot/imported/rat_familiar.png-da0ee22b2af6645339ba1c612171f460.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/rat_familiar.png"
-dest_files=["res://.godot/imported/rat_familiar.png-402c7a4f7fb4247757fd39a9c453860f.ctex"]
+dest_files=["res://.godot/imported/rat_familiar.png-da0ee22b2af6645339ba1c612171f460.ctex"]
 
 [params]
 

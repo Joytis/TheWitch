@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1goqp6hwr8fl"
-path="res://.godot/imported/pact_of_agony.png-b48b94844f68b43e13df9e058eaada67.ctex"
+path="res://.godot/imported/pact_of_agony.png-deefb17d135c1563c0b0b57a58ea145f.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/pact_of_agony.png"
-dest_files=["res://.godot/imported/pact_of_agony.png-b48b94844f68b43e13df9e058eaada67.ctex"]
+dest_files=["res://.godot/imported/pact_of_agony.png-deefb17d135c1563c0b0b57a58ea145f.ctex"]
 
 [params]
 

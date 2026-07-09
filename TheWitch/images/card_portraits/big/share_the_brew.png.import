@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hiwus6htwgnq"
-path="res://.godot/imported/share_the_brew.png-71d9ab147aa8183a0fdc8d0ec3aa7d09.ctex"
+path="res://.godot/imported/share_the_brew.png-e69ec538e770f4c2c0406bd538db62d4.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/share_the_brew.png"
-dest_files=["res://.godot/imported/share_the_brew.png-71d9ab147aa8183a0fdc8d0ec3aa7d09.ctex"]
+dest_files=["res://.godot/imported/share_the_brew.png-e69ec538e770f4c2c0406bd538db62d4.ctex"]
 
 [params]
 
