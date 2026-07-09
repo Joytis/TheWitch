@@ -117,7 +117,7 @@
   "THEWITCH-PLAGUE.title": "Plague",
   "THEWITCH-PLAGUE.description": "Apply {HexPower:diff()} [gold]Hex[/gold] to ALL enemies.",
   "THEWITCH-NIMBLE.title": "Nimble",
-  "THEWITCH-NIMBLE.description": "Gain {Energy:diff()} [gold]Energy[/gold].",
+  "THEWITCH-NIMBLE.description": "Gain {Energy:diff()} [gold]Energy[/gold].\nGain {Block:diff()} [gold]Block[/gold].",
   "THEWITCH-KNOWLEDGE.title": "Knowledge",
   "THEWITCH-KNOWLEDGE.description": "{IfUpgraded:show:[gold]Upgrade[/gold] ALL cards in your [gold]Hand[/gold] for the rest of combat.|[gold]Upgrade[/gold] a card in your [gold]Hand[/gold] for the rest of combat.}",
   "THEWITCH-WORMY.title": "Wormy",

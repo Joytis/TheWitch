@@ -87,7 +87,7 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Wicken — Art Tracker</title>
+<title>The Witch — Art Tracker</title>
 <style>
   :root{
     --bg:#15131c; --panel:#1f1b2b; --panel2:#272234; --line:#3a3350;
@@ -135,7 +135,7 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>The Wicken — Art Tracker</h1>
+  <h1>The Witch — Art Tracker</h1>
   <div class="sub">Generated ${data.generated} from repo state · statuses reflect the current project, not artist assignments</div>
   <div class="tabs" id="tabs"></div>
   <div class="controls">
