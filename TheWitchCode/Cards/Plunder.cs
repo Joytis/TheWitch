@@ -7,13 +7,13 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-public sealed class Pillage : WitchCard
+public sealed class Plunder : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(9m, ValueProp.Move)
     ];
 
-    public Pillage()
+    public Plunder()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }

@@ -6,7 +6,7 @@ namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
 /// Counter marking how many Rat familiars the player currently has. Each turn it rolls a token from its loot
-/// table (Plague or Scavenge, equal weight). See <see cref="FamiliarPower" />.
+/// table (Plague or Scavengers, equal weight). See <see cref="FamiliarPower" />.
 /// </summary>
 public sealed class RatFamiliarPower : LootTableFamiliarPower
 {
@@ -15,5 +15,5 @@ public sealed class RatFamiliarPower : LootTableFamiliarPower
     protected override FamiliarLootTable BuildLootTable() =>
         new FamiliarLootTable()
             .Add<Plague>()
-            .Add<Scavenge>();
+            .Add<Scavengers>();
 }

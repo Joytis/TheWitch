@@ -9,7 +9,7 @@ namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
 /// Query/mutate layer over a creature's <see cref="FamiliarPower" /> stacks — the single source of
-/// truth for "how many familiars do I have". Cards that scale with familiars (Pillage, Stampede) read
+/// truth for "how many familiars do I have". Cards that scale with familiars (Plunder, Overrun) read
 /// <see cref="Count" />; cards that consume one (Ritual Sacrifice) call <see cref="RemoveRandom" />.
 /// </summary>
 public static class Familiars

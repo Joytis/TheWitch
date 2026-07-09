@@ -7,15 +7,15 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Stampede: strike one enemy, then the whole menagerie tramples — each familiar hits ALL enemies.</summary>
-public sealed class Stampede : WitchCard
+/// <summary>Overrun: strike one enemy, then the whole menagerie tramples — each familiar hits ALL enemies.</summary>
+public sealed class Overrun : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(8m, ValueProp.Move),
         new DynamicVar("FamiliarDamage", 3m)
     ];
 
-    public Stampede()
+    public Overrun()
         : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }

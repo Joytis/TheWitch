@@ -328,6 +328,29 @@
       ]
     },
     {
+      "name": "Overrun",
+      "entry": "OVERRUN",
+      "file": "TheWitchCode/Cards/Overrun.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage. Deal {FamiliarDamage:diff()} damage to ALL enemies for each of your Familiars.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "FamiliarDamage +2",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
+    },
+    {
       "name": "Read the Bones",
       "entry": "READ_THE_BONES",
       "file": "TheWitchCode/Cards/ReadTheBones.cs",
@@ -349,29 +372,6 @@
       ],
       "role": [
         "Standalone"
-      ]
-    },
-    {
-      "name": "Stampede",
-      "entry": "STAMPEDE",
-      "file": "TheWitchCode/Cards/Stampede.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Common",
-      "target": "AnyEnemy",
-      "text": "Deal 8 damage. Deal {FamiliarDamage:diff()} damage to ALL enemies for each of your Familiars.",
-      "numbers": {
-        "Damage": 8
-      },
-      "upgrade": "FamiliarDamage +2",
-      "note": "",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Payoff"
       ]
     },
     {
@@ -1053,9 +1053,9 @@
       ]
     },
     {
-      "name": "Pillage",
-      "entry": "PILLAGE",
-      "file": "TheWitchCode/Cards/Pillage.cs",
+      "name": "Plunder",
+      "entry": "PLUNDER",
+      "file": "TheWitchCode/Cards/Plunder.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1128,7 +1128,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 11 Block. Add 1 Scavenge into both your Draw Pile and Discard Pile.",
+      "text": "Gain 11 Block. Add 1 Scavengers into both your Draw Pile and Discard Pile.",
       "numbers": {
         "Block": 11,
         "Cards": 1
@@ -1782,7 +1782,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Add 3 Scavenge into your Hand.",
+      "text": "Add 3 Scavengers into your Hand.",
       "numbers": {
         "Cards": 3
       },
@@ -2162,9 +2162,9 @@
       ]
     },
     {
-      "name": "Scavenge",
-      "entry": "SCAVENGE",
-      "file": "TheWitchCode/Cards/Familiar/Scavenge.cs",
+      "name": "Scavengers",
+      "entry": "SCAVENGERS",
+      "file": "TheWitchCode/Cards/Familiar/Scavengers.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -2178,8 +2178,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Scout Weakness",

@@ -45,7 +45,7 @@ public static class CombatHistoryQueries
         History?.CardPlaysFinished.Count(e => e.CardPlay.Card is T && e.CardPlay.Card.Owner.Creature == player) ?? 0;
 
     /// <summary>
-    /// How many Rat familiar token cards (anything marked <see cref="IRatCard" /> — Scavenge, Plague) this
+    /// How many Rat familiar token cards (anything marked <see cref="IRatCard" /> — Scavengers, Plague) this
     /// player has finished playing this combat. Excludes the in-progress play, so a card read during its own
     /// <c>OnPlay</c> counts only the rats before it.
     /// </summary>
