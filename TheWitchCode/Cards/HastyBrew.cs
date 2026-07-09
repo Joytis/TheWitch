@@ -16,7 +16,7 @@ public sealed class HastyBrew : WitchCard
     ];
 
     public HastyBrew()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
@@ -26,5 +26,5 @@ public sealed class HastyBrew : WitchCard
         await PotionCmd.TryToProcure<EnergyPotion>(Owner);
     }
 
-    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

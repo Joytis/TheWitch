@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-08",
+  "generated": "2026-07-09",
   "cards": [
     {
       "name": "Defend",
@@ -922,13 +922,13 @@
       "name": "Hasty Brew",
       "entry": "HASTY_BREW",
       "file": "TheWitchCode/Cards/HastyBrew.cs",
-      "cost": 0,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
       "text": "Create an Energy Potion.",
       "numbers": {},
-      "upgrade": "custom (see code)",
+      "upgrade": "Cost -1",
       "note": "",
       "tested": false,
       "artFinal": false,
@@ -2100,9 +2100,11 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain {Energy:diff()} Energy.",
-      "numbers": {},
-      "upgrade": "Energy +1",
+      "text": "Gain {Energy:diff()} Energy. Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
       "note": "",
       "tested": false,
       "artFinal": false,
