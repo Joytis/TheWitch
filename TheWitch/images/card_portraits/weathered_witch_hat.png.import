@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hglj3vcpieol"
-path="res://.godot/imported/weathered_witch_hat.png-6c95555fdabc8dd924cd68288f45ea53.ctex"
+path="res://.godot/imported/weathered_witch_hat.png-551f8b27a72871092eeb78c1485dc77a.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/weathered_witch_hat.png"
-dest_files=["res://.godot/imported/weathered_witch_hat.png-6c95555fdabc8dd924cd68288f45ea53.ctex"]
+dest_files=["res://.godot/imported/weathered_witch_hat.png-551f8b27a72871092eeb78c1485dc77a.ctex"]
 
 [params]
 

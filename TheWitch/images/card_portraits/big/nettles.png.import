@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4vswq0brwgq3"
-path="res://.godot/imported/nettles.png-9f3aa2e8688453f4c57685178bf1ead8.ctex"
+path="res://.godot/imported/nettles.png-6709c0498da44b0f2c91bdc839e7407d.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/nettles.png"
-dest_files=["res://.godot/imported/nettles.png-9f3aa2e8688453f4c57685178bf1ead8.ctex"]
+dest_files=["res://.godot/imported/nettles.png-6709c0498da44b0f2c91bdc839e7407d.ctex"]
 
 [params]
 

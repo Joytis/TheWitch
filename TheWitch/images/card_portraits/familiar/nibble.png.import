@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cwgywu2kv1ra7"
-path="res://.godot/imported/nibble.png-fc2830b31fee7de5a90ece4acf15b7da.ctex"
+path="res://.godot/imported/nibble.png-633599ecd5eac1803b12d3203796c1c5.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/familiar/nibble.png"
-dest_files=["res://.godot/imported/nibble.png-fc2830b31fee7de5a90ece4acf15b7da.ctex"]
+dest_files=["res://.godot/imported/nibble.png-633599ecd5eac1803b12d3203796c1c5.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b6e2iq46a54od"
-path="res://.godot/imported/hexblast.png-ccbcb5ed6a67bd42dbab894e9fba690e.ctex"
+path="res://.godot/imported/hexblast.png-9551a646655b2ceed1b12338a94356bd.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/hexblast.png"
-dest_files=["res://.godot/imported/hexblast.png-ccbcb5ed6a67bd42dbab894e9fba690e.ctex"]
+dest_files=["res://.godot/imported/hexblast.png-9551a646655b2ceed1b12338a94356bd.ctex"]
 
 [params]
 

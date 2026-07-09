@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://but5o8eyl7gaw"
-path="res://.godot/imported/character_icon_char_name.png-c81f340cf5e2b81921b1e891f1a7b643.ctex"
+path="res://.godot/imported/character_icon_char_name.png-17058cc7d9834b17939e872e9e2b60ef.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/charui/character_icon_char_name.png"
-dest_files=["res://.godot/imported/character_icon_char_name.png-c81f340cf5e2b81921b1e891f1a7b643.ctex"]
+dest_files=["res://.godot/imported/character_icon_char_name.png-17058cc7d9834b17939e872e9e2b60ef.ctex"]
 
 [params]
 

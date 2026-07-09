@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://blksmeg2ts1ly"
-path="res://.godot/imported/stony_brew.png-86f8bca20cd8d0fb329c87e692dd7ccf.ctex"
+path="res://.godot/imported/stony_brew.png-49fc0edd7d7f6cef993e09e37a7d7b66.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/stony_brew.png"
-dest_files=["res://.godot/imported/stony_brew.png-86f8bca20cd8d0fb329c87e692dd7ccf.ctex"]
+dest_files=["res://.godot/imported/stony_brew.png-49fc0edd7d7f6cef993e09e37a7d7b66.ctex"]
 
 [params]
 

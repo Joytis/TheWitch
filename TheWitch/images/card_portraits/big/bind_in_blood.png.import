@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://slos1x6ph5om"
-path="res://.godot/imported/bind_in_blood.png-e16543fb9afd94c332d36741d8c5c01f.ctex"
+path="res://.godot/imported/bind_in_blood.png-cb75d0bfa70eecaaa3914457b273a6b4.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/bind_in_blood.png"
-dest_files=["res://.godot/imported/bind_in_blood.png-e16543fb9afd94c332d36741d8c5c01f.ctex"]
+dest_files=["res://.godot/imported/bind_in_blood.png-cb75d0bfa70eecaaa3914457b273a6b4.ctex"]
 
 [params]
 

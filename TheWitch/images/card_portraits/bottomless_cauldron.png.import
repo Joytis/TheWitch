@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccmudtx3q2vx7"
-path="res://.godot/imported/bottomless_cauldron.png-5403cd3e9e3680dff2654fa34c67d3a3.ctex"
+path="res://.godot/imported/bottomless_cauldron.png-a5bbae6d3d7179b159ed9e1fb53a317a.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/bottomless_cauldron.png"
-dest_files=["res://.godot/imported/bottomless_cauldron.png-5403cd3e9e3680dff2654fa34c67d3a3.ctex"]
+dest_files=["res://.godot/imported/bottomless_cauldron.png-a5bbae6d3d7179b159ed9e1fb53a317a.ctex"]
 
 [params]
 

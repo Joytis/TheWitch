@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ehuxrmojfiw7"
-path="res://.godot/imported/fertilize.png-c3eb4b1219cf1da7a9a4536173a1095c.ctex"
+path="res://.godot/imported/fertilize.png-988169ec9746a4aaa7edd9a3d3dfed1f.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/fertilize.png"
-dest_files=["res://.godot/imported/fertilize.png-c3eb4b1219cf1da7a9a4536173a1095c.ctex"]
+dest_files=["res://.godot/imported/fertilize.png-988169ec9746a4aaa7edd9a3d3dfed1f.ctex"]
 
 [params]
 

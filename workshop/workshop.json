@@ -1,10 +1,12 @@
 {
-    "title": "The Witch",
-    "description": "A custom character for Slay the Spire 2: The Witch, a potion-brewing witch. Built on BaseLib.",
-    "visibility": "private",
-    "changeNote": "",
-    "tags": [],
-    "dependencies": [
-        3737335127
-    ]
+    "title":  "The Witch",
+    "description":  "A custom character for Slay the Spire 2: The Witch, a potion-brewing witch. Built on BaseLib.",
+    "visibility":  "private",
+    "changeNote":  "Renamed to The Witch - adding more placeholder art - more balance changes",
+    "tags":  [
+
+             ],
+    "dependencies":  [
+                         3737335127
+                     ]
 }

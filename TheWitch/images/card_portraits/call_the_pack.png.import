@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://y16ht4nndcqq"
-path="res://.godot/imported/call_the_pack.png-fbbb8021077d157b3b5d002e1aa6fafe.ctex"
+path="res://.godot/imported/call_the_pack.png-c2eb9a4d984d516a22355efe7bd3ef77.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/call_the_pack.png"
-dest_files=["res://.godot/imported/call_the_pack.png-fbbb8021077d157b3b5d002e1aa6fafe.ctex"]
+dest_files=["res://.godot/imported/call_the_pack.png-c2eb9a4d984d516a22355efe7bd3ef77.ctex"]
 
 [params]
 

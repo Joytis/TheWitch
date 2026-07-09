@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxjuok54x05ll"
-path="res://.godot/imported/needle_whip.png-5f55bfff052322eb9b1d418d8c942070.ctex"
+path="res://.godot/imported/needle_whip.png-66a7d1e247d6c78f1a1070fa9259471e.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/needle_whip.png"
-dest_files=["res://.godot/imported/needle_whip.png-5f55bfff052322eb9b1d418d8c942070.ctex"]
+dest_files=["res://.godot/imported/needle_whip.png-66a7d1e247d6c78f1a1070fa9259471e.ctex"]
 
 [params]
 

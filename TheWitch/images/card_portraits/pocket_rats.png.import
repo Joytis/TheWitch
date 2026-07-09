@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b22ny4hatvqec"
-path="res://.godot/imported/pocket_rats.png-148134102548c5d8032dd9bd9b2f16eb.ctex"
+path="res://.godot/imported/pocket_rats.png-8f63e1da496cac2c69c8eb08899fcbaa.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/pocket_rats.png"
-dest_files=["res://.godot/imported/pocket_rats.png-148134102548c5d8032dd9bd9b2f16eb.ctex"]
+dest_files=["res://.godot/imported/pocket_rats.png-8f63e1da496cac2c69c8eb08899fcbaa.ctex"]
 
 [params]
 

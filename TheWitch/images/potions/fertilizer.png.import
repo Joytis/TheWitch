@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvun2dfxgw1iy"
-path="res://.godot/imported/fertilizer.png-86d508631f1a615bda46ebeeacf10ddd.ctex"
+path="res://.godot/imported/fertilizer.png-63768f76405e90e9337084f109d1fdd6.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/potions/fertilizer.png"
-dest_files=["res://.godot/imported/fertilizer.png-86d508631f1a615bda46ebeeacf10ddd.ctex"]
+dest_files=["res://.godot/imported/fertilizer.png-63768f76405e90e9337084f109d1fdd6.ctex"]
 
 [params]
 

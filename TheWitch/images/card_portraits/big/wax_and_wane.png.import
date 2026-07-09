@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://crgf8a65e03d0"
-path="res://.godot/imported/wax_and_wane.png-e21b656afd6c0f09c6c50d3d30b53617.ctex"
+path="res://.godot/imported/wax_and_wane.png-35b735c9ed8517679fb2a8fec0c3a7c6.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/wax_and_wane.png"
-dest_files=["res://.godot/imported/wax_and_wane.png-e21b656afd6c0f09c6c50d3d30b53617.ctex"]
+dest_files=["res://.godot/imported/wax_and_wane.png-35b735c9ed8517679fb2a8fec0c3a7c6.ctex"]
 
 [params]
 

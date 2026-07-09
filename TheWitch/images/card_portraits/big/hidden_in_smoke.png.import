@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vsekf0kl7x41"
-path="res://.godot/imported/hidden_in_smoke.png-36e0138b2667631801b9ebabd91670d5.ctex"
+path="res://.godot/imported/hidden_in_smoke.png-339910e3ee1fe4ff818f72960868d488.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/hidden_in_smoke.png"
-dest_files=["res://.godot/imported/hidden_in_smoke.png-36e0138b2667631801b9ebabd91670d5.ctex"]
+dest_files=["res://.godot/imported/hidden_in_smoke.png-339910e3ee1fe4ff818f72960868d488.ctex"]
 
 [params]
 

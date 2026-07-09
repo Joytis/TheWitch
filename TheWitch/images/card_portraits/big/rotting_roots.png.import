@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0pwlhovspoii"
-path="res://.godot/imported/rotting_roots.png-94d6f206c5e3dfb9091ec57314fd2e70.ctex"
+path="res://.godot/imported/rotting_roots.png-79dd81510760b85e6a210eb01984d3fd.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/big/rotting_roots.png"
-dest_files=["res://.godot/imported/rotting_roots.png-94d6f206c5e3dfb9091ec57314fd2e70.ctex"]
+dest_files=["res://.godot/imported/rotting_roots.png-79dd81510760b85e6a210eb01984d3fd.ctex"]
 
 [params]
 

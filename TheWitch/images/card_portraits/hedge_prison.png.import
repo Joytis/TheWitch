@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3la1vxe8om8c"
-path="res://.godot/imported/hedge_prison.png-1639cc61895f93d340658be864da00cf.ctex"
+path="res://.godot/imported/hedge_prison.png-edfbc5bee5fb192d2e9555391a287735.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/hedge_prison.png"
-dest_files=["res://.godot/imported/hedge_prison.png-1639cc61895f93d340658be864da00cf.ctex"]
+dest_files=["res://.godot/imported/hedge_prison.png-edfbc5bee5fb192d2e9555391a287735.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cpdwi3tkkmw3w"
-path="res://.godot/imported/owl_familiar.png-e0c333fc5a97b57a00073b9c988f0e16.ctex"
+path="res://.godot/imported/owl_familiar.png-6f22cba0b1e85f06eb6c8b09e542ea64.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/owl_familiar.png"
-dest_files=["res://.godot/imported/owl_familiar.png-e0c333fc5a97b57a00073b9c988f0e16.ctex"]
+dest_files=["res://.godot/imported/owl_familiar.png-6f22cba0b1e85f06eb6c8b09e542ea64.ctex"]
 
 [params]
 

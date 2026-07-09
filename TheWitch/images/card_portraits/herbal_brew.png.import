@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://du8tdgh0vgapf"
-path="res://.godot/imported/herbal_brew.png-31106167e8f4119322bf07181e56c9a4.ctex"
+path="res://.godot/imported/herbal_brew.png-d2f0f0a9d970cbc6c7f14442679fd8a4.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/herbal_brew.png"
-dest_files=["res://.godot/imported/herbal_brew.png-31106167e8f4119322bf07181e56c9a4.ctex"]
+dest_files=["res://.godot/imported/herbal_brew.png-d2f0f0a9d970cbc6c7f14442679fd8a4.ctex"]
 
 [params]
 

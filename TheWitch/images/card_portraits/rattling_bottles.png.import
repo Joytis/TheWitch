@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7mkbmuvd5ws8"
-path="res://.godot/imported/rattling_bottles.png-8ed5a2fa151a5389160e7196bc77f19b.ctex"
+path="res://.godot/imported/rattling_bottles.png-e24fe19fa05ab1a864aac1a6d1ff4ddd.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/rattling_bottles.png"
-dest_files=["res://.godot/imported/rattling_bottles.png-8ed5a2fa151a5389160e7196bc77f19b.ctex"]
+dest_files=["res://.godot/imported/rattling_bottles.png-e24fe19fa05ab1a864aac1a6d1ff4ddd.ctex"]
 
 [params]
 

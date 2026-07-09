@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dgt67texiiij7"
-path="res://.godot/imported/wicked_brew.png-332d879dbaf856af767502bc3e6d1040.ctex"
+path="res://.godot/imported/wicked_brew.png-9b87aa6a6c59e223399d50454a54a496.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/wicked_brew.png"
-dest_files=["res://.godot/imported/wicked_brew.png-332d879dbaf856af767502bc3e6d1040.ctex"]
+dest_files=["res://.godot/imported/wicked_brew.png-9b87aa6a6c59e223399d50454a54a496.ctex"]
 
 [params]
 

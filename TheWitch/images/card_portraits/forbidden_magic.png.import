@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1r5f8aa82s6a"
-path="res://.godot/imported/forbidden_magic.png-cbe482929e7cade4fa47edf754dde32a.ctex"
+path="res://.godot/imported/forbidden_magic.png-36ebaa4644a25cf6c6d0e91a0f113133.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://TheWitch/images/card_portraits/forbidden_magic.png"
-dest_files=["res://.godot/imported/forbidden_magic.png-cbe482929e7cade4fa47edf754dde32a.ctex"]
+dest_files=["res://.godot/imported/forbidden_magic.png-36ebaa4644a25cf6c6d0e91a0f113133.ctex"]
 
 [params]
 
