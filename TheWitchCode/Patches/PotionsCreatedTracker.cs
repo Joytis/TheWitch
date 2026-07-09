@@ -1,9 +1,11 @@
 using System.Runtime.CompilerServices;
+using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Potions;
 using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Patches;
@@ -23,7 +25,7 @@ public static class PotionsCreatedTracker
 {
     private static readonly ConditionalWeakTable<ICombatState, StrongBox<int>> Counts = new();
 
-    private static void Prefix(Player player)
+    private static void Prefix(PotionModel potion, Player player)
     {
         ICombatState? combat = player?.Creature?.CombatState;
         if (combat == null)
@@ -32,10 +34,12 @@ public static class PotionsCreatedTracker
         }
         Counts.GetValue(combat, _ => new StrongBox<int>(0)).Value++;
 
-        // Potion-creation signature: green brew puff on the Witch (gated so other characters keep vanilla feel).
+        // Potion-creation signature: brew puff on the Witch (gated so other characters keep vanilla feel).
+        // Energy Potions puff yellow (Hasty Brew's "fast mana" read); everything else keeps the house green.
         if (player!.Character is Character.Witch)
         {
-            WitchFx.BrewPuff(player.Creature!);
+            Color? tint = potion is EnergyPotion ? new Color("ffd75e") : null;
+            WitchFx.BrewPuff(player.Creature!, tint);
         }
     }
 

@@ -4,7 +4,9 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
+using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
@@ -38,6 +40,9 @@ public sealed class Hexblast : WitchCard
             .WithHitVfxNode(t => NGroundFireVfx.Create(t, VfxColor.Purple))
             .WithHitFx(null, null, "heavy_attack.mp3")
             .Execute(choiceContext);
+
+        // Detonation punch on top of the damage-scaled hit shake (weak, so 0-debuff whiffs still thud).
+        NGame.Instance?.ScreenShake(ShakeStrength.Weak, ShakeDuration.Short);
 
         foreach (PowerModel debuff in debuffs)
         {

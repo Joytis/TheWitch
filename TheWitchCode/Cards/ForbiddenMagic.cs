@@ -15,12 +15,12 @@ public sealed class ForbiddenMagic : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(20m, ValueProp.Move),
+        new DamageVar(18m, ValueProp.Move),
         new PowerVar<WeakPower>(2m)
     ];
 
     public ForbiddenMagic()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
