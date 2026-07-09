@@ -1,2 +1,16 @@
 # Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf
+
+# Explicit binary markers — don't rely on text=auto heuristics for these.
+*.png binary
+*.jpg binary
+*.webp binary
+*.pck binary
+*.dll binary
+*.pdb binary
+*.exe binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.ttf binary
+*.otf binary

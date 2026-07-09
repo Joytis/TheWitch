@@ -30,13 +30,13 @@ public static class WitchFx
         SfxCmd.Play(SummonSfx);
     }
 
-    /// <summary>Potion-creation signature: green smoke puff on the brewer.
-    /// Cards using this must include NSmokePuffVfx.AssetPaths in ExtraRunAssetPaths.
+    /// <summary>Potion-creation signature: fiery smoke puff on the brewer (creation, not flatulence).
+    /// Cards using this must include NFireSmokePuffVfx.AssetPaths in ExtraRunAssetPaths.
     /// Optional tint recolors the cloud material the same way the base game's Purple
-    /// treatment does (duplicated material, narrowed hue variation).</summary>
+    /// smoke-puff treatment does (duplicated material, narrowed hue variation).</summary>
     public static void BrewPuff(Creature owner, Color? tint = null)
     {
-        NSmokePuffVfx? vfx = NSmokePuffVfx.Create(owner, NSmokePuffVfx.SmokePuffColor.Green);
+        NFireSmokePuffVfx? vfx = NFireSmokePuffVfx.Create(owner);
         if (vfx != null && tint is Color color)
         {
             var clouds = vfx.GetNode<GpuParticles2D>("Clouds");

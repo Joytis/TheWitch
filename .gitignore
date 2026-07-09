@@ -11,6 +11,9 @@ packages/
 .editorconfig
 *.user
 
+# Machine-specific build settings (GodotPath, Sts2Path) — see Directory.Build.props
+/local.props
+
 # Steam Workshop bundle: keep config (workshop.json, image.png, mod_id.txt), drop staged build artifacts
 /workshop/content/
 /workshop/README.md

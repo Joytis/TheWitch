@@ -33,9 +33,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All"/>
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.*" PrivateAssets="All"/>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
-        <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*" />
+        <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.1.*" />
         <!-- Generates a .pck file when building if only using simple assets. May not work on all setups. Uncomment to test. -->
         <!-- <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All" /> -->
         <AdditionalFiles Include="TheWitch/localization/**/*.json"/> <!-- Used by analyzer -->
@@ -86,15 +86,15 @@
             <NewContent>$([System.Text.RegularExpressions.Regex]::Replace($(OldContent), '("id":\s*"BaseLib",\s*"min_version":\s*")[^"]*', '${1}$(ActiveBaseLibVersion)'))</NewContent>
         </PropertyGroup>
 
+        <!-- Escape so WriteLinesToFile doesn't split the content on ';'; no Encoding attribute = UTF-8 without BOM. -->
         <WriteLinesToFile
                 Condition="'$(OldContent)' != '$(NewContent)'"
                 File="$(ManifestPath)"
-                Lines="$(NewContent)"
-                Overwrite="true"
-                Encoding="UTF-8" />
+                Lines="$([MSBuild]::Escape($(NewContent)))"
+                Overwrite="true" />
 
         <Message Condition="'$(OldContent)' != '$(NewContent)'"
-                 Text="Updated BaseLib dependency version in mod manifest json to version $(BaseLibVersion)"
+                 Text="Updated BaseLib dependency version in mod manifest json to version $(ActiveBaseLibVersion)"
                  Importance="high" />
     </Target>
     

@@ -4,6 +4,34 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 134. Oxidizers breaks on potions with a card-selection prompt
+- **Done:** 2026-07-08 (claude) — Root cause: `OxidizersPower.AfterPotionUsed` replayed the potion's `OnUse` with a `ThrowingPlayerChoiceContext`, whose "no potion prompts a choice" assumption is false — ColorlessPotion, Attack/Skill/PowerPotion, GamblersBrew, LiquidMemories, Ashwater, CosmicConcoction, DropletOfPrecognition, TouchOfInsanity all open a choose-a-card screen from `OnUse`, so the replay threw. Fix: replay moved to new [OxidizersReplayPatch.cs](../TheWitchCode/Patches/OxidizersReplayPatch.cs) — Harmony postfix on `PotionModel.OnUseWrapper` chains the replay onto the wrapper task and reuses the wrapper's **live** `PlayerChoiceContext` (only place it's reachable; the `AfterPotionUsed` hook doesn't pass it). Still invokes protected `OnUse` directly (no recursion, no double history/`RemoveBeforeUse`); Push/PopModel bracketed; `BeginCardOrPotionEffect` kept. [OxidizersPower.cs](../TheWitchCode/Powers/OxidizersPower.cs) slimmed to counter + end-of-turn expiry (+`FlashForReplay()` shim for the protected `Flash`).
+- **Design note:** replay now happens for whichever player owns the potion (power looked up on `potion.Owner`), same as before; side effect — a Fairy in a Bottle auto-revive while a stack is live would also replay (double heal), which reads as correct "next potion played again" behavior.
+- **Verified:** build 0/0; regen n/a (card unchanged). ⚠️ Playtest: Oxidizers → Colorless Potion should show the choose-a-card screen twice and resolve both; also a no-choice potion (Fire Potion) still double-fires; MP untested.
+
+### 122. Build/portability hardening
+- **Done:** 2026-07-08 (claude) — All 7 sub-items:
+  1. `local.props` import wired at top of [Directory.Build.props](../Directory.Build.props) (+ example block in comments); `/local.props` gitignored.
+  2. `GodotPath` moved out of tracked props into machine-local `local.props` (created here with the megadot path — untracked).
+  3. Pinned `Version="*"` → BaseLib `3.3.*`, ModAnalyzers `0.1.*` in [TheWitch.csproj](../TheWitch.csproj) (restores 3.3.5 / 0.1.9 today).
+  4. `UpdateDependencyVersions` hardened: `Lines="$([MSBuild]::Escape($(NewContent)))"` (no `;` splitting), `Encoding` attribute dropped (UTF-8 no BOM on .NET SDK MSBuild), message fixed to `$(ActiveBaseLibVersion)`.
+  5. Steam secondary-library gap documented in [Sts2PathDiscovery.props](../Sts2PathDiscovery.props) header (escape hatch = `Sts2Path` in local.props) — chose docs over vdf parsing per the item's own alternative.
+  6. Manifest version: stale sub-item — already `v0.0.3` and bumped per release; no change.
+  7. [.gitattributes](../.gitattributes): explicit `binary` markers for png/jpg/webp/pck/dll/pdb/exe/mp3/wav/ogg/ttf/otf.
+- **Verified:** build 0/0; `dotnet msbuild -getProperty:GodotPath` resolves via local.props; round-trip test: semicolon'd description + forced `min_version` rewrite → semicolon survived, version updated to 3.3.5, first bytes `7b 0a` (no BOM). Test semicolon reverted.
+
+### 133. CUT Scout Weakness
+- **Done:** 2026-07-08 (claude) — Crow token card deleted: `ScoutWeakness.cs(.uid)`, loc keys `THEWITCH-SCOUT_WEAKNESS.*`, art `familiar/scout_weakness.png` both sizes + `.import`s. [CrowFamiliarPower.cs](../TheWitchCode/Powers/CrowFamiliarPower.cs) loot table now ClawEyes 2 / Shiny 1; hover tip removed from [CrowFamiliar.cs](../TheWitchCode/Cards/CrowFamiliar.cs). No orphans (Vulnerable = base-game). Historical mention left in sfx-vfx-proposal.md (design record).
+- **Verified:** build 0/0; regen (101 cards, −Scout Weakness). ⚠️ Playtest: Crow turn-start roll (2:1 ClawEyes/Shiny).
+
+### 132. Brew puff vfx → fire smoke puff
+- **Done:** 2026-07-08 (claude) — Global potion-creation signature no longer reads as farting (user pick: fire smoke puff). [WitchFx.cs](../TheWitchCode/Extensions/WitchFx.cs) `BrewPuff` now spawns `NFireSmokePuffVfx` (fiery smoke + embers); EnergyPotion yellow tint kept via the same Clouds-material recolor (node name "Clouds" exists in both scenes). [Witch.cs](../TheWitchCode/Character/Witch.cs) `ExtraAssetPaths`: `NSmokePuffVfx`→`NFireSmokePuffVfx`. Affects ALL Witch potion creation (Extract Essence, brews, Experiment, …).
+- **Verified:** build 0/0. ⚠️ Playtest: puff look + yellow tint on Energy Potion (Hasty Brew) — tint recolors a fire cloud now, verify it still reads.
+
+### 131. Rename Plunder → The Hunt
+- **Done:** 2026-07-08 (claude, user-picked name) — Full rename: class/file `Plunder`→[TheHunt.cs](../TheWitchCode/Cards/TheHunt.cs) (+`.uid` git-mv'd), loc `THEWITCH-PLUNDER.*`→`THEWITCH-THE_HUNT.*` (title "The Hunt"), art `plunder.png`→`the_hunt.png` both sizes (stale `.import`s deleted), comment ref fixed in [Familiars.cs](../TheWitchCode/Powers/Familiars.cs). Mechanics untouched.
+- **Verified:** build 0/0; regen (+The Hunt, −Plunder; TESTED preserved-as-cleared by rename). ⚠️ Run **Godot: Import assets** (renamed pngs have no `.import` yet).
+
 ### 186. Shiny! (Crow token): +Gain 2 Energy
 - **Done:** 2026-07-07 (claude) — [Shiny.cs](../TheWitchCode/Cards/Familiar/Shiny.cs): now Gain 10 Gold **and Gain 2 Energy**. Gold sfx (`gold_1`) + coin-explosion vfx were already in place — no vfx change needed. Upgrade unchanged (+5 Gold).
 - **Verified:** build 0/0; regen (Shiny! TESTED cleared). ⚠️ Playtest: 2 Energy on play.

@@ -1053,29 +1053,6 @@
       ]
     },
     {
-      "name": "Plunder",
-      "entry": "PLUNDER",
-      "file": "TheWitchCode/Cards/Plunder.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal 9 damage. Draw a card for each of your Familiars.",
-      "numbers": {
-        "Damage": 9
-      },
-      "upgrade": "Damage +3",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Payoff"
-      ]
-    },
-    {
       "name": "Prices Paid",
       "entry": "PRICES_PAID",
       "file": "TheWitchCode/Cards/PricesPaid.cs",
@@ -1280,6 +1257,25 @@
       "role": [
         "Generator"
       ]
+    },
+    {
+      "name": "The Hunt",
+      "entry": "THE_HUNT",
+      "file": "TheWitchCode/Cards/TheHunt.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage. Draw a card for each of your Familiars.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Wax and Wane",
@@ -2180,30 +2176,6 @@
       "artFinal": false,
       "mechanics": [
         "Familiars"
-      ],
-      "role": [
-        "Token"
-      ]
-    },
-    {
-      "name": "Scout Weakness",
-      "entry": "SCOUT_WEAKNESS",
-      "file": "TheWitchCode/Cards/Familiar/ScoutWeakness.cs",
-      "cost": 0,
-      "type": "Skill",
-      "rarity": "Token",
-      "target": "AnyEnemy",
-      "text": "Apply 2 Vulnerable.",
-      "numbers": {
-        "Vulnerable": 2
-      },
-      "upgrade": "Vulnerable +1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Familiars",
-        "Debuff/Buff"
       ],
       "role": [
         "Token"
