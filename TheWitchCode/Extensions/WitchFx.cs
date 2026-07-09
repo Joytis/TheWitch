@@ -31,9 +31,23 @@ public static class WitchFx
     }
 
     /// <summary>Potion-creation signature: green smoke puff on the brewer.
-    /// Cards using this must include NSmokePuffVfx.AssetPaths in ExtraRunAssetPaths.</summary>
-    public static void BrewPuff(Creature owner) =>
-        Attach(NSmokePuffVfx.Create(owner, NSmokePuffVfx.SmokePuffColor.Green));
+    /// Cards using this must include NSmokePuffVfx.AssetPaths in ExtraRunAssetPaths.
+    /// Optional tint recolors the cloud material the same way the base game's Purple
+    /// treatment does (duplicated material, narrowed hue variation).</summary>
+    public static void BrewPuff(Creature owner, Color? tint = null)
+    {
+        NSmokePuffVfx? vfx = NSmokePuffVfx.Create(owner, NSmokePuffVfx.SmokePuffColor.Green);
+        if (vfx != null && tint is Color color)
+        {
+            var clouds = vfx.GetNode<GpuParticles2D>("Clouds");
+            var mat = (ParticleProcessMaterial)clouds.ProcessMaterial.Duplicate();
+            mat.HueVariationMin = -0.02f;
+            mat.HueVariationMax = 0.02f;
+            mat.Color = color;
+            clouds.ProcessMaterial = mat;
+        }
+        Attach(vfx);
+    }
 
     /// <summary>Bramble-gain signature: green spore burst on the gainer (globally preloaded).</summary>
     public static void SporePuff(Creature owner) => Attach(NSporeImpactVfx.Create(owner, WitchGreen));

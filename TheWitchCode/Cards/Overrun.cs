@@ -16,7 +16,7 @@ public sealed class Overrun : WitchCard
     ];
 
     public Overrun()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -42,5 +42,5 @@ public sealed class Overrun : WitchCard
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars["FamiliarDamage"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars["FamiliarDamage"].UpgradeValueBy(3m);
 }

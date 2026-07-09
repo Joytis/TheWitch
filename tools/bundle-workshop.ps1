@@ -93,6 +93,25 @@ $mod = Get-Content $manifest -Raw | ConvertFrom-Json
 $modId = $mod.id
 if (-not $modId) { throw "Manifest has no 'id': $manifest" }
 
+# --- Bump patch version on upload runs --------------------------------------
+# Deployments auto-increment the last version segment (v0.0.2 -> v0.0.3) in the
+# repo manifest BEFORE publish/stage so the uploaded build carries the new
+# number. If the upload later fails, the bump remains (harmless; next attempt
+# bumps again -- version gaps are fine).
+if ($Upload) {
+    $ver = $mod.version
+    if ($ver -match '^(.*?)(\d+)$') {
+        $newVer = $Matches[1] + ([int]$Matches[2] + 1)
+        Write-Step "Bumping version: $ver -> $newVer"
+        $raw = Get-Content $manifest -Raw
+        $raw = $raw -replace ('"version":\s*"' + [regex]::Escape($ver) + '"'), ('"version": "' + $newVer + '"')
+        [System.IO.File]::WriteAllText($manifest, $raw, (New-Object System.Text.UTF8Encoding($false)))
+        $mod = Get-Content $manifest -Raw | ConvertFrom-Json
+    } else {
+        Write-Warn2 "Version '$ver' doesn't end in a number; skipping auto-bump."
+    }
+}
+
 # --- Resolve the ModUploader executable ------------------------------------
 if (-not $Uploader) {
     $Uploader = Join-Path $PSScriptRoot 'ModUploader-win-x64/ModUploader.exe'
@@ -185,6 +204,17 @@ else { New-Item -ItemType Directory -Path $contentDir | Out-Null }
 Copy-Item $json -Destination $contentDir
 Copy-Item $dll  -Destination $contentDir
 Copy-Item $pck  -Destination $contentDir
+
+# Keep the staged manifest's version in sync with the repo manifest (matters
+# for -SkipPublish -Upload, where the mods-folder copy predates the bump).
+$stagedJson = Join-Path $contentDir "$modId.json"
+$staged = Get-Content $stagedJson -Raw | ConvertFrom-Json
+if ($staged.version -ne $mod.version) {
+    Write-Step "Syncing staged manifest version -> $($mod.version)"
+    $raw = Get-Content $stagedJson -Raw
+    $raw = $raw -replace ('"version":\s*"' + [regex]::Escape($staged.version) + '"'), ('"version": "' + $mod.version + '"')
+    [System.IO.File]::WriteAllText($stagedJson, $raw, (New-Object System.Text.UTF8Encoding($false)))
+}
 if ($IncludePdb) {
     $pdb = Join-Path $modSrc "$modId.pdb"
     if (Test-Path $pdb) { Copy-Item $pdb -Destination $contentDir }
@@ -193,10 +223,17 @@ if ($IncludePdb) {
 Write-Host "    staged:" (Get-ChildItem $contentDir | ForEach-Object { $_.Name }) -ForegroundColor DarkGray
 
 # --- Step 5: patch workshop.json metadata ----------------------------------
-if (($ChangeNote -ne "") -or ($Visibility -ne "")) {
+# changeNote is always rewritten on upload runs: workshop.json is versioned, so
+# leaving it untouched would resend the PREVIOUS upload's note as this update's
+# patch notes. No -ChangeNote => blank note (no patch-note text on Steam).
+if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload) {
     if (-not (Test-Path $workshopJson)) { throw "workshop.json missing: $workshopJson" }
     $ws = Get-Content $workshopJson -Raw | ConvertFrom-Json
     if ($ChangeNote -ne "") { $ws.changeNote = $ChangeNote; Write-Step "changeNote = '$ChangeNote'" }
+    elseif ($Upload -and $ws.changeNote -ne "") {
+        $ws.changeNote = ""
+        Write-Warn2 "No -ChangeNote given; clearing stale changeNote so it isn't resent as this update's patch notes."
+    }
     if ($Visibility -ne "") { $ws.visibility = $Visibility; Write-Step "visibility = '$Visibility'" }
     $json = $ws | ConvertTo-Json -Depth 10
     [System.IO.File]::WriteAllText($workshopJson, $json, (New-Object System.Text.UTF8Encoding($false)))

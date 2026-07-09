@@ -11,7 +11,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class Tinder : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("Energy", 1m)
+        new DynamicVar("Energy", 2m)
     ];
 
     public Tinder()
