@@ -39,3 +39,4 @@ public sealed class ReadTheBones : WitchCard
 
     protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(1m);
 }
+
