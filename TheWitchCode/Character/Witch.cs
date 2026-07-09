@@ -45,7 +45,7 @@ public class Witch : PlaceholderCharacterModel
     // ExtraRunAssetPaths hook, so power-spawned vfx like the Bramble slice must preload here).
     protected override IEnumerable<string> ExtraAssetPaths => [
         .. MegaCrit.Sts2.Core.Nodes.Vfx.NPowerUpVfx.AssetPaths,
-        .. MegaCrit.Sts2.Core.Nodes.Vfx.NSmokePuffVfx.AssetPaths,
+        .. MegaCrit.Sts2.Core.Nodes.Vfx.NFireSmokePuffVfx.AssetPaths,
         .. MegaCrit.Sts2.Core.Nodes.Vfx.NThinSliceVfx.AssetPaths,
         .. MegaCrit.Sts2.Core.Nodes.Vfx.NGroundFireVfx.AssetPaths,
     ];

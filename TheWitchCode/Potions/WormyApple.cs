@@ -13,7 +13,7 @@ namespace TheWitch.TheWitchCode.Potions;
 /// <summary>Wormy Apple: a big heal that comes with a catch — 3 Wormy status cards wriggle into your hand.</summary>
 public sealed class WormyApple : WitchPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Uncommon;
+    public override PotionRarity Rarity => PotionRarity.Rare;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

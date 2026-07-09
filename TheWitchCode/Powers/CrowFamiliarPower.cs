@@ -11,7 +11,6 @@ public sealed class CrowFamiliarPower : LootTableFamiliarPower
 
     protected override FamiliarLootTable BuildLootTable() =>
         new FamiliarLootTable()
-            .Add<ScoutWeakness>(2)
             .Add<ClawEyes>(2)
             .Add<Shiny>(1);
 }

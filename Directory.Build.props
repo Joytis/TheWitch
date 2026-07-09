@@ -1,10 +1,19 @@
 <Project>
-    <PropertyGroup>
-        <!-- Megadot current version is 4.5.1, and the game won't load your .pck if the Godot version used is newer. -->
-        <!-- MegaDot / Godot 4.5.1 mono executable used for export-pack when publishing -->
-        <GodotPath>C:/megadot/MegaDot_v4.5.1-stable_mono_win64.exe</GodotPath>
+    <!-- Machine-specific settings (GodotPath, Sts2Path, ...) live in local.props — gitignored, optional. -->
+    <Import Project="local.props" Condition="Exists('local.props')"/>
 
-        <!-- If sts2 is not found automatically, uncomment the following and set it manually -->
-        <!-- <Sts2Path>?/steamapps/common/Slay the Spire 2</Sts2Path> -->
-    </PropertyGroup>
+    <!--
+      local.props example:
+
+      <Project>
+          <PropertyGroup>
+              <!- MegaDot / Godot mono executable used for export-pack when publishing.
+                  Must be 4.5.x - the game won't load a .pck exported by a newer Godot. ->
+              <GodotPath>C:/megadot/MegaDot_v4.5.1-stable_mono_win64.exe</GodotPath>
+
+              <!- Set if sts2 is not found automatically (see Sts2PathDiscovery.props) ->
+              <Sts2Path>?/steamapps/common/Slay the Spire 2</Sts2Path>
+          </PropertyGroup>
+      </Project>
+    -->
 </Project>

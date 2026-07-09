@@ -2,6 +2,10 @@
     <!--
       Fills Sts2Path and Sts2DataDir when not set (e.g. no local.props).
       Override via local.props or MSBuild /p:Sts2Path=...
+
+      Limitation: only the primary Steam library is scanned (registry + default path);
+      secondary libraries (libraryfolders.vdf) are not parsed. If the game lives in one,
+      set Sts2Path in local.props.
     -->
     <!-- OS Detection -->
     <PropertyGroup>

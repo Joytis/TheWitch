@@ -7,13 +7,13 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-public sealed class Plunder : WitchCard
+public sealed class TheHunt : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(9m, ValueProp.Move)
     ];
 
-    public Plunder()
+    public TheHunt()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
