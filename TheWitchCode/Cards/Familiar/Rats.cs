@@ -6,8 +6,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Rat familiar token (was Rats): tiny attack with a lifesteal nibble. Exhausts.</summary>
-public sealed class Scavengers : WitchFamiliarCard, IRatCard
+/// <summary>Rat familiar token (was Scavengers): tiny attack with a lifesteal nibble. Exhausts.</summary>
+public sealed class Rats : WitchFamiliarCard, IRatCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(5m, ValueProp.Move),
@@ -15,7 +15,7 @@ public sealed class Scavengers : WitchFamiliarCard, IRatCard
         new CardsVar(1)
     ];
 
-    public Scavengers()
+    public Rats()
         : base(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {
     }

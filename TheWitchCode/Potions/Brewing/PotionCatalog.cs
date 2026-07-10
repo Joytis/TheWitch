@@ -46,17 +46,24 @@ public static class PotionCatalog
     /// <param name="rarity">Restrict to this rarity if set.</param>
     /// <param name="usage">Restrict to this usage if set.</param>
     /// <param name="randomizableOnly">When true, exclude Token/Event payload-only potions.</param>
+    /// <param name="excludeHealing">
+    /// When true (default), exclude potions that can heal the player (<see cref="PotionTraits.IsHealing" />).
+    /// Every Query caller is an in-combat "create a potion" effect, and the design rule is that combat-created
+    /// potions can never heal — only pass false for a non-creation query.
+    /// </param>
     public static IEnumerable<PotionModel> Query(
         PotionOrientation? orientation = null,
         PotionRarity? rarity = null,
         PotionUsage? usage = null,
-        bool randomizableOnly = true)
+        bool randomizableOnly = true,
+        bool excludeHealing = true)
     {
         IEnumerable<PotionModel> q = randomizableOnly ? Randomizable : All;
 
         if (orientation.HasValue) q = q.Where(p => PotionTraits.OrientationOf(p) == orientation.Value);
         if (rarity.HasValue) q = q.Where(p => p.Rarity == rarity.Value);
         if (usage.HasValue) q = q.Where(p => p.Usage == usage.Value);
+        if (excludeHealing) q = q.Where(p => !PotionTraits.IsHealing(p));
 
         return q;
     }

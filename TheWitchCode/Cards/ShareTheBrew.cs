@@ -25,9 +25,14 @@ public sealed class ShareTheBrew : WitchCard
         foreach (Creature ally in allies)
         {
             var player = ally.Player!;
-            await PotionCmd.TryToProcure(
-                PotionFactory.CreateRandomPotionInCombat(player, player.RunState.Rng.CombatPotionGeneration).ToMutable(),
-                player);
+            // The factory rolls each player's own color pool (right for MP), so healing potions are filtered
+            // by bounded re-roll rather than a pool query — combat-created potions must never heal.
+            var potion = PotionFactory.CreateRandomPotionInCombat(player, player.RunState.Rng.CombatPotionGeneration);
+            for (int i = 0; i < 20 && Potions.Brewing.PotionTraits.IsHealing(potion); i++)
+            {
+                potion = PotionFactory.CreateRandomPotionInCombat(player, player.RunState.Rng.CombatPotionGeneration);
+            }
+            await PotionCmd.TryToProcure(potion.ToMutable(), player);
         }
     }
 

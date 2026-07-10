@@ -10,8 +10,9 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Distill (renamed from Brew): upgrade a random potion in the player's belt to a higher-rarity one sharing
-/// its traits (see <see cref="PotionUpgrade" />). Upgraded, it upgrades two. Does nothing if the belt is empty.
+/// Distill (renamed from Brew): replace a random belt potion (non-Rares prioritized) with a random RARE
+/// non-healing potion of the same orientation (see <see cref="PotionUpgrade" />). Upgraded, it distills two.
+/// Does nothing if the belt is empty.
 /// </summary>
 public sealed class Distill : WitchCard
 {

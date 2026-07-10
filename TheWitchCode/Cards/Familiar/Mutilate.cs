@@ -14,11 +14,11 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class Mutilate : WitchFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(22m, ValueProp.Move)
+        new DamageVar(40m, ValueProp.Move)
     ];
 
     public Mutilate()
-        : base(2, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
+        : base(3, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
 
@@ -32,5 +32,5 @@ public sealed class Mutilate : WitchFamiliarCard
             ValueProp.Move | ValueProp.Unblockable, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(8m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(15m);
 }

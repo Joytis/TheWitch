@@ -17,8 +17,6 @@ public abstract class OrientationBrewCard : WitchCard
 {
     protected abstract PotionOrientation Orientation { get; }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected OrientationBrewCard()
         : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
     {

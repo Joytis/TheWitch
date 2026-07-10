@@ -1,19 +1,26 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Bear familiar token: defensive — block and a heal.</summary>
+/// <summary>Bear familiar token: den up — block now, wake up swinging with Vigor next turn.</summary>
 public sealed class Hibernate : WitchFamiliarCard
 {
     public override bool GainsBlock => true;
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<VigorPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(15m, ValueProp.Move),
-        new DynamicVar("Heal", 2m)
+        new PowerVar<VigorNextTurnPower>(10m)
     ];
 
     public Hibernate()
@@ -24,12 +31,12 @@ public sealed class Hibernate : WitchFamiliarCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
+        await PowerCmd.Apply<VigorNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["VigorNextTurnPower"].BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Block.UpgradeValueBy(5m);
-        DynamicVars["Heal"].UpgradeValueBy(2m);
+        DynamicVars["VigorNextTurnPower"].UpgradeValueBy(3m);
     }
 }

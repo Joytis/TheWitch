@@ -19,17 +19,4 @@ Work queue for TheWitch mod. Source of new items: [TODO_STAGING.md](TODO_STAGING
 
 ## Queue (top = next)
 
-### 122. Build/portability hardening (deferred from 2026-07-03 structure audit)
-- **Status:** TODO
-- **What:** Batch of build-infrastructure fixes flagged in the adversarial structure review; deliberately deferred (solo-dev machine works today, these bite contributors/other machines):
-  1. Wire the documented `local.props` override: `<Import Project="local.props" Condition="Exists('local.props')"/>` at top of `Directory.Build.props`, add `local.props` to `.gitignore`. (Docs promise this override; nothing imports it.)
-  2. Move the machine-specific `GodotPath` (`Directory.Build.props:5`, hardcoded `C:/megadot/...`) into `local.props`; the `NeedGodotForPublish` guard already errors cleanly when unset.
-  3. Pin floating `Version="*"` for BaseLib/ModAnalyzers (`TheWitch.csproj:36,38`) to a range (e.g. `3.3.*`) — floating versions make builds non-reproducible and auto-bump the manifest `min_version`, forcing players to update BaseLib needlessly.
-  4. Harden the `UpdateDependencyVersions` manifest rewrite (`TheWitch.csproj:89-97`): `WriteLinesToFile` splits content on `;` (a semicolon in any manifest field shatters the JSON) and writes a BOM; also the success message references undefined `$(BaseLibVersion)` (should be `$(ActiveBaseLibVersion)`).
-  5. Steam discovery (`Sts2PathDiscovery.props`) misses secondary Steam libraries — parse `libraryfolders.vdf` (or rely on the item-1 escape hatch and document it).
-  6. Manifest `version` frozen at `v0.0.0` (`TheWitch.json:6`) — bump per release or derive from csproj.
-  7. `.gitattributes`: add explicit binary markers (`*.png binary`, `*.pck binary`, `*.dll binary`) — `text=auto` heuristics alone can LF-corrupt a binary that looks texty.
-- **Files:** `Directory.Build.props`, `TheWitch.csproj`, `Sts2PathDiscovery.props`, `TheWitch.json`, `.gitignore`, `.gitattributes`
-- **Acceptance:** `dotnet build` green on this machine; `local.props` override honored when present; build with a deliberately semicolon'd manifest description survives round-trip.
-
-
+(empty — drop new notes in TODO_STAGING.md)
