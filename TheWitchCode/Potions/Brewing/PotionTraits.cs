@@ -119,6 +119,46 @@ public static class PotionTraits
         [typeof(WormyApple)] = PotionOrientation.Defensive,             // heal 15 (downside: adds 3 Wormy statuses)
     };
 
+    /// <summary>
+    /// Manual table of potions that can heal the player (direct heal, regen, revive, or max-HP gain — which
+    /// raises current HP too). Same manual-first philosophy as <see cref="Manual" />; potions absent from this
+    /// set fall back to var inference in <see cref="IsHealing" />.
+    /// </summary>
+    public static readonly IReadOnlySet<Type> HealingManual = new HashSet<Type>
+    {
+        typeof(BloodPotion),      // heal a % of Max HP
+        typeof(RegenPotion),      // Regen heals over turns
+        typeof(FairyInABottle),   // revive: heal to 30% when you'd hit 0 HP
+        typeof(FruitJuice),       // gain Max HP (current HP rises with it)
+        typeof(WormyApple),       // heal 15 (plus Wormy statuses)
+        typeof(TheCauldron),      // accumulator includes a heal component
+    };
+
+    /// <summary>
+    /// True if the potion can heal the player. Manual set first, then var inference
+    /// (<see cref="HealVar" />/<see cref="MaxHpVar" /> or a <c>PowerVar&lt;RegenPower&gt;</c>).
+    /// </summary>
+    public static bool IsHealing(PotionModel potion)
+    {
+        if (HealingManual.Contains(potion.GetType()))
+        {
+            return true;
+        }
+
+        foreach (DynamicVar var in potion.DynamicVars.Values)
+        {
+            if (var is HealVar or MaxHpVar)
+            {
+                return true;
+            }
+            if (IsPowerVar(var, out Type? powerType) && powerType == typeof(RegenPower))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>Orientation of a potion (manual table first, inference fallback). Cached per Type.</summary>
     public static PotionOrientation OrientationOf(PotionModel potion)
     {

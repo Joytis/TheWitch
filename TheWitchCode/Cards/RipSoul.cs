@@ -11,7 +11,7 @@ using TheWitch.TheWitchCode.Powers;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Rip Soul: the Ancient (transcended) form of Oxidizers — tear the soul out of an enemy: heavy damage,
+/// Rip Soul: the Ancient (transcended) form of Extract Essence — tear the soul out of an enemy: heavy damage,
 /// 3 Hex, and 3 random potions. Granted by the Archaic Tooth transcendence map
 /// (see <see cref="Patches.AncientTranscendencePatch" />).
 /// </summary>

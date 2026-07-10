@@ -17,7 +17,7 @@ public sealed class BindInBlood : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new HpLossVar(3m),
-        new PowerVar<HexPower>(3m)
+        new PowerVar<HexPower>(6m)
     ];
 
     public BindInBlood()
@@ -32,5 +32,5 @@ public sealed class BindInBlood : WitchCard
         await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(3m);
 }

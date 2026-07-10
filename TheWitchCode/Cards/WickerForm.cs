@@ -2,15 +2,20 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Wicker Form: if you would create a card or potion, instead create a Rake.</summary>
+/// <summary>Wicker Form: become the wicker — a huge bramble harvest every turn.</summary>
 public sealed class WickerForm : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Rake>(),
+        HoverTipFactory.FromPower<BramblesPower>(),
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new PowerVar<WickerFormPower>(20m)
     ];
 
     public WickerForm()
@@ -21,8 +26,8 @@ public sealed class WickerForm : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-        await PowerCmd.Apply<WickerFormPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<WickerFormPower>(choiceContext, Owner.Creature, DynamicVars["WickerFormPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["WickerFormPower"].UpgradeValueBy(10m);
 }

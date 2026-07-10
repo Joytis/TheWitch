@@ -1,36 +1,61 @@
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
+/// <summary>
+/// Cat familiar token: one 7-damage hit per Attack you played before it this turn (excluding itself, so the
+/// live preview matches the hits dealt). Hit count renders via the base-game Barrage pattern; the count
+/// queries combat history like the base-game Normality.
+/// </summary>
 public sealed class Ferocity : WitchFamiliarCard
 {
+    private const string _calculatedHitsKey = "CalculatedHits";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new DamageVar(7m, ValueProp.Move),
+        new CalculationBaseVar(0m),
+        new CalculationExtraVar(1m),
+        new CalculatedVar(_calculatedHitsKey)
+            .WithMultiplier((card, _) => AttacksPlayedThisTurnBefore(card))
+    ];
+
     public Ferocity()
         : base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new DamageVar(7m, ValueProp.Move),
-		new RepeatVar(2)
-    ];
+    private static int AttacksPlayedThisTurnBefore(CardModel card) =>
+        CombatManager.Instance.History.CardPlaysStarted.Count(e =>
+            e.HappenedThisTurn(card.CombatState)
+            && e.CardPlay.Card.Owner == card.Owner
+            && e.CardPlay.Card != card
+            && e.CardPlay.Card.Type == CardType.Attack);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-		await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(2)
+        int hits = (int)((CalculatedVar)DynamicVars[_calculatedHitsKey]).Calculate(cardPlay.Target);
+        if (hits <= 0)
+        {
+            return;
+        }
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount(hits)
             .FromCard(this)
-			.Targeting(cardPlay.Target)
-			.WithHitFx("vfx/vfx_scratch")
-			.Execute(choiceContext);
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_scratch")
+            .Execute(choiceContext);
     }
 
     protected override void OnUpgrade()
-	{
-		DynamicVars.Damage.UpgradeValueBy(3m);
-	}
+    {
+        DynamicVars.Damage.UpgradeValueBy(3m);
+    }
 }

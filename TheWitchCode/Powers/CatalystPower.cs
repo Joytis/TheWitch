@@ -1,15 +1,15 @@
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Potions;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
 
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Catalyst (Ancient Power): EVERY potion the player creates is duplicated — the permanent sibling of
-/// <see cref="NextPotionCopiedPower" /> (same copy logic, no stack consumed). The Cauldron is never copied
-/// (its state lives in the instance; a copy would be a fresh empty one). The instance-scoped
-/// <c>_copying</c> guard stops the copy's own procurement from cascading.
+/// Catalyst (Ancient Power): whenever the player uses a potion, create a copy of a random card in their hand
+/// (<see cref="CardModel.CreateClone" /> + the generated-card path, so card-creation payoffs fire).
+/// <c>AfterPotionUsed</c> provides no PlayerChoiceContext — the random pick doesn't need one.
 /// </summary>
 public sealed class CatalystPower : WitchPower
 {
@@ -17,28 +17,21 @@ public sealed class CatalystPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.None;
 
-    private bool _copying;
-
-    public override async Task AfterPotionProcured(PotionModel potion)
+    public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
-        if (_copying || potion.Owner != Owner.Player || potion is Potions.TheCauldron)
+        if (potion.Owner != Owner.Player)
         {
             return;
         }
-        PotionModel? canonical = ModelDb.AllPotions.FirstOrDefault(p => p.GetType() == potion.GetType());
-        if (canonical == null)
+
+        List<CardModel> hand = PileType.Hand.GetPile(Owner.Player).Cards.ToList();
+        CardModel? pick = Owner.Player.RunState.Rng.CombatCardSelection.NextItem(hand);
+        if (pick == null)
         {
             return;
         }
+
         Flash();
-        _copying = true;
-        try
-        {
-            await PotionCmd.TryToProcure(canonical.ToMutable(), Owner.Player);
-        }
-        finally
-        {
-            _copying = false;
-        }
+        await CardPileCmd.AddGeneratedCardToCombat(pick.CreateClone(), PileType.Hand, Owner.Player);
     }
 }

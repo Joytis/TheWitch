@@ -16,17 +16,16 @@ public sealed class Brambleburst : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move)
     ];
 
     public Brambleburst()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         int brambles = Owner.Creature.GetPowerAmount<BramblesPower>();
         if (brambles <= 0)
         {
@@ -36,11 +35,11 @@ public sealed class Brambleburst : WitchCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(brambles)
             .FromCard(this)
-            .Targeting(cardPlay.Target)
+            .TargetingAllOpponents(CombatState!)
             .WithHitFx("vfx/vfx_thrash", null, "heavy_attack.mp3")
             .Execute(choiceContext);
         await PowerCmd.Remove<BramblesPower>(Owner.Creature);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(13m);
 }

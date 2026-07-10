@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjgo8a8nb77tc"
-path="res://.godot/imported/plunder.png-181e392889ffb1915a43f3c82bed070d.ctex"
+uid="uid://coyiexrjlu127"
+path="res://.godot/imported/pick_clean.png-437f8042e4a4369c9920838943f9a2ee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/plunder.png"
-dest_files=["res://.godot/imported/plunder.png-181e392889ffb1915a43f3c82bed070d.ctex"]
+source_file="res://TheWitch/images/card_portraits/pick_clean.png"
+dest_files=["res://.godot/imported/pick_clean.png-437f8042e4a4369c9920838943f9a2ee.ctex"]
 
 [params]
 
