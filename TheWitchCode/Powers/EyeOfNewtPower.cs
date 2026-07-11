@@ -6,11 +6,11 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Eye of Newt: the owner's potions deal <see cref="PowerModel.Amount" />% more damage.
-/// Potion damage carries no potion identity into the damage pipeline, so <c>BeforePotionUsed</c> /
-/// <c>AfterPotionUsed</c> bracket the use with a transient flag and <c>ModifyDamageMultiplicative</c>
-/// amplifies the owner's damage only while a potion is resolving. Plain instance field is safe:
-/// single-player has no mid-combat restore and MP is deterministic lockstep.
+/// Eye of Newt: the owner's potions deal +100% damage per stack (multiplier = 1 + Amount — 1 stack
+/// doubles, 2 stacks triple, additive not exponential). Potion damage carries no potion identity into the damage pipeline, so
+/// <c>BeforePotionUsed</c> / <c>AfterPotionUsed</c> bracket the use with a transient flag and
+/// <c>ModifyDamageMultiplicative</c> amplifies the owner's damage only while a potion is resolving.
+/// Plain instance field is safe: single-player has no mid-combat restore and MP is deterministic lockstep.
 /// </summary>
 public sealed class EyeOfNewtPower : WitchPower
 {
@@ -42,6 +42,6 @@ public sealed class EyeOfNewtPower : WitchPower
             return 1m;
         }
         Flash();
-        return 1m + Amount / 100m;
+        return 1m + Amount;
     }
 }

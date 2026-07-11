@@ -12,7 +12,10 @@ namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
 /// Neverending Potion: holds the consumed potion instances captured by <see cref="CrystalBottlePower" /> and
-/// replays each one's effect at the start of the player's turn. Replay targeting: single-enemy potions hit a
+/// replays each one's effect at the start of the player's turn (in the AutoPrePlay phase — the game's hook for
+/// turn-start effects that may auto-play cards, e.g. a bottled Distilled Chaos; replaying in AfterPlayerTurnStart
+/// ran during the Start phase and locked the turn: the phase never advanced to Play, so no cards could be
+/// played). Replay targeting: single-enemy potions hit a
 /// random living enemy (re-rolled each turn); self/player potions target the owner; everything else
 /// (AllEnemies/None) passes no target and lets the potion's own OnUse fan out. Replays invoke the protected
 /// <c>PotionModel.OnUse</c> directly via reflection (<c>OnUseWrapper</c> would throw in
@@ -33,7 +36,7 @@ public sealed class NeverendingPotionPower : WitchPower
 
     public void Bottle(PotionModel potion) => _bottled.Add(potion);
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override async Task AfterAutoPrePlayPhaseEntered(PlayerChoiceContext choiceContext, Player player)
     {
         if (player.Creature != Owner || Owner.CombatState is not { } combat)
         {

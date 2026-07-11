@@ -15,7 +15,7 @@ public sealed class EyeOfNewt : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<EyeOfNewtPower>(50m)
+        new PowerVar<EyeOfNewtPower>(1m)
     ];
 
     public EyeOfNewt()
@@ -29,5 +29,5 @@ public sealed class EyeOfNewt : WitchCard
         await PowerCmd.Apply<EyeOfNewtPower>(choiceContext, Owner.Creature, DynamicVars["EyeOfNewtPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["EyeOfNewtPower"].UpgradeValueBy(25m);
+    protected override void OnUpgrade() => DynamicVars["EyeOfNewtPower"].UpgradeValueBy(1m);
 }

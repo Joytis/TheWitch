@@ -15,7 +15,7 @@ public sealed class LavenderAndSage : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(2),
+        new CardsVar(1),
         new PowerVar<BramblesPower>(4m),
     ];
 
@@ -31,5 +31,5 @@ public sealed class LavenderAndSage : WitchCard
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars["BramblesPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["BramblesPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }

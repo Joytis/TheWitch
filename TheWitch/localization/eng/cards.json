@@ -10,7 +10,7 @@
   "THEWITCH-HASTY_BREW.title": "Hasty Brew",
   "THEWITCH-HASTY_BREW.description": "Create an [gold]Energy Potion[/gold].",
   "THEWITCH-TINDER.title": "Tinder",
-  "THEWITCH-TINDER.description": "Lose 1 [gold]Brambles[/gold].\nGain {Energy:diff()} [gold]Energy[/gold].",
+  "THEWITCH-TINDER.description": "Can only be played if you have [gold]Brambles[/gold].\nLose 1 [gold]Brambles[/gold]. Gain {Energy:diff()} [gold]Energy[/gold].",
   "THEWITCH-GRIND_DOWN.title": "Grind Down",
   "THEWITCH-GRIND_DOWN.description": "[gold]Exhaust[/gold] a card.\nTurn it into a [gold]Potion[/gold].",
   "THEWITCH-FEAST_WITH_WOLVES.title": "Feast With Wolves",
@@ -139,7 +139,7 @@
   "THEWITCH-BROOM_STRIKE.title": "Broom Strike",
   "THEWITCH-BROOM_STRIKE.description": "Deal {Damage:diff()} damage.\nYour next [gold]Skill[/gold] costs 1 less.",
   "THEWITCH-EYE_OF_NEWT.title": "Eye of Newt",
-  "THEWITCH-EYE_OF_NEWT.description": "Your [gold]Potions[/gold] deal {EyeOfNewtPower:diff()}% more damage.",
+  "THEWITCH-EYE_OF_NEWT.description": "Your [gold]Potions[/gold] deal {IfUpgraded:show:triple|double} damage.",
   "THEWITCH-CRYSTAL_BOTTLE.title": "Crystal Bottle",
   "THEWITCH-CRYSTAL_BOTTLE.description": "The next [gold]Potion[/gold] you use becomes a [gold]Buff[/gold].\nUse its effect again at the start of each turn.",
   "THEWITCH-EXTRACT_LIFE.title": "Extract Life",
@@ -190,6 +190,8 @@
   "THEWITCH-BEWITCHING_GRIN.description": "Gain {Block:diff()} [gold]Block[/gold].\nALL enemies gain {WeakPower:diff()} [gold]Weak[/gold].",
   "THEWITCH-BROKEN_PACT.title": "Broken Pact",
   "THEWITCH-BROKEN_PACT.description": "Sacrifice a random [gold]Familiar[/gold].\nHeal {Heal:diff()} HP.",
+  "THEWITCH-BIG_BATCH.title": "Big Batch",
+  "THEWITCH-BIG_BATCH.description": "Create {Brews:diff()} [gold]Noxious {Brews:plural:Brew|Brews}[/gold].",
   "THEWITCH-PRICES_PAID.title": "Prices Paid",
-  "THEWITCH-PRICES_PAID.description": "Lose {HpLoss:diff()} HP.\nDeal {Damage:diff()} damage.\nCreate {Brews:diff()} [gold]Slicing {Brews:plural:Brew|Brews}[/gold]."
+  "THEWITCH-PRICES_PAID.description": "Lose {HpLoss:diff()} HP.\nDeal {Damage:diff()} damage.\nCreate {Brews:diff()} [gold]Noxious {Brews:plural:Brew|Brews}[/gold]."
 }
