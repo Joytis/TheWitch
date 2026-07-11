@@ -110,7 +110,6 @@ public static class PotionTraits
 
         // ---------------- Modded (TheWitch) ----------------
         [typeof(NoxiousBrew)] = PotionOrientation.Offensive,            // card-only offensive brew (deal damage)
-        [typeof(SlicingBrew)] = PotionOrientation.Offensive,            // card-only multi-hit damage (Prices Paid)
         [typeof(TheCauldron)] = PotionOrientation.Offensive,            // Witchcraft accumulator (Strength + heal); leans offensive
         [typeof(Fertilizer)] = PotionOrientation.Offensive,             // gains Brambles, tagged offensive by design
         [typeof(BuddyInABottle)] = PotionOrientation.Utility,           // adds a random Familiar summon card

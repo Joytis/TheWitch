@@ -19,4 +19,15 @@ Work queue for TheWitch mod. Source of new items: [TODO_STAGING.md](TODO_STAGING
 
 ## Queue (top = next)
 
-(empty — drop new notes in TODO_STAGING.md)
+### 4. Neverending Potion — buff persists across combats (bug)
+- **Status:** BLOCKED (needs repro — static analysis found no persistence path: `Player.AfterCombatEnd` → `RemoveAllPowersInternalExcept()` removes ALL powers, and each combat's power instance is a fresh `ToMutable()` clone with an empty bottled list. Need: which potion was bottled, single- or multiplayer, and what exactly "permanent add" looked like — power icon in next combat? potion back in belt? The item-5 hook fix may also have changed behavior; re-test after it.)
+- **Type:** Bug
+- **Files:** `TheWitchCode/Powers/NeverendingPotionPower.cs`, `TheWitchCode/Powers/CrystalBottlePower.cs`
+- **Acceptance:** Root cause identified + fixed; playtest flag.
+
+### 5. Neverending Potion — third unknown breakage
+- **Status:** BLOCKED (no repro — user: "Something else also broke Neverending Potion — unknown repro")
+- **Type:** Bug
+- **Rule/Decision:** Awaiting repro details. Items 4/5 investigation may surface the cause — revisit after those land.
+- **Files:** TBD
+- **Acceptance:** TBD

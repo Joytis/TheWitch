@@ -4,6 +4,48 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 ---
 
+### 172. New card: Big Batch — create Noxious Brews
+- **Done:** 2026-07-10
+- **Changed:** New 2E Common Skill (Self): create 2 Noxious Brews (upgrade +1). `TryToProcure<NoxiousBrew>` loop, Noxious Brew hover tip, `{Brews:diff()}` + plural loc. **Missing art** — placeholder fallback; follow-up: add `big/big_batch.png` → `Images: Generate missing sizes` → `Godot: Import assets`.
+- **Files:** new `TheWitchCode/Cards/BigBatch.cs`, `TheWitch/localization/eng/cards.json`, regenerated docs
+- **Verified:** dotnet build 0/0. **Playtest flag:** brews land in belt (or overflow behavior when belt full).
+
+### 171. Content cut: Slicing Brew; Prices Paid → Noxious Brew
+- **Done:** 2026-07-10
+- **Changed:** Deleted SlicingBrew potion (card-only payload). Prices Paid now procures NoxiousBrew (hover tip + card loc: "Create N Noxious Brews"). Removed potions.json keys, PotionTraits.Manual row, art-tracker assets.json row (no art file existed). No other refs.
+- **Files:** deleted `TheWitchCode/Potions/SlicingBrew.cs(.uid)`; `TheWitchCode/Cards/PricesPaid.cs`, `TheWitchCode/Potions/Brewing/PotionTraits.cs`, `TheWitch/localization/eng/{cards,potions}.json`, `Docs/art-tracker/assets.json`, regenerated docs
+- **Verified:** dotnet build 0/0
+
+### 170. Bugfix: Neverending Potion + Distilled Chaos turn lock
+- **Done:** 2026-07-10
+- **Changed:** Replay hook moved `AfterPlayerTurnStart` → `AfterAutoPrePlayPhaseEntered`. Root cause: replay ran during the `Start` turn phase; a bottled Distilled Chaos auto-plays cards there, the phase never advanced to `Play`, and the whole turn locked (no cards playable, effect looked like it "never procced"). `AutoPrePlay` is the game's designated hook for turn-start card auto-play (base-game Mayhem pattern); all bottled potions now replay there (after hand draw — slightly later, same turn).
+- **Files:** `TheWitchCode/Powers/NeverendingPotionPower.cs`
+- **Verified:** dotnet build 0/0. **Playtest flag:** bottle Distilled Chaos, confirm turn proceeds + 3 cards auto-play; sanity-check a damage and a buff potion still replay.
+
+### 169. Card change: Read the Bones — upgrade adds +1 Hex
+- **Done:** 2026-07-10
+- **Changed:** `OnUpgrade` now bumps both Cards +1 (existing) and HexPower +1 (new). Base 1 Hex unchanged. (Staging note revised mid-loop from "base +1 hex" to "on upgrade" — final state matches the revision.)
+- **Files:** `TheWitchCode/Cards/ReadTheBones.cs`, regenerated docs
+- **Verified:** dotnet build 0/0
+
+### 168. Card rework: Eye of Newt — stacking potion-damage multiplier
+- **Done:** 2026-07-10 (revised same day per user: upgrade = triple, not quadruple)
+- **Changed:** Power multiplier now **linear**: `1 + Amount` (+100% potion damage per stack) instead of old +Amount% (was +50%, upgrade +25%). Card = 1 stack (double); upgrade = 2 stacks (triple); stacks add (two base copies also triple). Card loc via `{IfUpgraded:show:triple|double}`; power smartDescription `+{Amount}00%`.
+- **Files:** `TheWitchCode/Cards/EyeOfNewt.cs`, `TheWitchCode/Powers/EyeOfNewtPower.cs`, `TheWitch/localization/eng/cards.json`, `powers.json`, regenerated docs
+- **Verified:** dotnet build 0/0. **Playtest flag:** two copies played = 4x; upgraded = 4x per card.
+
+### 167. Card change: Tinder — requires Brambles to play
+- **Done:** 2026-07-10
+- **Changed:** Added `IsPlayable => GetPower<BramblesPower>() is { Amount: > 0 }` + `ShouldGlowGoldInternal` (base-game Clash pattern → greys out / shows unplayable reason at 0 Brambles). `OnPlay` now early-returns without granting Energy if forced-played with no Brambles. Loc: "Can only be played if you have Brambles."
+- **Files:** `TheWitchCode/Cards/Tinder.cs`, `TheWitch/localization/eng/cards.json`, regenerated docs
+- **Verified:** dotnet build 0/0. **Playtest flag:** auto-play sources (Distilled Chaos, Mayhem) route it to discard unplayed at 0 Brambles.
+
+### 166. Card change: Lavender and Sage — back to 1 draw, upgrade +1 draw
+- **Done:** 2026-07-10
+- **Changed:** Reverted to pre-7843832 shape: `CardsVar(1)`, `OnUpgrade` = Cards +1 (Brambles upgrade removed; base 4 Brambles unchanged). Matches git history exactly.
+- **Files:** `TheWitchCode/Cards/LavenderAndSage.cs`, regenerated docs
+- **Verified:** dotnet build 0/0
+
 ### 165. Card change: Polymorph — becomes a Rats, Exhausts
 - **Done:** 2026-07-09
 - **Changed:** Transform target: random `IFamiliarSummon` summon → the **Rats** token (note's "a rat"). Added `Exhaust` to `CanonicalKeywords` — the existing `OnUpgrade → RemoveKeyword(Exhaust)` was previously dangling (card never had Exhaust); now it's the real upgrade. 0E Rare Skill unchanged; combat-scoped `CardCmd.Transform` kept; Rats hover tip added; loc + selection prompt updated (keyword banner renders itself).

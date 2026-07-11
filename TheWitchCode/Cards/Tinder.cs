@@ -18,6 +18,10 @@ public sealed class Tinder : WitchCard
         new DynamicVar("Energy", 2m)
     ];
 
+    protected override bool IsPlayable => Owner.Creature.GetPower<BramblesPower>() is { Amount: > 0 };
+
+    protected override bool ShouldGlowGoldInternal => IsPlayable;
+
     public Tinder()
         : base(0, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
@@ -26,10 +30,11 @@ public sealed class Tinder : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         BramblesPower? brambles = Owner.Creature.GetPower<BramblesPower>();
-        if (brambles != null)
+        if (brambles == null)
         {
-            await PowerCmd.Decrement(brambles);
+            return; // IsPlayable gates this; guard for forced plays
         }
+        await PowerCmd.Decrement(brambles);
 
         await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
     }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-10",
+  "generated": "2026-07-11",
   "cards": [
     {
       "name": "Defend",
@@ -117,6 +117,23 @@
       "role": [
         "Generator"
       ]
+    },
+    {
+      "name": "Big Batch",
+      "entry": "BIG_BATCH",
+      "file": "TheWitchCode/Cards/BigBatch.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Create {Brews:diff()} Noxious Brews.",
+      "numbers": {},
+      "upgrade": "Brews +1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Broom Strike",
@@ -267,12 +284,12 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Draw 2 cards. Gain 4 Brambles.",
+      "text": "Draw 1 card. Gain 4 Brambles.",
       "numbers": {
         "Brambles": 4,
-        "Cards": 2
+        "Cards": 1
       },
-      "upgrade": "BramblesPower +2",
+      "upgrade": "Cards +1",
       "note": "",
       "tested": false,
       "artFinal": false,
@@ -339,12 +356,12 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Apply 3 Hex. Next turn, draw 1 card.",
+      "text": "Apply 1 Hex. Next turn, draw 1 card.",
       "numbers": {
-        "Hex": 3,
+        "Hex": 1,
         "Cards": 1
       },
-      "upgrade": "Cards +1",
+      "upgrade": "Cards +1, HexPower +1",
       "note": "Read the Bones: curse the enemy now, divine your next draw — apply Hex, then draw extra cards next turn (base-game <see cref=\"DrawCardsNextTurnPower\" />).",
       "tested": false,
       "artFinal": false,
@@ -408,7 +425,7 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Lose 1 Brambles. Gain {Energy:diff()} Energy.",
+      "text": "Can only be played if you have Brambles. Lose 1 Brambles. Gain {Energy:diff()} Energy.",
       "numbers": {},
       "upgrade": "Energy +1",
       "note": "",
@@ -425,14 +442,14 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. Apply 1 Hex.",
+      "text": "Deal 6 damage. Apply 1 Hex.",
       "numbers": {
         "Hex": 1,
-        "Damage": 8
+        "Damage": 6
       },
       "upgrade": "HexPower +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -514,12 +531,12 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 3 HP. Apply 6 Hex.",
+      "text": "Lose 3 HP. Apply 3 Hex.",
       "numbers": {
-        "Hex": 6,
+        "Hex": 3,
         "HpLoss": 3
       },
-      "upgrade": "HexPower +3",
+      "upgrade": "HexPower +1",
       "note": "",
       "tested": false,
       "artFinal": false,
@@ -792,11 +809,11 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Your Potions deal 50% more damage.",
+      "text": "Your Potions deal double damage.",
       "numbers": {
-        "EyeOfNewt": 50
+        "EyeOfNewt": 1
       },
-      "upgrade": "EyeOfNewtPower +25",
+      "upgrade": "EyeOfNewtPower +1",
       "note": "",
       "tested": false,
       "artFinal": false,
@@ -984,14 +1001,14 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 1 HP. Deal 6 damage. Create {Brews:diff()} Slicing Brews.",
+      "text": "Lose 1 HP. Deal 6 damage. Create {Brews:diff()} Noxious Brews.",
       "numbers": {
         "HpLoss": 1,
         "Damage": 6
       },
       "upgrade": "HpLoss +1, Brews +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1527,9 +1544,9 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Apply 3 Hex to ALL enemies. Then deal 10 damage to each for every Hex on them.",
+      "text": "Apply 1 Hex to ALL enemies. Then deal 10 damage to each for every Hex on them.",
       "numbers": {
-        "Hex": 3,
+        "Hex": 1,
         "Damage": 10
       },
       "upgrade": "Damage +3",
