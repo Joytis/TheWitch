@@ -63,6 +63,9 @@ public static class WitchFx
         NDebugAudioManager.Instance?.Play(HexSfx);
     }
 
+    /// <summary>Hex explosion signature: purple ground fire on the target (globally preloaded via Witch.ExtraAssetPaths).</summary>
+    public static void PurpleFlame(Creature target) => Attach(NGroundFireVfx.Create(target, VfxColor.Purple));
+
     /// <summary>Green gas burst (globally preloaded) — plague/rot effects.</summary>
     public static void GreenGas(Creature target) => Attach(NGaseousImpactVfx.Create(target, WitchGreen));
 

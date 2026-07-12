@@ -3,20 +3,17 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Hex (enemy debuff): at the end of the hexed enemy's turn, it suffers one random EVIL effect per stack,
-/// rolled from a fixed table — 10 damage, 1 Weak, 1 Vulnerable, steal 1 Strength (enemy loses 1, the hexing
-/// witch gains 1), or 6 Poison. Stacks persist (no decrement) — Hex is a geometric scaling engine, not a
-/// timed drain. Rolls use the seeded CombatTargets stream, sourced via the hexed creature's combat state so
-/// it works without a live applier; the Strength-steal grant just fizzles if the applier is gone.
+/// Hex (enemy debuff): each stack is a marker that explodes for flat damage back at whoever lands an
+/// attack on the hexed creature — every stack fires independently per hit, so a heavily-hexed enemy
+/// punishes every attacker (the witch herself, an ally, or anyone else hitting it) on every swing.
+/// Stacks persist (no decrement, no consumption on trigger) — mirrors the base-game Flame Barrier shape.
 /// </summary>
 public sealed class HexPower : WitchPower
 {
@@ -24,12 +21,7 @@ public sealed class HexPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    private const decimal DamageAmount = 5m;
-    private const decimal WeakAmount = 1m;
-    private const decimal VulnerableAmount = 1m;
-    private const decimal StrengthAmount = 1m;
-    private const decimal PoisonAmount = 3m;
-    private const int EvilEffectCount = 5;
+    private const decimal DamageAmount = 10m;
 
     /// <summary>Hex signature on every application: occult gaze + doom sting on the hexed creature.</summary>
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
@@ -38,45 +30,15 @@ public sealed class HexPower : WitchPower
         await Task.CompletedTask;
     }
 
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (Amount <= 0 || !participants.Contains(Owner) || !Owner.IsAlive || Owner.CombatState is not { } combat)
+        if (target != Owner || dealer is not { IsAlive: true } || Amount <= 0 || !props.IsPoweredAttack())
         {
             return;
         }
 
         Flash();
-        Rng rng = combat.RunState.Rng.CombatTargets;
-        for (int i = 0; i < (int)Amount && Owner.IsAlive; i++)
-        {
-            await ApplyEvilEffect(choiceContext, rng.NextInt(EvilEffectCount));
-        }
-    }
-
-    private async Task ApplyEvilEffect(PlayerChoiceContext choiceContext, int roll)
-    {
-        Creature? witch = Applier is { IsAlive: true } applier ? applier : null;
-        switch (roll)
-        {
-            case 0:
-                await CreatureCmd.Damage(choiceContext, [Owner], DamageAmount, ValueProp.Unpowered, witch ?? Owner, null);
-                break;
-            case 1:
-                await PowerCmd.Apply<WeakPower>(choiceContext, Owner, WeakAmount, witch, null);
-                break;
-            case 2:
-                await PowerCmd.Apply<VulnerablePower>(choiceContext, Owner, VulnerableAmount, witch, null);
-                break;
-            case 3:
-                await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, -StrengthAmount, witch, null);
-                if (witch != null)
-                {
-                    await PowerCmd.Apply<StrengthPower>(choiceContext, witch, StrengthAmount, witch, null);
-                }
-                break;
-            default:
-                await PowerCmd.Apply<PoisonPower>(choiceContext, Owner, PoisonAmount, witch, null);
-                break;
-        }
+        WitchFx.PurpleFlame(dealer);
+        await CreatureCmd.Damage(choiceContext, [dealer], DamageAmount * Amount, ValueProp.Unpowered, Owner, null);
     }
 }
