@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
@@ -11,16 +10,16 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class RitualSacrifice : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<StrengthPower>(),
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(3),
-        new PowerVar<StrengthPower>(5m)
+        new PowerVar<HexPower>(5m)
     ];
 
     public RitualSacrifice()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -32,9 +31,9 @@ public sealed class RitualSacrifice : WitchCard
         if (sacrificed)
         {
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target!, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Strength.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(3m);
 }

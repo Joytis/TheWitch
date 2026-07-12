@@ -3,24 +3,23 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Thirst: a Power that turns every card drawn into Vigor for the next strike.</summary>
-public sealed class Thirst : WitchCard
+/// <summary>Ritual Casting (was Thirst): a Power — every third card drawn hexes ALL enemies.</summary>
+public sealed class RitualCasting : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<ThirstPower>(),
-        HoverTipFactory.FromPower<VigorPower>(),
+        HoverTipFactory.FromPower<RitualCastingPower>(),
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<ThirstPower>(1m)
+        new PowerVar<RitualCastingPower>(1m)
     ];
 
-    public Thirst()
+    public RitualCasting()
         : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
@@ -28,8 +27,8 @@ public sealed class Thirst : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-        await PowerCmd.Apply<ThirstPower>(choiceContext, Owner.Creature, DynamicVars["ThirstPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<RitualCastingPower>(choiceContext, Owner.Creature, DynamicVars["RitualCastingPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["ThirstPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars["RitualCastingPower"].UpgradeValueBy(1m);
 }

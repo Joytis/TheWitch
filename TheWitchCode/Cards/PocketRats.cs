@@ -16,11 +16,11 @@ public sealed class PocketRats : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(3)
+        new CardsVar(2)
     ];
 
     public PocketRats()
-        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

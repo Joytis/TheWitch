@@ -20,7 +20,7 @@ public sealed class Brambleburst : WitchCard
     ];
 
     public Brambleburst()
-        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
+        : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
     {
     }
 

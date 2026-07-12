@@ -6,6 +6,72 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 220. New card: Moonbeam (2E Uncommon Attack)
+- **Done:** 2026-07-12 (claude) — [Moonbeam.cs](../TheWitchCode/Cards/Moonbeam.cs) + [MoonbeamPower.cs](../TheWitchCode/Powers/MoonbeamPower.cs): Deal 10 (+3), then apply Moonbeam (debuff, Amount = card damage) — the target takes that damage again at the start of each of the APPLIER's turns (`Applier` guard, so MP-correct; blockable non-attack, `Unpowered` so Strength/Vigor don't re-scale the tick; starry hit fx, purple flame tick). Stacks add (second play = +10/turn). Skipped if the initial hit kills. Tagged None·Standalone.
+- **Verified:** build 0/0; regen. ⚠️ Playtest: tick fires at your turn start each turn, respects Block; stacking adds. ⚠️ Art missing: moonbeam.png.
+
+### 219. Taste of Blood — rework: Vigor+draw Skill → multi-hit Attack
+- **Done:** 2026-07-12 (claude) — [TasteOfBlood.cs](../TheWitchCode/Cards/TasteOfBlood.cs): was "Gain 5 (+3) Vigor, draw 2" (1E Uncommon Skill, Self). Now 1E Uncommon Attack (AnyEnemy): Deal 4 (+2) damage 2 times (`WithHitCount(2)`, bite fx), draw 2. Tags retagged Debuff/Buff·Generator → None·Standalone (no pillar interaction anymore).
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 218. Cut Bramble Shield; its art reused for Wicker Form
+- **Done:** 2026-07-12 (claude) — User call: duplicate effect of Hide in a Bush. Deleted `BrambleShield.cs` + `.uid` + `THEWITCH-BRAMBLE_SHIELD.*` loc keys (no dangling refs). Art: `{,big/}bramble_shield.png` git-mv'd over `{,big/}wicker_form.png` (old Wicker Form placeholder art replaced); all stale `.import`s deleted. **⚠️ User action: run "Godot: Import assets".**
+- **Verified:** build 0/0; regen (99 cards, −Bramble Shield; Wicker Form art found).
+
+### 217. New card: Capture Soul (1E Rare Attack)
+- **Done:** 2026-07-12 (claude) — [CaptureSoul.cs](../TheWitchCode/Cards/CaptureSoul.cs): Deal 10 (+3), apply 1 Hex; on kill the Hex is skipped and the copy permanently gains +1 Hex — `[SavedProperty] BonusHex` on the card, incremented on both the combat instance and `DeckVersion` (base-game GeneticAlgorithm pattern), so it **persists across combats, save/load, and MP** (SavedProperties rides `SerializableCard.Props`). Live display via Barrage CalculatedVar shape (base 1 + 1 × BonusHex). Exhaust. Upgrade: +3 damage (user didn't specify — my call; base Hex/kill-bonus untouched).
+- **Verified:** build 0/0; regen. ⚠️ Playtest: kill → next combat shows 2 Hex; save/quit/resume keeps it. ⚠️ Art missing: capture_soul.png.
+
+### 216. New card: Accursed Needles (1E Uncommon Attack)
+- **Done:** 2026-07-12 (claude) — [AccursedNeedles.cs](../TheWitchCode/Cards/AccursedNeedles.cs): Deal 3, apply 1 (+1 upgraded) Hex, +1 Hex per prior play this combat (1st play 1, 2nd 2, …). Live number on the card face via Barrage `CalculatedVar` shape (`CalculationBase` 1 + `CalculationExtra` 1 × play count); play counter is a combat-scoped mutable-instance field (`AssertMutable`, UpMySleeve pattern) so it resets each combat and needs no `DeepCloneFields` (int, not a collection). Upgrade bumps `CalculationBase`.
+- **Verified:** build 0/0; regen. ⚠️ Playtest: number ticks 1→2→3 across plays and resets next combat; upgraded shows 2 base. ⚠️ Art missing: accursed_needles.png.
+
+### 215. New card: Plague (3E Rare Skill)
+- **Done:** 2026-07-12 (claude) — [Plague.cs](../TheWitchCode/Cards/Plague.cs): Apply 3 (+1) Hex to ALL enemies; every `IRatCard` in the Exhaust pile moves back to hand (plain `CardPileCmd.Add` — moving existing cards, not generation; capped by hand space, excess stays exhausted).
+- **Verified:** build 0/0; regen. ⚠️ Playtest: exhausted-Rats return incl. hand-full cap. ⚠️ Art missing: plague.png.
+
+### 214. New card: Throw Bait (1E Uncommon Attack)
+- **Done:** 2026-07-12 (claude) — [ThrowBait.cs](../TheWitchCode/Cards/ThrowBait.cs): Deal 6 (+3), then every `FamiliarPower` on the owner runs one full production round (per-stack, user-confirmed; Sack of Treats composes). Enabler: [FamiliarPower.cs](../TheWitchCode/Powers/FamiliarPower.cs) turn-start loop extracted into public `GenerateCards(player, combatState)` — `BeforeHandDraw` now delegates to it, zero behavior change.
+- **Verified:** build 0/0; regen. ⚠️ Art missing: throw_bait.png.
+
+### 213. New card: Trash Diving (1E Common Skill)
+- **Done:** 2026-07-12 (claude) — [TrashDiving.cs](../TheWitchCode/Cards/TrashDiving.cs): choose 1 card from Discard → Hand (Rummage/Dredge pattern, skipped if hand full) + CREATE 1 Rats in hand (generated path, previewed). Exhaust; upgrade removes Exhaust. Loc + selectionScreenPrompt added. User's art brief noted for card-briefs page: "A cute mouse bounds out of a pile of trash, holding a glittering ring in their mouth."
+- **Verified:** build 0/0; regen. ⚠️ Art missing: trash_diving.png. Brief NOT auto-added to card-briefs.json (authored via the card-designs page).
+
+### 212. New relic: Sack of Treats (Rare)
+- **Done:** 2026-07-12 (claude) — [SackOfTreats.cs](../TheWitchCode/Relics/SackOfTreats.cs) (passive, no hooks) + [FamiliarPower.cs](../TheWitchCode/Powers/FamiliarPower.cs): `BeforeHandDraw` checks `player.GetRelic<SackOfTreats>()` — with it, each stack calls new virtual `CreateAllTurnStartCards` (default = the single card; `LootTableFamiliarPower` overrides via new `FamiliarLootTable.CreateAll` = one of EACH entry, table order). Relic flashes when it fires. Wolf (single-card) unchanged by design. Loc in relics.json; art-tracker assets.json entry added with the user's brief.
+- **Verified:** build 0/0; regen. ⚠️ Playtest: Bear/Crow/Cat/Owl/Rat produce full sets per stack; hand-size overflow behavior. ⚠️ Art missing: relics/big/sack_of_treats.png.
+
+### 211. Thirst → Ritual Casting (rename + rework)
+- **Done:** 2026-07-12 (claude) — Full rename cascade: `Thirst{,Power}` → `RitualCasting{,Power}` (git mv incl. `.uid`s), loc keys `THEWITCH-THIRST{,_POWER}.*` → `THEWITCH-RITUAL_CASTING{,_POWER}.*`, art `{,big/}thirst.png` → `ritual_casting.png`, stale `.import`s deleted. New effect: was "whenever you draw a card, gain N Vigor" → now "for every 3 cards you draw, apply N Hex to ALL enemies" (N = power Amount, 1 (+1); 1E Rare Power unchanged). Draw counter is a plain instance field (`_drawsSinceTrigger`) — safe per SP/MP-lockstep rules, resets only on mid-combat MP rejoin. Vigor hover tip → Hex.
+- **Verified:** build 0/0; regen sees remove+add (Thirst tags/TESTED reset). **⚠️ User action: run "Godot: Import assets"** for the renamed PNGs. ⚠️ Playtest: 3-draw cadence incl. turn-start hand draw; stacked casts apply N per trigger.
+
+### 210. New card: Rot Bloom (2E Uncommon Attack)
+- **Done:** 2026-07-12 (claude) — [RotBloom.cs](../TheWitchCode/Cards/RotBloom.cs): Deal 15 (+5) damage, then duplicate ALL the target's debuffs (each debuff re-applied at its snapshotted current amount via non-generic `PowerCmd.Apply`; Rend's filter — `TypeForCurrentAmount == Debuff`, `ITemporaryPower` excluded, amount > 0; skipped if hit kills). Exhaust. Green gas puff on the bloom. No art yet (placeholder fallback).
+- **Verified:** build 0/0; regen. ⚠️ Playtest: Hex duplication interacts with Hex's per-attack decrement; artifact-style effects; multi-debuff stacks double correctly. ⚠️ Art missing: rot_bloom.png.
+- **Done:** 2026-07-12 (claude) — [PocketRats.cs](../TheWitchCode/Cards/PocketRats.cs): rarity Rare→Uncommon, `CardsVar` 3→2, upgrade +1 (→3). Loc unchanged (var-driven).
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 208. Stuck in a Bush — 6 (+2) Brambles, 1 Vulnerable
+- **Done:** 2026-07-12 (claude) — [StuckInABush.cs](../TheWitchCode/Cards/StuckInABush.cs): Brambles 10→6, upgrade +3→+2, Vulnerable 2→1. Loc unchanged (var-driven).
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 207. Polymorph — Exhaust removed; upgrade = card becomes TWO Rats
+- **Done:** 2026-07-12 (claude) — [Polymorph.cs](../TheWitchCode/Cards/Polymorph.cs): `CanonicalKeywords` (Exhaust) dropped; new `CardsVar(1)`, upgrade +1 replaces old RemoveKeyword upgrade. Chosen card still transforms via `CardCmd.Transform`; extra Rats (upgraded) generated into the Draw pile at a random position (`AddGeneratedCardToCombat`) — transform can't split one card into two. Loc: "It becomes {Cards:diff()} [gold]Rats[/gold]."
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: upgraded play → 2 Rats total in draw pile; card-generation payoffs (Cloak of Moonlight) trigger on the extra Rats only.
+
+### 206. Distill — Uncommon → Rare
+- **Done:** 2026-07-12 (claude) — [Distill.cs](../TheWitchCode/Cards/Distill.cs): ctor rarity only. (Note: DONE 200's text/mechanics mismatch flag still stands.)
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 205. Hexblast — rework: flat AoE damage + Hex
+- **Done:** 2026-07-12 (claude) — User call: was "apply 1 Hex to ALL, then deal 10 × each enemy's Hex". Now: deal 10 to ALL (`TargetingAllOpponents`), then apply 2 Hex to ALL; upgrade Hex 2→3 (damage upgrade removed). Kept purple ground-fire hit vfx + heavy_attack sting + screen shake. 2E Rare unchanged.
+- **Files:** `TheWitchCode/Cards/Hexblast.cs`, `TheWitch/localization/eng/cards.json`. **Verified:** build 0/0; regen (TESTED cleared).
+
+### 204. Ritual Sacrifice — Strength payoff → Hex payoff
+- **Done:** 2026-07-12 (claude) — [RitualSacrifice.cs](../TheWitchCode/Cards/RitualSacrifice.cs): "Gain 5 (+3) Strength" → "Apply 5 Hex (upgrade 8)" on a chosen enemy; TargetType Self→AnyEnemy. Draw 3 unchanged; effects still gated on a familiar actually being sacrificed. Loc third line swapped.
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: no-familiar play = target selected but nothing happens (pre-existing gate, now also skips Hex).
+
 ### 203. Eye of Newt — stacks now multiply potion damage (display stays truthful)
 - **Done:** 2026-07-11 (claude) — [EyeOfNewtPower.cs](../TheWitchCode/Powers/EyeOfNewtPower.cs): stacking made multiplicative via `TryModifyPowerAmountReceived` on the live instance — applying x onto Amount A adds x·(1+A), so the multiplier composes as (1+A)(1+x): double+double = ×4 (buff shows +300%), triple+triple = ×9 (+800%). Damage formula unchanged (×(1+Amount)), so the existing `+{Amount}00%` smartDescription in powers.json stays accurate with no loc change — that's the "visually clear" guarantee. First application is unscaled (a not-yet-applied power isn't a hook listener).
 - **Verified:** build 0/0. ⚠️ Playtest: play two Eye of Newts → buff reads +300% and a 10-dmg potion hits for 40; upgraded pair reads +800%.

@@ -11,11 +11,11 @@ namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
 /// Rotting Roots: at the start of the owner's turn, every enemy loses <see cref="PowerModel.Amount" /> HP
-/// (unblockable, non-attack rot) and the witch heals 1 HP. A slow, inevitable decay engine.
+/// (unblockable, non-attack rot) and gains 1 Hex. A slow, inevitable decay engine.
 /// </summary>
 public sealed class RottingRootsPower : WitchPower
 {
-    private const int HealPerTurn = 1;
+    private const decimal HexPerTurn = 1m;
 
     public override PowerType Type => PowerType.Buff;
 
@@ -40,6 +40,9 @@ public sealed class RottingRootsPower : WitchPower
             WitchFx.GreenGas(enemy); // rot tick (mirrors base Noxious Fumes; globally preloaded)
         }
         await CreatureCmd.Damage(choiceContext, enemies, Amount, ValueProp.Unblockable | ValueProp.Unpowered, Owner, null);
-        await CreatureCmd.Heal(Owner, HealPerTurn);
+        foreach (Creature enemy in enemies.Where(e => e.IsAlive))
+        {
+            await PowerCmd.Apply<HexPower>(choiceContext, enemy, HexPerTurn, Owner, null);
+        }
     }
 }
