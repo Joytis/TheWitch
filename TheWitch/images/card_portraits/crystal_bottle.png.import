@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://58lijrkyivet"
-path="res://.godot/imported/hemlock.png-7f56e5510508dacd40c68c3f61063e9e.ctex"
+uid="uid://be5tkyb1r5djg"
+path="res://.godot/imported/crystal_bottle.png-7e5048136e34fe2abc47ca8850ebf721.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/big/hemlock.png"
-dest_files=["res://.godot/imported/hemlock.png-7f56e5510508dacd40c68c3f61063e9e.ctex"]
+source_file="res://TheWitch/images/card_portraits/crystal_bottle.png"
+dest_files=["res://.godot/imported/crystal_bottle.png-7e5048136e34fe2abc47ca8850ebf721.ctex"]
 
 [params]
 

@@ -25,7 +25,7 @@ public sealed class CircleOfRot : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(10m, ValueProp.Move),
+        new BlockVar(20m, ValueProp.Move),
         new PowerVar<WeakPower>(2m)
     ];
 
@@ -49,7 +49,6 @@ public sealed class CircleOfRot : WitchCard
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(2m);
-        DynamicVars.Weak.UpgradeValueBy(1m);
+        DynamicVars.Block.UpgradeValueBy(10m);
     }
 }

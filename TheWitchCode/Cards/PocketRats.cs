@@ -12,7 +12,7 @@ public sealed class PocketRats : WitchCard
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromCard<Rats>(IsUpgraded),
+        HoverTipFactory.FromCard<Rats>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
@@ -27,7 +27,8 @@ public sealed class PocketRats : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        List<Rats> cards = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, DynamicVars.Cards.IntValue, CombatState, IsUpgraded).ToList();
+        // Upgrade adds +1 Rat but never upgrades the Rats themselves.
+        List<Rats> cards = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, DynamicVars.Cards.IntValue, CombatState, isUpgraded: false).ToList();
         var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner, CardPilePosition.Random);
         CardCmd.PreviewCardPileAdd(generated);
     }

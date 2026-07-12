@@ -41,5 +41,5 @@ public sealed class Brambleburst : WitchCard
         await PowerCmd.Remove<BramblesPower>(Owner.Creature);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(13m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }

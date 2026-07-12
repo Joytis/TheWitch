@@ -10,9 +10,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Cat familiar token: one 7-damage hit per Attack you played before it this turn (excluding itself, so the
-/// live preview matches the hits dealt). Hit count renders via the base-game Barrage pattern; the count
-/// queries combat history like the base-game Normality.
+/// Cat familiar token: one 7-damage hit per Attack you played this turn, INCLUDING itself (always ≥1).
+/// The history query still excludes this card and a flat +1 is added instead — during OnPlay its own play is
+/// already in history, so this keeps the pre-play preview equal to the hits dealt. Hit count renders via the
+/// base-game Barrage pattern; the count queries combat history like the base-game Normality.
 /// </summary>
 public sealed class Ferocity : WitchFamiliarCard
 {
@@ -23,7 +24,7 @@ public sealed class Ferocity : WitchFamiliarCard
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar(_calculatedHitsKey)
-            .WithMultiplier((card, _) => AttacksPlayedThisTurnBefore(card))
+            .WithMultiplier((card, _) => AttacksPlayedThisTurnBefore(card) + 1)
     ];
 
     public Ferocity()
@@ -42,10 +43,6 @@ public sealed class Ferocity : WitchFamiliarCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         int hits = (int)((CalculatedVar)DynamicVars[_calculatedHitsKey]).Calculate(cardPlay.Target);
-        if (hits <= 0)
-        {
-            return;
-        }
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(hits)
             .FromCard(this)

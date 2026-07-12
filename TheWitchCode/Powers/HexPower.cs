@@ -24,11 +24,11 @@ public sealed class HexPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    private const decimal DamageAmount = 10m;
+    private const decimal DamageAmount = 5m;
     private const decimal WeakAmount = 1m;
     private const decimal VulnerableAmount = 1m;
     private const decimal StrengthAmount = 1m;
-    private const decimal PoisonAmount = 6m;
+    private const decimal PoisonAmount = 3m;
     private const int EvilEffectCount = 5;
 
     /// <summary>Hex signature on every application: occult gaze + doom sting on the hexed creature.</summary>

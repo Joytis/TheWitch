@@ -14,6 +14,8 @@ public sealed class PactOfFury : WitchCard
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<StrengthPower>(),

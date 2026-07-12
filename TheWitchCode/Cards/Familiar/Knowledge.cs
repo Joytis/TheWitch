@@ -26,11 +26,12 @@ public sealed class Knowledge : WitchFamiliarCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        // Knowledge can't copy Knowledge (by type, not instance — two in hand copying each other is the same infinite loop).
         CardModel? selection = (await CardSelectCmd.FromHand(
             context: choiceContext,
             player: Owner,
             prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
-            filter: null,
+            filter: c => c is not Knowledge,
             source: this)).FirstOrDefault();
         if (selection == null)
         {

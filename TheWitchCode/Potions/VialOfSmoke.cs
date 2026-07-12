@@ -17,7 +17,8 @@ public sealed class VialOfSmoke : WitchPotion
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 
-    public override TargetType TargetType => TargetType.Self;
+    // AnyPlayer = self in singleplayer, self-or-ally target selection in multiplayer (base-game BlockPotion shape).
+    public override TargetType TargetType => TargetType.AnyPlayer;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -26,6 +27,7 @@ public sealed class VialOfSmoke : WitchPotion
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, null);
+        AssertValidForTargetedPotion(target);
+        await CreatureCmd.GainBlock(target!, DynamicVars.Block, null);
     }
 }

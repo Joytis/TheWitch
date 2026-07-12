@@ -2,7 +2,7 @@
     "title":  "The Witch",
     "description":  "A custom character for Slay the Spire 2: The Witch, a potion-brewing witch. Built on BaseLib.",
     "visibility":  "private",
-    "changeNote":  "\\",
+    "changeNote":  "",
     "tags":  [
 
              ],

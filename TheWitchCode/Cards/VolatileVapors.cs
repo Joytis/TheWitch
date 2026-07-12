@@ -7,27 +7,27 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Wicker Form: become the wicker — a huge bramble harvest every turn.</summary>
-public sealed class WickerForm : WitchCard
+/// <summary>Volatile Vapors: every brew fumes — using or creating a potion vents damage at a random enemy.</summary>
+public sealed class VolatileVapors : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<BramblesPower>(),
+        HoverTipFactory.FromPower<VolatileVaporsPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<WickerFormPower>(15m)
+        new PowerVar<VolatileVaporsPower>(6m)
     ];
 
-    public WickerForm()
-        : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
+    public VolatileVapors()
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-        await PowerCmd.Apply<WickerFormPower>(choiceContext, Owner.Creature, DynamicVars["WickerFormPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<VolatileVaporsPower>(choiceContext, Owner.Creature, DynamicVars["VolatileVaporsPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["WickerFormPower"].UpgradeValueBy(10m);
+    protected override void OnUpgrade() => DynamicVars["VolatileVaporsPower"].UpgradeValueBy(3m);
 }

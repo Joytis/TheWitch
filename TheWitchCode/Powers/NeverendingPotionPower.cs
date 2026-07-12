@@ -1,8 +1,10 @@
 using System.Reflection;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -19,8 +21,13 @@ namespace TheWitch.TheWitchCode.Powers;
 /// random living enemy (re-rolled each turn); self/player potions target the owner; everything else
 /// (AllEnemies/None) passes no target and lets the potion's own OnUse fan out. Replays invoke the protected
 /// <c>PotionModel.OnUse</c> directly via reflection (<c>OnUseWrapper</c> would throw in
-/// <c>RemoveBeforeUse</c> on the already-removed potion and re-fire <c>AfterPotionUsed</c>). The real
-/// turn-start PlayerChoiceContext is passed through, so a potion that prompts a selection resolves normally.
+/// <c>RemoveBeforeUse</c> on the already-removed potion and re-fire <c>AfterPotionUsed</c>).
+/// MP: each replay runs under its OWN <see cref="HookPlayerChoiceContext" /> (the Hook.AfterDeath pattern),
+/// NOT the shared turn-start context. The shared context supports exactly one player-choice game action for
+/// the whole turn-start window; a second selection (two bottled draft potions, or one plus any other
+/// turn-start choice) hits its "Tried to interrupt action" error path and the selection opens unsynced —
+/// breaking multiplayer. With a per-potion context, a selection-prompting replay pauses into its own queued
+/// CombatPlayPhaseOnly action and resolves at the start of the Play phase, like Mayhem-style effects.
 /// Amount mirrors the bottled count for display; the list is plain power state (not DynamicVars), so it does
 /// not survive save/reload or sync in MP — same caveat class as FamiliarPower.GrantsUpgradedCards.
 /// </summary>
@@ -32,13 +39,21 @@ public sealed class NeverendingPotionPower : WitchPower
 
     private static readonly MethodInfo OnUseMethod = AccessTools.Method(typeof(PotionModel), "OnUse");
 
-    private readonly List<PotionModel> _bottled = [];
+    // Not readonly: DeepCloneFields must give each mutable clone its own list. MemberwiseClone shares the
+    // canonical's list with every clone, so bottled potions would leak into every future combat's instance.
+    private List<PotionModel> _bottled = [];
 
     public void Bottle(PotionModel potion) => _bottled.Add(potion);
 
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        _bottled = [];
+    }
+
     public override async Task AfterAutoPrePlayPhaseEntered(PlayerChoiceContext choiceContext, Player player)
     {
-        if (player.Creature != Owner || Owner.CombatState is not { } combat)
+        if (player.Creature != Owner || Owner.CombatState is not { } combat || !LocalContext.NetId.HasValue)
         {
             return;
         }
@@ -52,15 +67,27 @@ public sealed class NeverendingPotionPower : WitchPower
             }
 
             Flash();
-            CombatManager.Instance.BeginCardOrPotionEffect(player);
-            try
+            HookPlayerChoiceContext replayContext = new(this, LocalContext.NetId.Value, combat, GameActionType.CombatPlayPhaseOnly);
+            Task replay = Replay(replayContext, potion, target, player);
+            if (await replayContext.AssignTaskAndWaitForPauseOrCompletion(replay))
             {
-                await (Task)OnUseMethod.Invoke(potion, [choiceContext, target])!;
+                await replay; // completed without a player choice — surface any exception here
             }
-            finally
-            {
-                CombatManager.Instance.EndCardOrPotionEffect(player);
-            }
+            // else: the potion opened a selection; its replay continues in its own queued game action
+            // (Play phase). Later bottles' instant effects may resolve before that choice does.
+        }
+    }
+
+    private async Task Replay(PlayerChoiceContext replayContext, PotionModel potion, Creature? target, Player player)
+    {
+        CombatManager.Instance.BeginCardOrPotionEffect(player);
+        try
+        {
+            await (Task)OnUseMethod.Invoke(potion, [replayContext, target])!;
+        }
+        finally
+        {
+            CombatManager.Instance.EndCardOrPotionEffect(player);
         }
     }
 

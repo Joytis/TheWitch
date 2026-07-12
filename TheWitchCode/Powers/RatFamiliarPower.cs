@@ -14,7 +14,6 @@ public sealed class RatFamiliarPower : LootTableFamiliarPower
 
     protected override FamiliarLootTable BuildLootTable() =>
         new FamiliarLootTable()
-            .Add<Rats>()
             .Add<Rummage>()
             .Add<Swarm>();
 }

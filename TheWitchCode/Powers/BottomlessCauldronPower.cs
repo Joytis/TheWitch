@@ -7,23 +7,26 @@ using TheWitch.TheWitchCode.Potions;
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Bottomless Cauldron: whenever the player uses a potion <em>other than a Noxious Brew</em>, create a
-/// <see cref="NoxiousBrew" />. The Noxious Brew exclusion is essential — without it, using a created Noxious
-/// Brew would create another, looping into infinite potions. Passive toggle (Single stack). Uses the
-/// context-free <c>PotionCmd.TryToProcure&lt;T&gt;(Player)</c> overload.
+/// Bottomless Cauldron: whenever the player uses a potion <em>other than a Noxious Brew</em>, create one
+/// <see cref="NoxiousBrew" /> per stack. The Noxious Brew exclusion is essential — without it, using a created
+/// Noxious Brew would create another, looping into infinite potions. Counter stack so repeat casts of the card
+/// stack up. Uses the context-free <c>PotionCmd.TryToProcure&lt;T&gt;(Player)</c> overload.
 /// </summary>
 public sealed class BottomlessCauldronPower : WitchPower
 {
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
         if (potion.Owner == Owner.Player && potion is not NoxiousBrew)
         {
             Flash();
-            await PotionCmd.TryToProcure<NoxiousBrew>(Owner.Player);
+            for (int i = 0; i < Amount; i++)
+            {
+                await PotionCmd.TryToProcure<NoxiousBrew>(Owner.Player);
+            }
         }
     }
 }

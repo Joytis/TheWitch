@@ -27,5 +27,9 @@ public sealed class Nimble : WitchFamiliarCard
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
+    protected override void OnUpgrade() 
+    {
+        DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars.Energy.UpgradeValueBy(1m);
+    }
 }

@@ -6,12 +6,11 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Rat familiar token (was Scavengers): tiny attack with a lifesteal nibble. Exhausts.</summary>
+/// <summary>Rat familiar token (was Scavengers): tiny attack that cycles. Exhausts.</summary>
 public sealed class Rats : WitchFamiliarCard, IRatCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(5m, ValueProp.Move),
-        new DynamicVar("Heal", 1m),
         new CardsVar(1)
     ];
 
@@ -28,7 +27,6 @@ public sealed class Rats : WitchFamiliarCard, IRatCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
-        await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 

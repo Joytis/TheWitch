@@ -24,7 +24,15 @@ public sealed class BonfirePower : WitchPower
     // Cards we zeroed at cost-calculation time; consulted (then cleared) when the play actually happens so
     // Brambles are only burned for cards whose Energy this power actually replaced. Transient combat-local
     // bookkeeping — not serialized (single recalculation always precedes the play, so a reload mid-play is safe).
-    private readonly HashSet<CardModel> _substituted = [];
+    // Not readonly: DeepCloneFields must give each mutable clone its own set — MemberwiseClone would share the
+    // canonical's set across every combat's instance (stale-entry leak; same bug class as NeverendingPotionPower).
+    private HashSet<CardModel> _substituted = [];
+
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        _substituted = [];
+    }
 
     private int Brambles => Owner.GetPowerAmount<BramblesPower>();
 

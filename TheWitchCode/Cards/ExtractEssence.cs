@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Potions.Brewing;
@@ -13,8 +12,7 @@ using TheWitch.TheWitchCode.Potions.Brewing;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// ExtractEssence: deal damage; on unblocked damage, create a random potion whose rarity matches the
-/// encounter tier — Common in normal fights, Uncommon vs elites, Rare vs bosses.
+/// ExtractEssence: deal damage; on unblocked damage, create a random Common potion.
 /// </summary>
 public sealed class ExtractEssence : WitchCard
 {
@@ -48,14 +46,8 @@ public sealed class ExtractEssence : WitchCard
             return;
         }
 
-        PotionRarity rarity = Owner.RunState.CurrentMapPoint?.PointType switch
-        {
-            MapPointType.Boss => PotionRarity.Rare,
-            MapPointType.Elite => PotionRarity.Uncommon,
-            _ => PotionRarity.Common,
-        };
         PotionModel? potion = PotionCatalog.Random(
-            PotionCatalog.Query(rarity: rarity), Owner.RunState.Rng.CombatPotionGeneration);
+            PotionCatalog.Query(rarity: PotionRarity.Common), Owner.RunState.Rng.CombatPotionGeneration);
         if (potion != null)
         {
             await PotionCmd.TryToProcure(potion.ToMutable(), Owner);

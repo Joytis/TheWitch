@@ -14,7 +14,7 @@ public sealed class Swarm : WitchFamiliarCard, IRatCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(5)
+        new CardsVar(3)
     ];
 
     public Swarm()
