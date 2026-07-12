@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,10 +11,10 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Hex (enemy debuff): each stack is a marker that explodes for flat damage back at whoever lands an
-/// attack on the hexed creature — every stack fires independently per hit, so a heavily-hexed enemy
-/// punishes every attacker (the witch herself, an ally, or anyone else hitting it) on every swing.
-/// Stacks persist (no decrement, no consumption on trigger) — mirrors the base-game Flame Barrier shape.
+/// Hex (enemy debuff): the hexed creature takes flat bonus damage on every hit of an incoming attack
+/// (per stack), then loses 1 stack once per attack — a multi-hit attack gets the full bonus on each
+/// hit but only burns one Hex. Defender-side mirror of the base-game Vigor shape
+/// (ModifyDamageAdditive per hit + AfterAttack consume).
 /// </summary>
 public sealed class HexPower : WitchPower
 {
@@ -21,7 +22,7 @@ public sealed class HexPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    private const decimal DamageAmount = 10m;
+    private const decimal DamagePerStack = 3m;
 
     /// <summary>Hex signature on every application: occult gaze + doom sting on the hexed creature.</summary>
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
@@ -30,15 +31,30 @@ public sealed class HexPower : WitchPower
         await Task.CompletedTask;
     }
 
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target != Owner || dealer is not { IsAlive: true } || Amount <= 0 || !props.IsPoweredAttack())
+        if (target != Owner || Amount <= 0 || !props.IsPoweredAttack())
+        {
+            return 0m;
+        }
+
+        return DamagePerStack * Amount;
+    }
+
+    public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
+    {
+        if (Amount <= 0 || !Owner.IsAlive || !command.DamageProps.IsPoweredAttack())
+        {
+            return;
+        }
+
+        if (!command.Results.SelectMany(hit => hit).Any(result => result.Receiver == Owner))
         {
             return;
         }
 
         Flash();
-        WitchFx.PurpleFlame(dealer);
-        await CreatureCmd.Damage(choiceContext, [dealer], DamageAmount * Amount, ValueProp.Unpowered, Owner, null);
+        WitchFx.PurpleFlame(Owner);
+        await PowerCmd.Decrement(this);
     }
 }
