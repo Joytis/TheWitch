@@ -27,16 +27,6 @@
           "path": "TheWitch/images/potions/wormy_apple.png"
         },
         {
-          "name": "Slicing Brew",
-          "artist": "",
-          "done": false,
-          "brief": "",
-          "rarity": "Token",
-          "orientation": "Offensive",
-          "effect": "Deal damage multiple times. (Card-only payload: Prices Paid)",
-          "path": "TheWitch/images/potions/slicing_brew.png"
-        },
-        {
           "name": "Buddy in a Bottle",
           "artist": "",
           "done": false,

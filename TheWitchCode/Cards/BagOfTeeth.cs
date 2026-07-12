@@ -9,8 +9,8 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class BagOfTeeth : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(1m, ValueProp.Move),
-        new RepeatVar(6)
+        new DamageVar(2m, ValueProp.Move),
+        new RepeatVar(4)
     ];
 
     public BagOfTeeth()

@@ -8,7 +8,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Catalyst: the Witch's unique Ancient card (granted by Dusty Tome — any <c>CardRarity.Ancient</c> card
-/// in the pool outside the transcendence map qualifies). Duplicates every potion you create.
+/// in the pool outside the transcendence map qualifies). Whenever you use a potion, copy a random hand card.
 /// </summary>
 public sealed class Catalyst : WitchCard
 {

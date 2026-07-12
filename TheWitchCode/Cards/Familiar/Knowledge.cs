@@ -1,19 +1,24 @@
 using System.Linq;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-
 using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Owl familiar token: forge your hand. Upgrade one card in your hand (Upgraded: all of them) — an in-combat
-/// upgrade, so it lasts only for the rest of this fight. Mirrors the base-game Armaments pattern.
+/// Owl familiar token: memorize a card — create copies of a card in your hand (base-game Dual Wield
+/// pattern: select, <c>CreateClone</c>, add through the generated-card funnel so creation payoffs fire).
 /// </summary>
 public sealed class Knowledge : WitchFamiliarCard
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new CardsVar(1)
+    ];
+
     public Knowledge()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
@@ -21,21 +26,23 @@ public sealed class Knowledge : WitchFamiliarCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (IsUpgraded)
+        CardModel? selection = (await CardSelectCmd.FromHand(
+            context: choiceContext,
+            player: Owner,
+            prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
+            filter: null,
+            source: this)).FirstOrDefault();
+        if (selection == null)
         {
-            WitchFx.EnchantShimmer();
-            foreach (CardModel card in PileType.Hand.GetPile(Owner).Cards.Where(c => c.IsUpgradable))
-            {
-                CardCmd.Upgrade(card);
-            }
             return;
         }
 
-        CardModel? card2 = await CardSelectCmd.FromHandForUpgrade(choiceContext, Owner, this);
-        if (card2 != null)
+        WitchFx.EnchantShimmer();
+        for (int i = 0; i < DynamicVars.Cards.IntValue; i++)
         {
-            WitchFx.EnchantShimmer();
-            CardCmd.Upgrade(card2);
+            await CardPileCmd.AddGeneratedCardToCombat(selection.CreateClone(), PileType.Hand, Owner);
         }
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }

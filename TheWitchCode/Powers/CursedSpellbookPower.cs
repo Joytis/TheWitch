@@ -1,13 +1,16 @@
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Cursed Spellbook engine: each turn you draw one fewer card but gain <see cref="PowerModel.Amount" /> extra
-/// Energy. Single-stack — replaying the book refreshes rather than compounding the draw penalty (an upgraded
-/// copy just raises the Energy). Draw hook mirrors <see cref="EmbraceTheWildsPower.ModifyHandDraw" />; energy
-/// hook mirrors the base-game <c>NoEnergyGainPower.ModifyEnergyGain</c>.
+/// Cursed Spellbook engine: each turn gain <see cref="PowerModel.Amount" /> extra Energy and lose
+/// <see cref="PowerModel.Amount" /> HP. Single-stack — replaying the book refreshes rather than compounding
+/// (an upgraded copy raises both sides). Energy hook mirrors the base-game
+/// <c>NoEnergyGainPower.ModifyEnergyGain</c>; the HP tick is unblockable/unpowered like Wormy.
 /// </summary>
 public sealed class CursedSpellbookPower : WitchPower
 {
@@ -18,6 +21,13 @@ public sealed class CursedSpellbookPower : WitchPower
     public override decimal ModifyEnergyGain(Player player, decimal amount) =>
         player == Owner.Player ? amount + Amount : amount;
 
-    public override decimal ModifyHandDraw(Player player, decimal count) =>
-        player.Creature == Owner ? count - 1 : count;
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (player.Creature != Owner)
+        {
+            return;
+        }
+        Flash();
+        await CreatureCmd.Damage(choiceContext, Owner, Amount, ValueProp.Unblockable | ValueProp.Unpowered, Owner, null);
+    }
 }

@@ -4,11 +4,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Taste of Blood: a free nip that whets the appetite — small hit, Vigor for the next one.</summary>
+/// <summary>Taste of Blood: whet the appetite — a surge of Vigor and fresh cards.</summary>
 public sealed class TasteOfBlood : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -16,29 +15,21 @@ public sealed class TasteOfBlood : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(3m, ValueProp.Move),
-        new PowerVar<VigorPower>(3m)
+        new PowerVar<VigorPower>(5m),
+        new CardsVar(2)
     ];
 
     public TasteOfBlood()
-        : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_bite")
-            .Execute(choiceContext);
+        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
         await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, DynamicVars["VigorPower"].BaseValue, Owner.Creature, this);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars["VigorPower"].UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => DynamicVars["VigorPower"].UpgradeValueBy(3m);
 }

@@ -7,15 +7,15 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Ambush!: AoE, then create one random familiar token card in hand.</summary>
+/// <summary>Ambush!: AoE strike that springs itself — auto-plays for free when drawn.</summary>
 public sealed class Ambush : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move)
     ];
 
     public Ambush()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
+        : base(1, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
     {
     }
 
@@ -26,11 +26,16 @@ public sealed class Ambush : WitchCard
             .TargetingAllOpponents(CombatState!)
             .WithHitFx("vfx/vfx_scratch")
             .Execute(choiceContext);
+    }
 
-        List<CardModel> cards = FamiliarCardRegistry.CreateRandom(
-            Owner, 1, CombatState!, Owner.RunState.Rng.CombatCardGeneration, false);
-        var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner, CardPilePosition.Random);
-        CardCmd.PreviewCardPileAdd(generated);
+    public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
+    {
+        if (card != this)
+        {
+            return;
+        }
+
+        await CardCmd.AutoPlay(choiceContext, this, null);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);

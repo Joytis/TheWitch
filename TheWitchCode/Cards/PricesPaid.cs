@@ -8,11 +8,11 @@ using TheWitch.TheWitchCode.Potions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Prices Paid: bleed yourself for a strike, then brew the spilled blood into a Slicing Brew.</summary>
+/// <summary>Prices Paid: bleed yourself for a strike, then brew the spilled blood into a Noxious Brew.</summary>
 public sealed class PricesPaid : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPotion<SlicingBrew>(),
+        HoverTipFactory.FromPotion<NoxiousBrew>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
@@ -37,7 +37,7 @@ public sealed class PricesPaid : WitchCard
             .Execute(choiceContext);
         for (int i = 0; i < DynamicVars["Brews"].IntValue; i++)
         {
-            await PotionCmd.TryToProcure<SlicingBrew>(Owner);
+            await PotionCmd.TryToProcure<NoxiousBrew>(Owner);
         }
     }
 
