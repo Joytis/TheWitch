@@ -100,6 +100,15 @@
           "rarity": "Uncommon",
           "effect": "Upon pickup gain Max HP. Each combat, add a Wormy into your Hand.",
           "path": "TheWitch/images/relics/big/wormys_apple.png"
+        },
+        {
+          "name": "Sack of Treats",
+          "artist": "",
+          "done": false,
+          "brief": "A burlap dripping sack of bones and a limb sticking out.",
+          "rarity": "Rare",
+          "effect": "Your Familiars create ALL of their cards at the start of your turn.",
+          "path": "TheWitch/images/relics/big/sack_of_treats.png"
         }
       ]
     },

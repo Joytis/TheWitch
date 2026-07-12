@@ -1,23 +1,25 @@
 using System;
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Taste of Blood: two quick bites and the hunger sharpens — draw fresh cards.</summary>
-public sealed class TasteOfBlood : WitchCard
+/// <summary>
+/// Throw Bait: a light hit, and the bait draws your pack out — every familiar does its card production
+/// once (one card per stack, exactly like the turn-start round; Sack of Treats applies here too).
+/// </summary>
+public sealed class ThrowBait : WitchCard
 {
-    private const int _hitCount = 2;
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(4m, ValueProp.Move),
-        new CardsVar(2)
+        new DamageVar(6m, ValueProp.Move)
     ];
 
-    public TasteOfBlood()
+    public ThrowBait()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
@@ -27,14 +29,16 @@ public sealed class TasteOfBlood : WitchCard
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(_hitCount)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_bite")
+            .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
+        foreach (FamiliarPower familiar in Owner.Creature.Powers.OfType<FamiliarPower>().ToList())
+        {
+            await familiar.GenerateCards(Owner, CombatState!);
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

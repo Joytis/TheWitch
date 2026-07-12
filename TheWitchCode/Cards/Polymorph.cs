@@ -4,14 +4,15 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Polymorph (was Repurpose): choose a card in your draw pile — it becomes a Rats token.
-/// Combat-scoped transform via <c>CardCmd.Transform</c>; upgrade sheds Exhaust so it can
-/// polymorph again next time it's drawn.
+/// Combat-scoped transform via <c>CardCmd.Transform</c>; upgraded, the card becomes TWO Rats
+/// (the extra Rats is generated into the draw pile).
 /// </summary>
 public sealed class Polymorph : WitchCard
 {
@@ -19,7 +20,9 @@ public sealed class Polymorph : WitchCard
         HoverTipFactory.FromCard<Rats>(),
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new CardsVar(1)
+    ];
 
     public Polymorph()
         : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
@@ -42,7 +45,14 @@ public sealed class Polymorph : WitchCard
 
         CardModel replacement = CombatState!.CreateCard<Rats>(Owner);
         await CardCmd.Transform(chosen, replacement);
+
+        // Upgraded: the card becomes two Rats — generate the extras alongside the transform.
+        for (int i = 1; i < DynamicVars.Cards.IntValue; i++)
+        {
+            CardModel extra = CombatState!.CreateCard<Rats>(Owner);
+            await CardPileCmd.AddGeneratedCardToCombat(extra, PileType.Draw, Owner, CardPilePosition.Random);
+        }
     }
 
-    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }

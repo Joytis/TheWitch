@@ -2,6 +2,9 @@
   "THEWITCH-LARGE_POCKETS.title": "Large Pockets",
   "THEWITCH-LARGE_POCKETS.description": "Upon pickup, gain [blue]{PotionSlots}[/blue] potion {PotionSlots:plural:slot|slots}.",
   "THEWITCH-LARGE_POCKETS.flavor": "Deep pockets, deeper secrets — always room for one more bottle.",
+  "THEWITCH-SACK_OF_TREATS.title": "Sack of Treats",
+  "THEWITCH-SACK_OF_TREATS.description": "Your [gold]Familiars[/gold] create ALL of their cards at the start of your turn.",
+  "THEWITCH-SACK_OF_TREATS.flavor": "Something for everyone. Some of it still moving.",
   "THEWITCH-WORMYS_APPLE.title": "Wormy's Apple",
   "THEWITCH-WORMYS_APPLE.description": "Upon pickup, gain [green]{MaxHp}[/green] Max HP. At the start of each combat, add a [gold]Wormy[/gold] into your [gold]Hand[/gold].",
   "THEWITCH-WORMYS_APPLE.flavor": "Sweet to the core — and the core's already taken."

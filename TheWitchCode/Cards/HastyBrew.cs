@@ -9,8 +9,6 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Hasty Brew: fast mana — brew an Energy Potion. Exhausts; upgrade removes Exhaust.</summary>
 public sealed class HastyBrew : WitchCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPotion<EnergyPotion>(),
     ];

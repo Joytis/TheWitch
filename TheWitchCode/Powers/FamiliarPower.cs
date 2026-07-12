@@ -12,6 +12,7 @@ using MegaCrit.Sts2.Core.Random;
 using TheWitch.TheWitchCode.Cards;
 using TheWitch.TheWitchCode.Extensions;
 using TheWitch.TheWitchCode.Monsters;
+using TheWitch.TheWitchCode.Relics;
 
 namespace TheWitch.TheWitchCode.Powers;
 
@@ -44,6 +45,13 @@ public abstract class FamiliarPower : WitchPower
     protected abstract CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng);
 
     /// <summary>
+    /// Every card this familiar can produce, one of each (Sack of Treats path). Single-card familiars
+    /// produce their one card; loot-table familiars override to yield one of EACH table entry.
+    /// </summary>
+    protected virtual IEnumerable<CardModel> CreateAllTurnStartCards(Player owner, ICombatState combat, Rng rng) =>
+        [CreateTurnStartCard(owner, combat, rng)];
+
+    /// <summary>
     /// Canonical cosmetic pet shown at the player's feet — ONE PET PER STACK, so the board shows how many of
     /// which familiar are out without reading the buff bar. The pet count is synced to <see cref="Amount" />
     /// on every stack change (see <see cref="AfterPowerAmountChanged" />); same-type pets cluster together via
@@ -60,14 +68,30 @@ public abstract class FamiliarPower : WitchPower
             return;
         }
 
+        await GenerateCards(player, combatState);
+    }
+
+    /// <summary>
+    /// One round of this familiar's card production: one card per stack (all of its cards per stack with
+    /// Sack of Treats). Runs at turn start via <see cref="BeforeHandDraw" />; Throw Bait triggers it mid-turn.
+    /// </summary>
+    public async Task GenerateCards(Player player, ICombatState combatState)
+    {
         Flash();
         Rng rng = player.RunState.Rng.CombatCardGeneration;
+        SackOfTreats? sack = player.GetRelic<SackOfTreats>();
+        sack?.Flash();
         for (int i = 0; i < Amount; i++)
         {
-            CardModel card = CreateTurnStartCard(player, combatState, rng);
-            // Use the "generated" path (not a plain Add) so the card counts as created — records combat
-            // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
-            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
+            IEnumerable<CardModel> cards = sack != null
+                ? CreateAllTurnStartCards(player, combatState, rng)
+                : [CreateTurnStartCard(player, combatState, rng)];
+            foreach (CardModel card in cards)
+            {
+                // Use the "generated" path (not a plain Add) so the card counts as created — records combat
+                // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
+                await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
+            }
         }
     }
 
@@ -160,6 +184,10 @@ public sealed class FamiliarLootTable
         return this;
     }
 
+    /// <summary>One card of EACH entry, table order (Sack of Treats: "create ALL of their cards").</summary>
+    public IEnumerable<CardModel> CreateAll(Player owner, ICombatState combat, bool upgraded) =>
+        _entries.Select(e => e.Create(owner, combat, upgraded));
+
     /// <summary>Roll one real combat card from the table, weighted by each entry's weight (Upgraded if <paramref name="upgraded" />).</summary>
     public CardModel Roll(Player owner, ICombatState combat, Rng rng, bool upgraded)
     {
@@ -197,4 +225,7 @@ public abstract class LootTableFamiliarPower : FamiliarPower
 
     protected override CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng) =>
         (_lootTable ??= BuildLootTable()).Roll(owner, combat, rng, GrantsUpgradedCards);
+
+    protected override IEnumerable<CardModel> CreateAllTurnStartCards(Player owner, ICombatState combat, Rng rng) =>
+        (_lootTable ??= BuildLootTable()).CreateAll(owner, combat, GrantsUpgradedCards);
 }

@@ -21,7 +21,7 @@ public sealed class Distill : WitchCard
     ];
 
     public Distill()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
