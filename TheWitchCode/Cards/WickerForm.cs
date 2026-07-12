@@ -15,7 +15,7 @@ public sealed class WickerForm : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<WickerFormPower>(15m)
+        new PowerVar<WickerFormPower>(10m)
     ];
 
     public WickerForm()
@@ -29,5 +29,5 @@ public sealed class WickerForm : WitchCard
         await PowerCmd.Apply<WickerFormPower>(choiceContext, Owner.Creature, DynamicVars["WickerFormPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["WickerFormPower"].UpgradeValueBy(10m);
+    protected override void OnUpgrade() => DynamicVars["WickerFormPower"].UpgradeValueBy(5m);
 }

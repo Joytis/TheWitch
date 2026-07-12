@@ -456,7 +456,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "Trash Diving: dig one card back out of the discard pile (Rummage/base-game Dredge pattern) and a Rats scurries out with it — one Rats is generated straight into your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -504,7 +504,7 @@
       },
       "upgrade": "Block +3",
       "note": "Weathered Witch Hat: Block, then play a random Skill from your draw pile (free auto-play; nothing happens if the pile holds none).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -550,7 +550,7 @@
       },
       "upgrade": "CalculationBase +1",
       "note": "Accursed Needles: each play digs the needles deeper — applies base Hex + 1 per prior play this combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -640,7 +640,7 @@
       },
       "upgrade": "Block +10",
       "note": "Multiplayer-only. Co-op rot ritual (MP-only): you and every ally hunker down (Block) but soak up the rot (Weak), while all enemies choke on it too.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -844,7 +844,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -891,7 +891,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Moonbeam: strike, then leave the beam on the target — it takes the same damage again at the start of each of your turns (<see cref=\"MoonbeamPower\" />, stacks on repeat plays).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1006,7 +1006,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1078,7 +1078,7 @@
       },
       "upgrade": "HexPower +3",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -1103,7 +1103,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Rot Bloom: heavy hit, then every debuff on the target blooms — each debuff power's stacks are duplicated (applied again at its current amount, Rend's debuff filter: temporary powers excluded).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1126,7 +1126,7 @@
       },
       "upgrade": "RottingRootsPower +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1194,7 +1194,7 @@
       },
       "upgrade": "Damage +2, Vulnerable +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1218,7 +1218,7 @@
       },
       "upgrade": "Brambles +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1242,7 +1242,7 @@
       },
       "upgrade": "Damage +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1265,7 +1265,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Throw Bait: a light hit, and the bait draws your pack out — every familiar does its card production once (one card per stack, exactly like the turn-start round; Sack of Treats applies here too).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1491,7 +1491,7 @@
       },
       "upgrade": "Damage +2",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1537,7 +1537,7 @@
       },
       "upgrade": "Damage +4",
       "note": "Capture Soul: each kill is bottled forever — this copy permanently applies +1 Hex per enemy it has killed, across combats and save/load (<c>[SavedProperty]</c> + DeckVersion propagation, the base-game GeneticAlgorithm pattern).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1558,7 +1558,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1623,7 +1623,7 @@
       "numbers": {},
       "upgrade": "Potions +1",
       "note": "Distill (renamed from Brew): replace a random belt potion (non-Rares prioritized) with a random RARE non-healing potion of the same orientation (see <see cref=\"PotionUpgrade\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1714,7 +1714,7 @@
       },
       "upgrade": "HexPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1759,7 +1759,7 @@
       },
       "upgrade": "HexPower -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1806,7 +1806,7 @@
       },
       "upgrade": "HexPower +1",
       "note": "Plague: hex the whole board, and the rats come back — every Rats card in the Exhaust pile returns to your hand (a move of existing cards, so plain <c>CardPileCmd.Add</c>, capped by hand space).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",
@@ -1831,7 +1831,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Polymorph (was Repurpose): choose a card in your draw pile — it becomes a Rats token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1899,7 +1899,7 @@
       },
       "upgrade": "RitualCastingPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1922,7 +1922,7 @@
       },
       "upgrade": "WickerFormPower +10",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2111,7 +2111,7 @@
       },
       "upgrade": "Block +3, Energy +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2136,7 +2136,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2204,7 +2204,7 @@
       },
       "upgrade": "Cards +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
