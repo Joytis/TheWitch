@@ -31,6 +31,7 @@
   th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   th{position:sticky;top:152px;background:var(--panel);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px;z-index:3;cursor:pointer}
   tbody tr:hover{background:var(--panel2)}
+  .namecell{max-width:100px}
   .name{font-weight:600}
   .entry{color:var(--muted);font:11px/1.4 ui-monospace,Consolas,monospace}
   .meta{color:var(--muted);font-size:12px;white-space:nowrap}
@@ -38,7 +39,6 @@
   .text{max-width:340px}
   .nums{font:11px/1.5 ui-monospace,Consolas,monospace;color:var(--gold)}
   .up{font-size:12px;color:var(--muted)}
-  .note{display:block;color:#b9a8e6;font-size:11px;font-style:italic;margin-top:3px}
   .copy{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 9px;cursor:pointer;font:11px ui-monospace,Consolas,monospace;white-space:nowrap}
   .copy:hover{border-color:var(--accent)}
   .copy.done{border-color:var(--ok);color:var(--ok)}
@@ -60,7 +60,7 @@
   .bfield:focus{outline:none;border-color:var(--accent)}
   .bfield.saved{border-color:var(--ok)}
   input.aartist{width:90px}
-  textarea.abrief{width:170px;min-height:28px;resize:vertical;line-height:1.35}
+  textarea.abrief{width:420px;min-height:80px;resize:vertical;line-height:1.35}
   .tog{cursor:pointer;font-size:18px;background:none;border:none;color:var(--no)}
   .tog.on{color:var(--ok)}
   .badge{font-size:10px;color:var(--muted);display:block}
@@ -368,7 +368,7 @@ function render(){
       const bf = BRIEFS[c.name] || {};
       var devTail = `
         <td><input class="bfield aartist" data-name="${esc(c.name)}" value="${esc(bf.artist||"")}" placeholder="—" title="Artist working on this card (saved on change)"></td>
-        <td><textarea class="bfield abrief" data-name="${esc(c.name)}" rows="1" placeholder="notes for the artist…" title="Art brief (saved on change)">${esc(bf.brief||"")}</textarea></td>
+        <td><textarea class="bfield abrief" data-name="${esc(c.name)}" rows="4" placeholder="notes for the artist…" title="Art brief (saved on change)">${esc(bf.brief||"")}</textarea></td>
         <td><button class="copy" data-cmd="card THEWITCH-${esc(c.entry)}" title="copy console command">card THEWITCH-${esc(c.entry)}</button></td>
         <td class="artcell">
           <span class="artbadge art-${art}">${artLabel}</span>
@@ -380,10 +380,9 @@ function render(){
         </td>`;
     } else { var devTail = ""; }
     html += `
-      <td>
+      <td class="namecell">
         <span class="name">${esc(c.name)}</span>
         <span class="entry">${esc(c.entry)}</span>
-        ${c.note?`<span class="note">${esc(c.note)}</span>`:""}
       </td>
       <td class="meta">${esc(String(c.cost))}</td>
       <td class="meta">${esc(c.type)}<br><span class="badge">${esc(c.target)}</span></td>

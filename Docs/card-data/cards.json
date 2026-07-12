@@ -2048,13 +2048,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Shuffle 5 Rats into your Draw Pile.",
+      "text": "Shuffle 3 Rats into your Draw Pile.",
       "numbers": {
-        "Cards": 5
+        "Cards": 3
       },
       "upgrade": "Cards +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
