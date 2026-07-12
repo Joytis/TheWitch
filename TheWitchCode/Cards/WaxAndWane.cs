@@ -34,9 +34,5 @@ public sealed class WaxAndWane : WitchCard
         await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Block.UpgradeValueBy(2m);
-        DynamicVars["HexPower"].UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);
 }

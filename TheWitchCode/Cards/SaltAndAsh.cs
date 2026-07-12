@@ -26,7 +26,7 @@ public sealed class SaltAndAsh : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
-        if (Owner.Creature.Powers.Any(p => p.Type == PowerType.Debuff))
+        if (Owner.Creature.Powers.Any(p => p.TypeForCurrentAmount == PowerType.Debuff))
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars["BonusBlock"].BaseValue, ValueProp.Move, cardPlay);
         }

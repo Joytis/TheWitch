@@ -21,8 +21,9 @@ namespace TheWitch.TheWitchCode.Powers;
 /// (see <c>WitchCard.GainFamiliar</c>). The player's total familiar count is the sum of all
 /// <see cref="FamiliarPower" /> stacks across the creature (see <see cref="Familiars" />).
 ///
-/// Payoff: at the START of the owner's turn, the familiar adds one random card it can produce to your hand
-/// PER STACK (see <see cref="CreateTurnStartCard" /> — each stack rolls independently). This replaces the old
+/// Payoff: just BEFORE the owner's turn hand-draw, the familiar adds one random card it can produce to your
+/// hand PER STACK (see <see cref="CreateTurnStartCard" /> — each stack rolls independently), so tokens sit in
+/// front of the drawn cards. This replaces the old
 /// "shuffle N token cards into your deck on summon" — ongoing, immediate value, and sacrificing the power
 /// (<c>PowerCmd.Decrement</c> to zero, which auto-removes the <see cref="PowerStackType.Counter" />) actually
 /// costs you those recurring cards.
@@ -43,15 +44,18 @@ public abstract class FamiliarPower : WitchPower
     protected abstract CardModel CreateTurnStartCard(Player owner, ICombatState combat, Rng rng);
 
     /// <summary>
-    /// Canonical cosmetic pet shown at the player's feet while this familiar has stacks. Spawned when the
-    /// familiar is first summoned and removed when its last stack is lost (see <see cref="AfterApplied" /> /
-    /// <see cref="AfterRemoved" />). Every familiar declares one.
+    /// Canonical cosmetic pet shown at the player's feet — ONE PET PER STACK, so the board shows how many of
+    /// which familiar are out without reading the buff bar. The pet count is synced to <see cref="Amount" />
+    /// on every stack change (see <see cref="AfterPowerAmountChanged" />); same-type pets cluster together via
+    /// <c>WitchPetClusterPatch</c>. Every familiar declares one.
     /// </summary>
     protected abstract WitchPet Pet { get; }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    // BeforeHandDraw (base-game SentryModePower pattern) so tokens enter the hand BEFORE the turn's
+    // draw — they sit in front of the drawn cards. Top guards the retained-cards case.
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
     {
-        if (player.Creature != Owner || Owner.CombatState is not { } combat)
+        if (player.Creature != Owner)
         {
             return;
         }
@@ -60,35 +64,30 @@ public abstract class FamiliarPower : WitchPower
         Rng rng = player.RunState.Rng.CombatCardGeneration;
         for (int i = 0; i < Amount; i++)
         {
-            CardModel card = CreateTurnStartCard(player, combat, rng);
+            CardModel card = CreateTurnStartCard(player, combatState, rng);
             // Use the "generated" path (not a plain Add) so the card counts as created — records combat
             // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
-            // Top = front of the hand, so familiar tokens land before the drawn cards.
             await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
         }
     }
 
-    /// <summary>Spawn the cosmetic pet when the familiar is summoned (idempotent: one pet per type, per combat).</summary>
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    /// <summary>Summon signature on every familiar gained (assets preloaded via Witch.ExtraAssetPaths). Pet spawning lives in <see cref="AfterPowerAmountChanged" />, which also fires for the initial application.</summary>
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
-        if (Owner.Player is not { } player || player.PlayerCombatState is null || Owner.CombatState is not { } combat)
-        {
-            return;
-        }
-
-        // Summon signature: ghostly aura + summon sting on every familiar gained (assets preloaded via Witch.ExtraAssetPaths).
         WitchFx.SummonFlourish(Owner);
-
-        if (FindPet(player) != null)
-        {
-            return;
-        }
-
-        Creature pet = combat.CreateCreature((MonsterModel)Pet.ToMutable(), Owner.Side, null);
-        await PlayerCmd.AddPet(pet, player);
+        return Task.CompletedTask;
     }
 
-    /// <summary>Despawn the cosmetic pet when the familiar's last stack is lost.</summary>
+    /// <summary>Keep the cosmetic pet count in lockstep with the stack count (one pet per stack).</summary>
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    {
+        if (power == this)
+        {
+            await SyncPets();
+        }
+    }
+
+    /// <summary>Despawn any remaining pets when the power is removed outright (decrement-to-zero already synced to 0 via <see cref="AfterPowerAmountChanged" />).</summary>
     public override async Task AfterRemoved(Creature oldOwner)
     {
         if (oldOwner.Player is not { PlayerCombatState: not null } player)
@@ -96,14 +95,34 @@ public abstract class FamiliarPower : WitchPower
             return;
         }
 
-        if (FindPet(player) is { } pet)
+        foreach (Creature pet in FindPets(player))
         {
             await CreatureCmd.Kill(pet, force: true);
         }
     }
 
-    private Creature? FindPet(Player player) =>
-        player.PlayerCombatState!.Pets.FirstOrDefault(p => p.Monster?.GetType() == Pet.GetType());
+    private async Task SyncPets()
+    {
+        if (Owner.Player is not { PlayerCombatState: not null } player || Owner.CombatState is not { } combat)
+        {
+            return;
+        }
+
+        List<Creature> pets = FindPets(player);
+        int want = Math.Max(0, Amount);
+        for (int i = pets.Count; i < want; i++)
+        {
+            Creature pet = combat.CreateCreature((MonsterModel)Pet.ToMutable(), Owner.Side, null);
+            await PlayerCmd.AddPet(pet, player);
+        }
+        for (int i = pets.Count - 1; i >= want; i--)
+        {
+            await CreatureCmd.Kill(pets[i], force: true);
+        }
+    }
+
+    private List<Creature> FindPets(Player player) =>
+        player.PlayerCombatState!.Pets.Where(p => p.Monster?.GetType() == Pet.GetType()).ToList();
 }
 
 /// <summary>

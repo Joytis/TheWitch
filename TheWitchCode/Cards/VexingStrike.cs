@@ -11,6 +11,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Vexing Strike (was Vexing Thwack): an Attack that also seeds the target with Hex.</summary>
 public sealed class VexingStrike : WitchCard
 {
+    protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
     ];
@@ -36,5 +38,5 @@ public sealed class VexingStrike : WitchCard
         await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

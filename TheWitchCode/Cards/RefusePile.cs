@@ -18,12 +18,12 @@ public sealed class RefusePile : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(11m, ValueProp.Move),
+        new BlockVar(12m, ValueProp.Move),
         new CardsVar(2)
     ];
 
     public RefusePile()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

@@ -11,6 +11,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Strike Fear: a jab that leaves the target flinching — damage plus Vulnerable.</summary>
 public sealed class StrikeFear : WitchCard
 {
+    protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<VulnerablePower>(),
     ];
@@ -21,7 +23,7 @@ public sealed class StrikeFear : WitchCard
     ];
 
     public StrikeFear()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

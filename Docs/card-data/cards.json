@@ -37,7 +37,7 @@
         "Damage": 8
       },
       "upgrade": "Damage +6",
-      "note": "ExtractEssence: deal damage; on unblocked damage, create a random potion whose rarity matches the encounter tier — Common in normal fights, Uncommon vs elites, Rare vs bosses.",
+      "note": "ExtractEssence: deal damage; on unblocked damage, create a random Common potion.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -85,7 +85,7 @@
       },
       "upgrade": "Repeat +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -130,10 +130,39 @@
       "numbers": {},
       "upgrade": "Brews +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
+      "name": "Bottle Barrage",
+      "entry": "BOTTLE_BARRAGE",
+      "file": "TheWitchCode/Cards/BottleBarrage.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 10 damage for each Potion created this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "numbers": {
+        "Damage": 10,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
+      },
+      "upgrade": "Damage +3",
+      "note": "Hurl the whole belt: one 7-damage hit per potion you've brewed this combat.",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Broom Strike",
@@ -149,7 +178,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Broom Strike: swat with the broom, then sweep a random Skill out of the draw pile and play it (the base-game BeatDown/Catastrophe auto-play shape: filter, shuffle-pick, <c>CardCmd.AutoPlay</c> with a random target for enemy-targeted picks).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -222,7 +251,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -291,7 +320,7 @@
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -339,7 +368,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -363,7 +392,7 @@
       },
       "upgrade": "Cards +1, HexPower +1",
       "note": "Read the Bones: curse the enemy now, divine your next draw — apply Hex, then draw extra cards next turn (base-game <see cref=\"DrawCardsNextTurnPower\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -394,30 +423,6 @@
       ]
     },
     {
-      "name": "Strike Fear",
-      "entry": "STRIKE_FEAR",
-      "file": "TheWitchCode/Cards/StrikeFear.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Common",
-      "target": "AnyEnemy",
-      "text": "Deal 6 damage. Apply 1 Vulnerable.",
-      "numbers": {
-        "Vulnerable": 1,
-        "Damage": 6
-      },
-      "upgrade": "Damage +2, Vulnerable +1",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Debuff/Buff"
-      ],
-      "role": [
-        "Generator"
-      ]
-    },
-    {
       "name": "Tinder",
       "entry": "TINDER",
       "file": "TheWitchCode/Cards/Tinder.cs",
@@ -425,14 +430,19 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Can only be played if you have Brambles. Lose 1 Brambles. Gain {Energy:diff()} Energy.",
+      "text": "Lose 1 Brambles. Gain {Energy:diff()} Energy.",
       "numbers": {},
       "upgrade": "Energy +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Payoff",
+        "Enabler"
+      ]
     },
     {
       "name": "Vexing Strike",
@@ -447,9 +457,9 @@
         "Hex": 1,
         "Damage": 6
       },
-      "upgrade": "HexPower +2",
+      "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -466,13 +476,13 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 10 Block. The next Skill you play costs 1 less.",
+      "text": "Gain 10 Block. Play a random Skill from your Draw Pile.",
       "numbers": {
         "Block": 10
       },
       "upgrade": "Block +3",
-      "note": "",
-      "tested": true,
+      "note": "Weathered Witch Hat: Block, then play a random Skill from your draw pile (free auto-play; nothing happens if the pile holds none).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -538,38 +548,13 @@
       },
       "upgrade": "HexPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
       ],
       "role": [
         "Generator"
-      ]
-    },
-    {
-      "name": "Bottle Barrage",
-      "entry": "BOTTLE_BARRAGE",
-      "file": "TheWitchCode/Cards/BottleBarrage.cs",
-      "cost": 1,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal 10 damage for each Potion created this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
-      "numbers": {
-        "Damage": 10,
-        "CalculationBase": 0,
-        "CalculationExtra": 1
-      },
-      "upgrade": "Damage +3",
-      "note": "Hurl the whole belt: one 7-damage hit per potion you've brewed this combat.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Payoff"
       ]
     },
     {
@@ -608,9 +593,9 @@
       "numbers": {
         "Damage": 10
       },
-      "upgrade": "Damage +13",
+      "upgrade": "Damage +2",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -648,14 +633,14 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "AllAllies",
-      "text": "You and your allies gain 10 Block and 2 Weak. Apply 2 Weak to ALL enemies.",
+      "text": "You and your allies gain 20 Block and 2 Weak. Apply 2 Weak to ALL enemies.",
       "numbers": {
         "Weak": 2,
-        "Block": 10
+        "Block": 20
       },
-      "upgrade": "Block +2, Weak +1",
+      "upgrade": "Block +10",
       "note": "Multiplayer-only. Co-op rot ritual (MP-only): you and every ally hunker down (Block) but soak up the rot (Weak), while all enemies choke on it too.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -725,7 +710,7 @@
       },
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -765,7 +750,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Upgrade {Potions:diff()} random Potions.",
+      "text": "Transform {Potions:diff()} random Potions into Rare Potions.",
       "numbers": {},
       "upgrade": "Potions +1",
       "note": "Distill (renamed from Brew): replace a random belt potion (non-Rares prioritized) with a random RARE non-healing potion of the same orientation (see <see cref=\"PotionUpgrade\" />).",
@@ -792,7 +777,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -815,10 +800,14 @@
       },
       "upgrade": "EyeOfNewtPower +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Feast With Wolves",
@@ -878,8 +867,12 @@
       "note": "",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ]
     },
     {
       "name": "Light the Candle",
@@ -920,7 +913,7 @@
       },
       "upgrade": "ExtraDamage +4",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -988,10 +981,14 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ]
     },
     {
       "name": "Prices Paid",
@@ -1008,7 +1005,7 @@
       },
       "upgrade": "HpLoss +1, Brews +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1021,18 +1018,18 @@
       "name": "Refuse Pile",
       "entry": "REFUSE_PILE",
       "file": "TheWitchCode/Cards/RefusePile.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 11 Block. Add 2 Rats into both your Draw Pile and Discard Pile.",
+      "text": "Gain 12 Block. Add 2 Rats into both your Draw Pile and Discard Pile.",
       "numbers": {
-        "Block": 11,
+        "Block": 12,
         "Cards": 2
       },
       "upgrade": "Block +4",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1056,7 +1053,7 @@
       },
       "upgrade": "Strength +3",
       "note": "Only gains Block if a Familiar was actually sacrificed.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1133,6 +1130,30 @@
       ]
     },
     {
+      "name": "Strike Fear",
+      "entry": "STRIKE_FEAR",
+      "file": "TheWitchCode/Cards/StrikeFear.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage. Apply 1 Vulnerable.",
+      "numbers": {
+        "Vulnerable": 1,
+        "Damage": 6
+      },
+      "upgrade": "Damage +2, Vulnerable +1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Generator"
+      ]
+    },
+    {
       "name": "Stuck in a Bush",
       "entry": "STUCK_IN_A_BUSH",
       "file": "TheWitchCode/Cards/StuckInABush.cs",
@@ -1171,13 +1192,36 @@
       },
       "upgrade": "VigorPower +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
       ],
       "role": [
         "Generator"
+      ]
+    },
+    {
+      "name": "Volatile Vapors",
+      "entry": "VOLATILE_VAPORS",
+      "file": "TheWitchCode/Cards/VolatileVapors.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Whenever you use or create a Potion, deal 6 damage to a random enemy.",
+      "numbers": {
+        "VolatileVapors": 6
+      },
+      "upgrade": "VolatileVaporsPower +3",
+      "note": "",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
       ]
     },
     {
@@ -1193,7 +1237,7 @@
         "Hex": 1,
         "Block": 9
       },
-      "upgrade": "Block +2, HexPower +1",
+      "upgrade": "Block +4",
       "note": "",
       "tested": true,
       "artFinal": false,
@@ -1260,7 +1304,7 @@
       },
       "upgrade": "Cost -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1283,7 +1327,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Exhausts; applies a random familiar power with no cosmetic pet.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1306,7 +1350,7 @@
       },
       "upgrade": "BonfirePower -1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1382,6 +1426,23 @@
       ]
     },
     {
+      "name": "Cauldron Dance",
+      "entry": "CAULDRON_DANCE",
+      "file": "TheWitchCode/Cards/CauldronDance.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you play a Skill this turn, draw a card.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": []
+    },
+    {
       "name": "Crow Familiar",
       "entry": "CROW_FAMILIAR",
       "file": "TheWitchCode/Cards/CrowFamiliar.cs",
@@ -1415,27 +1476,6 @@
         "Energy": 1
       },
       "upgrade": "Energy +1",
-      "note": "",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Enabler"
-      ]
-    },
-    {
-      "name": "Dance Around the Cauldron",
-      "entry": "DANCE_AROUND_THE_CAULDRON",
-      "file": "TheWitchCode/Cards/DanceAroundTheCauldron.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Whenever you play a Skill this turn, draw a card.",
-      "numbers": {},
-      "upgrade": "Cost -1",
       "note": "",
       "tested": true,
       "artFinal": false,
@@ -1514,29 +1554,6 @@
       ]
     },
     {
-      "name": "Hemlock",
-      "entry": "HEMLOCK",
-      "file": "TheWitchCode/Cards/Hemlock.cs",
-      "cost": 2,
-      "type": "Power",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Your Brambles apply 1 Hex when they retaliate.",
-      "numbers": {},
-      "upgrade": "custom (see code)",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Brambles",
-        "Debuff/Buff"
-      ],
-      "role": [
-        "Payoff",
-        "Generator"
-      ]
-    },
-    {
       "name": "Hexblast",
       "entry": "HEXBLAST",
       "file": "TheWitchCode/Cards/Hexblast.cs",
@@ -1551,7 +1568,7 @@
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1643,7 +1660,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1664,7 +1681,7 @@
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "Polymorph (was Repurpose): choose a card in your draw pile — it becomes a Rats token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1685,7 +1702,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1742,29 +1759,6 @@
       ]
     },
     {
-      "name": "Unstable Reaction",
-      "entry": "UNSTABLE_REACTION",
-      "file": "TheWitchCode/Cards/UnstableReaction.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Rare",
-      "target": "AllEnemies",
-      "text": "Destroy all of your Potions. Deal 20 damage to ALL enemies for each.",
-      "numbers": {
-        "Damage": 20
-      },
-      "upgrade": "Damage +3",
-      "note": "",
-      "tested": true,
-      "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Payoff"
-      ]
-    },
-    {
       "name": "Wicker Form",
       "entry": "WICKER_FORM",
       "file": "TheWitchCode/Cards/WickerForm.cs",
@@ -1772,9 +1766,9 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "At the start of your turn, gain 20 Brambles.",
+      "text": "At the start of your turn, gain 15 Brambles.",
       "numbers": {
-        "WickerForm": 20
+        "WickerForm": 15
       },
       "upgrade": "WickerFormPower +10",
       "note": "",
@@ -1848,8 +1842,8 @@
         "CalculationExtra": 1
       },
       "upgrade": "Damage +3",
-      "note": "Cat familiar token: one 7-damage hit per Attack you played before it this turn (excluding itself, so the live preview matches the hits dealt).",
-      "tested": false,
+      "note": "Cat familiar token: one 7-damage hit per Attack you played this turn, INCLUDING itself (always ≥1).",
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1873,7 +1867,7 @@
       },
       "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1897,7 +1891,7 @@
       },
       "upgrade": "Block +5, VigorNextTurnPower +3",
       "note": "Bear familiar token; exhausts.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1914,13 +1908,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Create 1 copy of a card in your Hand.",
+      "text": "Create 1 copy of a non-Knowledge card in your Hand.",
       "numbers": {
         "Cards": 1
       },
       "upgrade": "Cards +1",
       "note": "Owl familiar token: memorize a card — create copies of a card in your hand (base-game Dual Wield pattern: select, <c>CreateClone</c>, add through the generated-card funnel so creation payoffs fire).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1944,7 +1938,7 @@
       },
       "upgrade": "Damage +15",
       "note": "Bear familiar token: heavy hit that ignores Block.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1965,12 +1959,17 @@
       "numbers": {
         "Block": 5
       },
-      "upgrade": "Block +3",
+      "upgrade": "Block +3, Energy +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token",
+        "Enabler"
+      ]
     },
     {
       "name": "Rats",
@@ -1980,7 +1979,7 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Heal {Heal:diff()} HP. Draw 1 card.",
+      "text": "Deal 5 damage. Draw 1 card.",
       "numbers": {
         "Damage": 5,
         "Cards": 1
@@ -1989,8 +1988,12 @@
       "note": "",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token"
+      ]
     },
     {
       "name": "Rummage",
@@ -2006,10 +2009,15 @@
       },
       "upgrade": "Cards +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token",
+        "Enabler"
+      ]
     },
     {
       "name": "Shiny!",
@@ -2046,10 +2054,15 @@
       },
       "upgrade": "Cards +2",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Token",
+        "Generator"
+      ]
     },
     {
       "name": "Wisdom",
@@ -2065,7 +2078,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Owl familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2087,7 +2100,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Catalyst: the Witch's unique Ancient card (granted by Dusty Tome — any <c>CardRarity.Ancient</c> card in the pool outside the transcendence map qualifies).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2135,7 +2148,7 @@
       },
       "upgrade": "none",
       "note": "Wormy: a playable nuisance status (from Wormy Apple).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"

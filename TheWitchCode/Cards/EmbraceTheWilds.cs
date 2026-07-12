@@ -18,7 +18,7 @@ public sealed class EmbraceTheWilds : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DynamicVar("DrawReduction", 3m),
-        new DynamicVar("Familiars", 5m)
+        new DynamicVar("Familiars", 4m)
     ];
 
     public EmbraceTheWilds()

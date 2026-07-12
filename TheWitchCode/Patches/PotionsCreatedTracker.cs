@@ -18,12 +18,13 @@ namespace TheWitch.TheWitchCode.Patches;
 /// so they reset every combat automatically and are collected when the combat ends.
 ///
 /// Read by <c>BottleBarrage</c>. Counts procure *calls* (a belt-full failure still counts) — an acceptable
-/// approximation of "potions created this combat". Combat-keyed, so in multiplayer it is the team total.
+/// approximation of "potions created this combat". Counts are per player within the combat, so in
+/// multiplayer each player's payoffs see only their own potions.
 /// </summary>
 [HarmonyPatch(typeof(PotionCmd), nameof(PotionCmd.TryToProcure), new[] { typeof(PotionModel), typeof(Player), typeof(int) })]
 public static class PotionsCreatedTracker
 {
-    private static readonly ConditionalWeakTable<ICombatState, StrongBox<int>> Counts = new();
+    private static readonly ConditionalWeakTable<ICombatState, Dictionary<Player, int>> Counts = new();
 
     private static void Prefix(PotionModel potion, Player player)
     {
@@ -32,7 +33,8 @@ public static class PotionsCreatedTracker
         {
             return;
         }
-        Counts.GetValue(combat, _ => new StrongBox<int>(0)).Value++;
+        Dictionary<Player, int> counts = Counts.GetValue(combat, _ => new Dictionary<Player, int>());
+        counts[player!] = counts.GetValueOrDefault(player!) + 1;
 
         // Potion-creation signature: brew puff on the Witch (gated so other characters keep vanilla feel).
         // Energy Potions puff yellow (Hasty Brew's "fast mana" read); everything else keeps the house green.
@@ -43,7 +45,9 @@ public static class PotionsCreatedTracker
         }
     }
 
-    /// <summary>Potions procured so far in <paramref name="combat" /> (0 if none / no live combat).</summary>
-    public static int CountFor(ICombatState? combat) =>
-        combat != null && Counts.TryGetValue(combat, out StrongBox<int>? box) ? box.Value : 0;
+    /// <summary>Potions <paramref name="player" /> procured so far in <paramref name="combat" /> (0 if none / no live combat).</summary>
+    public static int CountFor(ICombatState? combat, Player? player) =>
+        combat != null && player != null && Counts.TryGetValue(combat, out Dictionary<Player, int>? counts)
+            ? counts.GetValueOrDefault(player)
+            : 0;
 }

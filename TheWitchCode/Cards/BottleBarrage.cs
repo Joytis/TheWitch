@@ -20,11 +20,11 @@ public sealed class BottleBarrage : WitchCard
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar(_calculatedHitsKey)
-            .WithMultiplier((card, _) => PotionsCreatedTracker.CountFor(card.CombatState))
+            .WithMultiplier((card, _) => PotionsCreatedTracker.CountFor(card.CombatState, card.Owner))
     ];
 
     public BottleBarrage()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 

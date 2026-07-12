@@ -11,6 +11,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Broom Strike: swat with the broom; the follow-through sweeps your next Skill in cheaper.</summary>
 public sealed class BroomStrike : WitchCard
 {
+    protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<NextSkillDiscountPower>(),
     ];

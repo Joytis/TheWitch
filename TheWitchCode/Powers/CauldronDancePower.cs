@@ -9,11 +9,11 @@ using MegaCrit.Sts2.Core.Models;
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Dance Around the Cauldron: for the rest of this turn, each Skill the player plays draws a card.
+/// Cauldron Dance: for the rest of this turn, each Skill the player plays draws a card.
 /// Removes itself at the end of the turn. The Dance card that applies this buff does NOT count itself —
 /// we capture its source card on apply and skip it (the buff is now live when its own AfterCardPlayed fires).
 /// </summary>
-public sealed class DanceAroundTheCauldronPower : WitchPower
+public sealed class CauldronDancePower : WitchPower
 {
     public override PowerType Type => PowerType.Buff;
 

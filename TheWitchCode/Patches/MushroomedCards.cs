@@ -3,6 +3,7 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Random;
@@ -101,6 +102,19 @@ internal static class MushroomedDescriptionPatch
         if (MushroomedCards.TryGet(__instance, out MushroomedCards.Gibberish g))
         {
             __result = g.Description;
+        }
+    }
+}
+
+[HarmonyPatch(typeof(CardModel), "get_HoverTips")]
+internal static class MushroomedHoverTipsPatch
+{
+    private static void Postfix(CardModel __instance, ref IEnumerable<IHoverTip> __result)
+    {
+        // Keyword/status hover tips would leak the real card's identity through the gibberish.
+        if (MushroomedCards.TryGet(__instance, out _))
+        {
+            __result = [];
         }
     }
 }

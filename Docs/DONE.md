@@ -6,6 +6,118 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 203. Eye of Newt — stacks now multiply potion damage (display stays truthful)
+- **Done:** 2026-07-11 (claude) — [EyeOfNewtPower.cs](../TheWitchCode/Powers/EyeOfNewtPower.cs): stacking made multiplicative via `TryModifyPowerAmountReceived` on the live instance — applying x onto Amount A adds x·(1+A), so the multiplier composes as (1+A)(1+x): double+double = ×4 (buff shows +300%), triple+triple = ×9 (+800%). Damage formula unchanged (×(1+Amount)), so the existing `+{Amount}00%` smartDescription in powers.json stays accurate with no loc change — that's the "visually clear" guarantee. First application is unscaled (a not-yet-applied power isn't a hook listener).
+- **Verified:** build 0/0. ⚠️ Playtest: play two Eye of Newts → buff reads +300% and a 10-dmg potion hits for 40; upgraded pair reads +800%.
+
+### 202. Rats token — heal removed
+- **Done:** 2026-07-11 (claude) — User call: lifesteal too strong. [Rats.cs](../TheWitchCode/Cards/Familiar/Rats.cs): dropped the `Heal` var + `CreatureCmd.Heal` line + loc "Heal {Heal:diff()} HP." line. Now 5 (+3) damage, draw 1, Exhaust.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 201. Rename: Dance Around the Cauldron → Cauldron Dance
+- **Done:** 2026-07-11 (claude) — Full cascade: classes/files `DanceAroundTheCauldron{,Power}` → `CauldronDance{,Power}` (git mv incl. `.uid`s), loc keys `THEWITCH-DANCE_AROUND_THE_CAULDRON{,_POWER}.*` → `THEWITCH-CAULDRON_DANCE{,_POWER}.*` in cards.json/powers.json, art renamed to `{,big/}cauldron_dance.png`, stale `.import`s deleted. Regen sees it as remove+add, so curated tags/TESTED for the old name were reset — retag if needed. **⚠️ User action: run the "Godot: Import assets" task** so the renamed PNGs import.
+- **Verified:** build 0/0; regen (94 cards, +Cauldron Dance / −Dance Around the Cauldron; art found, not in missing list).
+
+### 200. Distill — reword to "Transform … into Rare Potions" (text only)
+- **Done:** 2026-07-11 (claude) — User call (revised mid-loop from "Brew" to "Transform"): `THEWITCH-DISTILL.description` → "Transform {Potions:diff()} random {Potions:plural:Potion|Potions} into {Potions:plural:a [gold]Rare Potion[/gold]|[gold]Rare Potions[/gold]}." Mechanics untouched (rarity+1 same-orientation). ⚠️ **Text/mechanics mismatch flagged:** a Common potion transforms to Uncommon, not Rare — text overpromises unless mechanics later change to straight-to-Rare.
+- **Files:** `TheWitch/localization/eng/cards.json`. **Verified:** build 0/0; regen (TESTED cleared).
+
+### 199. Weathered Witch Hat rework: Block + play a random Skill from your draw pile
+- **Done:** 2026-07-11 (claude) — User call: replaced the NextSkillDiscount rider with "play a random [gold]Skill[/gold] from your [gold]Draw Pile[/gold]" (free auto-play, nothing if none). Random pick + `CardCmd.AutoPlay(ctx, card, null)` follow base-game Catastrophe (`StableShuffle(Rng.Shuffle).FirstOrDefault()`); Unplayable skills excluded. Block/cost/rarity unchanged (2E Common, 10 Block, +3 upgrade). `NextSkillDiscountPower` NOT orphaned — Broom Strike still applies it.
+- **Files:** `TheWitchCode/Cards/WeatheredWitchHat.cs`, `TheWitch/localization/eng/cards.json`. **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: auto-played skill resolves targeting correctly; empty/no-skill draw pile no-ops.
+
+### 198. Familiar pets: one pet per stack, clustered by type
+- **Done:** 2026-07-11 (claude) — [FamiliarPower.cs](../TheWitchCode/Powers/FamiliarPower.cs): pet count now synced to stack count in `AfterPowerAmountChanged` (fires for initial apply AND every stack change — spawn missing / kill excess), `AfterApplied` keeps only the summon flourish, `AfterRemoved` sweeps leftovers. New [WitchPetClusterPatch.cs](../TheWitchCode/Monsters/WitchPetClusterPatch.cs): Harmony prefix on `NCombatRoom.PositionPlayersAndPets` stably regroups WitchPet nodes by (owner, pet type) in-place — only witch-pet slots rewritten, players/Osty/base-game pets untouched, so same-type familiars sit adjacent and a new summon lands next to its kin.
+- **Verified:** build 0/0. ⚠️ Playtest (visual, compile-checked only): N stacks = N pets; Wolf+Owl+Wolf shows wolves adjacent; stack loss removes one pet; layout with Byrdpip/MP.
+
+### 197. Pact of Fury: Exhaust
+- **Done:** 2026-07-11 (claude) — User call: repeatable permanent team-wide Strength was the problem; numbers untouched (Weak 5 / +4 Str, upgrade +2). `CanonicalKeywords => [CardKeyword.Exhaust]` on [PactOfFury.cs](../TheWitchCode/Cards/PactOfFury.cs) (loc untouched — Exhaust renders as keyword, PactOfAgony precedent).
+- **Verified:** build 0/0; regen.
+
+### 196. Bottle Barrage counts only the owner's potions (MP)
+- **Done:** 2026-07-11 (claude) — [PotionsCreatedTracker.cs](../TheWitchCode/Patches/PotionsCreatedTracker.cs) re-keyed: weak table still keyed by `ICombatState` (keeps the automatic per-combat reset) but now holds a per-`Player` count map; `CountFor(combat, player)`; [BottleBarrage.cs](../TheWitchCode/Cards/BottleBarrage.cs) passes `card.Owner`. Single-player behavior identical.
+- **Verified:** build 0/0. ⚠️ MP playtest: two players brewing — each Bottle Barrage shows only its owner's count.
+
+### 195. Ferocity includes itself in the hit count
+- **Done:** 2026-07-11 (claude) — [Ferocity.cs](../TheWitchCode/Cards/Familiar/Ferocity.cs): multiplier is now `AttacksPlayedThisTurnBefore(card) + 1` — history query still excludes the card itself, flat +1 added instead, so the pre-play preview equals the hits dealt (during OnPlay its own play is already in history). Dead `hits <= 0` early-out removed (always ≥1 now). Loc unchanged — "for each Attack played this turn" was already inclusive wording.
+- **Verified:** build 0/0; regen. ⚠️ Playtest: unplayed-this-turn Ferocity previews 1 hit; after 2 Attacks previews 3 and deals 3.
+
+### 194. Crystal Bottle MP fix: per-replay choice contexts
+- **Done:** 2026-07-11 (claude) — User report: bottled draft potion (Attack/Skill/Power/Colorless Potion `FromChooseACardScreen`) sometimes broke MP at turn start. Root cause: the whole turn-start window shares ONE `HookPlayerChoiceContext` per player and it supports exactly one player-choice game action; a second selection hits the `"Tried to interrupt action"` error path and opens unsynced. [NeverendingPotionPower.cs](../TheWitchCode/Powers/NeverendingPotionPower.cs) now wraps each bottled replay in its OWN `HookPlayerChoiceContext(this, LocalContext.NetId, combat, GameActionType.CombatPlayPhaseOnly)` + `AssignTaskAndWaitForPauseOrCompletion` (base-game `Hook.AfterDeath` pattern) — a choice-prompting replay pauses into its own queued action and resolves at Play-phase start; non-choice replays complete inline as before. Ordering caveat commented: a later bottle's instant effect can resolve before an earlier bottle's pending selection. Audited all other mod turn-start powers (CursedSpellbook, DeepRoots, HiddenInSmoke, RottingRoots, VigorNextTurn, WickerForm, FamiliarPower) — none open selections; this was the only offender. Gotcha added to CLAUDE.md.
+- **Verified:** build 0/0. ⚠️ MP playtest: bottle two draft potions — both selection screens queue cleanly, remote client waits on each.
+
+### 193. Crystal Bottle fix: bottled potions no longer persist across combats (+ BonfirePower same class)
+- **Done:** 2026-07-11 (claude) — User report: Neverending Potion replays carried into later combats. Root cause: models clone via `MemberwiseClone()` (shallow) and `NeverendingPotionPower._bottled` was a `readonly List` initialized at declaration — every mutable clone shared the CANONICAL model's list, so `Bottle()` wrote into process-lifetime state (power itself was correctly removed at combat end; the list survived on the canonical). Fix: field non-readonly + `DeepCloneFields()` override assigning a fresh list (new list, not `Clear()` — clearing would mutate the shared canonical). Same treatment applied to [BonfirePower.cs](../TheWitchCode/Powers/BonfirePower.cs) `_substituted` (milder symptom — stale-entry leak only). Audited remaining collection fields: `FamiliarPower._entries` (static loot-table config, safe), `PotionTraits._cache` (intentionally static). Gotcha added to CLAUDE.md.
+- **Verified:** build 0/0. ⚠️ Playtest: bottle a potion combat 1 → combat 2 starts with no Neverending Potion buff; re-arming replays only the newly drunk potion.
+
+### 192. CUT Hemlock
+- **Done:** 2026-07-11 (claude) — User call. Deleted [Hemlock.cs] (Rare Power card) + [HemlockPower.cs] (passive marker), loc keys `THEWITCH-HEMLOCK.*` / `THEWITCH-HEMLOCK_POWER.*`, art `hemlock.png` both sizes + `.import`s, and the Hemlock branch in [BramblesPower.cs](../TheWitchCode/Powers/BramblesPower.cs) `BeforeDamageReceived` (retaliation no longer checks for the marker). Historical mentions in `sfx-vfx-proposal.md` / `nameideas.md` left as design record (Scout Weakness precedent). No other references.
+- **Verified:** build 0/0; regen (94 cards, −Hemlock). ⚠️ Playtest: bramble retaliation still damages + decrements normally.
+
+### 191. New card: Volatile Vapors — potion payoff Power
+- **Done:** 2026-07-11 (claude) — User pick (item 20): "damage a random enemy". Uncommon Power, 1E, Self: apply [VolatileVaporsPower](../TheWitchCode/Powers/VolatileVaporsPower.cs) 6 (upgrade +3; user-tuned from my 4/+2) — whenever you use OR create a Potion, deal `Amount` damage to a random enemy. Hooks `AfterPotionUsed` + `AfterPotionProcured` (Cloak of Moonlight pair); random target = `Rng.CombatTargets.NextItem(HittableEnemies)` (base-game AttackCommand pattern); `ValueProp.Unpowered`, Counter stack. Tagged Potions/Payoff. **Missing art** — placeholder fallback; follow-up: `big/volatile_vapors.png` → `Images: Generate missing sizes` → `Godot: Import assets`. Numbers (4/+2) are a first guess — tune after play.
+- **Verified:** build 0/0. ⚠️ Playtest: triggers on both drink and brew; both hooks fire once each when a potion is created *then* used; random targeting in multi-enemy fights.
+
+### 190. Bottle Barrage → Common (item 15 resolution)
+- **Done:** 2026-07-11 (claude) — User pick: instead of reworking a Common generator, [BottleBarrage.cs](../TheWitchCode/Cards/BottleBarrage.cs) moves Uncommon → Common, filling the zero-potion-payoffs-at-Common gap while keeping the brew-trio generators intact. Stats untouched (10 dmg × potions created, upgrade +3). TESTED auto-cleared.
+- **Verified:** build 0/0 (shared gate with 191); regen run. ⚠️ Playtest: Common reward pools now offer it.
+
+### 189. Familiar tokens created BEFORE the hand draw (front of hand)
+- **Done:** 2026-07-11 (claude) — First pass kept `AfterPlayerTurnStart` + `CardPilePosition.Top` (front-of-hand already held); user then pointed at the base-game **SentryModePower** — [FamiliarPower.cs](../TheWitchCode/Powers/FamiliarPower.cs) now overrides `BeforeHandDraw(player, ctx, combatState)` instead, so tokens enter the hand *before* the turn's draw (matching base-game turn-start card generation). Kept `Top` to stay in front of retained cards; generated-card funnel unchanged (Cloak of Moonlight still triggers).
+- **Verified:** build 0/0. ⚠️ Playtest: tokens appear before the draw animation; retained-cards ordering; Cloak of Moonlight still procs on familiar tokens.
+
+### 188. Extract Essence — always creates a Common potion
+- **Done:** 2026-07-11 (claude) — [ExtractEssence.cs](../TheWitchCode/Cards/ExtractEssence.cs): removed the encounter-tier rarity switch (Boss→Rare / Elite→Uncommon); on-unblocked-damage potion is now always `PotionRarity.Common`. Loc unchanged (never mentioned rarity).
+- **Verified:** build 0/0 (shared gate with 185–188).
+
+### 187. Witch Strike cards tagged CardTag.Strike
+- **Done:** 2026-07-11 (claude) — `CanonicalTags => { CardTag.Strike }` added to [StrikeFear.cs](../TheWitchCode/Cards/StrikeFear.cs), [VexingStrike.cs](../TheWitchCode/Cards/VexingStrike.cs), [BroomStrike.cs](../TheWitchCode/Cards/BroomStrike.cs) (StrikeWitch already had it). These are all the Strike-named Witch attacks — Strike-tag synergies (e.g. Fasten-style Defend/Strike lookups) now see them.
+- **Verified:** build 0/0 (shared gate).
+
+### 186. Knowledge can no longer copy Knowledge
+- **Done:** 2026-07-11 (claude) — Infinite-spell loop: [Knowledge.cs](../TheWitchCode/Cards/Familiar/Knowledge.cs) hand-select now filters `c => c is not Knowledge` — by TYPE, not instance, since two Knowledges copying each other is the same loop. Loc: "a non-[gold]Knowledge[/gold] card". TESTED auto-cleared.
+- **Verified:** build 0/0 (shared gate). ⚠️ Playtest: Knowledge greyed out in its own select screen.
+
+### 185. Pocket Rats upgrade no longer upgrades the Rats
+- **Done:** 2026-07-11 (claude) — [PocketRats.cs](../TheWitchCode/Cards/PocketRats.cs): `CreateFamiliarCards<Rats>(..., isUpgraded: false)` + hover tip shows plain Rats; loc dropped `{IfUpgraded:show:Rats+|Rats}`. Upgrade = +1 Rat only. (Refuse Pile still grants upgraded Rats — note named only Pocket Rats.)
+- **Verified:** build 0/0 (shared gate).
+
+### 184. Vial of Smoke — usable on allies (MP)
+- **Done:** 2026-07-11 (claude) — [VialOfSmoke.cs](../TheWitchCode/Potions/VialOfSmoke.cs): `TargetType.Self` → `AnyPlayer` (base-game BlockPotion shape — self in SP, self-or-ally selection in MP); `OnUse` now blocks the chosen `target` with `AssertValidForTargetedPotion` guard. Loc unchanged — base game keeps "Gain {Block} Block" wording for AnyPlayer potions.
+- **Verified:** build 0/0. ⚠️ Playtest (MP): target ally → ally gets the 8 Block; SP unchanged.
+
+### 183. Mushroom Extract — mushroomed cards hide their tooltips
+- **Done:** 2026-07-11 (claude) — Keyword/status hover tips leaked the real card through the gibberish. New `MushroomedHoverTipsPatch` in [MushroomedCards.cs](../TheWitchCode/Patches/MushroomedCards.cs): Harmony postfix on `CardModel.get_HoverTips` returns empty for marked cards (that one getter feeds keywords, GainsBlock, enchantment, ExtraHoverTips — all suppressed).
+- **Verified:** build 0/0. ⚠️ Playtest: hover a mushroomed Exhaust/Block card → no tooltips.
+
+### 182. Bottomless Cauldron power now stacks
+- **Done:** 2026-07-11 (claude) — Note said "Noxious brew power effect should stack"; the power creating Noxious Brews is [BottomlessCauldronPower.cs](../TheWitchCode/Powers/BottomlessCauldronPower.cs). `PowerStackType.Single` → `Counter`; each potion used now procures `Amount` brews (loop). Loc smartDescription shows `{Amount}` with plural tag. Casting Bottomless Cauldron twice → 2 brews per potion.
+- **Verified:** build 0/0. ⚠️ Playtest: 2 stacks → 2 brews; brew-exclusion loop guard intact.
+
+### 181. Tinder — dropped "Can only be played if" description line
+- **Done:** 2026-07-11 (claude) — `THEWITCH-TINDER.description` first line removed; now "Lose 1 [gold]Brambles[/gold]. Gain {Energy:diff()} [gold]Energy[/gold]." `IsPlayable` gate + gold glow unchanged in [Tinder.cs](../TheWitchCode/Cards/Tinder.cs).
+- **Verified:** build 0/0 (shared gate with 176–180).
+
+### 180. Wax and Wane — upgrade is now +4 Block only (no extra Hex)
+- **Done:** 2026-07-11 (claude) — [WaxAndWane.cs](../TheWitchCode/Cards/WaxAndWane.cs) `OnUpgrade`: Block +2 → **+4**, `HexPower.UpgradeValueBy(1m)` removed (Hex stays 1). **Design call:** note didn't specify the block amount; +4 chosen to match peer uncommon-skill upgrades (Refuse Pile) — adjust if you wanted a different number.
+- **Verified:** build 0/0 (shared gate).
+
+### 179. Refuse Pile — 2 Energy, 12 Block
+- **Done:** 2026-07-11 (claude) — [RefusePile.cs](../TheWitchCode/Cards/RefusePile.cs): cost 1 → 2, base Block 11 → 12. Upgrade (+4 Block) and the 2+2 Rats unchanged.
+- **Verified:** build 0/0 (shared gate).
+
+### 178. Brambleburst — upgrade +13 → +2 damage
+- **Done:** 2026-07-11 (claude) — [Brambleburst.cs](../TheWitchCode/Cards/Brambleburst.cs) `OnUpgrade` `UpgradeValueBy(13m)` → `2m` (10 → 12 per bramble hit upgraded).
+- **Verified:** build 0/0 (shared gate).
+
+### 177. CUT Unstable Reaction
+- **Done:** 2026-07-11 (claude) — User: "Not a fun card." Deleted `UnstableReaction.cs`, loc keys `THEWITCH-UNSTABLE_REACTION.*`, art `unstable_reaction.png` both sizes + `.import`s. No orphans — card granted nothing; grep clean (only Docs, fixed by regen).
+- **Verified:** build 0/0 (shared gate); regen run at end of batch.
+
+### 176. Salt and Ash — debuff check missed sign-flipping powers (bug)
+- **Done:** 2026-07-11 (claude) — Root cause: bonus-block condition used `p.Type == PowerType.Debuff`, but powers like negative Strength/Dexterity have `Type = Buff` and only read as debuffs via `TypeForCurrentAmount` (base-game Misery/Rend pattern). So with e.g. −2 Strength the bonus 6 Block never triggered. [SaltAndAsh.cs](../TheWitchCode/Cards/SaltAndAsh.cs) now checks `TypeForCurrentAmount`. (Note: Frail *reducing* both block gains is correct game behavior, not this bug.)
+- **Verified:** build 0/0 (shared gate). ⚠️ Playtest: bonus triggers with negative Strength; still triggers with Frail/Weak/Vulnerable.
+
 ### 175. Build/portability hardening
 - **Done:** 2026-07-08 (claude) — All 7 sub-items:
   1. `local.props` import wired at top of [Directory.Build.props](../Directory.Build.props) (+ example block in comments); `/local.props` gitignored.
