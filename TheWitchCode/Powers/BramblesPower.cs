@@ -36,11 +36,7 @@ public sealed class BramblesPower : WitchPower
 			{
 				await PowerCmd.Apply<HexPower>(choiceContext, dealer, 1m, Owner, null);
 			}
-			// Hedge Prison makes brambles permanent: skip the per-trigger decrement.
-			if (Owner.GetPowerAmount<HedgePrisonPower>() == 0)
-			{
-				await PowerCmd.Decrement(this);
-			}
+			await PowerCmd.Decrement(this);
 		}
 	}
 }

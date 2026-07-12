@@ -17,14 +17,14 @@ public sealed class PactOfAgony : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(2),
-        new DamageVar(20m, ValueProp.Move)
+        new CardsVar(1),
+        new DamageVar(15m, ValueProp.Move)
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public PactOfAgony()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
+        : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
     {
     }
 

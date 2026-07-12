@@ -5,20 +5,31 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Hex (enemy debuff): at the end of the hexed enemy's turn, drain 1 Strength from it and give that Strength to
-/// the witch who cast the Hex (<see cref="Applier" />), then remove one stack. A decrementing, consistent power
-/// drain — Hex is the thematic means of stealing Strength over time; Strength does the payoff work.
+/// Hex (enemy debuff): at the end of the hexed enemy's turn, it suffers one random EVIL effect per stack,
+/// rolled from a fixed table — 10 damage, 1 Weak, 1 Vulnerable, steal 1 Strength (enemy loses 1, the hexing
+/// witch gains 1), or 6 Poison. Stacks persist (no decrement) — Hex is a geometric scaling engine, not a
+/// timed drain. Rolls use the seeded CombatTargets stream, sourced via the hexed creature's combat state so
+/// it works without a live applier; the Strength-steal grant just fizzles if the applier is gone.
 /// </summary>
 public sealed class HexPower : WitchPower
 {
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    private const decimal DamageAmount = 10m;
+    private const decimal WeakAmount = 1m;
+    private const decimal VulnerableAmount = 1m;
+    private const decimal StrengthAmount = 1m;
+    private const decimal PoisonAmount = 6m;
+    private const int EvilEffectCount = 5;
 
     /// <summary>Hex signature on every application: occult gaze + doom sting on the hexed creature.</summary>
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
@@ -29,20 +40,43 @@ public sealed class HexPower : WitchPower
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
-        if (Amount <= 0 || !participants.Contains(Owner))
+        if (Amount <= 0 || !participants.Contains(Owner) || !Owner.IsAlive || Owner.CombatState is not { } combat)
         {
             return;
         }
 
         Flash();
-
-        // Enemy loses 1 Strength (can go negative), the witch gains it.
-        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, -1m, Owner, null);
-        if (Applier is { IsAlive: true } witch)
+        Rng rng = combat.RunState.Rng.CombatTargets;
+        for (int i = 0; i < (int)Amount && Owner.IsAlive; i++)
         {
-            await PowerCmd.Apply<StrengthPower>(choiceContext, witch, 1m, witch, null);
+            await ApplyEvilEffect(choiceContext, rng.NextInt(EvilEffectCount));
         }
+    }
 
-        await PowerCmd.Decrement(this);
+    private async Task ApplyEvilEffect(PlayerChoiceContext choiceContext, int roll)
+    {
+        Creature? witch = Applier is { IsAlive: true } applier ? applier : null;
+        switch (roll)
+        {
+            case 0:
+                await CreatureCmd.Damage(choiceContext, [Owner], DamageAmount, ValueProp.Unpowered, witch ?? Owner, null);
+                break;
+            case 1:
+                await PowerCmd.Apply<WeakPower>(choiceContext, Owner, WeakAmount, witch, null);
+                break;
+            case 2:
+                await PowerCmd.Apply<VulnerablePower>(choiceContext, Owner, VulnerableAmount, witch, null);
+                break;
+            case 3:
+                await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, -StrengthAmount, witch, null);
+                if (witch != null)
+                {
+                    await PowerCmd.Apply<StrengthPower>(choiceContext, witch, StrengthAmount, witch, null);
+                }
+                break;
+            default:
+                await PowerCmd.Apply<PoisonPower>(choiceContext, Owner, PoisonAmount, witch, null);
+                break;
+        }
     }
 }

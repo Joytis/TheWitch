@@ -1,18 +1,26 @@
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Tinder: burn a card from your hand as kindling for Energy.</summary>
+/// <summary>Tinder: burn a bramble as kindling for Energy.</summary>
 public sealed class Tinder : WitchCard
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<BramblesPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DynamicVar("Energy", 2m)
     ];
+
+    protected override bool IsPlayable => Owner.Creature.GetPower<BramblesPower>() is { Amount: > 0 };
+
+    protected override bool ShouldGlowGoldInternal => IsPlayable;
 
     public Tinder()
         : base(0, CardType.Skill, CardRarity.Common, TargetType.Self)
@@ -21,18 +29,13 @@ public sealed class Tinder : WitchCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        CardModel? chosen = (await CardSelectCmd.FromHand(
-            context: choiceContext,
-            player: Owner,
-            prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1),
-            filter: null,
-            source: this)).FirstOrDefault();
-        if (chosen == null)
+        BramblesPower? brambles = Owner.Creature.GetPower<BramblesPower>();
+        if (brambles == null)
         {
-            return;
+            return; // IsPlayable gates this; guard for forced plays
         }
+        await PowerCmd.Decrement(brambles);
 
-        await CardCmd.Exhaust(choiceContext, chosen);
         await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
     }
 

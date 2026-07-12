@@ -1,16 +1,12 @@
 # TODO — Staging / Inbox
 
-- There needs to be more potion payoffs. Maybe add +1 Strength per potion to A little sip? let's brainstorm here and look for some potential solutions or design space that's over-covered. 
-- Maybe even change something to a potion payoff at common? Maybe another pay off at uncommon? let's brainstorm here and look for some potential solutions or design space that's over-covered. Maybe rework Roomy Satchel to scale from potion mechanics? 
-- New power - The next potion you use becomes a permanant buff this combat - use the potion at the start of each turn. 
-- Make a potion with a rarity above rare that any rare potion will upgrade into on upgrade. 
-- Distil - Always make the potion rare. Never create the 20% healing potion or fruit juice. 
-- Mushroom Extract - Should also remove tooltips. 
-- Hedge Prison CUT - Super boring, we should probably get rid of it. for something more interesting. 
-- Vial of smoke should be usable on allies. 
-- Hexblast - Shouldn't remove the debuffs. Should deal damage to ALL enemies for each of their unique debuffs. 
-- Unstable Reaction - Not a fun card - CUT IT. 
-- Noxious brew power effect should stack. 
+- There needs to be more potion payoffs. let's brainstorm here and look for some potential solutions or design space that's over-covered. (Note: A Little Sip +1 Str per potion, Crystal Bottle, Catalyst copy-on-potion, and Big Batch landed 2026-07-09/10 — reassess whether more are still needed.)
+- Maybe even change something to a potion payoff at common? Maybe another pay off at uncommon? let's brainstorm here and look for some potential solutions or design space that's over-covered. (Roomy Satchel has since been cut — no longer a rework candidate.)
+- Make a potion with a rarity above rare that any rare potion will upgrade into on upgrade.
+- Mushroom Extract - Should also remove tooltips.
+- Vial of smoke should be usable on allies.
+- Unstable Reaction - Not a fun card - CUT IT.
+- Noxious brew power effect should stack.
 
 Raw notes land here. When ingested into [TODO.md](TODO.md), delete the line from this file.
 
@@ -18,6 +14,4 @@ _All raw notes as of 2026-07-03 have been ingested into [TODO.md](TODO.md) (item
 
 ## Playtest feedback — Patty 2026-07-06 ([source](PlaytestFeedback/Patty-2026-07-06.md))
 
-- Potion Satchel 
-
-
+- Potion Satchel

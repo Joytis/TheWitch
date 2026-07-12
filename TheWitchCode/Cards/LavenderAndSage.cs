@@ -16,7 +16,7 @@ public sealed class LavenderAndSage : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(1),
-        new PowerVar<BramblesPower>(5m),
+        new PowerVar<BramblesPower>(4m),
     ];
 
     public LavenderAndSage()
