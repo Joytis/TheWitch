@@ -1,4 +1,5 @@
 using System.Linq;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Extract Life: an Attack that also enchants a random card in your hand with Replay and Exhaust — one big
+/// Extract Life: an Attack that also enchants a chosen card in your hand with Replay and Exhaust — one big
 /// extra payoff this combat, then gone. Replay enchant mirrors the base-game <c>HiddenGem</c> pattern
 /// (<c>BaseReplayCount += Replay</c>, then <c>CardCmd.Preview</c>); Exhaust is added via <c>AddKeyword</c>.
 /// </summary>
@@ -39,14 +40,12 @@ public sealed class ExtractLife : WitchCard
             .WithHitFx("vfx/vfx_bloody_impact")
             .Execute(choiceContext);
 
-        List<CardModel> hand = PileType.Hand.GetPile(Owner).Cards
-            .Where(c => !c.Keywords.Contains(CardKeyword.Unplayable))
-            .ToList();
-        if (hand.Count == 0)
-        {
-            return;
-        }
-        CardModel? chosen = Owner.RunState.Rng.CombatCardSelection.NextItem(hand);
+        CardModel? chosen = (await CardSelectCmd.FromHand(
+            context: choiceContext,
+            player: Owner,
+            prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
+            filter: c => !c.Keywords.Contains(CardKeyword.Unplayable),
+            source: this)).FirstOrDefault();
         if (chosen != null)
         {
             chosen.BaseReplayCount += DynamicVars["Replay"].IntValue;

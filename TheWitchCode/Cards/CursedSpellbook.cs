@@ -7,27 +7,32 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Cursed Spellbook: a 0-cost engine — trade one card of draw each turn for extra Energy every turn.</summary>
+/// <summary>Cursed Spellbook: a free surge of power with the curse baked in — Energy and cards now, Hex to pay for it.</summary>
 public sealed class CursedSpellbook : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<CursedSpellbookPower>(),
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new EnergyVar(1)
+        new EnergyVar(3),
+        new CardsVar(2),
+        new PowerVar<HexPower>(3m)
     ];
 
     public CursedSpellbook()
-        : base(0, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-        await PowerCmd.Apply<CursedSpellbookPower>(choiceContext, Owner.Creature, DynamicVars["Energy"].BaseValue, Owner.Creature, this);
+        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+        await PlayerCmd.GainEnergy(DynamicVars["Energy"].BaseValue, Owner);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
+        await PowerCmd.Apply<HexPower>(choiceContext, Owner.Creature, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Energy"].UpgradeValueBy(1m);
+    // Upgrade softens the curse: gain 2 Hex instead of 3.
+    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(-1m);
 }

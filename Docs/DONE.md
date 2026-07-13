@@ -6,6 +6,58 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 233. Cut The Cauldron (orphaned by Witchcraft redesign; user-approved cascade)
+- **Done:** 2026-07-12 (claude) — Witchcraft (entry 230) was its only procurer. Deleted `Potions/TheCauldron.cs` + `Potions/CauldronSavePatch.cs` (+.uids); removed the `TheCauldron` exclusion guards in [CrystalBottlePower.cs](../TheWitchCode/Powers/CrystalBottlePower.cs) and [NextPotionCopiedPower.cs](../TheWitchCode/Powers/NextPotionCopiedPower.cs); removed its `PotionTraits.Manual` + `HealingManual` rows; deleted `THEWITCH-THE_CAULDRON.*` from potions.json; removed its art-tracker `assets.json` row (no art existed). CLAUDE.md sidecar-save pointer updated to reference git history.
+- **Verified:** build 0/0; regen (23 other assets, −The Cauldron).
+
+### 232. Feast with Wolves — Attack → Skill (Block + dig)
+- **Done:** 2026-07-12 (claude) — [FeastWithWolves.cs](../TheWitchCode/Cards/FeastWithWolves.cs): was 1E Uncommon Attack "Deal 9 (+3), draw until Attack". Now 1E Uncommon Skill (Self, `GainsBlock`): Gain 8 (+3) Block, keep the draw-until-Attack loop (null-draw safety exit unchanged).
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 231. Call the Pack — Attack → Skill (Block + Gnash)
+- **Done:** 2026-07-12 (claude) — [CallThePack.cs](../TheWitchCode/Cards/CallThePack.cs): was "Deal 8, shuffle 1 (+1) Gnash". Now 1E Common Skill (Self, `GainsBlock`): Gain 6 (+3) Block, shuffle 2 (+1 → 3, user call: "+3 Gnash" read as 3 total) Gnash into Draw Pile (generated path unchanged).
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 230. Witchcraft — Xe: Create X random Potions (Cauldron pour cut)
+- **Done:** 2026-07-12 (claude) — [Witchcraft.cs](../TheWitchCode/Cards/Witchcraft.cs): was 2E "pour belt into The Cauldron". Now X-cost Rare Skill, Exhaust kept (my call — X-cost repeatable potion gen too strong without it; mirrors Creeping Vines): X rolls, each using the base-game PotionFactory rarity weights (10% Rare / 25% Uncommon / 65% Common) over `PotionCatalog.Query(rarity:)` (Randomizable = Witch+Shared, no healing; fallback any-rarity query), `ToMutable()` + `TryToProcure`, purple splash per potion. Upgrade removed (X-cost; note gave none). Orphaned The Cauldron → cut entirely (entry 233, user-approved).
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: X=0 no-op, belt-full overflow behavior.
+
+### 229. Wicker Form — per-card-played Brambles
+- **Done:** 2026-07-12 (claude) — [WickerFormPower.cs](../TheWitchCode/Powers/WickerFormPower.cs): was "turn start, gain Amount Brambles". Now `AfterCardPlayed` (own cards only) → gain Amount Brambles. [WickerForm.cs](../TheWitchCode/Cards/WickerForm.cs): still 3E Rare Power; var 1, upgrade +1 (per-card yield 2). powers.json + cards.json texts updated.
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: whether the WickerForm play itself triggers a stack (power applies during its own resolution — expected: later cards only).
+
+### 228. Lich Powder — Hex cost → Strength cost, upgrade = cost 0
+- **Done:** 2026-07-12 (claude) — [LichPowder.cs](../TheWitchCode/Cards/LichPowder.cs): Gain 1 Intangible, LOSE 2 Strength (negative `StrengthPower` apply; Hex removed). Upgrade: 1E → 0E (user call). Hover tips now Intangible + Strength.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 227. Claw Eyes → Dark Omen (rename + redesign)
+- **Done:** 2026-07-12 (claude) — Deleted `Familiar/ClawEyes.cs` (+.uid); new [DarkOmen.cs](../TheWitchCode/Cards/Familiar/DarkOmen.cs): 0E Skill Token (AllEnemies) — Apply 2 (+1, my call) Hex to ALL enemies; Exhaust via `WitchFamiliarCard` base. Refs updated: `CrowFamiliarPower` loot table, `CrowFamiliar` hover tip. Loc keys `CLAW_EYES.*` → `DARK_OMEN.*`. No art existed for Claw Eyes (placeholder) — "keep current art" = still placeholder; nothing to rename.
+- **Verified:** build 0/0; regen (card list: −Claw Eyes +Dark Omen). ⚠️ Art missing: dark_omen.png.
+
+### 226. Extract Life — choose the in-hand Replay target
+- **Done:** 2026-07-12 (claude) — [ExtractLife.cs](../TheWitchCode/Cards/ExtractLife.cs): random hand pick → `CardSelectCmd.FromHand` (1 card, Unplayable filtered, skippable); chosen gains Replay 2 (+1) + Exhaust + Preview. Loc + `selectionScreenPrompt` added.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 225. Cursed Spellbook — Power → one-shot Skill; power deleted
+- **Done:** 2026-07-12 (claude) — [CursedSpellbook.cs](../TheWitchCode/Cards/CursedSpellbook.cs): was 0E Rare Power (engine: +Energy/turn, −HP/turn). Now 0E Rare Skill: Gain 3 Energy, draw 2, gain 3 Hex (self). Upgrade: Hex 3 → 2 (my call — note gave none; keeps the old "soften the drawback" pattern). Deleted `CursedSpellbookPower.cs` (+.uid, user-approved) + its powers.json keys.
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: self-Hex interaction (HexPower on the player).
+
+### 224. Double, Double — Replay target now chosen from Hand
+- **Done:** 2026-07-12 (claude) — [DoubleDouble.cs](../TheWitchCode/Cards/DoubleDouble.cs): random Draw-pile enchant → `CardSelectCmd.FromHand` (1 card, Unplayable filtered, skippable); chosen gains Replay 1 + Preview. Loc + `selectionScreenPrompt` added.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 223. Read the Bones — hex now, Block next turn
+- **Done:** 2026-07-12 (claude) — [ReadTheBones.cs](../TheWitchCode/Cards/ReadTheBones.cs): draw-next-turn → base-game `BlockNextTurnPower`. Apply 2 (+1) Hex, next turn gain 8 (+2) Block. Gaze vfx kept.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 222. Fertilize — Brambles + next-turn Energy
+- **Done:** 2026-07-12 (claude) — [Fertilize.cs](../TheWitchCode/Cards/Fertilize.cs): in-hand random upgrade effect cut; now Gain 5 (+3) Brambles + base-game `EnergyNextTurnPower` 1 (Energy next turn). Cast anim kept.
+- **Verified:** build 0/0; regen (TESTED cleared).
+
+### 221. Wax and Wane — delayed all-enemy Hex
+- **Done:** 2026-07-12 (claude) — [WaxAndWane.cs](../TheWitchCode/Cards/WaxAndWane.cs): was Block + 1 Hex to target. Now Self-target: Gain 9 (+4, unchanged upgrade — note gave none) Block + new [WaxAndWanePower.cs](../TheWitchCode/Powers/WaxAndWanePower.cs) 2 stacks — at start of your next turn, apply Amount Hex to ALL enemies, then self-remove (BlockNextTurnPower one-shot shape). powers.json keys added.
+- **Verified:** build 0/0; regen (TESTED cleared). ⚠️ Playtest: double-play stacks to 4 Hex in one tick; MP hook context. ⚠️ Power icon art missing (placeholder).
+
 ### 220. New card: Moonbeam (2E Uncommon Attack)
 - **Done:** 2026-07-12 (claude) — [Moonbeam.cs](../TheWitchCode/Cards/Moonbeam.cs) + [MoonbeamPower.cs](../TheWitchCode/Powers/MoonbeamPower.cs): Deal 10 (+3), then apply Moonbeam (debuff, Amount = card damage) — the target takes that damage again at the start of each of the APPLIER's turns (`Applier` guard, so MP-correct; blockable non-attack, `Unpowered` so Strength/Vigor don't re-scale the tick; starry hit fx, purple flame tick). Stacks add (second play = +10/turn). Skipped if the initial hit kills. Tagged None·Standalone.
 - **Verified:** build 0/0; regen. ⚠️ Playtest: tick fires at your turn start each turn, respects Block; stacking adds. ⚠️ Art missing: moonbeam.png.

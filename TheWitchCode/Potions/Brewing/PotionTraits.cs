@@ -110,7 +110,6 @@ public static class PotionTraits
 
         // ---------------- Modded (TheWitch) ----------------
         [typeof(NoxiousBrew)] = PotionOrientation.Offensive,            // card-only offensive brew (deal damage)
-        [typeof(TheCauldron)] = PotionOrientation.Offensive,            // Witchcraft accumulator (Strength + heal); leans offensive
         [typeof(Fertilizer)] = PotionOrientation.Offensive,             // gains Brambles, tagged offensive by design
         [typeof(BuddyInABottle)] = PotionOrientation.Utility,           // adds a random Familiar summon card
         [typeof(VialOfSmoke)] = PotionOrientation.Defensive,            // card-only Block potion (Light the Candle)
@@ -130,7 +129,6 @@ public static class PotionTraits
         typeof(FairyInABottle),   // revive: heal to 30% when you'd hit 0 HP
         typeof(FruitJuice),       // gain Max HP (current HP rises with it)
         typeof(WormyApple),       // heal 15 (plus Wormy statuses)
-        typeof(TheCauldron),      // accumulator includes a heal component
     };
 
     /// <summary>

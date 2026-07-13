@@ -1,13 +1,13 @@
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Wicker Form: at the start of the owner's turn, gain <see cref="PowerModel.Amount" /> Brambles.
-/// The big sibling of <see cref="DeepRootsPower" /> — Amount is the per-turn yield.
+/// Wicker Form: for each card the owner plays, gain <see cref="PowerModel.Amount" /> Brambles.
+/// Fires on the played card's own resolution too (the buff is live once applied, so only later cards count).
 /// </summary>
 public sealed class WickerFormPower : WitchPower
 {
@@ -15,9 +15,9 @@ public sealed class WickerFormPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (player.Creature != Owner)
+        if (cardPlay.Card.Owner.Creature != Owner)
         {
             return;
         }

@@ -26,14 +26,14 @@ public sealed class AccursedNeedles : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(3m, ValueProp.Move),
-        new CalculationBaseVar(1m),
+        new CalculationBaseVar(2m),
         new CalculationExtraVar(1m),
         new CalculatedVar(_calculatedHexKey)
             .WithMultiplier((card, _) => ((AccursedNeedles)card)._timesPlayedThisCombat)
     ];
 
     public AccursedNeedles()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

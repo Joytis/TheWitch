@@ -7,7 +7,7 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Wicker Form: become the wicker — a huge bramble harvest every turn.</summary>
+/// <summary>Wicker Form: become the wicker — every card you play sprouts Brambles.</summary>
 public sealed class WickerForm : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -15,7 +15,7 @@ public sealed class WickerForm : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<WickerFormPower>(10m)
+        new PowerVar<WickerFormPower>(1m)
     ];
 
     public WickerForm()
@@ -29,5 +29,5 @@ public sealed class WickerForm : WitchCard
         await PowerCmd.Apply<WickerFormPower>(choiceContext, Owner.Creature, DynamicVars["WickerFormPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["WickerFormPower"].UpgradeValueBy(5m);
+    protected override void OnUpgrade() => DynamicVars["WickerFormPower"].UpgradeValueBy(1m);
 }

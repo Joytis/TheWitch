@@ -57,16 +57,6 @@
           "path": "TheWitch/images/potions/noxious_brew.png"
         },
         {
-          "name": "The Cauldron",
-          "artist": "",
-          "done": false,
-          "brief": "",
-          "rarity": "Token",
-          "orientation": "Utility",
-          "effect": "Evil concoction — mixed effect from poured-in potions (pairs with Witchcraft).",
-          "path": "TheWitch/images/potions/the_cauldron.png"
-        },
-        {
           "name": "Mushroom Extract",
           "artist": "",
           "done": false,

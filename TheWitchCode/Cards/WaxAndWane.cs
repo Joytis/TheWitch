@@ -8,7 +8,7 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Wax and Wane: shore up with Block while cursing the target with Hex.</summary>
+/// <summary>Wax and Wane: shore up with Block now; the curse lands at the start of next turn, on everyone.</summary>
 public sealed class WaxAndWane : WitchCard
 {
     public override bool GainsBlock => true;
@@ -19,19 +19,18 @@ public sealed class WaxAndWane : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(9m, ValueProp.Move),
-        new PowerVar<HexPower>(1m)
+        new PowerVar<WaxAndWanePower>(2m)
     ];
 
     public WaxAndWane()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
-        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<WaxAndWanePower>(choiceContext, Owner.Creature, DynamicVars["WaxAndWanePower"].BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);

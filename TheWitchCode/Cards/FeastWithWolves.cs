@@ -7,26 +7,23 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Feast With Wolves: light hit that digs through your deck until it turns up an Attack.</summary>
+/// <summary>Feast With Wolves: guard the kill and dig through your deck until an Attack turns up.</summary>
 public sealed class FeastWithWolves : WitchCard
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(9m, ValueProp.Move)
+        new BlockVar(8m, ValueProp.Move)
     ];
 
     public FeastWithWolves()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_bite")
-            .Execute(choiceContext);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
 
         // Draw one at a time until an Attack surfaces; Draw returns null when nothing more can be drawn
         // (empty draw + discard, or a full hand) — that's the loop's safety exit.
@@ -40,5 +37,5 @@ public sealed class FeastWithWolves : WitchCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }

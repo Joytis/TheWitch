@@ -4,21 +4,20 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using HexPower = TheWitch.TheWitchCode.Powers.HexPower;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Lich Powder: become untouchable at the cost of a curse — gain Intangible, gain Hex.</summary>
+/// <summary>Lich Powder: become untouchable at the cost of your vigor — gain Intangible, lose Strength.</summary>
 public sealed class LichPowder : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<IntangiblePower>(),
-        HoverTipFactory.FromPower<HexPower>(),
+        HoverTipFactory.FromPower<StrengthPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<IntangiblePower>(1m),
-        new PowerVar<HexPower>(3m),
+        new PowerVar<StrengthPower>(2m),
     ];
 
     public LichPowder()
@@ -30,9 +29,8 @@ public sealed class LichPowder : WitchCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
         await PowerCmd.Apply<IntangiblePower>(choiceContext, Owner.Creature, DynamicVars["IntangiblePower"].BaseValue, Owner.Creature, this);
-        await PowerCmd.Apply<HexPower>(choiceContext, Owner.Creature, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, -DynamicVars["StrengthPower"].BaseValue, Owner.Creature, this);
     }
 
-    // Upgrade softens the drawback: gain 2 Hex instead of 3.
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(-1m);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -1,20 +1,17 @@
-using System.Collections.Generic;
-using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using TheWitch.TheWitchCode.Powers;
 using TheWitch.TheWitchCode.Extensions;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Fertilize (renamed from Serrated Bones): gain Brambles and upgrade random card(s) in your hand. The in-hand
-/// upgrades go through <c>CardCmd.Upgrade</c> so any on-upgrade listeners fire.
+/// Fertilize: sow now, reap next turn — gain Brambles and bank 1 Energy for next turn
+/// (base-game <see cref="EnergyNextTurnPower" />).
 /// </summary>
 public sealed class Fertilize : WitchCard
 {
@@ -24,7 +21,7 @@ public sealed class Fertilize : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<BramblesPower>(5m),
-        new CardsVar(1)
+        new PowerVar<EnergyNextTurnPower>(1m)
     ];
 
     public Fertilize()
@@ -36,24 +33,8 @@ public sealed class Fertilize : WitchCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
-
-        List<CardModel> upgradable = PileType.Hand.GetPile(Owner).Cards.Where(c => c.IsUpgradable).ToList();
-        int count = DynamicVars.Cards.IntValue;
-        for (int i = 0; i < count && upgradable.Count > 0; i++)
-        {
-            CardModel? pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(upgradable);
-            if(pick != null)
-            {
-                upgradable.Remove(pick);
-                WitchFx.EnchantShimmer();
-                CardCmd.Upgrade(pick);
-            }
-        }
+        await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["EnergyNextTurnPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Brambles().UpgradeValueBy(1m);
-        DynamicVars.Cards.UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Brambles().UpgradeValueBy(3m);
 }

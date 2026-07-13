@@ -10,7 +10,7 @@ public sealed class CrowFamiliar : WitchCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<CrowFamiliarPower>(),
-        HoverTipFactory.FromCard<ClawEyes>(IsUpgraded),
+        HoverTipFactory.FromCard<DarkOmen>(IsUpgraded),
         HoverTipFactory.FromCard<Shiny>(IsUpgraded),
     ];
 
