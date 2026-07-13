@@ -9,8 +9,8 @@ using HexPower = TheWitch.TheWitchCode.Powers.HexPower;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Read the Bones: curse the enemy now, divine your next draw — apply Hex, then draw extra cards next turn
-/// (base-game <see cref="DrawCardsNextTurnPower" />).
+/// Read the Bones: curse the enemy now, foresee the blow to come — apply Hex, then gain Block next turn
+/// (base-game <see cref="BlockNextTurnPower" />).
 /// </summary>
 public sealed class ReadTheBones : WitchCard
 {
@@ -19,8 +19,8 @@ public sealed class ReadTheBones : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<HexPower>(1m),
-        new CardsVar(1)
+        new PowerVar<HexPower>(2m),
+        new PowerVar<BlockNextTurnPower>(8m)
     ];
 
     public ReadTheBones()
@@ -33,13 +33,12 @@ public sealed class ReadTheBones : WitchCard
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
         VfxCmd.PlayOnCreatureCenter(Owner.Creature, VfxCmd.gazePath); // divination read
-        await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars.Cards.BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<BlockNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["BlockNextTurnPower"].BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Cards.UpgradeValueBy(1m);
         DynamicVars["HexPower"].UpgradeValueBy(1m);
+        DynamicVars["BlockNextTurnPower"].UpgradeValueBy(2m);
     }
 }
-

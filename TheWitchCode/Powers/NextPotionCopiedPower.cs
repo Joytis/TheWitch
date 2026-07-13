@@ -23,9 +23,7 @@ public sealed class NextPotionCopiedPower : WitchPower
 
     public override async Task AfterPotionProcured(PotionModel potion)
     {
-        // Never copy The Cauldron (its state lives in the instance; a copy would be a fresh empty one) —
-        // and don't consume a stack for it: the buff waits for a copyable potion.
-        if (_copying || potion.Owner != Owner.Player || potion is Potions.TheCauldron)
+        if (_copying || potion.Owner != Owner.Player)
         {
             return;
         }

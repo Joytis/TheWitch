@@ -1,30 +1,27 @@
-using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Random;
 using TheWitch.TheWitchCode.Extensions;
-using TheWitch.TheWitchCode.Potions;
+using TheWitch.TheWitchCode.Potions.Brewing;
 
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Witchcraft (renamed from Cackle): pour the whole belt into the Cauldron. Discards every potion except
-/// The Cauldron (creating one if needed), then feeds the discarded count into
-/// <see cref="TheCauldron.PourPotions" /> — per potion: +2 Strength and +3 heal on use; 2+ poured also
-/// unlocks Energy, 3+ a debuff cleanse, 4+ Intangible.
+/// Witchcraft: spend X Energy, create X random potions. Each roll uses the game's own drop weights
+/// (10% Rare / 25% Uncommon / 65% Common, the <c>PotionFactory</c> thresholds) over the Randomizable
+/// pool (Witch + Shared, no healing).
 /// </summary>
 public sealed class Witchcraft : WitchCard
 {
+    protected override bool HasEnergyCostX => true;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPotion<TheCauldron>(),
-    ];
-
     public Witchcraft()
-        : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -32,25 +29,22 @@ public sealed class Witchcraft : WitchCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        List<PotionModel> poured = Owner.Potions.Where(p => p is not TheCauldron).ToList();
-        foreach (PotionModel potion in poured)
+        Rng rng = Owner.RunState.Rng.CombatPotionGeneration;
+        int times = ResolveEnergyXValue();
+        for (int i = 0; i < times; i++)
         {
-            await PotionCmd.Discard(potion);
-        }
-
-        TheCauldron? cauldron = Owner.Potions.OfType<TheCauldron>().FirstOrDefault();
-        if (cauldron == null)
-        {
-            await PotionCmd.TryToProcure<TheCauldron>(Owner);
-            cauldron = Owner.Potions.OfType<TheCauldron>().FirstOrDefault();
-        }
-
-        if (cauldron != null && poured.Count > 0)
-        {
-            WitchFx.Splash(Owner.Creature, new Godot.Color("ac54b3")); // cauldron pour: purple splash
-            cauldron.PourPotions(poured.Count);
+            // Base-game PotionFactory rarity thresholds: <=0.1 Rare, <=0.35 Uncommon, else Common.
+            float roll = rng.NextFloat();
+            PotionRarity rarity = roll <= 0.1f ? PotionRarity.Rare
+                : roll <= 0.35f ? PotionRarity.Uncommon
+                : PotionRarity.Common;
+            PotionModel? potion = PotionCatalog.Random(PotionCatalog.Query(rarity: rarity), rng)
+                ?? PotionCatalog.Random(PotionCatalog.Query(), rng);
+            if (potion != null)
+            {
+                WitchFx.Splash(Owner.Creature, new Godot.Color("ac54b3")); // conjured brew: purple splash
+                await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
+            }
         }
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

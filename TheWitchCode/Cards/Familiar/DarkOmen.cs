@@ -1,0 +1,33 @@
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using HexPower = TheWitch.TheWitchCode.Powers.HexPower;
+
+namespace TheWitch.TheWitchCode.Cards;
+
+/// <summary>Crow familiar token (formerly Claw Eyes): an ill portent — Hex for the whole board. Exhausts.</summary>
+public sealed class DarkOmen : WitchFamiliarCard
+{
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<HexPower>(),
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
+        new PowerVar<HexPower>(2m),
+    ];
+
+    public DarkOmen()
+        : base(0, CardType.Skill, CardRarity.Token, TargetType.AllEnemies)
+    {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+    }
+
+    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(1m);
+}

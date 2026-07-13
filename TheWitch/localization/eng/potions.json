@@ -1,8 +1,6 @@
 {
   "THEWITCH-NOXIOUS_BREW.title": "Noxious Brew",
   "THEWITCH-NOXIOUS_BREW.description": "Deal [blue]{Damage}[/blue] damage.",
-  "THEWITCH-THE_CAULDRON.title": "The Cauldron",
-  "THEWITCH-THE_CAULDRON.description": "An evil concoction.{StrengthPower:cond:>0?\nGain [blue]{StrengthPower}[/blue] [gold]Strength[/gold].|}{VigorPower:cond:>0?\nGain [blue]{VigorPower}[/blue] [gold]Vigor[/gold].|}{Block:cond:>0?\nGain [blue]{Block}[/blue] [gold]Block[/gold].|}{Heal:cond:>0?\nHeal [green]{Heal}[/green] HP.|}{Energy:cond:>0?\nGain [blue]{Energy}[/blue] [gold]Energy[/gold].|}{Cleanse:cond:>0?\nRemove a debuff.|}{IntangiblePower:cond:>0?\nGain [blue]{IntangiblePower}[/blue] [gold]Intangible[/gold].|}",
   "THEWITCH-FERTILIZER.title": "Fertilizer",
   "THEWITCH-FERTILIZER.description": "Gain [blue]{BramblesPower}[/blue] [gold]Brambles[/gold].",
   "THEWITCH-BUDDY_IN_A_BOTTLE.title": "Buddy in a Bottle",

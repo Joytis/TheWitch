@@ -1,4 +1,5 @@
 using System.Linq;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>"Double, double, toil and trouble" — hit twice, then enchant a random Draw Pile card with Replay.</summary>
+/// <summary>"Double, double, toil and trouble" — hit twice, then enchant a chosen card in your Hand with Replay.</summary>
 public sealed class DoubleDouble : WitchCard
 {
     private const int Hits = 2;
@@ -38,14 +39,12 @@ public sealed class DoubleDouble : WitchCard
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        List<CardModel> deck = PileType.Draw.GetPile(Owner).Cards
-            .Where(c => !c.Keywords.Contains(CardKeyword.Unplayable))
-            .ToList();
-        if (deck.Count == 0)
-        {
-            return;
-        }
-        CardModel? chosen = Owner.RunState.Rng.CombatCardSelection.NextItem(deck);
+        CardModel? chosen = (await CardSelectCmd.FromHand(
+            context: choiceContext,
+            player: Owner,
+            prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
+            filter: c => !c.Keywords.Contains(CardKeyword.Unplayable),
+            source: this)).FirstOrDefault();
         if (chosen != null)
         {
             chosen.BaseReplayCount += DynamicVars["Replay"].IntValue;

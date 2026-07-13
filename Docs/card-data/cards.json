@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-12",
+  "generated": "2026-07-13",
   "cards": [
     {
       "name": "Defend",
@@ -192,17 +192,17 @@
       "entry": "CALL_THE_PACK",
       "file": "TheWitchCode/Cards/CallThePack.cs",
       "cost": 1,
-      "type": "Attack",
+      "type": "Skill",
       "rarity": "Common",
-      "target": "AnyEnemy",
-      "text": "Deal 8 damage. Shuffle 1 Gnash into your Draw Pile.",
+      "target": "Self",
+      "text": "Gain 6 Block. Shuffle 2 Gnash into your Draw Pile.",
       "numbers": {
-        "Damage": 8,
-        "Cards": 1
+        "Block": 6,
+        "Cards": 2
       },
-      "upgrade": "Cards +1",
+      "upgrade": "Block +3, Cards +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -219,14 +219,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 5 Brambles. Upgrade 1 random card in your Hand.",
+      "text": "Gain 5 Brambles. Next turn, gain 1 Energy.",
       "numbers": {
         "Brambles": 5,
-        "Cards": 1
+        "EnergyNextTurn": 1
       },
-      "upgrade": "Brambles +1, Cards +1",
-      "note": "Fertilize (renamed from Serrated Bones): gain Brambles and upgrade random card(s) in your hand.",
-      "tested": true,
+      "upgrade": "Brambles +3",
+      "note": "Fertilize: sow now, reap next turn — gain Brambles and bank 1 Energy for next turn (base-game <see cref=\"EnergyNextTurnPower\" />).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -385,14 +385,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Apply 1 Hex. Next turn, draw 1 card.",
+      "text": "Apply 2 Hex. Next turn, gain 8 Block.",
       "numbers": {
-        "Hex": 1,
-        "Cards": 1
+        "Hex": 2,
+        "BlockNextTurn": 8
       },
-      "upgrade": "Cards +1, HexPower +1",
-      "note": "Read the Bones: curse the enemy now, divine your next draw — apply Hex, then draw extra cards next turn (base-game <see cref=\"DrawCardsNextTurnPower\" />).",
-      "tested": true,
+      "upgrade": "HexPower +1, BlockNextTurnPower +2",
+      "note": "Read the Bones: curse the enemy now, foresee the blow to come — apply Hex, then gain Block next turn (base-game <see cref=\"BlockNextTurnPower\" />).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -474,14 +474,14 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 6 damage. Apply 1 Hex.",
+      "text": "Deal 6 damage. Apply 2 Hex.",
       "numbers": {
-        "Hex": 1,
+        "Hex": 2,
         "Damage": 6
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -538,19 +538,19 @@
       "name": "Accursed Needles",
       "entry": "ACCURSED_NEEDLES",
       "file": "TheWitchCode/Cards/AccursedNeedles.cs",
-      "cost": 1,
+      "cost": 0,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
       "text": "Deal 3 damage. Apply {CalculatedHex:diff()} Hex. Applies 1 more Hex each time it is played this combat.",
       "numbers": {
         "Damage": 3,
-        "CalculationBase": 1,
+        "CalculationBase": 2,
         "CalculationExtra": 1
       },
       "upgrade": "CalculationBase +1",
       "note": "Accursed Needles: each play digs the needles deeper — applies base Hex + 1 per prior play this combat.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -588,14 +588,14 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 3 HP. Apply 3 Hex.",
+      "text": "Lose 2 HP. Apply 3 Hex.",
       "numbers": {
         "Hex": 3,
-        "HpLoss": 3
+        "HpLoss": 2
       },
-      "upgrade": "HexPower +1",
+      "upgrade": "HexPower +2",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -750,13 +750,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage twice. Give a random card in your Draw Pile Replay {Replay}.",
+      "text": "Deal 5 damage twice. Give a card in your Hand Replay {Replay}.",
       "numbers": {
         "Damage": 5
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -793,16 +793,16 @@
       "entry": "FEAST_WITH_WOLVES",
       "file": "TheWitchCode/Cards/FeastWithWolves.cs",
       "cost": 1,
-      "type": "Attack",
+      "type": "Skill",
       "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal 9 damage. Draw until you draw an Attack card.",
+      "target": "Self",
+      "text": "Gain 8 Block. Draw until you draw an Attack card.",
       "numbers": {
-        "Damage": 9
+        "Block": 8
       },
-      "upgrade": "Damage +3",
+      "upgrade": "Block +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -996,17 +996,17 @@
       "name": "Pocket Rats",
       "entry": "POCKET_RATS",
       "file": "TheWitchCode/Cards/PocketRats.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Add 2 Rats into your Hand.",
+      "text": "Add 3 Rats into your Hand.",
       "numbers": {
-        "Cards": 2
+        "Cards": 3
       },
       "upgrade": "Cards +1",
       "note": "Exhausts.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1259,13 +1259,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 6 damage. Each of your Familiars creates a card.",
+      "text": "Deal 8 damage. Each of your Familiars creates a card.",
       "numbers": {
-        "Damage": 6
+        "Damage": 8
       },
       "upgrade": "Damage +3",
       "note": "Throw Bait: a light hit, and the bait draws your pack out — every familiar does its card production once (one card per stack, exactly like the turn-start round; Sack of Treats applies here too).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1304,15 +1304,15 @@
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Gain 9 Block. Apply 1 Hex.",
+      "target": "Self",
+      "text": "Gain 9 Block. At the start of your next turn, apply 2 Hex to ALL enemies.",
       "numbers": {
-        "Hex": 1,
+        "WaxAndWane": 2,
         "Block": 9
       },
       "upgrade": "Block +4",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1593,16 +1593,18 @@
       "entry": "CURSED_SPELLBOOK",
       "file": "TheWitchCode/Cards/CursedSpellbook.cs",
       "cost": 0,
-      "type": "Power",
+      "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "At the start of your turn, gain 1 Energy and lose 1 HP.",
+      "text": "Gain 3 Energy. Draw 2 cards. Gain 3 Hex.",
       "numbers": {
-        "Energy": 1
+        "Hex": 3,
+        "Energy": 3,
+        "Cards": 2
       },
-      "upgrade": "Energy +1",
+      "upgrade": "HexPower -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1661,13 +1663,13 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Deal 12 damage. A random card in your Hand gains Replay {Replay:diff()} and Exhaust.",
+      "text": "Deal 12 damage. A card of your choice in your Hand gains Replay {Replay:diff()} and Exhaust.",
       "numbers": {
         "Damage": 12
       },
       "upgrade": "Replay +1",
-      "note": "Extract Life: an Attack that also enchants a random card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
-      "tested": true,
+      "note": "Extract Life: an Attack that also enchants a chosen card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1752,14 +1754,14 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 1 Intangible. Gain 3 Hex.",
+      "text": "Gain 1 Intangible. Lose 2 Strength.",
       "numbers": {
         "Intangible": 1,
-        "Hex": 3
+        "Strength": 2
       },
-      "upgrade": "HexPower -1",
+      "upgrade": "Cost -1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1916,13 +1918,13 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "At the start of your turn, gain 15 Brambles.",
+      "text": "For each card you play, gain 1 Brambles.",
       "numbers": {
-        "WickerForm": 15
+        "WickerForm": 1
       },
-      "upgrade": "WickerFormPower +10",
+      "upgrade": "WickerFormPower +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1935,15 +1937,15 @@
       "name": "Witchcraft",
       "entry": "WITCHCRAFT",
       "file": "TheWitchCode/Cards/Witchcraft.cs",
-      "cost": 2,
+      "cost": "X",
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Pour all of your Potions into The Cauldron.",
+      "text": "Create X random Potions.",
       "numbers": {},
-      "upgrade": "Cost -1",
-      "note": "Witchcraft (renamed from Cackle): pour the whole belt into the Cauldron.",
-      "tested": true,
+      "upgrade": "none",
+      "note": "Witchcraft: spend X Energy, create X random potions.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1953,29 +1955,23 @@
       ]
     },
     {
-      "name": "Claw Eyes",
-      "entry": "CLAW_EYES",
-      "file": "TheWitchCode/Cards/Familiar/ClawEyes.cs",
+      "name": "Dark Omen",
+      "entry": "DARK_OMEN",
+      "file": "TheWitchCode/Cards/Familiar/DarkOmen.cs",
       "cost": 0,
-      "type": "Attack",
+      "type": "Skill",
       "rarity": "Token",
-      "target": "AnyEnemy",
-      "text": "Deal 15 damage. Apply 3 Vulnerable.",
+      "target": "AllEnemies",
+      "text": "Apply 2 Hex to ALL enemies.",
       "numbers": {
-        "Vulnerable": 3,
-        "Damage": 15
+        "Hex": 2
       },
-      "upgrade": "Damage +3",
+      "upgrade": "HexPower +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
-      "mechanics": [
-        "Familiars",
-        "Debuff/Buff"
-      ],
-      "role": [
-        "Token"
-      ]
+      "mechanics": [],
+      "role": []
     },
     {
       "name": "Ferocity",
