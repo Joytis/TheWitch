@@ -7,6 +7,16 @@
       "dims": "256x256",
       "assets": [
         {
+          "name": "Cursed Bottle",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Common",
+          "orientation": "Offensive",
+          "effect": "Apply 3 Hex.",
+          "path": "TheWitch/images/potions/cursed_bottle.png"
+        },
+        {
           "name": "Fertilizer",
           "artist": "",
           "done": false,
@@ -73,6 +83,15 @@
       "title": "Relics",
       "dims": "256x256",
       "assets": [
+        {
+          "name": "Bottled Curiosity",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Uncommon",
+          "effect": "Whenever you enter an unknown ? location, obtain a random potion.",
+          "path": "TheWitch/images/relics/big/bottled_curiosity.png"
+        },
         {
           "name": "Large Pockets",
           "artist": "",
