@@ -21,11 +21,11 @@ public sealed class Polymorph : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1)
+        new CardsVar(2)
     ];
 
     public Polymorph()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -54,5 +54,5 @@ public sealed class Polymorph : WitchCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

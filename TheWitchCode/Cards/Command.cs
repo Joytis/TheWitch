@@ -10,17 +10,17 @@ using TheWitch.TheWitchCode.Powers;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Throw Bait: a light hit, and the bait draws your pack out — every familiar does its card production
-/// once (one card per stack, exactly like the turn-start round; Sack of Treats applies here too).
+/// Command (was Throw Bait): a quick strike and an order barked at the pack — one random familiar
+/// does its card production once (a single roll, regardless of stacks).
 /// </summary>
-public sealed class ThrowBait : WitchCard
+public sealed class Command : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move)
+        new DamageVar(3m, ValueProp.Move)
     ];
 
-    public ThrowBait()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    public Command()
+        : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -34,9 +34,11 @@ public sealed class ThrowBait : WitchCard
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        foreach (FamiliarPower familiar in Owner.Creature.Powers.OfType<FamiliarPower>().ToList())
+        List<FamiliarPower> familiars = Owner.Creature.Powers.OfType<FamiliarPower>().ToList();
+        if (familiars.Count > 0)
         {
-            await familiar.GenerateCards(Owner, CombatState!);
+            FamiliarPower chosen = Owner.RunState.Rng.CombatCardGeneration.NextItem(familiars)!;
+            await chosen.GenerateOneCard(Owner, CombatState!);
         }
     }
 

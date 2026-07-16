@@ -71,8 +71,8 @@
   "THEWITCH-MOONBEAM_POWER.description": "Takes damage at the start of each of the caster's turns.",
   "THEWITCH-MOONBEAM_POWER.smartDescription": "Takes [blue]{Amount}[/blue] damage at the start of each of the caster's turns.",
   "THEWITCH-MOONBEAM_POWER.title": "Moonbeam",
-  "THEWITCH-RITUAL_CASTING_POWER.description": "For every [blue]3[/blue] cards you draw, apply [gold]Hex[/gold] to ALL enemies.",
-  "THEWITCH-RITUAL_CASTING_POWER.smartDescription": "For every [blue]3[/blue] cards you draw, apply [blue]{Amount}[/blue] [gold]Hex[/gold] to ALL enemies.",
+  "THEWITCH-RITUAL_CASTING_POWER.description": "Whenever you end your turn without playing any cards, your next [gold]Skills[/gold] are free.",
+  "THEWITCH-RITUAL_CASTING_POWER.smartDescription": "Whenever you end your turn without playing any cards, your next [blue]{Amount}[/blue] [gold]Skills[/gold] are free.",
   "THEWITCH-RITUAL_CASTING_POWER.title": "Ritual Casting",
   "THEWITCH-DEEP_ROOTS_POWER.description": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Brambles[/gold].",
   "THEWITCH-DEEP_ROOTS_POWER.smartDescription": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Brambles[/gold].",
@@ -89,7 +89,10 @@
   "THEWITCH-HIDDEN_IN_SMOKE_POWER.description": "At the start of your turn, create a [gold]Vial of Smoke[/gold] potion.",
   "THEWITCH-HIDDEN_IN_SMOKE_POWER.smartDescription": "At the start of your turn, create a [gold]Vial of Smoke[/gold] potion.",
   "THEWITCH-HIDDEN_IN_SMOKE_POWER.title": "Hidden in Smoke",
-  "THEWITCH-BONFIRE_POWER.title": "Bonfire",
-  "THEWITCH-BONFIRE_POWER.description": "When possible, spend [blue]{Amount}[/blue] [gold]Brambles[/gold] to play cards instead of [gold]Energy[/gold].",
-  "THEWITCH-BONFIRE_POWER.smartDescription": "When possible, spend [blue]{Amount}[/blue] [gold]Brambles[/gold] to play cards instead of [gold]Energy[/gold]."
+  "THEWITCH-OVERRUN_POWER.description": "Whenever you play a [gold]Familiar[/gold] card this turn, deal damage to the overrun enemy.",
+  "THEWITCH-OVERRUN_POWER.smartDescription": "Whenever you play a [gold]Familiar[/gold] card this turn, deal damage to the overrun enemy.",
+  "THEWITCH-OVERRUN_POWER.title": "Overrun",
+  "THEWITCH-SPROUTS_POWER.description": "Whenever you play a card this turn, gain [gold]Brambles[/gold].",
+  "THEWITCH-SPROUTS_POWER.smartDescription": "Whenever you play a card this turn, gain [blue]{Amount}[/blue] [gold]Brambles[/gold].",
+  "THEWITCH-SPROUTS_POWER.title": "Sprouts"
 }

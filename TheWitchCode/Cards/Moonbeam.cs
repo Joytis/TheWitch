@@ -20,7 +20,7 @@ public sealed class Moonbeam : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(10m, ValueProp.Move)
+        new DamageVar(8m, ValueProp.Move)
     ];
 
     public Moonbeam()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8lmxcqjqvl03"
-path="res://.godot/imported/lich_powder.png-0f67f6457d4c855592ed71b00094e8a5.ctex"
+uid="uid://7ubsjh7djhub"
+path="res://.godot/imported/sprouts.png-20eb9931bc51295ac8b6d83a24fda4da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/big/lich_powder.png"
-dest_files=["res://.godot/imported/lich_powder.png-0f67f6457d4c855592ed71b00094e8a5.ctex"]
+source_file="res://TheWitch/images/card_portraits/sprouts.png"
+dest_files=["res://.godot/imported/sprouts.png-20eb9931bc51295ac8b6d83a24fda4da.ctex"]
 
 [params]
 

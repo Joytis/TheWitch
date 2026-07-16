@@ -3,20 +3,21 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Ritual Casting (was Thirst): a Power — every third card drawn hexes ALL enemies.</summary>
+/// <summary>Ritual Casting: a Power — end a turn playing nothing, and your next Skills come free.</summary>
 public sealed class RitualCasting : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<RitualCastingPower>(),
-        HoverTipFactory.FromPower<HexPower>(),
+        HoverTipFactory.FromPower<FreeSkillPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<RitualCastingPower>(1m)
+        new PowerVar<RitualCastingPower>(4m)
     ];
 
     public RitualCasting()
@@ -30,5 +31,5 @@ public sealed class RitualCasting : WitchCard
         await PowerCmd.Apply<RitualCastingPower>(choiceContext, Owner.Creature, DynamicVars["RitualCastingPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["RitualCastingPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars["RitualCastingPower"].UpgradeValueBy(2m);
 }

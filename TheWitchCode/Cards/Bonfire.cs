@@ -1,47 +1,42 @@
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
-using TheWitch.TheWitchCode.Powers;
+using MegaCrit.Sts2.Core.Models;
 
 namespace TheWitch.TheWitchCode.Cards;
 
+/// <summary>Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards.</summary>
 public sealed class Bonfire : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<BramblesPower>(),
-        HoverTipFactory.FromPower<BonfirePower>(),
+        EnergyHoverTip,
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BonfirePower>(2m)
+        new EnergyVar(6),
+        new CardsVar(2)
     ];
 
     public Bonfire()
-        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
+        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+        await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
 
-        // Amount is the Bramble PRICE, not a stack count — re-applying must never add. Keep the cheapest price.
-        decimal price = DynamicVars["BonfirePower"].BaseValue;
-        if (Owner.Creature.GetPower<BonfirePower>() is { } existing)
+        IEnumerable<CardModel> toExhaust = await CardSelectCmd.FromHand(
+            choiceContext, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), null, this);
+        foreach (CardModel card in toExhaust)
         {
-            if (existing.Amount > price)
-            {
-                await PowerCmd.ModifyAmount(choiceContext, existing, price - existing.Amount, Owner.Creature, this);
-            }
-        }
-        else
-        {
-            await PowerCmd.Apply<BonfirePower>(choiceContext, Owner.Creature, price, Owner.Creature, this);
+            await CardCmd.Exhaust(choiceContext, card);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["BonfirePower"].UpgradeValueBy(-1m);
+    protected override void OnUpgrade() => DynamicVars.Energy.UpgradeValueBy(2m);
 }

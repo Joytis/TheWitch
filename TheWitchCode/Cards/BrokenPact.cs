@@ -2,17 +2,18 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Broken Pact: end a familiar's service to mend your own wounds.</summary>
+/// <summary>Broken Pact: end a familiar's service and take its strength for your own.</summary>
 public sealed class BrokenPact : WitchCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("Heal", 10m)
+        new PowerVar<StrengthPower>(8m)
     ];
 
     public BrokenPact()
@@ -28,10 +29,9 @@ public sealed class BrokenPact : WitchCard
         if (sacrificed)
         {
             VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_spooky_scream");
-            await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
-            VfxCmd.PlayOnCreatureCenter(Owner.Creature, VfxCmd.healPath);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars["StrengthPower"].BaseValue, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["Heal"].UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["StrengthPower"].UpgradeValueBy(2m);
 }
