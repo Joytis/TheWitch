@@ -20,7 +20,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Falling Star",
@@ -42,6 +44,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "Weak",
+        "Vulnerable"
       ]
     },
     {
@@ -62,7 +71,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Venerate",
@@ -82,7 +93,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "Astral Pulse",
@@ -102,6 +117,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "AoE",
+        "MultiHit"
       ]
     },
     {
@@ -120,6 +142,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Transform"
       ]
     },
     {
@@ -141,6 +167,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -161,7 +191,11 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": []
     },
     {
       "name": "Collision Course",
@@ -181,6 +215,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfStatus"
       ]
     },
     {
@@ -201,6 +239,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "TopdeckControl"
       ]
     },
     {
@@ -222,7 +264,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": []
     },
     {
       "name": "Crush Under",
@@ -242,6 +288,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "OtherDebuff"
       ]
     },
     {
@@ -263,7 +314,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "Glitterstream",
@@ -283,6 +338,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DelayedEffect"
       ]
     },
     {
@@ -304,6 +363,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": [
+        "Draw",
+        "DelayedEffect"
       ]
     },
     {
@@ -325,6 +391,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -346,6 +418,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": [
+        "DelayedEffect"
       ]
     },
     {
@@ -367,6 +445,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak",
+        "Vulnerable",
+        "SelfExhaust"
       ]
     },
     {
@@ -388,7 +472,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Vigor:Gain"
+      ],
+      "threads": []
     },
     {
       "name": "Photon Cut",
@@ -409,6 +497,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "TopdeckControl"
       ]
     },
     {
@@ -430,6 +523,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Forge:Generate"
+      ],
+      "threads": [
+        "Energy",
+        "DelayedEffect"
       ]
     },
     {
@@ -451,7 +551,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "Spoils of Battle",
@@ -472,6 +576,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Forge:Generate"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -493,7 +603,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Forge:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "Alignment",
@@ -513,6 +627,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -533,6 +653,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:FlowTrigger"
+      ],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -554,7 +680,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Forge:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "CHARGE!!",
@@ -574,6 +704,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Transform"
       ]
     },
     {
@@ -592,6 +726,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:FlowTrigger"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -613,7 +753,12 @@
       "role": [
         "Generator",
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Forge:Generate",
+        "Forge:SovereignBlade"
+      ],
+      "threads": []
     },
     {
       "name": "Convergence",
@@ -634,6 +779,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": [
+        "Energy",
+        "Retain",
+        "DelayedEffect"
       ]
     },
     {
@@ -654,6 +807,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "BurstFinisher"
       ]
     },
     {
@@ -674,6 +833,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Forge:Generate"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -696,6 +861,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "Weak",
+        "Vulnerable"
       ]
     },
     {
@@ -716,6 +888,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "TopdeckControl"
       ]
     },
     {
@@ -737,6 +914,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "DelayedEffect"
       ]
     },
     {
@@ -757,6 +939,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "Snowball"
       ]
     },
     {
@@ -777,6 +964,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -798,6 +989,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": [
+        "BurstFinisher"
       ]
     },
     {
@@ -816,6 +1013,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Colorless:Generate"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -838,6 +1041,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "PlayVolume"
       ]
     },
     {
@@ -858,6 +1066,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Colorless:Generate"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -876,6 +1090,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "PlayVolume"
       ]
     },
     {
@@ -896,6 +1114,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -916,6 +1138,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "PlayVolume",
+        "TurnEngine"
       ]
     },
     {
@@ -936,6 +1164,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Forge:SovereignBlade"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -956,6 +1190,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "BlockEngine",
+        "SelfRecursion"
       ]
     },
     {
@@ -976,6 +1217,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Colorless:CreationPayoff"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -996,6 +1243,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -1016,6 +1267,13 @@
       "role": [
         "Payoff",
         "Generator"
+      ],
+      "sub": [
+        "Stars:Spend",
+        "Colorless:Generate"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -1039,6 +1297,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:FlowTrigger"
+      ],
+      "threads": [
+        "AoE",
+        "MultiHit"
       ]
     },
     {
@@ -1059,7 +1324,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": []
     },
     {
       "name": "Resonance",
@@ -1079,6 +1348,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "StatRamp",
+        "OtherDebuff"
       ]
     },
     {
@@ -1099,6 +1375,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate",
+        "Stars:Spend"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1120,6 +1403,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": [
+        "TopdeckControl",
+        "SelfRecursion"
       ]
     },
     {
@@ -1140,6 +1430,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Colorless:Generate"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -1160,6 +1457,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -1181,6 +1484,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Forge:Generate",
+        "Forge:SovereignBlade"
+      ],
+      "threads": [
+        "Tutor"
       ]
     },
     {
@@ -1202,6 +1512,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Colorless:CreationPayoff"
+      ],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -1222,7 +1538,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Vigor:Gain"
+      ],
+      "threads": []
     },
     {
       "name": "Arsenal",
@@ -1242,6 +1562,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Colorless:CreationPayoff"
+      ],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -1264,7 +1590,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Forge:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "Big Bang",
@@ -1288,6 +1618,15 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate",
+        "Forge:Generate"
+      ],
+      "threads": [
+        "Draw",
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -1308,6 +1647,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfRecursion",
+        "SelfExhaust"
       ]
     },
     {
@@ -1328,6 +1672,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Colorless:Generate"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -1350,6 +1701,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "BurstFinisher",
+        "Weak",
+        "Vulnerable"
       ]
     },
     {
@@ -1370,6 +1729,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "SelfStatus"
       ]
     },
     {
@@ -1391,6 +1755,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "Draw",
+        "SelfExhaust"
       ]
     },
     {
@@ -1411,6 +1782,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "AoE",
+        "OtherDebuff"
       ]
     },
     {
@@ -1431,6 +1809,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Tutor",
+        "DelayedEffect"
       ]
     },
     {
@@ -1449,6 +1832,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Stars:Generate"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -1467,6 +1856,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Transform",
+        "SelfExhaust"
       ]
     },
     {
@@ -1485,7 +1879,9 @@
       ],
       "role": [
         "Enabler"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Heavenly Drill",
@@ -1506,6 +1902,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "BurstFinisher"
       ]
     },
     {
@@ -1527,6 +1928,10 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -1547,6 +1952,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "TopdeckControl",
+        "SelfRecursion"
       ]
     },
     {
@@ -1568,6 +1978,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfRecursion",
+        "PlayVolume"
       ]
     },
     {
@@ -1586,6 +2001,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "OtherDebuff"
       ]
     },
     {
@@ -1606,6 +2025,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "BlockEngine",
+        "TurnEngine"
       ]
     },
     {
@@ -1626,7 +2052,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Seeking Edge",
@@ -1647,7 +2075,12 @@
       "role": [
         "Generator",
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Forge:Generate",
+        "Forge:SovereignBlade"
+      ],
+      "threads": []
     },
     {
       "name": "Seven Stars",
@@ -1668,6 +2101,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "AoE",
+        "MultiHit",
+        "BurstFinisher"
       ]
     },
     {
@@ -1688,7 +2129,11 @@
       ],
       "role": [
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Forge:SovereignBlade"
+      ],
+      "threads": []
     },
     {
       "name": "The Smith",
@@ -1710,7 +2155,12 @@
       "role": [
         "Payoff",
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Stars:Spend",
+        "Forge:Generate"
+      ],
+      "threads": []
     },
     {
       "name": "Tyranny",
@@ -1728,6 +2178,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "TurnEngine"
       ]
     },
     {
@@ -1748,6 +2203,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "Drawback"
       ]
     },
     {
@@ -1770,6 +2230,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend"
+      ],
+      "threads": [
+        "AoE",
+        "Weak",
+        "Vulnerable"
       ]
     },
     {
@@ -1788,6 +2256,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Stars:Spend",
+        "Stars:Generate"
+      ],
+      "threads": [
+        "PlayVolume"
       ]
     }
   ]

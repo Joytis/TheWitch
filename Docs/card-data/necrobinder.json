@@ -20,7 +20,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": []
     },
     {
       "name": "Defend",
@@ -40,7 +44,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Strike",
@@ -60,7 +66,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Unleash",
@@ -81,6 +89,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Command",
+        "Osty:HPScaling"
+      ],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -101,6 +116,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -121,7 +142,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Doom:Apply"
+      ],
+      "threads": []
     },
     {
       "name": "Defile",
@@ -141,6 +166,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Drawback"
       ]
     },
     {
@@ -162,6 +193,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Weak",
+        "Drawback"
       ]
     },
     {
@@ -183,6 +221,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Recursion"
       ]
     },
     {
@@ -204,6 +246,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Vulnerable",
+        "Drawback"
       ]
     },
     {
@@ -225,6 +274,13 @@
       "role": [
         "Payoff",
         "Enabler"
+      ],
+      "sub": [
+        "Osty:Command",
+        "Osty:SwarmTurn"
+      ],
+      "threads": [
+        "CostReduction"
       ]
     },
     {
@@ -246,6 +302,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Soul:Make"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -266,6 +328,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust",
+        "Recursion"
       ]
     },
     {
@@ -288,6 +355,12 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -309,6 +382,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Doom:Apply"
+      ],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -329,7 +408,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Osty:Command"
+      ],
+      "threads": []
     },
     {
       "name": "Pull Aggro",
@@ -350,7 +433,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": []
     },
     {
       "name": "Reap",
@@ -370,6 +457,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Retain"
       ]
     },
     {
@@ -391,6 +482,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Soul:Make"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -413,6 +510,12 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Doom:Apply"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -433,6 +536,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Ethereal:Grant"
+      ],
+      "threads": [
+        "KeywordGrant"
       ]
     },
     {
@@ -454,6 +563,13 @@
       "role": [
         "Payoff",
         "Enabler"
+      ],
+      "sub": [
+        "Osty:Command"
+      ],
+      "threads": [
+        "Retain",
+        "KeywordGrant"
       ]
     },
     {
@@ -474,6 +590,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "Retain"
       ]
     },
     {
@@ -494,6 +615,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "SelfExhaust",
+        "Retain"
       ]
     },
     {
@@ -515,6 +642,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Sacrifice",
+        "Osty:Command"
+      ],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -535,6 +669,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "Drawback"
       ]
     },
     {
@@ -555,7 +694,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Calcify",
@@ -571,10 +712,14 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "None"
+        "Osty"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -596,6 +741,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Soul:Make"
+      ],
+      "threads": [
+        "CardGen",
+        "DirectHPLoss"
       ]
     },
     {
@@ -617,7 +769,11 @@
       "role": [
         "Generator",
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": []
     },
     {
       "name": "Countdown",
@@ -637,6 +793,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Doom:Engine"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -658,6 +820,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -679,6 +845,10 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "BurstFinisher"
       ]
     },
     {
@@ -700,7 +870,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Doom:Payoff"
+      ],
+      "threads": []
     },
     {
       "name": "Deathbringer",
@@ -721,6 +895,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Doom:Apply"
+      ],
+      "threads": [
+        "AoE",
+        "Weak"
       ]
     },
     {
@@ -742,6 +923,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DebuffPayoff",
+        "OtherDebuff"
       ]
     },
     {
@@ -763,6 +949,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -784,6 +974,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Osty:Summon",
+        "Soul:Make"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -804,6 +1002,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust",
+        "Retain",
+        "Recursion"
       ]
     },
     {
@@ -822,6 +1026,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "Drawback"
       ]
     },
     {
@@ -844,6 +1055,12 @@
       "role": [
         "Payoff",
         "Enabler"
+      ],
+      "sub": [
+        "Osty:Command"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -865,6 +1082,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "TurnEngine",
+        "Drawback"
       ]
     },
     {
@@ -884,7 +1107,13 @@
         "Soul"
       ],
       "role": [
-        "Generator"
+        "Payoff"
+      ],
+      "sub": [
+        "Soul:Payoff"
+      ],
+      "threads": [
+        "DirectHPLoss"
       ]
     },
     {
@@ -906,6 +1135,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Command"
+      ],
+      "threads": [
+        "AoE",
+        "Vulnerable"
       ]
     },
     {
@@ -926,6 +1162,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -946,6 +1188,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Drawback"
       ]
     },
     {
@@ -967,6 +1215,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction"
       ]
     },
     {
@@ -989,6 +1241,13 @@
       "role": [
         "Payoff",
         "Generator"
+      ],
+      "sub": [
+        "Doom:Apply",
+        "Doom:Payoff"
+      ],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -1009,6 +1268,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Ethereal:Payoff"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -1029,6 +1294,13 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Draw",
+        "Drawback"
       ]
     },
     {
@@ -1051,6 +1323,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Ethereal:Payoff"
+      ],
+      "threads": [
+        "MultiHit",
+        "Snowball"
       ]
     },
     {
@@ -1069,6 +1348,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak",
+        "Vulnerable",
+        "SelfExhaust"
       ]
     },
     {
@@ -1091,6 +1376,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Command",
+        "Osty:SwarmTurn"
+      ],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -1113,6 +1405,12 @@
       "role": [
         "Payoff",
         "Enabler"
+      ],
+      "sub": [
+        "Osty:Command"
+      ],
+      "threads": [
+        "SelfRecursion"
       ]
     },
     {
@@ -1133,6 +1431,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Soul:Make"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -1153,6 +1457,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Doom:Payoff"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -1174,7 +1484,13 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Osty:Command",
+        "Osty:Summon",
+        "Osty:SwarmTurn"
+      ],
+      "threads": []
     },
     {
       "name": "Sleight of Flesh",
@@ -1194,6 +1510,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -1215,6 +1535,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": [
+        "Retain"
       ]
     },
     {
@@ -1235,6 +1561,10 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction"
       ]
     },
     {
@@ -1256,6 +1586,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Ethereal:Payoff"
+      ],
+      "threads": [
+        "AoE",
+        "CostReduction",
+        "BurstFinisher"
       ]
     },
     {
@@ -1276,6 +1614,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Ethereal:Grant"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine",
+        "KeywordGrant"
       ]
     },
     {
@@ -1297,6 +1643,15 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Energy",
+        "Draw",
+        "TurnEngine",
+        "Drawback"
       ]
     },
     {
@@ -1313,11 +1668,17 @@
       },
       "upgrade": "custom",
       "mechanics": [
-        "Osty"
+        "Osty",
+        "Soul"
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Osty:Summon",
+        "Soul:Payoff"
+      ],
+      "threads": []
     },
     {
       "name": "Eidolon",
@@ -1335,7 +1696,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "End of Days",
@@ -1356,6 +1719,14 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Doom:Apply",
+        "Doom:Payoff"
+      ],
+      "threads": [
+        "AoE",
+        "BurstFinisher"
       ]
     },
     {
@@ -1376,6 +1747,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "Retain"
       ]
     },
     {
@@ -1396,6 +1772,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Soul:Make"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -1416,6 +1799,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -1436,6 +1823,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DebuffPayoff",
+        "OtherDebuff",
+        "Retain"
       ]
     },
     {
@@ -1456,6 +1849,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": [
+        "DirectHPLoss"
       ]
     },
     {
@@ -1478,6 +1877,13 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "Draw",
+        "HPLoss",
+        "Drawback"
       ]
     },
     {
@@ -1498,7 +1904,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Doom:Engine"
+      ],
+      "threads": []
     },
     {
       "name": "Reanimate",
@@ -1518,6 +1928,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Osty:Summon"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1536,7 +1952,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Doom:Engine"
+      ],
+      "threads": []
     },
     {
       "name": "Sacrifice",
@@ -1557,6 +1977,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Sacrifice"
+      ],
+      "threads": [
+        "Retain"
       ]
     },
     {
@@ -1578,6 +2004,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Soul:Make",
+        "Ethereal:Fuel"
+      ],
+      "threads": [
+        "Drawback"
       ]
     },
     {
@@ -1598,6 +2031,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -1616,6 +2054,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "OtherDebuff",
+        "SelfExhaust",
+        "Drawback"
       ]
     },
     {
@@ -1637,6 +2081,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Soul:Payoff"
+      ],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -1655,6 +2105,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Ethereal:Payoff"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -1676,6 +2132,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Command"
+      ],
+      "threads": [
+        "BurstFinisher"
       ]
     },
     {
@@ -1694,6 +2156,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "StatRamp",
+        "SelfExhaust"
       ]
     },
     {
@@ -1715,6 +2182,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Doom:Payoff"
+      ],
+      "threads": [
+        "BurstFinisher",
+        "SelfExhaust"
       ]
     },
     {
@@ -1735,6 +2209,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "KeywordGrant",
+        "SelfExhaust"
       ]
     },
     {
@@ -1755,6 +2234,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "BlockEngine"
       ]
     },
     {
@@ -1773,7 +2257,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Protector",
@@ -1794,6 +2280,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Osty:Command",
+        "Osty:HPScaling"
+      ],
+      "threads": [
+        "Snowball"
       ]
     }
   ]

@@ -263,3 +263,43 @@ Witch pillars: **Brambles · Potions · Familiars · Debuff/Buff** (103 cards in
 
 The "payoff cluster" test (lesson 1) is the gate for any proposed 5th Witch mechanic: it's only
 a pillar if 3–4 cards *exploit* it, not just apply it.
+
+---
+
+## Addendum — 2026-07 sub-archetype audit (revisions to the above)
+
+A full per-card re-audit of all six pools (with keyword ground-truthing against decompiled
+`CanonicalKeywords`/`CanonicalStarCost`) added two curated tag layers to the card JSONs —
+`sub[]` (pillar sub-archetypes) and `threads[]` (cross-class functional threads). Definitions:
+[card-data/taxonomy.md](card-data/taxonomy.md). Several claims above need revision:
+
+1. **Silent "Sly: 2 grant, 0 payoffs — not a theme" is wrong.** The JSON text field drops
+   keywords: 8 cards *carry* Sly (auto-play when discarded), and Tactician (3-cost: gain 1
+   Energy), Reflex (3-cost: draw 2), Untouchable (2-cost: 6 Block) are deliberately overcosted —
+   their real rate is the free discard-triggered play. The Discard pillar's payoff column is
+   functionally ~6–8, not the 1 (Memento Mori) counted above. Sly IS the Discard payoff suite.
+2. **Necrobinder Soul 8:1 overstates the gap** — Haunt and Devour Life are per-Soul-played
+   payoffs (retagged); the real ratio is 7 make : 3 payoff. Also: Calcify is an Osty amplifier
+   (was tagged None), and the Ethereal pillar is effectively **15 cards** once the 8 hidden
+   Ethereal-keyword carriers (Defile, Defy, Fear, Enfeebling Touch, Lethality, Parse, Demesne,
+   Seance) are counted as fuel.
+3. **Defect "nobody rewards playing a Power" is wrong** — Storm and Subroutine literally trigger
+   per Power played; a 6-card `PowersMatter` cluster exists (was scattered across Orbs/None).
+   Defect also hides a 5-card `ZeroCostMatters` (Claw-deck) engine under `None`.
+4. **Ironclad hides two near-pillars under `None`:** a 12-card `AttacksMatter` aggro-tempo
+   thread with its own payoff cluster (Rage, Expect a Fight, Stomp, Juggling), and a 4-payoff
+   block-synergy suite (Body Slam, Juggernaut, Unmovable, Barricade). Its Exhaust pillar is ~28
+   cards once the 9 hidden self-Exhaust keyword carriers are counted.
+5. **Regent's Stars footprint is ~40% of the pool** (5 star-cost cards were invisible in text,
+   incl. starter Falling Star), and its real texture is threads the pillar tags miss:
+   `TopdeckControl` (5), `SelfRecursion` (5), `PlayVolume` (5), `DelayedEffect` (7). Regent pays
+   costs in Stars and tempo — never HP or cards.
+6. **Brambles open question above is resolved: it is BOTH.** Self-acting (thorns retaliation) and
+   spend-it (Tinder / Bonfire / Brambleburst = exactly 3 spenders, the floor). The Engine sub
+   (Deep Roots, Wicker Form) is what makes Spend sustainable.
+7. **The recurring cross-class pattern is the "incidental fuel" layer** (Ethereal carriers,
+   self-Exhaust carriers, Sly carriers, self-Status generators, star-cost riders): above-rate
+   cards whose downside quietly feeds a payoff cluster. **Witch has the fuel without the
+   harvest**: 25/100 cards self-exhaust + 3 exhaust-outlets with ZERO exhaust payoffs, and 6
+   self-debuff cards with exactly 1 payoff (Salt and Ash). Both are one or two payoff cards away
+   from being real sub-archetypes — the cheapest new-archetype opportunities in the pool.

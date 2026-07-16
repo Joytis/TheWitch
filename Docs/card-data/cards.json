@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-14",
+  "generated": "2026-07-16",
   "cards": [
     {
       "name": "Defend",
@@ -22,7 +22,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Extract Essence",
@@ -45,7 +47,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Strike",
@@ -68,7 +74,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Bag of Teeth",
@@ -92,6 +100,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Debuff/Buff:HexExploit"
+      ],
+      "threads": [
+        "MultiHit",
+        "DebuffPayoff"
       ]
     },
     {
@@ -108,7 +123,7 @@
         "Block": 5
       },
       "upgrade": "WeakPower +1",
-      "note": "",
+      "note": "Bewitching Grin: a cheap one-shot skill — block up while sapping every enemy with Weak.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -116,6 +131,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:Weak"
+      ],
+      "threads": [
+        "Weak",
+        "SelfExhaust"
       ]
     },
     {
@@ -129,7 +151,7 @@
       "text": "Create {Brews:diff()} Noxious Brews.",
       "numbers": {},
       "upgrade": "Brews +1",
-      "note": "",
+      "note": "Big Batch: one cauldron, many bottles — create a batch of Noxious Brews.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -137,7 +159,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Bottle Barrage",
@@ -154,7 +180,7 @@
         "CalculationExtra": 1
       },
       "upgrade": "Damage +3",
-      "note": "Hurl the whole belt: one 7-damage hit per potion you've brewed this combat.",
+      "note": "Hurl the whole belt: one 10-damage hit per potion you've brewed this combat.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -162,6 +188,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Potions:CreatePayoff"
+      ],
+      "threads": [
+        "MultiHit",
+        "Snowball"
       ]
     },
     {
@@ -177,7 +210,7 @@
         "Damage": 8
       },
       "upgrade": "Damage +3",
-      "note": "Broom Strike: swat with the broom, then sweep a random Skill out of the draw pile and play it (the base-game BeatDown/Catastrophe auto-play shape: filter, shuffle-pick, <c>CardCmd.AutoPlay</c> with a random target for enemy-targeted picks).",
+      "note": "Broom Strike: swat with the broom; the follow-through sweeps your next Skill in cheaper.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -185,6 +218,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "SkillsMatter"
       ]
     },
     {
@@ -201,7 +239,7 @@
         "Cards": 2
       },
       "upgrade": "Block +3, Cards +1",
-      "note": "",
+      "note": "Call the Pack: hunker down behind the wolves — gain Block, shuffle Gnash tokens into the Draw Pile.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -209,6 +247,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -234,6 +278,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Brambles:Rider"
+      ],
+      "threads": [
+        "Energy",
+        "DelayedEffect"
       ]
     },
     {
@@ -258,6 +309,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Drawback",
+        "SelfDebuff"
       ]
     },
     {
@@ -279,7 +335,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Hide in a Bush",
@@ -295,15 +355,19 @@
         "Block": 7
       },
       "upgrade": "Block +3, Brambles +1",
-      "note": "",
+      "note": "Hide in a Bush (formerly Spines): Block plus Brambles.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "None"
+        "Brambles"
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [
+        "Brambles:Rider"
+      ],
+      "threads": []
     },
     {
       "name": "Lavender and Sage",
@@ -319,7 +383,7 @@
         "Cards": 1
       },
       "upgrade": "Cards +1",
-      "note": "",
+      "note": "Lavender and Sage: draw a card and grow a thicket of Brambles.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -327,6 +391,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Brambles:Rider"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -343,7 +413,7 @@
         "Damage": 9
       },
       "upgrade": "BramblesPower +3",
-      "note": "",
+      "note": "Needle Whip: lash out with a thorned vine — damage plus Brambles.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -351,7 +421,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Brambles:Rider"
+      ],
+      "threads": []
     },
     {
       "name": "Pact of Agony",
@@ -367,7 +441,7 @@
         "Damage": 15
       },
       "upgrade": "Damage +5",
-      "note": "",
+      "note": "Pact of Agony: clog your deck with Wounds for a heavy strike on every enemy.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -375,6 +449,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "SelfStatus",
+        "SelfExhaust"
       ]
     },
     {
@@ -399,6 +479,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "DelayedEffect"
       ]
     },
     {
@@ -420,7 +507,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Tinder",
@@ -433,7 +524,7 @@
       "text": "Lose 1 Brambles. Gain {Energy:diff()} Energy.",
       "numbers": {},
       "upgrade": "Energy +1",
-      "note": "",
+      "note": "Tinder: burn a bramble as kindling for Energy.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -442,6 +533,12 @@
       "role": [
         "Payoff",
         "Enabler"
+      ],
+      "sub": [
+        "Brambles:Spend"
+      ],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -464,6 +561,14 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust",
+        "Recursion"
       ]
     },
     {
@@ -480,7 +585,7 @@
         "Damage": 6
       },
       "upgrade": "Damage +3",
-      "note": "",
+      "note": "Vexing Strike (was Vexing Thwack): an Attack that also seeds the target with Hex.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -488,6 +593,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff"
       ]
     },
     {
@@ -511,6 +622,10 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "SkillsMatter"
       ]
     },
     {
@@ -532,7 +647,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Accursed Needles",
@@ -557,6 +676,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "Snowball"
       ]
     },
     {
@@ -578,6 +704,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -594,7 +727,7 @@
         "HpLoss": 2
       },
       "upgrade": "HexPower +2",
-      "note": "",
+      "note": "Bind in Blood: pay your own blood to seed the target with Hex.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -602,6 +735,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "HPLoss"
       ]
     },
     {
@@ -623,6 +763,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -647,6 +794,14 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Debuff/Buff:Weak"
+      ],
+      "threads": [
+        "Weak",
+        "Drawback",
+        "SelfDebuff"
       ]
     },
     {
@@ -671,6 +826,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Potions:CreatePayoff"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -694,6 +855,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Brambles:Ramp"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -709,7 +876,7 @@
         "CrystalBottle": 1
       },
       "upgrade": "Cost -1",
-      "note": "",
+      "note": "Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -717,6 +884,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Potions:UsePayoff"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -732,7 +905,7 @@
         "DeepRoots": 3
       },
       "upgrade": "DeepRootsPower +2",
-      "note": "",
+      "note": "Deep Roots: a Power that grows Brambles at the start of every turn.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -740,6 +913,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Brambles:Engine"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -755,7 +934,7 @@
         "Damage": 5
       },
       "upgrade": "Damage +3",
-      "note": "",
+      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a chosen card in your Hand with Replay.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -763,6 +942,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -778,7 +961,7 @@
         "EyeOfNewt": 1
       },
       "upgrade": "EyeOfNewtPower +1",
-      "note": "",
+      "note": "Eye of Newt (was Experiment): a Power that makes your potions hit harder.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -786,7 +969,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Potions:UsePayoff"
+      ],
+      "threads": []
     },
     {
       "name": "Feast With Wolves",
@@ -801,7 +988,7 @@
         "Block": 8
       },
       "upgrade": "Block +3",
-      "note": "",
+      "note": "Feast With Wolves: guard the kill and dig through your deck until an Attack turns up.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -809,6 +996,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -830,6 +1021,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "ExhaustOutlet"
       ]
     },
     {
@@ -843,7 +1040,7 @@
       "text": "Create an Energy Potion.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "",
+      "note": "Hasty Brew: fast mana — brew an Energy Potion.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -851,6 +1048,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -875,7 +1078,11 @@
       "role": [
         "Generator",
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Moonbeam",
@@ -898,6 +1105,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -914,7 +1125,7 @@
         "ExtraDamage": 8
       },
       "upgrade": "ExtraDamage +4",
-      "note": "",
+      "note": "Overrun: the whole menagerie tramples — one big AoE hit that grows with each familiar.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -922,6 +1133,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Familiars:CountPayoff"
+      ],
+      "threads": [
+        "AoE",
+        "Snowball"
       ]
     },
     {
@@ -943,6 +1161,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -959,7 +1184,7 @@
         "Strength": 4
       },
       "upgrade": "StrengthPower +2",
-      "note": "Multiplayer-only.",
+      "note": "Multiplayer-only. Co-op (MP-only): take 5 Weak onto yourself so every other ally gains Strength.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -967,6 +1192,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "StatRamp",
+        "Drawback",
+        "SelfExhaust",
+        "SelfDebuff"
       ]
     },
     {
@@ -990,6 +1222,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Familiars:CountPayoff"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -1005,7 +1243,7 @@
         "Cards": 3
       },
       "upgrade": "Cards +1",
-      "note": "Exhausts.",
+      "note": "Pocket Rats: dump a handful of one-shot Rats straight into your hand.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -1013,6 +1251,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -1029,7 +1274,7 @@
         "Damage": 6
       },
       "upgrade": "HpLoss +1, Brews +1",
-      "note": "",
+      "note": "Prices Paid: bleed yourself for a strike, then brew the spilled blood into a Noxious Brew.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1037,6 +1282,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "HPLoss"
       ]
     },
     {
@@ -1053,7 +1304,7 @@
         "Cards": 2
       },
       "upgrade": "Block +4",
-      "note": "",
+      "note": "Refuse Pile: block up and seed your piles with Rats — two into the draw pile, two into the discard.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1061,6 +1312,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -1087,6 +1344,14 @@
       "role": [
         "Payoff",
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Sacrifice",
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "Draw",
+        "OtherDebuff"
       ]
     },
     {
@@ -1110,6 +1375,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Debuff/Buff:HexExploit"
+      ],
+      "threads": [
+        "DebuffPayoff",
+        "SelfExhaust"
       ]
     },
     {
@@ -1125,7 +1397,7 @@
         "RottingRoots": 3
       },
       "upgrade": "RottingRootsPower +3",
-      "note": "",
+      "note": "Rotting Roots: a slow rot — every turn all enemies wither and grow hexed.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1133,6 +1405,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "TurnEngine",
+        "OtherDebuff",
+        "AoE"
       ]
     },
     {
@@ -1148,7 +1428,7 @@
         "Block": 8
       },
       "upgrade": "Block +3, BonusBlock +2",
-      "note": "",
+      "note": "Salt and Ash: Block, plus bonus Block if you're carrying a debuff.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1156,6 +1436,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfDebuff"
       ]
     },
     {
@@ -1169,7 +1453,7 @@
       "text": "You and your allies each gain a random Potion.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "Multiplayer-only.",
+      "note": "Multiplayer-only. Co-op (MP-only): pass a round of brews — you and every ally each gain a random potion.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1177,7 +1461,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Strike Fear",
@@ -1193,7 +1481,7 @@
         "Damage": 6
       },
       "upgrade": "Damage +2, Vulnerable +1",
-      "note": "",
+      "note": "Strike Fear: a jab that leaves the target flinching — damage plus Vulnerable.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1201,6 +1489,10 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [],
+      "threads": [
+        "Vulnerable"
       ]
     },
     {
@@ -1225,6 +1517,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Brambles:Rider"
+      ],
+      "threads": [
+        "Drawback",
+        "SelfDebuff"
       ]
     },
     {
@@ -1241,7 +1540,7 @@
         "Cards": 2
       },
       "upgrade": "Damage +2",
-      "note": "",
+      "note": "Taste of Blood: two quick bites and the hunger sharpens — draw fresh cards.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1249,6 +1548,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "Draw"
       ]
     },
     {
@@ -1272,6 +1576,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Familiars:CountPayoff"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -1287,7 +1597,7 @@
         "VolatileVapors": 6
       },
       "upgrade": "VolatileVaporsPower +3",
-      "note": "",
+      "note": "Volatile Vapors: every brew fumes — using or creating a potion vents damage at a random enemy.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1295,7 +1605,12 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Potions:UsePayoff",
+        "Potions:CreatePayoff"
+      ],
+      "threads": []
     },
     {
       "name": "Wax and Wane",
@@ -1311,7 +1626,7 @@
         "Block": 9
       },
       "upgrade": "Block +4",
-      "note": "",
+      "note": "Wax and Wane: shore up with Block now; the curse lands at the start of next turn, on everyone.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -1319,6 +1634,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "DelayedEffect"
       ]
     },
     {
@@ -1340,6 +1662,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Brambles:Ramp"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1361,6 +1689,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -1376,7 +1711,7 @@
         "ALittleSip": 1
       },
       "upgrade": "Cost -1",
-      "note": "",
+      "note": "A Little Sip: a Power that heals 1 HP whenever you use a potion.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1384,6 +1719,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Potions:UsePayoff"
+      ],
+      "threads": [
+        "Heal",
+        "StatRamp"
       ]
     },
     {
@@ -1399,14 +1741,19 @@
         "Damage": 10
       },
       "upgrade": "Damage +3",
-      "note": "Exhausts; applies a random familiar power with no cosmetic pet.",
+      "note": "Ambush!: AoE strike that springs itself — auto-plays for free when drawn.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "None"
       ],
       "role": [
-        "Generator"
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "AutoPlay"
       ]
     },
     {
@@ -1430,6 +1777,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Brambles:Spend"
+      ],
+      "threads": [
+        "CostReduction"
       ]
     },
     {
@@ -1445,7 +1798,7 @@
         "Block": 8
       },
       "upgrade": "Block +4",
-      "note": "",
+      "note": "Bottle Wall: gain Block and brew up a Fortifier potion.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1453,6 +1806,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1475,7 +1834,12 @@
       "role": [
         "Generator",
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Potions:UsePayoff",
+        "Potions:Brew"
+      ],
+      "threads": []
     },
     {
       "name": "Brambleburst",
@@ -1498,6 +1862,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Brambles:Spend"
+      ],
+      "threads": [
+        "AoE",
+        "MultiHit",
+        "BurstFinisher"
       ]
     },
     {
@@ -1511,7 +1883,7 @@
       "text": "Sacrifice a random Familiar. Heal {Heal:diff()} HP.",
       "numbers": {},
       "upgrade": "Heal +3",
-      "note": "",
+      "note": "Broken Pact: end a familiar's service to mend your own wounds.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1519,6 +1891,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Familiars:Sacrifice"
+      ],
+      "threads": [
+        "Heal",
+        "SelfExhaust"
       ]
     },
     {
@@ -1544,6 +1923,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "SelfExhaust"
       ]
     },
     {
@@ -1565,6 +1951,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "SelfExhaust",
+        "SkillsMatter"
       ]
     },
     {
@@ -1586,6 +1978,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -1603,7 +2002,7 @@
         "Cards": 2
       },
       "upgrade": "HexPower -1",
-      "note": "",
+      "note": "Cursed Spellbook: a free surge of power with the curse baked in — Energy and cards now, Hex to pay for it.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -1611,6 +2010,13 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "Draw",
+        "Drawback",
+        "SelfDebuff"
       ]
     },
     {
@@ -1632,7 +2038,11 @@
       ],
       "role": [
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Potions:Economy"
+      ],
+      "threads": []
     },
     {
       "name": "Embrace the Wilds",
@@ -1653,6 +2063,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine",
+        "Drawback"
       ]
     },
     {
@@ -1676,6 +2094,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "ExhaustOutlet"
       ]
     },
     {
@@ -1691,7 +2113,7 @@
         "NextPotionCopied": 1
       },
       "upgrade": "NextPotionCopiedPower +1",
-      "note": "",
+      "note": "Copy the next potion you create this combat.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1699,7 +2121,11 @@
       ],
       "role": [
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Potions:Economy"
+      ],
+      "threads": []
     },
     {
       "name": "Hexblast",
@@ -1715,7 +2141,7 @@
         "Damage": 10
       },
       "upgrade": "HexPower +1",
-      "note": "",
+      "note": "Hexblast: blast every enemy, then lay Hex on all of them.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1723,6 +2149,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "AoE",
+        "OtherDebuff"
       ]
     },
     {
@@ -1736,7 +2169,7 @@
       "text": "At the start of your turn, create a Vial of Smoke.",
       "numbers": {},
       "upgrade": "Cost -1",
-      "note": "Exhausts.",
+      "note": "Hidden in Smoke: a Power that brews a Vial of Smoke at the start of every turn.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1744,6 +2177,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -1760,7 +2199,7 @@
         "Strength": 2
       },
       "upgrade": "Cost -1",
-      "note": "",
+      "note": "Lich Powder: become untouchable at the cost of your vigor — gain Intangible, lose Strength.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -1768,6 +2207,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Drawback",
+        "SelfDebuff"
       ]
     },
     {
@@ -1784,7 +2228,7 @@
         "Damage": 5
       },
       "upgrade": "Damage +2",
-      "note": "",
+      "note": "Mulch (renamed from Vicious Barbs): EXHAUST your hand to fuel a scaling hit and a pile of Brambles — 5 damage and 4 Brambles per card exhausted.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1792,6 +2236,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Brambles:Ramp"
+      ],
+      "threads": [
+        "MultiHit",
+        "ExhaustOutlet"
       ]
     },
     {
@@ -1817,6 +2268,14 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply",
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "Recursion"
       ]
     },
     {
@@ -1840,6 +2299,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "Transform"
       ]
     },
     {
@@ -1861,6 +2326,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Summon"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -1876,7 +2348,7 @@
         "Damage": 15
       },
       "upgrade": "Damage +5",
-      "note": "Exhausts.",
+      "note": "Rattling Bottles: an attack that also crams every empty potion slot full of rocks.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1885,6 +2357,12 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1900,7 +2378,7 @@
         "RitualCasting": 1
       },
       "upgrade": "RitualCastingPower +1",
-      "note": "",
+      "note": "Ritual Casting (was Thirst): a Power — every third card drawn hexes ALL enemies.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -1908,6 +2386,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "TurnEngine",
+        "DrawPayoff"
       ]
     },
     {
@@ -1923,7 +2409,7 @@
         "WickerForm": 1
       },
       "upgrade": "WickerFormPower +1",
-      "note": "",
+      "note": "Wicker Form: become the wicker — every card you play sprouts Brambles.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
@@ -1931,6 +2417,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Brambles:Engine"
+      ],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -1952,6 +2444,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1967,11 +2465,24 @@
         "Hex": 2
       },
       "upgrade": "HexPower +1",
-      "note": "",
+      "note": "Crow familiar token (formerly Claw Eyes): an ill portent — Hex for the whole board.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": []
+      "mechanics": [
+        "Familiars",
+        "Debuff/Buff"
+      ],
+      "role": [
+        "Token"
+      ],
+      "sub": [
+        "Familiars:Token",
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff",
+        "SelfExhaust"
+      ]
     },
     {
       "name": "Ferocity",
@@ -1996,6 +2507,14 @@
       ],
       "role": [
         "Token"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "MultiHit",
+        "Snowball",
+        "SelfExhaust"
       ]
     },
     {
@@ -2020,6 +2539,13 @@
       ],
       "role": [
         "Token"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "Snowball",
+        "SelfExhaust"
       ]
     },
     {
@@ -2036,7 +2562,7 @@
         "Block": 15
       },
       "upgrade": "Block +5, VigorNextTurnPower +3",
-      "note": "Bear familiar token; exhausts.",
+      "note": "Bear familiar token: den up — block now, wake up swinging with Vigor next turn.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2044,6 +2570,13 @@
       ],
       "role": [
         "Token"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "SelfExhaust",
+        "DelayedEffect"
       ]
     },
     {
@@ -2068,6 +2601,13 @@
       "role": [
         "Token",
         "Enabler"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -2091,6 +2631,12 @@
       ],
       "role": [
         "Token"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -2106,7 +2652,7 @@
         "Block": 5
       },
       "upgrade": "Block +3, Energy +1",
-      "note": "",
+      "note": "Cat familiar token: feline agility bottled as tempo — gain Energy and Block.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2115,6 +2661,13 @@
       "role": [
         "Token",
         "Enabler"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -2131,7 +2684,7 @@
         "Cards": 1
       },
       "upgrade": "Damage +3",
-      "note": "",
+      "note": "Rat familiar token (was Scavengers): tiny attack that cycles.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2139,6 +2692,13 @@
       ],
       "role": [
         "Token"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "Draw",
+        "SelfExhaust"
       ]
     },
     {
@@ -2154,7 +2714,7 @@
         "Cards": 1
       },
       "upgrade": "Cards +1",
-      "note": "",
+      "note": "Rat familiar token: dig a card back out of the discard pile (base-game Dredge pattern).",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2163,6 +2723,13 @@
       "role": [
         "Token",
         "Enabler"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "SelfExhaust",
+        "Recursion"
       ]
     },
     {
@@ -2176,7 +2743,7 @@
       "text": "Gain {Gold:diff()} Gold. Gain {Energy:diff()} Energy.",
       "numbers": {},
       "upgrade": "Gold +5",
-      "note": "",
+      "note": "Crow familiar token: pocket some gold and a burst of Energy.",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2184,6 +2751,13 @@
       ],
       "role": [
         "Token"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -2199,7 +2773,7 @@
         "Cards": 3
       },
       "upgrade": "Cards +2",
-      "note": "",
+      "note": "Rat familiar token: flood the deck — shuffle Rats into the draw pile (Call the Pack pattern).",
       "tested": true,
       "artFinal": false,
       "mechanics": [
@@ -2208,6 +2782,14 @@
       "role": [
         "Token",
         "Generator"
+      ],
+      "sub": [
+        "Familiars:Token",
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -2232,6 +2814,14 @@
       "role": [
         "Token",
         "Enabler"
+      ],
+      "sub": [
+        "Familiars:Token"
+      ],
+      "threads": [
+        "Draw",
+        "Discard",
+        "SelfExhaust"
       ]
     },
     {
@@ -2253,6 +2843,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Potions:UsePayoff"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -2278,6 +2874,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Potions:Brew",
+        "Debuff/Buff:HexApply"
+      ],
+      "threads": [
+        "OtherDebuff"
       ]
     },
     {
@@ -2301,6 +2904,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "HPLoss",
+        "Retain",
+        "SelfExhaust"
       ]
     }
   ]

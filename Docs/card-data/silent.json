@@ -20,7 +20,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Neutralize",
@@ -41,6 +43,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak"
       ]
     },
     {
@@ -61,7 +67,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Survivor",
@@ -82,6 +90,12 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Cost"
+      ],
+      "threads": [
+        "Discard"
       ]
     },
     {
@@ -102,7 +116,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Backflip",
@@ -123,6 +139,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -143,6 +163,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen"
+      ],
+      "threads": [
+        "CardGen",
+        "SelfExhaust"
       ]
     },
     {
@@ -164,6 +191,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -184,6 +217,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "MultiHit"
       ]
     },
     {
@@ -205,6 +243,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Cycle"
+      ],
+      "threads": [
+        "Draw",
+        "Discard"
       ]
     },
     {
@@ -225,7 +270,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Poison:Burst"
+      ],
+      "threads": []
     },
     {
       "name": "Deflect",
@@ -245,7 +294,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Dodge and Roll",
@@ -265,6 +316,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DelayedEffect"
       ]
     },
     {
@@ -285,6 +340,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -305,6 +366,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -323,6 +390,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "OtherDebuff",
+        "SelfExhaust"
       ]
     },
     {
@@ -344,7 +417,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Poison:Burst"
+      ],
+      "threads": []
     },
     {
       "name": "Predator",
@@ -364,6 +441,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DelayedEffect",
+        "Draw"
       ]
     },
     {
@@ -385,6 +467,13 @@
       "role": [
         "Enabler",
         "Generator"
+      ],
+      "sub": [
+        "Discard:Cycle"
+      ],
+      "threads": [
+        "Draw",
+        "Discard"
       ]
     },
     {
@@ -406,6 +495,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -426,7 +521,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Snakebite",
@@ -446,6 +543,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Poison:Burst"
+      ],
+      "threads": [
+        "Retain"
       ]
     },
     {
@@ -467,6 +570,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak"
       ]
     },
     {
@@ -487,7 +594,11 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": []
     },
     {
       "name": "Accuracy",
@@ -507,7 +618,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Shivs:Buff"
+      ],
+      "threads": []
     },
     {
       "name": "Acrobatics",
@@ -528,6 +643,13 @@
       "role": [
         "Enabler",
         "Generator"
+      ],
+      "sub": [
+        "Discard:Cycle"
+      ],
+      "threads": [
+        "Draw",
+        "Discard"
       ]
     },
     {
@@ -548,6 +670,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust",
+        "Innate"
       ]
     },
     {
@@ -568,6 +695,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DelayedEffect"
       ]
     },
     {
@@ -589,7 +720,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Poison:Burst"
+      ],
+      "threads": []
     },
     {
       "name": "Bubble Bubble",
@@ -609,6 +744,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Poison:Payoff"
+      ],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -628,6 +769,14 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Cycle"
+      ],
+      "threads": [
+        "Draw",
+        "Discard",
+        "SelfExhaust"
       ]
     },
     {
@@ -649,7 +798,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Escape Plan",
@@ -669,6 +820,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "DrawPayoff",
+        "SkillsMatter"
       ]
     },
     {
@@ -689,6 +846,10 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -707,6 +868,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Vulnerable",
+        "SelfExhaust"
       ]
     },
     {
@@ -729,6 +895,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "PlayVolume"
       ]
     },
     {
@@ -747,6 +918,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "OtherDebuff"
       ]
     },
     {
@@ -769,6 +944,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "SkillsMatter"
       ]
     },
     {
@@ -789,6 +969,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -809,6 +993,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "SkillsMatter"
       ]
     },
     {
@@ -829,6 +1019,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Poison:Burst",
+        "Discard:Sly"
+      ],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -850,6 +1047,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen",
+        "Discard:Cost"
+      ],
+      "threads": [
+        "CardGen",
+        "Discard"
       ]
     },
     {
@@ -868,6 +1073,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen"
+      ],
+      "threads": [
+        "CardGen",
+        "TurnEngine"
       ]
     },
     {
@@ -889,6 +1101,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak"
       ]
     },
     {
@@ -910,7 +1126,9 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Mirage",
@@ -931,6 +1149,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Poison:Payoff"
+      ],
+      "threads": [
+        "DebuffPayoff",
+        "SelfExhaust"
       ]
     },
     {
@@ -949,6 +1174,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Poison:Engine"
+      ],
+      "threads": [
+        "TurnEngine",
+        "AoE"
       ]
     },
     {
@@ -970,6 +1202,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Poison:Payoff"
+      ],
+      "threads": [
+        "AoE",
+        "DebuffPayoff"
       ]
     },
     {
@@ -990,6 +1229,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Buff"
+      ],
+      "threads": [
+        "Retain"
       ]
     },
     {
@@ -1010,6 +1255,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "SkillsMatter"
       ]
     },
     {
@@ -1030,6 +1280,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "SkillsMatter"
       ]
     },
     {
@@ -1051,6 +1306,10 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "Drawback"
       ]
     },
     {
@@ -1071,6 +1330,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -1089,6 +1354,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "Weak",
+        "SelfExhaust"
       ]
     },
     {
@@ -1109,6 +1380,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -1129,6 +1404,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DrawPayoff",
+        "AoE"
       ]
     },
     {
@@ -1150,6 +1430,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "OtherDebuff",
+        "PlayVolume"
       ]
     },
     {
@@ -1170,6 +1455,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -1190,6 +1481,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen"
+      ],
+      "threads": [
+        "CardGen",
+        "CostReduction"
       ]
     },
     {
@@ -1208,6 +1506,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Retain",
+        "TurnEngine"
       ]
     },
     {
@@ -1229,6 +1532,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -1247,6 +1556,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Poison:Payoff"
+      ],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -1268,6 +1583,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "Draw",
+        "SelfExhaust"
       ]
     },
     {
@@ -1288,6 +1609,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockEngine",
+        "PlayVolume"
       ]
     },
     {
@@ -1309,6 +1635,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Vulnerable",
+        "SelfExhaust",
+        "Innate"
       ]
     },
     {
@@ -1329,6 +1661,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen"
+      ],
+      "threads": [
+        "CardGen",
+        "Weak"
       ]
     },
     {
@@ -1347,6 +1686,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "Drawback"
       ]
     },
     {
@@ -1365,6 +1709,10 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "SkillsMatter"
       ]
     },
     {
@@ -1384,6 +1732,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Poison:Engine"
+      ],
+      "threads": [
+        "DrawPayoff",
+        "AoE"
       ]
     },
     {
@@ -1404,6 +1759,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -1424,7 +1783,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Poison:Engine"
+      ],
+      "threads": []
     },
     {
       "name": "Fan of Knives",
@@ -1442,6 +1805,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen",
+        "Shivs:Buff"
+      ],
+      "threads": [
+        "CardGen",
+        "AoE"
       ]
     },
     {
@@ -1462,6 +1833,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BurstFinisher",
+        "AoE",
+        "Drawback"
       ]
     },
     {
@@ -1483,6 +1860,11 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "ExhaustPayoff",
+        "MultiHit"
       ]
     },
     {
@@ -1501,6 +1883,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak",
+        "OtherDebuff",
+        "SelfExhaust"
       ]
     },
     {
@@ -1519,6 +1907,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "SkillsMatter"
       ]
     },
     {
@@ -1540,6 +1934,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BurstFinisher",
+        "Snowball",
+        "DrawPayoff"
       ]
     },
     {
@@ -1558,6 +1958,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "DelayedEffect",
+        "SelfExhaust"
       ]
     },
     {
@@ -1578,6 +1984,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "PlayVolume"
       ]
     },
     {
@@ -1598,6 +2008,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Discard:Cost"
+      ],
+      "threads": [
+        "Discard",
+        "DelayedEffect"
       ]
     },
     {
@@ -1616,6 +2033,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockPayoff"
       ]
     },
     {
@@ -1636,6 +2057,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Discard:Sly"
+      ],
+      "threads": [
+        "BlockEngine"
       ]
     },
     {
@@ -1655,6 +2082,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Shivs:Gen",
+        "Discard:Cost"
+      ],
+      "threads": [
+        "CardGen",
+        "Discard"
       ]
     },
     {
@@ -1675,6 +2110,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1694,6 +2133,14 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Discard:Cycle"
+      ],
+      "threads": [
+        "Draw",
+        "Discard",
+        "TurnEngine"
       ]
     },
     {
@@ -1712,6 +2159,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -1733,6 +2184,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak",
+        "Innate"
       ]
     },
     {
@@ -1754,6 +2210,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Drawback"
       ]
     }
   ]
