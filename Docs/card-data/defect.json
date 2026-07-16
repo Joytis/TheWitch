@@ -20,7 +20,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Dualcast",
@@ -38,7 +40,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:EvokePayoff"
+      ],
+      "threads": []
     },
     {
       "name": "Strike",
@@ -58,7 +64,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Zap",
@@ -76,7 +84,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Lightning"
+      ],
+      "threads": []
     },
     {
       "name": "Ball Lightning",
@@ -96,7 +108,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Lightning"
+      ],
+      "threads": []
     },
     {
       "name": "Barrage",
@@ -118,6 +134,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:CountScaling"
+      ],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -139,6 +161,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Vulnerable"
       ]
     },
     {
@@ -159,6 +185,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Status:SelfInflictGen"
+      ],
+      "threads": [
+        "SelfStatus"
       ]
     },
     {
@@ -180,6 +212,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "DelayedEffect"
       ]
     },
     {
@@ -200,6 +237,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -220,7 +261,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Frost"
+      ],
+      "threads": []
     },
     {
       "name": "Compile Driver",
@@ -242,6 +287,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:CountScaling"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -262,6 +313,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Frost"
+      ],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -283,7 +340,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Focus:TurnBurst"
+      ],
+      "threads": []
     },
     {
       "name": "Go for the Eyes",
@@ -304,6 +365,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Weak"
       ]
     },
     {
@@ -325,6 +390,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Status:SelfInflictGen"
+      ],
+      "threads": [
+        "MultiHit",
+        "SelfStatus"
       ]
     },
     {
@@ -345,6 +417,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Tutor",
+        "SelfExhaust"
       ]
     },
     {
@@ -365,6 +442,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Focus:TurnBurst"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -385,7 +468,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Lightning Rod",
@@ -406,6 +491,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Lightning"
+      ],
+      "threads": [
+        "DelayedEffect"
       ]
     },
     {
@@ -426,6 +517,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "ZeroCostMatters"
       ]
     },
     {
@@ -447,6 +543,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "Draw"
       ]
     },
     {
@@ -467,6 +568,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Status:SelfInflictGen"
+      ],
+      "threads": [
+        "Energy",
+        "SelfStatus"
       ]
     },
     {
@@ -487,6 +595,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -507,6 +619,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust",
+        "Innate"
       ]
     },
     {
@@ -528,6 +645,13 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Orbs:SlotManip"
+      ],
+      "threads": [
+        "StatRamp",
+        "Drawback"
       ]
     },
     {
@@ -548,7 +672,11 @@
       ],
       "role": [
         "Enabler"
-      ]
+      ],
+      "sub": [
+        "Orbs:SlotManip"
+      ],
+      "threads": []
     },
     {
       "name": "Chaos",
@@ -568,7 +696,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:RandomChannel"
+      ],
+      "threads": []
     },
     {
       "name": "Chill",
@@ -586,6 +718,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Frost"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -606,6 +744,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Status:InHandPayoff"
+      ],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -625,7 +769,12 @@
       "role": [
         "Generator",
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:Dark",
+        "Orbs:TriggerPassive"
+      ],
+      "threads": []
     },
     {
       "name": "Double Energy",
@@ -643,6 +792,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -663,6 +817,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -683,6 +842,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "TurnEngine",
+        "ZeroCostMatters"
       ]
     },
     {
@@ -703,6 +867,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Status:SelfInflictGen"
+      ],
+      "threads": [
+        "SelfStatus"
       ]
     },
     {
@@ -724,6 +894,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -742,6 +916,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Plasma"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -762,7 +942,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Frost"
+      ],
+      "threads": []
     },
     {
       "name": "Glasswork",
@@ -782,7 +966,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Glass"
+      ],
+      "threads": []
     },
     {
       "name": "Hailstorm",
@@ -802,6 +990,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:Frost"
+      ],
+      "threads": [
+        "AoE",
+        "TurnEngine"
       ]
     },
     {
@@ -822,6 +1017,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Status:InHandPayoff"
+      ],
+      "threads": [
+        "Draw",
+        "TurnEngine"
       ]
     },
     {
@@ -840,6 +1042,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:TriggerPassive"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -861,6 +1069,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Dark"
+      ],
+      "threads": [
+        "Weak"
       ]
     },
     {
@@ -881,6 +1095,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Status:SelfInflictGen"
+      ],
+      "threads": [
+        "Draw",
+        "SelfStatus"
       ]
     },
     {
@@ -902,6 +1123,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Glass"
+      ],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -923,6 +1150,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Status:OnCreatePayoff"
+      ],
+      "threads": [
+        "Draw",
+        "CostReduction"
       ]
     },
     {
@@ -943,6 +1177,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "SelfExhaust",
+        "DelayedEffect"
       ]
     },
     {
@@ -964,6 +1204,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "Discard",
+        "ZeroCostMatters"
       ]
     },
     {
@@ -984,7 +1230,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Dark"
+      ],
+      "threads": []
     },
     {
       "name": "Skim",
@@ -1004,6 +1254,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -1024,6 +1278,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Status:OnCreatePayoff"
+      ],
+      "threads": [
+        "AoE"
       ]
     },
     {
@@ -1045,6 +1305,12 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:Lightning"
+      ],
+      "threads": [
+        "PowersMatter"
       ]
     },
     {
@@ -1059,10 +1325,15 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "mechanics": [
-        "Orbs"
+        "None"
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "PowersMatter"
       ]
     },
     {
@@ -1084,6 +1355,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy"
       ]
     },
     {
@@ -1106,6 +1381,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:CountScaling",
+        "Focus:TurnBurst"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1126,6 +1408,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "PowersMatter"
       ]
     },
     {
@@ -1144,7 +1431,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Lightning"
+      ],
+      "threads": []
     },
     {
       "name": "Tesla Coil",
@@ -1164,7 +1455,12 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:Lightning",
+        "Orbs:TriggerPassive"
+      ],
+      "threads": []
     },
     {
       "name": "Thunder",
@@ -1184,7 +1480,12 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:Lightning",
+        "Orbs:EvokePayoff"
+      ],
+      "threads": []
     },
     {
       "name": "White Noise",
@@ -1202,6 +1503,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "CostReduction",
+        "SelfExhaust",
+        "PowersMatter"
       ]
     },
     {
@@ -1222,6 +1530,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "Snowball",
+        "ZeroCostMatters"
       ]
     },
     {
@@ -1242,6 +1556,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Tutor",
+        "ZeroCostMatters"
       ]
     },
     {
@@ -1262,7 +1581,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Consuming Shadow",
@@ -1284,6 +1605,13 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:Dark",
+        "Orbs:EvokePayoff"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -1304,6 +1632,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:CountScaling"
+      ],
+      "threads": [
+        "BlockEngine",
+        "TurnEngine"
       ]
     },
     {
@@ -1322,6 +1657,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "TurnEngine",
+        "PowersMatter"
       ]
     },
     {
@@ -1342,6 +1683,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Focus:PermRamp"
+      ],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -1360,6 +1707,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -1382,6 +1733,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Status:InHandPayoff"
+      ],
+      "threads": [
+        "MultiHit",
+        "SelfExhaust"
       ]
     },
     {
@@ -1400,6 +1758,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1422,6 +1784,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit",
+        "BurstFinisher"
       ]
     },
     {
@@ -1443,6 +1810,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "BurstFinisher",
+        "Drawback"
       ]
     },
     {
@@ -1464,7 +1837,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Frost"
+      ],
+      "threads": []
     },
     {
       "name": "Ignition",
@@ -1482,6 +1859,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Plasma"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1502,6 +1885,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "TurnEngine"
       ]
     },
     {
@@ -1522,7 +1910,11 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [
+        "Orbs:Plasma"
+      ],
+      "threads": []
     },
     {
       "name": "Modded",
@@ -1543,6 +1935,13 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Orbs:SlotManip"
+      ],
+      "threads": [
+        "Draw",
+        "Drawback"
       ]
     },
     {
@@ -1561,7 +1960,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:EvokePayoff"
+      ],
+      "threads": []
     },
     {
       "name": "Rainbow",
@@ -1579,6 +1982,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Orbs:Lightning",
+        "Orbs:Frost",
+        "Orbs:Dark"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1599,6 +2010,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "SelfExhaust"
       ]
     },
     {
@@ -1619,6 +2035,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:EvokePayoff"
+      ],
+      "threads": [
+        "AoE",
+        "BurstFinisher"
       ]
     },
     {
@@ -1635,10 +2058,15 @@
       },
       "upgrade": "Cost -1",
       "mechanics": [
-        "Orbs"
+        "None"
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "SelfExhaust",
+        "PowersMatter"
       ]
     },
     {
@@ -1660,6 +2088,12 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:Glass"
+      ],
+      "threads": [
+        "TurnEngine"
       ]
     },
     {
@@ -1680,6 +2114,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -1700,7 +2139,12 @@
       "role": [
         "Generator",
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:RandomChannel",
+        "Status:OnCreatePayoff"
+      ],
+      "threads": []
     },
     {
       "name": "Voltaic",
@@ -1722,6 +2166,13 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Orbs:Lightning"
+      ],
+      "threads": [
+        "Snowball",
+        "SelfExhaust"
       ]
     },
     {
@@ -1743,6 +2194,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Focus:PermRamp"
+      ],
+      "threads": [
+        "StatRamp",
+        "Drawback"
       ]
     },
     {
@@ -1763,7 +2221,11 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [
+        "Orbs:EvokePayoff"
+      ],
+      "threads": []
     }
   ]
 }

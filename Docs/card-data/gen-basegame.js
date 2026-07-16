@@ -104,6 +104,8 @@ function parseCard(className, loc) {
     upgrade: parseUpgrade(src),
     mechanics: [],
     role: [],
+    sub: [],
+    threads: [],
   };
 }
 
@@ -123,6 +125,8 @@ function buildOne(outName, poolClass, loc) {
     const prev = prevByEntry[c.entry];
     if (prev && prev.mechanics) c.mechanics = prev.mechanics;
     if (prev && prev.role) c.role = prev.role;
+    if (prev && prev.sub) c.sub = prev.sub;
+    if (prev && prev.threads) c.threads = prev.threads;
     delete c.missing;
   }
 

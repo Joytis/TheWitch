@@ -87,7 +87,7 @@ function parseUpgrade(src) {
 }
 
 function parseSummary(src) {
-  const m = src.match(/\/\/\/\s*<summary>([\s\S]*?)\/\/\/\s*<\/summary>/);
+  const m = src.match(/\/\/\/\s*<summary>([\s\S]*?)<\/summary>/); // single-line summaries have no /// before the close tag
   if (!m) return "";
   const txt = m[1].replace(/\/\/\/?/g, " ").replace(/\s+/g, " ").trim();
   const sentence = txt.split(/(?<=[.!?])\s/)[0] || txt;
@@ -190,6 +190,8 @@ function build() {
       artFinal: false,
       mechanics: [],
       role: [],
+      sub: [],
+      threads: [],
       _hasLoc: !!loc[`${MOD_PREFIX}${p.entry}.title`],
     };
   });
@@ -219,6 +221,8 @@ function main() {
     // curated categorization tags — independent of mechanical fingerprint; always preserved
     if (prev && prev.mechanics) c.mechanics = prev.mechanics;
     if (prev && prev.role) c.role = prev.role;
+    if (prev && prev.sub) c.sub = prev.sub;
+    if (prev && prev.threads) c.threads = prev.threads;
     if (!prev) { added.push(c.name); continue; }
     // preserve curated note if the source has no summary
     if (!c.note && prev.note) c.note = prev.note;
@@ -257,6 +261,9 @@ function main() {
   // keep the static art tracker page in sync with the fresh card data
   require("child_process").execFileSync(process.execPath,
     [path.join(ROOT, "Docs", "art-tracker", "regen-art-tracker.js")], { stdio: "inherit" });
+  // ...and the pool-comparison report (Docs/pool-comparison.md)
+  require("child_process").execFileSync(process.execPath,
+    [path.join(__dirname, "compare.js")], { stdio: "inherit" });
 }
 
 main();

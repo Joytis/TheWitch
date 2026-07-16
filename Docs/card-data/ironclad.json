@@ -21,6 +21,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Vulnerable:Applier"
+      ],
+      "threads": [
+        "Vulnerable"
       ]
     },
     {
@@ -41,7 +47,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Strike",
@@ -61,7 +69,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Anger",
@@ -81,6 +91,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen"
       ]
     },
     {
@@ -101,7 +115,9 @@
       ],
       "role": [
         "Enabler"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Blood Wall",
@@ -122,6 +138,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "SelfHarm:Cost"
+      ],
+      "threads": [
+        "HPLoss"
       ]
     },
     {
@@ -143,6 +165,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "SelfHarm:Cost"
+      ],
+      "threads": [
+        "HPLoss",
+        "Energy"
       ]
     },
     {
@@ -164,6 +193,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockPayoff"
       ]
     },
     {
@@ -185,6 +218,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "SelfHarm:Cost"
+      ],
+      "threads": [
+        "HPLoss",
+        "AoE"
       ]
     },
     {
@@ -205,6 +245,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet"
       ]
     },
     {
@@ -223,6 +269,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "AutoPlay"
       ]
     },
     {
@@ -243,6 +296,10 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Tutor"
       ]
     },
     {
@@ -264,7 +321,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Molten Fist",
@@ -285,6 +344,15 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Vulnerable:Exploit",
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "Vulnerable",
+        "DebuffPayoff",
+        "SelfExhaust"
       ]
     },
     {
@@ -306,7 +374,9 @@
       ],
       "role": [
         "Payoff"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Pommel Strike",
@@ -327,6 +397,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -348,7 +422,9 @@
       ],
       "role": [
         "Generator"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Shrug It Off",
@@ -369,6 +445,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw"
       ]
     },
     {
@@ -390,6 +470,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -411,6 +495,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Vulnerable:Applier"
+      ],
+      "threads": [
+        "AoE",
+        "Vulnerable"
       ]
     },
     {
@@ -431,6 +522,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Vulnerable:Applier",
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "Vulnerable",
+        "SelfExhaust"
       ]
     },
     {
@@ -451,6 +550,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet"
       ]
     },
     {
@@ -471,6 +576,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -492,6 +601,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:PileScaler"
+      ],
+      "threads": [
+        "ExhaustPayoff",
+        "Snowball"
       ]
     },
     {
@@ -512,6 +628,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "Drawback"
       ]
     },
     {
@@ -532,7 +653,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Bully",
@@ -553,6 +676,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Vulnerable:Exploit"
+      ],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -574,6 +703,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "Draw"
       ]
     },
     {
@@ -590,10 +726,16 @@
       },
       "upgrade": "Block +3",
       "mechanics": [
-        "None"
+        "Vulnerable"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
+      ],
+      "sub": [
+        "Vulnerable:Exploit"
+      ],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -616,6 +758,15 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "SelfHarm:Cost",
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "HPLoss",
+        "BlockPayoff",
+        "SelfExhaust"
       ]
     },
     {
@@ -636,6 +787,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Vulnerable:Exploit"
+      ],
+      "threads": [
+        "DebuffPayoff",
+        "MultiHit"
       ]
     },
     {
@@ -658,6 +816,18 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Vulnerable:Applier",
+        "Vulnerable:Exploit",
+        "Strength:Ramp",
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "Vulnerable",
+        "DebuffPayoff",
+        "StatRamp",
+        "SelfExhaust"
       ]
     },
     {
@@ -680,6 +850,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Exhaust:WantsExhausted"
+      ],
+      "threads": [
+        "Draw",
+        "Energy"
       ]
     },
     {
@@ -700,6 +877,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:TurnConditional"
+      ],
+      "threads": [
+        "ExhaustPayoff"
       ]
     },
     {
@@ -722,6 +905,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "AttacksMatter",
+        "Drawback"
       ]
     },
     {
@@ -740,6 +929,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:TriggerEngine"
+      ],
+      "threads": [
+        "ExhaustPayoff",
+        "BlockEngine"
       ]
     },
     {
@@ -762,6 +958,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Strength:Ramp"
+      ],
+      "threads": [
+        "StatRamp",
+        "MultiHit",
+        "Drawback"
       ]
     },
     {
@@ -782,7 +986,9 @@
       ],
       "role": [
         "Standalone"
-      ]
+      ],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Forgotten Ritual",
@@ -802,6 +1008,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:TurnConditional"
+      ],
+      "threads": [
+        "ExhaustPayoff",
+        "Energy",
+        "SelfExhaust"
       ]
     },
     {
@@ -823,6 +1037,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "SelfHarm:Cost"
+      ],
+      "threads": [
+        "HPLoss"
       ]
     },
     {
@@ -843,6 +1063,14 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:WantsExhausted"
+      ],
+      "threads": [
+        "AoE",
+        "ExhaustPayoff",
+        "AutoPlay"
       ]
     },
     {
@@ -862,6 +1090,15 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "CardGen",
+        "CostReduction",
+        "SelfExhaust",
+        "AttacksMatter"
       ]
     },
     {
@@ -883,6 +1120,15 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "SelfHarm:Cost",
+        "SelfHarm:Payoff"
+      ],
+      "threads": [
+        "HPLoss",
+        "AoE",
+        "TurnEngine"
       ]
     },
     {
@@ -903,6 +1149,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Strength:Ramp"
+      ],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -921,6 +1173,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "AttacksMatter",
+        "TurnEngine"
       ]
     },
     {
@@ -941,6 +1199,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Draw",
+        "AttacksMatter"
       ]
     },
     {
@@ -959,6 +1222,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockEngine",
+        "AttacksMatter"
       ]
     },
     {
@@ -979,6 +1247,10 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "Snowball"
       ]
     },
     {
@@ -1001,6 +1273,13 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Strength:Ramp",
+        "SelfHarm:Payoff"
+      ],
+      "threads": [
+        "StatRamp"
       ]
     },
     {
@@ -1022,6 +1301,13 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "ExhaustPayoff"
       ]
     },
     {
@@ -1043,6 +1329,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "SelfHarm:Payoff"
+      ],
+      "threads": [
+        "MultiHit"
       ]
     },
     {
@@ -1061,6 +1353,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "AutoPlay",
+        "AttacksMatter",
+        "TurnEngine"
       ]
     },
     {
@@ -1081,6 +1379,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "CostReduction",
+        "AttacksMatter"
       ]
     },
     {
@@ -1101,6 +1405,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockEngine",
+        "TurnEngine"
       ]
     },
     {
@@ -1122,6 +1431,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Vulnerable:Applier"
+      ],
+      "threads": [
+        "Vulnerable"
       ]
     },
     {
@@ -1142,6 +1457,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CostReduction",
+        "AttacksMatter"
       ]
     },
     {
@@ -1162,6 +1482,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Vulnerable:Applier"
+      ],
+      "threads": [
+        "Vulnerable",
+        "Weak"
       ]
     },
     {
@@ -1182,6 +1509,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "DebuffPayoff",
+        "Draw"
       ]
     },
     {
@@ -1202,6 +1534,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "MultiHit"
       ]
     },
     {
@@ -1220,6 +1557,12 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Tutor",
+        "AttacksMatter",
+        "TurnEngine"
       ]
     },
     {
@@ -1238,6 +1581,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockPayoff",
+        "Snowball"
       ]
     },
     {
@@ -1261,6 +1609,16 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Strength:Ramp",
+        "Exhaust:Outlet",
+        "SelfHarm:Cost"
+      ],
+      "threads": [
+        "StatRamp",
+        "ExhaustOutlet",
+        "HPLoss"
       ]
     },
     {
@@ -1279,6 +1637,10 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "AutoPlay"
       ]
     },
     {
@@ -1300,6 +1662,11 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "AoE",
+        "MultiHit"
       ]
     },
     {
@@ -1320,6 +1687,14 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "SelfHarm:Cost"
+      ],
+      "threads": [
+        "HPLoss",
+        "BlockEngine",
+        "TurnEngine"
       ]
     },
     {
@@ -1340,6 +1715,12 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Vulnerable:Exploit"
+      ],
+      "threads": [
+        "DebuffPayoff"
       ]
     },
     {
@@ -1358,6 +1739,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:TriggerEngine"
+      ],
+      "threads": [
+        "ExhaustPayoff",
+        "Draw"
       ]
     },
     {
@@ -1378,6 +1766,13 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Strength:Ramp"
+      ],
+      "threads": [
+        "StatRamp",
+        "TurnEngine"
       ]
     },
     {
@@ -1399,6 +1794,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "MaxHP",
+        "SelfExhaust"
       ]
     },
     {
@@ -1420,6 +1822,15 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "ExhaustPayoff",
+        "BurstFinisher",
+        "SelfExhaust"
       ]
     },
     {
@@ -1438,6 +1849,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "AutoPlay",
+        "AttacksMatter"
       ]
     },
     {
@@ -1458,6 +1874,12 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "SelfExhaust"
       ]
     },
     {
@@ -1478,6 +1900,10 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockPayoff"
       ]
     },
     {
@@ -1498,6 +1924,10 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [],
+      "threads": [
+        "OtherDebuff"
       ]
     },
     {
@@ -1518,6 +1948,13 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "Heal",
+        "SelfExhaust"
       ]
     },
     {
@@ -1541,6 +1978,16 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "SelfHarm:Cost",
+        "Exhaust:SelfFuel"
+      ],
+      "threads": [
+        "HPLoss",
+        "Energy",
+        "Draw",
+        "SelfExhaust"
       ]
     },
     {
@@ -1559,6 +2006,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "AttacksMatter",
+        "AutoPlay"
       ]
     },
     {
@@ -1580,6 +2032,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:PileScaler"
+      ],
+      "threads": [
+        "AoE",
+        "ExhaustPayoff"
       ]
     },
     {
@@ -1598,6 +2057,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "CardGen",
+        "AttacksMatter"
       ]
     },
     {
@@ -1618,6 +2082,11 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "Energy",
+        "TurnEngine"
       ]
     },
     {
@@ -1637,6 +2106,13 @@
       "role": [
         "Generator",
         "Enabler"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "CardGen"
       ]
     },
     {
@@ -1655,6 +2131,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "Drawback"
       ]
     },
     {
@@ -1678,6 +2158,13 @@
       ],
       "role": [
         "Payoff"
+      ],
+      "sub": [
+        "SelfHarm:Payoff"
+      ],
+      "threads": [
+        "MultiHit",
+        "Snowball"
       ]
     },
     {
@@ -1699,6 +2186,14 @@
       "role": [
         "Generator",
         "Payoff"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "MultiHit",
+        "Snowball"
       ]
     },
     {
@@ -1717,6 +2212,10 @@
       ],
       "role": [
         "Standalone"
+      ],
+      "sub": [],
+      "threads": [
+        "BlockPayoff"
       ]
     },
     {
@@ -1738,6 +2237,12 @@
       ],
       "role": [
         "Generator"
+      ],
+      "sub": [
+        "Vulnerable:Applier"
+      ],
+      "threads": [
+        "Vulnerable"
       ]
     },
     {
@@ -1756,6 +2261,13 @@
       ],
       "role": [
         "Enabler"
+      ],
+      "sub": [
+        "Exhaust:Outlet"
+      ],
+      "threads": [
+        "ExhaustOutlet",
+        "CostReduction"
       ]
     }
   ]

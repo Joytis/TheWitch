@@ -8,7 +8,7 @@ using TheWitch.TheWitchCode.Patches;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Hurl the whole belt: one 7-damage hit per potion you've brewed this combat. The hit count renders live
+/// Hurl the whole belt: one 10-damage hit per potion you've brewed this combat. The hit count renders live
 /// on the card face via the base-game Barrage pattern (CalculatedVar of base 0 + extra 1 × potions created).
 /// </summary>
 public sealed class BottleBarrage : WitchCard
