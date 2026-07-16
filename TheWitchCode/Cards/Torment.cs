@@ -10,21 +10,24 @@ using TheWitch.TheWitchCode.Powers;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Overrun: mark one enemy for the pack — every Familiar card played this turn tramples it again.
+/// Marker for attacks that don't burn the target's Hex — <see cref="HexPower" /> skips its
+/// after-attack stack loss when the attacking card implements this.
 /// </summary>
-public sealed class Overrun : WitchCard
+public interface IHexPreserving;
+
+/// <summary>Torment (was Accursed Needles): a cheap repeatable sting that milks Hex without consuming it.</summary>
+public sealed class Torment : WitchCard, IHexPreserving
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<OverrunPower>(),
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move),
-        new ExtraDamageVar(5m)
+        new DamageVar(5m, ValueProp.Move)
     ];
 
-    public Overrun()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    public Torment()
+        : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -35,19 +38,9 @@ public sealed class Overrun : WitchCard
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_thrash")
+            .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-
-        if (Owner.Creature.GetPower<OverrunPower>() is null)
-        {
-            await PowerCmd.Apply<OverrunPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
-        }
-        Owner.Creature.GetPower<OverrunPower>()?.AddStrike(cardPlay.Target, DynamicVars.ExtraDamage.BaseValue, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars.ExtraDamage.UpgradeValueBy(2m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }

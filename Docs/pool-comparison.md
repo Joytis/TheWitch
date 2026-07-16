@@ -19,18 +19,18 @@
 
 | | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
-| Attack | 27 | 27 | 35 | 37 | 29 | 32 |
-| Skill | 40 | 42 | 35 | 30 | 39 | 37 |
-| Power | 20 | 19 | 18 | 20 | 20 | 19 |
+| Attack | 26 | 27 | 35 | 37 | 29 | 32 |
+| Skill | 42 | 42 | 35 | 30 | 39 | 37 |
+| Power | 19 | 19 | 18 | 20 | 20 | 19 |
 
 ### Energy cost
 
 | | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
-| 0 | 8 | 16 | 9 | 11 | 15 | 20 |
-| 1 | 52 | 43 | 54 | 48 | 49 | 49 |
-| 2 | 22 | 17 | 14 | 19 | 15 | 14 |
-| 3 | 3 | 10 | 7 | 7 | 6 | 3 |
+| 0 | 10 | 16 | 9 | 11 | 15 | 20 |
+| 1 | 49 | 43 | 54 | 48 | 49 | 49 |
+| 2 | 20 | 17 | 14 | 19 | 15 | 14 |
+| 3 | 6 | 10 | 7 | 7 | 6 | 3 |
 | 4+ | 0 | 0 | 2 | 0 | 1 | 1 |
 | X | 2 | 2 | 2 | 2 | 2 | 1 |
 
@@ -40,20 +40,20 @@ Effective damage = per-hit × hits. Cells: energy cost × single-target/AoE. Bas
 
 | cost | shape | base n | base med | base med+ | witch n | witch med | witch med+ |
 |---|---|---|---|---|---|---|---|
-| 0 | single | 15 | 6 | 8 | 1 | 3 | 3 |
+| 0 | single | 15 | 6 | 8 | 3 | 5 | 7 |
 | 0 | AoE | 1 | 60 | 75 | 0 | — | — |
-| 1 | single | 48 | 8 | 10 | 14 | 8 | 11 |
-| 1 | AoE | 11 | 8 | 11 | 2 | 12.5 | 16.5 |
-| 2 | single | 20 | 13 | 17 | 4 | 12.5 | 17 |
-| 2 | AoE | 1 | 28 | 36 | 1 | 10 | 10 |
+| 1 | single | 48 | 8 | 10 | 13 | 8 | 9 |
+| 1 | AoE | 11 | 8 | 11 | 1 | 15 | 20 |
+| 2 | single | 20 | 13 | 17 | 4 | 12.5 | 18 |
+| 2 | AoE | 1 | 28 | 36 | 1 | 12 | 15 |
 | 3 | single | 9 | 19 | 24 | 1 | 15 | 20 |
-| 3 | AoE | 2 | 14 | 18 | 0 | — | — |
+| 3 | AoE | 2 | 14 | 18 | 1 | 20 | 20 |
 
 Non-flat damage cards per class (not averaged — counted):
 
 | bucket | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
-| scaling | 3 | 2 | 1 | 1 | 3 | 2 |
+| scaling | 2 | 2 | 1 | 1 | 3 | 2 |
 | xcost | 0 | 1 | 1 | 1 | 0 | 2 |
 | conditional | 0 | 0 | 0 | 1 | 0 | 0 |
 | engine | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -63,7 +63,7 @@ Non-flat damage cards per class (not averaged — counted):
 | cost | base n | base med | base med+ | witch n | witch med | witch med+ |
 |---|---|---|---|---|---|---|
 | 0 | 5 | 6 | 9 | 0 | — | — |
-| 1 | 35 | 6 | 8 | 7 | 7 | 10 |
+| 1 | 35 | 6 | 8 | 7 | 6 | 9 |
 | 2 | 12 | 11 | 13.5 | 4 | 11 | 14.5 |
 | 3 | 1 | 13 | 17 | 0 | — | — |
 
@@ -71,7 +71,7 @@ Non-flat block cards per class:
 
 | bucket | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
-| scaling | 0 | 0 | 0 | 1 | 0 | 0 |
+| scaling | 1 | 0 | 0 | 1 | 0 | 0 |
 | xcost | 0 | 0 | 0 | 0 | 0 | 0 |
 | engine | 0 | 0 | 1 | 0 | 0 | 1 |
 
@@ -79,13 +79,14 @@ Non-flat block cards per class:
 
 | card | metric | cell | value | base med | ratio | priced-in downsides |
 |---|---|---|---|---|---|---|
-| Extract Essence | dmg | 2 | 8 | 13 | 0.62 |  |
 | Forbidden Magic | dmg | 1 | 18 | 8 | 2.25 | Drawback, SelfDebuff |
 | Pact of Agony | dmg | 1 AoE | 15 | 8 | 1.88 | SelfExhaust |
-| Accursed Needles | dmg | 0 | 3 | 6 | 0.50 |  |
+| Command | dmg | 0 | 3 | 6 | 0.50 |  |
+| Moonbeam | dmg | 2 | 8 | 13 | 0.62 |  |
+| Overrun | dmg | 1 | 5 | 8 | 0.63 |  |
+| Capture Soul | dmg | 0 | 10 | 6 | 1.67 | SelfExhaust |
 | Extract Life | dmg | 1 | 12 | 8 | 1.50 | ExhaustOutlet |
 | Circle of Rot | block | 2 | 20 | 11 | 1.82 | Drawback, SelfDebuff |
-| Feast With Wolves | block | 1 | 8 | 6 | 1.33 |  |
 | Salt and Ash | block | 1 | 8 | 6 | 1.33 | SelfDebuff |
 | Wax and Wane | block | 1 | 9 | 6 | 1.50 | DelayedEffect |
 
@@ -98,8 +99,8 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 | mechanic | Gen | Payoff | Enabler | Token | gen:payoff |
 |---|---|---|---|---|---|
 | Potions | 15 | 8 | 5 | 0 | 1.9:1 |
-| Debuff/Buff | 14 | 3 | 1 | 1 | 4.7:1 |
-| Familiars | 15 | 6 | 6 | 12 | 2.5:1 |
+| Debuff/Buff | 13 | 3 | 1 | 1 | 4.3:1 |
+| Familiars | 15 | 5 | 6 | 12 | 3.0:1 |
 | Brambles | 8 | 4 | 2 | 0 | 2.0:1 |
 
 ### silent
@@ -150,18 +151,18 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 | thread | witch | silent | necrobinder | ironclad | defect | regent | base med |
 |---|---|---|---|---|---|---|---|
 | SelfExhaust | 27 | 12 | 13 | 11 | 18 | 7 | 12 |
-| CardGen | 15 | 10 | 9 | 5 | 4 | 6 | 6 |
-| Draw | 9 | 11 | 6 | 9 | 12 | 10 | 10 |
+| CardGen | 14 | 10 | 9 | 5 | 4 | 6 | 6 |
 | TurnEngine | 13 | 4 | 5 | 8 | 10 | 6 | 6 |
-| OtherDebuff | 13 | 4 | 4 | 1 | 0 | 4 | 4 |
+| Draw | 8 | 11 | 6 | 9 | 12 | 10 | 10 |
+| OtherDebuff | 12 | 4 | 4 | 1 | 0 | 4 | 4 |
 | AoE | 6 | 12 | 7 | 8 | 5 | 8 | 8 |
 | MultiHit | 7 | 6 | 3 | 9 | 6 | 7 | 6 |
 | Energy | 6 | 2 | 7 | 6 | 8 | 6 | 6 |
-| Drawback | 7 | 4 | 12 | 4 | 4 | 1 | 4 |
-| Snowball | 6 | 1 | 6 | 5 | 3 | 3 | 3 |
+| Drawback | 6 | 4 | 12 | 4 | 4 | 1 | 4 |
+| Snowball | 5 | 1 | 6 | 5 | 3 | 3 | 3 |
 | DelayedEffect | 4 | 5 | 0 | 0 | 3 | 7 | 3 |
-| SelfDebuff | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | CostReduction | 2 | 4 | 4 | 4 | 4 | 2 | 4 |
+| SelfDebuff | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
 | DebuffPayoff | 2 | 5 | 3 | 7 | 0 | 0 | 3 |
 | Weak | 2 | 7 | 3 | 1 | 2 | 5 | 3 |
 | BlockEngine | 1 | 2 | 4 | 4 | 1 | 5 | 4 |

@@ -71,9 +71,18 @@ public abstract class FamiliarPower : WitchPower
         await GenerateCards(player, combatState);
     }
 
+    /// <summary>A single roll of this familiar's card production, ignoring stack count (Command's mid-turn order).</summary>
+    public async Task GenerateOneCard(Player player, ICombatState combatState)
+    {
+        Flash();
+        Rng rng = player.RunState.Rng.CombatCardGeneration;
+        CardModel card = CreateTurnStartCard(player, combatState, rng);
+        await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
+    }
+
     /// <summary>
     /// One round of this familiar's card production: one card per stack (all of its cards per stack with
-    /// Sack of Treats). Runs at turn start via <see cref="BeforeHandDraw" />; Throw Bait triggers it mid-turn.
+    /// Sack of Treats). Runs at turn start via <see cref="BeforeHandDraw" />.
     /// </summary>
     public async Task GenerateCards(Player player, ICombatState combatState)
     {

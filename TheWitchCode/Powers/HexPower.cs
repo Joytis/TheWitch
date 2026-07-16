@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWitch.TheWitchCode.Cards;
 using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Powers;
@@ -44,6 +45,12 @@ public sealed class HexPower : WitchPower
     public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
     {
         if (Amount <= 0 || !Owner.IsAlive || !command.DamageProps.IsPoweredAttack())
+        {
+            return;
+        }
+
+        // Torment-style attacks milk the Hex without burning it.
+        if (command.ModelSource is IHexPreserving)
         {
             return;
         }

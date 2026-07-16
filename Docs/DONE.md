@@ -6,6 +6,61 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 247. Broken Pact — sacrifice heal → sacrifice Strength
+- **Done:** 2026-07-15 (claude) — [BrokenPact.cs](../TheWitchCode/Cards/BrokenPact.cs): was 2E Rare Skill (Exhaust) "Sacrifice a random Familiar → heal 10". Now: same shell, payout = **Gain 8 Strength** (+2 upgrade, `PowerVar<StrengthPower>`). Exhaust kept (user call; note silent — 8 Str repeatable would be degenerate). Random sacrifice via existing `Familiars.RemoveRandom`; no familiar → no Strength (unchanged gate). Scream vfx kept, heal vfx dropped (buff sound is automatic).
+- **Verified:** build 0/0; regen (TESTED cleared, tags → StatRamp/SelfExhaust).
+- **Files:** `TheWitchCode/Cards/BrokenPact.cs`, `TheWitch/localization/eng/cards.json`
+
+### 246. Taste of Blood — 3E heavy bite, discounted by the attack chain
+- **Done:** 2026-07-15 (claude) — [TasteOfBlood.cs](../TheWitchCode/Cards/TasteOfBlood.cs): was 1E "Deal 4×2, draw 2". Now 3E Uncommon Attack — Deal 15 (+5 upgrade, user call), draw 2, **costs 1 less for each Attack played this turn** — verbatim base-game **Stomp** shape: `BeforeCardPlayed` (own Attack) → `EnergyCost.AddThisTurn(-1)`, plus `AfterCardEnteredCombat` back-count from `CombatManager.Instance.History.CardPlaysFinished` (with Stomp's `IsClone` guard) so a mid-turn draw/generation arrives pre-discounted.
+- **Verified:** build 0/0; regen (TESTED cleared, tags → Draw/AttacksMatter/CostReduction). ⚠️ In-game: play 2 attacks → card should show 1E; discount resets next turn.
+- **Files:** `TheWitchCode/Cards/TasteOfBlood.cs`, `TheWitch/localization/eng/cards.json`
+
+### 245. Feast With Wolves → Sprouts — block + brambles-per-card turn buff
+- **Done:** 2026-07-15 (claude) — Full rename + rework: was 1E Uncommon Skill "Gain 8 Block, draw until an Attack". Now [Sprouts.cs](../TheWitchCode/Cards/Sprouts.cs): 1E Uncommon Skill (Self, `GainsBlock`) — Gain 5 Block (+3 upgrade); "whenever you play a card this turn, gain 1 Brambles". New [SproutsPower.cs](../TheWitchCode/Powers/SproutsPower.cs): Counter turn-power (Amount = Brambles per card play → double-play stacks to 2/card), source-card skip so Sprouts doesn't count itself, self-removes `AfterSideTurnEnd` (Cauldron Dance pattern).
+- **Verified:** build 0/0. Art renamed feast_with_wolves→sprouts (+big; stale .imports deleted) — ⚠️ run Godot "Import assets"; art depicts wolves, likely wants a redraw.
+- **Files:** `TheWitchCode/Cards/FeastWithWolves.cs`→`Sprouts.cs`, `TheWitchCode/Powers/SproutsPower.cs` (new), `TheWitch/localization/eng/cards.json`, `powers.json`, `TheWitch/images/card_portraits/{,big/}sprouts.png`
+
+### 244. Mulch — exhaust Discard for Brambles + Block
+- **Done:** 2026-07-15 (claude) — [Mulch.cs](../TheWitchCode/Cards/Mulch.cs): was 2E Rare **Attack** "EXHAUST your hand, 5 dmg + 4 Brambles per card". Now 3E Rare **Skill** (Self, `GainsBlock`): Exhaust your **Discard Pile**; gain 3 Brambles and 3 Block per card exhausted (upgrade +1/+1 → 4/4). Zero-card discard → no-op.
+- **Verified:** build 0/0. ⚠️ In-game: exhaust-triggers (Salt and Ash etc.) firing off a mass discard exhaust worth a balance look.
+- **Files:** `TheWitchCode/Cards/Mulch.cs`, `TheWitch/localization/eng/cards.json`
+
+### 243. Accursed Needles → Torment — Hex-preserving sting
+- **Done:** 2026-07-15 (claude) — Full rename + rework: was 0E Uncommon Attack "Deal 3, apply 2 Hex +1 per prior play" (Barrage CalculatedVar shape). Now [Torment.cs](../TheWitchCode/Cards/Torment.cs): 0E Uncommon Attack — Deal 5 (+2 upgrade). **Does not remove Hex**: new marker `IHexPreserving` (declared in Torment.cs, IFamiliarSummon style); [HexPower.cs](../TheWitchCode/Powers/HexPower.cs) `AfterAttack` early-outs when `command.ModelSource is IHexPreserving`, so the per-attack stack burn is skipped while `ModifyDamageAdditive` still grants the +3/stack bonus. Hex hover tip retained.
+- **Verified:** build 0/0. No art existed (placeholder). ⚠️ In-game: Torment on a 2-Hex enemy → 5+6=11 dmg, Hex stays 2; a normal attack afterward still burns 1.
+- **Files:** `TheWitchCode/Cards/AccursedNeedles.cs`→`Torment.cs`, `TheWitchCode/Powers/HexPower.cs`, `TheWitch/localization/eng/cards.json`
+
+### 242. Ritual Casting rework — pass the turn, cast for free
+- **Done:** 2026-07-15 (claude) — Was "every 3rd card drawn → Hex ALL". Now: 1E Rare Power — "Whenever you end your turn without playing any cards, your next 4 Skills are free" (upgrade 4→6; user note "+2 spells" read as +2 Skills). [RitualCastingPower.cs](../TheWitchCode/Powers/RitualCastingPower.cs) rewritten: `AfterCardPlayed` (own card) sets a per-turn flag; `AfterSideTurnEnd` (owner participant) reads+resets it and, if clean, applies base-game **`FreeSkillPower`** ×Amount (its own decrement-on-skill-play handles the rest). Card [RitualCasting.cs](../TheWitchCode/Cards/RitualCasting.cs): PowerVar 1→4, upgrade +2, hover tips → RitualCastingPower + FreeSkillPower.
+- **Verified:** build 0/0. ⚠️ In-game: end turn playing nothing → 4 Free Skill stacks appear; playing any card (even a familiar token) that turn must block the trigger; MP compile-only.
+- **Files:** `TheWitchCode/Cards/RitualCasting.cs`, `TheWitchCode/Powers/RitualCastingPower.cs`, `TheWitch/localization/eng/cards.json`, `powers.json`
+
+### 241. Hexblast — 3E, 10×2, 3 Hex
+- **Done:** 2026-07-15 (claude) — [Hexblast.cs](../TheWitchCode/Cards/Hexblast.cs): 2E→3E; damage 10 now hits ALL enemies **2 times** (`WithHitCount(2)`, Bottle Barrage shape); Hex 2→3; upgrade +1→+2 Hex. Target unstated in the note → kept AllEnemies. Loc: "Deal {Damage} damage to ALL enemies [blue]2[/blue] times."
+- **Verified:** build 0/0; multi-hit + Hex burn interaction (Hex burns 1 per ATTACK, not per hit — both hits get the bonus) already the designed behavior.
+- **Files:** `TheWitchCode/Cards/Hexblast.cs`, `TheWitch/localization/eng/cards.json`
+
+### 240. Lich Powder → Propagation — Replay granter
+- **Done:** 2026-07-15 (claude) — Full rename + total redesign: was 1E Rare Skill "Gain 1 Intangible, lose 2 Strength". Now [Propagation.cs](../TheWitchCode/Cards/Propagation.cs): 3E Rare Skill (Self) — "Choose up to 3 cards in your Hand. They each gain Replay 1." Uses game-native `BaseReplayCount++` (Transfigure/Hidden Gem mechanic) + `StaticHoverTip.ReplayStatic` hover tip; up-to-N select via `CardSelectorPrefs(prompt, 0, max)` (Purity shape). Upgrade: Cards 3→4. Design call: selection from Hand (note didn't specify); no Exhaust (note didn't ask; Transfigure's base form has it — flag for balance pass if it proves strong).
+- **Verified:** build 0/0. Art renamed lich_powder→propagation (+big; stale .imports deleted) — ⚠️ run Godot "Import assets"; art depicts lich powder, likely wants a redraw (brief/artist reset applies via regen).
+- **Files:** `TheWitchCode/Cards/LichPowder.cs`→`Propagation.cs`, `TheWitch/localization/eng/cards.json`, `TheWitch/images/card_portraits/{,big/}propagation.png`
+
+### 239. Throw Bait → Command — one familiar, one card
+- **Done:** 2026-07-15 (claude) — Full rename + rework: was 1E Uncommon Attack "Deal 8 (+3), EACH familiar does a full per-stack production round". Now [Command.cs](../TheWitchCode/Cards/Command.cs): 0E Uncommon Attack — Deal 3 (+3 upgrade); ONE random familiar creates ONE card. New `FamiliarPower.GenerateOneCard` ([FamiliarPower.cs](../TheWitchCode/Powers/FamiliarPower.cs)): single `CreateTurnStartCard` roll, ignores stack count, generated path (`AddGeneratedCardToCombat` Top, honors `GrantsUpgradedCards`); no Sack of Treats multiplication (it's a turn-start-round modifier). Familiar picked uniformly across `FamiliarPower` instances (power types, not stacks) via `Rng.CombatCardGeneration`. No familiars → damage only.
+- **Verified:** build 0/0. No art existed (placeholder) — no rename needed. ⚠️ In-game: with 2 familiar types, repeated plays should vary the producer.
+- **Files:** `TheWitchCode/Cards/ThrowBait.cs`→`Command.cs`, `TheWitchCode/Powers/FamiliarPower.cs`, `TheWitch/localization/eng/cards.json`
+
+### 238. Bonfire rework — 0E energy burst skill; BonfirePower cut
+- **Done:** 2026-07-15 (claude) — [Bonfire.cs](../TheWitchCode/Cards/Bonfire.cs): was 2E Rare Power (spend Brambles instead of Energy via BonfirePower). Now 0E Rare Skill (Self): Gain 6 Energy (`PlayerCmd.GainEnergy`), then choose 2 cards in hand to Exhaust (`CardSelectCmd.FromHand` + `CardSelectorPrefs.ExhaustSelectionPrompt`, base-game Purity/Brand shape). Upgrade: Energy 6→8 (user call: 0E Rare Skill, +2E upgrade). Deleted orphaned `Powers/BonfirePower.cs` (+.uid) + `THEWITCH-BONFIRE_POWER.*` loc (user-approved cascade; pattern preserved in git history — CLAUDE.md still cites it as the cost-substitution reference).
+- **Verified:** build 0/0. ⚠️ In-game: play with <2 other cards in hand (selector should take what's there).
+- **Files:** `TheWitchCode/Cards/Bonfire.cs`, `TheWitchCode/Powers/BonfirePower.cs` (deleted), `TheWitch/localization/eng/cards.json`, `powers.json`
+
+### 237. Overrun rework — single-target + familiar-play echo strikes
+- **Done:** 2026-07-15 (claude) — [Overrun.cs](../TheWitchCode/Cards/Overrun.cs): was 1E Uncommon AoE scaling with familiar count (Soul Storm shape). Now 1E Uncommon Attack (AnyEnemy): Deal 5, then "whenever you play a Familiar card this turn, deal 5 to the enemy" (user call: single target, locked — strikes hit the same enemy, fizzle if dead; "Familiar card" = `WitchFamiliarCard` token, summons don't count). New [OverrunPower.cs](../TheWitchCode/Powers/OverrunPower.cs): Single-stack turn power; card queues a Strike (target+damage+source) via `AddStrike` — multiple Overrun plays stack strikes; `AfterCardPlayed` (own `WitchFamiliarCard`) deals each live strike's damage (`CreatureCmd.Damage`, Unpowered); self-removes `AfterSideTurnEnd` (Cauldron Dance pattern). Strike list re-created in `DeepCloneFields` (shared-canonical-collection gotcha). Upgrade: +2 base AND +2 strike damage.
+- **Verified:** build 0/0. ⚠️ In-game: play Overrun → play a familiar token → 5 dmg echo on target; token played before Overrun same turn must NOT trigger; power clears at turn end.
+- **Files:** `TheWitchCode/Cards/Overrun.cs`, `TheWitchCode/Powers/OverrunPower.cs` (new), `TheWitch/localization/eng/cards.json`, `powers.json`
+
 ### 236. New relic: Bottled Curiosity — random potion on entering "?" node
 - **Done:** 2026-07-13 (claude) — [BottledCuriosity.cs](../TheWitchCode/Relics/BottledCuriosity.cs): Uncommon Witch relic; `AfterRoomEntered` (base-game MealTicket shape) guarded by `Owner.RunState.CurrentMapPoint?.PointType == MapPointType.Unknown` — checks the map POINT, so it fires whatever the "?" resolves into (event/fight/shop/treasure). Roll = base-game drop weights (10% Rare / 25% Uncommon / 65% Common) over `PotionCatalog.Query(rarity:, excludeHealing: false)` — Randomizable pool (Witch + Shared only, no Token/Event payloads); healing allowed since this is an out-of-combat reward, not combat creation. Grant via canonical `.ToMutable()` + `PotionCmd.TryToProcure` (belt-full safe). Loc `THEWITCH-BOTTLED_CURIOSITY.*`; art-tracker `assets.json` row.
 - **Design calls:** name "Bottled Curiosity"; Uncommon (potion-per-? is a strong economy trickle for a potion-identity character; ? nodes ≈ 3-5/act).

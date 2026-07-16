@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkyhd7pfn6qrf"
-path="res://.godot/imported/feast_with_wolves.png-5740a35d0a3c953bf2ab7039a7c35ac8.ctex"
+uid="uid://baavi6yh7jt15"
+path="res://.godot/imported/sprouts.png-c180d7441dabfcb36bf6d7dac1eaf23d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/big/feast_with_wolves.png"
-dest_files=["res://.godot/imported/feast_with_wolves.png-5740a35d0a3c953bf2ab7039a7c35ac8.ctex"]
+source_file="res://TheWitch/images/card_portraits/big/sprouts.png"
+dest_files=["res://.godot/imported/sprouts.png-c180d7441dabfcb36bf6d7dac1eaf23d.ctex"]
 
 [params]
 

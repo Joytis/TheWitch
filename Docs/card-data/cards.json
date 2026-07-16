@@ -34,13 +34,13 @@
       "type": "Attack",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. On unblocked damage, extract a Potion.",
+      "text": "Deal 10 damage. On unblocked damage, extract a Potion.",
       "numbers": {
-        "Damage": 8
+        "Damage": 10
       },
       "upgrade": "Damage +6",
       "note": "ExtractEssence: deal damage; on unblocked damage, create a random Common potion.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -377,14 +377,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Draw 1 card. Gain 4 Brambles.",
+      "text": "Draw 2 cards. Gain 3 Brambles.",
       "numbers": {
-        "Brambles": 4,
-        "Cards": 1
+        "Brambles": 3,
+        "Cards": 2
       },
-      "upgrade": "Cards +1",
+      "upgrade": "BramblesPower +2",
       "note": "Lavender and Sage: draw a card and grow a thicket of Brambles.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -654,38 +654,6 @@
       "threads": []
     },
     {
-      "name": "Accursed Needles",
-      "entry": "ACCURSED_NEEDLES",
-      "file": "TheWitchCode/Cards/AccursedNeedles.cs",
-      "cost": 0,
-      "type": "Attack",
-      "rarity": "Uncommon",
-      "target": "AnyEnemy",
-      "text": "Deal 3 damage. Apply {CalculatedHex:diff()} Hex. Applies 1 more Hex each time it is played this combat.",
-      "numbers": {
-        "Damage": 3,
-        "CalculationBase": 2,
-        "CalculationExtra": 1
-      },
-      "upgrade": "CalculationBase +1",
-      "note": "Accursed Needles: each play digs the needles deeper — applies base Hex + 1 per prior play this combat.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Debuff/Buff"
-      ],
-      "role": [
-        "Generator"
-      ],
-      "sub": [
-        "Debuff/Buff:HexApply"
-      ],
-      "threads": [
-        "OtherDebuff",
-        "Snowball"
-      ]
-    },
-    {
       "name": "Bear Familiar",
       "entry": "BEAR_FAMILIAR",
       "file": "TheWitchCode/Cards/BearFamiliar.cs",
@@ -835,6 +803,35 @@
       ]
     },
     {
+      "name": "Command",
+      "entry": "COMMAND",
+      "file": "TheWitchCode/Cards/Command.cs",
+      "cost": 0,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 3 damage. One of your Familiars creates a card.",
+      "numbers": {
+        "Damage": 3
+      },
+      "upgrade": "Damage +3",
+      "note": "Command (was Throw Bait): a quick strike and an order barked at the pack — one random familiar does its card production once (a single roll, regardless of stacks).",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Familiars"
+      ],
+      "role": [
+        "Payoff"
+      ],
+      "sub": [
+        "Familiars:TokenGen"
+      ],
+      "threads": [
+        "CardGen"
+      ]
+    },
+    {
       "name": "Creeping Vines",
       "entry": "CREEPING_VINES",
       "file": "TheWitchCode/Cards/CreepingVines.cs",
@@ -976,33 +973,6 @@
       "threads": []
     },
     {
-      "name": "Feast With Wolves",
-      "entry": "FEAST_WITH_WOLVES",
-      "file": "TheWitchCode/Cards/FeastWithWolves.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Gain 8 Block. Draw until you draw an Attack card.",
-      "numbers": {
-        "Block": 8
-      },
-      "upgrade": "Block +3",
-      "note": "Feast With Wolves: guard the kill and dig through your deck until an Attack turns up.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
-      ],
-      "sub": [],
-      "threads": [
-        "Draw"
-      ]
-    },
-    {
       "name": "Grind Down",
       "entry": "GRIND_DOWN",
       "file": "TheWitchCode/Cards/GrindDown.cs",
@@ -1092,13 +1062,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. Deal an additional 10 damage at the start of each of your turns.",
+      "text": "Deal 8 damage. Deal an additional 8 damage at the start of each of your turns.",
       "numbers": {
-        "Damage": 10
+        "Damage": 8
       },
       "upgrade": "Damage +3",
       "note": "Moonbeam: strike, then leave the beam on the target — it takes the same damage again at the start of each of your turns (<see cref=\"MoonbeamPower\" />, stacks on repeat plays).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1118,15 +1088,15 @@
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
-      "target": "AllEnemies",
-      "text": "Deal {CalculatedDamage:diff()} damage to ALL enemies. Deals 8 additional damage for each of your Familiars.",
+      "target": "AnyEnemy",
+      "text": "Deal 5 damage. Whenever you play a Familiar card this turn, deal 5 damage to the enemy.",
       "numbers": {
-        "CalculationBase": 8,
-        "ExtraDamage": 8
+        "Damage": 5,
+        "ExtraDamage": 5
       },
-      "upgrade": "ExtraDamage +4",
-      "note": "Overrun: the whole menagerie tramples — one big AoE hit that grows with each familiar.",
-      "tested": true,
+      "upgrade": "Damage +2, ExtraDamage +2",
+      "note": "Overrun: mark one enemy for the pack — every Familiar card played this turn tramples it again.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1134,12 +1104,9 @@
       "role": [
         "Payoff"
       ],
-      "sub": [
-        "Familiars:CountPayoff"
-      ],
+      "sub": [],
       "threads": [
-        "AoE",
-        "Snowball"
+        "PlayVolume"
       ]
     },
     {
@@ -1468,6 +1435,36 @@
       "threads": []
     },
     {
+      "name": "Sprouts",
+      "entry": "SPROUTS",
+      "file": "TheWitchCode/Cards/Sprouts.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 5 Block. Whenever you play a card this turn, gain 1 Brambles.",
+      "numbers": {
+        "Sprouts": 1,
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "note": "Sprouts (was Feast With Wolves): a guard that keeps growing — every card played this turn sprouts a Bramble.",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [
+        "Brambles"
+      ],
+      "role": [
+        "Generator"
+      ],
+      "sub": [
+        "Brambles:Engine"
+      ],
+      "threads": [
+        "PlayVolume"
+      ]
+    },
+    {
       "name": "Strike Fear",
       "entry": "STRIKE_FEAR",
       "file": "TheWitchCode/Cards/StrikeFear.cs",
@@ -1530,18 +1527,18 @@
       "name": "Taste of Blood",
       "entry": "TASTE_OF_BLOOD",
       "file": "TheWitchCode/Cards/TasteOfBlood.cs",
-      "cost": 1,
+      "cost": 3,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 4 damage 2 times. Draw 2 cards.",
+      "text": "Deal 15 damage. Draw 2 cards. Costs 1 less for each Attack played this turn.",
       "numbers": {
-        "Damage": 4,
+        "Damage": 15,
         "Cards": 2
       },
-      "upgrade": "Damage +2",
-      "note": "Taste of Blood: two quick bites and the hunger sharpens — draw fresh cards.",
-      "tested": true,
+      "upgrade": "Damage +5",
+      "note": "Taste of Blood: one savage bite that comes easier the more blood is already spilled — costs 1 less for each Attack played this turn (base-game Stomp discount shape).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1551,37 +1548,38 @@
       ],
       "sub": [],
       "threads": [
-        "MultiHit",
-        "Draw"
+        "Draw",
+        "AttacksMatter",
+        "CostReduction"
       ]
     },
     {
-      "name": "Throw Bait",
-      "entry": "THROW_BAIT",
-      "file": "TheWitchCode/Cards/ThrowBait.cs",
-      "cost": 1,
+      "name": "Torment",
+      "entry": "TORMENT",
+      "file": "TheWitchCode/Cards/Torment.cs",
+      "cost": 0,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. Each of your Familiars creates a card.",
+      "text": "Deal 5 damage. Does not remove Hex.",
       "numbers": {
-        "Damage": 8
+        "Damage": 5
       },
-      "upgrade": "Damage +3",
-      "note": "Throw Bait: a light hit, and the bait draws your pack out — every familiar does its card production once (one card per stack, exactly like the turn-start round; Sack of Treats applies here too).",
+      "upgrade": "Damage +2",
+      "note": "Marker for attacks that don't burn the target's Hex — <see cref=\"HexPower\" /> skips its after-attack stack loss when the attacking card implements this.",
       "tested": false,
       "artFinal": false,
       "mechanics": [
-        "Familiars"
+        "Debuff/Buff"
       ],
       "role": [
         "Payoff"
       ],
       "sub": [
-        "Familiars:CountPayoff"
+        "Debuff/Buff:HexExploit"
       ],
       "threads": [
-        "CardGen"
+        "DebuffPayoff"
       ]
     },
     {
@@ -1620,9 +1618,9 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 9 Block. At the start of your next turn, apply 2 Hex to ALL enemies.",
+      "text": "Gain 9 Block. At the start of your next turn, apply 1 Hex to ALL enemies.",
       "numbers": {
-        "WaxAndWane": 2,
+        "WaxAndWane": 1,
         "Block": 9
       },
       "upgrade": "Block +4",
@@ -1732,17 +1730,17 @@
       "name": "Ambush!",
       "entry": "AMBUSH",
       "file": "TheWitchCode/Cards/Ambush.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 10 damage to ALL enemies. Whenever you draw this card, play it for free.",
+      "text": "Deal 12 damage to ALL enemies. Whenever you draw this card, play it for free.",
       "numbers": {
-        "Damage": 10
+        "Damage": 12
       },
       "upgrade": "Damage +3",
       "note": "Ambush!: AoE strike that springs itself — auto-plays for free when drawn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1760,29 +1758,27 @@
       "name": "Bonfire",
       "entry": "BONFIRE",
       "file": "TheWitchCode/Cards/Bonfire.cs",
-      "cost": 2,
-      "type": "Power",
+      "cost": 0,
+      "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "When possible, spend 2 Brambles to play cards instead of Energy.",
+      "text": "Gain 6 Energy. Exhaust 2 cards from your Hand.",
       "numbers": {
-        "Bonfire": 2
+        "Energy": 6,
+        "Cards": 2
       },
-      "upgrade": "BonfirePower -1",
-      "note": "",
-      "tested": true,
+      "upgrade": "Energy +2",
+      "note": "Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards.",
+      "tested": false,
       "artFinal": false,
-      "mechanics": [
-        "Brambles"
-      ],
+      "mechanics": [],
       "role": [
-        "Payoff"
+        "Standalone"
       ],
-      "sub": [
-        "Brambles:Spend"
-      ],
+      "sub": [],
       "threads": [
-        "CostReduction"
+        "Energy",
+        "ExhaustOutlet"
       ]
     },
     {
@@ -1880,11 +1876,13 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Sacrifice a random Familiar. Heal {Heal:diff()} HP.",
-      "numbers": {},
-      "upgrade": "Heal +3",
-      "note": "Broken Pact: end a familiar's service to mend your own wounds.",
-      "tested": true,
+      "text": "Sacrifice a random Familiar. Gain 8 Strength.",
+      "numbers": {
+        "Strength": 8
+      },
+      "upgrade": "StrengthPower +2",
+      "note": "Broken Pact: end a familiar's service and take its strength for your own.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1896,7 +1894,7 @@
         "Familiars:Sacrifice"
       ],
       "threads": [
-        "Heal",
+        "StatRamp",
         "SelfExhaust"
       ]
     },
@@ -1904,7 +1902,7 @@
       "name": "Capture Soul",
       "entry": "CAPTURE_SOUL",
       "file": "TheWitchCode/Cards/CaptureSoul.cs",
-      "cost": 1,
+      "cost": 0,
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
@@ -1916,7 +1914,7 @@
       },
       "upgrade": "Damage +4",
       "note": "Capture Soul: each kill is bottled forever — this copy permanently applies +1 Hex per enemy it has killed, across combats and save/load (<c>[SavedProperty]</c> + DeckVersion propagation, the base-game GeneticAlgorithm pattern).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -2081,7 +2079,7 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Deal 12 damage. A card of your choice in your Hand gains Replay {Replay:diff()} and Exhaust.",
+      "text": "Deal 12 damage. Give a card in your hand Replay {Replay:diff()} and Exhaust.",
       "numbers": {
         "Damage": 12
       },
@@ -2131,18 +2129,18 @@
       "name": "Hexblast",
       "entry": "HEXBLAST",
       "file": "TheWitchCode/Cards/Hexblast.cs",
-      "cost": 2,
+      "cost": 3,
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 10 damage to ALL enemies. Apply 2 Hex to ALL enemies.",
+      "text": "Deal 10 damage to ALL enemies 2 times. Apply 3 Hex to ALL enemies.",
       "numbers": {
-        "Hex": 2,
+        "Hex": 3,
         "Damage": 10
       },
-      "upgrade": "HexPower +1",
+      "upgrade": "HexPower +2",
       "note": "Hexblast: blast every enemy, then lay Hex on all of them.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -2155,7 +2153,8 @@
       ],
       "threads": [
         "AoE",
-        "OtherDebuff"
+        "OtherDebuff",
+        "MultiHit"
       ]
     },
     {
@@ -2186,50 +2185,21 @@
       ]
     },
     {
-      "name": "Lich Powder",
-      "entry": "LICH_POWDER",
-      "file": "TheWitchCode/Cards/LichPowder.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Gain 1 Intangible. Lose 2 Strength.",
-      "numbers": {
-        "Intangible": 1,
-        "Strength": 2
-      },
-      "upgrade": "Cost -1",
-      "note": "Lich Powder: become untouchable at the cost of your vigor — gain Intangible, lose Strength.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "None"
-      ],
-      "role": [
-        "Standalone"
-      ],
-      "sub": [],
-      "threads": [
-        "Drawback",
-        "SelfDebuff"
-      ]
-    },
-    {
       "name": "Mulch",
       "entry": "MULCH",
       "file": "TheWitchCode/Cards/Mulch.cs",
-      "cost": 2,
-      "type": "Attack",
+      "cost": 3,
+      "type": "Skill",
       "rarity": "Rare",
-      "target": "AnyEnemy",
-      "text": "Exhaust your Hand. Deal 5 damage and gain 4 Brambles for each card Exhausted.",
+      "target": "Self",
+      "text": "Exhaust your Discard Pile. Gain 3 Brambles and 3 Block for each card Exhausted.",
       "numbers": {
-        "Brambles": 4,
-        "Damage": 5
+        "Brambles": 3,
+        "Block": 3
       },
-      "upgrade": "Damage +2",
-      "note": "Mulch (renamed from Vicious Barbs): EXHAUST your hand to fuel a scaling hit and a pile of Brambles — 5 damage and 4 Brambles per card exhausted.",
-      "tested": true,
+      "upgrade": "Brambles +1, Block +1",
+      "note": "Mulch: compost the whole discard pile — EXHAUST it for Brambles and Block per card.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2241,7 +2211,6 @@
         "Brambles:Ramp"
       ],
       "threads": [
-        "MultiHit",
         "ExhaustOutlet"
       ]
     },
@@ -2282,17 +2251,17 @@
       "name": "Polymorph",
       "entry": "POLYMORPH",
       "file": "TheWitchCode/Cards/Polymorph.cs",
-      "cost": 0,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Choose a card in your Draw Pile. It becomes 1 Rats.",
+      "text": "Transform a card in your Draw Pile into 2 Rats.",
       "numbers": {
-        "Cards": 1
+        "Cards": 2
       },
-      "upgrade": "Cards +1",
+      "upgrade": "Cost -1",
       "note": "Polymorph (was Repurpose): choose a card in your draw pile — it becomes a Rats token.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2305,6 +2274,31 @@
       ],
       "threads": [
         "Transform"
+      ]
+    },
+    {
+      "name": "Propagation",
+      "entry": "PROPAGATION",
+      "file": "TheWitchCode/Cards/Propagation.cs",
+      "cost": 3,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Choose up to 3 cards in your Hand. They each gain Replay 1.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "note": "Propagation (was Lich Powder): the growth spreads — choose up to three cards; each gains Replay 1 (game-native <see cref=\"CardModel.BaseReplayCount\" />, the Transfigure/Hidden Gem mechanic).",
+      "tested": false,
+      "artFinal": false,
+      "mechanics": [],
+      "role": [
+        "Enabler"
+      ],
+      "sub": [],
+      "threads": [
+        "KeywordGrant"
       ]
     },
     {
@@ -2373,27 +2367,23 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "For every 3 cards you draw, apply 1 Hex to ALL enemies.",
+      "text": "Whenever you end your turn without playing any cards, your next 4 Skills are free.",
       "numbers": {
-        "RitualCasting": 1
+        "RitualCasting": 4
       },
-      "upgrade": "RitualCastingPower +1",
-      "note": "Ritual Casting (was Thirst): a Power — every third card drawn hexes ALL enemies.",
-      "tested": true,
+      "upgrade": "RitualCastingPower +2",
+      "note": "Ritual Casting: a Power — end a turn playing nothing, and your next Skills come free.",
+      "tested": false,
       "artFinal": false,
-      "mechanics": [
-        "Debuff/Buff"
-      ],
+      "mechanics": [],
       "role": [
-        "Generator"
+        "Enabler"
       ],
-      "sub": [
-        "Debuff/Buff:HexApply"
-      ],
+      "sub": [],
       "threads": [
-        "OtherDebuff",
         "TurnEngine",
-        "DrawPayoff"
+        "SkillsMatter",
+        "CostReduction"
       ]
     },
     {
@@ -2525,14 +2515,14 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal {CalculatedDamage:diff()} damage. Deals 4 additional damage for each Gnash played this combat.",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 5 additional damage for each Gnash played this combat.",
       "numbers": {
         "CalculationBase": 5,
-        "ExtraDamage": 4
+        "ExtraDamage": 5
       },
       "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
