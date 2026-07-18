@@ -4,9 +4,9 @@ namespace TheWitch.TheWitchCode.Monsters;
 
 /// <summary>
 /// Cosmetic pet spawned when <see cref="Cards.CatFamiliar" /> is played.
-/// Placeholder sprite reuses the Cat Familiar card art; swap for a clean sprite PNG later.
+/// Sprite ships under images/pets/; falls back to the card art if the PNG is missing.
 /// </summary>
 public sealed class CatPet : WitchPet
 {
-    public override string TexturePath => "cat_familiar.png".CardImagePath();
+    public override string TexturePath => "cat_familiar.png".PetImagePath();
 }

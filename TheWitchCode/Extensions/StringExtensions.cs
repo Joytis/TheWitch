@@ -73,6 +73,15 @@ public static class StringExtensions
         return Path.Join(MainFile.ResPath, "images", "relics", "big", "relic.png");
     }
 
+    public static string PetImagePath(this string path)
+    {
+        string petPath = Path.Join(MainFile.ResPath, "images", "pets", path);
+        if (ResourceLoader.Exists(petPath)) return petPath;
+
+        MainFile.Logger.Info("Could not find pet image path: " + petPath + " — falling back to card art");
+        return path.CardImagePath();
+    }
+
     public static string CharacterUiPath(this string path)
     {
         return Path.Join(MainFile.ResPath, "images", "charui", path);
