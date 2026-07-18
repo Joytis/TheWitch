@@ -16,7 +16,7 @@ public sealed class Brambleburst : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(10m, ValueProp.Move)
+        new DamageVar(7m, ValueProp.Move)
     ];
 
     public Brambleburst()
