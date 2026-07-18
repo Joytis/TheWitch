@@ -4,9 +4,9 @@ namespace TheWitch.TheWitchCode.Monsters;
 
 /// <summary>
 /// Cosmetic pet shown while a <see cref="Powers.WolfFamiliarPower" /> is active.
-/// Placeholder sprite reuses the Wolf Familiar card art; swap for a clean sprite PNG later.
+/// Sprite ships under images/pets/; falls back to the card art if the PNG is missing.
 /// </summary>
 public sealed class WolfPet : WitchPet
 {
-    public override string TexturePath => "wolf_familiar.png".CardImagePath();
+    public override string TexturePath => "wolf_familiar.png".PetImagePath();
 }
