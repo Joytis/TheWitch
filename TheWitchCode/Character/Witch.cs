@@ -15,7 +15,7 @@ public class Witch : PlaceholderCharacterModel
 {
     public const string CharacterId = "Witch";
     
-    public static readonly Color Color = new("ffffff");
+    public static readonly Color Color = new("CEA9D9");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Neutral;

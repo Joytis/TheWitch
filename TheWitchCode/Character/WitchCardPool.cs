@@ -16,9 +16,9 @@ public class WitchCardPool : CustomCardPoolModel
     They are applied as a shader onto an already colored image,
     so it may take some experimentation to find a color you like.
     Generally they should be values between 0 and 1. */
-    public override float H => 0.4f; //Hue; changes the color.
-    public override float S => 1f; //Saturation
-    public override float V => 1f; //Brightness
+    public override float H => 0.8f; //Hue; changes the color.
+    public override float S => 0.23f; //Saturation
+    public override float V => 0.85f; //Brightness
     
     //Alternatively, leave these values at 1 and provide a custom frame image.
     /*public override Texture2D CustomFrame(CustomCardModel card)
@@ -28,7 +28,7 @@ public class WitchCardPool : CustomCardPoolModel
     }*/
 
     //Color of small card icons
-    public override Color DeckEntryCardColor => new("ffffff");
+    public override Color DeckEntryCardColor => new("CEA9D9");
     
     public override bool IsColorless => false;
 }
