@@ -54,6 +54,7 @@
   "THEWITCH-READ_THE_BONES.description": "Apply {HexPower:diff()} [gold]Hex[/gold].\nNext turn, gain {BlockNextTurnPower:diff()} [gold]Block[/gold].",
   "THEWITCH-PROPAGATION.title": "Propagation",
   "THEWITCH-PROPAGATION.description": "Choose up to {Cards:diff()} {Cards:plural:card|cards} in your [gold]Hand[/gold].\nThey each gain [gold]Replay[/gold] [blue]1[/blue].",
+  "THEWITCH-PROPAGATION.selectionScreenPrompt": "Choose cards to give [gold]Replay[/gold] [blue]1[/blue].",
   "THEWITCH-WICKER_FORM.title": "Wicker Form",
   "THEWITCH-WICKER_FORM.description": "For each card you play, gain {WickerFormPower:diff()} [gold]Brambles[/gold].",
   "THEWITCH-RIP_SOUL.title": "Rip Soul",
