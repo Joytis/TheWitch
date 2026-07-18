@@ -185,6 +185,18 @@
             "detail": "Start the card design page server (http://localhost:7820) and open it in the browser. Stop with 'Card Designs: Stop'."
         },
         {
+            "label": "Art Tracker: Open",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-Command", "Start-Process '${workspaceFolder}/pages/art-tracker.html'"
+            ],
+            "problemMatcher": [],
+            "presentation": { "reveal": "never" },
+            "detail": "Open the local art tracker page (pages/art-tracker.html) in the default browser. Live copy: https://joytis.github.io/TheWicken/pages/art-tracker.html"
+        },
+        {
             "label": "Card Designs: Stop",
             "type": "process",
             "command": "powershell",

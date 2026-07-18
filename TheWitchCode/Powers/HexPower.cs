@@ -4,9 +4,11 @@ using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Cards;
+using TheWitch.TheWitchCode.Character;
 using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Powers;
@@ -16,6 +18,8 @@ namespace TheWitch.TheWitchCode.Powers;
 /// (per stack), then loses 1 stack once per attack — a multi-hit attack gets the full bonus on each
 /// hit but only burns one Hex. Defender-side mirror of the base-game Vigor shape
 /// (ModifyDamageAdditive per hit + AfterAttack consume).
+/// Witch-only: in multiplayer, only attacks from a Witch-character player trigger the bonus or burn
+/// a stack — other characters' attacks leave Hex untouched, so the Witch can build critical mass.
 /// </summary>
 public sealed class HexPower : WitchPower
 {
@@ -34,7 +38,7 @@ public sealed class HexPower : WitchPower
 
     public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target != Owner || Amount <= 0 || !props.IsPoweredAttack())
+        if (target != Owner || Amount <= 0 || !props.IsPoweredAttack() || !IsWitch(dealer))
         {
             return 0m;
         }
@@ -44,7 +48,7 @@ public sealed class HexPower : WitchPower
 
     public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
     {
-        if (Amount <= 0 || !Owner.IsAlive || !command.DamageProps.IsPoweredAttack())
+        if (Amount <= 0 || !Owner.IsAlive || !command.DamageProps.IsPoweredAttack() || !IsWitch(command.Attacker))
         {
             return;
         }
@@ -64,4 +68,8 @@ public sealed class HexPower : WitchPower
         WitchFx.PurpleFlame(Owner);
         await PowerCmd.Decrement(this);
     }
+
+    /// <summary>Hex only responds to a Witch-character player's attacks (any Witch in MP).</summary>
+    private static bool IsWitch(Creature? attacker) =>
+        attacker?.Player?.Character is Witch;
 }

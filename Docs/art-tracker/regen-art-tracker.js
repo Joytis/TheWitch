@@ -63,6 +63,33 @@ const cardRows = cardsData.cards.map(c => {
   };
 });
 
+// Powers tab: auto-enumerated from the localization file (every power must have loc, so it is the
+// authoritative list — new powers appear on the next regen). Optional per-power curation (artist/done/brief)
+// lives in assets.json under "powerOverrides", keyed by the loc entry (e.g. "HEX_POWER").
+const powerLoc = JSON.parse(fs.readFileSync(path.join(root, 'TheWitch', 'localization', 'eng', 'powers.json'), 'utf8'));
+const powerOverrides = require(path.join(__dirname, 'assets.json')).powerOverrides || {};
+const powerEntries = Object.keys(powerLoc)
+  .filter(k => k.endsWith('.title'))
+  .map(k => k.slice('THEWITCH-'.length, -'.title'.length));
+const powersCat = {
+  id: 'powers',
+  title: 'Powers',
+  dims: '64x64 (small) + 256x256 (big)',
+  assets: powerEntries.map(entry => {
+    const o = powerOverrides[entry] || {};
+    cur = null;
+    return {
+      name: powerLoc[`THEWITCH-${entry}.title`] + ` (${entry.toLowerCase()})`,
+      artist: o.artist || '',
+      done: !!o.done,
+      brief: o.brief || '',
+      effect: clean(String(powerLoc[`THEWITCH-${entry}.description`] || '').replace(/\[\/?[a-z]+\]/g, '')),
+      path: 'TheWitch/images/powers/big/' + entry.toLowerCase() + '.png',
+    };
+  }),
+};
+assetCats.splice(assetCats.findIndex(c => c.id === 'pets'), 0, powersCat);
+
 // check which referenced images actually exist
 function exists(p) { return p && fs.existsSync(path.join(root, p)); }
 for (const r of cardRows) r.hasArt = exists(r.path);
