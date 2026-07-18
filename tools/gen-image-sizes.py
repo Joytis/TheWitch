@@ -17,9 +17,12 @@ This script fills in whichever side is missing:
   * big exists,   small missing -> downscale big   -> small
   * both exist                  -> skipped (unless --force)
 
-Before that, a placeholder-seeding pass reads the card design data
-(``Docs/card-data/cards.json``) and, for any card with NO art on either side,
-copies the default ``card.png`` placeholder to its expected small path. The
+Before that, placeholder-seeding passes fill in art for brand-new content:
+cards from ``Docs/card-data/cards.json`` (``card.png``), and powers/potions
+from their localization title keys — the authoritative content lists —
+(``power.png`` / ``potion.png``). Potions are single-size (256x256, no big/),
+so they are seed-only. For any entry with NO art, the placeholder is copied
+to its expected small path. The
 round-trip pass then upscales that into a ``big/`` variant -- so a brand-new
 card with zero art ends up with both sizes instead of nothing. The small image
 filename is the card's ``entry`` lowercased (matching the in-game
@@ -80,6 +83,47 @@ CATEGORIES = {
 # Card design data + the default placeholder used to seed art for new cards.
 CARDS_JSON = REPO_ROOT / "Docs" / "card-data" / "cards.json"
 PLACEHOLDER = IMAGES_ROOT / "card_portraits" / "card.png"
+
+# Localization files are the authoritative content lists for powers/potions
+# (every shipped power/potion must have a .title loc entry). Used for seeding.
+LOC_DIR = REPO_ROOT / "TheWitch" / "localization" / "eng"
+POWER_PLACEHOLDER = IMAGES_ROOT / "powers" / "power.png"
+POTION_PLACEHOLDER = IMAGES_ROOT / "potions" / "potion.png"
+POTIONS_DIR = IMAGES_ROOT / "potions"
+
+
+def loc_entries(loc_name: str) -> list[str]:
+    """Lowercased id entries from a localization file's THEWITCH-*.title keys."""
+    loc_file = LOC_DIR / loc_name
+    if not loc_file.exists():
+        print(f"[seed] loc file not found: {loc_file} (skipped)")
+        return []
+    keys = json.loads(loc_file.read_text(encoding="utf-8"))
+    return [k[len("THEWITCH-"):-len(".title")].lower()
+            for k in keys if k.endswith(".title")]
+
+
+def seed_loc_placeholders(loc_name: str, target_dir: Path, placeholder: Path,
+                          label: str, dry_run: bool) -> int:
+    """Copy the category placeholder for any loc-listed entry with no art yet.
+    For paired categories (powers) this seeds the SMALL side; the round-trip
+    pass then upscales it into big/. Never clobbers existing art."""
+    if not placeholder.exists():
+        print(f"[seed:{label}] placeholder not found: {placeholder} (skipped)")
+        return 0
+    seeded = 0
+    for entry in loc_entries(loc_name):
+        dst = target_dir / f"{entry}.png"
+        big = target_dir / "big" / f"{entry}.png"
+        if dst.exists() or big.exists():
+            continue
+        print(f"  seed      placeholder -> {dst.relative_to(REPO_ROOT)}")
+        if not dry_run:
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(placeholder, dst)
+        seeded += 1
+    print(f"[seed:{label}] {seeded} placeholder(s){' (dry run)' if dry_run else ''}")
+    return seeded
 
 
 def seed_card_placeholders(dry_run: bool) -> int:
@@ -239,8 +283,9 @@ def main() -> int:
                         help="Scale a single big image down to its small variant "
                              "and exit (e.g. 'big/a_little_sip.png'). Without this, "
                              "runs the bulk both-sizes pass over all categories.")
-    parser.add_argument("--category", choices=sorted(CATEGORIES),
-                        help="Only process this category (default: all).")
+    parser.add_argument("--category", choices=sorted(CATEGORIES) + ["potions"],
+                        help="Only process this category (default: all). "
+                             "'potions' is single-size: seed-only, no big/small pass.")
     parser.add_argument("--scale", type=float, default=4.0,
                         help="big = small * scale (default: 4).")
     parser.add_argument("--force", action="store_true",
@@ -268,13 +313,23 @@ def main() -> int:
               f"{' would be' if args.dry_run else ''} generated.")
         return 0
 
-    cats = {args.category: CATEGORIES[args.category]} if args.category else CATEGORIES
+    cats = ({args.category: CATEGORIES[args.category]} if args.category in CATEGORIES
+            else {} if args.category else CATEGORIES)
 
     # Seed placeholders first so the round-trip pass below upscales them to big/.
-    # Skipped when a single category other than the card ones is requested.
-    if not args.no_seed and args.category in (None, "card_portraits", "familiar"):
-        seed_card_placeholders(args.dry_run)
-        print()
+    # Each seed pass runs for the bulk pass or its own --category.
+    if not args.no_seed:
+        if args.category in (None, "card_portraits", "familiar"):
+            seed_card_placeholders(args.dry_run)
+            print()
+        if args.category in (None, "powers"):
+            seed_loc_placeholders("powers.json", CATEGORIES["powers"][0],
+                                  POWER_PLACEHOLDER, "powers", args.dry_run)
+            print()
+        if args.category in (None, "potions"):
+            seed_loc_placeholders("potions.json", POTIONS_DIR,
+                                  POTION_PLACEHOLDER, "potions", args.dry_run)
+            print()
 
     total = 0
     for name, (small_dir, big_dir) in cats.items():

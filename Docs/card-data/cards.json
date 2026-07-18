@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16",
+  "generated": "2026-07-18",
   "cards": [
     {
       "name": "Defend",
@@ -2515,10 +2515,10 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal {CalculatedDamage:diff()} damage. Deals 5 additional damage for each Gnash played this combat.",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 4 additional damage for each Gnash played this combat.",
       "numbers": {
-        "CalculationBase": 5,
-        "ExtraDamage": 5
+        "CalculationBase": 3,
+        "ExtraDamage": 4
       },
       "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
