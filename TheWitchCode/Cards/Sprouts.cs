@@ -19,7 +19,7 @@ public sealed class Sprouts : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(5m, ValueProp.Move),
+        new BlockVar(7m, ValueProp.Move),
         new PowerVar<SproutsPower>(1m)
     ];
 
