@@ -9,8 +9,8 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class Shiny : WitchFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("Gold", 10m),
-        new DynamicVar("Energy", 2m)
+        new DynamicVar("Gold", 1m),
+        new EnergyVar(1)
     ];
 
     public Shiny()
@@ -26,5 +26,5 @@ public sealed class Shiny : WitchFamiliarCard
         await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Gold"].UpgradeValueBy(5m);
+    protected override void OnUpgrade() => DynamicVars["Energy"].UpgradeValueBy(1m);
 }

@@ -11,7 +11,7 @@ namespace TheWitch.TheWitchCode.Powers;
 /// per forced creation. Honored only by the Witch's own rarity-rolling potion creators (the Brew trio via
 /// <c>OrientationBrewCard</c>) through <see cref="MakeNextRare" /> — deliberately NOT a global procurement hook,
 /// so relic/event potions are untouched. Fixed-output creators (Witchcraft = specific potion) don't call it, so the
-/// buff waits for a potion it can actually upgrade. Takes precedence over <see cref="NextPotionUpgradedPower" />.
+/// buff waits for a potion it can actually upgrade.
 /// </summary>
 public sealed class NextPotionRarePower : WitchPower
 {

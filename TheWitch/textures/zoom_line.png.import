@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcqsnq5dqtgjp"
-path="res://.godot/imported/next_potion_upgraded_power.png-47de5d3f1e39f294fdff4cda8ca1e958.ctex"
+uid="uid://c3wf1nxd2ayqq"
+path="res://.godot/imported/zoom_line.png-2cc12cbb100e3d04b83bd85893d586b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/powers/next_potion_upgraded_power.png"
-dest_files=["res://.godot/imported/next_potion_upgraded_power.png-47de5d3f1e39f294fdff4cda8ca1e958.ctex"]
+source_file="res://TheWitch/textures/zoom_line.png"
+dest_files=["res://.godot/imported/zoom_line.png-2cc12cbb100e3d04b83bd85893d586b5.ctex"]
 
 [params]
 

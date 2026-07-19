@@ -144,7 +144,7 @@ const html = `<!DOCTYPE html>
   .name{font-weight:600}
   .meta{color:var(--muted);font-size:12px;white-space:nowrap}
   .text{max-width:340px}
-  .brief{max-width:260px;color:#b9a8e6;font-style:italic;font-size:12px}
+  .brief{max-width:420px;color:#b9a8e6;font-style:italic;font-size:12px}
   .dims{font:11px/1.4 ui-monospace,Consolas,monospace;color:var(--muted)}
   .pathcell{font:10px/1.4 ui-monospace,Consolas,monospace;color:var(--muted);max-width:220px;word-break:break-all}
   .badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}

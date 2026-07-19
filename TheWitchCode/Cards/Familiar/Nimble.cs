@@ -12,7 +12,7 @@ public sealed class Nimble : WitchFamiliarCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("Energy", 1m),
+        new EnergyVar(1),
         new BlockVar(5m, ValueProp.Move)
     ];
 

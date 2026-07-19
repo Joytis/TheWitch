@@ -10,8 +10,8 @@ namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Shared base for the "brew a potion of orientation X" trio (Wicked / Stony / Herbal Brew). Owns the one
-/// canonical brew sequence — rarity buffs consumed in order (next-is-Rare, then next-is-upgraded), then a
-/// random catalog roll at the resulting rarity. Any change to buff precedence or the roll happens here only.
+/// canonical brew sequence — the next-is-Rare buff consumed first, then a random catalog roll at the
+/// resulting rarity. Any change to buff precedence or the roll happens here only.
 /// </summary>
 public abstract class OrientationBrewCard : WitchCard
 {
@@ -27,7 +27,6 @@ public abstract class OrientationBrewCard : WitchCard
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
         var rarity = await NextPotionRarePower.MakeNextRare(Owner, PotionRarity.Common);
-        rarity = await NextPotionUpgradedPower.UpgradeRarity(Owner, rarity);
         var potion = PotionCatalog.Random(
             PotionCatalog.Query(orientation: Orientation, rarity: rarity),
             Owner.RunState.Rng.CombatPotionGeneration);
