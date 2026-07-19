@@ -1,0 +1,102 @@
+[gd_scene load_steps=10 format=3 uid="uid://l6atwu0ib2p5"]
+
+[ext_resource type="Texture2D" uid="uid://dwim1jeyka8xg" path="res://TheWitch/images/charui/big_energy.png" id="1_lntie"]
+[ext_resource type="Texture2D" uid="uid://cukm7q6npx0ev" path="res://TheWitch/textures/energy_orb_shine.png" id="1_tyx53"]
+[ext_resource type="Texture2D" uid="uid://cd38246sxjp08" path="res://TheWitch/textures/energy_orb_burst.png" id="2_mbua1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tyx53"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_n24bv"]
+_data = [Vector2(0, 0.008133292), 0.0, 5.234759, 0, 0, Vector2(0.21900827, 0.69790864), 0.9619232, 0.9619232, 0, 0, Vector2(0.8057852, 0.99496526), 0.0, 0.0, 0, 0, Vector2(1, 0.97986066), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_tyx53"]
+offsets = PackedFloat32Array(0, 0.27729258, 0.7248908, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mbua1"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_tyx53"]
+_data = [Vector2(0, 0), 0.0, 3.0588703, 0, 0, Vector2(1, 1), 0.11887062, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_mbua1"]
+offsets = PackedFloat32Array(0, 0.3580786, 0.7248908, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.9676259, 0.9676259, 0.9676259, 0.9676259, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[node name="WitchEnergyCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnergyVfxBack" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_tyx53")
+position = Vector2(62, 60)
+emitting = false
+amount = 1
+texture = ExtResource("1_tyx53")
+one_shot = true
+local_coords = true
+gravity = Vector2(0, 0)
+angular_velocity_min = 30.0
+angular_velocity_max = 30.0
+radial_accel_max = 10.0
+angle_max = 260.0
+scale_amount_min = 0.45
+scale_amount_max = 0.45
+scale_amount_curve = SubResource("Curve_n24bv")
+color = Color(0.7019608, 0.54509807, 0.54509807, 0.6901961)
+color_ramp = SubResource("Gradient_tyx53")
+
+[node name="Layers" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="Layer1" type="TextureRect" parent="Layers"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("1_lntie")
+expand_mode = 1
+
+
+[node name="EnergyVfxFront" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_mbua1")
+position = Vector2(62, 60)
+emitting = false
+amount = 1
+texture = ExtResource("2_mbua1")
+lifetime = 0.5
+one_shot = true
+local_coords = true
+gravity = Vector2(0, 0)
+angular_velocity_min = 30.0
+angular_velocity_max = 30.0
+radial_accel_max = 10.0
+angle_max = 260.0
+scale_amount_min = 0.45
+scale_amount_max = 0.45
+scale_amount_curve = SubResource("Curve_tyx53")
+color = Color(0.7, 0.54599994, 0.54599994, 0.6901961)
+color_ramp = SubResource("Gradient_mbua1")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = -1.73
+offset_top = -3.6
+offset_right = 126.27
+offset_bottom = 124.4
+text = "3/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.188)
