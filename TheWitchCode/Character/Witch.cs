@@ -15,7 +15,7 @@ public class Witch : PlaceholderCharacterModel
 {
     public const string CharacterId = "Witch";
     
-    public static readonly Color Color = new("CEA9D9");
+    public static readonly Color Color = new("BC8F8F");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Neutral;
@@ -70,4 +70,8 @@ public class Witch : PlaceholderCharacterModel
     public override string CustomCharacterSelectIconPath => "char_select_char_name.png".CharacterUiPath();
     public override string CustomCharacterSelectLockedIconPath => "char_select_char_name_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
+
+    public override string CustomEnergyCounterPath => "witch_energy_counter.tscn".CharacterScenePath();
+
+    public override Color EnergyLabelOutlineColor => new Color("3d1714FF"); 
 }
