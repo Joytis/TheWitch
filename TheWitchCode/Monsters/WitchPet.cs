@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Monsters;
 
@@ -28,11 +29,23 @@ public abstract class WitchPet : MonsterModel
     public override int MaxInitialHp => 9999;
     public override bool IsHealthBarVisible => false;
 
+    public virtual string PetScenePath => "familiar_visuals.tscn".CharacterScenePath();
+
     // Base-game host: Node2D + NCreatureVisuals script + empty Sprite2D "%Visuals" + markers.
     protected override string VisualsPath => SceneHelper.GetScenePath("creature_visuals/rocket");
 
     /// <summary>res:// path to the sprite texture swapped onto the host body at spawn.</summary>
-    public abstract string TexturePath { get; }
+    public abstract string PetFileName { get; }
+    public string TexturePath => (PetFileName + ".png").PetImagePath();
+    public string ConfigPath => (PetFileName + ".tres").PetConfigPath();
+
+    /// <summary>
+    /// Which familiar power stack this pet represents, stamped on the mutable clone by
+    /// FamiliarPower.SyncPets. PetVisuals matches animation events against this pair.
+    /// Plain C# state — cosmetic only, not serialized (lost on mid-combat MP rejoin).
+    /// </summary>
+    public Powers.FamiliarPower? SourcePower { get; set; }
+    public int StackIndex { get; set; }
 
     /// <summary>Sprite scale + offset so the pet sits nicely at the player's feet. Tune per-pet.</summary>
     public virtual float SpriteScale => 0.4f;

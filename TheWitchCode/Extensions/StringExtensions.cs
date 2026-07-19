@@ -82,13 +82,7 @@ public static class StringExtensions
         return path.CardImagePath();
     }
 
-    public static string CharacterUiPath(this string path)
-    {
-        return Path.Join(MainFile.ResPath, "images", "charui", path);
-    }
-
-    public static string CharacterScenePath(this string path)
-    {
-        return Path.Join(MainFile.ResPath, "scenes", path);
-    }
+    public static string CharacterUiPath(this string path) => Path.Join(MainFile.ResPath, "images", "charui", path);
+    public static string CharacterScenePath(this string path) => Path.Join(MainFile.ResPath, "scenes", path);
+    public static string PetConfigPath(this string path) => Path.Join(MainFile.ResPath, "data", "pets", path);
 }

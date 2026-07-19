@@ -28,13 +28,16 @@
         </Reference>
     </ItemGroup>
 
-    <ItemGroup Condition="False"> <!--Allows access to originally private/protected members but may (unlikely to) cause errors.-->
-        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
-    </ItemGroup>
+    <!-- Krafs.Publicizer (and its disabled <Publicize Include="sts2"> block) removed: merely having the
+         package installed rewrites reference assemblies and corrupts the Godot source-generated interop
+         methods (SetGodotClassPropertyValue etc.) — the JIT then rejects them at runtime with
+         "ArgumentException: Value does not fall within the expected range", breaking any [GlobalClass]
+         script/resource the engine touches. Re-add only if publicized sts2 access is truly needed, and
+         re-test pet scenes in-game if so. -->
+
 
     <ItemGroup>
         <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.*" PrivateAssets="All"/>
-        <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.1.*" />
         <!-- Generates a .pck file when building if only using simple assets. May not work on all setups. Uncomment to test. -->
         <!-- <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All" /> -->

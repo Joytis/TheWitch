@@ -21,3 +21,21 @@ position = Vector2(0, -146)
 
 [node name="IntentPos" type="Marker2D" parent="."]
 position = Vector2(41, -244)
+
+[node name="bear_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(281, -46)
+
+[node name="cat_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(-135, -36)
+
+[node name="owl_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(-112, -252)
+
+[node name="rat_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(98, 8)
+
+[node name="crow_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(97, -255)
+
+[node name="wolf_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(167, -90)

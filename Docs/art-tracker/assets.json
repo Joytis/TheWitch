@@ -140,48 +140,48 @@
           "artist": "",
           "done": false,
           "brief": "",
-          "effect": "Cosmetic combat sprite; currently reuses Wolf Familiar card art.",
-          "path": "TheWitch/images/card_portraits/big/wolf_familiar.png"
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
+          "path": "TheWitch/images/pets/wolf_familiar.png"
         },
         {
           "name": "Bear Pet",
           "artist": "",
           "done": false,
           "brief": "",
-          "effect": "Cosmetic combat sprite; currently reuses Bear Familiar card art.",
-          "path": "TheWitch/images/card_portraits/big/bear_familiar.png"
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
+          "path": "TheWitch/images/pets/bear_familiar.png"
         },
         {
           "name": "Owl Pet",
           "artist": "",
           "done": false,
           "brief": "",
-          "effect": "Cosmetic combat sprite; currently reuses Owl Familiar card art.",
-          "path": "TheWitch/images/card_portraits/big/owl_familiar.png"
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
+          "path": "TheWitch/images/pets/owl_familiar.png"
         },
         {
           "name": "Cat Pet",
           "artist": "",
           "done": false,
           "brief": "",
-          "effect": "Cosmetic combat sprite; currently reuses Cat Familiar card art.",
-          "path": "TheWitch/images/card_portraits/big/cat_familiar.png"
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
+          "path": "TheWitch/images/pets/cat_familiar.png"
         },
         {
           "name": "Rat Pet",
           "artist": "",
           "done": false,
           "brief": "",
-          "effect": "Cosmetic combat sprite; currently reuses Rat Familiar card art.",
-          "path": "TheWitch/images/card_portraits/big/rat_familiar.png"
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
+          "path": "TheWitch/images/pets/rat_familiar.png"
         },
         {
           "name": "Crow Pet",
           "artist": "",
           "done": false,
           "brief": "",
-          "effect": "Cosmetic combat sprite; currently reuses Crow Familiar card art.",
-          "path": "TheWitch/images/card_portraits/big/crow_familiar.png"
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
+          "path": "TheWitch/images/pets/crow_familiar.png"
         }
       ]
     },

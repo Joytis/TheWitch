@@ -4,6 +4,7 @@ using BaseLib.Utils;
 using TheWitch.TheWitchCode.Character;
 using TheWitch.TheWitchCode.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -20,6 +21,15 @@ public abstract class WitchFamiliarCard(int cost, CardType type, CardRarity rari
     // Familiar token-cards are one-shot per-turn payloads — Exhaust by default so they never clog the deck.
     // A subclass that needs extra keywords must re-include Exhaust in its own CanonicalKeywords override.
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    /// <summary>
+    /// The familiar power instance that generated this card, and which of its stacks (0-based) rolled it —
+    /// used to play the matching cosmetic pet's animation when the card is played. Null/0 for cards that
+    /// reached the deck some other way (tutors, test hands). Plain C# state: consistent in SP and lockstep
+    /// MP, lost only on mid-combat MP rejoin (cosmetic, acceptable).
+    /// </summary>
+    public FamiliarPower? SourceFamiliar { get; set; }
+    public int SourceStackIndex { get; set; }
 
 
     //Image size:

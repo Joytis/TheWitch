@@ -8,5 +8,5 @@ namespace TheWitch.TheWitchCode.Monsters;
 /// </summary>
 public sealed class WolfPet : WitchPet
 {
-    public override string TexturePath => "wolf_familiar.png".PetImagePath();
+    public override string PetFileName => "wolf_familiar";
 }
