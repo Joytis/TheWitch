@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -29,6 +30,22 @@ public sealed class HexPower : WitchPower
 
     private const decimal DamagePerStack = 3m;
 
+    // Loc token {TotalDamage}: the live total bonus damage (per-stack × stacks), kept in sync
+    // with the stack count below so the tooltip shows what the enemy will actually take.
+    private const string TotalDamageKey = "TotalDamage";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(TotalDamageKey, DamagePerStack)];
+
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    {
+        if (power == this)
+        {
+            DynamicVars[TotalDamageKey].BaseValue = DamagePerStack * Math.Max(Amount, 0);
+        }
+
+        await Task.CompletedTask;
+    }
+
     /// <summary>Hex signature on every application: occult gaze + doom sting on the hexed creature.</summary>
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
@@ -38,7 +55,7 @@ public sealed class HexPower : WitchPower
 
     public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (target != Owner || Amount <= 0 || !props.IsPoweredAttack() || !IsWitch(dealer))
+        if (target != Owner || Amount <= 0 || !props.IsPoweredAttack() || !TriggeredBy(dealer))
         {
             return 0m;
         }
@@ -48,7 +65,7 @@ public sealed class HexPower : WitchPower
 
     public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
     {
-        if (Amount <= 0 || !Owner.IsAlive || !command.DamageProps.IsPoweredAttack() || !IsWitch(command.Attacker))
+        if (Amount <= 0 || !Owner.IsAlive || !command.DamageProps.IsPoweredAttack() || !TriggeredBy(command.Attacker))
         {
             return;
         }
@@ -69,7 +86,14 @@ public sealed class HexPower : WitchPower
         await PowerCmd.Decrement(this);
     }
 
-    /// <summary>Hex only responds to a Witch-character player's attacks (any Witch in MP).</summary>
+    /// <summary>
+    /// On an enemy, Hex only responds to a Witch-character player's attacks (any Witch in MP).
+    /// On a player, enemy attacks trigger it — intents pick the bonus up automatically since
+    /// intent damage runs through the ModifyDamage hook pipeline.
+    /// </summary>
+    private bool TriggeredBy(Creature? attacker) =>
+        Owner.IsPlayer ? attacker?.IsMonster == true : IsWitch(attacker);
+
     private static bool IsWitch(Creature? attacker) =>
         attacker?.Player?.Character is Witch;
 }
