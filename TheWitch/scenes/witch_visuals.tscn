@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://btcqkv2sr5amu"]
+
+[ext_resource type="Texture2D" uid="uid://clqf3tkt46use" path="res://TheWitch/textures/witch.png" id="1_hni02"]
+
+[node name="WitchVisuals" type="Node2D"]
+
+[node name="Visuals" type="Sprite2D" parent="."]
+position = Vector2(-4, -131)
+scale = Vector2(0.05818544, 0.05818544)
+texture = ExtResource("1_hni02")
+
+[node name="Bounds" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -121.0
+offset_top = -270.0
+offset_right = 121.0
+
+[node name="CenterPos" type="Marker2D" parent="."]
+position = Vector2(0, -146)
+
+[node name="IntentPos" type="Marker2D" parent="."]
+position = Vector2(41, -244)
