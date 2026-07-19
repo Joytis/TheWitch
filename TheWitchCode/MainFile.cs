@@ -1,3 +1,4 @@
+using System.Reflection;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
@@ -14,9 +15,10 @@ public partial class MainFile : Node
 
     public static void Initialize()
     {
-        //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
-        //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
-        
+        // Register this assembly's [ScriptPath] classes with Godot so scenes/resources in our .pck
+        // can bind mod C# scripts (PetVisuals, PetConfig, ...) by res:// path.
+        Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
+
         Harmony harmony = new(ModId);
 
         harmony.PatchAll();

@@ -1,5 +1,5 @@
 {
-    "dotnet.defaultSolution": ".vscode/dev.slnx",
+    "dotnet.defaultSolution": "TheWitch.slnx",
     "files.exclude": {
         "**/*.rpyc": true,
         "**/*.rpa": true,

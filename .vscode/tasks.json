@@ -92,7 +92,7 @@
             "label": "dotnet build",
             "type": "process",
             "command": "dotnet",
-            "args": ["build"],
+            "args": ["build", "TheWitch.csproj"],
             "options": { "cwd": "${workspaceFolder}" },
             "group": { "kind": "build", "isDefault": true },
             "problemMatcher": "$msCompile",
@@ -118,7 +118,7 @@
             "label": "dotnet publish",
             "type": "process",
             "command": "dotnet",
-            "args": ["publish"],
+            "args": ["publish", "TheWitch.csproj"],
             "options": { "cwd": "${workspaceFolder}" },
             "problemMatcher": "$msCompile",
             "presentation": { "reveal": "always", "panel": "shared" }

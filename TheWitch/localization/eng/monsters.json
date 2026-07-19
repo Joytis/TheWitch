@@ -1,6 +1,14 @@
 {
-  "THEWITCH-OWL_PET.name": "Owl",
-  "THEWITCH-OWL_PET.moves.NOTHING_MOVE.title": "Nothing",
-  "THEWITCH-CAT_PET.name": "Cat",
-  "THEWITCH-CAT_PET.moves.NOTHING_MOVE.title": "Nothing"
+  "OWL_PET.name": "Owl",
+  "OWL_PET.moves.NOTHING_MOVE.title": "Nothing",
+  "CAT_PET.name": "Cat",
+  "CAT_PET.moves.NOTHING_MOVE.title": "Nothing",
+  "BEAR_PET.name": "Bear",
+  "BEAR_PET.moves.NOTHING_MOVE.title": "Nothing",
+  "CROW_PET.name": "Crow",
+  "CROW_PET.moves.NOTHING_MOVE.title": "Nothing",
+  "RAT_PET.name": "Rat",
+  "RAT_PET.moves.NOTHING_MOVE.title": "Nothing",
+  "WOLF_PET.name": "Wolf",
+  "WOLF_PET.moves.NOTHING_MOVE.title": "Nothing"
 }

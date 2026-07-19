@@ -77,6 +77,7 @@ public abstract class FamiliarPower : WitchPower
         Flash();
         Rng rng = player.RunState.Rng.CombatCardGeneration;
         CardModel card = CreateTurnStartCard(player, combatState, rng);
+        TagSource(card, 0);
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
     }
 
@@ -97,6 +98,7 @@ public abstract class FamiliarPower : WitchPower
                 : [CreateTurnStartCard(player, combatState, rng)];
             foreach (CardModel card in cards)
             {
+                TagSource(card, i);
                 // Use the "generated" path (not a plain Add) so the card counts as created — records combat
                 // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
                 await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
@@ -145,13 +147,48 @@ public abstract class FamiliarPower : WitchPower
         int want = Math.Max(0, Amount);
         for (int i = pets.Count; i < want; i++)
         {
-            Creature pet = combat.CreateCreature((MonsterModel)Pet.ToMutable(), Owner.Side, null);
+            WitchPet petModel = (WitchPet)Pet.ToMutable();
+            petModel.SourcePower = this;
+            petModel.StackIndex = i;
+            Creature pet = combat.CreateCreature(petModel, Owner.Side, null);
             await PlayerCmd.AddPet(pet, player);
         }
         for (int i = pets.Count - 1; i >= want; i--)
         {
             await CreatureCmd.Kill(pets[i], force: true);
         }
+    }
+
+    /// <summary>Stamp the generated token with its origin so playing it can animate the matching pet (stack i ↔ pet i, spawn order).</summary>
+    private void TagSource(CardModel card, int stackIndex)
+    {
+        if (card is WitchFamiliarCard familiarCard)
+        {
+            familiarCard.SourceFamiliar = this;
+            familiarCard.SourceStackIndex = stackIndex;
+        }
+    }
+
+    /// <summary>
+    /// Raised when a familiar token is played: (source power, stack index, animation name).
+    /// Each PetVisuals node listens and reacts only to its own (power, index) pair —
+    /// purely cosmetic, never touches game state, so firing on every MP client is fine.
+    /// </summary>
+    public static event Action<FamiliarPower, int, string>? AnimationRequested;
+
+    /// <summary>
+    /// Announce the pet animation for tokens THIS power generated: "attack" for attacks, "skill" otherwise.
+    /// BeforeCardPlayed (not After) so the pet reacts at the start of the card's visual effects.
+    /// </summary>
+    public override Task BeforeCardPlayed(CardPlay cardPlay)
+    {
+        if (cardPlay.Card is WitchFamiliarCard familiarCard && ReferenceEquals(familiarCard.SourceFamiliar, this))
+        {
+            AnimationRequested?.Invoke(this, familiarCard.SourceStackIndex,
+                cardPlay.Card.Type == CardType.Attack ? "attack" : "skill");
+        }
+
+        return Task.CompletedTask;
     }
 
     private List<Creature> FindPets(Player player) =>
