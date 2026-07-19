@@ -1,4 +1,5 @@
 using Godot;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Monsters;
@@ -17,17 +18,19 @@ public partial class PetVisuals : Node2D
     private WitchPet? _pet;
     private Node2D? _visualsRoot;
     private Node2D? _shadow;
+    private Node2D? _skillVfx;
+    private Node2D? _attackVfx;
 
     // Static-event lifecycle: subscribe/unsubscribe must mirror tree membership, or the
     // event ends up holding a delegate to a freed node (ObjectDisposedException on fire).
     public override void _EnterTree() => FamiliarPower.AnimationRequested += OnAnimationRequested;
     public override void _ExitTree() => FamiliarPower.AnimationRequested -= OnAnimationRequested;
 
-    private void OnAnimationRequested(FamiliarPower power, int stackIndex, string animation)
+    private void OnAnimationRequested(FamiliarPower power, int stackIndex, CardType cardType)
     {
         if (_pet != null && ReferenceEquals(_pet.SourcePower, power) && _pet.StackIndex == stackIndex)
         {
-            PlayAnimation(animation);
+            PlayAnimation(cardType);
         }
     }
 
@@ -46,6 +49,8 @@ public partial class PetVisuals : Node2D
 
         _visualsRoot = GetNodeOrNull<Node2D>("VisualsRoot");
         _shadow = GetNodeOrNull<Node2D>("Shadow");
+        _skillVfx = GetNodeOrNull<Node2D>("Vfx/Skill");
+        _attackVfx = GetNodeOrNull<Node2D>("Vfx/Attack");
 
         PlayAnimation("idle");
     }
@@ -60,12 +65,38 @@ public partial class PetVisuals : Node2D
         }
     }
 
-    /// <summary>Play a named animation ("idle" / "attack" / "skill") if the scene's AnimationPlayer has it.</summary>
-    public void PlayAnimation(string name)
+    /// <summary>Play the reaction for a played card: Attacks use the attack animation + vfx, everything else skill.</summary>
+    public void PlayAnimation(CardType cardType)
+    {
+        if (cardType == CardType.Attack)
+        {
+            PlayAnimation("attack");
+            RestartParticles(_attackVfx);
+        }
+        else
+        {
+            PlayAnimation("skill");
+            RestartParticles(_skillVfx);
+        }
+    }
+
+    private void PlayAnimation(string name)
     {
         if (_animationPlayer != null && _animationPlayer.HasAnimation(name))
         {
             _animationPlayer.Play(name);
+        }
+    }
+
+    private static void RestartParticles(Node2D? container)
+    {
+        if (container == null)
+        {
+            return;
+        }
+        foreach (GpuParticles2D particles in container.GetChildren().OfType<GpuParticles2D>())
+        {
+            particles.Restart();
         }
     }
 
@@ -84,6 +115,15 @@ public partial class PetVisuals : Node2D
 
         // Scale the sprite only — VisualsRoot belongs to the animations.
         sprite.Scale = Vector2.One * config.VisualsScale;
+
+        // Vfx match the sprite's footprint. Resolved directly — Populate runs before _Ready caches them.
+        foreach (string vfxPath in new[] { "Vfx/Skill", "Vfx/Attack" })
+        {
+            if (GetNodeOrNull<Node2D>(vfxPath) is { } vfx)
+            {
+                vfx.Scale = Vector2.One * config.VisualsScale;
+            }
+        }
 
         if (GetNodeOrNull<Node2D>("Shadow") is { } shadow)
         {

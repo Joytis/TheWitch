@@ -1,7 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://duxcqb4k8u8vb"]
+[gd_scene load_steps=32 format=3 uid="uid://duxcqb4k8u8vb"]
 
 [ext_resource type="Script" uid="uid://buavwg3onb8ib" path="res://TheWitchCode/Monsters/PetVisuals.cs" id="1_iv0ga"]
+[ext_resource type="Texture2D" uid="uid://cukm7q6npx0ev" path="res://TheWitch/textures/energy_orb_shine.png" id="2_djl4c"]
 [ext_resource type="Texture2D" uid="uid://d0bjsgslvtc00" path="res://TheWitch/images/pets/crow_familiar.png" id="2_oehyf"]
+[ext_resource type="Texture2D" uid="uid://8vlyxysla806" path="res://TheWitch/textures/cross_burst.png" id="3_t37xl"]
+[ext_resource type="Texture2D" uid="uid://c3wf1nxd2ayqq" path="res://TheWitch/textures/zoom_line.png" id="4_is4cd"]
 
 [sub_resource type="Animation" id="Animation_djl4c"]
 length = 0.001
@@ -213,6 +216,108 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t37xl"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_is4cd"]
+offsets = PackedFloat32Array(0, 0.27729258, 0.7248908, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_back"]
+gradient = SubResource("Gradient_is4cd")
+
+[sub_resource type="Curve" id="Curve_6tpxm"]
+_data = [Vector2(0, 0.008133292), 0.0, 5.234759, 0, 0, Vector2(0.3265766, 0.8778821), 0.9619232, 0.9619232, 0, 0, Vector2(0.8085586, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_back"]
+curve = SubResource("Curve_6tpxm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0asop"]
+particle_flag_disable_z = true
+angle_max = 260.0
+angular_velocity_min = 30.0
+angular_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+radial_accel_max = 10.0
+scale_curve = SubResource("CurveTexture_back")
+color = Color(0.9258507, 1.0354064, 1.0627953, 0.43529412)
+color_ramp = SubResource("GradientTexture1D_back")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_is4cd"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_t37xl"]
+offsets = PackedFloat32Array(0, 0.29904306, 0.61244017, 0.77751195, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.05514706, 0.05514706, 0.05514706, 0.05514706, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_is4cd"]
+gradient = SubResource("Gradient_t37xl")
+
+[sub_resource type="Curve" id="Curve_t37xl"]
+_data = [Vector2(0.009009007, 0.056362033), 0.0, 3.9432983, 0, 0, Vector2(1, 0.023057222), -4.5005007, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_is4cd"]
+curve = SubResource("Curve_t37xl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oehyf"]
+lifetime_randomness = 0.8
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 296.85
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_is4cd")
+color = Color(1.2566606, 1.506228, 1.5681214, 1)
+color_ramp = SubResource("GradientTexture1D_is4cd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_is4cd"]
+particle_flag_disable_z = true
+angle_max = 260.0
+angular_velocity_min = 30.0
+angular_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+radial_accel_max = 10.0
+scale_curve = SubResource("CurveTexture_back")
+color = Color(0.92500335, 1.0351875, 1.0627335, 0.23529412)
+color_ramp = SubResource("GradientTexture1D_back")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6tpxm"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_6tpxm"]
+offsets = PackedFloat32Array(0, 0.0023923444, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0asop"]
+gradient = SubResource("Gradient_6tpxm")
+
+[sub_resource type="Curve" id="Curve_is4cd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.5665054, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6tpxm"]
+curve = SubResource("Curve_is4cd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t37xl"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(120.54, 166.335, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 356.85
+initial_velocity_max = 356.85
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_6tpxm")
+color = Color(0.86470073, 0.9280654, 0.97064537, 0.25490198)
+color_ramp = SubResource("GradientTexture1D_0asop")
+
 [node name="FamiliarVisuals" type="Node2D"]
 script = ExtResource("1_iv0ga")
 
@@ -224,6 +329,55 @@ libraries = {
 [node name="Shadow" type="Sprite2D" parent="."]
 scale = Vector2(2.581, 0.708)
 texture = SubResource("GradientTexture2D_shadow")
+
+[node name="Vfx" type="Node2D" parent="."]
+
+[node name="Skill" type="Node2D" parent="Vfx"]
+
+[node name="BackGlow" type="GPUParticles2D" parent="Vfx/Skill"]
+material = SubResource("CanvasItemMaterial_t37xl")
+position = Vector2(0, -186)
+emitting = false
+amount = 1
+texture = ExtResource("2_djl4c")
+lifetime = 0.5
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_0asop")
+
+[node name="Star burst" type="GPUParticles2D" parent="Vfx/Skill"]
+material = SubResource("CanvasItemMaterial_is4cd")
+position = Vector2(0, -186)
+emitting = false
+amount = 13
+texture = ExtResource("3_t37xl")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_oehyf")
+
+[node name="Attack" type="Node2D" parent="Vfx"]
+
+[node name="BackGlow" type="GPUParticles2D" parent="Vfx/Attack"]
+material = SubResource("CanvasItemMaterial_t37xl")
+position = Vector2(-48, -193)
+emitting = false
+amount = 1
+texture = ExtResource("2_djl4c")
+lifetime = 0.05
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_is4cd")
+
+[node name="Attack" type="GPUParticles2D" parent="Vfx/Attack"]
+material = SubResource("CanvasItemMaterial_6tpxm")
+position = Vector2(-136, -228)
+emitting = false
+amount = 5
+texture = ExtResource("4_is4cd")
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_t37xl")
 
 [node name="VisualsRoot" type="Node2D" parent="."]
 

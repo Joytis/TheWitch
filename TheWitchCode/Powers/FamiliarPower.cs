@@ -170,22 +170,21 @@ public abstract class FamiliarPower : WitchPower
     }
 
     /// <summary>
-    /// Raised when a familiar token is played: (source power, stack index, animation name).
+    /// Raised when a familiar token is played: (source power, stack index, played card's type).
     /// Each PetVisuals node listens and reacts only to its own (power, index) pair —
     /// purely cosmetic, never touches game state, so firing on every MP client is fine.
     /// </summary>
-    public static event Action<FamiliarPower, int, string>? AnimationRequested;
+    public static event Action<FamiliarPower, int, CardType>? AnimationRequested;
 
     /// <summary>
-    /// Announce the pet animation for tokens THIS power generated: "attack" for attacks, "skill" otherwise.
+    /// Announce the played card type for tokens THIS power generated; PetVisuals maps it to an animation.
     /// BeforeCardPlayed (not After) so the pet reacts at the start of the card's visual effects.
     /// </summary>
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
         if (cardPlay.Card is WitchFamiliarCard familiarCard && ReferenceEquals(familiarCard.SourceFamiliar, this))
         {
-            AnimationRequested?.Invoke(this, familiarCard.SourceStackIndex,
-                cardPlay.Card.Type == CardType.Attack ? "attack" : "skill");
+            AnimationRequested?.Invoke(this, familiarCard.SourceStackIndex, cardPlay.Card.Type);
         }
 
         return Task.CompletedTask;

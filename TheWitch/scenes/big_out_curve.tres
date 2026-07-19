@@ -1,0 +1,6 @@
+[gd_resource type="Curve" format=3 uid="uid://ch38q28s5c027"]
+
+[resource]
+resource_local_to_scene = true
+_data = [Vector2(0.6396397, 1), 0.0, -6.007367, 0, 0, Vector2(0.9031532, 0.067463756), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3

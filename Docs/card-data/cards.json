@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-18",
+  "generated": "2026-07-19",
   "cards": [
     {
       "name": "Defend",
@@ -34,7 +34,7 @@
       "type": "Attack",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. On unblocked damage, extract a Potion.",
+      "text": "Deal 10 damage. On unblocked damage, create a Potion.",
       "numbers": {
         "Damage": 10
       },
@@ -263,10 +263,9 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 5 Brambles. Next turn, gain 1 Energy.",
+      "text": "Gain 5 Brambles. Next turn, gain {EnergyNextTurnPower:energyIcons()}.",
       "numbers": {
-        "Brambles": 5,
-        "EnergyNextTurn": 1
+        "Brambles": 5
       },
       "upgrade": "Brambles +3",
       "note": "Fertilize: sow now, reap next turn — gain Brambles and bank 1 Energy for next turn (base-game <see cref=\"EnergyNextTurnPower\" />).",
@@ -521,11 +520,13 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Lose 1 Brambles. Gain {Energy:diff()} Energy.",
-      "numbers": {},
+      "text": "Lose 1 Brambles. Gain 2.",
+      "numbers": {
+        "Energy": 2
+      },
       "upgrade": "Energy +1",
       "note": "Tinder: burn a bramble as kindling for Energy.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1442,10 +1443,10 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 5 Block. Whenever you play a card this turn, gain 1 Brambles.",
+      "text": "Gain 7 Block. Whenever you play a card this turn, gain 1 Brambles.",
       "numbers": {
         "Sprouts": 1,
-        "Block": 5
+        "Block": 7
       },
       "upgrade": "Block +3",
       "note": "Sprouts (was Feast With Wolves): a guard that keeps growing — every card played this turn sprouts a Bramble.",
@@ -1700,7 +1701,7 @@
       "name": "A Little Sip",
       "entry": "A_LITTLE_SIP",
       "file": "TheWitchCode/Cards/ALittleSip.cs",
-      "cost": 2,
+      "cost": 3,
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
@@ -1710,7 +1711,7 @@
       },
       "upgrade": "Cost -1",
       "note": "A Little Sip: a Power that heals 1 HP whenever you use a potion.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1762,7 +1763,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 6 Energy. Exhaust 2 cards from your Hand.",
+      "text": "Gain 6. Exhaust 2 cards from your Hand.",
       "numbers": {
         "Energy": 6,
         "Cards": 2
@@ -1845,13 +1846,13 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 10 damage to ALL enemies for each Bramble, then lose all Brambles.",
+      "text": "Deal 7 damage to ALL enemies for each Bramble, then lose all Brambles.",
       "numbers": {
-        "Damage": 10
+        "Damage": 7
       },
       "upgrade": "Damage +2",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1993,7 +1994,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 3 Energy. Draw 2 cards. Gain 3 Hex.",
+      "text": "Gain 3. Draw 2 cards. Gain 3 Hex.",
       "numbers": {
         "Hex": 3,
         "Energy": 3,
@@ -2637,13 +2638,14 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain {Energy:diff()} Energy. Gain 5 Block.",
+      "text": "Gain 1. Gain 5 Block.",
       "numbers": {
+        "Energy": 1,
         "Block": 5
       },
       "upgrade": "Block +3, Energy +1",
       "note": "Cat familiar token: feline agility bottled as tempo — gain Energy and Block.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2730,11 +2732,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain {Gold:diff()} Gold. Gain {Energy:diff()} Energy.",
-      "numbers": {},
-      "upgrade": "Gold +5",
+      "text": "Gain 1. Gain {Gold:diff()} Gold.",
+      "numbers": {
+        "Energy": 1
+      },
+      "upgrade": "Energy +1",
       "note": "Crow familiar token: pocket some gold and a burst of Energy.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
