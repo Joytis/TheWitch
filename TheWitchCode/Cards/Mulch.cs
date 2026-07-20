@@ -21,8 +21,10 @@ public sealed class Mulch : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(3m),
-        new BlockVar(3m, ValueProp.Move)
+        new CalculationBaseVar(0m),
+        new CalculationExtraVar(3m),
+        new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => PileType.Discard.GetPile(card.Owner).Cards.Count),
+        new CalculatedVar("CalculatedBrambles").WithMultiplier((card, _) => PileType.Discard.GetPile(card.Owner).Cards.Count)
     ];
 
     public Mulch()
@@ -33,23 +35,24 @@ public sealed class Mulch : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         List<CardModel> discard = PileType.Discard.GetPile(Owner).Cards.ToList();
-        int count = discard.Count;
-        if (count == 0)
+        if (discard.Count == 0)
         {
             return;
         }
+
+        var brambles = ((CalculatedVar)DynamicVars["CalculatedBrambles"]).Calculate(null);
+        var block = DynamicVars.CalculatedBlock.Calculate(null);
 
         foreach (CardModel card in discard)
         {
             await CardCmd.Exhaust(choiceContext, card);
         }
-        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue * count, Owner.Creature, this);
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue * count, ValueProp.Move, cardPlay);
+        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, brambles, Owner.Creature, this);
+        await CreatureCmd.GainBlock(Owner.Creature, block, DynamicVars.CalculatedBlock.Props, cardPlay);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Brambles().UpgradeValueBy(1m);
-        DynamicVars.Block.UpgradeValueBy(1m);
+        DynamicVars.CalculationExtra.UpgradeValueBy(1m);
     }
 }
