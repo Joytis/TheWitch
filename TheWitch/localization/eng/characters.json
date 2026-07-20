@@ -4,13 +4,14 @@
     "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
     "THEWITCH-WITCH.cardsModifierDescription": "__ cards will now appear in rewards and shops.",
     "THEWITCH-WITCH.cardsModifierTitle": "__ Cards",
-    "THEWITCH-WITCH.description": "Character Selection\nScreen Description",
+    "THEWITCH-WITCH.description": "An ancient rootbound protector.\nPractices dubious witchcraft with her companions",
     "THEWITCH-WITCH.eventDeathPrevention": "Co-op survival line",
-    "THEWITCH-WITCH.goldMonologue": "Line spoken when obtaining a large amount of gold",
-    "THEWITCH-WITCH.possessiveAdjective": "his/her/its",
-    "THEWITCH-WITCH.pronounObject": "him/her/it",
-    "THEWITCH-WITCH.pronounPossessive": "his/hers/its",
-    "THEWITCH-WITCH.pronounSubject": "he/she/it",
+    "THEWITCH-WITCH.goldMonologue": "[sine]The apothecary ...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "her",
+    "THEWITCH-WITCH.pronounObject": "her",
+    "THEWITCH-WITCH.pronounPossessive": "hers",
+    "THEWITCH-WITCH.pronounSubject": "she",
     "THEWITCH-WITCH.title": "The Witch",
-    "THEWITCH-WITCH.titleObject": "The Witch"
+    "THEWITCH-WITCH.titleObject": "The Witch",
+    "THEWITCH-WITCH.unlockText": "Play a single run with [orange]{Prerequisite}[/orange] to unlock this character."
 }
