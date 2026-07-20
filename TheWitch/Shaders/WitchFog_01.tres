@@ -1,0 +1,36 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://krth6ry8mw2i"]
+
+[ext_resource type="Shader" uid="uid://5ke2urfa5i3k" path="res://TheWitch/Shaders/vfx_stepped_shader_fire_add.tres" id="1_uvxq2"]
+[ext_resource type="Texture2D" uid="uid://dw8duyauox8hc" path="res://TheWitch/textures/tileable_noise_1.png" id="2_45yfp"]
+[ext_resource type="Texture2D" uid="uid://qv2dcttw5a8a" path="res://TheWitch/textures/light.png" id="3_8rib5"]
+[ext_resource type="Texture2D" uid="uid://d1pbov6w5ohrf" path="res://TheWitch/textures/tileable_noise_2.png" id="4_bjf1f"]
+
+[resource]
+shader = ExtResource("1_uvxq2")
+shader_parameter/OuterColor = Color(0.26, 0.2262, 0.2262, 0.1764706)
+shader_parameter/InnerColorStep = Vector2(0.975, 0.99)
+shader_parameter/Noise2Strength = 1.0
+shader_parameter/Noise2Scaling = Vector2(0.5, 0.5)
+shader_parameter/Noise2Panning = Vector2(0.05, 0.05)
+shader_parameter/Noise2Texture = ExtResource("2_45yfp")
+shader_parameter/Noise1Strength = 1.0
+shader_parameter/Noise1Scaling = Vector2(0.5, 0.5)
+shader_parameter/Noise1Panning = Vector2(0.1, 0.1)
+shader_parameter/Noise1Texture = ExtResource("2_45yfp")
+shader_parameter/InvertNoiseMask = true
+shader_parameter/NoiseMaskScale = Vector2(1, 2)
+shader_parameter/NoiseMaskOffset = Vector2(0, -0.63)
+shader_parameter/NoiseMask = ExtResource("3_8rib5")
+shader_parameter/Distortion2Scale = Vector2(1, 1)
+shader_parameter/Distortion2Panning = Vector2(0.045, 0.05)
+shader_parameter/Distortion2Texture = ExtResource("3_8rib5")
+shader_parameter/Distortion2Strength = 0.1
+shader_parameter/Distortion1Scale = Vector2(1, 1)
+shader_parameter/Distortion1Panning = Vector2(0.06, 0.05)
+shader_parameter/Distortion1Texture = ExtResource("2_45yfp")
+shader_parameter/Distortion1Strength = 0.095
+shader_parameter/DistortionMaskScale = Vector2(1, 1.2)
+shader_parameter/DistortionMaskOffset = Vector2(0, -0.025)
+shader_parameter/DistortionMask = ExtResource("4_bjf1f")
+shader_parameter/InnerColor = Color(0, 0, 0, 1)
+shader_parameter/OuterStep = Vector2(0.285, 0.99)

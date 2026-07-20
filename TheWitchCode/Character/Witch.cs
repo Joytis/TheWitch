@@ -73,6 +73,8 @@ public class Witch : PlaceholderCharacterModel
 
     public override string CustomEnergyCounterPath => "witch_energy_counter.tscn".CharacterScenePath();
     public override string CustomVisualPath => "witch_visuals.tscn".CharacterScenePath();
+    public override string CustomCharacterSelectBg => "char_select_bg_witch.tscn".CharacterScenePath();
+
 
     public override Color EnergyLabelOutlineColor => new Color("3d1714FF"); 
 }
