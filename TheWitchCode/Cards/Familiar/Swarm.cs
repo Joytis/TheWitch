@@ -14,7 +14,7 @@ public sealed class Swarm : WitchFamiliarCard, IRatCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(3)
+        new CardsVar(2)
     ];
 
     public Swarm()
@@ -30,5 +30,5 @@ public sealed class Swarm : WitchFamiliarCard, IRatCard
         CardCmd.PreviewCardPileAdd(generated);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
