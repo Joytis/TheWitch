@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20",
+  "generated": "2026-07-21",
   "cards": [
     {
       "name": "Defend",
@@ -117,14 +117,14 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "AllEnemies",
-      "text": "Gain 5 Block. ALL enemies gain 2 Weak.",
+      "text": "Gain 5 Block. Apply 2 Weak to ALL enemies.",
       "numbers": {
         "Weak": 2,
         "Block": 5
       },
       "upgrade": "WeakPower +1",
       "note": "Bewitching Grin: a cheap one-shot skill — block up while sapping every enemy with Weak.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -434,14 +434,14 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AllEnemies",
-      "text": "Add 1 Wound into your Discard Pile. Deal 15 damage to ALL enemies.",
+      "text": "Deal 15 damage to ALL enemies. Add 1 Wound to your Discard Pile.",
       "numbers": {
         "Cards": 1,
         "Damage": 15
       },
       "upgrade": "Damage +5",
       "note": "Pact of Agony: clog your deck with Wounds for a heavy strike on every enemy.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -869,13 +869,13 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "The next Potion you use becomes a Buff. Use its effect again at the start of each turn.",
+      "text": "The next Potion you use is used again at the start of each turn.",
       "numbers": {
         "CrystalBottle": 1
       },
       "upgrade": "Cost -1",
       "note": "Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1035,13 +1035,13 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Upgrade 2 random cards in your Hand. Create a Vial of Smoke.",
+      "text": "Create a Vial of Smoke.Upgrade 2 cards in your Hand.",
       "numbers": {
         "Cards": 2
       },
       "upgrade": "Cards +2",
       "note": "Light the Candle: upgrade random cards in your hand (via <c>CardCmd.Upgrade</c> so any on-upgrade listeners fire), then create a Vial of Smoke.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1090,7 +1090,7 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Whenever you play a Familiar card this turn, deal 5 damage to the enemy.",
+      "text": "Deal 5 damage. Whenever you play a Familiar card this turn, deal 5 additional damage.",
       "numbers": {
         "Damage": 5,
         "ExtraDamage": 5
@@ -1790,13 +1790,13 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 8 Block. Create a Fortifier.",
+      "text": "Gain 8 Block. Create a Fortifier Potion.",
       "numbers": {
         "Block": 8
       },
       "upgrade": "Block +4",
       "note": "Bottle Wall: gain Block and brew up a Fortifier potion.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2107,13 +2107,13 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "The next 1 Potion you create is copied.",
+      "text": "Copy the next 1 Potion you create.",
       "numbers": {
         "NextPotionCopied": 1
       },
       "upgrade": "NextPotionCopiedPower +1",
       "note": "Copy the next potion you create this combat.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2516,7 +2516,7 @@
       "type": "Attack",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Deal {CalculatedDamage:diff()} damage. Deals 4 additional damage for each Gnash played this combat.",
+      "text": "Deal {CalculatedDamage:diff()} damage. Increase the damage of ALL Gnash cards by 4 this combat.",
       "numbers": {
         "CalculationBase": 3,
         "ExtraDamage": 4

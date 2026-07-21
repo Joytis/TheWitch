@@ -1,10 +1,13 @@
 {
-    "title":  "The Witch",
-    "description":  "A custom character for Slay the Spire 2: The Witch, a potion-brewing witch. Built on BaseLib.",
+    "title":  "The Witch - Main Branch",
+    "description":  "If you are playing on the main branch, use this mod instead.\n\nThe Witch, a primal force of nature, enters the spire!\nThe woods are furious... \n\nThe Witch brews a flurry of potions to hex enemies, grow thickets of brambles, and gather her familiars. \n\n[h1]Core Mechanics[/h1] \nPotions: Create unique and classic potions to create powerful turns. \nFamiliars: Summon friendly creatures that support you with unique cards each turn\nBrambles: Grow spiky thickets and hunker down, let the enemies break themselves against your wall of thorns. \nHex: Curse your enemies, causing your attacks to deal progressively more damage. \n\nAI is not used for any Art in The Witch",
     "visibility":  "public",
-    "changeNote":  "v0.1.0 - First pass draft pool added, Majority of placeholder removed. ",
+    "changeNote":  "",
     "tags":  [
-
+                 "Characters",
+                 "Cards",
+                 "Relics",
+                 "Potions"
              ],
     "dependencies":  [
                          3737335127

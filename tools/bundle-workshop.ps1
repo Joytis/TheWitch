@@ -12,12 +12,16 @@
 
     Workspace layout consumed by ModUploader:
         workshop.json   metadata (title, description, visibility, tags, ...)   [versioned]
+        description.md  Workshop description source (markdown)                 [versioned]
         image.png       Steam Workshop thumbnail                               [versioned]
         mod_id.txt      published item id, written after first upload          [versioned]
         content/        the mod files that actually get uploaded               [gitignored]
 
     workshop.json and image.png are hand-maintained and never clobbered; this
     script only stages content/ and (optionally) patches named metadata fields.
+    If description.md exists, it is the source of truth for the description:
+    every staging run converts it to Steam BBCode and writes it into
+    workshop.json "description" (Steam renders BBCode, not markdown).
 
     Staging is the default. Uploading is opt-in (-Upload) because publishing to
     the Workshop is outward-facing and not trivially reversible.
@@ -86,6 +90,36 @@ $manifest = Join-Path $repoRoot 'TheWitch.json'
 
 function Write-Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 function Write-Warn2($msg) { Write-Host "[warn] $msg" -ForegroundColor Yellow }
+
+# Convert a small markdown subset to Steam Workshop BBCode.
+# Supported: # / ## / ### headings, - or * bullet lists, --- rules,
+# **bold**, *italic*, `code` (as bold), [text](http-url) links.
+function Convert-MarkdownToBBCode([string]$md) {
+    $md = $md -replace "`r`n", "`n"
+    $out = New-Object System.Collections.Generic.List[string]
+    $inList = $false
+    foreach ($line in ($md -split "`n")) {
+        if ($line -match '^\s*[-*]\s+(.*)$') {
+            if (-not $inList) { $out.Add('[list]'); $inList = $true }
+            $out.Add('[*]' + $Matches[1])
+            continue
+        }
+        if ($inList) { $out.Add('[/list]'); $inList = $false }
+        if     ($line -match '^###\s+(.*)$') { $out.Add('[h3]' + $Matches[1] + '[/h3]') }
+        elseif ($line -match '^##\s+(.*)$')  { $out.Add('[h2]' + $Matches[1] + '[/h2]') }
+        elseif ($line -match '^#\s+(.*)$')   { $out.Add('[h1]' + $Matches[1] + '[/h1]') }
+        elseif ($line -match '^\s*(---+|___+)\s*$') { $out.Add('[hr][/hr]') }
+        else { $out.Add($line) }
+    }
+    if ($inList) { $out.Add('[/list]') }
+    $text = $out -join "`n"
+    # Links before bold/italic so bracketed BBCode tags can't be mistaken for link text.
+    $text = [regex]::Replace($text, '\[([^\]]+)\]\((https?://[^)\s]+)\)', '[url=$2]$1[/url]')
+    $text = [regex]::Replace($text, '\*\*(.+?)\*\*', '[b]$1[/b]')
+    $text = [regex]::Replace($text, '(?<!\*)\*([^*\n]+)\*(?!\*)', '[i]$1[/i]')
+    $text = [regex]::Replace($text, '`([^`\n]+)`', '[b]$1[/b]')
+    return $text.Trim()
+}
 
 # --- Read the mod manifest -------------------------------------------------
 if (-not (Test-Path $manifest)) { throw "Mod manifest not found: $manifest" }
@@ -226,9 +260,20 @@ Write-Host "    staged:" (Get-ChildItem $contentDir | ForEach-Object { $_.Name }
 # changeNote is always rewritten on upload runs: workshop.json is versioned, so
 # leaving it untouched would resend the PREVIOUS upload's note as this update's
 # patch notes. No -ChangeNote => blank note (no patch-note text on Steam).
-if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload) {
+# description.md (if present) is the description's source of truth: converted
+# to Steam BBCode and synced into workshop.json on every staging run.
+$descriptionMd = Join-Path $Workspace 'description.md'
+$hasDescMd = Test-Path $descriptionMd
+if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload -or $hasDescMd) {
     if (-not (Test-Path $workshopJson)) { throw "workshop.json missing: $workshopJson" }
     $ws = Get-Content $workshopJson -Raw | ConvertFrom-Json
+    if ($hasDescMd) {
+        $bbDesc = Convert-MarkdownToBBCode (Get-Content $descriptionMd -Raw)
+        if ($ws.description -ne $bbDesc) {
+            $ws.description = $bbDesc
+            Write-Step "description synced from description.md (converted to BBCode)"
+        }
+    }
     if ($ChangeNote -ne "") { $ws.changeNote = $ChangeNote; Write-Step "changeNote = '$ChangeNote'" }
     elseif ($Upload -and $ws.changeNote -ne "") {
         $ws.changeNote = ""
