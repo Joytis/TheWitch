@@ -33,7 +33,7 @@ public sealed class RotBloom : WitchCard
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_thrash", null, "heavy_attack.mp3")
             .Execute(choiceContext);

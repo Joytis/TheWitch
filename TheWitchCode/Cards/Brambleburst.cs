@@ -34,7 +34,7 @@ public sealed class Brambleburst : WitchCard
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(brambles)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .TargetingAllOpponents(CombatState!)
             .WithHitFx("vfx/vfx_thrash", null, "heavy_attack.mp3")
             .Execute(choiceContext);
