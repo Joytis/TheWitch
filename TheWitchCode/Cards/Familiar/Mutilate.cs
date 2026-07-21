@@ -29,7 +29,7 @@ public sealed class Mutilate : WitchFamiliarCard
         VfxCmd.PlayOnCreatureCenter(cardPlay.Target, "vfx/vfx_heavy_blunt");
         NDebugAudioManager.Instance?.Play("heavy_attack.mp3");
         await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage.BaseValue,
-            ValueProp.Move | ValueProp.Unblockable, Owner.Creature, this);
+            ValueProp.Move | ValueProp.Unblockable, Owner.Creature, this, cardPlay);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(15m);
