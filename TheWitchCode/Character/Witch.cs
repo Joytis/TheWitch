@@ -74,6 +74,8 @@ public class Witch : PlaceholderCharacterModel
     public override string CustomVisualPath => "witch_visuals.tscn".CharacterScenePath();
     public override string CustomCharacterSelectBg => "char_select_bg_witch.tscn".CharacterScenePath();
     public override string CustomTrailPath => "card_trail_witch.tscn".CharacterScenePath();
+    public override string CustomRestSiteAnimPath => "witch_rest_site.tscn".CharacterScenePath();
+    public override string CustomMerchantAnimPath => "witch_merchant.tscn".CharacterScenePath();
 
     public override Color EnergyLabelOutlineColor => new Color("3d1714FF");
 
@@ -92,8 +94,6 @@ public class Witch : PlaceholderCharacterModel
     // public override string CustomIconPath => ...;
 
     // Anims / visuals
-    // public override string CustomRestSiteAnimPath => ...;
-    // public override string CustomMerchantAnimPath => ...;
     // public override float DeathAnimTime => ...;
     // public override NCreatureVisuals CreateCustomVisuals() => ...;
     // public override CreatureAnimator SetupCustomAnimationStates(MegaSprite controller) => ...;
