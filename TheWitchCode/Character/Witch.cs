@@ -15,9 +15,15 @@ public class Witch : PlaceholderCharacterModel
 {
     public const string CharacterId = "Witch";
     
+    // Colors
     public static readonly Color Color = new("BC8F8F");
-
+    public static readonly Color DarkColor = new("3D1714FF");
     public override Color NameColor => Color;
+    public override Color MapDrawingColor => Color;                            
+    public override Color RemoteTargetingLineColor => Color;
+    public override Color RemoteTargetingLineOutline => DarkColor;
+    public override Color EnergyLabelOutlineColor => DarkColor;
+
     public override CharacterGender Gender => CharacterGender.Neutral;
     public override int StartingHp => 70;
     
@@ -77,7 +83,12 @@ public class Witch : PlaceholderCharacterModel
     public override string CustomRestSiteAnimPath => "witch_rest_site.tscn".CharacterScenePath();
     public override string CustomMerchantAnimPath => "witch_merchant.tscn".CharacterScenePath();
 
-    public override Color EnergyLabelOutlineColor => new Color("3d1714FF");
+    // Arms (events / rock-paper-scissors)
+    public override string CustomArmPointingTexturePath => "multiplayer_hand_witch_point.png".CharacterUiPath();
+    public override string CustomArmRockTexturePath => "multiplayer_hand_witch_rock.png".CharacterUiPath();
+    public override string CustomArmPaperTexturePath => "multiplayer_hand_witch_paper.png".CharacterUiPath();
+    public override string CustomArmScissorsTexturePath => "multiplayer_hand_witch_scissors.png".CharacterUiPath();
+
 
     /*  CustomCharacterModel virtuals not yet overridden — fill these in when replacing
         PlaceholderCharacterModel with CustomCharacterModel.
@@ -99,11 +110,6 @@ public class Witch : PlaceholderCharacterModel
     // public override CreatureAnimator SetupCustomAnimationStates(MegaSprite controller) => ...;
     // public override void RegisterSceneConversions() => ...;
 
-    // Arms (events / rock-paper-scissors)
-    // public override string CustomArmPointingTexturePath => ...;
-    // public override string CustomArmRockTexturePath => ...;
-    // public override string CustomArmPaperTexturePath => ...;
-    // public override string CustomArmScissorsTexturePath => ...;
     // public override RelicIconData CustomYummyCookie => ...;
 
     // Character select
