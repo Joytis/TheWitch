@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3 uid="uid://bug781tm37qaa"]
+
+[ext_resource type="Texture2D" uid="uid://smodwbd31f4n" path="res://TheWitch/images/packed/vfx/trail.png" id="2_ktjaj"]
+[ext_resource type="Texture2D" uid="uid://7rwtbrv1vwan" path="res://TheWitch/images/packed/vfx/trail2.png" id="4_afirv"]
+[ext_resource type="Texture2D" uid="uid://dn267staemdkf" path="res://TheWitch/images/vfx/brush_particle_2.png" id="5_mlept"]
+[ext_resource type="Texture2D" uid="uid://dj4a2p6uajrsn" path="res://TheWitch/images/vfx/ghostly_power_up/sparkle.png" id="6_7inkg"]
+[ext_resource type="Texture2D" uid="uid://dl7paujang6x2" path="res://TheWitch/images/packed/vfx/small_card_silhouette.png" id="7_edlc5"]
+[ext_resource type="Material" path="res://TheWitch/themes/canvas_item_material_additive_shared.tres" id="shared_additive_mat"]
+
+[sub_resource type="Curve" id="Curve_0ojw2"]
+_data = [Vector2(0, 0.111037), 0.0, 0.0, 0, 0, Vector2(0.839578, 0.663793), -2.61019, -2.61019, 0, 0, Vector2(0.922468, 0.94341), 0.0, 0.0, 0, 0, Vector2(1, 0.685611), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_6eyfw"]
+offsets = PackedFloat32Array(0, 0.141431, 0.522463)
+colors = PackedColorArray(0, 0, 0, 0, 0.25, 0.25, 0.25, 0.305882, 1, 1, 1, 1)
+
+[sub_resource type="Curve" id="Curve_eaky7"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.801075, 0.571397), -3.15833, -3.15833, 0, 0, Vector2(0.900922, 0.367031), 0.0, 0.0, 0, 0, Vector2(0.938291, 0.930834), 0.0, 0.0, 0, 0, Vector2(1, 0.742201), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_fdg7u"]
+offsets = PackedFloat32Array(0.17248908, 0.47161573, 0.821549)
+colors = PackedColorArray(0, 0, 0, 0, 0.25, 0.25, 0.25, 0.305882, 1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_miu0s"]
+offsets = PackedFloat32Array(0, 0.554377, 0.806366, 1)
+colors = PackedColorArray(0.9175554, 0.554492, 0.45609194, 1, 0.7, 0.252, 0.252, 0.44705883, 0.50073814, 0, 0.05709754, 0.48235294, 1, 0.4532714, 0.52619207, 0)
+
+[sub_resource type="Gradient" id="Gradient_ytddg"]
+colors = PackedColorArray(0.5727701, 0.7788739, 0.5901138, 1, 0.5627421, 0.8032214, 0.6490766, 0)
+
+[node name="CardTrailWitch" type="Node2D"]
+show_behind_parent = true
+
+[node name="Trails" type="Node2D" parent="."]
+
+[node name="OuterTrail" type="Line2D" parent="Trails"]
+modulate = Color(0.85, 0.50150007, 0.50150007, 0.43137255)
+material = ExtResource("shared_additive_mat")
+width = 96.0
+width_curve = SubResource("Curve_0ojw2")
+default_color = Color(1, 1, 1, 0.752941)
+gradient = SubResource("Gradient_6eyfw")
+texture = ExtResource("2_ktjaj")
+texture_mode = 2
+joint_mode = 2
+
+[node name="InnerTrail" type="Line2D" parent="Trails"]
+modulate = Color(0.33389997, 0.53, 0.3861933, 0.5019608)
+material = ExtResource("shared_additive_mat")
+width = 64.0
+width_curve = SubResource("Curve_eaky7")
+gradient = SubResource("Gradient_fdg7u")
+texture = ExtResource("4_afirv")
+texture_mode = 2
+joint_mode = 2
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="BigSparks" type="CPUParticles2D" parent="Sprites"]
+material = ExtResource("shared_additive_mat")
+amount = 64
+texture = ExtResource("5_mlept")
+lifetime = 2.0
+randomness = 0.5
+lifetime_randomness = 1.0
+fract_delta = false
+emission_shape = 3
+emission_rect_extents = Vector2(24, 24)
+direction = Vector2(5, -5)
+gravity = Vector2(0, 0)
+initial_velocity_min = 16.0
+initial_velocity_max = 32.0
+angular_velocity_min = -32.0
+angular_velocity_max = 32.0
+damping_min = 1.0
+damping_max = 5.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.2
+scale_amount_max = 0.8
+color_ramp = SubResource("Gradient_miu0s")
+
+[node name="LittleSparks" type="CPUParticles2D" parent="Sprites"]
+material = ExtResource("shared_additive_mat")
+amount = 64
+texture = ExtResource("6_7inkg")
+lifetime = 0.3
+explosiveness = 0.35
+randomness = 1.0
+lifetime_randomness = 1.0
+fract_delta = false
+emission_shape = 3
+emission_rect_extents = Vector2(24, 24)
+particle_flag_align_y = true
+direction = Vector2(0, -5)
+gravity = Vector2(0, 1960)
+initial_velocity_max = 480.0
+angular_velocity_min = -50.0
+angular_velocity_max = 50.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.02
+scale_amount_max = 0.05
+color_ramp = SubResource("Gradient_ytddg")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprites"]
+modulate = Color(0.49966443, 0.6057754, 0.4640932, 0.7529412)
+material = ExtResource("shared_additive_mat")
+scale = Vector2(1.1, 1.054)
+texture = ExtResource("7_edlc5")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprites"]
+modulate = Color(0.86, 0.4472, 0.62608004, 0.5019608)
+material = ExtResource("shared_additive_mat")
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("7_edlc5")

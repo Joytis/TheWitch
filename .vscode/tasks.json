@@ -89,6 +89,18 @@
             "detail": "Fill missing big/small variants of card_portraits & powers (upscale small->big, downscale big->small, 4x). Run 'Godot: Import assets' after."
         },
         {
+            "label": "Images: Generate locked char-select silhouette",
+            "type": "process",
+            "command": "py",
+            "args": [
+                "${workspaceFolder}/tools/gen-locked-silhouette.py"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "Regenerate char_select_char_name_locked.png as a flat silhouette of char_select_char_name.png (alpha shape, or background colour-key for full-bleed art)."
+        },
+        {
             "label": "dotnet build",
             "type": "process",
             "command": "dotnet",
@@ -168,6 +180,16 @@
             "problemMatcher": [],
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
             "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it)."
+        },
+        {
+            "label": "Card Data: Regen",
+            "type": "process",
+            "command": "node",
+            "args": ["${workspaceFolder}/Docs/card-data/regen.js"],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "Rebuild Docs/card-data/cards.json from the card .cs files + localization, then regenerate pages/art-tracker.html."
         },
         {
             "label": "Card Designs: Serve",

@@ -26,7 +26,6 @@ public class Witch : PlaceholderCharacterModel
         ModelDb.Card<StrikeWitch>(),
         ModelDb.Card<StrikeWitch>(),
         ModelDb.Card<StrikeWitch>(),
-        ModelDb.Card<StrikeWitch>(),
         ModelDb.Card<DefendWitch>(),
         ModelDb.Card<DefendWitch>(),
         ModelDb.Card<DefendWitch>(),
@@ -74,7 +73,50 @@ public class Witch : PlaceholderCharacterModel
     public override string CustomEnergyCounterPath => "witch_energy_counter.tscn".CharacterScenePath();
     public override string CustomVisualPath => "witch_visuals.tscn".CharacterScenePath();
     public override string CustomCharacterSelectBg => "char_select_bg_witch.tscn".CharacterScenePath();
+    public override string CustomTrailPath => "card_trail_witch.tscn".CharacterScenePath();
 
+    public override Color EnergyLabelOutlineColor => new Color("3d1714FF");
 
-    public override Color EnergyLabelOutlineColor => new Color("3d1714FF"); 
+    /*  CustomCharacterModel virtuals not yet overridden — fill these in when replacing
+        PlaceholderCharacterModel with CustomCharacterModel.
+        (Skipped: CustomEnergyCounter — legacy API, we use CustomEnergyCounterPath.)
+
+    // Behavior / flags
+    // public override List<(string, string)> Localization => ...;
+    // public override bool HideFromVanillaCharacterSelect => ...;
+    // public override bool AllowInVanillaRandomCharacterSelect => ...;   // defaults to !HideFromVanillaCharacterSelect
+    // public override bool HideInCompendium => ...;
+
+    // Icons
+    // public override string CustomIconOutlineTexturePath => ...;
+    // public override string CustomIconPath => ...;
+
+    // Anims / visuals
+    // public override string CustomRestSiteAnimPath => ...;
+    // public override string CustomMerchantAnimPath => ...;
+    // public override float DeathAnimTime => ...;
+    // public override NCreatureVisuals CreateCustomVisuals() => ...;
+    // public override CreatureAnimator SetupCustomAnimationStates(MegaSprite controller) => ...;
+    // public override void RegisterSceneConversions() => ...;
+
+    // Arms (events / rock-paper-scissors)
+    // public override string CustomArmPointingTexturePath => ...;
+    // public override string CustomArmRockTexturePath => ...;
+    // public override string CustomArmPaperTexturePath => ...;
+    // public override string CustomArmScissorsTexturePath => ...;
+    // public override RelicIconData CustomYummyCookie => ...;
+
+    // Character select
+    // public override string CustomCharacterSelectTransitionPath => ...;
+
+    // Audio
+    // public override string CustomAttackSfx => ...;
+    // public override string CustomCastSfx => ...;
+    // public override string CustomDeathSfx => ...;
+
+    // Currently provided by PlaceholderCharacterModel — must supply once off the placeholder base:
+    // public override string CharacterSelectSfx => ...;
+    // public override string CharacterTransitionSfx => ...;
+    // public override List<string> GetArchitectAttackVfx() => ...;
+    */
 }
