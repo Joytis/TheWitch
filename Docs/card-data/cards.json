@@ -40,7 +40,7 @@
       },
       "upgrade": "Damage +6",
       "note": "ExtractEssence: deal damage; on unblocked damage, create a random Common potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -124,7 +124,7 @@
       },
       "upgrade": "WeakPower +1",
       "note": "Bewitching Grin: a cheap one-shot skill — block up while sapping every enemy with Weak.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -240,7 +240,7 @@
       },
       "upgrade": "Block +3, Cards +1",
       "note": "Call the Pack: hunker down behind the wolves — gain Block, shuffle Gnash tokens into the Draw Pile.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -269,7 +269,7 @@
       },
       "upgrade": "Brambles +3",
       "note": "Fertilize: sow now, reap next turn — gain Brambles and bank 1 Energy for next turn (base-game <see cref=\"EnergyNextTurnPower\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -301,7 +301,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -325,7 +325,7 @@
       "target": "Self",
       "text": "Create a utility Potion.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
       "tested": true,
       "artFinal": false,
@@ -383,7 +383,7 @@
       },
       "upgrade": "BramblesPower +2",
       "note": "Lavender and Sage: draw a card and grow a thicket of Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -441,7 +441,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Pact of Agony: clog your deck with Wounds for a heavy strike on every enemy.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -471,7 +471,7 @@
       },
       "upgrade": "HexPower +1, BlockNextTurnPower +2",
       "note": "Read the Bones: curse the enemy now, foresee the blow to come — apply Hex, then gain Block next turn (base-game <see cref=\"BlockNextTurnPower\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -497,7 +497,7 @@
       "target": "Self",
       "text": "Create a defensive Potion.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
       "tested": true,
       "artFinal": false,
@@ -526,7 +526,7 @@
       },
       "upgrade": "Energy +1",
       "note": "Tinder: burn a bramble as kindling for Energy.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -587,7 +587,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Vexing Strike (was Vexing Thwack): an Attack that also seeds the target with Hex.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -639,7 +639,7 @@
       "target": "Self",
       "text": "Create an offensive Potion.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
       "tested": true,
       "artFinal": false,
@@ -697,7 +697,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "Bind in Blood: pay your own blood to seed the target with Hex.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -817,7 +817,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Command (was Throw Bait): a quick strike and an order barked at the pack — one random familiar does its card production once (a single roll, regardless of stacks).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -862,35 +862,6 @@
       ]
     },
     {
-      "name": "Crystal Bottle",
-      "entry": "CRYSTAL_BOTTLE",
-      "file": "TheWitchCode/Cards/CrystalBottle.cs",
-      "cost": 2,
-      "type": "Power",
-      "rarity": "Uncommon",
-      "target": "Self",
-      "text": "The next Potion you use is used again at the start of each turn.",
-      "numbers": {
-        "CrystalBottle": 1
-      },
-      "upgrade": "Cost -1",
-      "note": "Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Payoff"
-      ],
-      "sub": [
-        "Potions:UsePayoff"
-      ],
-      "threads": [
-        "TurnEngine"
-      ]
-    },
-    {
       "name": "Deep Roots",
       "entry": "DEEP_ROOTS",
       "file": "TheWitchCode/Cards/DeepRoots.cs",
@@ -927,13 +898,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage twice. Give a card in your Hand Replay {Replay}.",
+      "text": "Deal 5 damage twice. Give a random card in your Hand Replay {Replay}.",
       "numbers": {
         "Damage": 5
       },
       "upgrade": "Damage +3",
-      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a chosen card in your Hand with Replay.",
-      "tested": false,
+      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a random card in your Hand with Replay.",
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -985,7 +956,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Grind Down: Exhaust a card from your hand and grind it into a potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1028,6 +999,33 @@
       ]
     },
     {
+      "name": "Hidden in Smoke",
+      "entry": "HIDDEN_IN_SMOKE",
+      "file": "TheWitchCode/Cards/HiddenInSmoke.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "At the start of your turn, create a Vial of Smoke.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "Hidden in Smoke: a Power that brews a Vial of Smoke at the start of every turn.",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Generator"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "TurnEngine"
+      ]
+    },
+    {
       "name": "Light the Candle",
       "entry": "LIGHT_THE_CANDLE",
       "file": "TheWitchCode/Cards/LightTheCandle.cs",
@@ -1041,7 +1039,7 @@
       },
       "upgrade": "Cards +2",
       "note": "Light the Candle: upgrade random cards in your hand (via <c>CardCmd.Upgrade</c> so any on-upgrade listeners fire), then create a Vial of Smoke.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1069,7 +1067,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Moonbeam: strike, then leave the beam on the target — it takes the same damage again at the start of each of your turns (<see cref=\"MoonbeamPower\" />, stacks on repeat plays).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1097,7 +1095,7 @@
       },
       "upgrade": "Damage +2, ExtraDamage +2",
       "note": "Overrun: mark one enemy for the pack — every Familiar card played this turn tramples it again.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1212,7 +1210,7 @@
       },
       "upgrade": "Cards +1",
       "note": "Pocket Rats: dump a handful of one-shot Rats straight into your hand.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1273,7 +1271,7 @@
       },
       "upgrade": "Block +4",
       "note": "Refuse Pile: block up and seed your piles with Rats — two into the draw pile, two into the discard.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1336,7 +1334,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Rot Bloom: heavy hit, then every debuff on the target blooms — each debuff power's stacks are duplicated (applied again at its current amount, Rend's debuff filter: temporary powers excluded).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1397,7 +1395,7 @@
       },
       "upgrade": "Block +3, BonusBlock +2",
       "note": "Salt and Ash: Block, plus bonus Block if you're carrying a debuff.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1450,7 +1448,7 @@
       },
       "upgrade": "Block +3",
       "note": "Sprouts (was Feast With Wolves): a guard that keeps growing — every card played this turn sprouts a Bramble.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1539,7 +1537,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Taste of Blood: one savage bite that comes easier the more blood is already spilled — costs 1 less for each Attack played this turn (base-game Stomp discount shape).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1568,7 +1566,7 @@
       },
       "upgrade": "Damage +2",
       "note": "Marker for attacks that don't burn the target's Hex — <see cref=\"HexPower\" /> skips its after-attack stack loss when the attacking card implements this.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1626,7 +1624,7 @@
       },
       "upgrade": "Block +4",
       "note": "Wax and Wane: shore up with Block now; the curse lands at the start of next turn, on everyone.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1711,7 +1709,7 @@
       },
       "upgrade": "Cost -1",
       "note": "A Little Sip: a Power that heals 1 HP whenever you use a potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1741,7 +1739,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Ambush!: AoE strike that springs itself — auto-plays for free when drawn.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1770,7 +1768,7 @@
       },
       "upgrade": "Energy +2",
       "note": "Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": [
@@ -1796,7 +1794,7 @@
       },
       "upgrade": "Block +4",
       "note": "Bottle Wall: gain Block and brew up a Fortifier potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1852,7 +1850,7 @@
       },
       "upgrade": "Damage +2",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1883,7 +1881,7 @@
       },
       "upgrade": "StrengthPower +2",
       "note": "Broken Pact: end a familiar's service and take its strength for your own.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1915,7 +1913,7 @@
       },
       "upgrade": "Damage +4",
       "note": "Capture Soul: each kill is bottled forever — this copy permanently applies +1 Hex per enemy it has killed, across combats and save/load (<c>[SavedProperty]</c> + DeckVersion propagation, the base-game GeneticAlgorithm pattern).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1987,6 +1985,35 @@
       ]
     },
     {
+      "name": "Crystal Bottle",
+      "entry": "CRYSTAL_BOTTLE",
+      "file": "TheWitchCode/Cards/CrystalBottle.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "The next Potion you use is used again at the start of each turn.",
+      "numbers": {
+        "CrystalBottle": 1
+      },
+      "upgrade": "custom (see code)",
+      "note": "Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.",
+      "tested": true,
+      "artFinal": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ],
+      "sub": [
+        "Potions:UsePayoff"
+      ],
+      "threads": [
+        "TurnEngine"
+      ]
+    },
+    {
       "name": "Cursed Spellbook",
       "entry": "CURSED_SPELLBOOK",
       "file": "TheWitchCode/Cards/CursedSpellbook.cs",
@@ -2002,7 +2029,7 @@
       },
       "upgrade": "HexPower -1",
       "note": "Cursed Spellbook: a free surge of power with the curse baked in — Energy and cards now, Hex to pay for it.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -2076,7 +2103,7 @@
       "name": "Extract Life",
       "entry": "EXTRACT_LIFE",
       "file": "TheWitchCode/Cards/ExtractLife.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
@@ -2086,7 +2113,7 @@
       },
       "upgrade": "Replay +1",
       "note": "Extract Life: an Attack that also enchants a chosen card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -2113,7 +2140,7 @@
       },
       "upgrade": "NextPotionCopiedPower +1",
       "note": "Copy the next potion you create this combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2141,7 +2168,7 @@
       },
       "upgrade": "HexPower +2",
       "note": "Hexblast: blast every enemy, then lay Hex on all of them.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -2159,31 +2186,23 @@
       ]
     },
     {
-      "name": "Hidden in Smoke",
-      "entry": "HIDDEN_IN_SMOKE",
-      "file": "TheWitchCode/Cards/HiddenInSmoke.cs",
-      "cost": 2,
-      "type": "Power",
+      "name": "Message in a Bottle",
+      "entry": "MESSAGE_IN_A_BOTTLE",
+      "file": "TheWitchCode/Cards/MessageInABottle.cs",
+      "cost": 1,
+      "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "At the start of your turn, create a Vial of Smoke.",
+      "text": "Bottle a card in your Hand into a Bottled Message. Use the Potion to get the card back.",
       "numbers": {},
-      "upgrade": "Cost -1",
-      "note": "Hidden in Smoke: a Power that brews a Vial of Smoke at the start of every turn.",
+      "upgrade": "custom (see code)",
+      "note": "Message in a Bottle: bottle a chosen card from your hand into a Bottled Message potion; using the potion returns the card to your hand.",
       "tested": true,
       "artFinal": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Generator"
-      ],
-      "sub": [
-        "Potions:Brew"
-      ],
-      "threads": [
-        "TurnEngine"
-      ]
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Mulch",
@@ -2200,7 +2219,7 @@
       },
       "upgrade": "CalculationExtra +1",
       "note": "Mulch: compost the whole discard pile — EXHAUST it for Brambles and Block per card.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2229,7 +2248,7 @@
       },
       "upgrade": "HexPower +1",
       "note": "Plague: hex the whole board, and the rats come back — every Rats card in the Exhaust pile returns to your hand (a move of existing cards, so plain <c>CardPileCmd.Add</c>, capped by hand space).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",
@@ -2262,7 +2281,7 @@
       },
       "upgrade": "Cost -1",
       "note": "Polymorph (was Repurpose): choose a card in your draw pile — it becomes a Rats token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2275,31 +2294,6 @@
       ],
       "threads": [
         "Transform"
-      ]
-    },
-    {
-      "name": "Propagation",
-      "entry": "PROPAGATION",
-      "file": "TheWitchCode/Cards/Propagation.cs",
-      "cost": 3,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Choose up to 3 cards in your Hand. They each gain Replay 1.",
-      "numbers": {
-        "Cards": 3
-      },
-      "upgrade": "Cards +1",
-      "note": "Propagation (was Lich Powder): the growth spreads — choose up to three cards; each gains Replay 1 (game-native <see cref=\"CardModel.BaseReplayCount\" />, the Transfigure/Hidden Gem mechanic).",
-      "tested": false,
-      "artFinal": false,
-      "mechanics": [],
-      "role": [
-        "Enabler"
-      ],
-      "sub": [],
-      "threads": [
-        "KeywordGrant"
       ]
     },
     {
@@ -2364,17 +2358,15 @@
       "name": "Ritual Casting",
       "entry": "RITUAL_CASTING",
       "file": "TheWitchCode/Cards/RitualCasting.cs",
-      "cost": 1,
+      "cost": 3,
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you end your turn without playing any cards, your next 4 Skills are free.",
-      "numbers": {
-        "RitualCasting": 4
-      },
-      "upgrade": "RitualCastingPower +2",
-      "note": "Ritual Casting: a Power — end a turn playing nothing, and your next Skills come free.",
-      "tested": false,
+      "text": "Whenever you play a Skill that costs 2 or more, a random card in your Hand is free to play this turn.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "Ritual Casting: a Power — big Skills each unlock a random free card this turn.",
+      "tested": true,
       "artFinal": false,
       "mechanics": [],
       "role": [
@@ -2401,7 +2393,7 @@
       },
       "upgrade": "WickerFormPower +1",
       "note": "Wicker Form: become the wicker — every card you play sprouts Brambles.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2428,7 +2420,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Witchcraft: spend X Energy, create X random potions.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2457,7 +2449,7 @@
       },
       "upgrade": "HexPower +1",
       "note": "Crow familiar token (formerly Claw Eyes): an ill portent — Hex for the whole board.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -2523,7 +2515,7 @@
       },
       "upgrade": "ExtraDamage +2",
       "note": "Wolf familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2645,7 +2637,7 @@
       },
       "upgrade": "Block +3, Energy +1",
       "note": "Cat familiar token: feline agility bottled as tempo — gain Energy and Block.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2728,17 +2720,15 @@
       "name": "Shiny!",
       "entry": "SHINY",
       "file": "TheWitchCode/Cards/Familiar/Shiny.cs",
-      "cost": 0,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain 1. Gain {Gold:diff()} Gold.",
-      "numbers": {
-        "Energy": 1
-      },
-      "upgrade": "Energy +1",
-      "note": "Crow familiar token: pocket some gold and a burst of Energy.",
-      "tested": false,
+      "text": "Put a card from your Draw Pile into your Hand.",
+      "numbers": {},
+      "upgrade": "Cost -1",
+      "note": "Crow familiar token: pluck a shiny — fetch a chosen card from the Draw Pile.",
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2830,7 +2820,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Catalyst: the Witch's unique Ancient card (granted by Dusty Tome — any <c>CardRarity.Ancient</c> card in the pool outside the transcendence map qualifies).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2860,7 +2850,7 @@
       },
       "upgrade": "Damage +5",
       "note": "Rip Soul: the Ancient (transcended) form of Extract Essence — tear the soul out of an enemy: heavy damage, 3 Hex, and 3 random potions.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",

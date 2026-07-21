@@ -6,6 +6,46 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 258. New relic — Cozy Nest (shop): combat-start Owl Familiar
+- **Done:** 2026-07-20 (claude) — New [CozyNest.cs](../TheWitchCode/Relics/CozyNest.cs): Shop rarity; `BeforeCombatStart` applies 1 stack `OwlFamiliarPower` via `new ThrowingPlayerChoiceContext()` (base-game BronzeScales/Akabeko combat-start pattern) — the power itself spawns the owl pet + turn-start tokens, exactly like an unupgraded Owl Familiar play. Hover tips: power + Wisdom + Knowledge (unupgraded, matching the summon card). Placeholder art (fallback icon + log).
+- **Verified:** build 0/0. ⚠️ In-game: buy in shop → next combat starts with owl pet + Owl Familiar counter; stacks with played Owl Familiars.
+- **Files:** `TheWitchCode/Relics/CozyNest.cs` (new), `TheWitch/localization/eng/relics.json`
+
+### 257. Ritual Casting rework — big Skills unlock free plays
+- **Done:** 2026-07-20 (claude) — Was 1E Rare Power "end turn playing nothing → next 4 Skills free". Now [RitualCasting.cs](../TheWitchCode/Cards/RitualCasting.cs): **3E** Rare Power, upgrade **-1E** (3→2); applies 1 stack (StackType.None). [RitualCastingPower.cs](../TheWitchCode/Powers/RitualCastingPower.cs) rewritten: `AfterCardPlayed` — own Skill with `cardPlay.Resources.EnergyValue >= 2` (cost when played, so discounts count against it and auto-plays count) → random hand card `SetToFreeThisTurn()` + `CardCmd.Preview`. Random pick via `Rng.CombatCardSelection` (Catalyst pattern). `FreeSkillPower` tip + `PowerVar` dropped; loc rewritten (card + power, smartDescription now amount-less).
+- **Verified:** build 0/0. ⚠️ In-game: play 2-cost Skill with power up → a hand card flashes free for the turn; 2 Ritual Castings shouldn't double-trigger (StackType.None keeps one instance — reapply is a no-op).
+- **Files:** `TheWitchCode/Cards/RitualCasting.cs`, `TheWitchCode/Powers/RitualCastingPower.cs`, `TheWitch/localization/eng/cards.json`, `powers.json`
+
+### 256. New card — Message in a Bottle (+ Bottled Message potion)
+- **Done:** 2026-07-20 (claude) — New [MessageInABottle.cs](../TheWitchCode/Cards/MessageInABottle.cs): 1E Rare Skill (Self, Exhaust; upgrade removes Exhaust via `RemoveKeyword`) — choose a card in hand, procure a **Bottled Message** stamped with it, then `CardPileCmd.RemoveFromCombat` the card. **Procure-first ordering:** belt full → procure fails → card stays in hand (never lost). New [BottledMessage.cs](../TheWitchCode/Potions/BottledMessage.cs): Token rarity (card-only), CombatOnly, Self; `ExtraHoverTips` previews the held card (`HoverTipFactory.FromCard`); `OnUse` returns it — same combat: `CardPileCmd.Add` (the original moves back); later combat: `AddGeneratedCardToCombat(clone)` (stored instance belongs to a dead combat state). `PotionTraits.Manual` entry added (Utility). Placeholder art (both card + potion — fallback icon + log).
+- **Verified:** build 0/0. ⚠️ Known caveats (accepted): bottled card does NOT survive save/quit or mid-combat MP rejoin (potions serialize id+slot only — potion returns empty, does nothing on use). ⚠️ In-game: bottle → potion tip shows card; use same combat → original returns; use next combat → clone returns; full belt → card stays.
+- **Files:** `TheWitchCode/Cards/MessageInABottle.cs` (new), `TheWitchCode/Potions/BottledMessage.cs` (new), `TheWitchCode/Potions/Brewing/PotionTraits.cs`, `TheWitch/localization/eng/cards.json`, `potions.json`
+
+### 255. Brew trio — hard-coded loot tables, potion hover previews, upgrade = bigger table
+- **Done:** 2026-07-20 (claude) — [OrientationBrewCard.cs](../TheWitchCode/Cards/OrientationBrewCard.cs) rework: each brew card now rolls from its own **hard-coded `LootTable`** (canonical models via `ModelDb.Potion<T>()`, listed per card for easy trimming) instead of the live `PotionCatalog.Query`. First-pass tables = exactly what the old query could return (shared+Witch pools, all C/U/R rarities, healers excluded): Wicked 16 / Stony 9 / Herbal 21 entries. `ExtraHoverTips` previews every table entry via `HoverTipFactory.FromPotion`; upgraded card previews + rolls `LootTable ∪ UpgradedExtras` (extras empty for now — new potions land there). **Upgrade no longer reduces cost**; loc = `[gold]{IfUpgraded:show:Potion+|Potion}[/gold]`. Gather Herbs buff redefined: `NextPotionRarePower.MakeNextRare` → `TryConsume` — brew restricts the roll to the table's Rare entries, consuming a stack only when the table has any.
+- **Verified:** build 0/0. ⚠️ In-game: hover base vs upgraded brew (tip count differs only once extras exist); Gather Herbs → brew yields a Rare from the table. Note: unupgraded brews can now roll Uncommon/Rare (old behavior was Common-only unless buffed) — table-driven by design, user trims.
+- **Files:** `TheWitchCode/Cards/OrientationBrewCard.cs`, `WickedBrew.cs`, `StonyBrew.cs`, `HerbalBrew.cs`, `TheWitchCode/Powers/NextPotionRarePower.cs`, `TheWitch/localization/eng/cards.json`
+
+### 254. Pet tooltips — pets show their familiar power's tooltip
+- **Done:** 2026-07-20 (claude) — New [WitchPetHoverTipsPatch.cs](../TheWitchCode/Monsters/WitchPetHoverTipsPatch.cs): Harmony postfix on `Creature.HoverTips` getter (not virtual) — when the hovered creature's `Monster` is a `WitchPet` with a stamped `SourcePower`, appends that `FamiliarPower`'s `HoverTips` (exact same tooltip as the power icon, incl. amount + extra tips). Pets carry no powers, so their tip list was empty; read-only cosmetic patch, no MP concerns. Hover plumbing already exists (`NCreature` mouse-enter → `Entity.HoverTips`).
+- **Verified:** build 0/0. ⚠️ In-game playtest: hover a pet → familiar power tooltip appears; power icon tooltip unchanged.
+- **Files:** `TheWitchCode/Monsters/WitchPetHoverTipsPatch.cs` (new)
+
+### 253. Cut card — Propagation
+- **Done:** 2026-07-20 (claude) — Deleted Propagation (3E Rare Skill, Replay up to 3 chosen cards). No orphans: Replay is game-native (`BaseReplayCount`), `ReplayStatic` hover tip still used by Double, Double. Art deleted (small+big png + .imports).
+- **Verified:** build 0/0 (shared gate with 251–252); grep clean; regen at end of batch.
+- **Files:** deleted `TheWitchCode/Cards/Propagation.cs`, `TheWitch/images/card_portraits/{,big/}propagation.png` (+ .imports); `TheWitch/localization/eng/cards.json` (keys removed)
+
+### 252. Double, Double — Replay goes to a random hand card
+- **Done:** 2026-07-20 (claude) — [DoubleDouble.cs](../TheWitchCode/Cards/DoubleDouble.cs): Replay enchant no longer opens a card select — picks a random non-Unplayable card in hand via `Rng.CombatCardSelection.NextItem` (Catalyst pattern). `selectionScreenPrompt` loc key removed; description now "a random card in your [gold]Hand[/gold]".
+- **Verified:** build 0/0 (shared gate).
+- **Files:** `TheWitchCode/Cards/DoubleDouble.cs`, `TheWitch/localization/eng/cards.json`
+
+### 251. Shiny — redesign to draw-pile fetch
+- **Done:** 2026-07-20 (claude) — [Shiny.cs](../TheWitchCode/Cards/Familiar/Shiny.cs) (Crow familiar token): was 0E "Gain 1 Energy + 1 Gold". Now 1E Skill — put a chosen card from your Draw Pile into your Hand (base-game Secret Weapon shape: `CardSelectCmd.FromCombatPile` + `CardPileCmd.Add` — moves an existing card, correctly NOT the generated path). Upgrade: costs 0 (user call via AskUserQuestion). Token rarity + base-class Exhaust kept. Added `selectionScreenPrompt` loc.
+- **Verified:** build 0/0 (shared gate). ⚠️ In-game: play Shiny → draw-pile select opens; upgraded Crow grants Shiny+ at 0E.
+- **Files:** `TheWitchCode/Cards/Familiar/Shiny.cs`, `TheWitch/localization/eng/cards.json`
+
 ### 250. Art tracker — Powers tab (auto-enumerated)
 - **Done:** 2026-07-17 (claude) — [regen-art-tracker.js](art-tracker/regen-art-tracker.js): new "Powers" tab between Relics and Familiar Pets. **Design call: auto-enumerated from `TheWitch/localization/eng/powers.json` `.title` keys** (every power must have loc, so it's the authoritative list — new powers appear on next regen; no hand-maintained 30-row list). Names shown as "Title (entry_lower)" to disambiguate the Gathered Herbs trio and show the expected filename base. Icon path convention `TheWitch/images/powers/big/<entry>.png`, dims noted 64x64 small + 256x256 big. Optional per-power artist/done/brief curation via new `powerOverrides` object in assets.json (keyed by loc entry, e.g. `"HEX_POWER"`). Missing-file surfacing automatic: currently 31/32 powers lack icons (only Brambles has one) — that's the work queue the tab exists to expose.
 - **Verified:** regen clean — 158 rows (100 cards + 58 assets), Powers tab renders via existing generic category UI; existing tabs unchanged. Live page updates on next push.

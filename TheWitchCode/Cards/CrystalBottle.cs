@@ -10,6 +10,9 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.</summary>
 public sealed class CrystalBottle : WitchCard
 {
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<CrystalBottlePower>(),
         HoverTipFactory.FromPower<NeverendingPotionPower>(),
@@ -20,7 +23,7 @@ public sealed class CrystalBottle : WitchCard
     ];
 
     public CrystalBottle()
-        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -30,5 +33,5 @@ public sealed class CrystalBottle : WitchCard
         await PowerCmd.Apply<CrystalBottlePower>(choiceContext, Owner.Creature, DynamicVars["CrystalBottlePower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Ethereal);
 }

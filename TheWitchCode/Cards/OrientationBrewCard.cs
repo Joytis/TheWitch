@@ -1,7 +1,10 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models;
 using TheWitch.TheWitchCode.Extensions;
 using TheWitch.TheWitchCode.Potions.Brewing;
 using TheWitch.TheWitchCode.Powers;
@@ -9,13 +12,27 @@ using TheWitch.TheWitchCode.Powers;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Shared base for the "brew a potion of orientation X" trio (Wicked / Stony / Herbal Brew). Owns the one
-/// canonical brew sequence — the next-is-Rare buff consumed first, then a random catalog roll at the
-/// resulting rarity. Any change to buff precedence or the roll happens here only.
+/// Shared base for the "brew a potion of orientation X" trio (Wicked / Stony / Herbal Brew). Each card
+/// rolls from its own HARD-CODED loot table (not a live catalog query) so the pool is tuned per card.
+/// Hovering the card previews every potion in its table; the upgraded card rolls (and previews) the
+/// table plus <see cref="UpgradedExtras" />. The Gather Herbs next-is-Rare buff is honored by
+/// restricting the roll to the table's Rare entries (consumed only when the table has any).
 /// </summary>
 public abstract class OrientationBrewCard : WitchCard
 {
     protected abstract PotionOrientation Orientation { get; }
+
+    /// <summary>The card's roll table (canonical models). Hand-curated — trim/add freely per card.</summary>
+    protected abstract IEnumerable<PotionModel> LootTable { get; }
+
+    /// <summary>Entries the upgraded card ADDS to <see cref="LootTable" />.</summary>
+    protected virtual IEnumerable<PotionModel> UpgradedExtras => [];
+
+    private IEnumerable<PotionModel> CurrentTable =>
+        IsUpgraded ? LootTable.Concat(UpgradedExtras) : LootTable;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        CurrentTable.Select(HoverTipFactory.FromPotion);
 
     protected OrientationBrewCard()
         : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
@@ -26,11 +43,14 @@ public abstract class OrientationBrewCard : WitchCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        var rarity = await NextPotionRarePower.MakeNextRare(Owner, PotionRarity.Common);
-        var potion = PotionCatalog.Random(
-            PotionCatalog.Query(orientation: Orientation, rarity: rarity),
-            Owner.RunState.Rng.CombatPotionGeneration);
+        List<PotionModel> table = CurrentTable.ToList();
+        List<PotionModel> rares = table.Where(p => p.Rarity == PotionRarity.Rare).ToList();
+        if (rares.Count > 0 && await NextPotionRarePower.TryConsume(Owner))
+        {
+            table = rares;
+        }
 
+        PotionModel? potion = PotionCatalog.Random(table, Owner.RunState.Rng.CombatPotionGeneration);
         if (potion != null)
         {
             // Orientation-coded splash layered under the generic brew puff: red = offensive,
@@ -44,6 +64,4 @@ public abstract class OrientationBrewCard : WitchCard
             await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
         }
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

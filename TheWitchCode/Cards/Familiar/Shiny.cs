@@ -1,30 +1,32 @@
+using System.Linq;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Crow familiar token: pocket some gold and a burst of Energy. Exhausts.</summary>
+/// <summary>Crow familiar token: pluck a shiny — fetch a chosen card from the Draw Pile. Exhausts.</summary>
 public sealed class Shiny : WitchFamiliarCard
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("Gold", 1m),
-        new EnergyVar(1)
-    ];
-
     public Shiny()
-        : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_small");
-        SfxCmd.Play("event:/sfx/ui/gold/gold_1");
-        await PlayerCmd.GainGold(DynamicVars["Gold"].IntValue, Owner);
-        await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
+        CardModel? chosen = (await CardSelectCmd.FromCombatPile(
+            choiceContext,
+            PileType.Draw.GetPile(Owner),
+            Owner,
+            new CardSelectorPrefs(SelectionScreenPrompt, 1))).FirstOrDefault();
+        if (chosen != null)
+        {
+            await CardPileCmd.Add(chosen, PileType.Hand);
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars["Energy"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
