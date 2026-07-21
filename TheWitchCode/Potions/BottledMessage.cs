@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -9,10 +10,12 @@ using MegaCrit.Sts2.Core.Models;
 namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>
-/// Bottled Message: card-only (Token rarity) payload potion created by Message in a Bottle, holding the
-/// card that was bottled. Using it puts the card back into your hand; hovering it previews the held card.
-/// <see cref="BottledCard" /> is mutable-instance state — like every potion, it does NOT survive
-/// save/quit (potions serialize id + slot only) or a mid-combat MP rejoin; the potion comes back empty.
+/// Bottled Message: card-only (Token rarity) payload potion created by Message in a Bottle. Stores the
+/// bottled card's CANONICAL model + upgrade level — never the live combat card (a dead combat's card
+/// instance replayed across fights caused an MP desync). Using it creates a fresh copy of that card in
+/// your hand via the generated path; hovering previews the held card. State is mutable-instance only —
+/// like every potion it does NOT survive save/quit (potions serialize id + slot) or a mid-combat MP
+/// rejoin; the potion comes back empty.
 /// </summary>
 public sealed class BottledMessage : WitchPotion
 {
@@ -22,30 +25,38 @@ public sealed class BottledMessage : WitchPotion
 
     public override TargetType TargetType => TargetType.Self;
 
-    /// <summary>The bottled card (combat instance). Stamped by Message in a Bottle on the mutable clone.</summary>
-    public CardModel? BottledCard { get; set; }
+    private CardModel? _bottledCanonical;
+    private int _bottledUpgrades;
+
+    /// <summary>Whether a card is currently bottled.</summary>
+    public bool HoldsCard => _bottledCanonical != null;
+
+    /// <summary>Record the bottled card as (canonical model, upgrade level) — deterministic, MP-safe data.</summary>
+    public void Bottle(CardModel card)
+    {
+        AssertMutable();
+        _bottledCanonical = card.CanonicalInstance;
+        _bottledUpgrades = card.CurrentUpgradeLevel;
+    }
 
     public override IEnumerable<IHoverTip> ExtraHoverTips =>
-        BottledCard is { } card ? [HoverTipFactory.FromCard(card)] : [];
+        _bottledCanonical is { } canonical ? [HoverTipFactory.FromCard(canonical, _bottledUpgrades > 0)] : [];
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        if (BottledCard is not { } card)
+        if (_bottledCanonical is not { } canonical || Owner.Creature.CombatState is not ICombatState combat)
         {
             return;
         }
-        BottledCard = null;
 
-        if (card.CombatState == Owner.Creature.CombatState)
+        CardModel card = combat.CreateCard(canonical, Owner);
+        for (int i = 0; i < _bottledUpgrades; i++)
         {
-            // Same combat it was bottled in: the original card simply comes back.
-            await CardPileCmd.Add(card, PileType.Hand);
+            CardCmd.Upgrade(card);
         }
-        else
-        {
-            // Bottled in an earlier combat — the stored instance belongs to a dead combat state,
-            // so a fresh clone enters via the generated path (fires card-creation payoffs).
-            await CardPileCmd.AddGeneratedCardToCombat(card.CreateClone(), PileType.Hand, Owner);
-        }
+        _bottledCanonical = null;
+        _bottledUpgrades = 0;
+
+        await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner);
     }
 }

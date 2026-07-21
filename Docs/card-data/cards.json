@@ -319,7 +319,7 @@
       "name": "Herbal Brew",
       "entry": "HERBAL_BREW",
       "file": "TheWitchCode/Cards/HerbalBrew.cs",
-      "cost": 1,
+      "cost": "energyCost",
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
@@ -327,7 +327,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -491,7 +491,7 @@
       "name": "Stony Brew",
       "entry": "STONY_BREW",
       "file": "TheWitchCode/Cards/StonyBrew.cs",
-      "cost": 1,
+      "cost": "energyCost",
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
@@ -499,7 +499,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -633,7 +633,7 @@
       "name": "Wicked Brew",
       "entry": "WICKED_BREW",
       "file": "TheWitchCode/Cards/WickedBrew.cs",
-      "cost": 1,
+      "cost": "energyCost",
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
@@ -641,7 +641,7 @@
       "numbers": {},
       "upgrade": "none",
       "note": "Shared base for the \"brew a potion of orientation X\" trio (Wicked / Stony / Herbal Brew).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2193,11 +2193,11 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Bottle a card in your Hand into a Bottled Message. Use the Potion to get the card back.",
+      "text": "Bottle a card in your Hand into a Potion.",
       "numbers": {},
       "upgrade": "custom (see code)",
       "note": "Message in a Bottle: bottle a chosen card from your hand into a Bottled Message potion; using the potion returns the card to your hand.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [],
       "role": [],
@@ -2212,14 +2212,14 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Exhaust your Discard Pile. Gain 3 Brambles and 3 Block for each card Exhausted.{InCombat: ({CalculatedBrambles:diff()} Brambles, {CalculatedBlock:diff()} Block)|}",
+      "text": "Exhaust your Discard Pile. Gain 1 Brambles and 1 Block for each card Exhausted.{InCombat: ({CalculatedBrambles:diff()} Brambles, {CalculatedBlock:diff()} Block)|}",
       "numbers": {
         "CalculationBase": 0,
-        "CalculationExtra": 3
+        "CalculationExtra": 1
       },
       "upgrade": "CalculationExtra +1",
       "note": "Mulch: compost the whole discard pile — EXHAUST it for Brambles and Block per card.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2752,13 +2752,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Shuffle 3 Rats into your Draw Pile.",
+      "text": "Shuffle 2 Rats into your Draw Pile.",
       "numbers": {
-        "Cards": 3
+        "Cards": 2
       },
-      "upgrade": "Cards +2",
+      "upgrade": "Cards +1",
       "note": "Rat familiar token: flood the deck — shuffle Rats into the draw pile (Call the Pack pattern).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"

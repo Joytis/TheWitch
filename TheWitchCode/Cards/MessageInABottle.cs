@@ -38,7 +38,7 @@ public sealed class MessageInABottle : WitchCard
         }
 
         var potion = (BottledMessage)ModelDb.Potion<BottledMessage>().ToMutable();
-        potion.BottledCard = chosen;
+        potion.Bottle(chosen);
 
         WitchFx.BrewPuff(Owner.Creature);
         if ((await PotionCmd.TryToProcure(potion, Owner)).success)

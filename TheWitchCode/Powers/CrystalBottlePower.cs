@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Potions;
 
 namespace TheWitch.TheWitchCode.Powers;
 
@@ -20,12 +19,6 @@ public sealed class CrystalBottlePower : WitchPower
     public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
         if (Amount <= 0 || potion.Owner != Owner.Player)
-        {
-            return;
-        }
-
-        // Touch of Insanity replay is bugged — don't bottle it; the buff stays armed for the next potion.
-        if (potion is TouchOfInsanity)
         {
             return;
         }

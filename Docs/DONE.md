@@ -6,6 +6,36 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 264. Stony Brew + Herbal Brew — cost 2
+- **Done:** 2026-07-20 (claude) — [OrientationBrewCard.cs](../TheWitchCode/Cards/OrientationBrewCard.cs) ctor takes `energyCost` (default 1); [StonyBrew.cs](../TheWitchCode/Cards/StonyBrew.cs) + [HerbalBrew.cs](../TheWitchCode/Cards/HerbalBrew.cs) pass 2. Wicked Brew stays 1. No loc change (cost renders from model); regen run (brew trio TESTED cleared — also picked up user's table trims).
+- **Verified:** build 0/0.
+- **Files:** `TheWitchCode/Cards/OrientationBrewCard.cs`, `StonyBrew.cs`, `HerbalBrew.cs`
+
+### 263. Crystal Bottle × Touch of Insanity — choice-free replay (combo re-enabled)
+- **Done:** 2026-07-20 (claude) — User sign-off on the 262 fix path. [CrystalBottlePower.cs](../TheWitchCode/Powers/CrystalBottlePower.cs): `potion is TouchOfInsanity` exclusion removed — it bottles again. [NeverendingPotionPower.cs](../TheWitchCode/Powers/NeverendingPotionPower.cs): replay special-case — instead of invoking its `OnUse` (in-hand selection, breaks from a hook context, see 262), a **random** hand card passing the potion's own cost filter (`CostsEnergyOrStars`) gets `SetToFreeThisCombat()` + `CardCmd.Preview`. Deterministic rng (`CombatCardSelection`) — no selection UI, MP-safe. First (manual) drink still uses the normal hand selection.
+- **Verified:** build 0/0. ⚠️ In-game: bottle Touch of Insanity → each turn start a random costed hand card flashes free (no panel); MP stays synced.
+- **Files:** `TheWitchCode/Powers/CrystalBottlePower.cs`, `TheWitchCode/Powers/NeverendingPotionPower.cs`
+
+### 262. Investigation — why Crystal Bottle × Touch of Insanity is bugged
+- **Done:** 2026-07-20 (claude) — Root cause (code-level): **Touch of Insanity is the only potion whose effect opens an IN-HAND selection** — its `OnUse` calls `CardSelectCmd.FromHand`, which cancels card play and waits on the live hand UI (`NCombatRoom.Ui.Hand.SelectCards`), unlike draft-style potions that use the `FromCombatPile`/grid overlay. `NeverendingPotionPower`'s replay machinery (per-potion `HookPlayerChoiceContext` → pause → queued CombatPlayPhaseOnly action, DONE 194) was built and verified against grid selections; an in-hand selection fired from a hook-context replay at the turn-start window opens the hand in a state it can't cleanly signal/sync (`SignalPlayerChoiceBegun(CancelPlayCardActions)` against a hand that isn't in interactive play state) — soft-lock/unsynced select. Secondary wrinkles: replay passes `source: this` = the consumed potion instance to the hand UI, and `SetToFreeThisCombat` makes previously-picked cards fail the cost filter on later replays (benign). **Recommendation: keep the `CrystalBottlePower` exclusion** (shipped earlier today — Touch of Insanity is simply not bottled; the charge stays armed). If the combo is ever wanted: make the REPLAY choice-free (random eligible hand card via `Rng.CombatCardSelection` + `SetToFreeThisCombat`) — deterministic, MP-safe, no selection UI; needs design sign-off.
+- **Verified:** code analysis only (no runtime repro available); exclusion path already build 0/0.
+- **Files:** read-only analysis — `TheWitchCode/Powers/NeverendingPotionPower.cs`, `TheWitchCode/Powers/CrystalBottlePower.cs`, `gamedata` `TouchOfInsanity.cs`, `CardSelectCmd.cs`
+
+### 261. Bottled Message — stores card TYPE, not the live combat card (MP desync fix)
+- **Done:** 2026-07-20 (claude) — [BottledMessage.cs](../TheWitchCode/Potions/BottledMessage.cs): storing the literal combat `CardModel` and replaying it across fights desynced MP; now `Bottle(card)` records only `card.CanonicalInstance` + `CurrentUpgradeLevel` (deterministic, MP-safe data). `OnUse` builds a fresh instance — `combatState.CreateCard(canonical)` + `CardCmd.Upgrade` ×N (FamiliarCardRegistry pattern) — via `AddGeneratedCardToCombat`, uniformly for same-combat and cross-combat use. Hover tip now previews canonical + upgrade (`FromCard(canonical, upgraded)`). Trade-offs: returned card is a fresh copy (in-combat enchantments like Replay buffs on the bottled card are not preserved — inherent to type-storage), and it now always counts as card-generation. **Save-data answer:** bottled type is still lost on save/quit (potions serialize id+slot only) — potion resumes empty and does nothing; if persistence is wanted, the CauldronSavePatch sidecar pattern from git history covers SP (never MP-synced).
+- **Verified:** build 0/0. ⚠️ MP playtest: bottle in fight A, use in fight B → no desync; hover shows card with + when upgraded.
+- **Files:** `TheWitchCode/Potions/BottledMessage.cs`, `TheWitchCode/Cards/MessageInABottle.cs`
+
+### 260. Mulch — one-by-one exhaust at triple speed
+- **Done:** 2026-07-20 (claude, revised twice per user) — [Mulch.cs](../TheWitchCode/Cards/Mulch.cs): per-card `CardCmd.Exhaust` was pile-sized slow. v1 skipped visuals; v2 batched one group move; **final user call: keep the one-by-one look, 3× speed.** The game's move durations are hard-coded (`AppendPileLerpTween` — FastMode-keyed constants, no speed param), so: new [CardPileTweenSpeedPatch.cs](../TheWitchCode/Cards/CardPileTweenSpeedPatch.cs), Harmony postfix on `CardPileCmd.AppendPileLerpTween` calling Godot `Tween.SetSpeedScale(Scale)` on the built tween (covers lerp + interval + fade). Mulch keeps the original sequential `CardCmd.Exhaust` loop, wrapping it in `Scale = 3f` / `finally Scale = 1f` — purely visual/local, can't leak past the effect, other effects untouched at Scale 1.
+- **Verified:** build 0/0. ⚠️ In-game: big discard → cards fly out one by one, fast; normal exhausts elsewhere unchanged.
+- **Files:** `TheWitchCode/Cards/Mulch.cs`, `TheWitchCode/Cards/CardPileTweenSpeedPatch.cs` (new)
+
+### 259. Mulch — retuned to 1 Brambles/Block per card (upgrade 2)
+- **Done:** 2026-07-20 (claude) — Overtuned at 3/4 per card; `CalculationExtraVar` 3→**1**, upgrade +1 (→2). Loc untouched (`{CalculationExtra:diff()}` renders live).
+- **Verified:** build 0/0 (shared gate); regen at batch end will clear TESTED.
+- **Files:** `TheWitchCode/Cards/Mulch.cs`
+
 ### 258. New relic — Cozy Nest (shop): combat-start Owl Familiar
 - **Done:** 2026-07-20 (claude) — New [CozyNest.cs](../TheWitchCode/Relics/CozyNest.cs): Shop rarity; `BeforeCombatStart` applies 1 stack `OwlFamiliarPower` via `new ThrowingPlayerChoiceContext()` (base-game BronzeScales/Akabeko combat-start pattern) — the power itself spawns the owl pet + turn-start tokens, exactly like an unupgraded Owl Familiar play. Hover tips: power + Wisdom + Knowledge (unupgraded, matching the summon card). Placeholder art (fallback icon + log).
 - **Verified:** build 0/0. ⚠️ In-game: buy in shop → next combat starts with owl pet + Owl Familiar counter; stacks with played Owl Familiars.

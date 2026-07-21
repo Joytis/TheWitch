@@ -28,14 +28,18 @@ public abstract class OrientationBrewCard : WitchCard
     /// <summary>Entries the upgraded card ADDS to <see cref="LootTable" />.</summary>
     protected virtual IEnumerable<PotionModel> UpgradedExtras => [];
 
+    /// <summary>Entries the upgraded card REMOVES from <see cref="LootTable" />.</summary>
+    protected virtual IEnumerable<PotionModel> UpgradedRemovals => [];
+
     private IEnumerable<PotionModel> CurrentTable =>
-        IsUpgraded ? LootTable.Concat(UpgradedExtras) : LootTable;
+        IsUpgraded ? LootTable.Except(UpgradedRemovals).Concat(UpgradedExtras) : LootTable;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         CurrentTable.Select(HoverTipFactory.FromPotion);
 
-    protected OrientationBrewCard()
-        : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+
+    protected OrientationBrewCard(int energyCost = 1)
+        : base(energyCost, CardType.Skill, CardRarity.Common, TargetType.Self)
     {
     }
 

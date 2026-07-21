@@ -7,8 +7,10 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Potions;
 
 namespace TheWitch.TheWitchCode.Powers;
 
@@ -60,6 +62,24 @@ public sealed class NeverendingPotionPower : WitchPower
 
         foreach (PotionModel potion in _bottled)
         {
+            // Touch of Insanity is the one potion whose OnUse opens an IN-HAND selection, which can't
+            // run from a hook-context replay (unsynced/soft-lock). Replay it choice-free instead:
+            // a random card eligible under the potion's own filter becomes free this combat.
+            if (potion is TouchOfInsanity)
+            {
+                Flash();
+                List<CardModel> eligible = PileType.Hand.GetPile(player).Cards
+                    .Where(c => c.CostsEnergyOrStars(includeGlobalModifiers: false)
+                             || c.CostsEnergyOrStars(includeGlobalModifiers: true))
+                    .ToList();
+                if (player.RunState.Rng.CombatCardSelection.NextItem(eligible) is { } pick)
+                {
+                    pick.SetToFreeThisCombat();
+                    CardCmd.Preview(pick);
+                }
+                continue;
+            }
+
             Creature? target = ResolveTarget(potion, player, combat);
             if (potion.TargetType == TargetType.AnyEnemy && target == null)
             {

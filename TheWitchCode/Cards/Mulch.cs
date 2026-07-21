@@ -22,7 +22,7 @@ public sealed class Mulch : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CalculationBaseVar(0m),
-        new CalculationExtraVar(3m),
+        new CalculationExtraVar(1m),
         new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => PileType.Discard.GetPile(card.Owner).Cards.Count),
         new CalculatedVar("CalculatedBrambles").WithMultiplier((card, _) => PileType.Discard.GetPile(card.Owner).Cards.Count)
     ];
@@ -43,9 +43,19 @@ public sealed class Mulch : WitchCard
         var brambles = ((CalculatedVar)DynamicVars["CalculatedBrambles"]).Calculate(null);
         var block = DynamicVars.CalculatedBlock.Calculate(null);
 
-        foreach (CardModel card in discard)
+        // Cards still exhaust one by one, but the pile-move tweens run at triple speed
+        // (the game's durations are hard-coded — see CardPileTweenSpeedPatch).
+        CardPileTweenSpeedPatch.Scale = 3f;
+        try
         {
-            await CardCmd.Exhaust(choiceContext, card);
+            foreach (CardModel card in discard)
+            {
+                await CardCmd.Exhaust(choiceContext, card);
+            }
+        }
+        finally
+        {
+            CardPileTweenSpeedPatch.Scale = 1f;
         }
         await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, brambles, Owner.Creature, this);
         await CreatureCmd.GainBlock(Owner.Creature, block, DynamicVars.CalculatedBlock.Props, cardPlay);

@@ -50,7 +50,6 @@ public static class PotionTraits
         [typeof(BeetleJuice)] = PotionOrientation.Offensive,            // enemy's attacks deal less damage
         [typeof(PowderedDemise)] = PotionOrientation.Offensive,         // enemy loses HP at end of each turn
         [typeof(PotionOfDoom)] = PotionOrientation.Offensive,           // apply Doom
-        [typeof(ShacklingPotion)] = PotionOrientation.Offensive,        // ALL enemies lose Strength this turn
         [typeof(PotionOfBinding)] = PotionOrientation.Offensive,        // apply Weak + Vulnerable to ALL enemies
         [typeof(PoisonPotion)] = PotionOrientation.Offensive,           // apply Poison
         [typeof(StrengthPotion)] = PotionOrientation.Offensive,         // gain Strength
@@ -61,6 +60,7 @@ public static class PotionTraits
         [typeof(SoldiersStew)] = PotionOrientation.Offensive,           // Strike cards gain Replay this combat
 
         // ---------------- Defensive (block / heal / max HP) ----------------
+        [typeof(ShacklingPotion)] = PotionOrientation.Defensive,        // ALL enemies lose Strength this turn
         [typeof(BlockPotion)] = PotionOrientation.Defensive,            // gain Block
         [typeof(ShipInABottle)] = PotionOrientation.Defensive,          // gain Block now and again next turn
         [typeof(Fortifier)] = PotionOrientation.Defensive,              // triple your Block
