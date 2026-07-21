@@ -1,51 +1,43 @@
-using MegaCrit.Sts2.Core.Combat;
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models;
 
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Ritual Casting: whenever the owner ends their turn without playing any cards, their next
-/// <see cref="PowerModel.Amount" /> Skills are free (base-game <see cref="FreeSkillPower" />).
-/// The played-this-turn flag is plain instance state — safe in SP (no mid-combat restore) and
-/// MP lockstep; only a mid-combat MP rejoin resets it (accepted trade-off, same as FamiliarPower).
+/// Ritual Casting: whenever the owner plays a Skill that costs 2 or more (its cost when played,
+/// <see cref="ResourceInfo.EnergyValue" /> — so auto-plays of big Skills count too), a random card
+/// in their hand becomes free to play this turn.
 /// </summary>
 public sealed class RitualCastingPower : WitchPower
 {
-    private bool _playedCardThisTurn;
-
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerStackType StackType => PowerStackType.None;
 
     public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner.Creature == Owner)
+        if (Owner.Player is not { } player
+            || cardPlay.Card.Owner.Creature != Owner
+            || cardPlay.Card.Type != CardType.Skill
+            || cardPlay.Resources.EnergyValue < 2)
         {
-            _playedCardThisTurn = true;
-        }
-        return Task.CompletedTask;
-    }
-
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (!participants.Contains(Owner))
-        {
-            return;
+            return Task.CompletedTask;
         }
 
-        bool played = _playedCardThisTurn;
-        _playedCardThisTurn = false;
-        if (played)
+        List<CardModel> hand = PileType.Hand.GetPile(player).Cards.ToList();
+        CardModel? pick = player.RunState.Rng.CombatCardSelection.NextItem(hand);
+        if (pick == null)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         Flash();
-        await PowerCmd.Apply<FreeSkillPower>(choiceContext, Owner, Amount, Owner, null);
+        pick.SetToFreeThisTurn();
+        CardCmd.Preview(pick);
+        return Task.CompletedTask;
     }
 }

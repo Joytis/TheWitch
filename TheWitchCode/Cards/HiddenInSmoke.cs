@@ -16,7 +16,7 @@ public sealed class HiddenInSmoke : WitchCard
     ];
 
     public HiddenInSmoke()
-        : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

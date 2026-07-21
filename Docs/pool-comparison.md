@@ -28,9 +28,9 @@
 | | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
 | 0 | 10 | 16 | 9 | 11 | 15 | 20 |
-| 1 | 48 | 43 | 54 | 48 | 49 | 49 |
+| 1 | 47 | 43 | 54 | 48 | 49 | 49 |
 | 2 | 19 | 17 | 14 | 19 | 15 | 14 |
-| 3 | 8 | 10 | 7 | 7 | 6 | 3 |
+| 3 | 9 | 10 | 7 | 7 | 6 | 3 |
 | 4+ | 0 | 0 | 2 | 0 | 1 | 1 |
 | X | 2 | 2 | 2 | 2 | 2 | 1 |
 
@@ -42,9 +42,9 @@ Effective damage = per-hit × hits. Cells: energy cost × single-target/AoE. Bas
 |---|---|---|---|---|---|---|---|
 | 0 | single | 15 | 6 | 8 | 3 | 5 | 7 |
 | 0 | AoE | 1 | 60 | 75 | 0 | — | — |
-| 1 | single | 48 | 8 | 10 | 12 | 8 | 9 |
+| 1 | single | 48 | 8 | 10 | 11 | 8 | 9 |
 | 1 | AoE | 11 | 8 | 11 | 1 | 15 | 20 |
-| 2 | single | 20 | 13 | 17 | 4 | 12.5 | 18 |
+| 2 | single | 20 | 13 | 17 | 5 | 12 | 16 |
 | 2 | AoE | 1 | 28 | 36 | 1 | 12 | 15 |
 | 3 | single | 9 | 19 | 24 | 2 | 15 | 20 |
 | 3 | AoE | 2 | 14 | 18 | 1 | 20 | 20 |
@@ -85,7 +85,6 @@ Non-flat block cards per class:
 | Moonbeam | dmg | 2 | 8 | 13 | 0.62 |  |
 | Overrun | dmg | 1 | 5 | 8 | 0.63 |  |
 | Capture Soul | dmg | 0 | 10 | 6 | 1.67 | SelfExhaust |
-| Extract Life | dmg | 1 | 12 | 8 | 1.50 | ExhaustOutlet |
 | Circle of Rot | block | 2 | 20 | 11 | 1.82 | Drawback, SelfDebuff |
 | Salt and Ash | block | 1 | 8 | 6 | 1.33 | SelfDebuff |
 | Wax and Wane | block | 1 | 9 | 6 | 1.50 | DelayedEffect |
@@ -181,12 +180,12 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 | Heal | 1 | 0 | 0 | 1 | 0 | 0 | 0 |
 | AutoPlay | 1 | 0 | 0 | 6 | 0 | 0 | 0 |
 | Transform | 1 | 0 | 0 | 0 | 0 | 3 | 0 |
-| KeywordGrant | 1 | 0 | 4 | 0 | 0 | 0 | 0 |
 | Discard | 1 | 9 | 0 | 0 | 1 | 0 | 0 |
 | Innate | 0 | 3 | 0 | 0 | 1 | 0 | 0 |
 | DrawPayoff | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
 | ExhaustPayoff | 0 | 1 | 0 | 9 | 0 | 0 | 0 |
 | BlockPayoff | 0 | 1 | 0 | 5 | 0 | 0 | 0 |
+| KeywordGrant | 0 | 0 | 4 | 0 | 0 | 0 | 0 |
 | DirectHPLoss | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | SelfRecursion | 0 | 0 | 1 | 0 | 0 | 5 | 0 |
 | MaxHP | 0 | 0 | 0 | 1 | 0 | 0 | 0 |

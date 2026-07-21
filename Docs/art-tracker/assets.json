@@ -75,6 +75,16 @@
           "orientation": "Utility",
           "effect": "Discard Hand, draw 6 cards that cost 0 for the rest of combat.",
           "path": "TheWitch/images/potions/mushroom_extract.png"
+        },
+        {
+          "name": "Bottled Message",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Token",
+          "orientation": "Utility",
+          "effect": "Put the bottled card into your Hand. (Card-only payload: Message in a Bottle)",
+          "path": "TheWitch/images/potions/bottled_message.png"
         }
       ]
     },
@@ -100,6 +110,15 @@
           "rarity": "Starter",
           "effect": "Orobas upgrade of Large Pockets: potion slot bonus becomes 3.",
           "path": "TheWitch/images/relics/big/bottomless_pockets.png"
+        },
+        {
+          "name": "Cozy Nest",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "rarity": "Shop",
+          "effect": "At the start of combat, summon an Owl Familiar.",
+          "path": "TheWitch/images/relics/big/cozy_nest.png"
         },
         {
           "name": "Large Pockets",

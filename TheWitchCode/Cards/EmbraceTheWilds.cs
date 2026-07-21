@@ -17,8 +17,8 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class EmbraceTheWilds : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("DrawReduction", 3m),
-        new DynamicVar("Familiars", 4m)
+        new DynamicVar("DrawReduction", 2m),
+        new DynamicVar("Familiars", 3m)
     ];
 
     public EmbraceTheWilds()
