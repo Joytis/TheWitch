@@ -68,7 +68,7 @@
       "upgrade": "Damage +3",
       "note": "The only difference between the starting Strike cards are portrait, attack vfx, and color.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "mechanics": [
         "None"
       ],
@@ -91,7 +91,7 @@
         "Damage": 2,
         "Repeat": 4
       },
-      "upgrade": "Repeat +2",
+      "upgrade": "Repeat +1",
       "note": "",
       "tested": true,
       "artFinal": false,
@@ -812,13 +812,13 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Whenever you create a card or Potion, gain 3 Block.",
+      "text": "Whenever you create a card or Potion, gain 2 Block.",
       "numbers": {
-        "CloakOfMoonlight": 3
+        "CloakOfMoonlight": 2
       },
       "upgrade": "CloakOfMoonlight +1",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -925,7 +925,7 @@
       "name": "Eye of Newt",
       "entry": "EYE_OF_NEWT",
       "file": "TheWitchCode/Cards/EyeOfNewt.cs",
-      "cost": 1,
+      "cost": 2,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
@@ -935,7 +935,7 @@
       },
       "upgrade": "EyeOfNewt +1",
       "note": "Eye of Newt (was Experiment): a Power that makes your potions hit harder.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1179,13 +1179,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 9 damage. Draw a card for each of your Familiars.",
+      "text": "Deal 7 damage. Draw a card for each of your Familiars.",
       "numbers": {
-        "Damage": 9
+        "Damage": 7
       },
       "upgrade": "Damage +3",
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1302,13 +1302,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 15 damage. Duplicate ALL debuffs.",
+      "text": "Deal 10 damage. Duplicate ALL debuffs.",
       "numbers": {
-        "Damage": 15
+        "Damage": 10
       },
       "upgrade": "Damage +5",
       "note": "Rot Bloom: heavy hit, then every debuff on the target blooms — each debuff power's stacks are duplicated (applied again at its current amount, Rend's debuff filter: temporary powers excluded).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1504,14 +1504,14 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 15 damage. Draw 2 cards. Costs 1 less {energyPrefix:energyIcons(1)} for each Attack played this turn.",
+      "text": "Deal 9 damage. Draw 2 cards. Costs 1 less {energyPrefix:energyIcons(1)} for each Attack played this turn.",
       "numbers": {
-        "Damage": 15,
+        "Damage": 9,
         "Cards": 2
       },
-      "upgrade": "Damage +5",
+      "upgrade": "Damage +3",
       "note": "Taste of Blood: one savage bite that comes easier the more blood is already spilled — costs 1 less for each Attack played this turn (base-game Stomp discount shape).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1618,14 +1618,14 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 9 Block. At the start of your next turn, apply 1 Hex to ALL enemies.",
+      "text": "Gain 8 Block. At the start of your next turn, apply 1 Hex to ALL enemies.",
       "numbers": {
         "WaxAndWane": 1,
-        "Block": 9
+        "Block": 8
       },
-      "upgrade": "Block +4",
+      "upgrade": "Block +2",
       "note": "Wax and Wane: shore up with Block now; the curse lands at the start of next turn, on everyone.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1734,13 +1734,13 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 12 damage to ALL enemies. Whenever you draw this card, play it for free.",
+      "text": "Deal 10 damage to ALL enemies. Whenever you draw this card, play it for free.",
       "numbers": {
-        "Damage": 12
+        "Damage": 10
       },
       "upgrade": "Damage +3",
       "note": "Ambush!: AoE strike that springs itself — auto-plays for free when drawn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1762,14 +1762,14 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 6. Exhaust 2 cards from your Hand.",
+      "text": "Gain 4. Exhaust 2 cards from your Hand.",
       "numbers": {
-        "Energy": 6,
+        "Energy": 4,
         "Cards": 2
       },
       "upgrade": "Energy +2",
       "note": "Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [],
       "role": [
@@ -1844,14 +1844,15 @@
       "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
-      "target": "AllEnemies",
-      "text": "Deal 7 damage to ALL enemies for each Bramble, then lose all Brambles.",
+      "target": "AnyEnemy",
+      "text": "Deal {CalculatedDamage:diff()} damage. Deals 1 additional damage for each of your Brambles.",
       "numbers": {
-        "Damage": 7
+        "CalculationBase": 8,
+        "ExtraDamage": 1
       },
-      "upgrade": "Damage +2",
+      "upgrade": "CalculationBase +3",
       "note": "Hits once per Bramble; does nothing if you have no Brambles.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2213,7 +2214,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Exhaust your Discard Pile. Gain 1 Brambles and 1 Block for each card Exhausted.{InCombat: ({CalculatedBrambles:diff()} Brambles, {CalculatedBlock:diff()} Block)|}",
+      "text": "Exhaust your Discard Pile. Gain 1 Brambles and 1 Block for each card Exhausted.{InCombat: ({CalculatedBrambles:diff()} Damage, {CalculatedBlock:diff()} Block)|}",
       "numbers": {
         "CalculationBase": 0,
         "CalculationExtra": 1
