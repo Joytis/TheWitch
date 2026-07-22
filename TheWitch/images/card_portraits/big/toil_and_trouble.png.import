@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dojrhr13iv338"
-path="res://.godot/imported/double_double.png-bdc5f08b3f65b1399334afa8a6bf5c6b.ctex"
+uid="uid://jgb7c4x668lv"
+path="res://.godot/imported/toil_and_trouble.png-6dec2e6b843fa444c7dac41b7d48755d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/double_double.png"
-dest_files=["res://.godot/imported/double_double.png-bdc5f08b3f65b1399334afa8a6bf5c6b.ctex"]
+source_file="res://TheWitch/images/card_portraits/big/toil_and_trouble.png"
+dest_files=["res://.godot/imported/toil_and_trouble.png-6dec2e6b843fa444c7dac41b7d48755d.ctex"]
 
 [params]
 

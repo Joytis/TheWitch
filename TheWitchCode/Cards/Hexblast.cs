@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -39,11 +40,11 @@ public sealed class Hexblast : WitchCard
             .WithHitFx(null, null, "heavy_attack.mp3")
             .Execute(choiceContext);
 
-        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars.Hex().BaseValue, Owner.Creature, this);
 
         // Detonation punch on top of the hit shake.
         NGame.Instance?.ScreenShake(ShakeStrength.Weak, ShakeDuration.Short);
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(2m);
 }

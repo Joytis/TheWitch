@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using HexPower = TheWitch.TheWitchCode.Powers.HexPower;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -26,8 +27,8 @@ public sealed class DarkOmen : WitchFamiliarCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars.Hex().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(1m);
 }

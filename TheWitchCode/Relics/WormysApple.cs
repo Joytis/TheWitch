@@ -4,8 +4,10 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using TheWitch.TheWitchCode.Cards;
 
 namespace TheWitch.TheWitchCode.Relics;
@@ -36,7 +38,14 @@ public sealed class WormysApple : WitchRelic
             return;
         }
         Flash();
-        CardModel wormy = combatState.CreateCard<Wormy>(Owner);
-        await CardPileCmd.AddGeneratedCardToCombat(wormy, PileType.Hand, player);
+
+        NWormyImpactVfx? wormyImpact = NWormyImpactVfx.Create(Owner.Creature);
+        if (wormyImpact != null)
+        {
+            Owner.Creature.GetVfxContainer()?.AddChildSafely(wormyImpact);
+        }
+
+        var card = Owner.Creature.CombatState!.CreateCard<Wormy>(Owner);
+        await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner, CardPilePosition.Top);
     }
 }

@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Potions;
 
@@ -31,6 +32,6 @@ public sealed class CursedBottle : WitchPotion
     {
         AssertValidForTargetedPotion(target);
         NCombatRoom.Instance?.PlaySplashVfx(target, new Color("ac54b3"));
-        await PowerCmd.Apply<HexPower>(choiceContext, target, DynamicVars["HexPower"].BaseValue, Owner.Creature, null);
+        await PowerCmd.Apply<HexPower>(choiceContext, target, DynamicVars.Hex().BaseValue, Owner.Creature, null);
     }
 }

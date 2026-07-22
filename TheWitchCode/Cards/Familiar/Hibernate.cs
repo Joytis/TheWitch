@@ -24,7 +24,7 @@ public sealed class Hibernate : WitchFamiliarCard
     ];
 
     public Hibernate()
-        : base(2, CardType.Skill, CardRarity.Token, TargetType.Self)
+        : base(3, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
     }
 
@@ -36,7 +36,7 @@ public sealed class Hibernate : WitchFamiliarCard
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(5m);
+        DynamicVars.Block.UpgradeValueBy(3m);
         DynamicVars["VigorNextTurnPower"].UpgradeValueBy(3m);
     }
 }

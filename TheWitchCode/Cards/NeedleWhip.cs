@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -35,8 +36,8 @@ public sealed class NeedleWhip : WitchCard
             // Thorn hit: swamp-green slice (preloaded via Witch.ExtraAssetPaths).
             .WithHitVfxNode(t => NThinSliceVfx.Create(t, VfxColor.Swamp))
             .Execute(choiceContext);
-        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars["BramblesPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["BramblesPower"].UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Brambles().UpgradeValueBy(3m);
 }

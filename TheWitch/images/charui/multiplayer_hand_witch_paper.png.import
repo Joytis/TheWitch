@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmctdg8pkg4q0"
-path="res://.godot/imported/double_double.png-fadac3d19dd9a9b5fd34370a9af1a5de.ctex"
+uid="uid://c488eu42m1ocw"
+path="res://.godot/imported/multiplayer_hand_witch_paper.png-5a23cbd99456ca168a1cc171db61877d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/big/double_double.png"
-dest_files=["res://.godot/imported/double_double.png-fadac3d19dd9a9b5fd34370a9af1a5de.ctex"]
+source_file="res://TheWitch/images/charui/multiplayer_hand_witch_paper.png"
+dest_files=["res://.godot/imported/multiplayer_hand_witch_paper.png-5a23cbd99456ca168a1cc171db61877d.ctex"]
 
 [params]
 

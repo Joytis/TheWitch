@@ -10,7 +10,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class Rats : WitchFamiliarCard, IRatCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move),
+        new DamageVar(3m, ValueProp.Move),
         new CardsVar(1)
     ];
 
@@ -27,6 +27,7 @@ public sealed class Rats : WitchFamiliarCard, IRatCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
+
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 

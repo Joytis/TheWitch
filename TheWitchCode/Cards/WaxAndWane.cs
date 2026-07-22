@@ -18,7 +18,7 @@ public sealed class WaxAndWane : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(9m, ValueProp.Move),
+        new BlockVar(8m, ValueProp.Move),
         new PowerVar<WaxAndWanePower>(1m)
     ];
 
@@ -33,5 +33,5 @@ public sealed class WaxAndWane : WitchCard
         await PowerCmd.Apply<WaxAndWanePower>(choiceContext, Owner.Creature, DynamicVars["WaxAndWanePower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(2m);
 }

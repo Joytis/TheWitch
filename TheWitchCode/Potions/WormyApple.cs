@@ -4,8 +4,11 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
+using MegaCrit.Sts2.Core.Models.Cards;
 using TheWitch.TheWitchCode.Cards;
 
 namespace TheWitch.TheWitchCode.Potions;
@@ -25,21 +28,27 @@ public sealed class WormyApple : WitchPotion
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Heal", 15m),
+        new HealVar(10m),
         new CardsVar(3)
     ];
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        await CreatureCmd.Heal(Owner.Creature, DynamicVars["Heal"].IntValue);
+        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/wriggler/wriggler_attack");
+        NWormyImpactVfx? wormyImpact = NWormyImpactVfx.Create(Owner.Creature);
+        if (wormyImpact != null)
+        {
+            Owner.Creature.GetVfxContainer()?.AddChildSafely(wormyImpact);
+        }
+        
+        await CreatureCmd.Heal(Owner.Creature, DynamicVars.Heal.IntValue);
 
         int wormyCount = DynamicVars.Cards.IntValue;
-        var wormies = new List<CardModel>(wormyCount);
         for (int i = 0; i < wormyCount; i++)
         {
-            wormies.Add(Owner.Creature.CombatState!.CreateCard<Wormy>(Owner));
+            var card = Owner.Creature.CombatState!.CreateCard<Wormy>(Owner);
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner, CardPilePosition.Top);
+            await Cmd.Wait(0.1f);
         }
-        var generated = await CardPileCmd.AddGeneratedCardsToCombat(wormies, PileType.Hand, Owner, CardPilePosition.Random);
-        CardCmd.PreviewCardPileAdd(generated);
     }
 }
