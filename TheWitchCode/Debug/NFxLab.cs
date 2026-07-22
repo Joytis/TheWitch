@@ -19,11 +19,12 @@ namespace TheWitch.TheWitchCode.Debug;
 public partial class NFxLab : Control
 {
     private const double VfxFailsafeSeconds = 8.0;
+    private const double LoopVfxKillSeconds = 3.0;
 
     // Spawned vfx are scaled down so big effects fit inside the stage panel.
     private const float StageZoom = 0.5f;
 
-    private sealed record FxEntry(string Display, string CopyText, string PlayKey);
+    private sealed record FxEntry(string Display, string CopyText, string PlayKey, double MaxLifetime = VfxFailsafeSeconds, string Tag = "");
 
     private readonly List<(Control Row, string Filter)> _sfxRows = new();
     private readonly List<(Control Row, string Filter)> _vfxRows = new();
@@ -68,7 +69,7 @@ public partial class NFxLab : Control
         List<FxEntry> vfx = CollectVfxEntries();
 
         columns.AddChild(BuildListPanel($"SFX ({sfx.Count})", sfx, _sfxRows, PlaySfx, out _sfxCount));
-        columns.AddChild(BuildListPanel($"VFX ({vfx.Count})", vfx, _vfxRows, PlayVfx, out _vfxCount));
+        columns.AddChild(BuildListPanel($"VFX ({vfx.Count})", vfx, _vfxRows, PlayVfx, out _vfxCount, withOneShotToggle: true));
         columns.AddChild(BuildStage());
 
         MainFile.Logger.Info($"FX Lab ready: {sfx.Count} sfx, {vfx.Count} vfx");
@@ -129,7 +130,8 @@ public partial class NFxLab : Control
         List<FxEntry> entries,
         List<(Control Row, string Filter)> rowStore,
         Action<FxEntry> play,
-        out Label countLabel)
+        out Label countLabel,
+        bool withOneShotToggle = false)
     {
         VBoxContainer panel = new()
         {
@@ -143,8 +145,21 @@ public partial class NFxLab : Control
         headerLabel.AddThemeFontSizeOverride("font_size", 20);
         panel.AddChild(headerLabel);
 
-        LineEdit search = new() { PlaceholderText = "filter..." };
-        panel.AddChild(search);
+        LineEdit search = new() { PlaceholderText = "filter...", SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        CheckBox? oneShotToggle = null;
+        if (withOneShotToggle)
+        {
+            HBoxContainer searchRow = new();
+            searchRow.AddChild(search);
+            oneShotToggle = new CheckBox { Text = "one-shot only" };
+            oneShotToggle.AddThemeFontSizeOverride("font_size", 12);
+            searchRow.AddChild(oneShotToggle);
+            panel.AddChild(searchRow);
+        }
+        else
+        {
+            panel.AddChild(search);
+        }
 
         countLabel = new Label { Text = $"{entries.Count} shown" };
         countLabel.AddThemeFontSizeOverride("font_size", 12);
@@ -187,18 +202,35 @@ public partial class NFxLab : Control
             pathLabel.AddThemeFontSizeOverride("font_size", 14);
             row.AddChild(pathLabel);
 
+            if (entry.Tag.Length > 0)
+            {
+                Label tagLabel = new() { Text = entry.Tag };
+                tagLabel.AddThemeFontSizeOverride("font_size", 12);
+                tagLabel.AddThemeColorOverride("font_color", entry.Tag switch
+                {
+                    "[one-shot]" => new Color(0.45f, 0.9f, 0.45f),
+                    "[loop]" => new Color(0.95f, 0.75f, 0.35f),
+                    "[mp3]" => new Color(0.5f, 0.8f, 0.95f),
+                    _ => new Color(0.6f, 0.6f, 0.7f),
+                });
+                row.AddChild(tagLabel);
+            }
+
             list.AddChild(row);
-            rowStore.Add((row, entry.Display.ToLowerInvariant()));
+            rowStore.Add((row, $"{entry.Display} {entry.Tag}".ToLowerInvariant()));
         }
 
         Label count = countLabel;
-        search.TextChanged += term =>
+        CheckBox? toggle = oneShotToggle;
+        void ApplyFilter()
         {
-            string t = term.Trim().ToLowerInvariant();
+            string t = search.Text.Trim().ToLowerInvariant();
+            bool oneShotOnly = toggle?.ButtonPressed ?? false;
             int shown = 0;
             foreach ((Control row, string filter) in rowStore)
             {
-                bool visible = t.Length == 0 || filter.Contains(t);
+                bool visible = (t.Length == 0 || filter.Contains(t))
+                               && (!oneShotOnly || filter.Contains("[one-shot]"));
                 row.Visible = visible;
                 if (visible)
                 {
@@ -206,7 +238,12 @@ public partial class NFxLab : Control
                 }
             }
             count.Text = $"{shown} shown";
-        };
+        }
+        search.TextChanged += _ => ApplyFilter();
+        if (toggle != null)
+        {
+            toggle.Toggled += _ => ApplyFilter();
+        }
 
         return panel;
     }
@@ -262,13 +299,15 @@ public partial class NFxLab : Control
             PackedScene packed = ResourceLoader.Load<PackedScene>(entry.PlayKey);
             Node node = packed.Instantiate<Node>(PackedScene.GenEditState.Disabled);
             _stage.AddChild(node);
+            Vector2 center = _stage.GlobalPosition + _stage.Size * 0.5f;
+            // Many vfx scenes draw offset from their origin; recenter using their
+            // visual bounds (particle visibility rects + sprite rects) when we can.
+            // Roots are either Node2D or Control (e.g. hellraiser_sword_vfx) — the two
+            // don't share a positioning API, hence the twin branches.
             if (node is Node2D node2D)
             {
                 node2D.Scale *= StageZoom;
-                Vector2 center = _stage.GlobalPosition + _stage.Size * 0.5f;
                 node2D.GlobalPosition = center;
-                // Many vfx scenes draw offset from their origin; recenter using their
-                // visual bounds (particle visibility rects + sprite rects) when we can.
                 Rect2? bounds = null;
                 AccumulateBounds(node2D, Transform2D.Identity, ref bounds, isRoot: true);
                 if (bounds.HasValue)
@@ -276,11 +315,54 @@ public partial class NFxLab : Control
                     node2D.GlobalPosition = center - node2D.GlobalTransform.BasisXform(bounds.Value.GetCenter());
                 }
             }
-            _ = FreeAfterFailsafe(node);
+            else if (node is Control control)
+            {
+                control.Scale *= StageZoom;
+                control.GlobalPosition = center;
+                Rect2? bounds = null;
+                AccumulateBounds(control, Transform2D.Identity, ref bounds, isRoot: true);
+                if (bounds.HasValue)
+                {
+                    control.GlobalPosition = center - control.GetGlobalTransform().BasisXform(bounds.Value.GetCenter());
+                }
+            }
+            KickDormantParticles(node);
+            _ = FreeAfterFailsafe(node, entry.MaxLifetime);
         }
         catch (Exception e)
         {
             MainFile.Logger.Error($"FX Lab: vfx '{entry.PlayKey}' failed: {e}");
+        }
+    }
+
+    // Building-block sub-scenes (e.g. vfx/common/vfx_common_hit_flare) ship with
+    // emitting=false and rely on a parent scene/script calling restart(). If NOTHING in the
+    // instanced scene is emitting, kick every emitter so the preview shows something. Scenes
+    // where at least one emitter self-plays are left alone — their script/animation drives
+    // the rest, and restarting those stages early would double-fire them.
+    private static void KickDormantParticles(Node root)
+    {
+        List<GpuParticles2D> emitters = new();
+        CollectEmitters(root, emitters);
+        if (emitters.Count == 0 || emitters.Any(p => p.Emitting))
+        {
+            return;
+        }
+        foreach (GpuParticles2D p in emitters)
+        {
+            p.Restart();
+        }
+    }
+
+    private static void CollectEmitters(Node node, List<GpuParticles2D> sink)
+    {
+        if (node is GpuParticles2D p)
+        {
+            sink.Add(p);
+        }
+        foreach (Node child in node.GetChildren())
+        {
+            CollectEmitters(child, sink);
         }
     }
 
@@ -325,9 +407,9 @@ public partial class NFxLab : Control
 
     // Most vfx scenes free themselves when their particles finish; this catches the ones
     // that don't (looping/overlay scenes) so the stage never accumulates stale nodes.
-    private async System.Threading.Tasks.Task FreeAfterFailsafe(Node node)
+    private async System.Threading.Tasks.Task FreeAfterFailsafe(Node node, double seconds)
     {
-        await ToSignal(GetTree().CreateTimer(VfxFailsafeSeconds), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(seconds), SceneTreeTimer.SignalName.Timeout);
         if (IsInstanceValid(node) && !node.IsQueuedForDeletion())
         {
             node.QueueFree();
@@ -349,7 +431,9 @@ public partial class NFxLab : Control
         {
             if (file.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
             {
-                entries.Add(new FxEntry($"debug_audio/{file}", file, file));
+                // Copy text is the bare filename — the exact string the tmpSfx params take
+                // (.WithHitFx(vfx, sfx, tmpSfx) / NDebugAudioManager.Play).
+                entries.Add(new FxEntry($"debug_audio/{file}", file, file, Tag: "[mp3]"));
             }
         }
 
@@ -409,7 +493,7 @@ public partial class NFxLab : Control
         foreach (string scene in NormalizeSceneFiles(baseScenes))
         {
             string inner = scene["res://scenes/".Length..^".tscn".Length];
-            entries.Add(new FxEntry(inner, inner, scene));
+            entries.Add(MakeVfxEntry(inner, inner, scene));
         }
 
         // Mod vfx scenes (if any): copy text is the full res:// path, which is what
@@ -420,11 +504,80 @@ public partial class NFxLab : Control
         {
             if (scene.Contains("vfx", StringComparison.OrdinalIgnoreCase))
             {
-                entries.Add(new FxEntry(scene.Replace("res://", ""), scene, scene));
+                entries.Add(MakeVfxEntry(scene.Replace("res://", ""), scene, scene));
             }
         }
 
         return entries.OrderBy(e => e.Display, StringComparer.Ordinal).ToList();
+    }
+
+    private static FxEntry MakeVfxEntry(string display, string copyText, string scenePath)
+    {
+        SceneFxInfo info = AnalyzeScene(scenePath);
+        string tag;
+        double lifetime = VfxFailsafeSeconds;
+        if (info.Scripted)
+        {
+            // Game C# script drives (and usually frees) the effect; may need combat context.
+            tag = "[script]";
+        }
+        else if (info.Emitters > 0 && info.OneShotEmitters < info.Emitters)
+        {
+            tag = "[loop]";
+            lifetime = LoopVfxKillSeconds;
+        }
+        else
+        {
+            tag = "[one-shot]";
+        }
+        return new FxEntry(display, copyText, scenePath, lifetime, tag);
+    }
+
+    private sealed record SceneFxInfo(int Emitters, int OneShotEmitters, bool Scripted);
+
+    private static readonly Dictionary<string, SceneFxInfo> _sceneInfoCache = new(StringComparer.Ordinal);
+
+    // Classify a vfx scene by reading its .tscn text (scenes ship as text in the pck):
+    // count GPUParticles2D emitters vs one_shot flags, note game-code scripts, and fold in
+    // instanced sub-scenes recursively. Heuristic, but drives only the list tag + kill time.
+    private static SceneFxInfo AnalyzeScene(string scenePath)
+    {
+        if (_sceneInfoCache.TryGetValue(scenePath, out SceneFxInfo? cached))
+        {
+            return cached;
+        }
+        _sceneInfoCache[scenePath] = new SceneFxInfo(0, 0, false); // cycle guard
+
+        string text = Godot.FileAccess.FileExists(scenePath) ? Godot.FileAccess.GetFileAsString(scenePath) : "";
+        int emitters = CountOccurrences(text, "type=\"GPUParticles2D\"");
+        int oneShot = CountOccurrences(text, "one_shot = true");
+        bool scripted = System.Text.RegularExpressions.Regex.IsMatch(
+            text, "\\[ext_resource type=\"Script\"[^\\]]*path=\"res://src/");
+
+        foreach (System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(
+                     text, "\\[ext_resource type=\"PackedScene\"[^\\]]*path=\"([^\"]+)\""))
+        {
+            SceneFxInfo sub = AnalyzeScene(m.Groups[1].Value);
+            emitters += sub.Emitters;
+            oneShot += sub.OneShotEmitters;
+            scripted |= sub.Scripted;
+        }
+
+        SceneFxInfo info = new(emitters, oneShot, scripted);
+        _sceneInfoCache[scenePath] = info;
+        return info;
+    }
+
+    private static int CountOccurrences(string text, string needle)
+    {
+        int count = 0;
+        int i = 0;
+        while ((i = text.IndexOf(needle, i, StringComparison.Ordinal)) >= 0)
+        {
+            count++;
+            i += needle.Length;
+        }
+        return count;
     }
 
     // In an exported .pck, .tscn files may be listed as ".tscn.remap"; the original path

@@ -29,9 +29,9 @@ public sealed class BrokenPact : WitchCard
         if (sacrificed)
         {
             VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_spooky_scream");
-            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars["StrengthPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["StrengthPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Strength.UpgradeValueBy(2m);
 }

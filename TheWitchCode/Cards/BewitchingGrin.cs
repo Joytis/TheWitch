@@ -32,8 +32,8 @@ public sealed class BewitchingGrin : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
-        await PowerCmd.Apply<WeakPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["WeakPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<WeakPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars.Weak.BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["WeakPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Weak.UpgradeValueBy(1m);
 }

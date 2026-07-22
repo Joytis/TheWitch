@@ -75,10 +75,11 @@ function parseUpgrade(src) {
   const parts = [];
   // DynamicVars.Name.UpgradeValueBy(n)  /  DynamicVars.Name().UpgradeValueBy(n)
   for (const m of body.matchAll(/DynamicVars\.(\w+)(?:\(\))?\.UpgradeValueBy\(\s*(-?\d+)m?\s*\)/g))
-    parts.push(`${m[1]} ${m[2] >= 0 ? "+" : ""}${num(m[2])}`);
-  // DynamicVars["Name"].UpgradeValueBy(n)
+    parts.push(`${stripPower(m[1])} ${m[2] >= 0 ? "+" : ""}${num(m[2])}`);
+  // DynamicVars["Name"].UpgradeValueBy(n) — stripPower keeps names consistent with `numbers`
+  // regardless of whether the code uses a string key or a typed accessor.
   for (const m of body.matchAll(/DynamicVars\["(\w+)"\]\.UpgradeValueBy\(\s*(-?\d+)m?\s*\)/g))
-    parts.push(`${m[1]} ${m[2] >= 0 ? "+" : ""}${num(m[2])}`);
+    parts.push(`${stripPower(m[1])} ${m[2] >= 0 ? "+" : ""}${num(m[2])}`);
   // EnergyCost.UpgradeBy(n)
   for (const m of body.matchAll(/EnergyCost\.UpgradeBy\(\s*(-?\d+)\s*\)/g))
     parts.push(`Cost ${num(m[1])}`);

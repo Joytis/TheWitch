@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -31,9 +32,9 @@ public sealed class RitualSacrifice : WitchCard
         if (sacrificed)
         {
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-            await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target!, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target!, DynamicVars.Hex().BaseValue, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(3m);
 }

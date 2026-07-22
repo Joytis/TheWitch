@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Potions.Brewing;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -41,7 +42,7 @@ public sealed class RipSoul : WitchCard
             .WithHitFx("vfx/vfx_scream", null, "heavy_attack.mp3")
             .Execute(choiceContext);
 
-        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars.Hex().BaseValue, Owner.Creature, this);
 
         var rng = Owner.RunState.Rng.CombatPotionGeneration;
         int potions = DynamicVars["Potions"].IntValue;
