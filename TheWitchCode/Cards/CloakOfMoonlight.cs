@@ -14,7 +14,7 @@ public sealed class CloakOfMoonlight : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<CloakOfMoonlightPower>(3m)
+        new PowerVar<CloakOfMoonlightPower>(2m)
     ];
 
     public CloakOfMoonlight()
