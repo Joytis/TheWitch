@@ -22,7 +22,7 @@ public sealed class Plague : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<HexPower>(3m)
+        new PowerVar<HexPower>(2m)
     ];
 
     public Plague()

@@ -29,5 +29,5 @@ public sealed class BagOfTeeth : WitchCard
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Repeat.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Repeat.UpgradeValueBy(1m);
 }
