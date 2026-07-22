@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -32,7 +33,7 @@ public sealed class Plague : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars.Hex().BaseValue, Owner.Creature, this);
 
         int space = CardPile.MaxCardsInHand - PileType.Hand.GetPile(Owner).Cards.Count;
         List<CardModel> rats = PileType.Exhaust.GetPile(Owner).Cards
@@ -45,5 +46,5 @@ public sealed class Plague : WitchCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(1m);
 }

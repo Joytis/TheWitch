@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>"Double, double, toil and trouble" — hit twice, then enchant a random card in your Hand with Replay.</summary>
-public sealed class DoubleDouble : WitchCard
+public sealed class ToilAndTrouble : WitchCard
 {
     private const int Hits = 2;
 
@@ -23,7 +23,7 @@ public sealed class DoubleDouble : WitchCard
         new IntVar("Replay", 1m)
     ];
 
-    public DoubleDouble()
+    public ToilAndTrouble()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }

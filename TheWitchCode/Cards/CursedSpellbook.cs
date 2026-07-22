@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using TheWitch.TheWitchCode.Powers;
+using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -28,11 +29,11 @@ public sealed class CursedSpellbook : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PlayerCmd.GainEnergy(DynamicVars["Energy"].BaseValue, Owner);
+        await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-        await PowerCmd.Apply<HexPower>(choiceContext, Owner.Creature, DynamicVars["HexPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, Owner.Creature, DynamicVars.Hex().BaseValue, Owner.Creature, this);
     }
 
     // Upgrade softens the curse: gain 2 Hex instead of 3.
-    protected override void OnUpgrade() => DynamicVars["HexPower"].UpgradeValueBy(-1m);
+    protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(-1m);
 }

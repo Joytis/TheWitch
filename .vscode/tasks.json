@@ -111,22 +111,6 @@
             "presentation": { "reveal": "always", "panel": "shared" }
         },
         {
-            "label": "Publish + Launch STS2 (debug)",
-            "type": "process",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy", "Bypass",
-                "-File", "${workspaceFolder}/tools/launch-mp.ps1",
-                "-Solo",
-                "-DelayMs", "4000"
-            ],
-            "dependsOn": "dotnet publish",
-            "problemMatcher": [],
-            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-            "detail": "Publish (exports .pck + deploys .dll/.pdb), launch one STS2 instance, then wait so the debugger can attach."
-        },
-        {
             "label": "dotnet publish",
             "type": "process",
             "command": "dotnet",
@@ -143,27 +127,47 @@
                 "-NoProfile",
                 "-ExecutionPolicy", "Bypass",
                 "-File", "${workspaceFolder}/tools/launch-mp.ps1",
-                "-Solo"
+                "-Solo", "-TailLog",
+                "-DelayMs", "4000"
             ],
             "dependsOn": "dotnet publish",
-            "problemMatcher": [],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "sts2",
+                "pattern": [{ "regexp": ".", "file": 1, "location": 2, "message": 3 }],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "Launched 1 solo instance"
+                }
+            },
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-            "detail": "dotnet publish (export .pck + deploy) then launch a single Slay the Spire 2 instance."
+            "detail": "dotnet publish (export .pck + deploy) then launch one STS2 instance, tailing the game log. Debugger-attachable via 'Launch STS2 + Attach'."
         },
         {
-            "label": "Debug: Build + Launch into combat",
+            "label": "Debug: Publish + Launch into combat",
             "type": "process",
             "command": "powershell",
             "args": [
                 "-NoProfile",
                 "-ExecutionPolicy", "Bypass",
                 "-File", "${workspaceFolder}/tools/launch-mp.ps1",
-                "-Solo", "-WitchBootstrap"
+                "-Solo", "-WitchBootstrap", "-TailLog",
+                "-DelayMs", "4000"
             ],
-            "dependsOn": "dotnet build",
-            "problemMatcher": [],
+            "dependsOn": "dotnet publish",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "sts2",
+                "pattern": [{ "regexp": ".", "file": 1, "location": 2, "message": 3 }],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "Launched 1 solo instance"
+                }
+            },
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-            "detail": "dotnet build (deploys mod), then launch STS2 straight into a Witch combat with 100 energy (-witch-debug -witch-bootstrap; menu skipped)."
+            "detail": "dotnet publish (assets + code deploy), then launch STS2 straight into a Witch combat with 100 energy, tailing the game log. Debugger-attachable via 'Combat + Attach'."
         },
         {
             "label": "Debug: Build + Launch AutoSlay",
@@ -173,12 +177,22 @@
                 "-NoProfile",
                 "-ExecutionPolicy", "Bypass",
                 "-File", "${workspaceFolder}/tools/launch-mp.ps1",
-                "-Solo", "-AutoSlay"
+                "-Solo", "-AutoSlay", "-TailLog",
+                "-DelayMs", "4000"
             ],
             "dependsOn": "dotnet build",
-            "problemMatcher": [],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "sts2",
+                "pattern": [{ "regexp": ".", "file": 1, "location": 2, "message": 3 }],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "Launched 1 solo instance"
+                }
+            },
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-            "detail": "dotnet build (deploys mod), then launch STS2 with the AutoSlay smoke-test bot (-witch-debug -autoslay)."
+            "detail": "dotnet build (deploys mod), then launch STS2 with the AutoSlay smoke-test bot, tailing the game log. Debugger-attachable via 'AutoSlay + Attach'."
         },
         {
             "label": "Debug: Build + Launch FX Lab",
@@ -188,12 +202,22 @@
                 "-NoProfile",
                 "-ExecutionPolicy", "Bypass",
                 "-File", "${workspaceFolder}/tools/launch-mp.ps1",
-                "-Solo", "-FxLab"
+                "-Solo", "-FxLab", "-TailLog",
+                "-DelayMs", "4000"
             ],
             "dependsOn": "dotnet build",
-            "problemMatcher": [],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "sts2",
+                "pattern": [{ "regexp": ".", "file": 1, "location": 2, "message": 3 }],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "Launched 1 solo instance"
+                }
+            },
             "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-            "detail": "dotnet build (deploys mod), then launch STS2 into the SFX/VFX browser scene (-witch-debug -witch-fxlab; menu skipped)."
+            "detail": "dotnet build (deploys mod), then launch STS2 into the SFX/VFX browser scene, tailing the game log. Debugger-attachable via 'FX Lab + Attach'."
         },
         {
             "label": "Workshop: Bundle",

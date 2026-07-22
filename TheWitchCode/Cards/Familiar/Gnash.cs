@@ -16,7 +16,7 @@ public sealed class Gnash : WitchFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CalculationBaseVar(3m),
-        new ExtraDamageVar(4m),
+        new ExtraDamageVar(3m),
         new CalculatedDamageVar(ValueProp.Move)
             .WithMultiplier((card, _) =>
                 card.Owner?.Creature is { } creature
@@ -39,5 +39,5 @@ public sealed class Gnash : WitchFamiliarCard
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.ExtraDamage.UpgradeValueBy(1m);
 }

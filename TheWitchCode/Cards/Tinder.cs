@@ -36,8 +36,8 @@ public sealed class Tinder : WitchCard
         }
         await PowerCmd.Decrement(brambles);
 
-        await PlayerCmd.GainEnergy(DynamicVars["Energy"].IntValue, Owner);
+        await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Energy"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Energy.UpgradeValueBy(1m);
 }

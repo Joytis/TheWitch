@@ -20,7 +20,7 @@ public sealed class RotBloom : WitchCard
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(15m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move)
     ];
 
     public RotBloom()

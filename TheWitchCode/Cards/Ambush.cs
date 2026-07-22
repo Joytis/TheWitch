@@ -11,7 +11,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class Ambush : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(12m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move)
     ];
 
     public Ambush()
