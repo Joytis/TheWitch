@@ -129,6 +129,7 @@
   </div>
   <div class="makeup" id="makeup"></div>
   <details class="mwrap"><summary>Mechanic × Role matrix</summary><div id="matrix"></div></details>
+  <details class="mwrap"><summary>Rarity × Type matrix</summary><div id="rtmatrix"></div></details>
 </header>
 <div class="offline">⚠ Loaded without the local server — copy buttons work, but TESTED toggles will <b>not</b> save. Run <code>node Docs/card-data/server.js</code> and open <code>http://localhost:7820</code>.</div>
 <main>
@@ -208,6 +209,7 @@ async function load(){
     buildTagChips();
     renderMakeup();
     renderMatrix();
+    renderRarityTypeMatrix();
     render();
   }catch(e){
     document.getElementById("rows").innerHTML =
@@ -278,6 +280,33 @@ function renderMatrix(){
   document.getElementById("matrix").innerHTML =
     `<table class="matrix"><thead>${head}</thead><tbody>${body}${foot}</tbody></table>` +
     `<div class="sub" style="margin-top:6px">Cards with multiple tags count in each cell they span, so rows/columns may exceed the card total. Familiar token payloads (Token rarity) are excluded. Red row = core mechanic with no Payoff.</div>`;
+}
+
+function renderRarityTypeMatrix(){
+  // Familiar payloads (Token rarity) aren't draftable cards — exclude, same as the mechanic matrix.
+  const MAT = CARDS.filter(c=>c.rarity!=="Token");
+  const TYPE_ORDER = ["Attack","Skill","Power","Potion","Status","Curse"];
+  const types = [...new Set([...TYPE_ORDER, ...MAT.map(c=>c.type)])].filter(t => MAT.some(c=>c.type===t));
+  const rars = [...new Set([...RAR_ORDER, ...MAT.map(c=>c.rarity)])].filter(r => r!=="Token" && MAT.some(c=>c.rarity===r));
+  const grid = {}, rTot = {}, tTot = {};
+  rars.forEach(r=>{ grid[r]={}; types.forEach(t=>grid[r][t]=0); });
+  MAT.forEach(c=>{
+    if(grid[c.rarity] && c.type in grid[c.rarity]) grid[c.rarity][c.type]++;
+    rTot[c.rarity]=(rTot[c.rarity]||0)+1;
+    tTot[c.type]=(tTot[c.type]||0)+1;
+  });
+  const head = `<tr><th>↓rarity \\ type→</th>${types.map(t=>`<th>${t}</th>`).join("")}<th>Σ</th></tr>`;
+  const body = rars.map(r=>{
+    const cells = types.map(t=>{ const n=grid[r][t]; return `<td class="${n?'':'z'}"><b>${n||0}</b></td>`; }).join("");
+    return `<tr><td class="lab" style="color:var(${RAR_COLOR[r]||'--muted'})">${r}</td>${cells}<td><b>${rTot[r]||0}</b></td></tr>`;
+  }).join("");
+  const foot = `<tr><td class="lab">Σ</td>${types.map(t=>{
+    const n = tTot[t]||0, pct = MAT.length ? Math.round(n*100/MAT.length) : 0;
+    return `<td><b>${n}</b> <span class="z">${pct}%</span></td>`;
+  }).join("")}<td><b>${MAT.length}</b></td></tr>`;
+  document.getElementById("rtmatrix").innerHTML =
+    `<table class="matrix"><thead>${head}</thead><tbody>${body}${foot}</tbody></table>` +
+    `<div class="sub" style="margin-top:6px">Familiar token payloads (Token rarity) are excluded. Σ row shows each type's share of the draftable pool.</div>`;
 }
 
 function renderMakeup(){

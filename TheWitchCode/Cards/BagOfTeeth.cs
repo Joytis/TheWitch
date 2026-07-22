@@ -22,12 +22,12 @@ public sealed class BagOfTeeth : WitchCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(DynamicVars["Repeat"].IntValue)
+            .WithHitCount(DynamicVars.Repeat.IntValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Repeat"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Repeat.UpgradeValueBy(2m);
 }

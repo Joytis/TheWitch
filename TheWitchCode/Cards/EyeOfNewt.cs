@@ -19,7 +19,7 @@ public sealed class EyeOfNewt : WitchCard
     ];
 
     public EyeOfNewt()
-        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 

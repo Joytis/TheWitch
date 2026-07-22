@@ -2,13 +2,48 @@
     "version": "0.2.0",
     "configurations": [
         {
-            // Launches Slay the Spire 2 (with the freshly built mod) and attaches
-            // the .NET debugger to the game process so breakpoints in the mod hit.
+            // Full publish flow (menu, .pck export) + attach. Log tails in the task panel.
             "name": "Launch STS2 + Attach",
             "type": "coreclr",
             "request": "attach",
             "processName": "SlayTheSpire2.exe",
-            "preLaunchTask": "Publish + Launch STS2 (debug)",
+            "preLaunchTask": "Publish and Run",
+            "justMyCode": false,
+            "symbolOptions": {
+                "searchMicrosoftSymbolServer": false
+            }
+        },
+        {
+            // Publish + straight into a Witch combat (100 energy) + attach. Log tails in the task panel.
+            "name": "Combat + Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "SlayTheSpire2.exe",
+            "preLaunchTask": "Debug: Publish + Launch into combat",
+            "justMyCode": false,
+            "symbolOptions": {
+                "searchMicrosoftSymbolServer": false
+            }
+        },
+        {
+            // Build + AutoSlay bot on the Witch + attach. Log tails in the task panel.
+            "name": "AutoSlay + Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "SlayTheSpire2.exe",
+            "preLaunchTask": "Debug: Build + Launch AutoSlay",
+            "justMyCode": false,
+            "symbolOptions": {
+                "searchMicrosoftSymbolServer": false
+            }
+        },
+        {
+            // Build + FX Lab browser scene + attach. Log tails in the task panel.
+            "name": "FX Lab + Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "SlayTheSpire2.exe",
+            "preLaunchTask": "Debug: Build + Launch FX Lab",
             "justMyCode": false,
             "symbolOptions": {
                 "searchMicrosoftSymbolServer": false

@@ -1,17 +1,11 @@
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Potions;
-using TheWitch.TheWitchCode.Potions;
 using TheWitch.TheWitchCode.Potions.Brewing;
 
 namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class HerbalBrew : OrientationBrewCard
 {
-    public HerbalBrew()
-        : base(2)
-    {
-    }
-
     protected override PotionOrientation Orientation => PotionOrientation.Utility;
 
     // First pass: every utility potion the Witch could previously roll (shared pool + Witch pool,

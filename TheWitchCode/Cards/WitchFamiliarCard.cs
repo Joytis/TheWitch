@@ -5,6 +5,9 @@ using TheWitch.TheWitchCode.Character;
 using TheWitch.TheWitchCode.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using TheWitch.TheWitchCode.Powers;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Commands;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -31,6 +34,26 @@ public abstract class WitchFamiliarCard(int cost, CardType type, CardRarity rari
     public FamiliarPower? SourceFamiliar { get; set; }
     public int SourceStackIndex { get; set; }
 
+
+    public static async Task<IEnumerable<T>> CreateInHand<T>(Player owner, int count, ICombatState combatState) 
+        where T : WitchFamiliarCard
+	{
+		if (count == 0)
+		{
+			return Array.Empty<T>();
+		}
+		if (CombatManager.Instance.IsOverOrEnding)
+		{
+			return Array.Empty<T>();
+		}
+		List<T> familiars = new List<T>();
+		for (int i = 0; i < count; i++)
+		{
+			familiars.Add(combatState.CreateCard<T>(owner));
+		}
+		await CardPileCmd.AddGeneratedCardsToCombat(familiars, PileType.Hand, owner);
+		return familiars;
+	}
 
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)

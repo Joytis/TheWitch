@@ -25,7 +25,13 @@ param(
     [int]$Players = 2,
     [string]$Sts2Path = "",
     [switch]$Solo,
-    [int]$DelayMs = 0
+    [int]$DelayMs = 0,
+    # Solo-only debug launch modes (see TheWitchCode/Debug/WitchDebug.cs):
+    [switch]$WitchBootstrap,   # -witch-debug -witch-bootstrap: skip menu, enter combat with 100 energy
+    [switch]$AutoSlay,         # -witch-debug -autoslay: run the smoke-test bot
+    [switch]$FxLab,            # -witch-debug -witch-fxlab: open the SFX/VFX browser scene
+    [string]$Encounter = "",   # optional encounter id for -WitchBootstrap (e.g. SLIMES_WEAK)
+    [switch]$TailLog           # solo only: stream %appdata%\SlayTheSpire2\logs\godot.log to this console
 )
 
 $ErrorActionPreference = "Stop"
@@ -64,13 +70,60 @@ Write-Host "Game dir : $gameDir"
 
 # --- Solo (no multiplayer) --------------------------------------------------
 if ($Solo) {
-    Write-Host "[solo ] launching single instance (no -fastmp)"
-    Start-Process -FilePath $exe -WorkingDirectory $gameDir
+    $gameArgs = @()
+    if ($WitchBootstrap -or $AutoSlay -or $FxLab) {
+        # Game-native dev switch: skips the intro logo (checked once at startup).
+        # Child processes inherit the environment, so set it just for this launch.
+        $env:STS2_DEV_SKIP = '1'
+    }
+    if ($WitchBootstrap) {
+        $bootstrapArg = if ($Encounter) { "-witch-bootstrap=$Encounter" } else { '-witch-bootstrap' }
+        $gameArgs += @('-witch-debug', $bootstrapArg)
+    }
+    if ($AutoSlay) {
+        if ('-witch-debug' -notin $gameArgs) { $gameArgs += '-witch-debug' }
+        $gameArgs += '-autoslay'
+    }
+    if ($FxLab) {
+        if ('-witch-debug' -notin $gameArgs) { $gameArgs += '-witch-debug' }
+        $gameArgs += '-witch-fxlab'
+    }
+    $launchTime = Get-Date
+    if ($gameArgs.Count -gt 0) {
+        Write-Host "[solo ] launching single instance: $($gameArgs -join ' ')"
+        $proc = Start-Process -FilePath $exe -WorkingDirectory $gameDir -ArgumentList $gameArgs -PassThru
+    } else {
+        Write-Host "[solo ] launching single instance (no -fastmp)"
+        $proc = Start-Process -FilePath $exe -WorkingDirectory $gameDir -PassThru
+    }
     if ($DelayMs -gt 0) {
         Write-Host "Waiting ${DelayMs}ms for the runtime to come up (debugger attach)..."
         Start-Sleep -Milliseconds $DelayMs
     }
     Write-Host "Launched 1 solo instance."
+
+    # --- Live log tail (the game is a GUI app; its output only goes to godot.log) ---
+    if ($TailLog) {
+        $logFile = Join-Path $env:APPDATA 'SlayTheSpire2\logs\godot.log'
+        # The game rotates the previous godot.log on startup; wait for the fresh one.
+        while (-not $proc.HasExited -and
+               (-not (Test-Path $logFile) -or (Get-Item $logFile).LastWriteTime -lt $launchTime)) {
+            Start-Sleep -Milliseconds 250
+        }
+        if ($proc.HasExited) { Write-Host "Game exited before writing a log."; return }
+        Write-Host "--- tailing $logFile (closes when the game exits) ---"
+        # Share Read/Write/Delete so the game can keep writing and rotate freely.
+        $fs = [System.IO.FileStream]::new($logFile, 'Open', 'Read', [System.IO.FileShare]'ReadWrite,Delete')
+        $sr = [System.IO.StreamReader]::new($fs)
+        try {
+            while (-not $proc.HasExited) {
+                $line = $sr.ReadLine()
+                if ($null -ne $line) { Write-Host $line } else { Start-Sleep -Milliseconds 200 }
+            }
+            while ($null -ne ($line = $sr.ReadLine())) { Write-Host $line }
+        } finally { $sr.Dispose() }
+        Write-Host "--- game exited (code $($proc.ExitCode)) ---"
+    }
     return
 }
 

@@ -10,7 +10,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class PickClean : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(9m, ValueProp.Move)
+        new DamageVar(7m, ValueProp.Move)
     ];
 
     public PickClean()
