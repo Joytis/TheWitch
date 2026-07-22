@@ -28,8 +28,8 @@
 | | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
 | 0 | 10 | 16 | 9 | 11 | 15 | 20 |
-| 1 | 44 | 43 | 54 | 48 | 49 | 49 |
-| 2 | 19 | 17 | 14 | 19 | 15 | 14 |
+| 1 | 43 | 43 | 54 | 48 | 49 | 49 |
+| 2 | 20 | 17 | 14 | 19 | 15 | 14 |
 | 3 | 9 | 10 | 7 | 7 | 6 | 3 |
 | 4+ | 0 | 0 | 2 | 0 | 1 | 1 |
 | X | 2 | 2 | 2 | 2 | 2 | 1 |
@@ -44,16 +44,16 @@ Effective damage = per-hit × hits. Cells: energy cost × single-target/AoE. Bas
 | 0 | AoE | 1 | 60 | 75 | 0 | — | — |
 | 1 | single | 48 | 8 | 10 | 11 | 6 | 9 |
 | 1 | AoE | 11 | 8 | 11 | 1 | 12 | 17 |
-| 2 | single | 20 | 13 | 17 | 6 | 10 | 13 |
-| 2 | AoE | 1 | 28 | 36 | 1 | 12 | 15 |
-| 3 | single | 9 | 19 | 24 | 2 | 15 | 20 |
+| 2 | single | 20 | 13 | 17 | 6 | 9 | 13 |
+| 2 | AoE | 1 | 28 | 36 | 1 | 10 | 13 |
+| 3 | single | 9 | 19 | 24 | 2 | 12 | 16 |
 | 3 | AoE | 2 | 14 | 18 | 1 | 20 | 20 |
 
 Non-flat damage cards per class (not averaged — counted):
 
 | bucket | witch | silent | necrobinder | ironclad | defect | regent |
 |---|---|---|---|---|---|---|
-| scaling | 2 | 2 | 1 | 1 | 3 | 2 |
+| scaling | 1 | 2 | 1 | 1 | 3 | 2 |
 | xcost | 0 | 1 | 1 | 1 | 0 | 2 |
 | conditional | 0 | 0 | 0 | 1 | 0 | 0 |
 | engine | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -86,10 +86,11 @@ Non-flat block cards per class:
 | Command | dmg | 0 | 3 | 6 | 0.50 |  |
 | Moonbeam | dmg | 2 | 8 | 13 | 0.62 |  |
 | Overrun | dmg | 1 | 5 | 8 | 0.63 |  |
+| Taste of Blood | dmg | 3 | 9 | 19 | 0.47 |  |
 | Capture Soul | dmg | 0 | 10 | 6 | 1.67 | SelfExhaust |
 | Circle of Rot | block | 2 | 20 | 11 | 1.82 | Drawback, SelfDebuff |
 | Salt and Ash | block | 1 | 8 | 6 | 1.33 | SelfDebuff |
-| Wax and Wane | block | 1 | 9 | 6 | 1.50 | DelayedEffect |
+| Wax and Wane | block | 1 | 8 | 6 | 1.33 | DelayedEffect |
 
 A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, draw, brews) justify low ratios; downsides (exhaust, HP) justify high ones.
 
