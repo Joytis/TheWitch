@@ -27,6 +27,7 @@ public sealed class Rats : WitchFamiliarCard, IRatCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_bite")
             .Execute(choiceContext);
+            
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 

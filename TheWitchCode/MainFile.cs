@@ -22,5 +22,7 @@ public partial class MainFile : Node
         Harmony harmony = new(ModId);
 
         harmony.PatchAll();
+
+        Debug.WitchDebug.ApplyPatches(harmony);
     }
 }
