@@ -13,3 +13,11 @@ Brambles: Grow spiky thickets and hunker down, let the enemies break themselves 
 Hex: Curse your enemies, causing your attacks to deal progressively more damage. 
 
 AI is not used for any Art in The Witch 
+
+[h1]Credits[/h1] 
+Design and Engineering: Joytis
+Art Direction and Placeholder: Kitsu
+
+[h2]Artists[/h2]
+Phenelia: https://x.com/Phenelia
+- Strike
