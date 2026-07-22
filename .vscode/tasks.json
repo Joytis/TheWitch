@@ -151,6 +151,51 @@
             "detail": "dotnet publish (export .pck + deploy) then launch a single Slay the Spire 2 instance."
         },
         {
+            "label": "Debug: Build + Launch into combat",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/launch-mp.ps1",
+                "-Solo", "-WitchBootstrap"
+            ],
+            "dependsOn": "dotnet build",
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "dotnet build (deploys mod), then launch STS2 straight into a Witch combat with 100 energy (-witch-debug -witch-bootstrap; menu skipped)."
+        },
+        {
+            "label": "Debug: Build + Launch AutoSlay",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/launch-mp.ps1",
+                "-Solo", "-AutoSlay"
+            ],
+            "dependsOn": "dotnet build",
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "dotnet build (deploys mod), then launch STS2 with the AutoSlay smoke-test bot (-witch-debug -autoslay)."
+        },
+        {
+            "label": "Debug: Build + Launch FX Lab",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/launch-mp.ps1",
+                "-Solo", "-FxLab"
+            ],
+            "dependsOn": "dotnet build",
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+            "detail": "dotnet build (deploys mod), then launch STS2 into the SFX/VFX browser scene (-witch-debug -witch-fxlab; menu skipped)."
+        },
+        {
             "label": "Workshop: Bundle",
             "type": "process",
             "command": "powershell",

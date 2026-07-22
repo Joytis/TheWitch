@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -16,21 +17,32 @@ public sealed class PocketRats : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(3)
+        new DamageVar(5m, ValueProp.Move),
+        new CardsVar(2)
     ];
 
     public PocketRats()
-        : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        ArgumentNullException.ThrowIfNull(CombatState, "CombatState");
+
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_bite")
+            .Execute(choiceContext);
+
         // Upgrade adds +1 Rat but never upgrades the Rats themselves.
-        List<Rats> cards = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, DynamicVars.Cards.IntValue, CombatState, isUpgraded: false).ToList();
-        var generated = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner, CardPilePosition.Random);
-        CardCmd.PreviewCardPileAdd(generated);
+        for (int i = 0; i < DynamicVars.Cards.IntValue; i++)
+		{
+            await WitchFamiliarCard.CreateInHand<Rats>(Owner, 1, CombatState);
+			await Cmd.Wait(0.1f);
+		}
     }
 
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);

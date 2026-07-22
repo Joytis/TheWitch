@@ -25,7 +25,12 @@ param(
     [int]$Players = 2,
     [string]$Sts2Path = "",
     [switch]$Solo,
-    [int]$DelayMs = 0
+    [int]$DelayMs = 0,
+    # Solo-only debug launch modes (see TheWitchCode/Debug/WitchDebug.cs):
+    [switch]$WitchBootstrap,   # -witch-debug -witch-bootstrap: skip menu, enter combat with 100 energy
+    [switch]$AutoSlay,         # -witch-debug -autoslay: run the smoke-test bot
+    [switch]$FxLab,            # -witch-debug -witch-fxlab: open the SFX/VFX browser scene
+    [string]$Encounter = ""    # optional encounter id for -WitchBootstrap (e.g. SLIMES_WEAK)
 )
 
 $ErrorActionPreference = "Stop"
@@ -64,8 +69,31 @@ Write-Host "Game dir : $gameDir"
 
 # --- Solo (no multiplayer) --------------------------------------------------
 if ($Solo) {
-    Write-Host "[solo ] launching single instance (no -fastmp)"
-    Start-Process -FilePath $exe -WorkingDirectory $gameDir
+    $gameArgs = @()
+    if ($WitchBootstrap -or $AutoSlay -or $FxLab) {
+        # Game-native dev switch: skips the intro logo (checked once at startup).
+        # Child processes inherit the environment, so set it just for this launch.
+        $env:STS2_DEV_SKIP = '1'
+    }
+    if ($WitchBootstrap) {
+        $bootstrapArg = if ($Encounter) { "-witch-bootstrap=$Encounter" } else { '-witch-bootstrap' }
+        $gameArgs += @('-witch-debug', $bootstrapArg)
+    }
+    if ($AutoSlay) {
+        if ('-witch-debug' -notin $gameArgs) { $gameArgs += '-witch-debug' }
+        $gameArgs += '-autoslay'
+    }
+    if ($FxLab) {
+        if ('-witch-debug' -notin $gameArgs) { $gameArgs += '-witch-debug' }
+        $gameArgs += '-witch-fxlab'
+    }
+    if ($gameArgs.Count -gt 0) {
+        Write-Host "[solo ] launching single instance: $($gameArgs -join ' ')"
+        Start-Process -FilePath $exe -WorkingDirectory $gameDir -ArgumentList $gameArgs
+    } else {
+        Write-Host "[solo ] launching single instance (no -fastmp)"
+        Start-Process -FilePath $exe -WorkingDirectory $gameDir
+    }
     if ($DelayMs -gt 0) {
         Write-Host "Waiting ${DelayMs}ms for the runtime to come up (debugger attach)..."
         Start-Sleep -Milliseconds $DelayMs

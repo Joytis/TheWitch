@@ -16,7 +16,7 @@ public sealed class BottleBarrage : WitchCard
     private const string _calculatedHitsKey = "CalculatedHits";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(10m, ValueProp.Move),
+        new DamageVar(80m, ValueProp.Move),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar(_calculatedHitsKey)
@@ -24,7 +24,7 @@ public sealed class BottleBarrage : WitchCard
     ];
 
     public BottleBarrage()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

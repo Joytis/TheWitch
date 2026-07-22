@@ -88,17 +88,21 @@ public abstract class FamiliarPower : WitchPower
     public async Task GenerateCards(Player player, ICombatState combatState)
     {
         Flash();
+
         Rng rng = player.RunState.Rng.CombatCardGeneration;
         SackOfTreats? sack = player.GetRelic<SackOfTreats>();
         sack?.Flash();
+
         for (int i = 0; i < Amount; i++)
         {
             IEnumerable<CardModel> cards = sack != null
                 ? CreateAllTurnStartCards(player, combatState, rng)
                 : [CreateTurnStartCard(player, combatState, rng)];
+
             foreach (CardModel card in cards)
             {
                 TagSource(card, i);
+                
                 // Use the "generated" path (not a plain Add) so the card counts as created — records combat
                 // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
                 await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
