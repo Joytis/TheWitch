@@ -7,11 +7,6 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class StonyBrew : OrientationBrewCard
 {
-    public StonyBrew()
-        : base(2)
-    {
-    }
-
     protected override PotionOrientation Orientation => PotionOrientation.Defensive;
 
     // First pass: every defensive potion the Witch could previously roll (shared pool + Witch pool,

@@ -31,6 +31,8 @@ public abstract class OrientationBrewCard : WitchCard
     /// <summary>Entries the upgraded card REMOVES from <see cref="LootTable" />.</summary>
     protected virtual IEnumerable<PotionModel> UpgradedRemovals => [];
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     private IEnumerable<PotionModel> CurrentTable =>
         IsUpgraded ? LootTable.Except(UpgradedRemovals).Concat(UpgradedExtras) : LootTable;
 
