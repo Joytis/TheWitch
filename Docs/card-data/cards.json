@@ -68,7 +68,7 @@
       "upgrade": "Damage +3",
       "note": "The only difference between the starting Strike cards are portrait, attack vfx, and color.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "mechanics": [
         "None"
       ],
@@ -93,7 +93,7 @@
       },
       "upgrade": "Repeat +1",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
