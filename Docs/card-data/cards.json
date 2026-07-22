@@ -40,7 +40,7 @@
       },
       "upgrade": "Damage +6",
       "note": "ExtractEssence: deal damage; on unblocked damage, create a random Common potion.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -179,7 +179,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Broom Strike: swat with the broom; the follow-through sweeps your next Skill in cheaper.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -269,7 +269,7 @@
       },
       "upgrade": "Damage +5",
       "note": "",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -728,7 +728,7 @@
       },
       "upgrade": "Damage +3",
       "note": "Hurl the whole belt: one 10-damage hit per potion you've brewed this combat.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2516,7 +2516,7 @@
       },
       "upgrade": "ExtraDamage +1",
       "note": "Wolf familiar token.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "mechanics": [
         "Familiars"
