@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-22",
+  "generated": "2026-07-23",
   "cards": [
     {
       "name": "Defend",
@@ -34,13 +34,13 @@
       "type": "Attack",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. On unblocked damage, create a Potion.",
+      "text": "Deal 10 damage. On unblocked damage, create a Potion.",
       "numbers": {
-        "Damage": 8
+        "Damage": 10
       },
-      "upgrade": "Damage +6",
-      "note": "ExtractEssence: deal damage; on unblocked damage, create a random Common potion.",
-      "tested": true,
+      "upgrade": "Damage +4",
+      "note": "ExtractEssence: deal damage; on unblocked damage, create a random potion from a HARD-CODED loot table (Herbal Brew pattern — not a live catalog query), so the pool is tuned per card.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -579,10 +579,10 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 6 damage. Apply 1 Hex.",
+      "text": "Deal 8 damage. Apply 1 Hex.",
       "numbers": {
         "Hex": 1,
-        "Damage": 6
+        "Damage": 8
       },
       "upgrade": "Hex +1",
       "note": "Vexing Strike (was Vexing Thwack): an Attack that also seeds the target with Hex.",
@@ -925,7 +925,7 @@
       "name": "Eye of Newt",
       "entry": "EYE_OF_NEWT",
       "file": "TheWitchCode/Cards/EyeOfNewt.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
@@ -1006,7 +1006,7 @@
       "name": "Hidden in Smoke",
       "entry": "HIDDEN_IN_SMOKE",
       "file": "TheWitchCode/Cards/HiddenInSmoke.cs",
-      "cost": 2,
+      "cost": 3,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
@@ -1014,7 +1014,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Hidden in Smoke: a Power that brews a Vial of Smoke at the start of every turn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1065,13 +1065,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. Deal 8 damage at the start of each of your turns.",
+      "text": "Deal 8 damage. Deal {BeamDamage:diff()} damage at the start of each of your turns.",
       "numbers": {
         "Damage": 8
       },
       "upgrade": "Damage +3",
       "note": "Moonbeam: strike, then leave the beam on the target — it takes the same damage again at the start of each of your turns (<see cref=\"MoonbeamPower\" />, stacks on repeat plays).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1204,18 +1204,17 @@
       "name": "Prices Paid",
       "entry": "PRICES_PAID",
       "file": "TheWitchCode/Cards/PricesPaid.cs",
-      "cost": 1,
+      "cost": "X",
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 1 HP. Deal 6 damage. Create {Brews:diff()} Noxious Brews.",
+      "text": "Lose X HP. Deal 6 damage. Create X Noxious Brews.",
       "numbers": {
-        "HpLoss": 1,
         "Damage": 6
       },
       "upgrade": "HpLoss +1, Brews +1",
       "note": "Prices Paid: bleed yourself for a strike, then brew the spilled blood into a Noxious Brew.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1534,13 +1533,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage twice. Give a random card in your Hand Replay {Replay}.",
+      "text": "Deal 5 damage twice. Give a random card in your Draw Pile Replay {Replay}.",
       "numbers": {
         "Damage": 5
       },
       "upgrade": "Damage +3",
-      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a random card in your Hand with Replay.",
-      "tested": true,
+      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a random card in your Draw Pile with Replay.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1557,17 +1556,18 @@
       "name": "Torment",
       "entry": "TORMENT",
       "file": "TheWitchCode/Cards/Torment.cs",
-      "cost": 0,
+      "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Does not remove Hex.",
+      "text": "Deal 12 damage. This turn, whenever you play a Potion, apply 1 Hex to a random enemy. Does not remove Hex.",
       "numbers": {
-        "Damage": 5
+        "Torment": 1,
+        "Damage": 12
       },
-      "upgrade": "Damage +2",
+      "upgrade": "Damage +4",
       "note": "Marker for attacks that don't burn the target's Hex — <see cref=\"HexPower\" /> skips its after-attack stack loss when the attacking card implements this.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1877,13 +1877,13 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Sacrifice a random Familiar. Gain 8 Strength.",
+      "text": "Sacrifice a random Familiar. Gain 5 Strength.",
       "numbers": {
-        "Strength": 8
+        "Strength": 5
       },
-      "upgrade": "Strength +2",
+      "upgrade": "Strength +3",
       "note": "Broken Pact: end a familiar's service and take its strength for your own.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2163,14 +2163,14 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 10 damage twice to ALL enemies. Apply 3 Hex to ALL enemies.",
+      "text": "Deal 10 damage twice to ALL enemies. Apply 2 Hex to ALL enemies.",
       "numbers": {
-        "Hex": 3,
+        "Hex": 2,
         "Damage": 10
       },
-      "upgrade": "Hex +2",
+      "upgrade": "Hex +1",
       "note": "Hexblast: blast every enemy, then lay Hex on all of them.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -2237,37 +2237,28 @@
       ]
     },
     {
-      "name": "Plague",
-      "entry": "PLAGUE",
-      "file": "TheWitchCode/Cards/Plague.cs",
+      "name": "Plaguestorm",
+      "entry": "PLAGUESTORM",
+      "file": "TheWitchCode/Cards/Plaguestorm.cs",
       "cost": 3,
-      "type": "Skill",
+      "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Apply 3 Hex to ALL enemies. Put ALL Rats in your Exhaust Pile into your Hand.",
+      "text": "Apply 2 Hex to ALL enemies. Deal 5 damage to a random enemy for each Rats in your Exhaust Pile.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
       "numbers": {
-        "Hex": 3
+        "Hex": 2,
+        "Damage": 5,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
       },
       "upgrade": "Hex +1",
-      "note": "Plague: hex the whole board, and the rats come back — every Rats card in the Exhaust pile returns to your hand (a move of existing cards, so plain <c>CardPileCmd.Add</c>, capped by hand space).",
-      "tested": true,
+      "note": "Plaguestorm (was Plague): hex the whole board, then the storm strikes — one hit against a random enemy for each Rats in your Exhaust pile.",
+      "tested": false,
       "artFinal": false,
-      "mechanics": [
-        "Debuff/Buff",
-        "Familiars"
-      ],
-      "role": [
-        "Generator",
-        "Enabler"
-      ],
-      "sub": [
-        "Debuff/Buff:HexApply",
-        "Familiars:TokenGen"
-      ],
-      "threads": [
-        "OtherDebuff",
-        "Recursion"
-      ]
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Polymorph",
@@ -2845,14 +2836,14 @@
       "type": "Attack",
       "rarity": "Ancient",
       "target": "AnyEnemy",
-      "text": "Deal 15 damage. Apply 3 Hex. Create {Potions:diff()} Potions.",
+      "text": "Deal 15 damage. Apply 3 Hex. Create a Rare Potion.",
       "numbers": {
         "Hex": 3,
         "Damage": 15
       },
       "upgrade": "Damage +5",
-      "note": "Rip Soul: the Ancient (transcended) form of Extract Essence — tear the soul out of an enemy: heavy damage, 3 Hex, and 3 random potions.",
-      "tested": true,
+      "note": "Rip Soul: the Ancient (transcended) form of Extract Essence — tear the soul out of an enemy: heavy damage, 3 Hex, and ONE potent potion from a hard-coded loot table (Extract Essence pattern).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",

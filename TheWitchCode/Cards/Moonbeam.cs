@@ -19,8 +19,13 @@ public sealed class Moonbeam : WitchCard
         HoverTipFactory.FromPower<MoonbeamPower>(),
     ];
 
+    private const string _beamDamageKey = "BeamDamage";
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move)
+        new DamageVar(8m, ValueProp.Move),
+        // Unscaled twin of Damage: the power's flat per-turn tick (ValueProp.Unpowered at deal time),
+        // so the card face doesn't show it inflated by Strength/Vigor.
+        new DynamicVar(_beamDamageKey, 8m)
     ];
 
     public Moonbeam()
@@ -40,9 +45,13 @@ public sealed class Moonbeam : WitchCard
 
         if (cardPlay.Target.IsAlive)
         {
-            await PowerCmd.Apply<MoonbeamPower>(choiceContext, cardPlay.Target, DynamicVars.Damage.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<MoonbeamPower>(choiceContext, cardPlay.Target, DynamicVars[_beamDamageKey].BaseValue, Owner.Creature, this);
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars[_beamDamageKey].UpgradeValueBy(3m);
+    }
 }

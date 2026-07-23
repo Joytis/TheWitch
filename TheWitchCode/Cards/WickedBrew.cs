@@ -20,12 +20,10 @@ public sealed class WickedBrew : OrientationBrewCard
 
     // Potions only the upgraded card can brew — none yet; new potions land here.
     protected override IEnumerable<PotionModel> UpgradedExtras => [
-        ModelDb.Potion<CursedBottle>(),
         ModelDb.Potion<PowderedDemise>(),
+        ModelDb.Potion<GigantificationPotion>(),
     ];
 
     // Potions the upgraded card can NO LONGER brew — dropped from the base table on upgrade.
-    protected override IEnumerable<PotionModel> UpgradedRemovals => [
-        ModelDb.Potion<ExplosiveAmpoule>(),
-    ];
+    protected override IEnumerable<PotionModel> UpgradedRemovals => [ ];
 }

@@ -21,7 +21,7 @@ public sealed class StonyBrew : OrientationBrewCard
     // Potions only the upgraded card can brew — none yet; new potions land here.
     protected override IEnumerable<PotionModel> UpgradedExtras => [
         ModelDb.Potion<HeartOfIron>(),
-        ModelDb.Potion<ShacklingPotion>(),
+        ModelDb.Potion<ShipInABottle>(),
     ];
 
     // Potions the upgraded card can NO LONGER brew — dropped from the base table on upgrade.

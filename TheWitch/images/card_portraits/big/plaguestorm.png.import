@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djn3tb2i0c6o4"
-path="res://.godot/imported/plague.png-16617d1ac783241d933981c8f007438b.ctex"
+uid="uid://dn3d0n2dnnu4u"
+path="res://.godot/imported/plaguestorm.png-ae5d5343bb2de5eb462b9d9bb1deaec6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/plague.png"
-dest_files=["res://.godot/imported/plague.png-16617d1ac783241d933981c8f007438b.ctex"]
+source_file="res://TheWitch/images/card_portraits/big/plaguestorm.png"
+dest_files=["res://.godot/imported/plaguestorm.png-ae5d5343bb2de5eb462b9d9bb1deaec6.ctex"]
 
 [params]
 
