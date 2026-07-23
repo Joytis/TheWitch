@@ -15,7 +15,7 @@ public sealed class WickerForm : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<WickerFormPower>(1m)
+        new PowerVar<WickerFormPower>(2m)
     ];
 
     public WickerForm()
