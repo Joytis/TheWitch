@@ -29,8 +29,8 @@
 |---|---|---|---|---|---|---|
 | 0 | 9 | 16 | 9 | 11 | 15 | 20 |
 | 1 | 43 | 43 | 54 | 48 | 49 | 49 |
-| 2 | 19 | 17 | 14 | 19 | 15 | 14 |
-| 3 | 10 | 10 | 7 | 7 | 6 | 3 |
+| 2 | 20 | 17 | 14 | 19 | 15 | 14 |
+| 3 | 9 | 10 | 7 | 7 | 6 | 3 |
 | 4+ | 0 | 0 | 2 | 0 | 1 | 1 |
 | X | 3 | 2 | 2 | 2 | 2 | 1 |
 
@@ -40,9 +40,9 @@ Effective damage = per-hit × hits. Cells: energy cost × single-target/AoE. Bas
 
 | cost | shape | base n | base med | base med+ | witch n | witch med | witch med+ |
 |---|---|---|---|---|---|---|---|
-| 0 | single | 15 | 6 | 8 | 2 | 6.5 | 10 |
+| 0 | single | 15 | 6 | 8 | 2 | 4 | 7.5 |
 | 0 | AoE | 1 | 60 | 75 | 0 | — | — |
-| 1 | single | 48 | 8 | 10 | 10 | 7.5 | 9 |
+| 1 | single | 48 | 8 | 10 | 10 | 8 | 9 |
 | 1 | AoE | 11 | 8 | 11 | 1 | 12 | 17 |
 | 2 | single | 20 | 13 | 17 | 7 | 10 | 14 |
 | 2 | AoE | 1 | 28 | 36 | 1 | 10 | 13 |
@@ -62,8 +62,8 @@ Non-flat damage cards per class (not averaged — counted):
 
 | cost | base n | base med | base med+ | witch n | witch med | witch med+ |
 |---|---|---|---|---|---|---|
-| 0 | 5 | 6 | 9 | 0 | — | — |
-| 1 | 35 | 6 | 8 | 7 | 7 | 10 |
+| 0 | 5 | 6 | 9 | 1 | 3 | 5 |
+| 1 | 35 | 6 | 8 | 6 | 6.5 | 9.5 |
 | 2 | 12 | 11 | 13.5 | 4 | 11 | 14.5 |
 | 3 | 1 | 13 | 17 | 0 | — | — |
 
@@ -86,9 +86,9 @@ Non-flat block cards per class:
 | Moonbeam | dmg | 2 | 8 | 13 | 0.62 |  |
 | Overrun | dmg | 1 | 5 | 8 | 0.63 |  |
 | Taste of Blood | dmg | 3 | 9 | 19 | 0.47 |  |
-| Capture Soul | dmg | 0 | 10 | 6 | 1.67 | SelfExhaust |
 | Circle of Rot | block | 2 | 20 | 11 | 1.82 | Drawback, SelfDebuff |
 | Salt and Ash | block | 1 | 8 | 6 | 1.33 | SelfDebuff |
+| Sprouts | block | 0 | 3 | 6 | 0.50 |  |
 | Wax and Wane | block | 1 | 8 | 6 | 1.33 | DelayedEffect |
 
 A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, draw, brews) justify low ratios; downsides (exhaust, HP) justify high ones.

@@ -21,7 +21,7 @@ public sealed class Distill : WitchCard
     ];
 
     public Distill()
-        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 
@@ -35,5 +35,5 @@ public sealed class Distill : WitchCard
         await PotionUpgrade.UpgradeRandomPotions(Owner, Owner.RunState.Rng.CombatPotionGeneration, DynamicVars["Potions"].IntValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars["Potions"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

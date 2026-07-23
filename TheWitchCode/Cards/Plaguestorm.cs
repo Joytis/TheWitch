@@ -12,7 +12,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Plaguestorm (was Plague): hex the whole board, then the storm strikes — one hit against a random
-/// enemy for each Rats in your Exhaust pile. Hit count renders live via the Barrage pattern.
+/// enemy for each Rats card played this combat. Hit count renders live via the Barrage pattern.
 /// </summary>
 public sealed class Plaguestorm : WitchCard
 {
@@ -29,7 +29,7 @@ public sealed class Plaguestorm : WitchCard
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar(_calculatedHitsKey)
-            .WithMultiplier((card, _) => PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c is IRatCard))
+            .WithMultiplier((card, _) => card.Owner?.Creature is { } creature ? CombatHistoryQueries.RatsPlayedThisCombat(creature) : 0)
     ];
 
     public Plaguestorm()
