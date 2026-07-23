@@ -21,7 +21,6 @@ public sealed class PricesPaid : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(6m, ValueProp.Move),
-        new DynamicVar("Brews", 1m)
     ];
 
     public PricesPaid()
@@ -51,11 +50,5 @@ public sealed class PricesPaid : WitchCard
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_bloody_impact")
             .Execute(choiceContext);
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars.HpLoss.UpgradeValueBy(1m);
-        DynamicVars["Brews"].UpgradeValueBy(1m);
     }
 }

@@ -8,7 +8,7 @@ using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Crow familiar token (formerly Claw Eyes): an ill portent — Hex for the whole board. Exhausts.</summary>
+/// <summary>Crow familiar token (formerly Claw Eyes): an ill portent — Hex a single target. Exhausts.</summary>
 public sealed class DarkOmen : WitchFamiliarCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -16,18 +16,19 @@ public sealed class DarkOmen : WitchFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<HexPower>(2m),
+        new PowerVar<HexPower>(1m),
     ];
 
     public DarkOmen()
-        : base(0, CardType.Skill, CardRarity.Token, TargetType.AllEnemies)
+        : base(0, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<HexPower>(choiceContext, CombatState!.HittableEnemies, DynamicVars.Hex().BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, cardPlay.Target, DynamicVars.Hex().BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(1m);

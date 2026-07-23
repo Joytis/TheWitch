@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>Rat familiar token: flood the deck — shuffle Rats into the draw pile (Call the Pack pattern).</summary>
-public sealed class Swarm : WitchFamiliarCard, IRatCard
+public sealed class Swarm : WitchFamiliarCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromCard<Rats>(IsUpgraded),

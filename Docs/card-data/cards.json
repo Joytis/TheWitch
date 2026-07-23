@@ -1212,7 +1212,7 @@
       "numbers": {
         "Damage": 6
       },
-      "upgrade": "HpLoss +1, Brews +1",
+      "upgrade": "none",
       "note": "Prices Paid: bleed yourself for a strike, then brew the spilled blood into a Noxious Brew.",
       "tested": false,
       "artFinal": false,
@@ -1772,7 +1772,9 @@
       "note": "Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
+      "mechanics": [
+        "None"
+      ],
       "role": [
         "Standalone"
       ],
@@ -2164,10 +2166,10 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 10 damage twice to ALL enemies. Apply 2 Hex to ALL enemies.",
+      "text": "Deal 8 damage twice to ALL enemies. Apply 2 Hex to ALL enemies.",
       "numbers": {
         "Hex": 2,
-        "Damage": 10
+        "Damage": 8
       },
       "upgrade": "Hex +1",
       "note": "Hexblast: blast every enemy, then lay Hex on all of them.",
@@ -2202,10 +2204,19 @@
       "note": "Message in a Bottle: bottle a chosen card from your hand into a Bottled Message potion; using the potion returns the card to your hand.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": [],
-      "sub": [],
-      "threads": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "SelfExhaust",
+        "DelayedEffect"
+      ]
     },
     {
       "name": "Mulch",
@@ -2373,7 +2384,9 @@
       "note": "Ritual Casting: a Power — big Skills each unlock a random free card this turn.",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
+      "mechanics": [
+        "None"
+      ],
       "role": [
         "Enabler"
       ],
@@ -2447,14 +2460,14 @@
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
-      "target": "AllEnemies",
-      "text": "Apply 2 Hex to ALL enemies.",
+      "target": "AnyEnemy",
+      "text": "Apply 1 Hex.",
       "numbers": {
-        "Hex": 2
+        "Hex": 1
       },
       "upgrade": "Hex +1",
-      "note": "Crow familiar token (formerly Claw Eyes): an ill portent — Hex for the whole board.",
-      "tested": true,
+      "note": "Crow familiar token (formerly Claw Eyes): an ill portent — Hex a single target.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -2575,13 +2588,11 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Create 1 copy of a non-Knowledge card in your Hand.",
-      "numbers": {
-        "Cards": 1
-      },
-      "upgrade": "Cards +1",
-      "note": "Owl familiar token: memorize a card — create copies of a card in your hand (base-game Dual Wield pattern: select, <c>CreateClone</c>, add through the generated-card funnel so creation payoffs fire).",
-      "tested": true,
+      "text": "Copy a random non-Knowledge card in your Hand.",
+      "numbers": {},
+      "upgrade": "custom (see code)",
+      "note": "Owl familiar token: memorize a card — copy a card in your hand (base-game Dual Wield pattern: <c>CreateClone</c>, added through the generated-card funnel so creation payoffs fire).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"

@@ -47,7 +47,7 @@ Effective damage = per-hit × hits. Cells: energy cost × single-target/AoE. Bas
 | 2 | single | 20 | 13 | 17 | 7 | 10 | 14 |
 | 2 | AoE | 1 | 28 | 36 | 1 | 10 | 13 |
 | 3 | single | 9 | 19 | 24 | 2 | 12 | 16 |
-| 3 | AoE | 2 | 14 | 18 | 1 | 20 | 20 |
+| 3 | AoE | 2 | 14 | 18 | 1 | 16 | 16 |
 
 Non-flat damage cards per class (not averaged — counted):
 
@@ -99,9 +99,9 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 
 | mechanic | Gen | Payoff | Enabler | Token | gen:payoff |
 |---|---|---|---|---|---|
-| Potions | 15 | 8 | 5 | 0 | 1.9:1 |
-| Debuff/Buff | 11 | 4 | 0 | 1 | 2.8:1 |
-| Familiars | 14 | 6 | 5 | 12 | 2.3:1 |
+| Potions | 16 | 9 | 6 | 0 | 1.8:1 |
+| Debuff/Buff | 13 | 5 | 0 | 1 | 2.6:1 |
+| Familiars | 15 | 7 | 5 | 12 | 2.1:1 |
 | Brambles | 9 | 3 | 2 | 0 | 3.0:1 |
 
 ### silent
@@ -151,20 +151,20 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 
 | thread | witch | silent | necrobinder | ironclad | defect | regent | base med |
 |---|---|---|---|---|---|---|---|
-| SelfExhaust | 27 | 12 | 13 | 11 | 18 | 7 | 12 |
-| CardGen | 15 | 10 | 9 | 5 | 4 | 6 | 6 |
+| SelfExhaust | 28 | 12 | 13 | 11 | 18 | 7 | 12 |
+| CardGen | 16 | 10 | 9 | 5 | 4 | 6 | 6 |
 | TurnEngine | 13 | 4 | 5 | 8 | 10 | 6 | 6 |
 | Draw | 8 | 11 | 6 | 9 | 12 | 10 | 10 |
+| AoE | 6 | 12 | 7 | 8 | 5 | 8 | 8 |
 | OtherDebuff | 10 | 4 | 4 | 1 | 0 | 4 | 4 |
+| MultiHit | 7 | 6 | 3 | 9 | 6 | 7 | 6 |
 | Energy | 7 | 2 | 7 | 6 | 8 | 6 | 6 |
-| AoE | 5 | 12 | 7 | 8 | 5 | 8 | 8 |
-| MultiHit | 6 | 6 | 3 | 9 | 6 | 7 | 6 |
 | Drawback | 6 | 4 | 12 | 4 | 4 | 1 | 4 |
+| DelayedEffect | 5 | 5 | 0 | 0 | 3 | 7 | 3 |
 | CostReduction | 3 | 4 | 4 | 4 | 4 | 2 | 4 |
-| DelayedEffect | 4 | 5 | 0 | 0 | 3 | 7 | 3 |
 | Snowball | 4 | 1 | 6 | 5 | 3 | 3 | 3 |
-| DebuffPayoff | 3 | 5 | 3 | 7 | 0 | 0 | 3 |
 | SelfDebuff | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
+| DebuffPayoff | 2 | 5 | 3 | 7 | 0 | 0 | 3 |
 | Weak | 2 | 7 | 3 | 1 | 2 | 5 | 3 |
 | BlockEngine | 1 | 2 | 4 | 4 | 1 | 5 | 4 |
 | StatRamp | 3 | 2 | 2 | 6 | 3 | 2 | 2 |
@@ -174,10 +174,10 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 | BurstFinisher | 1 | 2 | 5 | 1 | 3 | 5 | 3 |
 | HPLoss | 3 | 0 | 1 | 9 | 0 | 0 | 0 |
 | Recursion | 2 | 0 | 3 | 0 | 0 | 0 | 0 |
-| PlayVolume | 2 | 4 | 0 | 0 | 0 | 5 | 0 |
 | Retain | 1 | 3 | 9 | 0 | 0 | 1 | 1 |
 | Tutor | 0 | 0 | 0 | 2 | 2 | 2 | 2 |
 | SelfStatus | 1 | 0 | 0 | 0 | 5 | 2 | 0 |
+| PlayVolume | 1 | 4 | 0 | 0 | 0 | 5 | 0 |
 | AttacksMatter | 1 | 0 | 0 | 12 | 0 | 0 | 0 |
 | Heal | 1 | 0 | 0 | 1 | 0 | 0 | 0 |
 | AutoPlay | 1 | 0 | 0 | 6 | 0 | 0 | 0 |
