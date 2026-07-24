@@ -264,15 +264,6 @@
           "path": "TheWitch/images/charui/text_energy.png"
         },
         {
-          "name": "Combat Body Sprite / Animations",
-          "artist": "",
-          "done": false,
-          "brief": "",
-          "dims": "TBD — full animated sprite set",
-          "effect": "The in-combat character body. No override exists yet (PlaceholderCharacterModel) — renders as base-game Ironclad. Biggest missing asset.",
-          "path": ""
-        },
-        {
           "name": "Card Frame Fallbacks",
           "artist": "",
           "done": false,

@@ -96,7 +96,7 @@
   "THEWITCH-BAG_OF_TEETH.title": "Bag of Teeth",
   "THEWITCH-BAG_OF_TEETH.description": "Deal {Damage:diff()} damage {Repeat:diff()} {Repeat:plural:time|times}.",
   "THEWITCH-HIDDEN_IN_SMOKE.title": "Hidden in Smoke",
-  "THEWITCH-HIDDEN_IN_SMOKE.description": "At the start of your turn, create a [gold]Vial of Smoke[/gold].",
+  "THEWITCH-HIDDEN_IN_SMOKE.description": "At the start of your turn, create a [gold]Puff of Smoke[/gold].",
   "THEWITCH-MULCH.title": "Mulch",
   "THEWITCH-MULCH.description": "[gold]Exhaust[/gold] your [gold]Discard Pile[/gold].\nGain {CalculationExtra:diff()} [gold]Brambles[/gold] and {CalculationExtra:diff()} [gold]Block[/gold] for each card [gold]Exhausted[/gold].{InCombat:\n({CalculatedBrambles:diff()} [gold]Damage[/gold], {CalculatedBlock:diff()} [gold]Block[/gold])|}",
   "THEWITCH-ROTTING_ROOTS.title": "Rotting Roots",
