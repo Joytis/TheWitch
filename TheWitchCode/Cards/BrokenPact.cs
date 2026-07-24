@@ -11,7 +11,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class BrokenPact : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<StrengthPower>(5m)
+        new PowerVar<StrengthPower>(8m)
     ];
 
     public BrokenPact()
@@ -31,5 +31,5 @@ public sealed class BrokenPact : WitchCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Strength.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Strength.UpgradeValueBy(2m);
 }

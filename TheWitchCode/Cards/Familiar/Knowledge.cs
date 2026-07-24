@@ -10,15 +10,12 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Owl familiar token: memorize a card — create copies of a card in your hand (base-game Dual Wield
-/// pattern: select, <c>CreateClone</c>, add through the generated-card funnel so creation payoffs fire).
+/// Owl familiar token: memorize a card — copy a card in your hand (base-game Dual Wield pattern:
+/// <c>CreateClone</c>, added through the generated-card funnel so creation payoffs fire). Unupgraded
+/// the copy target is RANDOM; upgraded you choose it.
 /// </summary>
 public sealed class Knowledge : WitchFamiliarCard
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1)
-    ];
-
     public Knowledge()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
@@ -27,23 +24,35 @@ public sealed class Knowledge : WitchFamiliarCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         // Knowledge can't copy Knowledge (by type, not instance — two in hand copying each other is the same infinite loop).
-        CardModel? selection = (await CardSelectCmd.FromHand(
-            context: choiceContext,
-            player: Owner,
-            prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
-            filter: c => c is not Knowledge,
-            source: this)).FirstOrDefault();
+        CardModel? selection;
+        if (IsUpgraded)
+        {
+            selection = (await CardSelectCmd.FromHand(
+                context: choiceContext,
+                player: Owner,
+                prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
+                filter: c => c is not Knowledge,
+                source: this)).FirstOrDefault();
+        }
+        else
+        {
+            List<CardModel> candidates = PileType.Hand.GetPile(Owner).Cards
+                .Where(c => c is not Knowledge)
+                .ToList();
+            selection = Owner.RunState.Rng.CombatCardSelection.NextItem(candidates);
+        }
+
         if (selection == null)
         {
             return;
         }
 
         WitchFx.EnchantShimmer();
-        for (int i = 0; i < DynamicVars.Cards.IntValue; i++)
-        {
-            await CardPileCmd.AddGeneratedCardToCombat(selection.CreateClone(), PileType.Hand, Owner);
-        }
+        await CardPileCmd.AddGeneratedCardToCombat(selection.CreateClone(), PileType.Hand, Owner);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
+    protected override void OnUpgrade()
+    {
+        // Upgrade changes behavior only (random pick -> player choice); no numbers to bump.
+    }
 }

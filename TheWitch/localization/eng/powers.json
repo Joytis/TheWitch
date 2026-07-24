@@ -53,6 +53,9 @@
   "THEWITCH-EMBRACE_THE_WILDS_POWER.description": "You draw fewer cards at the start of each turn.",
   "THEWITCH-EMBRACE_THE_WILDS_POWER.smartDescription": "You draw [blue]{Amount}[/blue] fewer {Amount:plural:card|cards} at the start of each turn.",
   "THEWITCH-EMBRACE_THE_WILDS_POWER.title": "Embrace the Wilds",
+  "THEWITCH-TORMENT_POWER.description": "This turn, whenever you play a [gold]Potion[/gold], apply 1 [gold]Hex[/gold] to a random enemy.",
+  "THEWITCH-TORMENT_POWER.smartDescription": "This turn, whenever you play a [gold]Potion[/gold], apply [blue]{Amount}[/blue] [gold]Hex[/gold] to a random enemy.",
+  "THEWITCH-TORMENT_POWER.title": "Torment",
   "THEWITCH-NEXT_POTION_RARE_POWER.description": "Your next created [gold]Potion[/gold] is [gold]Rare[/gold].",
   "THEWITCH-NEXT_POTION_RARE_POWER.smartDescription": "Your next [blue]{Amount}[/blue] created {Amount:plural:Potion|Potions} {Amount:plural:is|are} [gold]Rare[/gold].",
   "THEWITCH-NEXT_POTION_RARE_POWER.title": "Gathered Herbs",
@@ -77,8 +80,8 @@
   "THEWITCH-A_LITTLE_SIP_POWER.description": "Whenever you use a [gold]Potion[/gold], heal [blue]1[/blue] HP and gain [blue]1[/blue] [gold]Strength[/gold].",
   "THEWITCH-A_LITTLE_SIP_POWER.smartDescription": "Whenever you use a [gold]Potion[/gold], heal [blue]{Amount}[/blue] HP and gain [blue]1[/blue] [gold]Strength[/gold].",
   "THEWITCH-A_LITTLE_SIP_POWER.title": "A Little Sip",
-  "THEWITCH-HEX_POWER.description": "This enemy takes [blue]3[/blue] additional damage from Witches.",
-  "THEWITCH-HEX_POWER.smartDescription": "This enemy has [blue]{Amount}[/blue] {Amount:plural:Hex|Hexes} and takes [blue]{TotalDamage}[/blue] additional damage from Witches.",
+  "THEWITCH-HEX_POWER.description": "This enemy takes [blue]3[/blue] additional damage.",
+  "THEWITCH-HEX_POWER.smartDescription": "This enemy has [blue]{Amount}[/blue] {Amount:plural:Hex|Hexes} and takes [blue]{TotalDamage}[/blue] additional damage.",
   "THEWITCH-HEX_POWER.title": "Hex",
   "THEWITCH-ROTTING_ROOTS_POWER.description": "At the start of your turn, ALL enemies lose HP and gain [blue]1[/blue] [gold]Hex[/gold].",
   "THEWITCH-ROTTING_ROOTS_POWER.smartDescription": "At the start of your turn, ALL enemies lose [blue]{Amount}[/blue] HP and gain [blue]1[/blue] [gold]Hex[/gold].",
@@ -88,8 +91,5 @@
   "THEWITCH-HIDDEN_IN_SMOKE_POWER.title": "Hidden in Smoke",
   "THEWITCH-OVERRUN_POWER.description": "Whenever you play a [gold]Familiar[/gold] card this turn, deal damage to the overrun enemy.",
   "THEWITCH-OVERRUN_POWER.smartDescription": "Whenever you play a [gold]Familiar[/gold] card this turn, deal damage to the overrun enemy.",
-  "THEWITCH-OVERRUN_POWER.title": "Overrun",
-  "THEWITCH-SPROUTS_POWER.description": "Whenever you play a card this turn, gain [gold]Brambles[/gold].",
-  "THEWITCH-SPROUTS_POWER.smartDescription": "Whenever you play a card this turn, gain [blue]{Amount}[/blue] [gold]Brambles[/gold].",
-  "THEWITCH-SPROUTS_POWER.title": "Sprouts"
+  "THEWITCH-OVERRUN_POWER.title": "Overrun"
 }

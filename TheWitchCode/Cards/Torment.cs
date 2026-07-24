@@ -15,19 +15,23 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public interface IHexPreserving;
 
-/// <summary>Torment (was Accursed Needles): a cheap repeatable sting that milks Hex without consuming it.</summary>
-public sealed class Torment : WitchCard, IHexPreserving
+/// <summary>
+/// Torment: a heavy hit that turns every potion you play this turn into a random-enemy Hex
+/// (via <see cref="TormentPower" />, one stack per play, gone at end of turn).
+/// </summary>
+public sealed class Torment : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(5m, ValueProp.Move)
+        new DamageVar(12m, ValueProp.Move),
+        new PowerVar<TormentPower>(1m)
     ];
 
     public Torment()
-        : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 
@@ -40,7 +44,9 @@ public sealed class Torment : WitchCard, IHexPreserving
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
+
+        await PowerCmd.Apply<TormentPower>(choiceContext, Owner.Creature, DynamicVars[nameof(TormentPower)].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4m);
 }

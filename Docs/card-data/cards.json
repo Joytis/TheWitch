@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-22",
+  "generated": "2026-07-23",
   "cards": [
     {
       "name": "Defend",
@@ -34,13 +34,13 @@
       "type": "Attack",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. On unblocked damage, create a Potion.",
+      "text": "Deal 10 damage. On unblocked damage, create a Potion.",
       "numbers": {
-        "Damage": 8
+        "Damage": 10
       },
-      "upgrade": "Damage +6",
-      "note": "ExtractEssence: deal damage; on unblocked damage, create a random Common potion.",
-      "tested": true,
+      "upgrade": "Damage +4",
+      "note": "ExtractEssence: deal damage; on unblocked damage, create a random potion from a HARD-CODED loot table (Herbal Brew pattern — not a live catalog query), so the pool is tuned per card.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -579,10 +579,10 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 6 damage. Apply 1 Hex.",
+      "text": "Deal 8 damage. Apply 1 Hex.",
       "numbers": {
         "Hex": 1,
-        "Damage": 6
+        "Damage": 8
       },
       "upgrade": "Hex +1",
       "note": "Vexing Strike (was Vexing Thwack): an Attack that also seeds the target with Hex.",
@@ -900,13 +900,13 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "At the start of your turn, gain 3 Brambles.",
+      "text": "At the start of your turn, gain 4 Brambles.",
       "numbers": {
-        "DeepRoots": 3
+        "DeepRoots": 4
       },
       "upgrade": "DeepRoots +2",
       "note": "Deep Roots: a Power that grows Brambles at the start of every turn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -925,7 +925,7 @@
       "name": "Eye of Newt",
       "entry": "EYE_OF_NEWT",
       "file": "TheWitchCode/Cards/EyeOfNewt.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
@@ -1014,7 +1014,7 @@
       "numbers": {},
       "upgrade": "Cost -1",
       "note": "Hidden in Smoke: a Power that brews a Vial of Smoke at the start of every turn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1037,7 +1037,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Create a Vial of Smoke.Upgrade 2 cards in your Hand.",
+      "text": "Create a Vial of Smoke. Upgrade 2 cards in your Hand.",
       "numbers": {
         "Cards": 2
       },
@@ -1065,13 +1065,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. Deal 8 damage at the start of each of your turns.",
+      "text": "Deal 8 damage. Deal {BeamDamage:diff()} damage at the start of each of your turns.",
       "numbers": {
         "Damage": 8
       },
       "upgrade": "Damage +3",
       "note": "Moonbeam: strike, then leave the beam on the target — it takes the same damage again at the start of each of your turns (<see cref=\"MoonbeamPower\" />, stacks on repeat plays).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1204,18 +1204,17 @@
       "name": "Prices Paid",
       "entry": "PRICES_PAID",
       "file": "TheWitchCode/Cards/PricesPaid.cs",
-      "cost": 1,
+      "cost": "X",
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 1 HP. Deal 6 damage. Create {Brews:diff()} Noxious Brews.",
+      "text": "Lose X HP. Deal 6 damage. Create X Noxious Brews.",
       "numbers": {
-        "HpLoss": 1,
         "Damage": 6
       },
-      "upgrade": "HpLoss +1, Brews +1",
+      "upgrade": "none",
       "note": "Prices Paid: bleed yourself for a strike, then brew the spilled blood into a Noxious Brew.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -1411,18 +1410,18 @@
       "name": "Sprouts",
       "entry": "SPROUTS",
       "file": "TheWitchCode/Cards/Sprouts.cs",
-      "cost": 1,
+      "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 7 Block. Whenever you play a card this turn, gain 1 Brambles.",
+      "text": "Gain 3 Block. Gain 3 Brambles. Add a Sprouts into your Discard Pile.",
       "numbers": {
-        "Sprouts": 1,
-        "Block": 7
+        "Brambles": 3,
+        "Block": 3
       },
-      "upgrade": "Block +3",
-      "note": "Sprouts (was Feast With Wolves): a guard that keeps growing — every card played this turn sprouts a Bramble.",
-      "tested": true,
+      "upgrade": "Block +2",
+      "note": "Sprouts: a small guard that reseeds itself — block + Brambles, and a copy of this card sprouts in your Discard pile (Anger pattern).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -1431,10 +1430,10 @@
         "Generator"
       ],
       "sub": [
-        "Brambles:Engine"
+        "Brambles:Rider"
       ],
       "threads": [
-        "PlayVolume"
+        "CardGen"
       ]
     },
     {
@@ -1445,14 +1444,14 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 6 damage. Apply 1 Vulnerable.",
+      "text": "Deal 9 damage. Apply 1 Vulnerable.",
       "numbers": {
         "Vulnerable": 1,
-        "Damage": 6
+        "Damage": 9
       },
       "upgrade": "Damage +2, Vulnerable +1",
       "note": "Strike Fear: a jab that leaves the target flinching — damage plus Vulnerable.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -1534,13 +1533,13 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage twice. Give a random card in your Hand Replay {Replay}.",
+      "text": "Deal 5 damage twice. Give a random card in your Draw Pile Replay {Replay}.",
       "numbers": {
         "Damage": 5
       },
       "upgrade": "Damage +3",
-      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a random card in your Hand with Replay.",
-      "tested": true,
+      "note": "\"Double, double, toil and trouble\" — hit twice, then enchant a random card in your Draw Pile with Replay.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "None"
@@ -1557,30 +1556,32 @@
       "name": "Torment",
       "entry": "TORMENT",
       "file": "TheWitchCode/Cards/Torment.cs",
-      "cost": 0,
+      "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 5 damage. Does not remove Hex.",
+      "text": "Deal 12 damage. This turn, whenever you play a Potion, apply 1 Hex to a random enemy.",
       "numbers": {
-        "Damage": 5
+        "Torment": 1,
+        "Damage": 12
       },
-      "upgrade": "Damage +2",
+      "upgrade": "Damage +4",
       "note": "Marker for attacks that don't burn the target's Hex — <see cref=\"HexPower\" /> skips its after-attack stack loss when the attacking card implements this.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
-        "Debuff/Buff"
+        "Debuff/Buff",
+        "Potions"
       ],
       "role": [
+        "Generator",
         "Payoff"
       ],
       "sub": [
-        "Debuff/Buff:HexExploit"
+        "Debuff/Buff:HexApply",
+        "Potions:UsePayoff"
       ],
-      "threads": [
-        "DebuffPayoff"
-      ]
+      "threads": []
     },
     {
       "name": "Volatile Vapors",
@@ -1771,7 +1772,9 @@
       "note": "Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
+      "mechanics": [
+        "None"
+      ],
       "role": [
         "Standalone"
       ],
@@ -1883,7 +1886,7 @@
       },
       "upgrade": "Strength +2",
       "note": "Broken Pact: end a familiar's service and take its strength for your own.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -1907,15 +1910,15 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. Apply {CalculatedHex:diff()} Hex. If Fatal, Permanently increase this card's hex by 1.",
+      "text": "Deal 5 damage. Apply {CalculatedHex:diff()} Hex. If Fatal, Permanently increase this card's hex by 1.",
       "numbers": {
-        "Damage": 10,
+        "Damage": 5,
         "CalculationBase": 1,
         "CalculationExtra": 1
       },
       "upgrade": "Damage +4",
       "note": "Capture Soul: each kill is bottled forever — this copy permanently applies +1 Hex per enemy it has killed, across combats and save/load (<c>[SavedProperty]</c> + DeckVersion propagation, the base-game GeneticAlgorithm pattern).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -2051,15 +2054,15 @@
       "name": "Distill",
       "entry": "DISTILL",
       "file": "TheWitchCode/Cards/Distill.cs",
-      "cost": 0,
+      "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Transform {Potions:diff()} random Potions into Rare Potions.",
+      "text": "Transform a random Potion into a Rare Potion.",
       "numbers": {},
-      "upgrade": "Potions +1",
+      "upgrade": "Cost -1",
       "note": "Distill (renamed from Brew): replace a random belt potion (non-Rares prioritized) with a random RARE non-healing potion of the same orientation (see <see cref=\"PotionUpgrade\" />).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Potions"
@@ -2163,14 +2166,14 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 10 damage twice to ALL enemies. Apply 3 Hex to ALL enemies.",
+      "text": "Deal 8 damage twice to ALL enemies. Apply 2 Hex to ALL enemies.",
       "numbers": {
-        "Hex": 3,
-        "Damage": 10
+        "Hex": 2,
+        "Damage": 8
       },
-      "upgrade": "Hex +2",
+      "upgrade": "Hex +1",
       "note": "Hexblast: blast every enemy, then lay Hex on all of them.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff"
@@ -2201,10 +2204,19 @@
       "note": "Message in a Bottle: bottle a chosen card from your hand into a Bottled Message potion; using the potion returns the card to your hand.",
       "tested": false,
       "artFinal": false,
-      "mechanics": [],
-      "role": [],
-      "sub": [],
-      "threads": []
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Enabler"
+      ],
+      "sub": [
+        "Potions:Brew"
+      ],
+      "threads": [
+        "SelfExhaust",
+        "DelayedEffect"
+      ]
     },
     {
       "name": "Mulch",
@@ -2237,20 +2249,23 @@
       ]
     },
     {
-      "name": "Plague",
-      "entry": "PLAGUE",
-      "file": "TheWitchCode/Cards/Plague.cs",
+      "name": "Plaguestorm",
+      "entry": "PLAGUESTORM",
+      "file": "TheWitchCode/Cards/Plaguestorm.cs",
       "cost": 3,
-      "type": "Skill",
+      "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Apply 3 Hex to ALL enemies. Put ALL Rats in your Exhaust Pile into your Hand.",
+      "text": "Apply 2 Hex to ALL enemies. Deal 5 damage to a random enemy for each Rats played this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
       "numbers": {
-        "Hex": 3
+        "Hex": 2,
+        "Damage": 5,
+        "CalculationBase": 0,
+        "CalculationExtra": 1
       },
       "upgrade": "Hex +1",
-      "note": "Plague: hex the whole board, and the rats come back — every Rats card in the Exhaust pile returns to your hand (a move of existing cards, so plain <c>CardPileCmd.Add</c>, capped by hand space).",
-      "tested": true,
+      "note": "Plaguestorm (was Plague): hex the whole board, then the storm strikes — one hit against a random enemy for each Rats card played this combat.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",
@@ -2258,15 +2273,14 @@
       ],
       "role": [
         "Generator",
-        "Enabler"
+        "Payoff"
       ],
       "sub": [
-        "Debuff/Buff:HexApply",
-        "Familiars:TokenGen"
+        "Debuff/Buff:HexApply"
       ],
       "threads": [
-        "OtherDebuff",
-        "Recursion"
+        "AoE",
+        "MultiHit"
       ]
     },
     {
@@ -2370,7 +2384,9 @@
       "note": "Ritual Casting: a Power — big Skills each unlock a random free card this turn.",
       "tested": true,
       "artFinal": false,
-      "mechanics": [],
+      "mechanics": [
+        "None"
+      ],
       "role": [
         "Enabler"
       ],
@@ -2389,13 +2405,13 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you play a card, gain 1 Brambles.",
+      "text": "Whenever you play a card, gain 2 Brambles.",
       "numbers": {
-        "WickerForm": 1
+        "WickerForm": 2
       },
       "upgrade": "WickerForm +1",
       "note": "Wicker Form: become the wicker — every card you play sprouts Brambles.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Brambles"
@@ -2444,14 +2460,14 @@
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
-      "target": "AllEnemies",
-      "text": "Apply 2 Hex to ALL enemies.",
+      "target": "AnyEnemy",
+      "text": "Apply 1 Hex.",
       "numbers": {
-        "Hex": 2
+        "Hex": 1
       },
       "upgrade": "Hex +1",
-      "note": "Crow familiar token (formerly Claw Eyes): an ill portent — Hex for the whole board.",
-      "tested": true,
+      "note": "Crow familiar token (formerly Claw Eyes): an ill portent — Hex a single target.",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars",
@@ -2572,13 +2588,11 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Create 1 copy of a non-Knowledge card in your Hand.",
-      "numbers": {
-        "Cards": 1
-      },
-      "upgrade": "Cards +1",
-      "note": "Owl familiar token: memorize a card — create copies of a card in your hand (base-game Dual Wield pattern: select, <c>CreateClone</c>, add through the generated-card funnel so creation payoffs fire).",
-      "tested": true,
+      "text": "Copy a random non-Knowledge card in your Hand.",
+      "numbers": {},
+      "upgrade": "custom (see code)",
+      "note": "Owl familiar token: memorize a card — copy a card in your hand (base-game Dual Wield pattern: <c>CreateClone</c>, added through the generated-card funnel so creation payoffs fire).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Familiars"
@@ -2845,14 +2859,14 @@
       "type": "Attack",
       "rarity": "Ancient",
       "target": "AnyEnemy",
-      "text": "Deal 15 damage. Apply 3 Hex. Create {Potions:diff()} Potions.",
+      "text": "Deal 15 damage. Apply 3 Hex. Create a Rare Potion.",
       "numbers": {
         "Hex": 3,
         "Damage": 15
       },
       "upgrade": "Damage +5",
-      "note": "Rip Soul: the Ancient (transcended) form of Extract Essence — tear the soul out of an enemy: heavy damage, 3 Hex, and 3 random potions.",
-      "tested": true,
+      "note": "Rip Soul: the Ancient (transcended) form of Extract Essence — tear the soul out of an enemy: heavy damage, 3 Hex, and ONE potent potion from a hard-coded loot table (Extract Essence pattern).",
+      "tested": false,
       "artFinal": false,
       "mechanics": [
         "Debuff/Buff",

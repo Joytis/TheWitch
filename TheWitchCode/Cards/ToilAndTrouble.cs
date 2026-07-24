@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>"Double, double, toil and trouble" — hit twice, then enchant a random card in your Hand with Replay.</summary>
+/// <summary>"Double, double, toil and trouble" — hit twice, then enchant a random card in your Draw Pile with Replay.</summary>
 public sealed class ToilAndTrouble : WitchCard
 {
     private const int Hits = 2;
@@ -38,7 +38,7 @@ public sealed class ToilAndTrouble : WitchCard
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        List<CardModel> candidates = PileType.Hand.GetPile(Owner).Cards
+        List<CardModel> candidates = PileType.Draw.GetPile(Owner).Cards
             .Where(c => !c.Keywords.Contains(CardKeyword.Unplayable))
             .ToList();
         CardModel? chosen = Owner.RunState.Rng.CombatCardSelection.NextItem(candidates);
