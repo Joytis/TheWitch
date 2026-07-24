@@ -9,6 +9,8 @@
   "THEWITCH-BUDDY_IN_A_BOTTLE.description": "Add a random [gold]Familiar[/gold] into your [gold]Hand[/gold]. It's free to play this turn.",
   "THEWITCH-VIAL_OF_SMOKE.title": "Vial of Smoke",
   "THEWITCH-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
+  "THEWITCH-PUFF_OF_SMOKE.title": "Puff of Smoke",
+  "THEWITCH-PUFF_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
   "THEWITCH-MUSHROOM_EXTRACT.title": "Mushroom Extract",
   "THEWITCH-MUSHROOM_EXTRACT.description": "Discard your [gold]Hand[/gold] and draw [blue]6[/blue] cards. They cost [blue]0[/blue] for the rest of combat, but they're... silly...",
   "THEWITCH-WORMY_APPLE.title": "Wormy Apple",

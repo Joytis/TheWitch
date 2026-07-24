@@ -11,7 +11,7 @@ namespace TheWitch.TheWitchCode.Potions;
 /// <summary>
 /// Vial of Smoke: a card-only (Token rarity) defensive potion that grants Block. Created by Light the Candle.
 /// </summary>
-public sealed class VialOfSmoke : WitchPotion
+public sealed class PuffOfSmoke : WitchPotion
 {
     public override PotionRarity Rarity => PotionRarity.Token;
 
@@ -22,12 +22,12 @@ public sealed class VialOfSmoke : WitchPotion
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(7m, ValueProp.Unpowered)
+        new BlockVar(4m, ValueProp.Unpowered)
     ];
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
         AssertValidForTargetedPotion(target);
-        await CreatureCmd.GainBlock(target!, DynamicVars.Block, null);
+        await CreatureCmd.GainBlock(target, DynamicVars.Block, null);
     }
 }
