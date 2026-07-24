@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://day60k0as8rc0"
-path="res://.godot/imported/extract_essence.png-c43b9d3494b70495bef2865ea9e03c55.ctex"
+uid="uid://dph3ciu8e63f5"
+path="res://.godot/imported/harvest.png-b5c0ae1ef14192946190186a77d24142.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/card_portraits/big/extract_essence.png"
-dest_files=["res://.godot/imported/extract_essence.png-c43b9d3494b70495bef2865ea9e03c55.ctex"]
+source_file="res://TheWitch/images/card_portraits/harvest.png"
+dest_files=["res://.godot/imported/harvest.png-b5c0ae1ef14192946190186a77d24142.ctex"]
 
 [params]
 

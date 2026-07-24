@@ -44,7 +44,7 @@ Effective damage = per-hit × hits. Cells: energy cost × single-target/AoE. Bas
 | 0 | AoE | 1 | 60 | 75 | 0 | — | — |
 | 1 | single | 48 | 8 | 10 | 10 | 8 | 9 |
 | 1 | AoE | 11 | 8 | 11 | 1 | 12 | 17 |
-| 2 | single | 20 | 13 | 17 | 7 | 10 | 14 |
+| 2 | single | 20 | 13 | 17 | 7 | 12 | 15 |
 | 2 | AoE | 1 | 28 | 36 | 1 | 10 | 13 |
 | 3 | single | 9 | 19 | 24 | 2 | 12 | 16 |
 | 3 | AoE | 2 | 14 | 18 | 1 | 16 | 20 |
@@ -99,8 +99,8 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 
 | mechanic | Gen | Payoff | Enabler | Token | gen:payoff |
 |---|---|---|---|---|---|
-| Potions | 16 | 9 | 6 | 0 | 1.8:1 |
 | Debuff/Buff | 13 | 5 | 0 | 1 | 2.6:1 |
+| Potions | 15 | 9 | 6 | 0 | 1.7:1 |
 | Familiars | 15 | 7 | 5 | 12 | 2.1:1 |
 | Brambles | 9 | 3 | 2 | 0 | 3.0:1 |
 
