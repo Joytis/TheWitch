@@ -27,19 +27,19 @@
       "threads": []
     },
     {
-      "name": "Extract Essence",
-      "entry": "EXTRACT_ESSENCE",
-      "file": "TheWitchCode/Cards/ExtractEssence.cs",
+      "name": "Harvest",
+      "entry": "HARVEST",
+      "file": "TheWitchCode/Cards/Harvest.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. On unblocked damage, create a Potion.",
+      "text": "Deal 12 damage. Harvest a Potion.",
       "numbers": {
-        "Damage": 10
+        "Damage": 12
       },
       "upgrade": "Damage +4",
-      "note": "ExtractEssence: deal damage; on unblocked damage, create a random potion from a HARD-CODED loot table (Herbal Brew pattern — not a live catalog query), so the pool is tuned per card.",
+      "note": "Harvest: deal damage; on unblocked damage, create a random potion from a HARD-CODED loot table (Herbal Brew pattern — not a live catalog query), so the pool is tuned per card.",
       "tested": false,
       "artFinal": false,
       "mechanics": [

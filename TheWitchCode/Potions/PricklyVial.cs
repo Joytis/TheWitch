@@ -12,9 +12,9 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>Fertilizer: feed the witch's thorns — gain Brambles. Tagged offensive in the loot table.</summary>
-public sealed class Fertilizer : WitchPotion
+public sealed class PricklyVial : WitchPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Common;
+    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 
@@ -22,7 +22,7 @@ public sealed class Fertilizer : WitchPotion
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<BramblesPower>(6m)
+        new PowerVar<BramblesPower>(3m)
     ];
 
     public override IEnumerable<IHoverTip> ExtraHoverTips => [
