@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>Rat familiar token: dig a card back out of the discard pile (base-game Dredge pattern).</summary>
-public sealed class Rummage : WitchFamiliarCard, IRatCard
+public sealed class Rummage : WitchFamiliarCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(1)

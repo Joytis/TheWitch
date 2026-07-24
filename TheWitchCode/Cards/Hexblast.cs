@@ -21,7 +21,7 @@ public sealed class Hexblast : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<HexPower>(2m),
-        new DamageVar(10m, ValueProp.Move)
+        new DamageVar(8m, ValueProp.Move)
     ];
 
     public Hexblast()
@@ -46,5 +46,9 @@ public sealed class Hexblast : WitchCard
         NGame.Instance?.ScreenShake(ShakeStrength.Weak, ShakeDuration.Short);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Hex().UpgradeValueBy(1m);
+    protected override void OnUpgrade() 
+    {
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Hex().UpgradeValueBy(1m);
+    }
 }

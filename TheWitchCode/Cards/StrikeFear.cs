@@ -18,7 +18,7 @@ public sealed class StrikeFear : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(6m, ValueProp.Move),
+        new DamageVar(9m, ValueProp.Move),
         new PowerVar<VulnerablePower>(1m)
     ];
 

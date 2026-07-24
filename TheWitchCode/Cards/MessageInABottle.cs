@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
-using TheWitch.TheWitchCode.Extensions;
 using TheWitch.TheWitchCode.Potions;
 
 namespace TheWitch.TheWitchCode.Cards;
@@ -40,7 +39,6 @@ public sealed class MessageInABottle : WitchCard
         var potion = (BottledMessage)ModelDb.Potion<BottledMessage>().ToMutable();
         potion.Bottle(chosen);
 
-        WitchFx.BrewPuff(Owner.Creature);
         if ((await PotionCmd.TryToProcure(potion, Owner)).success)
         {
             await CardPileCmd.RemoveFromCombat(chosen);

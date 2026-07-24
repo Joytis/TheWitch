@@ -19,6 +19,7 @@ public static class WitchFx
 
     /// <summary>Poison-green tint shared by brew/bramble effects (base-game Noxious Fumes green).</summary>
     public static readonly Color WitchGreen = new("83eb85");
+    public static readonly Color Purple = new("ac54b3");
 
     private static void Attach(Node2D? vfx) => NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx);
 
@@ -28,25 +29,6 @@ public static class WitchFx
     {
         NPowerUpVfx.CreateGhostly(owner);
         SfxCmd.Play(SummonSfx);
-    }
-
-    /// <summary>Potion-creation signature: fiery smoke puff on the brewer (creation, not flatulence).
-    /// Cards using this must include NFireSmokePuffVfx.AssetPaths in ExtraRunAssetPaths.
-    /// Optional tint recolors the cloud material the same way the base game's Purple
-    /// smoke-puff treatment does (duplicated material, narrowed hue variation).</summary>
-    public static void BrewPuff(Creature owner, Color? tint = null)
-    {
-        NFireSmokePuffVfx? vfx = NFireSmokePuffVfx.Create(owner);
-        if (vfx != null && tint is Color color)
-        {
-            var clouds = vfx.GetNode<GpuParticles2D>("Clouds");
-            var mat = (ParticleProcessMaterial)clouds.ProcessMaterial.Duplicate();
-            mat.HueVariationMin = -0.02f;
-            mat.HueVariationMax = 0.02f;
-            mat.Color = color;
-            clouds.ProcessMaterial = mat;
-        }
-        Attach(vfx);
     }
 
     /// <summary>Bramble-gain signature: green spore burst on the gainer (globally preloaded).</summary>

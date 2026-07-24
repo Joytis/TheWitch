@@ -6,6 +6,31 @@ Completed items moved out of [TODO.md](TODO.md). Newest at top. Each entry: what
 
 > **Merge note (2026-07-11):** entries 173–175 below were done 2026-07-08 on another machine and merged in after the 123–172 rework batch (renumbered from their original 122/132/133 to avoid collisions). Two other entries from that machine were dropped as superseded by the rework: *Rename Plunder → The Hunt* (remote renamed it Pick Clean instead, entry 123) and the *Oxidizers choice-prompt replay fix* (Oxidizers was cut entirely, entry 125 — the `OxidizersReplayPatch.cs` it introduced was removed in the merge).
 
+### 269. Toil and Trouble — Replay enchant moved to Draw Pile
+- **Done:** 2026-07-22 (claude) — [ToilAndTrouble.cs](../TheWitchCode/Cards/ToilAndTrouble.cs): random Replay target `PileType.Hand` → `PileType.Draw` (Unplayable filter + `CardCmd.Preview` kept). Loc: "in your [gold]Draw Pile[/gold]".
+- **Verified:** build 0/0. ⚠️ In-game: Preview popup on a draw-pile card renders sanely.
+- **Files:** `TheWitchCode/Cards/ToilAndTrouble.cs`, `TheWitch/localization/eng/cards.json`
+
+### 268. Rip Soul nerf — 1 curated Rare potion (was 3 random)
+- **Done:** 2026-07-22 (claude) — [RipSoul.cs](../TheWitchCode/Cards/RipSoul.cs): 3× `PotionCatalog.Query()` roll → **one** roll from a hard-coded `LootTable` (Extract Essence pattern). Curated all-Rare "good one" pool (trim freely): Fairy in a Bottle, Entropic Brew, Gigantification, Fruit Juice, Mazaleth's Gift, Shackling, Lucky Tonic, Distilled Chaos, Ship in a Bottle, Buddy in a Bottle, Wormy Apple. Deliberately skipped Snecko Oil + Mushroom Extract (downside-heavy rolls feel bad from a Boss-tier card). `Potions` var dropped; loc line → "Create a [gold]Rare[/gold] [gold]Potion[/gold]."
+- **Verified:** build 0/0.
+- **Files:** `TheWitchCode/Cards/RipSoul.cs`, `TheWitch/localization/eng/cards.json`
+
+### 267. Moonbeam — power tick no longer displays Strength-scaled
+- **Done:** 2026-07-22 (claude) — Visual bug: card's second line reused `{Damage:diff()}` (`ValueProp.Move` → renders Strength/Vigor-scaled) while the power tick is flat (`Unpowered`, applied from `BaseValue`) — with Strength the card face promised more per-turn damage than the beam dealt. [Moonbeam.cs](../TheWitchCode/Cards/Moonbeam.cs): new plain `DynamicVar("BeamDamage", 8m)` (no value-prop scaling), power applied from it, upgrade bumps both +3; loc line 2 → `{BeamDamage:diff()}`. Hit line still scales normally.
+- **Verified:** build 0/0. ⚠️ In-game visual check: with Strength up, first number inflates, second stays flat and matches actual tick.
+- **Files:** `TheWitchCode/Cards/Moonbeam.cs`, `TheWitch/localization/eng/cards.json`
+
+### 266. Torment rework — potion-play Hex trigger
+- **Done:** 2026-07-22 (claude) — [Torment.cs](../TheWitchCode/Cards/Torment.cs): 0e/5dmg sting → **2e, 12 damage**, Uncommon; after the hit applies 1 stack of new [TormentPower.cs](../TheWitchCode/Powers/TormentPower.cs) (self buff): whenever you play a potion this turn, apply Amount Hex to a random enemy (Juggernaut random-target pattern: `Rng.CombatTargets` + `ThrowingPlayerChoiceContext`; `AfterPotionUsed` hook), fully removed at `AfterSideTurnEnd` (DoubleDamagePower pattern). Stacks: 2 Torments in one turn = 2 Hex per potion. Upgrade +4 damage. Kept `IHexPreserving` + "Does not remove Hex" line (still Hex-centric — flag if unwanted). New `THEWITCH-TORMENT_POWER.*` loc.
+- **Verified:** build 0/0. ⚠️ In-game: play Torment → drink potion → random enemy gains 1 Hex; power gone next turn; MP: ThrowingPlayerChoiceContext apply from hook.
+- **Files:** `TheWitchCode/Cards/Torment.cs`, `TheWitchCode/Powers/TormentPower.cs`, `TheWitch/localization/eng/{cards,powers}.json`
+
+### 265. Plague → Plaguestorm — rename + Attack rework
+- **Done:** 2026-07-22 (claude) — [Plaguestorm.cs](../TheWitchCode/Cards/Plaguestorm.cs) (Plague.cs + .uid deleted): now 3e **Attack**, Rare, AllEnemies. Apply 2 Hex to ALL enemies (upgrade still Hex +1 — note didn't specify, kept old upgrade), then deal 5 damage to a random enemy per `IRatCard` in Exhaust — SwordBoomerang `.TargetingRandomOpponents` + Barrage live hit-count pattern (`CalculatedHits` multiplier = Exhaust IRatCard count; loc shows `(Hits N times)` in combat). Old "return Rats to hand" effect gone. Hex applied BEFORE the hits (note's order) — the random hits milk+burn the fresh Hex. Loc keys renamed `PLAGUE` → `PLAGUESTORM`; art git-mv'd `plague.png` → `plaguestorm.png` (both sizes), stale `.import` deleted — **run Godot: Import assets**.
+- **Verified:** build 0/0. ⚠️ In-game: live hit counter on card face; random-target hits burn Hex correctly.
+- **Files:** `TheWitchCode/Cards/Plaguestorm.cs`, `TheWitch/localization/eng/cards.json`, `TheWitch/images/card_portraits/{,big/}plaguestorm.png`
+
 ### 264. Stony Brew + Herbal Brew — cost 2
 - **Done:** 2026-07-20 (claude) — [OrientationBrewCard.cs](../TheWitchCode/Cards/OrientationBrewCard.cs) ctor takes `energyCost` (default 1); [StonyBrew.cs](../TheWitchCode/Cards/StonyBrew.cs) + [HerbalBrew.cs](../TheWitchCode/Cards/HerbalBrew.cs) pass 2. Wicked Brew stays 1. No loc change (cost renders from model); regen run (brew trio TESTED cleared — also picked up user's table trims).
 - **Verified:** build 0/0.

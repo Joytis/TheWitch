@@ -24,10 +24,12 @@ public partial class NFxLab : Control
     // Spawned vfx are scaled down so big effects fit inside the stage panel.
     private const float StageZoom = 0.5f;
 
-    private sealed record FxEntry(string Display, string CopyText, string PlayKey, double MaxLifetime = VfxFailsafeSeconds, string Tag = "");
+    private sealed record FxEntry(string Name, string[] Group, string CopyText, string PlayKey, double MaxLifetime = VfxFailsafeSeconds, string Tag = "");
 
-    private readonly List<(Control Row, string Filter)> _sfxRows = new();
-    private readonly List<(Control Row, string Filter)> _vfxRows = new();
+    private sealed record RowEntry(Control Row, string Filter, string Tag);
+
+    private readonly List<RowEntry> _sfxRows = new();
+    private readonly List<RowEntry> _vfxRows = new();
 
     private Label _sfxCount = null!;
     private Label _vfxCount = null!;
@@ -128,7 +130,7 @@ public partial class NFxLab : Control
     private Control BuildListPanel(
         string header,
         List<FxEntry> entries,
-        List<(Control Row, string Filter)> rowStore,
+        List<RowEntry> rowStore,
         Action<FxEntry> play,
         out Label countLabel,
         bool withOneShotToggle = false)
@@ -175,9 +177,18 @@ public partial class NFxLab : Control
         VBoxContainer list = new() { SizeFlagsHorizontal = SizeFlags.ExpandFill };
         scroll.AddChild(list);
 
-        foreach (FxEntry entry in entries)
+        // Group headers cover the leaf rows added while recursing into them, tracked as a
+        // [From, To) range into rowStore; a header hides when none of its leaves are visible.
+        List<(Control Header, int From, int To)> headers = new();
+
+        void AddRow(FxEntry entry, int depth)
         {
             HBoxContainer row = new() { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+
+            if (depth > 0)
+            {
+                row.AddChild(new Control { CustomMinimumSize = new Vector2(depth * 16, 0) });
+            }
 
             Button playBtn = new() { Text = "Play", CustomMinimumSize = new Vector2(52, 0) };
             playBtn.Pressed += () => play(entry);
@@ -193,7 +204,7 @@ public partial class NFxLab : Control
 
             Label pathLabel = new()
             {
-                Text = entry.Display,
+                Text = entry.Name,
                 SizeFlagsHorizontal = SizeFlags.ExpandFill,
                 ClipText = true,
                 TooltipText = entry.CopyText,
@@ -217,8 +228,36 @@ public partial class NFxLab : Control
             }
 
             list.AddChild(row);
-            rowStore.Add((row, $"{entry.Display} {entry.Tag}".ToLowerInvariant()));
+            rowStore.Add(new RowEntry(row, entry.Name.ToLowerInvariant(), entry.Tag));
         }
+
+        void AddLevel(IEnumerable<FxEntry> subset, int depth)
+        {
+            List<FxEntry> here = subset.ToList();
+            foreach (FxEntry entry in here.Where(e => e.Group.Length == depth))
+            {
+                AddRow(entry, depth);
+            }
+            foreach (IGrouping<string, FxEntry> group in here
+                         .Where(e => e.Group.Length > depth)
+                         .GroupBy(e => e.Group[depth])
+                         .OrderBy(g => g.Key, StringComparer.Ordinal))
+            {
+                HBoxContainer headerRow = new();
+                headerRow.AddChild(new Control { CustomMinimumSize = new Vector2(depth * 16, 0) });
+                Label groupLabel = new() { Text = group.Key };
+                groupLabel.AddThemeFontSizeOverride("font_size", 14);
+                groupLabel.AddThemeColorOverride("font_color", new Color(0.72f, 0.72f, 0.9f));
+                headerRow.AddChild(groupLabel);
+                list.AddChild(headerRow);
+
+                int from = rowStore.Count;
+                AddLevel(group, depth + 1);
+                headers.Add((headerRow, from, rowStore.Count));
+            }
+        }
+
+        AddLevel(entries, 0);
 
         Label count = countLabel;
         CheckBox? toggle = oneShotToggle;
@@ -227,15 +266,27 @@ public partial class NFxLab : Control
             string t = search.Text.Trim().ToLowerInvariant();
             bool oneShotOnly = toggle?.ButtonPressed ?? false;
             int shown = 0;
-            foreach ((Control row, string filter) in rowStore)
+            bool[] vis = new bool[rowStore.Count];
+            for (int i = 0; i < rowStore.Count; i++)
             {
-                bool visible = (t.Length == 0 || filter.Contains(t))
-                               && (!oneShotOnly || filter.Contains("[one-shot]"));
-                row.Visible = visible;
+                RowEntry r = rowStore[i];
+                bool visible = (t.Length == 0 || r.Filter.Contains(t))
+                               && (!oneShotOnly || r.Tag == "[one-shot]");
+                vis[i] = visible;
+                r.Row.Visible = visible;
                 if (visible)
                 {
                     shown++;
                 }
+            }
+            foreach ((Control headerRow, int from, int to) in headers)
+            {
+                bool any = false;
+                for (int i = from; i < to && !any; i++)
+                {
+                    any = vis[i];
+                }
+                headerRow.Visible = any;
             }
             count.Text = $"{shown} shown";
         }
@@ -424,7 +475,15 @@ public partial class NFxLab : Control
 
         foreach (string ev in CollectFmodEventPaths())
         {
-            entries.Add(new FxEntry(ev, ev, ev));
+            // Group by the path segments (the common "event:/sfx/" root is elided so the
+            // tree doesn't start with a single all-encompassing "sfx" header).
+            string trimmed = ev["event:/".Length..];
+            if (trimmed.StartsWith("sfx/", StringComparison.Ordinal))
+            {
+                trimmed = trimmed["sfx/".Length..];
+            }
+            string[] segments = trimmed.Split('/');
+            entries.Add(new FxEntry(segments[^1], segments[..^1], ev, ev));
         }
 
         foreach (string file in ListFiles("res://debug_audio").OrderBy(f => f, StringComparer.Ordinal))
@@ -433,7 +492,7 @@ public partial class NFxLab : Control
             {
                 // Copy text is the bare filename — the exact string the tmpSfx params take
                 // (.WithHitFx(vfx, sfx, tmpSfx) / NDebugAudioManager.Play).
-                entries.Add(new FxEntry($"debug_audio/{file}", file, file, Tag: "[mp3]"));
+                entries.Add(new FxEntry(file, new[] { "debug_audio" }, file, file, Tag: "[mp3]"));
             }
         }
 
@@ -508,7 +567,7 @@ public partial class NFxLab : Control
             }
         }
 
-        return entries.OrderBy(e => e.Display, StringComparer.Ordinal).ToList();
+        return entries.OrderBy(e => $"{string.Join('/', e.Group)}/{e.Name}", StringComparer.Ordinal).ToList();
     }
 
     private static FxEntry MakeVfxEntry(string display, string copyText, string scenePath)
@@ -530,7 +589,8 @@ public partial class NFxLab : Control
         {
             tag = "[one-shot]";
         }
-        return new FxEntry(display, copyText, scenePath, lifetime, tag);
+        string[] segments = display.Split('/');
+        return new FxEntry(segments[^1], segments[..^1], copyText, scenePath, lifetime, tag);
     }
 
     private sealed record SceneFxInfo(int Emitters, int OneShotEmitters, bool Scripted);
