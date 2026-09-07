@@ -24,7 +24,7 @@ public sealed class BloodAnointment : WitchCard
     ];
 
     public BloodAnointment()
-        : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyAlly)
+        : base(1, CardType.Skill, CardRarity.Rare, TargetType.AnyAlly)
     {
     }
 

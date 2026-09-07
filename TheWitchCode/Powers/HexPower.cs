@@ -86,8 +86,8 @@ public sealed class HexPower : WitchPower
             await cloak.OnHexTriggered();
         }
 
-        // Torment-style attacks milk the Hex without burning it.
-        if (command.ModelSource is IHexPreserving)
+        // Torment-style attacks milk the Hex without burning it; so does an attacker under Vile Renewal.
+        if (command.ModelSource is IHexPreserving || command.Attacker?.HasPower<VileRenewalPower>() == true)
         {
             return;
         }

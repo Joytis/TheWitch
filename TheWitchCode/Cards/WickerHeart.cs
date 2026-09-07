@@ -51,7 +51,7 @@ public sealed class WickerHeart : WitchCard
             {
                 CardCmd.Upgrade(bones);
             }
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(bones, PileType.Hand, Owner));
+            await CardPileCmd.AddGeneratedCardToCombat(bones, PileType.Hand, Owner);
         }
     }
 

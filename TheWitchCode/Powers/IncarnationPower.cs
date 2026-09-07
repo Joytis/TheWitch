@@ -29,6 +29,17 @@ public sealed class IncarnationPower : WitchPower
 
     private decimal TotalBrambles => Amount * BramblesPerStack;
 
+    // The card that granted this stack (Wicker Consumation). Its own AfterCardPlayed fires AFTER OnPlay
+    // applied the power, so without this it would immediately trigger itself. Plain instance field is
+    // fine — combat state is never restored mid-fight.
+    private CardModel? _grantingCard;
+
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        _grantingCard = cardSource;
+        return Task.CompletedTask;
+    }
+
     public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (power == this)
@@ -42,6 +53,11 @@ public sealed class IncarnationPower : WitchPower
     {
         if (cardPlay.Card.Owner.Creature != Owner)
         {
+            return;
+        }
+        if (cardPlay.Card == _grantingCard)
+        {
+            _grantingCard = null;
             return;
         }
 

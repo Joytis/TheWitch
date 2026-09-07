@@ -32,7 +32,11 @@ public sealed class BramblesPower : WitchPower
 			WitchFx.BrambleSlice(dealer);
 			decimal damage = Amount;
 			await CreatureCmd.Damage(choiceContext, dealer, damage, ValueProp.Unpowered | ValueProp.SkipHurtAnim, Owner, null);
-			await PowerCmd.Decrement(this);
+			// Vile Renewal: this turn, attacks don't thin the brambles.
+			if (!Owner.HasPower<VileRenewalPower>())
+			{
+				await PowerCmd.Decrement(this);
+			}
 		}
 	}
 }

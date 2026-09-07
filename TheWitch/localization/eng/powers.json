@@ -100,5 +100,8 @@
   "THEWITCH-OVERRUN_POWER.title": "Overrun",
   "THEWITCH-INCARNATION_POWER.description": "Whenever you cast a spell, gain [blue]5[/blue] [gold]Brambles[/gold].",
   "THEWITCH-INCARNATION_POWER.smartDescription": "Whenever you cast a spell, gain [blue]{TotalBrambles}[/blue] [gold]Brambles[/gold].",
-  "THEWITCH-INCARNATION_POWER.title": "Incarnation"
+  "THEWITCH-INCARNATION_POWER.title": "Incarnation",
+  "THEWITCH-VILE_RENEWAL_POWER.title": "Vile Renewal",
+  "THEWITCH-VILE_RENEWAL_POWER.description": "[gold]Attacks[/gold] do not remove [gold]Hex[/gold] or [gold]Brambles[/gold] this turn.",
+  "THEWITCH-VILE_RENEWAL_POWER.smartDescription": "[gold]Attacks[/gold] do not remove [gold]Hex[/gold] or [gold]Brambles[/gold] this turn."
 }

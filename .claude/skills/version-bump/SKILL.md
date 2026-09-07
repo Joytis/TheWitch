@@ -39,7 +39,7 @@ Style rules:
 - Group under `## New` / `## Reworks` / `## Changes` / `## Other` (omit empty sections). Never use `## Buffs` / `## Nerfs` — player-power direction is hard to judge; all numeric tweaks go under `## Changes`. One bullet per card/relic/potion, **bold name**, en-dash, then the change.
 - Numbers as `old → new` (e.g. `Damage 9 → 7`). Upgrade changes in parentheses.
 - `Reworks` = mechanic/behavior changed; `Changes` = numbers, cost, rarity only.
-- Lead the file with a one-line theme summary of the release.
+- **No summary/theme line.** File starts with `# The Witch vX.Y.Z` then straight into the `##` sections. Nothing else.
 - Uncertain intent on a change? Ask the user rather than guessing which bucket.
 
 ### 5. Finish

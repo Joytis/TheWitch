@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-30",
+  "generated": "2026-09-07",
   "cards": [
     {
       "name": "Defend",
@@ -817,34 +817,6 @@
       ]
     },
     {
-      "name": "Blood Anointment",
-      "entry": "BLOOD_ANOINTMENT",
-      "file": "TheWitchCode/Cards/BloodAnointment.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Uncommon",
-      "target": "AnyAlly",
-      "text": "Choose another player. Their Attacks apply 1 Hex this turn.",
-      "numbers": {
-        "BloodAnointment": 1
-      },
-      "upgrade": "Cost -1",
-      "multiplayer": true,
-      "note": "Multiplayer-only. Blood Anointment (MP-only): anoint another player (AnyAlly — cannot target yourself) — their Attacks apply Hex this turn (see <see cref=\"BloodAnointmentPower\" />).",
-      "tested": false,
-      "artFinal": false,
-      "vfxPass": false,
-      "sfxPass": false,
-      "mechanics": [
-        "Hex"
-      ],
-      "role": [
-        "Generator"
-      ],
-      "sub": [],
-      "threads": []
-    },
-    {
       "name": "Bottle Barrage",
       "entry": "BOTTLE_BARRAGE",
       "file": "TheWitchCode/Cards/BottleBarrage.cs",
@@ -1137,6 +1109,30 @@
       "threads": [
         "TurnEngine"
       ]
+    },
+    {
+      "name": "Flock",
+      "entry": "FLOCK",
+      "file": "TheWitchCode/Cards/Flock.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Create 3 random Familiar cards.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "multiplayer": false,
+      "note": "Flock: a burst of familiar tokens — create N random Familiar cards in hand (see <see cref=\"FamiliarCardRegistry\" />).",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
     },
     {
       "name": "Grind Down",
@@ -1848,6 +1844,30 @@
       ]
     },
     {
+      "name": "Vile Renewal",
+      "entry": "VILE_RENEWAL",
+      "file": "TheWitchCode/Cards/VileRenewal.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 5 Block. This turn, Attacks do not remove Hex or Brambles.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "multiplayer": false,
+      "note": "Vile Renewal: Block, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
+    },
+    {
       "name": "Volatile Vapors",
       "entry": "VOLATILE_VAPORS",
       "file": "TheWitchCode/Cards/VolatileVapors.cs",
@@ -2004,6 +2024,34 @@
       ]
     },
     {
+      "name": "Blood Anointment",
+      "entry": "BLOOD_ANOINTMENT",
+      "file": "TheWitchCode/Cards/BloodAnointment.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "AnyAlly",
+      "text": "Choose another player. Their Attacks apply 1 Hex this turn.",
+      "numbers": {
+        "BloodAnointment": 1
+      },
+      "upgrade": "Cost -1",
+      "multiplayer": true,
+      "note": "Multiplayer-only. Blood Anointment (MP-only): anoint another player (AnyAlly — cannot target yourself) — their Attacks apply Hex this turn (see <see cref=\"BloodAnointmentPower\" />).",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "Hex"
+      ],
+      "role": [
+        "Generator"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
       "name": "Bonfire",
       "entry": "BONFIRE",
       "file": "TheWitchCode/Cards/Bonfire.cs",
@@ -2034,36 +2082,6 @@
         "Energy",
         "ExhaustOutlet"
       ]
-    },
-    {
-      "name": "Bottle Bombardment",
-      "entry": "BOTTLE_BOMBARDMENT",
-      "file": "TheWitchCode/Cards/BottleBombardment.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Rare",
-      "target": "AnyEnemy",
-      "text": "Deal 10 damage for each Potion created by ANY player this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
-      "numbers": {
-        "Damage": 10,
-        "CalculationBase": 0,
-        "CalculationExtra": 1
-      },
-      "upgrade": "Damage +4",
-      "multiplayer": true,
-      "note": "Multiplayer-only. Bottle Bombardment (MP-only): the whole party's brews rain down — one hit per potion created by ANY player this combat.",
-      "tested": false,
-      "artFinal": false,
-      "vfxPass": false,
-      "sfxPass": false,
-      "mechanics": [
-        "Potions"
-      ],
-      "role": [
-        "Payoff"
-      ],
-      "sub": [],
-      "threads": []
     },
     {
       "name": "Bottle Wall",

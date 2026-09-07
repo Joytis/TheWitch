@@ -49,7 +49,11 @@ public sealed class WickerBones : WitchCard
         if (brambles >= DynamicVars["TargetBrambles"].BaseValue)
         {
             CardModel consumation = CombatState!.CreateCard<WickerConsumation>(Owner);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(consumation, PileType.Hand, Owner));
+            if (IsUpgraded)
+            {
+                CardCmd.Upgrade(consumation);
+            }
+            await CardPileCmd.AddGeneratedCardToCombat(consumation, PileType.Hand, Owner);
         }
     }
 

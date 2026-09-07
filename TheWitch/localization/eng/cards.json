@@ -143,8 +143,6 @@
   "THEWITCH-RATS.description": "Deal {Damage:diff()} damage.\nDraw {Cards} {Cards:plural:card|cards}.",
   "THEWITCH-RAT_FAMILIAR.title": "Rat Familiar",
   "THEWITCH-RAT_FAMILIAR.description": "Summon a [gold]{IfUpgraded:show:Rat Familiar+|Rat Familiar}[/gold].",
-  "THEWITCH-BOTTLE_BOMBARDMENT.title": "Bottle Bombardment",
-  "THEWITCH-BOTTLE_BOMBARDMENT.description": "Deal {Damage:diff()} damage for each [gold]Potion[/gold] created by ANY player this combat.{InCombat:\n(Hits {CalculatedHits:diff()} {CalculatedHits:plural:time|times})|}",
   "THEWITCH-BLOOD_ANOINTMENT.title": "Blood Anointment",
   "THEWITCH-BLOOD_ANOINTMENT.description": "Choose another player.\nTheir [gold]Attacks[/gold] apply {BloodAnointmentPower:diff()} [gold]Hex[/gold] this turn.",
   "THEWITCH-PLAGUE_TIDE.title": "Plague Tide",
@@ -220,5 +218,9 @@
   "THEWITCH-WICKER_BONES.title": "Wicker Bones",
   "THEWITCH-WICKER_BONES.description": "Gain {Block:diff()} [gold]Block[/gold].\nIf you have {TargetBrambles:diff()} [gold]Brambles[/gold], add [gold]Wicker Consumation[/gold] into your [gold]Hand[/gold].",
   "THEWITCH-WICKER_CONSUMATION.title": "Wicker Consumation",
-  "THEWITCH-WICKER_CONSUMATION.description": "Deal {Damage:diff()} damage.\nIf you have at least {TargetBrambles:diff()} [gold]Brambles[/gold], gain [gold]Incarnation[/gold]."
+  "THEWITCH-WICKER_CONSUMATION.description": "Deal {Damage:diff()} damage.\nIf you have at least {TargetBrambles:diff()} [gold]Brambles[/gold], gain [gold]Incarnation[/gold].",
+  "THEWITCH-VILE_RENEWAL.title": "Vile Renewal",
+  "THEWITCH-VILE_RENEWAL.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Attacks[/gold] do not remove [gold]Hex[/gold] or [gold]Brambles[/gold] this turn.",
+  "THEWITCH-FLOCK.title": "Flock",
+  "THEWITCH-FLOCK.description": "Create {Cards:diff()} random [gold]Familiar[/gold] {Cards:plural:card|cards}."
 }
