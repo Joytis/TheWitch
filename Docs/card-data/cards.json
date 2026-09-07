@@ -1851,7 +1851,7 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 5 Block. This turn, Attacks do not remove Hex or Brambles.",
+      "text": "Gain 5 Block. Attacks do not remove Hex or Brambles this turn.",
       "numbers": {
         "Block": 5
       },
