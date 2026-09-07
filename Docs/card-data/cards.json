@@ -197,7 +197,7 @@
       "multiplayer": false,
       "note": "Bind in Blood: seed the target with Hex.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
@@ -297,7 +297,7 @@
       "multiplayer": false,
       "note": "",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": false,
       "mechanics": [
