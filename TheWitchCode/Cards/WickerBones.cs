@@ -24,10 +24,10 @@ public sealed class WickerBones : WitchCard
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
         HoverTipFactory.FromCard<WickerConsumation>(),
+        HoverTipFactory.FromPower<IncarnationPower>(),
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [
-        CardKeyword.Retain,
         CardKeyword.Exhaust
     ];
 

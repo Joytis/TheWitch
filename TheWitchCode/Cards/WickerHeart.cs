@@ -20,6 +20,8 @@ public sealed class WickerHeart : WitchCard
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
         HoverTipFactory.FromCard<WickerBones>(IsUpgraded),
+        HoverTipFactory.FromCard<WickerConsumation>(IsUpgraded),
+        HoverTipFactory.FromPower<IncarnationPower>(),
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [
