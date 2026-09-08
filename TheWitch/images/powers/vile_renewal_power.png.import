@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5mjb36bx0gte"
-path="res://.godot/imported/impale_power.png-4cf3c35321e2c501e97c114c58879c74.ctex"
+uid="uid://b17r6fnikwgag"
+path="res://.godot/imported/vile_renewal_power.png-6a219c57a910410a2e9710622f29a1eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/powers/impale_power.png"
-dest_files=["res://.godot/imported/impale_power.png-4cf3c35321e2c501e97c114c58879c74.ctex"]
+source_file="res://TheWitch/images/powers/vile_renewal_power.png"
+dest_files=["res://.godot/imported/vile_renewal_power.png-6a219c57a910410a2e9710622f29a1eb.ctex"]
 
 [params]
 

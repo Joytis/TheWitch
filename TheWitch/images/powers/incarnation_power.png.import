@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvasvlm7d02e5"
-path="res://.godot/imported/impaled_power.png-8f7811a342c0de1d9c1411131180225c.ctex"
+uid="uid://cejwpgnvnalff"
+path="res://.godot/imported/incarnation_power.png-17c44468b36c3efa73df514ccffa1e4e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/powers/impaled_power.png"
-dest_files=["res://.godot/imported/impaled_power.png-8f7811a342c0de1d9c1411131180225c.ctex"]
+source_file="res://TheWitch/images/powers/incarnation_power.png"
+dest_files=["res://.godot/imported/incarnation_power.png-17c44468b36c3efa73df514ccffa1e4e.ctex"]
 
 [params]
 

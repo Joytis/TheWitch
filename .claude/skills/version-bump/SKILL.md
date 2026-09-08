@@ -36,10 +36,10 @@ Diff the release ref against the working tree (committed + uncommitted): `git di
 
 Style rules:
 - **Player-facing only.** Skip refactors, art-pipeline changes, internal renames, doc/tooling work. A localization text change matters only if it reflects a mechanic change (or is funny flavor worth calling out).
-- Group under `## New` / `## Reworks` / `## Changes` / `## Other` (omit empty sections). Never use `## Buffs` / `## Nerfs` — player-power direction is hard to judge; all numeric tweaks go under `## Changes`. One bullet per card/relic/potion, **bold name**, en-dash, then the change.
+- Group under `## New` / `## Reworks` / `## Changes` / `## New Art` / `## Other` (omit empty sections). `New Art` lists cards whose `artFinal` flag in `Docs/card-data/cards.json` flipped to true since the release ref (`git show <ref>:Docs/card-data/cards.json` vs current) — one bullet, bold names, "Final card art"; cross-check against added/changed `TheWitch/images/card_portraits/*.png`. Never use `## Buffs` / `## Nerfs` — player-power direction is hard to judge; all numeric tweaks go under `## Changes`. One bullet per card/relic/potion, **bold name**, en-dash, then the change.
 - Numbers as `old → new` (e.g. `Damage 9 → 7`). Upgrade changes in parentheses.
 - `Reworks` = mechanic/behavior changed; `Changes` = numbers, cost, rarity only.
-- Lead the file with a one-line theme summary of the release.
+- **No summary/theme line.** File starts with `# The Witch vX.Y.Z` then straight into the `##` sections. Nothing else.
 - Uncertain intent on a change? Ask the user rather than guessing which bucket.
 
 ### 5. Finish

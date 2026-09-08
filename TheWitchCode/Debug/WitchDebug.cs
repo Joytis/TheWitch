@@ -15,6 +15,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
 using MegaCrit.Sts2.Core.Nodes.Screens.MainMenu;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Saves;
 using TheWitch.TheWitchCode.Character;
 
 namespace TheWitch.TheWitchCode.Debug;
@@ -35,6 +36,18 @@ namespace TheWitch.TheWitchCode.Debug;
 ///                                     every relic + potion, Witch above base game, drawn in
 ///                                     each composited state (owned / not seen / undiscovered /
 ///                                     locked / raw outline) for art-parity checks.
+///   --witch-cardtest                  headless smoke test: at main-menu ready, plays every Witch
+///                                     card in a throwaway test combat (WitchCardTest) and logs
+///                                     failures to the autoslay log. -seed &lt;s&gt; is honored.
+///   --witch-potiontest                same harness: procures + uses + discards every Witch potion.
+///   --witch-relictest                 same harness: equips EVERY Witch relic, then runs the card
+///                                     exercise for every card and the potion exercise for every potion.
+///   --witch-testall                   cards, potions, then relics — all three in one process.
+///   --witch-reset-ftue                at main-menu ready, forgets every Witch FTUE (progress-save
+///                                     keys prefixed "thewitch_") and re-enables tutorials, then
+///                                     saves — so a mod tip (e.g. the Unstable potion tip) shows
+///                                     again. Base-game FTUEs are left alone. Composable with any
+///                                     other flag.
 ///   --witch-test-update-popup         shows the Workshop self-update "restart required" popup
 ///                                     directly at the main menu (no Steam calls) — popup UI/loc
 ///                                     iteration. Handled in WorkshopSelfUpdate.Initialize.
@@ -57,6 +70,18 @@ public static class WitchDebug
     private static bool _bootstrapStarted;
     private static bool _fxLabStarted;
     private static bool _iconLabStarted;
+    private static bool _cardTestStarted;
+    private static WitchCardTest.Mode _smokeTestMode;
+
+    private static bool TryGetSmokeTestMode(out WitchCardTest.Mode mode)
+    {
+        if (CommandLineHelper.HasArg("witch-cardtest")) { mode = WitchCardTest.Mode.Cards; return true; }
+        if (CommandLineHelper.HasArg("witch-potiontest")) { mode = WitchCardTest.Mode.Potions; return true; }
+        if (CommandLineHelper.HasArg("witch-relictest")) { mode = WitchCardTest.Mode.Relics; return true; }
+        if (CommandLineHelper.HasArg("witch-testall")) { mode = WitchCardTest.Mode.All; return true; }
+        mode = default;
+        return false;
+    }
 
     public static void ApplyPatches(Harmony harmony)
     {
@@ -81,6 +106,14 @@ public static class WitchDebug
             }
         }
 
+        if (CommandLineHelper.HasArg("witch-reset-ftue"))
+        {
+            MainFile.Logger.Info("--witch-reset-ftue: will clear Witch FTUE flags at the main menu");
+            harmony.Patch(
+                AccessTools.Method(typeof(NMainMenu), "_Ready"),
+                postfix: new HarmonyMethod(typeof(WitchDebug), nameof(ResetFtueMenuReadyPostfix)));
+        }
+
         if (CommandLineHelper.HasArg("witch-fxlab"))
         {
             MainFile.Logger.Info("--witch-fxlab: will skip menu and open the FX Lab");
@@ -94,6 +127,14 @@ public static class WitchDebug
             harmony.Patch(
                 AccessTools.Method(typeof(NMainMenu), "_Ready"),
                 postfix: new HarmonyMethod(typeof(WitchDebug), nameof(IconLabMenuReadyPostfix)));
+        }
+        else if (TryGetSmokeTestMode(out WitchCardTest.Mode mode))
+        {
+            _smokeTestMode = mode;
+            MainFile.Logger.Info($"{WitchCardTest.TagFor(mode)}: will run the headless {mode} smoke test at the main menu");
+            harmony.Patch(
+                AccessTools.Method(typeof(NMainMenu), "_Ready"),
+                postfix: new HarmonyMethod(typeof(WitchDebug), nameof(CardTestMenuReadyPostfix)));
         }
         else if (CommandLineHelper.HasArg("witch-bootstrap"))
         {
@@ -138,6 +179,21 @@ public static class WitchDebug
         MainFile.Logger.Info($"autoslay: redirecting character select to the Witch (was {__instance.Character.Id})");
         witchButton.Select();
         return false;
+    }
+
+    /// <summary>
+    /// Drops every "thewitch_*" key from the progress save's completed-FTUE set (private HashSet on
+    /// ProgressState — no public per-key API; ResetFtues() would wipe base-game tutorials too),
+    /// flips tutorials back on, and saves.
+    /// </summary>
+    private static void ResetFtueMenuReadyPostfix()
+    {
+        ProgressState progress = SaveManager.Instance.Progress;
+        HashSet<string> completed = AccessTools.FieldRefAccess<ProgressState, HashSet<string>>("_ftueCompleted")(progress);
+        int removed = completed.RemoveWhere(k => k.StartsWith("thewitch_", StringComparison.Ordinal));
+        progress.EnableFtues = true;
+        SaveManager.Instance.SaveProgressFile();
+        MainFile.Logger.Info($"--witch-reset-ftue: cleared {removed} Witch FTUE flag(s); tutorials enabled");
     }
 
     private static void FxLabMenuReadyPostfix(NMainMenu __instance)
@@ -206,6 +262,38 @@ public static class WitchDebug
         catch (Exception e)
         {
             MainFile.Logger.Error($"--witch-iconlab failed: {e}");
+        }
+    }
+
+    private static void CardTestMenuReadyPostfix(NMainMenu __instance)
+    {
+        if (_cardTestStarted)
+        {
+            return;
+        }
+        _cardTestStarted = true;
+        TaskHelper.RunSafely(RunCardTest(__instance));
+    }
+
+    private static async Task RunCardTest(NMainMenu menu)
+    {
+        SceneTree tree = menu.GetTree();
+        for (int i = 0; i < 5; i++)
+        {
+            await menu.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        }
+        string? seed = CommandLineHelper.GetValue("seed");
+        if (string.IsNullOrWhiteSpace(seed))
+        {
+            seed = SeedHelper.GetRandomSeed();
+        }
+        try
+        {
+            await WitchCardTest.RunAll(seed, _smokeTestMode);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"{WitchCardTest.TagFor(_smokeTestMode)} failed: {e}");
         }
     }
 
