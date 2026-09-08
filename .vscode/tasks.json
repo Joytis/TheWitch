@@ -37,6 +37,41 @@
             "detail": "Launch one STS2 instance, tailing the game log. Prompts for the build step (None / Build / Publish; default Publish). Debugger-attachable via 'Launch STS2 + Attach'."
         },
         {
+            "label": "Run: Reset Witch Tutorials",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -ResetFtue -TailLog -DelayMs 4000 -Build ${input:build.publish}"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "sts2",
+                "pattern": [
+                    {
+                        "regexp": ".",
+                        "file": 1,
+                        "location": 2,
+                        "message": 3
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "Launched 1 solo instance"
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Like Run, but passes -witch-reset-ftue: at the main menu, forgets every Witch tutorial tip (e.g. the Unstable potion tip) and re-enables tutorials so they show again. Base-game tutorials untouched."
+        },
+        {
             "label": "MP: Launch",
             "type": "process",
             "command": "powershell",

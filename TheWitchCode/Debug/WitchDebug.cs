@@ -15,6 +15,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
 using MegaCrit.Sts2.Core.Nodes.Screens.MainMenu;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Saves;
 using TheWitch.TheWitchCode.Character;
 
 namespace TheWitch.TheWitchCode.Debug;
@@ -42,6 +43,11 @@ namespace TheWitch.TheWitchCode.Debug;
 ///   --witch-relictest                 same harness: equips EVERY Witch relic, then runs the card
 ///                                     exercise for every card and the potion exercise for every potion.
 ///   --witch-testall                   cards, potions, then relics — all three in one process.
+///   --witch-reset-ftue                at main-menu ready, forgets every Witch FTUE (progress-save
+///                                     keys prefixed "thewitch_") and re-enables tutorials, then
+///                                     saves — so a mod tip (e.g. the Unstable potion tip) shows
+///                                     again. Base-game FTUEs are left alone. Composable with any
+///                                     other flag.
 ///   --witch-test-update-popup         shows the Workshop self-update "restart required" popup
 ///                                     directly at the main menu (no Steam calls) — popup UI/loc
 ///                                     iteration. Handled in WorkshopSelfUpdate.Initialize.
@@ -98,6 +104,14 @@ public static class WitchDebug
                     AccessTools.Method(typeof(NCharacterSelectButton), nameof(NCharacterSelectButton.Select)),
                     prefix: new HarmonyMethod(typeof(WitchDebug), nameof(CharacterSelectPrefix)));
             }
+        }
+
+        if (CommandLineHelper.HasArg("witch-reset-ftue"))
+        {
+            MainFile.Logger.Info("--witch-reset-ftue: will clear Witch FTUE flags at the main menu");
+            harmony.Patch(
+                AccessTools.Method(typeof(NMainMenu), "_Ready"),
+                postfix: new HarmonyMethod(typeof(WitchDebug), nameof(ResetFtueMenuReadyPostfix)));
         }
 
         if (CommandLineHelper.HasArg("witch-fxlab"))
@@ -165,6 +179,21 @@ public static class WitchDebug
         MainFile.Logger.Info($"autoslay: redirecting character select to the Witch (was {__instance.Character.Id})");
         witchButton.Select();
         return false;
+    }
+
+    /// <summary>
+    /// Drops every "thewitch_*" key from the progress save's completed-FTUE set (private HashSet on
+    /// ProgressState — no public per-key API; ResetFtues() would wipe base-game tutorials too),
+    /// flips tutorials back on, and saves.
+    /// </summary>
+    private static void ResetFtueMenuReadyPostfix()
+    {
+        ProgressState progress = SaveManager.Instance.Progress;
+        HashSet<string> completed = AccessTools.FieldRefAccess<ProgressState, HashSet<string>>("_ftueCompleted")(progress);
+        int removed = completed.RemoveWhere(k => k.StartsWith("thewitch_", StringComparison.Ordinal));
+        progress.EnableFtues = true;
+        SaveManager.Instance.SaveProgressFile();
+        MainFile.Logger.Info($"--witch-reset-ftue: cleared {removed} Witch FTUE flag(s); tutorials enabled");
     }
 
     private static void FxLabMenuReadyPostfix(NMainMenu __instance)

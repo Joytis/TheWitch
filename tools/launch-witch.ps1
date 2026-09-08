@@ -26,6 +26,7 @@
     ./launch-witch.ps1                # one solo instance
     ./launch-witch.ps1 -Build publish -WitchBootstrap   # publish, then straight into combat
     ./launch-witch.ps1 -TestUpdatePopup
+    ./launch-witch.ps1 -Solo -ResetFtue   # replay the Witch tutorial tips
     ./launch-witch.ps1 -Players 4    # 1 host + 3 clients
 #>
 param(
@@ -45,6 +46,7 @@ param(
     [switch]$RelicTest,        # -witch-debug -witch-relictest: equips every Witch relic, then every card + potion
     [switch]$TestAll,          # -witch-debug -witch-testall: cards, potions, then relics in one run
     [string]$Encounter = "",   # optional encounter id for -WitchBootstrap (e.g. SLIMES_WEAK)
+    [switch]$ResetFtue,                # -witch-reset-ftue: forget Witch tutorial tips (e.g. Unstable potion tip) so they show again
     [switch]$TestUpdatePopup,          # -witch-test-update-popup: show the Workshop-update restart popup (no Steam calls)
     [switch]$ForceWorkshopDownload,    # -witch-force-workshop-download=<id>: force the Workshop download path;
                                        # item id read from workshop/mod_id.txt (local builds need it)
@@ -174,6 +176,9 @@ if ($Solo -or -not $PSBoundParameters.ContainsKey('Players')) {
     # WorkshopSelfUpdate.Initialize).
     if ($TestUpdatePopup) {
         $gameArgs += '-witch-test-update-popup'
+    }
+    if ($ResetFtue) {
+        $gameArgs += '-witch-reset-ftue'
     }
     if ($ForceWorkshopDownload) {
         $modIdFile = Join-Path $PSScriptRoot '..\workshop\mod_id.txt'
