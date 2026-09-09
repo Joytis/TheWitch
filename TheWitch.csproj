@@ -145,5 +145,10 @@
         <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"
               EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
               ContinueOnError="WarnAndContinue"/>
+        <!-- Godot always packs .godot/uid_cache.bin, which the editor rebuilds from the gamedata/
+             junctions at export start - so the pck would carry the GAME's uid table as of the
+             decompile and override the real one at runtime (breaks any game file renamed since,
+             e.g. the beta-branch bestiary). Keep only the mod's own entries. See tools/strip-uid-cache.py. -->
+        <Exec Command="py &quot;$(MSBuildProjectDirectory)/tools/strip-uid-cache.py&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"/>
     </Target>
 </Project>
