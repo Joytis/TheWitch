@@ -34,30 +34,35 @@ namespace TheWitch.TheWitchCode.Debug;
 ///   --witch-relictest   obtains EVERY mod relic on the player before the combat is built, then
 ///                       runs the card exercise for every card and the potion exercise for every
 ///                       potion with the whole relic set equipped.
-///   --witch-testall     all three in sequence (cards, potions, then relics) in one process; one
-///                       combined pass/fail summary + exit code.
+///   --witch-menutest    main-menu screen sweep (WitchMenuTest) — no combat; opens every menu
+///                       screen + renders every Witch hover tip.
+///   --witch-testall     menu sweep, then cards, potions, relics in one process; one combined
+///                       pass/fail summary + exit code.
 /// Selection prompts auto-pick the first eligible cards.
 /// </summary>
 public static class WitchCardTest
 {
-    public enum Mode { Cards, Potions, Relics, All }
+    public enum Mode { Cards, Potions, Relics, Menu, All }
 
     public static string TagFor(Mode mode) => mode switch
     {
         Mode.Potions => "[witch-potiontest]",
         Mode.Relics => "[witch-relictest]",
+        Mode.Menu => WitchMenuTest.Tag,
         Mode.All => "[witch-testall]",
         _ => "[witch-cardtest]",
     };
 
-    public static async Task RunAll(string seed, Mode mode = Mode.Cards)
+    /// <param name="priorTotal">Items already run by an earlier phase in this process (the menu sweep
+    /// under --witch-testall); folded into the summary + exit code.</param>
+    public static async Task RunAll(string seed, Mode mode = Mode.Cards, int priorTotal = 0, List<(string item, Exception ex)>? priorFailures = null)
     {
         string tag = TagFor(mode);
         bool wasTestMode = TestMode.IsOn;
         TestMode.IsOn = true;
         IDisposable selectorScope = CardSelectCmd.UseSelector(new FirstCardSelector());
-        List<(string item, Exception ex)> failures = [];
-        int total = 0;
+        List<(string item, Exception ex)> failures = priorFailures ?? [];
+        int total = priorTotal;
         try
         {
             if (!Godot.FileAccess.FileExists($"res://{MainFile.ModId}/localization/eng/cards.json"))

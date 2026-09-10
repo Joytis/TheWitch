@@ -42,7 +42,12 @@ namespace TheWitch.TheWitchCode.Debug;
 ///   --witch-potiontest                same harness: procures + uses + discards every Witch potion.
 ///   --witch-relictest                 same harness: equips EVERY Witch relic, then runs the card
 ///                                     exercise for every card and the potion exercise for every potion.
-///   --witch-testall                   cards, potions, then relics — all three in one process.
+///   --witch-menutest                  main-menu sweep: opens every menu screen (character select
+///                                     with the Witch picked, card library per pool tab, relic
+///                                     collection, potion lab, bestiary, stats, run history,
+///                                     timeline, settings, profile) and renders every Witch hover
+///                                     tip. Catches render-time faults the combat harness misses.
+///   --witch-testall                   menu sweep, then cards, potions, relics — all in one process.
 ///   --witch-reset-ftue                at main-menu ready, forgets every Witch FTUE (progress-save
 ///                                     keys prefixed "thewitch_") and re-enables tutorials, then
 ///                                     saves — so a mod tip (e.g. the Unstable potion tip) shows
@@ -78,6 +83,7 @@ public static class WitchDebug
         if (CommandLineHelper.HasArg("witch-cardtest")) { mode = WitchCardTest.Mode.Cards; return true; }
         if (CommandLineHelper.HasArg("witch-potiontest")) { mode = WitchCardTest.Mode.Potions; return true; }
         if (CommandLineHelper.HasArg("witch-relictest")) { mode = WitchCardTest.Mode.Relics; return true; }
+        if (CommandLineHelper.HasArg("witch-menutest")) { mode = WitchCardTest.Mode.Menu; return true; }
         if (CommandLineHelper.HasArg("witch-testall")) { mode = WitchCardTest.Mode.All; return true; }
         mode = default;
         return false;
@@ -287,9 +293,24 @@ public static class WitchDebug
         {
             seed = SeedHelper.GetRandomSeed();
         }
+        // Smoke tests are unattended: silence the game (menu music + every UI/hover sfx). The
+        // volume setters no-op under TestMode, so mute before the combat harness turns it on.
+        NAudioManager.Instance?.SetMasterVol(0f);
         try
         {
-            await WitchCardTest.RunAll(seed, _smokeTestMode);
+            int priorTotal = 0;
+            List<(string item, Exception ex)>? priorFailures = null;
+            if (_smokeTestMode is WitchCardTest.Mode.Menu or WitchCardTest.Mode.All)
+            {
+                (priorTotal, priorFailures) = await WitchMenuTest.Run(menu);
+                if (_smokeTestMode == WitchCardTest.Mode.Menu)
+                {
+                    // Same exit-code contract as the combat harness: 0 = all passed, 1 = failures.
+                    NGame.Instance?.GetTree().Quit(priorFailures.Count == 0 ? 0 : 1);
+                    return;
+                }
+            }
+            await WitchCardTest.RunAll(seed, _smokeTestMode, priorTotal, priorFailures);
         }
         catch (Exception e)
         {
