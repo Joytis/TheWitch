@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Potions;
 using MegaCrit.Sts2.Core.Random;
 using TheWitch.TheWitchCode.Potions.Brewing;
 using TheWitch.TheWitchCode.Character;
@@ -46,10 +47,12 @@ public sealed class GrindDown : WitchCard
         await CardCmd.Exhaust(choiceContext, chosen);
 
         Rng rng = Owner.RunState.Rng.CombatPotionGeneration;
-        List<PotionModel> pool = PotionCatalog.Query(orientation: orientation, rarity: rarity).ToList();
+        // Entropic Brew is excluded — an Unstable brew would fill the belt with stable potions.
+        List<PotionModel> pool = PotionCatalog.Query(orientation: orientation, rarity: rarity)
+            .Where(p => p is not EntropicBrew).ToList();
         if (pool.Count == 0)
         {
-            pool = PotionCatalog.Query(orientation: orientation).ToList();
+            pool = PotionCatalog.Query(orientation: orientation).Where(p => p is not EntropicBrew).ToList();
         }
         PotionModel? potion = await PotionCatalog.Pick(pool, choiceContext, Owner, rng);
         if (potion != null)

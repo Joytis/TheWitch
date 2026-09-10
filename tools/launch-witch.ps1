@@ -25,6 +25,7 @@
 .EXAMPLE
     ./launch-witch.ps1                # one solo instance
     ./launch-witch.ps1 -Build publish -WitchBootstrap   # publish, then straight into combat
+    ./launch-witch.ps1 -Build publish -TestAll -Headless -TailLog   # full smoke test: menus + cards + potions + relics
     ./launch-witch.ps1 -TestUpdatePopup
     ./launch-witch.ps1 -Solo -ResetFtue   # replay the Witch tutorial tips
     ./launch-witch.ps1 -Players 4    # 1 host + 3 clients
@@ -44,7 +45,8 @@ param(
     [switch]$CardTest,         # -witch-debug -witch-cardtest: headless smoke test that plays every Witch card (WitchCardTest)
     [switch]$PotionTest,       # -witch-debug -witch-potiontest: uses + discards every Witch potion
     [switch]$RelicTest,        # -witch-debug -witch-relictest: equips every Witch relic, then every card + potion
-    [switch]$TestAll,          # -witch-debug -witch-testall: cards, potions, then relics in one run
+    [switch]$MenuTest,         # -witch-debug -witch-menutest: opens every main-menu screen + renders every Witch hover tip (WitchMenuTest)
+    [switch]$TestAll,          # -witch-debug -witch-testall: menu sweep, cards, potions, then relics in one run
     [string]$Encounter = "",   # optional encounter id for -WitchBootstrap (e.g. SLIMES_WEAK)
     [switch]$ResetFtue,                # -witch-reset-ftue: forget Witch tutorial tips (e.g. Unstable potion tip) so they show again
     [switch]$TestUpdatePopup,          # -witch-test-update-popup: show the Workshop-update restart popup (no Steam calls)
@@ -70,13 +72,15 @@ if ($Build -ne 'none') {
 
 # --- Smoke-test report: skim the tailed log, errors loud, passes routine ---------
 # One harness (WitchCardTest) behind three flags; $tag picks the log prefix to parse.
-$SmokeTag = if ($TestAll) { '[witch-testall]' } elseif ($RelicTest) { '[witch-relictest]' } elseif ($PotionTest) { '[witch-potiontest]' } else { '[witch-cardtest]' }
-$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $TestAll
+$SmokeTag = if ($TestAll) { '[witch-testall]' } elseif ($MenuTest) { '[witch-menutest]' } elseif ($RelicTest) { '[witch-relictest]' } elseif ($PotionTest) { '[witch-potiontest]' } else { '[witch-cardtest]' }
+$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll
 function Write-CardTestReport {
     param([System.Collections.Generic.List[string]]$lines, [string]$tag = $SmokeTag)
     $rtag = [regex]::Escape($tag)
-    $started  = @($lines | Where-Object { $_ -match "\[INFO\] \[AutoSlay\] $rtag (\w+)$" } | ForEach-Object { $Matches[1] })
-    $failed   = @($lines | Where-Object { $_ -match "$rtag FAILED (\w+): (.*)$" } |
+    # Under -TestAll the menu sweep logs with its own tag before the combat phases; count both.
+    if ($TestAll) { $rtag = "(?:$rtag|\[witch-menutest\])" }
+    $started  = @($lines | Where-Object { $_ -match "\[INFO\] \[AutoSlay\] $rtag ([\w/]+)$" } | ForEach-Object { $Matches[1] })
+    $failed   = @($lines | Where-Object { $_ -match "$rtag FAILED ([\w/]+): (.*)$" } |
                  ForEach-Object { [pscustomobject]@{ Card = $Matches[1]; Message = $Matches[2] } })
     # Stray errors = every [ERROR] line the harness itself did not emit (game-side exceptions,
     # missing resources, ...). Keyed by the first line so a repeated stack trace counts once.
