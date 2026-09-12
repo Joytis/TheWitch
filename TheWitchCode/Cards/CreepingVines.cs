@@ -25,11 +25,11 @@ public sealed class CreepingVines : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(5m)
+        new PowerVar<BramblesPower>(6m)
     ];
 
     public CreepingVines()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 

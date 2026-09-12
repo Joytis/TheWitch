@@ -30,7 +30,7 @@ PARATRANZ_API_KEY=... python tools/localization/create_projects.py          # al
 PARATRANZ_API_KEY=... python tools/localization/create_projects.py deu fra  # subset
 ```
 
-`POST /projects` creates each project (public, apply-to-join, one review pass, members can download) and writes the id into `paratranz.json`. Name/logo/description come from the config plus `Docs/paratranz-description.md` (the translator-facing rules); after editing either, push them to the live projects with `python tools/localization/update_projects.py`. Commit the config, add the secret, then run `loc-upload-source` once. A `403` from `POST /projects` means the ParaTranz account cannot create projects yet — create them in the web UI and paste the ids into `projects` instead.
+`POST /projects` creates each project (public, apply-to-join, one review pass, members can download) and writes the id into `paratranz.json`. Name/logo/one-line blurb (`tagline`) come from the config; push changes with `python tools/localization/update_projects.py`. ParaTranz shows `desc` on the project card, so keep it to one line. The translator rules in `Docs/paratranz-description.md` are published as a **pinned Announcement** in every project by `python tools/localization/update_announcements.py` (creates on first run, updates in place after); pinned announcements render on the project Overview under the stats. Commit the config, add the secret, then run `loc-upload-source` once. A `403` from `POST /projects` means the ParaTranz account cannot create projects yet — create them in the web UI and paste the ids into `projects` instead.
 
 Adding a language: add its ParaTranz code to `languages`, run `create_projects.py <code>`, add the code to the `loc-upload-translations` workflow choice list.
 
@@ -42,4 +42,4 @@ Strings are SmartFormat templates. Everything below must survive translation ver
 - `[gold]…[/gold]`, `[green]`, `#y` style markup and `\n` line breaks
 - `{IfUpgraded:show:Name+|Name}` upgrade markers
 
-Add such rules to `Docs/paratranz-description.md` and run `update_projects.py` so every project description carries them.
+Add such rules to `Docs/paratranz-description.md` and run `update_announcements.py` so every project's pinned announcement carries them.

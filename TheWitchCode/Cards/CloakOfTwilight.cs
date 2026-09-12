@@ -7,29 +7,28 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Cloak of Moonlight: whenever you create a card or a potion, a random enemy is touched by
-/// <see cref="MoonlightPower" />. Upgrade gains Innate.</summary>
-public sealed class CloakOfMoonlight : WitchCard
+/// <summary>Cloak of Twilight: whenever you trigger Hex, gain Block (<see cref="CloakOfTwilightPower" />).</summary>
+public sealed class CloakOfTwilight : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        HoverTipFactory.FromPower<MoonlightPower>(),
+        HoverTipFactory.FromPower<HexPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<CloakOfMoonlightPower>(1m)
+        new PowerVar<CloakOfTwilightPower>(2m)
     ];
 
-    public CloakOfMoonlight()
-        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+    public CloakOfTwilight()
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
-        await PowerCmd.Apply<CloakOfMoonlightPower>(
-            choiceContext, Owner.Creature, DynamicVars["CloakOfMoonlightPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<CloakOfTwilightPower>(
+            choiceContext, Owner.Creature, DynamicVars["CloakOfTwilightPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
+    protected override void OnUpgrade() => DynamicVars["CloakOfTwilightPower"].UpgradeValueBy(1m);
 }

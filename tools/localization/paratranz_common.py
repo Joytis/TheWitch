@@ -109,16 +109,14 @@ LANG_NAMES = {
 
 
 def project_body(config, lang):
-    """Project fields shared by create_projects.py and update_projects.py."""
-    desc_file = REPO_ROOT / config["description_file"]
-    header = (
-        f"{LANG_NAMES.get(lang, lang)} translation for The Witch, a Slay the Spire 2 character mod.\n"
-        f"Source: {config['repo_url']} (English strings sync in automatically; translations are pulled back nightly).\n\n"
-    )
+    """Project fields shared by create_projects.py and update_projects.py.
+    `desc` is the one-line blurb shown on the project card - keep it short.
+    """
+    tagline = config["tagline"].format(lang_name=LANG_NAMES.get(lang, lang))
     return {
         "name": config["project_name"].format(lang=lang),
         "logo": config.get("logo", ""),
-        "desc": header + desc_file.read_text(encoding="utf-8-sig").strip(),
+        "desc": tagline,
         "source": "en",
         "dest": config["languages"][lang],
         "game": "other",

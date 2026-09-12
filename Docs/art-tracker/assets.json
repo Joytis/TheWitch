@@ -299,6 +299,14 @@
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
           "path": "TheWitch/images/pets/crow_familiar.png"
+        },
+        {
+          "name": "Moth Pet",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing). PLACEHOLDER: currently a copy of the crow sprite.",
+          "path": "TheWitch/images/pets/moth_familiar.png"
         }
       ]
     },
@@ -384,11 +392,6 @@
   ],
   "powerOverrides": {
     "BLOOD_ANOINTMENT_POWER": {
-      "artist": "",
-      "done": true,
-      "brief": ""
-    },
-    "POTION_DAMAGE_MULTIPLIER_POWER": {
       "artist": "",
       "done": true,
       "brief": ""

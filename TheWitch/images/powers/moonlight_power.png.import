@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cvg1koe1k307f"
-path="res://.godot/imported/moonbeam_power.png-531580e6a987fcfcef3d95ccfc5991f4.ctex"
+path="res://.godot/imported/moonlight_power.png-37c46c3b915f6918adbaa30895112327.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/powers/moonbeam_power.png"
-dest_files=["res://.godot/imported/moonbeam_power.png-531580e6a987fcfcef3d95ccfc5991f4.ctex"]
+source_file="res://TheWitch/images/powers/moonlight_power.png"
+dest_files=["res://.godot/imported/moonlight_power.png-37c46c3b915f6918adbaa30895112327.ctex"]
 
 [params]
 

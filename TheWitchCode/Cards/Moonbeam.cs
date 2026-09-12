@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Extensions;
@@ -11,18 +12,18 @@ using TheWitch.TheWitchCode.Powers;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Moonbeam: strike, then leave the beam on the target — it takes the same damage again at the start of
-/// each of your turns (<see cref="MoonbeamPower" />, stacks on repeat plays).
+/// Moonbeam: strike, then bathe the target in <see cref="MoonlightPower" /> — it takes that much damage at the
+/// end of each of your turns (stacks on repeat plays).
 /// </summary>
 public sealed class Moonbeam : WitchCard
 {
-    private const string _beamDamageKey = "BeamDamage";
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<MoonlightPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(10m, ValueProp.Move),
-        // Unscaled twin of Damage: the power's flat per-turn tick (ValueProp.Unpowered at deal time),
-        // so the card face doesn't show it inflated by Strength/Vigor.
-        new DynamicVar(_beamDamageKey, 10m)
+        new PowerVar<MoonlightPower>(10m)
     ];
 
     public Moonbeam()
@@ -44,13 +45,14 @@ public sealed class Moonbeam : WitchCard
 
         if (cardPlay.Target.IsAlive)
         {
-            await PowerCmd.Apply<MoonbeamPower>(choiceContext, cardPlay.Target, DynamicVars[_beamDamageKey].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<MoonlightPower>(
+                choiceContext, cardPlay.Target, DynamicVars.Moonlight().BaseValue, Owner.Creature, this);
         }
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars[_beamDamageKey].UpgradeValueBy(2m);
+        DynamicVars.Moonlight().UpgradeValueBy(2m);
     }
 }
