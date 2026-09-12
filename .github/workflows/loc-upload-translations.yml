@@ -1,0 +1,36 @@
+name: loc-upload-translations
+
+# Manual: seed a ParaTranz project with translations already committed in the repo
+# (TheWitch/localization/<lang>/). Use when importing a hand-made translation.
+# Requires the PARATRANZ_API_KEY repository secret.
+
+on:
+  workflow_dispatch:
+    inputs:
+      language:
+        description: "Game language code to upload"
+        required: true
+        type: choice
+        options: [zhs, deu, fra, ita, jpn, kor, ptb, rus, spa]
+      force:
+        description: "Overwrite strings already translated on ParaTranz"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Upload translations to ParaTranz
+        env:
+          PARATRANZ_API_KEY: ${{ secrets.PARATRANZ_API_KEY }}
+        run: python tools/localization/para_upload_translations.py "${{ inputs.language }}" ${{ inputs.force && '--force' || '' }}

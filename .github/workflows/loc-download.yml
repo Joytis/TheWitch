@@ -1,0 +1,47 @@
+name: loc-download
+
+# Nightly: pull translations from ParaTranz into TheWitch/localization/<lang>/.
+# Requires the PARATRANZ_API_KEY repository secret (ParaTranz -> Settings -> API Token).
+# Project ids live in .github/configs/paratranz.json (tools/localization/create_projects.py).
+
+on:
+  schedule:
+    - cron: "47 8 * * *" # daily, UTC, before the analytics refresh
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: loc-download
+  cancel-in-progress: false
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Download translations from ParaTranz
+        env:
+          PARATRANZ_API_KEY: ${{ secrets.PARATRANZ_API_KEY }}
+        run: python tools/localization/para_download.py
+
+      - name: Commit if changed
+        run: |
+          git add TheWitch/localization
+          if git diff --staged --quiet; then
+            echo "Translations unchanged - nothing to commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Localization: sync translations from ParaTranz"
+            git pull --rebase
+            git push
+          fi
