@@ -31,5 +31,5 @@ public sealed class StarDust : WitchFamiliarCard
             choiceContext, cardPlay.Target, DynamicVars.Moonlight().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Moonlight().UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Moonlight().UpgradeValueBy(2m);
 }

@@ -89,6 +89,19 @@ const powersCat = {
     };
   }),
 };
+// Powers with mod art but base-game loc (ICustomPower subclasses) can't be enumerated from powers.json —
+// they are listed by hand in assets.json under "extraPowers", keyed by entry.
+const extraPowers = require(path.join(__dirname, 'assets.json')).extraPowers || {};
+for (const [entry, o] of Object.entries(extraPowers)) {
+  powersCat.assets.push({
+    name: (o.name || entry) + ` (${entry.toLowerCase()})`,
+    artist: o.artist || '',
+    done: !!o.done,
+    brief: o.brief || '',
+    effect: o.effect || '',
+    path: 'TheWitch/images/powers/' + entry.toLowerCase() + '.png',
+  });
+}
 assetCats.splice(assetCats.findIndex(c => c.id === 'pets'), 0, powersCat);
 
 // check which referenced images actually exist

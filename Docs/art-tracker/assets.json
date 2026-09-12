@@ -1,5 +1,5 @@
 {
-  "comment": "Non-card art assets for the art tracker. Hand-maintained. Per asset: 'artist' (who is working on it â€” fill in manually) and 'done': true when final art is in. Status is DERIVED: done â†’ Done; artist set â†’ In Progress; else Placeholder. Cards are NOT listed here â€” they come from ../card-data/cards.json (artFinal) + ./card-briefs.json (artist/brief).",
+  "comment": "Non-card art assets for the art tracker. Hand-maintained. Per asset: 'artist' (who is working on it â€” fill in manually) and 'done': true when final art is in. Status is DERIVED: done â†’ Done; artist set â†’ In Progress; else Placeholder. Cards are NOT listed here â€” they come from ../card-data/cards.json (artFinal) + ./card-briefs.json (artist/brief). 'extraPowers' lists powers that ship mod art but reuse base-game localization (ICustomPower subclasses) — the Powers tab is otherwise auto-enumerated from powers.json.",
   "categories": [
     {
       "id": "potions",
@@ -370,6 +370,38 @@
           "path": "TheWitch/images/charui/text_energy.png"
         },
         {
+          "name": "Multiplayer Hand (Pointing)",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmPointingTexturePath).",
+          "path": "TheWitch/images/charui/multiplayer_hand_witch_point.png"
+        },
+        {
+          "name": "Multiplayer Hand (Rock)",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmRockTexturePath).",
+          "path": "TheWitch/images/charui/multiplayer_hand_witch_rock.png"
+        },
+        {
+          "name": "Multiplayer Hand (Paper)",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmPaperTexturePath).",
+          "path": "TheWitch/images/charui/multiplayer_hand_witch_paper.png"
+        },
+        {
+          "name": "Multiplayer Hand (Scissors)",
+          "artist": "",
+          "done": false,
+          "brief": "",
+          "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmScissorsTexturePath).",
+          "path": "TheWitch/images/charui/multiplayer_hand_witch_scissors.png"
+        },
+        {
           "name": "Yummy Cookie (Witch variant)",
           "artist": "",
           "done": false,
@@ -395,6 +427,15 @@
       "artist": "",
       "done": true,
       "brief": ""
+    }
+  },
+  "extraPowers": {
+    "PACK_TACTICS_POWER": {
+      "name": "Pack Tactics (Temporary Strength)",
+      "artist": "",
+      "done": false,
+      "brief": "",
+      "effect": "Gain Strength this turn; lose it at end of turn. ICustomPower subclass of the base-game TemporaryStrengthPower — no THEWITCH loc, so listed here by hand."
     }
   }
 }

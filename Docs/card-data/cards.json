@@ -485,7 +485,7 @@
       "upgrade": "Block +2",
       "multiplayer": false,
       "note": "Smolder: block now, and let the embers smoulder — an Unstable Ember Jar at the start of each of the next N turns (<see cref=\"SmolderPower\" />, Lightning Rod shape).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -704,7 +704,7 @@
       "multiplayer": false,
       "note": "Weathered Witch Hat: Block, then play a random Skill from your draw pile (free auto-play; nothing happens if the pile holds none).",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
@@ -744,6 +744,30 @@
       "sub": [
         "Potions:Brew"
       ],
+      "threads": []
+    },
+    {
+      "name": "Animal Handling",
+      "entry": "ANIMAL_HANDLING",
+      "file": "TheWitchCode/Cards/AnimalHandling.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Add 3 random Familiar cards into your Hand.",
+      "numbers": {
+        "Cards": 3
+      },
+      "upgrade": "Cards +1",
+      "multiplayer": false,
+      "note": "Animal Handling: a burst of familiar tokens — create N random Familiar cards in hand (see <see cref=\"FamiliarCardRegistry\" />).",
+      "tested": true,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
       "threads": []
     },
     {
@@ -1087,30 +1111,6 @@
       "threads": [
         "TurnEngine"
       ]
-    },
-    {
-      "name": "Flock",
-      "entry": "FLOCK",
-      "file": "TheWitchCode/Cards/Flock.cs",
-      "cost": 1,
-      "type": "Skill",
-      "rarity": "Uncommon",
-      "target": "Self",
-      "text": "Add 3 random Familiar cards into your Hand.",
-      "numbers": {
-        "Cards": 3
-      },
-      "upgrade": "Cards +1",
-      "multiplayer": false,
-      "note": "Flock: a burst of familiar tokens — create N random Familiar cards in hand (see <see cref=\"FamiliarCardRegistry\" />).",
-      "tested": true,
-      "artFinal": false,
-      "vfxPass": false,
-      "sfxPass": false,
-      "mechanics": [],
-      "role": [],
-      "sub": [],
-      "threads": []
     },
     {
       "name": "Grind Down",
@@ -1643,7 +1643,7 @@
       "upgrade": "Block +2, SaltAndAsh +1",
       "multiplayer": false,
       "note": "Salt and Ash: a ward of Block, then every Skill played this turn scatters burning ash over ALL enemies (<see cref=\"SaltAndAshPower\" />, the base-game Rage shape with damage instead of Block).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1890,7 +1890,7 @@
       "upgrade": "WildGrowth +1",
       "multiplayer": false,
       "note": "Wild Growth: for the next N turns, gain Energy and Brambles at turn start (via <see cref=\"WildGrowthPower\" />).",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -2951,7 +2951,7 @@
       "upgrade": "Block +1",
       "multiplayer": false,
       "note": "Moth familiar token: a veil of gossamer — gain Block.",
-      "tested": false,
+      "tested": true,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -3235,7 +3235,7 @@
       "numbers": {
         "Moonlight": 3
       },
-      "upgrade": "Moonlight +1",
+      "upgrade": "Moonlight +2",
       "multiplayer": false,
       "note": "Moth familiar token: a pinch of star dust — apply Moonlight to an enemy.",
       "tested": true,

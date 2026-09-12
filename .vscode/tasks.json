@@ -688,6 +688,24 @@
                 "clear": true
             },
             "detail": "Serve the repo on http://localhost:7821 and open the analytics dashboard (fetch needs http, not file://). Terminate the task to stop. Live copy: https://joytis.github.io/TheWicken/pages/analytics.html"
+        },
+        {
+            "label": "Balance: Serve dashboard",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-Command",
+                "node '${workspaceFolder}/Docs/card-data/balance.js'; Start-Process 'http://localhost:7822/Docs/balance-dashboard.html'; py -m http.server 7822 --directory '${workspaceFolder}'"
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "detail": "Rebuild Docs/balance-dashboard.html from Docs/card-data/*.json (Witch vs base classes damage/block per card + per energy), serve the repo on http://localhost:7822 and open it. Terminate the task to stop. Re-run after card edits + 'Card Data: Regen'."
         }
     ],
     "inputs": [

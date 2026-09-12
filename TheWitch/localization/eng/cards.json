@@ -224,6 +224,6 @@
   "THEWITCH-WICKER_CONSUMATION.description": "Deal {Damage:diff()} damage.\nIf you have {TargetBrambles:diff()} [gold]Brambles[/gold], gain [gold]Incarnation[/gold].",
   "THEWITCH-VILE_RENEWAL.title": "Vile Renewal",
   "THEWITCH-VILE_RENEWAL.description": "Gain {Block:diff()} [gold]Block[/gold].\nAttacks do not remove [gold]Hex[/gold] or [gold]Brambles[/gold] this turn.",
-  "THEWITCH-FLOCK.title": "Flock",
-  "THEWITCH-FLOCK.description": "Add {Cards:diff()} random [gold]Familiar[/gold] {Cards:plural:card|cards} into your [gold]Hand[/gold]."
+  "THEWITCH-ANIMAL_HANDLING.title": "Animal Handling",
+  "THEWITCH-ANIMAL_HANDLING.description": "Add {Cards:diff()} random [gold]Familiar[/gold] {Cards:plural:card|cards} into your [gold]Hand[/gold]."
 }

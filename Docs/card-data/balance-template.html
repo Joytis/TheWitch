@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Witch Balance Ledger</title>
+<style>
+  :root {
+    color-scheme: dark;
+    /* Witch house palette (rose brown) — shared with card-designs / art-tracker / analytics */
+    --bg: #2e2226;
+    --surface: #382a2c;
+    --surface-2: #41302f;
+    --ink: #e8dcc8;
+    --ink-2: #cbb8a4;
+    --ink-3: #9b8577;
+    --line: #4d3b3a;
+    --line-2: #5c4844;
+    --accent: #b8d48f;
+    --accent-soft: #3d3a2e;
+    --witch: #b8d48f; --ironclad: #e0734a; --defect: #6ea6dc; --regent: #e6c15c; --necrobinder: #c07fd8; --silent: #d6978a;
+    --base: #8a7f74;
+    --heat-0: #382a2c; --heat-1: #45403a; --heat-2: #5a5a45; --heat-3: #707551; --heat-4: #86915c; --heat-5: #9eb271; --heat-6: #b8d48f;
+    --up: #b8d48f; --down: #e0938a;
+    --shadow: 0 1px 2px rgba(0,0,0,.25), 0 4px 16px rgba(0,0,0,.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono, .num, td.num, th.num { font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); }
+  h1 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; margin: 0; }
+  h2 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: -.005em; }
+  h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); margin: 0 0 8px; }
+  p { margin: 0; }
+  .muted { color: var(--ink-2); }
+  .faint { color: var(--ink-3); }
+  .small { font-size: 12px; }
+
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .hd-inner { max-width: 1280px; margin: 0 auto; padding: 12px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .hd-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+  .fgroup { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .fgroup > .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-right: 2px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; cursor: pointer; user-select: none;
+    border: 1px solid var(--line-2); background: var(--surface); font-size: 12px; font-weight: 600; color: var(--ink-2);
+  }
+  .chip:hover { border-color: var(--ink-3); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .chip.cls[aria-pressed="true"] { background: var(--c); border-color: var(--c); color: #2e2226; }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .chip[aria-pressed="true"] .dot { background: #2e2226; }
+  .chip:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; background: var(--surface); }
+  .seg button { border: 0; background: transparent; color: var(--ink-2); padding: 4px 10px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  input[type=number], select, input[type=search] {
+    font: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--surface); color: var(--ink);
+  }
+  input[type=number] { width: 58px; }
+
+  main { max-width: 1280px; margin: 0 auto; padding: 20px 24px 80px; display: flex; flex-direction: column; gap: 28px; }
+  section { display: flex; flex-direction: column; gap: 12px; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .sec-head .hint { font-size: 12px; color: var(--ink-2); max-width: 70ch; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .grid { display: grid; gap: 12px; }
+  .tiles { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); }
+  .tile .v { font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--witch); }
+  .tile .b { font-size: 12px; color: var(--ink-2); display: flex; justify-content: space-between; gap: 8px; }
+  .delta { font-weight: 700; }
+  .delta.pos { color: var(--up); } .delta.neg { color: var(--down); } .delta.zero { color: var(--ink-3); }
+  .tile .n { font-size: 11px; color: var(--ink-3); }
+
+  /* bar rows */
+  .bars { display: flex; flex-direction: column; gap: 2px; }
+  .brow { display: grid; grid-template-columns: 96px 1fr 84px; align-items: center; gap: 10px; min-height: 18px; }
+  .brow .bl { font-size: 12px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brow .bl .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .btrack { position: relative; height: 14px; background: var(--surface-2); border-radius: 3px; overflow: visible; }
+  .bfill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 3px 3px 0; min-width: 2px; transition: width .25s ease; }
+  .bval { font-size: 12px; text-align: right; color: var(--ink); }
+  .bval .n { color: var(--ink-3); font-size: 11px; }
+  .bmark { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: .55; }
+  .group-title { font-size: 12px; font-weight: 700; color: var(--ink); margin: 10px 0 6px; display: flex; justify-content: space-between; }
+  .group-title:first-child { margin-top: 0; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 24px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th, td { padding: 5px 8px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); white-space: nowrap; position: sticky; top: 0; background: var(--surface); }
+  th.sortable { cursor: pointer; }
+  th.sortable:hover { color: var(--ink); }
+  th.sorted { color: var(--accent); }
+  td.num, th.num { text-align: right; }
+  td.heat { text-align: center; border-left: 1px solid var(--line); }
+  td.heat .n { font-size: 10px; color: var(--ink-3); display: block; }
+  .tscroll { overflow-x: auto; }
+  .clsname { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; text-transform: capitalize; }
+  .clsname .dot { width: 8px; height: 8px; border-radius: 50%; }
+  tr.witch td { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--surface-2); color: var(--ink-2); margin: 0 3px 2px 0; }
+  .ratio-hi { color: var(--up); font-weight: 700; } .ratio-lo { color: var(--down); font-weight: 700; }
+
+  /* scatter */
+  .scatter-wrap { position: relative; }
+  svg.scatter { width: 100%; height: 380px; display: block; }
+  svg.scatter text { font-family: ui-monospace, Consolas, monospace; font-size: 11px; fill: var(--ink-2); }
+  svg.scatter .grid line { stroke: var(--line); }
+  svg.scatter .axis line { stroke: var(--line-2); }
+  svg.scatter circle { stroke: var(--surface); stroke-width: 1.5; cursor: pointer; }
+  svg.scatter circle:hover { stroke: var(--ink); }
+  svg.scatter .med { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 4 3; opacity: .6; }
+  .tip {
+    position: fixed; z-index: 50; pointer-events: none; max-width: 320px; padding: 8px 10px; border-radius: 8px;
+    background: var(--ink); color: var(--bg); font-size: 12px; box-shadow: var(--shadow); display: none; line-height: 1.4;
+  }
+  .tip b { display: block; font-size: 13px; }
+  .tip .t { opacity: .8; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; text-transform: capitalize; }
+  .legend .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .legend .sw { width: 14px; height: 2px; background: var(--ink); opacity: .6; border-top: 2px dashed var(--ink); height: 0; }
+
+  .note { font-size: 12px; color: var(--ink-2); max-width: 90ch; }
+  .note ul { margin: 4px 0 0; padding-left: 18px; }
+  details summary { cursor: pointer; font-weight: 600; font-size: 13px; color: var(--ink-2); }
+  .explorer-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .explorer-tools input[type=search] { width: 220px; }
+  .row-cnt { font-size: 12px; color: var(--ink-3); }
+  @media (prefers-reduced-motion: reduce) { .bfill { transition: none; } }
+  @media (max-width: 720px) { .brow { grid-template-columns: 80px 1fr 70px; } main, .hd-inner { padding-left: 14px; padding-right: 14px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-inner">
+    <div class="hd-top">
+      <div>
+        <h1>Witch Balance Ledger</h1>
+        <p class="small muted">Damage and Block output per card and per energy, Witch beside the five base classes. Static card numbers only. Generated <span id="gen-date"></span>.</p>
+      </div>
+      <div class="small faint">Values reflect the filters below. Base = the five base classes pooled.</div>
+    </div>
+    <div class="filters">
+      <div class="fgroup" id="f-classes"><span class="lbl">Classes</span></div>
+      <div class="fgroup" id="f-rarity"><span class="lbl">Rarity</span></div>
+      <div class="fgroup" id="f-type"><span class="lbl">Type</span></div>
+      <div class="fgroup"><span class="lbl">Numbers</span>
+        <div class="seg" id="f-upg"><button aria-pressed="true" data-v="0">Base</button><button aria-pressed="false" data-v="1">Upgraded</button></div>
+      </div>
+      <div class="fgroup"><span class="lbl">AoE ×</span><input type="number" id="f-aoe" min="1" max="5" step="0.5" value="1" title="Multiply damage-to-ALL cards by this enemy count"></div>
+      <div class="fgroup"><label class="chip" id="f-tokens" aria-pressed="false" tabindex="0">Include Witch tokens</label></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="s-head">
+    <div class="sec-head">
+      <h2>Witch vs base pool</h2>
+      <p class="hint">Medians over cards with a flat number. "Per energy" excludes 0-cost and X-cost cards. Delta is Witch relative to the pooled base classes.</p>
+    </div>
+    <div class="grid tiles" id="tiles"></div>
+  </section>
+
+  <section id="s-rarity">
+    <div class="sec-head">
+      <h2>Output by rarity</h2>
+      <div class="fgroup">
+        <div class="seg" id="r-metric"><button aria-pressed="true" data-v="dmg">Damage</button><button aria-pressed="false" data-v="blk">Block</button></div>
+        <select id="r-stat">
+          <option value="medE">Median per energy</option>
+          <option value="meanE">Mean per energy</option>
+          <option value="medC">Median per card</option>
+          <option value="meanC">Mean per card</option>
+          <option value="sum">Total across the pool</option>
+          <option value="n">Cards with a flat number</option>
+        </select>
+      </div>
+    </div>
+    <div class="card"><div class="cols" id="rarity-bars"></div></div>
+    <p class="note">Bars show one class each, per rarity. The count after each value is how many cards contributed. A tick mark shows the pooled-base value for that rarity.</p>
+  </section>
+
+  <section id="s-cost">
+    <div class="sec-head">
+      <h2>Output by energy cost</h2>
+      <div class="fgroup">
+        <div class="seg" id="c-metric"><button aria-pressed="true" data-v="dmg">Damage</button><button aria-pressed="false" data-v="blk">Block</button></div>
+        <div class="seg" id="c-stat"><button aria-pressed="true" data-v="med">Median</button><button aria-pressed="false" data-v="mean">Mean</button></div>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3 id="cost-single-title">Single target</h3><div class="tscroll" id="cost-single"></div></div>
+      <div class="card"><h3 id="cost-aoe-title">Hits ALL enemies</h3><div class="tscroll" id="cost-aoe"></div></div>
+    </div>
+    <p class="note">Each cell is the per-card value at that cost (not per energy), with the card count underneath. Shading is relative within the table. Block cards never target ALL, so the right table is damage-only.</p>
+  </section>
+
+  <section id="s-scatter">
+    <div class="sec-head">
+      <h2>Every card, cost against output</h2>
+      <div class="fgroup">
+        <div class="seg" id="sc-metric"><button aria-pressed="true" data-v="dmg">Damage</button><button aria-pressed="false" data-v="blk">Block</button></div>
+      </div>
+    </div>
+    <div class="card scatter-wrap">
+      <div class="legend" id="sc-legend"></div>
+      <svg class="scatter" id="scatter" role="img" aria-label="Scatter of card energy cost against effective output"></svg>
+    </div>
+    <p class="note">Dashed ticks mark the pooled-base median at each cost. Hover a point for the card. Points are jittered horizontally so overlapping cards stay visible.</p>
+  </section>
+
+  <section id="s-dist">
+    <div class="sec-head"><h2>Pool shape</h2><p class="hint">Share of each class's pool, so classes with different card counts compare fairly.</p></div>
+    <div class="cols" id="dist"></div>
+  </section>
+
+  <section id="s-riders">
+    <div class="sec-head"><h2>Riders and secondary effects</h2><p class="hint">Cards per 100 carrying each tagged effect, from the curated thread tags. Shading is relative within each column.</p></div>
+    <div class="card tscroll" id="riders"></div>
+  </section>
+
+  <section id="s-upg">
+    <div class="sec-head"><h2>Upgrade value</h2><p class="hint">How much an upgrade adds to the flat number, and how often the upgrade is a cost reduction instead.</p></div>
+    <div class="card tscroll" id="upgrades"></div>
+  </section>
+
+  <section id="s-outliers">
+    <div class="sec-head">
+      <h2>Witch cards far from the base cell median</h2>
+      <div class="fgroup"><span class="lbl">Threshold ±</span><input type="number" id="o-thresh" min="5" max="90" step="5" value="30"><span class="small muted">%</span></div>
+    </div>
+    <div class="card tscroll" id="outliers"></div>
+    <p class="note">Cell = same cost, same single/ALL shape, flat-number cards only. A ratio far from 1.0 is a flag to look at the card, not a verdict. Riders excuse low ratios; downsides (Exhaust, HP loss) excuse high ones. Cells with fewer than 4 base cards are skipped.</p>
+  </section>
+
+  <section id="s-explorer">
+    <div class="sec-head">
+      <h2>Card explorer</h2>
+      <div class="explorer-tools">
+        <input type="search" id="x-search" placeholder="Search name or text">
+        <label class="chip" id="x-flatonly" aria-pressed="false" tabindex="0">Only cards with a flat number</label>
+        <span class="row-cnt" id="x-count"></span>
+      </div>
+    </div>
+    <div class="card tscroll" id="explorer"></div>
+  </section>
+
+  <section>
+    <details>
+      <summary>Method and caveats</summary>
+      <div class="note">
+        <ul>
+          <li>Source: <code>Docs/card-data/*.json</code> (Witch parsed from the card classes; base classes from the decompiled game). Rebuild with <code>node Docs/card-data/balance.js</code>.</li>
+          <li>Effective damage = per-hit damage × parsed hit count ("twice" / "N times" in the damage sentence) × the AoE multiplier when the card hits ALL enemies.</li>
+          <li>"Flat" cards have a fixed printed number. Scaling ("for each", "equal to"), X-cost, conditional-hit, and per-turn engine cards are counted but never averaged.</li>
+          <li>Witch Token / Status / Special cards and multiplayer-only cards are excluded unless "Include Witch tokens" is on. Base classes have no token layer.</li>
+          <li>Regent star-cost cards stay in the numbers here; they are subsidized by a second currency and read as above-rate.</li>
+          <li>Riders, potions, familiars, and synergy are invisible to this page. It surfaces shape and outliers, not balance.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+</main>
+<div class="tip" id="tip"></div>
+
+<script>
+const D = __CARD_DATA__;
+const CLS = D.classes;
+const BASE = CLS.slice(1);
+const RARITIES = ["Starter", "Common", "Uncommon", "Rare", "Ancient"];
+const TYPES = ["Attack", "Skill", "Power"];
+const COSTS = ["0", "1", "2", "3", "4+", "X"];
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+const clr = (cls) => `var(--${cls})`;
+
+document.getElementById("gen-date").textContent = D.generated;
+
+// ---------- parsing (mirrors compare.js) ----------
+const sentences = (t) => (t || "").replace(/\n/g, " ").split(/(?<=\.)\s+/);
+function dmgInfo(c) {
+  if (!c.numbers || !("Damage" in c.numbers)) return null;
+  const s = sentences(c.text).find((s) => /deals? .*?damage/i.test(s));
+  if (!s) return null;
+  const aoe = /ALL enem/i.test(s);
+  if (c.cost === "X" || /\bX times\b/.test(s)) return { bucket: "xcost", aoe };
+  if (/for each|equal to|CalculatedHits/i.test(s)) return { bucket: "scaling", aoe };
+  if (/start of|end of|whenever|next turn/i.test(s)) return { bucket: "engine", aoe };
+  let hits = 1;
+  const m = s.match(/(\d+) times/);
+  if (m) hits = parseInt(m[1], 10); else if (/twice/i.test(s)) hits = 2;
+  const conditional = /if |additional time/i.test(s) && hits === 1;
+  return { bucket: conditional ? "conditional" : "flat", perHit: c.numbers.Damage, hits, aoe };
+}
+function blockInfo(c) {
+  if (!c.numbers || !("Block" in c.numbers)) return null;
+  const s = sentences(c.text).find((s) => /gains? .*?block|block equal/i.test(s));
+  if (!s) return null;
+  if (c.cost === "X") return { bucket: "xcost" };
+  if (/for each|equal to/i.test(s)) return { bucket: "scaling" };
+  if (/start of|end of|whenever|next turn|each turn/i.test(s)) return { bucket: "engine" };
+  let amount = c.numbers.Block;
+  const m = s.match(/(\d+) times/);
+  if (m) amount *= parseInt(m[1], 10); else if (/twice/i.test(s)) amount *= 2;
+  return { bucket: "flat", amount };
+}
+const upDelta = (c, key) => { const m = (c.upgrade || "").match(new RegExp(key + " \\+(\\d+)")); return m ? parseInt(m[1], 10) : 0; };
+const costKey = (c) => (c.cost === "X" ? "X" : c.cost >= 4 ? "4+" : c.cost < 0 ? "X" : String(c.cost));
+const isToken = (c) => ["Token", "Status", "Special"].includes(c.rarity) || c.multiplayer;
+
+// Build records once.
+const ALL = [];
+for (const cls of CLS) for (const c of D.data[cls]) {
+  ALL.push({ cls, c, ck: costKey(c), d: dmgInfo(c), b: blockInfo(c), token: cls === "witch" && isToken(c), riders: Object.keys(c.numbers || {}).filter((k) => !/^(Damage|Block|Calculation|ExtraDamage)/.test(k)) });
+}
+
+// ---------- state ----------
+const S = {
+  classes: new Set(CLS), rarities: new Set(["Common", "Uncommon", "Rare"]), types: new Set(TYPES),
+  upgraded: false, aoe: 1, tokens: false,
+  rMetric: "dmg", rStat: "medE", cMetric: "dmg", cStat: "med", scMetric: "dmg", thresh: 0.3, search: "", flatOnly: false,
+  sortKey: "cls", sortDir: 1,
+};
+
+const effDmg = (r) => r.d && r.d.bucket === "flat" ? (r.d.perHit + (S.upgraded ? upDelta(r.c, "Damage") : 0)) * r.d.hits * (r.d.aoe ? S.aoe : 1) : null;
+const effBlk = (r) => r.b && r.b.bucket === "flat" ? r.b.amount + (S.upgraded ? upDelta(r.c, "Block") : 0) : null;
+const eff = (r, m) => (m === "dmg" ? effDmg(r) : effBlk(r));
+const numCost = (r) => (typeof r.c.cost === "number" && r.c.cost > 0 ? r.c.cost : null);
+const perE = (r, m) => { const v = eff(r, m), k = numCost(r); return v === null || k === null ? null : v / k; };
+
+const median = (a) => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y); return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2; };
+const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+const sum = (a) => a.reduce((x, y) => x + y, 0);
+const fmt = (n, d = 1) => (n === null || n === undefined || Number.isNaN(n) ? "—" : Number.isInteger(n) ? String(n) : n.toFixed(d));
+const pct = (a, b) => (a === null || b === null || !b ? null : (a - b) / b);
+const deltaHtml = (p) => p === null ? `<span class="delta zero">—</span>` : `<span class="delta ${p > 0.005 ? "pos" : p < -0.005 ? "neg" : "zero"}">${p > 0 ? "+" : ""}${(p * 100).toFixed(0)}%</span>`;
+const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+
+// filtered records (rarity/type/token filters; class filter applied per view)
+function pool() {
+  return ALL.filter((r) => (S.tokens && r.token ? true : !r.token && S.rarities.has(r.c.rarity)) && S.types.has(r.c.type));
+}
+const of = (recs, cls) => recs.filter((r) => r.cls === cls);
+const baseOf = (recs) => recs.filter((r) => r.cls !== "witch" && S.classes.has(r.cls));
+const active = () => CLS.filter((c) => S.classes.has(c));
+
+// ---------- filter chrome ----------
+function chip(parent, label, pressed, onToggle, cls) {
+  const el = document.createElement("button");
+  el.className = "chip" + (cls ? " cls" : ""); el.type = "button"; el.setAttribute("aria-pressed", pressed);
+  if (cls) el.style.setProperty("--c", clr(cls));
+  el.innerHTML = (cls ? `<span class="dot"></span>` : "") + esc(label);
+  el.onclick = () => { const p = el.getAttribute("aria-pressed") !== "true"; el.setAttribute("aria-pressed", p); onToggle(p); render(); };
+  parent.appendChild(el);
+}
+for (const c of CLS) chip(document.getElementById("f-classes"), cap(c), true, (p) => (p ? S.classes.add(c) : S.classes.delete(c)), c);
+for (const r of RARITIES) chip(document.getElementById("f-rarity"), r, S.rarities.has(r), (p) => (p ? S.rarities.add(r) : S.rarities.delete(r)));
+for (const t of TYPES) chip(document.getElementById("f-type"), t, true, (p) => (p ? S.types.add(t) : S.types.delete(t)));
+function seg(id, key, cast) {
+  const el = document.getElementById(id);
+  el.querySelectorAll("button").forEach((b) => (b.onclick = () => { el.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b)); S[key] = cast ? cast(b.dataset.v) : b.dataset.v; render(); }));
+}
+seg("f-upg", "upgraded", (v) => v === "1"); seg("r-metric", "rMetric"); seg("c-metric", "cMetric"); seg("c-stat", "cStat"); seg("sc-metric", "scMetric");
+document.getElementById("f-aoe").oninput = (e) => { S.aoe = Math.max(1, parseFloat(e.target.value) || 1); render(); };
+document.getElementById("r-stat").onchange = (e) => { S.rStat = e.target.value; render(); };
+document.getElementById("o-thresh").oninput = (e) => { S.thresh = (parseFloat(e.target.value) || 30) / 100; render(); };
+document.getElementById("x-search").oninput = (e) => { S.search = e.target.value.toLowerCase(); renderExplorer(); };
+function toggleChip(id, key, after) {
+  const el = document.getElementById(id);
+  const go = () => { S[key] = !S[key]; el.setAttribute("aria-pressed", S[key]); after(); };
+  el.onclick = go; el.onkeydown = (e) => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); go(); } };
+}
+toggleChip("f-tokens", "tokens", render); toggleChip("x-flatonly", "flatOnly", renderExplorer);
+
+// ---------- tooltip ----------
+const tip = document.getElementById("tip");
+function showTip(html, ev) { tip.innerHTML = html; tip.style.display = "block"; moveTip(ev); }
+function moveTip(ev) { const x = ev.clientX + 14, y = ev.clientY + 14; tip.style.left = Math.min(x, window.innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = Math.min(y, window.innerHeight - tip.offsetHeight - 8) + "px"; }
+function hideTip() { tip.style.display = "none"; }
+const cardTip = (r) => `<b>${esc(r.c.name)} <span class="t">· ${cap(r.cls)} · ${r.c.rarity} · ${esc(String(r.c.cost))}${typeof r.c.cost === "number" ? "E" : ""} ${r.c.type}</span></b><span class="t">${esc(r.c.text)}</span>${r.c.upgrade ? `<br><span class="t">Upgrade: ${esc(r.c.upgrade)}</span>` : ""}`;
+
+// ---------- bar helper ----------
+function barRows(rows, max, opts = {}) {
+  // rows: [{label, cls, v, n, mark}]
+  return `<div class="bars">${rows.map((r) => {
+    const w = r.v === null || !max ? 0 : Math.max(0, Math.min(100, (r.v / max) * 100));
+    const mk = r.mark !== undefined && r.mark !== null && max ? `<span class="bmark" style="left:${Math.min(100, (r.mark / max) * 100)}%" title="Base pooled ${fmt(r.mark)}"></span>` : "";
+    return `<div class="brow"><span class="bl">${r.cls ? `<span class="dot" style="background:${clr(r.cls)}"></span>` : ""}${esc(r.label)}</span><span class="btrack"><span class="bfill" style="width:${w}%;background:${r.cls ? clr(r.cls) : "var(--base)"}"></span>${mk}</span><span class="bval num">${fmt(r.v, opts.dec ?? 1)}${r.n !== undefined ? ` <span class="n">(${r.n})</span>` : ""}</span></div>`;
+  }).join("")}</div>`;
+}
+
+// ---------- 1. tiles ----------
+function statBlock(recs) {
+  const flatD = recs.filter((r) => effDmg(r) !== null), flatB = recs.filter((r) => effBlk(r) !== null);
+  const numeric = recs.filter((r) => typeof r.c.cost === "number" && r.c.cost >= 0);
+  const withRider = recs.filter((r) => (effDmg(r) !== null || effBlk(r) !== null) && (r.riders.length || (r.c.threads || []).some((t) => ["Draw", "Energy", "Weak", "Vulnerable", "OtherDebuff", "CardGen"].includes(t))));
+  const pe = (arr, m) => arr.map((r) => perE(r, m)).filter((v) => v !== null);
+  return {
+    dmgE: { v: median(pe(flatD, "dmg")), n: pe(flatD, "dmg").length },
+    dmgC: { v: median(flatD.map(effDmg)), n: flatD.length },
+    blkE: { v: median(pe(flatB, "blk")), n: pe(flatB, "blk").length },
+    blkC: { v: median(flatB.map(effBlk)), n: flatB.length },
+    dmgShare: { v: recs.length ? (flatD.length / recs.length) * 100 : null, n: recs.length },
+    blkShare: { v: recs.length ? (flatB.length / recs.length) * 100 : null, n: recs.length },
+    riderShare: { v: flatD.length + flatB.length ? (withRider.length / new Set([...flatD, ...flatB]).size) * 100 : null, n: new Set([...flatD, ...flatB]).size },
+    cost: { v: mean(numeric.map((r) => r.c.cost)), n: numeric.length },
+    atk: { v: recs.length ? (recs.filter((r) => r.c.type === "Attack").length / recs.length) * 100 : null, n: recs.length },
+    pow: { v: recs.length ? (recs.filter((r) => r.c.type === "Power").length / recs.length) * 100 : null, n: recs.length },
+  };
+}
+function renderTiles() {
+  const P = pool();
+  const w = statBlock(of(P, "witch")), b = statBlock(baseOf(P));
+  const defs = [
+    ["Damage / energy", "dmgE", ""], ["Damage / card", "dmgC", ""], ["Block / energy", "blkE", ""], ["Block / card", "blkC", ""],
+    ["Cards with flat damage", "dmgShare", "%"], ["Cards with flat block", "blkShare", "%"], ["Output cards with a rider", "riderShare", "%"],
+    ["Mean energy cost", "cost", ""], ["Attack share", "atk", "%"], ["Power share", "pow", "%"],
+  ];
+  document.getElementById("tiles").innerHTML = defs.map(([k, key, u]) => `<div class="tile"><span class="k">${k}</span><span class="v num">${fmt(w[key].v, key === "cost" ? 2 : 1)}${u}</span><span class="b"><span>Base ${fmt(b[key].v, key === "cost" ? 2 : 1)}${u}</span>${deltaHtml(pct(w[key].v, b[key].v))}</span><span class="n">n = ${w[key].n} witch · ${b[key].n} base</span></div>`).join("");
+}
+
+// ---------- 2. rarity ----------
+function rarityStat(recs, m, stat) {
+  const flat = recs.filter((r) => eff(r, m) !== null);
+  const pe = flat.map((r) => perE(r, m)).filter((v) => v !== null);
+  const pc = flat.map((r) => eff(r, m));
+  switch (stat) {
+    case "medE": return { v: median(pe), n: pe.length };
+    case "meanE": return { v: mean(pe), n: pe.length };
+    case "medC": return { v: median(pc), n: pc.length };
+    case "meanC": return { v: mean(pc), n: pc.length };
+    case "sum": return { v: pc.length ? sum(pc) : null, n: pc.length };
+    case "n": return { v: pc.length, n: pc.length };
+  }
+}
+function renderRarity() {
+  const P = ALL.filter((r) => S.types.has(r.c.type) && !r.token || (S.tokens && r.token));
+  const rars = RARITIES.filter((x) => S.rarities.has(x)).concat(S.tokens ? ["Token"] : []);
+  const groups = rars.map((rar) => {
+    const recs = P.filter((r) => (rar === "Token" ? r.token : r.c.rarity === rar && !r.token));
+    const rows = active().map((cls) => ({ label: cap(cls), cls, ...rarityStat(of(recs, cls), S.rMetric, S.rStat) }));
+    const base = rarityStat(baseOf(recs), S.rMetric, S.rStat);
+    return { rar, rows, base };
+  });
+  const max = Math.max(1, ...groups.flatMap((g) => g.rows.map((r) => r.v || 0)), ...groups.map((g) => g.base.v || 0));
+  document.getElementById("rarity-bars").innerHTML = groups.map((g) => `<div><div class="group-title"><span>${g.rar}</span><span class="faint num">base ${fmt(g.base.v)} (${g.base.n})</span></div>${barRows(g.rows.map((r) => ({ ...r, mark: g.base.v })), max)}</div>`).join("");
+}
+
+// ---------- 3. cost tables ----------
+function heat(v, lo, hi) {
+  if (v === null) return "var(--heat-0)";
+  const t = hi > lo ? (v - lo) / (hi - lo) : 0.5;
+  return `var(--heat-${Math.round(1 + t * 5)})`;
+}
+function costTable(aoeFlag) {
+  const P = pool();
+  const m = S.cMetric;
+  const cells = {};
+  const vals = [];
+  const rowsCls = [...active(), "base"];
+  for (const cls of rowsCls) {
+    const recs = cls === "base" ? baseOf(P) : of(P, cls);
+    for (const ck of COSTS) {
+      const sel = recs.filter((r) => r.ck === ck && eff(r, m) !== null && (m === "blk" || !!r.d.aoe === aoeFlag));
+      const a = sel.map((r) => eff(r, m));
+      const v = S.cStat === "med" ? median(a) : mean(a);
+      cells[cls + ck] = { v, n: a.length, cards: sel };
+      if (v !== null && cls !== "base") vals.push(v);
+    }
+  }
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const cols = COSTS.filter((ck) => rowsCls.some((cls) => cells[cls + ck].n));
+  return `<table><thead><tr><th>Class</th>${cols.map((c) => `<th class="num">${c}</th>`).join("")}</tr></thead><tbody>${rowsCls.map((cls) => `<tr class="${cls}"><td><span class="clsname"><span class="dot" style="background:${cls === "base" ? "var(--base)" : clr(cls)}"></span>${cls === "base" ? "Base pooled" : cls}</span></td>${cols.map((ck) => { const x = cells[cls + ck]; return `<td class="heat num" style="background:${cls === "base" ? "transparent" : heat(x.v, lo, hi)}" data-cards="${esc(x.cards.map((r) => r.c.name).join(", "))}">${fmt(x.v)}<span class="n">${x.n ? "n " + x.n : ""}</span></td>`; }).join("")}</tr>`).join("")}</tbody></table>`;
+}
+function renderCost() {
+  document.getElementById("cost-single").innerHTML = costTable(false);
+  const aoeEl = document.getElementById("cost-aoe");
+  if (S.cMetric === "blk") { aoeEl.innerHTML = `<p class="small faint">Block has no ALL-enemies shape.</p>`; } else aoeEl.innerHTML = costTable(true);
+  document.getElementById("cost-single-title").textContent = S.cMetric === "blk" ? "Block per card" : "Single target damage per card";
+  document.querySelectorAll("#s-cost td.heat").forEach((td) => {
+    td.onmouseenter = (e) => td.dataset.cards && showTip(`<span class="t">${esc(td.dataset.cards)}</span>`, e);
+    td.onmousemove = moveTip; td.onmouseleave = hideTip;
+  });
+}
+
+// ---------- 4. scatter ----------
+function renderScatter() {
+  const P = pool();
+  const m = S.scMetric;
+  const pts = P.filter((r) => S.classes.has(r.cls) && eff(r, m) !== null && r.ck !== "X");
+  const svg = document.getElementById("scatter");
+  const W = svg.clientWidth || 900, H = 380, padL = 44, padR = 16, padT = 14, padB = 34;
+  const xs = ["0", "1", "2", "3", "4+"];
+  const xi = (ck) => xs.indexOf(ck);
+  const maxY = Math.max(5, ...pts.map((r) => eff(r, m)));
+  const x = (i) => padL + ((i + 0.5) / xs.length) * (W - padL - padR);
+  const y = (v) => padT + (1 - v / maxY) * (H - padT - padB);
+  const ticks = niceTicks(maxY, 6);
+  let out = `<g class="grid">${ticks.map((t) => `<line x1="${padL}" x2="${W - padR}" y1="${y(t)}" y2="${y(t)}"/><text x="${padL - 6}" y="${y(t) + 4}" text-anchor="end">${t}</text>`).join("")}</g>`;
+  out += `<g class="axis"><line x1="${padL}" x2="${W - padR}" y1="${y(0)}" y2="${y(0)}"/>${xs.map((ck, i) => `<text x="${x(i)}" y="${H - 12}" text-anchor="middle">${ck} energy</text>`).join("")}</g>`;
+  // base medians
+  const base = baseOf(P).filter((r) => eff(r, m) !== null);
+  out += `<g>${xs.map((ck, i) => { const md = median(base.filter((r) => r.ck === ck).map((r) => eff(r, m))); return md === null ? "" : `<line class="med" x1="${x(i) - 34}" x2="${x(i) + 34}" y1="${y(md)}" y2="${y(md)}"/>`; }).join("")}</g>`;
+  // points, deterministic jitter by index within cost cell
+  const byCell = {};
+  const order = [...active()].reverse(); // witch drawn last (on top)
+  const sorted = [...pts].sort((a, b) => order.indexOf(a.cls) - order.indexOf(b.cls));
+  out += sorted.map((r) => {
+    const key = r.ck + ":" + Math.round(eff(r, m));
+    const k = (byCell[key] = (byCell[key] || 0) + 1);
+    const jit = ((k % 2 ? 1 : -1) * Math.ceil(k / 2) * 9) + (r.cls === "witch" ? 0 : 0);
+    return `<circle r="5" cx="${x(xi(r.ck)) + jit}" cy="${y(eff(r, m))}" fill="${clr(r.cls)}" data-i="${ALL.indexOf(r)}"/>`;
+  }).join("");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.innerHTML = out;
+  svg.querySelectorAll("circle").forEach((c) => { const r = ALL[+c.dataset.i]; c.onmouseenter = (e) => showTip(cardTip(r) + `<br><span class="t">${m === "dmg" ? "Effective damage" : "Block"}: ${fmt(eff(r, m))}${perE(r, m) !== null ? ` · per energy ${fmt(perE(r, m))}` : ""}</span>`, e); c.onmousemove = moveTip; c.onmouseleave = hideTip; });
+  document.getElementById("sc-legend").innerHTML = active().map((c) => `<span><span class="dot" style="background:${clr(c)}"></span>${c}</span>`).join("") + `<span><span class="sw"></span>base median</span>`;
+}
+function niceTicks(max, n) { const step = [1, 2, 5, 10, 20, 25, 50, 100].find((s) => max / s <= n) || 100; const out = []; for (let t = 0; t <= max; t += step) out.push(t); return out; }
+
+// ---------- 5. distributions ----------
+function renderDist() {
+  const P = ALL.filter((r) => !r.token || S.tokens);
+  const dims = [["Energy cost", COSTS, (r) => r.ck], ["Card type", TYPES, (r) => r.c.type], ["Rarity", RARITIES, (r) => r.c.rarity]];
+  document.getElementById("dist").innerHTML = dims.map(([title, keys, kf]) => {
+    const groups = keys.map((k) => ({ k, rows: active().map((cls) => { const recs = of(P, cls); const n = recs.filter((r) => kf(r) === k).length; return { label: cap(cls), cls, v: recs.length ? (n / recs.length) * 100 : 0, n }; }) })).filter((g) => g.rows.some((r) => r.n));
+    const max = Math.max(1, ...groups.flatMap((g) => g.rows.map((r) => r.v)));
+    return `<div class="card"><h3>${title} (% of pool)</h3>${groups.map((g) => `<div class="group-title"><span>${g.k}</span></div>${barRows(g.rows, max, { dec: 0 })}`).join("")}</div>`;
+  }).join("");
+}
+
+// ---------- 6. riders ----------
+const RIDER_TAGS = ["AoE", "MultiHit", "Weak", "Vulnerable", "OtherDebuff", "DebuffPayoff", "Draw", "Energy", "CostReduction", "CardGen", "SelfExhaust", "ExhaustOutlet", "HPLoss", "SelfDebuff", "BlockEngine", "StatRamp", "Snowball", "Heal", "Retain", "Tutor"];
+function renderRiders() {
+  const P = pool();
+  const rows = [...active(), "base"].map((cls) => { const recs = cls === "base" ? baseOf(P) : of(P, cls); return { cls, n: recs.length, v: RIDER_TAGS.map((t) => (recs.length ? (recs.filter((r) => (r.c.threads || []).includes(t)).length / recs.length) * 100 : 0)) }; });
+  const colMax = RIDER_TAGS.map((_, i) => Math.max(1, ...rows.filter((r) => r.cls !== "base").map((r) => r.v[i])));
+  document.getElementById("riders").innerHTML = `<table><thead><tr><th>Class</th><th class="num">Cards</th>${RIDER_TAGS.map((t) => `<th class="num">${t}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr class="${r.cls}"><td><span class="clsname"><span class="dot" style="background:${r.cls === "base" ? "var(--base)" : clr(r.cls)}"></span>${r.cls === "base" ? "Base pooled" : r.cls}</span></td><td class="num">${r.n}</td>${r.v.map((v, i) => `<td class="heat num" style="background:${r.cls === "base" ? "transparent" : heat(v, 0, colMax[i])}">${v ? v.toFixed(0) : "·"}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+
+// ---------- 7. upgrades ----------
+function renderUpgrades() {
+  const P = pool();
+  const rows = [...active(), "base"].map((cls) => {
+    const recs = cls === "base" ? baseOf(P) : of(P, cls);
+    const d = recs.filter((r) => r.d && r.d.bucket === "flat"), b = recs.filter((r) => r.b && r.b.bucket === "flat");
+    const dd = d.map((r) => upDelta(r.c, "Damage") * r.d.hits).filter((v) => v > 0), bd = b.map((r) => upDelta(r.c, "Block")).filter((v) => v > 0);
+    const dpct = d.filter((r) => upDelta(r.c, "Damage") > 0).map((r) => (upDelta(r.c, "Damage") / r.d.perHit) * 100), bpct = b.filter((r) => upDelta(r.c, "Block") > 0).map((r) => (upDelta(r.c, "Block") / r.b.amount) * 100);
+    const costUp = recs.filter((r) => /Cost -\d/.test(r.c.upgrade || "")).length;
+    const noNum = recs.filter((r) => !(r.c.upgrade || "").trim()).length;
+    return { cls, n: recs.length, dmgUp: median(dd), dmgUpN: dd.length, dmgPct: median(dpct), blkUp: median(bd), blkUpN: bd.length, blkPct: median(bpct), costUp: recs.length ? (costUp / recs.length) * 100 : 0, noNum: recs.length ? (noNum / recs.length) * 100 : 0 };
+  });
+  document.getElementById("upgrades").innerHTML = `<table><thead><tr><th>Class</th><th class="num">Cards</th><th class="num">Damage +</th><th class="num">as % of base</th><th class="num">Block +</th><th class="num">as % of base</th><th class="num">Upgrade lowers cost</th><th class="num">No parsed number change</th></tr></thead><tbody>${rows.map((r) => `<tr class="${r.cls}"><td><span class="clsname"><span class="dot" style="background:${r.cls === "base" ? "var(--base)" : clr(r.cls)}"></span>${r.cls === "base" ? "Base pooled" : r.cls}</span></td><td class="num">${r.n}</td><td class="num">${fmt(r.dmgUp)} <span class="faint">(${r.dmgUpN})</span></td><td class="num">${fmt(r.dmgPct, 0)}%</td><td class="num">${fmt(r.blkUp)} <span class="faint">(${r.blkUpN})</span></td><td class="num">${fmt(r.blkPct, 0)}%</td><td class="num">${r.costUp.toFixed(0)}%</td><td class="num">${r.noNum.toFixed(0)}%</td></tr>`).join("")}</tbody></table><p class="note" style="margin-top:8px">Medians over cards whose upgrade raises the flat number. Multi-hit damage deltas are multiplied by hit count. The last column counts cards whose upgrade text the generator could not reduce to a number change (keyword grants, text rewrites).</p>`;
+}
+
+// ---------- 8. outliers ----------
+function renderOutliers() {
+  const P = pool();
+  const base = baseOf(P);
+  const rows = [];
+  const DOWN = ["SelfExhaust", "HPLoss", "SelfDebuff", "ExhaustOutlet", "DelayedEffect", "SelfStatus", "Discard"];
+  const RIDE = ["Draw", "Energy", "Weak", "Vulnerable", "OtherDebuff", "CardGen", "AoE", "CostReduction", "Retain"];
+  for (const m of ["dmg", "blk"]) for (const r of of(P, "witch")) {
+    const v = eff(r, m); if (v === null) continue;
+    const cell = base.filter((y) => eff(y, m) !== null && y.ck === r.ck && (m === "blk" || !!y.d.aoe === !!r.d.aoe));
+    if (cell.length < 4) continue;
+    const md = median(cell.map((y) => eff(y, m)));
+    if (!md) continue;
+    const ratio = v / md;
+    if (ratio > 1 + S.thresh || ratio < 1 - S.thresh) rows.push({ r, m, v, md, ratio, n: cell.length, down: (r.c.threads || []).filter((t) => DOWN.includes(t)), ride: [...new Set([...(r.c.threads || []).filter((t) => RIDE.includes(t)), ...r.riders])] });
+  }
+  rows.sort((a, b) => Math.abs(Math.log(b.ratio)) - Math.abs(Math.log(a.ratio)));
+  document.getElementById("outliers").innerHTML = rows.length ? `<table><thead><tr><th>Card</th><th>Metric</th><th>Cell</th><th class="num">Value</th><th class="num">Base median</th><th class="num">Ratio</th><th>Riders</th><th>Downsides</th></tr></thead><tbody>${rows.map((o) => `<tr><td><b>${esc(o.r.c.name)}</b><br><span class="faint small">${esc(o.r.c.text)}</span></td><td>${o.m === "dmg" ? "Damage" : "Block"}</td><td class="num">${o.r.ck}${o.m === "dmg" && o.r.d.aoe ? " ALL" : ""}<br><span class="faint">n ${o.n}</span></td><td class="num">${fmt(o.v)}</td><td class="num">${fmt(o.md)}</td><td class="num ${o.ratio > 1 ? "ratio-hi" : "ratio-lo"}">${o.ratio.toFixed(2)}</td><td>${o.ride.map((t) => `<span class="pill">${t}</span>`).join("")}</td><td>${o.down.map((t) => `<span class="pill">${t}</span>`).join("")}</td></tr>`).join("")}</tbody></table>` : `<p class="small muted">No Witch flat-number card sits outside ±${(S.thresh * 100).toFixed(0)}% of its base cell median under the current filters.</p>`;
+}
+
+// ---------- 9. explorer ----------
+const XCOLS = [
+  ["cls", "Class", (r) => r.cls], ["name", "Card", (r) => r.c.name], ["cost", "Cost", (r) => (typeof r.c.cost === "number" ? r.c.cost : 99)], ["type", "Type", (r) => r.c.type], ["rarity", "Rarity", (r) => RARITIES.indexOf(r.c.rarity) < 0 ? 9 : RARITIES.indexOf(r.c.rarity)],
+  ["dmg", "Dmg", (r) => effDmg(r) ?? -1], ["dmgE", "Dmg/E", (r) => perE(r, "dmg") ?? -1], ["blk", "Block", (r) => effBlk(r) ?? -1], ["blkE", "Blk/E", (r) => perE(r, "blk") ?? -1], ["shape", "Shape", (r) => (r.d ? r.d.bucket : r.b ? r.b.bucket : "")], ["text", "Text", (r) => r.c.text],
+];
+function renderExplorer() {
+  const P = pool().filter((r) => S.classes.has(r.cls));
+  let rows = P.filter((r) => !S.search || (r.c.name + " " + r.c.text).toLowerCase().includes(S.search)).filter((r) => !S.flatOnly || effDmg(r) !== null || effBlk(r) !== null);
+  const col = XCOLS.find((c) => c[0] === S.sortKey);
+  rows.sort((a, b) => { const x = col[2](a), y = col[2](b); return (x < y ? -1 : x > y ? 1 : 0) * S.sortDir || a.c.name.localeCompare(b.c.name); });
+  document.getElementById("x-count").textContent = `${rows.length} cards`;
+  const shapeTxt = (r) => { const parts = []; if (r.d) parts.push(`dmg:${r.d.bucket}${r.d.aoe ? " ALL" : ""}${r.d.hits > 1 ? " ×" + r.d.hits : ""}`); if (r.b) parts.push(`blk:${r.b.bucket}`); return parts.join(" "); };
+  document.getElementById("explorer").innerHTML = `<table><thead><tr>${XCOLS.map((c) => `<th class="sortable ${["cost", "dmg", "dmgE", "blk", "blkE"].includes(c[0]) ? "num" : ""} ${S.sortKey === c[0] ? "sorted" : ""}" data-k="${c[0]}">${c[1]}${S.sortKey === c[0] ? (S.sortDir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr class="${r.cls}"><td><span class="clsname"><span class="dot" style="background:${clr(r.cls)}"></span>${r.cls}</span></td><td><b>${esc(r.c.name)}</b>${r.token ? ' <span class="pill">token</span>' : ""}</td><td class="num">${esc(String(r.c.cost))}</td><td>${r.c.type}</td><td>${r.c.rarity}</td><td class="num">${fmt(effDmg(r))}</td><td class="num">${fmt(perE(r, "dmg"))}</td><td class="num">${fmt(effBlk(r))}</td><td class="num">${fmt(perE(r, "blk"))}</td><td class="faint small">${shapeTxt(r)}</td><td class="small muted" style="min-width:260px">${esc(r.c.text)}${r.c.upgrade ? `<br><span class="faint">+ ${esc(r.c.upgrade)}</span>` : ""}</td></tr>`).join("")}</tbody></table>`;
+  document.querySelectorAll("#explorer th.sortable").forEach((th) => (th.onclick = () => { if (S.sortKey === th.dataset.k) S.sortDir *= -1; else { S.sortKey = th.dataset.k; S.sortDir = ["dmg", "dmgE", "blk", "blkE"].includes(th.dataset.k) ? -1 : 1; } renderExplorer(); }));
+}
+
+function render() { renderTiles(); renderRarity(); renderCost(); renderScatter(); renderDist(); renderRiders(); renderUpgrades(); renderOutliers(); renderExplorer(); }
+render();
+let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(renderScatter, 120); });
+</script>
+</body>
+</html>
