@@ -15,6 +15,7 @@ using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Multiplayer;
+using MegaCrit.Sts2.Core.Multiplayer.Serialization;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.TestSupport;
@@ -229,6 +230,17 @@ public static class WitchCardTest
         {
             target.SetMaxHpInternal(9999m);
             target.SetCurrentHpInternal(9999m);
+        }
+        if (potion is Potions.BottledMessage bottle && player.PlayerCombatState?.Hand.Cards.FirstOrDefault(c => !c.EnergyCost.CostsX) is { } toBottle)
+        {
+            // Regression: a bottled card with a captured cost must survive the run's PACKET serialization
+            // (combat replay / MP sync) — the old SavedProperties path threw "could not be mapped to any
+            // net ID" and hung return-to-menu. TestMode disables the replay writer, so exercise it directly.
+            toBottle.EnergyCost.SetUntilPlayed(0);
+            bottle.Bottle(toBottle);
+            PacketWriter writer = new() { WarnOnGrow = false };
+            writer.Write(RunManager.Instance.ToSave(null));
+            AutoSlayLog.Info($"  bottled {toBottle.GetType().Name} (cost {bottle.BottledCost}); run packet {writer.BytePosition} bytes");
         }
         await potion.OnUseWrapper(ctx, target);
         await EndTurnAndWait(player);

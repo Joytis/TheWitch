@@ -23,11 +23,12 @@ public sealed class Shiny : WitchFamiliarCard
         ModelDb.Potion<ImpeccableSilverware>(),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-        new HoverTip(
-            new LocString("static_hover_tips", IsUpgraded ? "THEWITCH-BIG_TREASURE.title" : "THEWITCH-TREASURE.title"),
-            new LocString("static_hover_tips", IsUpgraded ? "THEWITCH-BIG_TREASURE.description" : "THEWITCH-TREASURE.description")),
-    ];
+    /// <summary>Treasure / Big Treasure hover tip, shared with the summon card (Crow Familiar).</summary>
+    public static IHoverTip TreasureTip(bool upgraded) => new HoverTip(
+        new LocString("static_hover_tips", upgraded ? "THEWITCH-BIG_TREASURE.title" : "THEWITCH-TREASURE.title"),
+        new LocString("static_hover_tips", upgraded ? "THEWITCH-BIG_TREASURE.description" : "THEWITCH-TREASURE.description"));
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [TreasureTip(IsUpgraded)];
 
     public Shiny()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)

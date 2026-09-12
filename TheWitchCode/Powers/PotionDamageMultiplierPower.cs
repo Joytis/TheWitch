@@ -10,8 +10,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
-/// Pact of Agony buff: the owner's potions deal <see cref="PowerModel.Amount" />x damage until end of turn
-/// (Amount is the MULTIPLIER — 2 for double, 3 for triple — not a stack count, so the power is Single).
+/// Pact of Agony buff: the owner's potions deal <see cref="PowerModel.Amount" />% additional damage until end
+/// of turn — the base-game Lethality model (Amount is a percent, multiplier = 1 + Amount/100), so repeat plays
+/// stack additively: two Pacts = +200% = triple, never 4x.
 ///
 /// Potion damage carries no <c>cardSource</c> and is dealt by the player's own creature, which is
 /// indistinguishable from power-dealt damage (Volatile Vapors, Moonbeam) at the ModifyDamage hook. So the
@@ -27,7 +28,7 @@ public sealed class PotionDamageMultiplierPower : WitchPower
 {
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     /// <summary>True only while one of the owner's potions is resolving its OnUse body.</summary>
     private bool _resolvingPotion;
@@ -56,8 +57,13 @@ public sealed class PotionDamageMultiplierPower : WitchPower
         {
             return 1m;
         }
+        // Volatile Vapors fires off the same potion use/create and would otherwise ride the window.
+        if (Owner.GetPower<VolatileVaporsPower>() is { IsDealing: true })
+        {
+            return 1m;
+        }
         Flash();
-        return Amount;
+        return 1m + Amount / 100m;
     }
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)

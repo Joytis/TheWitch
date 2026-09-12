@@ -38,9 +38,5 @@ public sealed class StrikeFear : WitchCard
         await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars.Vulnerable.UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Vulnerable.UpgradeValueBy(1m);
 }

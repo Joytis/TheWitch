@@ -12,6 +12,8 @@ public sealed class ShareTheBrew : WitchCard
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     public ShareTheBrew()
         : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.AllAllies)
     {

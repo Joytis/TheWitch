@@ -19,6 +19,12 @@ public sealed class VolatileVaporsPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    /// <summary>True while this power is dealing its own damage. Its AfterPotionUsed/AfterPotionProcured
+    /// triggers can run inside Pact of Agony's potion-damage window (hook order on the creature), and that
+    /// damage is indistinguishable from potion damage at the ModifyDamage hook — so the multiplier checks
+    /// this flag to leave Vapors alone (only bottles get multiplied).</summary>
+    public bool IsDealing { get; private set; }
+
     public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
         if (potion.Owner == Owner.Player)
@@ -54,6 +60,14 @@ public sealed class VolatileVaporsPower : WitchPower
         }
 
         Flash();
-        await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), target, Amount, ValueProp.Unpowered, Owner, null);
+        IsDealing = true;
+        try
+        {
+            await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), target, Amount, ValueProp.Unpowered, Owner, null);
+        }
+        finally
+        {
+            IsDealing = false;
+        }
     }
 }

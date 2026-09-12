@@ -15,7 +15,7 @@ public sealed class DeepRoots : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<DeepRootsPower>(3m)
+        new PowerVar<DeepRootsPower>(2m)
     ];
 
     public DeepRoots()

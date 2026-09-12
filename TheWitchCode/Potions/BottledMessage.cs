@@ -33,7 +33,22 @@ public sealed class BottledMessage : WitchPotion
     private int _bottledEnchantAmount;
     private int _bottledCost = -1;
 
-    private const string BottledCostProp = "BottledCost";
+    /// <summary>
+    /// Extended-save value for the bottled card's captured cost (-1 = none). Registered separately in
+    /// MainFile. It must NOT ride in <c>SerializableCard.Props</c>: SavedProperties net-serializes property
+    /// NAMES through <c>SavedPropertiesTypeCache</c>, which only knows real <c>[SavedProperty]</c> members, so a
+    /// made-up name threw "could not be mapped to any net ID" in the combat-replay writer and hung
+    /// return-to-menu / save-and-quit after any combat with a bottled card.
+    /// </summary>
+    internal int BottledCost
+    {
+        get => _bottledCost;
+        set
+        {
+            AssertMutable();
+            _bottledCost = value;
+        }
+    }
 
     /// <summary>Whether a card is currently bottled.</summary>
     public bool HoldsCard => _bottledCanonical != null;
@@ -64,9 +79,6 @@ public sealed class BottledMessage : WitchPotion
                 Enchantment = _bottledEnchantCanonical is { } enchant
                     ? new SerializableEnchantment { Id = enchant.Id, Amount = _bottledEnchantAmount }
                     : null,
-                Props = _bottledCost >= 0
-                    ? new SavedProperties { ints = [new SavedProperties.SavedProperty<int>(BottledCostProp, _bottledCost)] }
-                    : null,
             }
             : null;
 
@@ -80,12 +92,9 @@ public sealed class BottledMessage : WitchPotion
             _bottledUpgrades = 0;
             _bottledEnchantCanonical = null;
             _bottledEnchantAmount = 0;
-            _bottledCost = -1;
             return;
         }
         _bottledUpgrades = state!.CurrentUpgradeLevel;
-        _bottledCost = state.Props?.ints?.Where(p => p.name == BottledCostProp)
-            .Select(p => (int?)p.value).FirstOrDefault() ?? -1;
         _bottledEnchantCanonical = state.Enchantment?.Id is { } enchantId
             ? ModelDb.GetByIdOrNull<EnchantmentModel>(enchantId)
             : null;

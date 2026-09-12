@@ -37,6 +37,27 @@ public sealed class HexPower : WitchPower
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(TotalDamageKey, DamagePerStack)];
 
+    // Set by AfterDamageReceived while an attack is resolving. AttackCommand.Results alone is not reliable:
+    // The Tailor mod prefixes CreatureCmd.Damage and returns an EMPTY result list whenever any target has
+    // its minions (its `ret.Concat(...)` discards the results), so a multi-player attack never showed the
+    // Witch as hit and Hex on the Witch never decremented. The receive hook still fires on the inner call.
+    private bool _hitThisAttack;
+
+    public override Task BeforeAttack(AttackCommand command)
+    {
+        _hitThisAttack = false;
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
+    {
+        if (target == Owner && props.IsPoweredAttack())
+        {
+            _hitThisAttack = true;
+        }
+        return Task.CompletedTask;
+    }
+
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (power == this)
@@ -71,7 +92,9 @@ public sealed class HexPower : WitchPower
             return;
         }
 
-        if (!command.Results.SelectMany(hit => hit).Any(result => result.Receiver == Owner))
+        bool hit = _hitThisAttack || command.Results.SelectMany(hit => hit).Any(result => result.Receiver == Owner);
+        _hitThisAttack = false;
+        if (!hit)
         {
             return;
         }
