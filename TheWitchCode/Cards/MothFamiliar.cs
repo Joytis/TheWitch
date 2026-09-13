@@ -18,7 +18,7 @@ public sealed class MothFamiliar : WitchCard, IFamiliarSummon
     ];
 
     public MothFamiliar()
-        : base(2, CardType.Power, CardRarity.Common, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Common, TargetType.Self)
     {
     }
 

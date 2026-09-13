@@ -124,6 +124,17 @@
   .minibar{display:inline-block;height:8px;border-radius:0 4px 4px 0;background:var(--sage);
            vertical-align:1px}
   .empty{color:var(--muted);font-size:14px;padding:26px;text-align:center}
+  .badge{display:inline-block;min-width:18px;padding:0 6px;margin-left:7px;border-radius:9px;
+         background:var(--rose);color:#2e1b18;font-size:11px;font-weight:700;line-height:18px;
+         text-align:center;vertical-align:1px}
+  .app{border:1px solid var(--grid);border-radius:8px;padding:10px 14px;margin-bottom:10px;
+       background:var(--ground)}
+  .app .who{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;font-size:13px}
+  .app .who b{color:var(--ink)}
+  .app .who .lang{color:var(--sage);font-weight:600}
+  .app .who .when,.app .who .st{color:var(--muted);font-size:12px}
+  .app .who .st.expired{color:var(--rose)}
+  .app .msg{margin-top:6px;white-space:pre-wrap;color:var(--ink-2);font-size:13px}
 </style>
 </head>
 <body>
@@ -149,6 +160,7 @@
     <button class="tab" data-view="cards">Cards</button>
     <button class="tab" data-view="encounters">Encounters</button>
     <button class="tab" data-view="diff">Diff</button>
+    <button class="tab" data-view="loc">Localization<span class="badge" id="locBadge" hidden></span></button>
   </div>
 
   <div class="view on" id="view-overview">
@@ -235,6 +247,22 @@
         <label style="font-size:12px;color:var(--ink-2)">B <select id="diffB"></select></label>
       </div>
       <div id="diffTable"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-loc">
+    <div class="panel">
+      <h2>Pending applications</h2>
+      <div class="note">People asking to join a ParaTranz translation project. Approve or decline on
+        the project's Applications page — the answer is not pushed from here. Refreshed by the nightly
+        localization sync. <span id="locFresh"></span></div>
+      <div id="locApps"></div>
+    </div>
+    <div class="panel">
+      <h2>Translation projects</h2>
+      <div class="note">Strings translated / reviewed per language on ParaTranz. Anything translated
+        ships in the next release; review is optional polish.</div>
+      <div id="locProjects"></div>
     </div>
   </div>
 
@@ -980,6 +1008,56 @@ function multiSelect(host, values, allLabel, set) {
 addEventListener("click", () =>
   document.querySelectorAll(".msel.open").forEach(m => m.classList.remove("open")));
 
+let LOC = null;
+
+function renderLoc() {
+  const apps = $("locApps"), table = $("locProjects"), badge = $("locBadge");
+  if (!LOC) {
+    apps.innerHTML = '<div class="empty">No ParaTranz snapshot yet — the nightly localization sync writes it.</div>';
+    table.innerHTML = "";
+    return;
+  }
+  $("locFresh").textContent = `Snapshot ${LOC.generated_at.replace("T", " ").replace("Z", " UTC")}.`;
+  const open = LOC.projects.flatMap(p => p.open_applications.map(a => ({...a, project: p})))
+    .sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
+  const pending = open.filter(a => a.status === 0).length;
+  badge.hidden = pending === 0;
+  badge.textContent = pending;
+  if (!open.length) {
+    apps.innerHTML = '<div class="empty">No pending applications.</div>';
+  } else {
+    apps.replaceChildren(...open.map(a => {
+      const box = document.createElement("div"); box.className = "app";
+      const who = document.createElement("div"); who.className = "who";
+      const lang = document.createElement("a"); lang.className = "lang";
+      lang.href = a.project.url + "/applications"; lang.target = "_blank"; lang.rel = "noopener";
+      lang.textContent = a.project.name;
+      const name = document.createElement("b");
+      name.textContent = a.nickname && a.nickname !== a.username ? `${a.nickname} (${a.username})` : (a.username || "?");
+      const when = document.createElement("span"); when.className = "when";
+      when.textContent = (a.created_at || "").slice(0, 10);
+      const st = document.createElement("span"); st.className = "st " + a.status_name;
+      st.textContent = a.status_name === "pending" ? "" : a.status_name;
+      who.append(lang, name, when, st);
+      const msg = document.createElement("div"); msg.className = "msg";
+      msg.textContent = a.message || "(no message)";
+      box.append(who, msg);
+      return box;
+    }));
+  }
+  const rows = LOC.projects.map(p => {
+    const pct = p.total ? Math.round(100 * p.translated / p.total) : 0;
+    return `<tr><td><a href="${p.url}" target="_blank" rel="noopener">${p.name}</a></td>` +
+      `<td class="num">${p.translated} / ${p.total}</td>` +
+      `<td><span class="minibar" style="width:${pct}px"></span> ${pct}%</td>` +
+      `<td class="num">${p.reviewed}</td><td class="num">${p.members}</td>` +
+      `<td class="num">${p.open_applications.length}</td></tr>`;
+  });
+  table.innerHTML = `<table><thead><tr><th>Language</th><th class="num">Translated</th><th></th>` +
+    `<th class="num">Reviewed</th><th class="num">Members</th><th class="num">Open apps</th></tr></thead>` +
+    `<tbody>${rows.join("")}</tbody></table>`;
+}
+
 async function init() {
   let files;
   try {
@@ -1002,6 +1080,10 @@ async function init() {
   // Optional — older exports don't have it; the hourly panel explains itself when empty.
   HOURS = await fetch("analytics-data/runs_hourly.json")
     .then(r => r.ok ? r.json() : []).catch(() => []);
+  // Optional — written by the loc-download workflow (tools/localization/para_status.py).
+  LOC = await fetch("analytics-data/paratranz.json")
+    .then(r => r.ok ? r.json() : null).catch(() => null);
+  renderLoc();
 
   $("fresh").textContent = `Data refreshed ${META.generated_at.replace("T", " ").replace("Z", " UTC")}` +
     ` · ${META.total_runs} runs · ${META.first_day} → ${META.last_day}`;

@@ -15,6 +15,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class Polymorph : WitchCard
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromCard<Rats>(),
     ];

@@ -18,7 +18,7 @@ Language codes are the game's (`LocManager.Languages`): `zhs deu esp fra ita jpn
 | Workflow | Trigger | Script |
 |---|---|---|
 | `loc-upload-source` | push to `main` touching `localization/eng/`; manual | `para_upload_source.py` — create/update English source files in every project |
-| `loc-download` | nightly 08:47 UTC; manual | `para_download.py` — write translated strings (stage ≥ 1) in English key order, commit `Localization: sync translations from ParaTranz` |
+| `loc-download` | nightly 08:47 UTC; manual | `para_download.py` — write translated strings (stage ≥ 1) in English key order; then `para_status.py` — snapshot per-project string counts, member counts and unanswered join applications to `pages/analytics-data/paratranz.json` (the **Localization** tab of `pages/analytics.html`); commit `Localization: sync translations from ParaTranz` |
 | `loc-upload-translations` | manual, pick a language | `para_upload_translations.py` — seed a project from translations already in the repo |
 
 Secret required: `PARATRANZ_API_KEY` (repo Settings → Secrets → Actions). The download job pushes with the default `GITHUB_TOKEN` (`contents: write`).
@@ -31,6 +31,8 @@ PARATRANZ_API_KEY=... python tools/localization/create_projects.py deu fra  # su
 ```
 
 `POST /projects` creates each project (public, apply-to-join, one review pass, members can download) and writes the id into `paratranz.json`. Name/logo/one-line blurb (`tagline`) come from the config; push changes with `python tools/localization/update_projects.py`. ParaTranz shows `desc` on the project card, so keep it to one line. The translator rules in `Docs/paratranz-description.md` are published as a **pinned Announcement** in every project by `python tools/localization/update_announcements.py` (creates on first run, updates in place after); pinned announcements render on the project Overview under the stats. Commit the config, add the secret, then run `loc-upload-source` once. A `403` from `POST /projects` means the ParaTranz account cannot create projects yet — create them in the web UI and paste the ids into `projects` instead.
+
+Join applications (`joinMode: 1`, apply-to-join — same as Downfall's projects) are answered on ParaTranz (project → Applications); the dashboard only surfaces them. `/projects/{id}/applications` is undocumented: `status` 2 accepted, 1 rejected, 0 pending, -1 expired unanswered, -2 revoked by the applicant; `operator: null` means nobody has acted on it. Applicants can re-apply once per 24 h.
 
 Adding a language: add its ParaTranz code to `languages`, run `create_projects.py <code>`, add the code to the `loc-upload-translations` workflow choice list.
 

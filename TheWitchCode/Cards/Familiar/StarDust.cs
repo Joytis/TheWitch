@@ -16,7 +16,7 @@ public sealed class StarDust : WitchFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<MoonlightPower>(4m)
+        new PowerVar<MoonlightPower>(3m)
     ];
 
     public StarDust()
@@ -31,5 +31,5 @@ public sealed class StarDust : WitchFamiliarCard
             choiceContext, cardPlay.Target, DynamicVars.Moonlight().BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Moonlight().UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Moonlight().UpgradeValueBy(1m);
 }

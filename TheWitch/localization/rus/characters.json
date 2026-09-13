@@ -1,0 +1,17 @@
+{
+  "THEWITCH-WITCH.aromaPrinciple": "[sine][red]Леса сломлены. Они в ярости.[/red][/sine]",
+  "THEWITCH-WITCH.banter.alive.endTurnPing": "Не медли.",
+  "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+  "THEWITCH-WITCH.cardsModifierDescription": "Карты Ведьмы теперь появляются в наградах и магазинах.",
+  "THEWITCH-WITCH.cardsModifierTitle": "Карты Ведьмы",
+  "THEWITCH-WITCH.description": "Древняя защитница, сросшаяся с корнями.\nПрактикует сомнительное колдовство вместе со своими спутниками.",
+  "THEWITCH-WITCH.eventDeathPrevention": "Есть работа, которую нужно закончить.",
+  "THEWITCH-WITCH.goldMonologue": "[sine]Сегодня вы славно отужинаете, спутники...[/sine]",
+  "THEWITCH-WITCH.possessiveAdjective": "её",
+  "THEWITCH-WITCH.pronounObject": "её",
+  "THEWITCH-WITCH.pronounPossessive": "её",
+  "THEWITCH-WITCH.pronounSubject": "она",
+  "THEWITCH-WITCH.title": "Ведьма",
+  "THEWITCH-WITCH.titleObject": "Ведьму",
+  "THEWITCH-WITCH.unlockText": "Сыграйте один забег за [orange]{Prerequisite}[/orange], чтобы открыть этого персонажа."
+}

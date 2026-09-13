@@ -1,6 +1,7 @@
 name: loc-download
 
-# Nightly: pull translations from ParaTranz into TheWitch/localization/<lang>/.
+# Nightly: pull translations from ParaTranz into TheWitch/localization/<lang>/ and
+# refresh pages/analytics-data/paratranz.json (project stats + pending join applications).
 # Requires the PARATRANZ_API_KEY repository secret (ParaTranz -> Settings -> API Token).
 # Project ids live in .github/configs/paratranz.json (tools/localization/create_projects.py).
 
@@ -33,9 +34,14 @@ jobs:
           PARATRANZ_API_KEY: ${{ secrets.PARATRANZ_API_KEY }}
         run: python tools/localization/para_download.py
 
+      - name: Snapshot project status + join applications for the dashboard
+        env:
+          PARATRANZ_API_KEY: ${{ secrets.PARATRANZ_API_KEY }}
+        run: python tools/localization/para_status.py
+
       - name: Commit if changed
         run: |
-          git add TheWitch/localization
+          git add TheWitch/localization pages/analytics-data/paratranz.json
           if git diff --staged --quiet; then
             echo "Translations unchanged - nothing to commit."
           else

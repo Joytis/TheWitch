@@ -55,6 +55,6 @@ public sealed class Incant : WitchCard
 
     protected override void OnUpgrade() 
     {
-        DynamicVars.Hex().UpgradeValueBy(1m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

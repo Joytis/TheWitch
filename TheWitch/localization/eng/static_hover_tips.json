@@ -1,6 +1,6 @@
 {
   "THEWITCH-UNSTABLE.title": "Unstable",
-  "THEWITCH-UNSTABLE.description": "At the end of combat, this [gold]Potion[/gold] is destroyed.",
+  "THEWITCH-UNSTABLE.description": "At the end of combat, this [gold]Potion[/gold] is destroyed.\n([gold]Right-click[/gold] to use it instantly).",
   "THEWITCH-TREASURE.title": "Treasure",
   "THEWITCH-TREASURE.description": "Deal [blue]5[/blue] damage.\nCan be sold to the [gold]Merchant[/gold] for [blue]15[/blue] [gold]Gold[/gold] instead.",
   "THEWITCH-BREW_PROMPT.title": "Choose a [gold]Potion[/gold] to create.",
