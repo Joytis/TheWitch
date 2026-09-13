@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Bundle the built mod into a Steam Workshop workspace and (optionally) upload it
     via MegaCrit's ModUploader.
@@ -11,17 +11,19 @@
     workspace.
 
     Workspace layout consumed by ModUploader:
-        workshop.json   metadata (title, description, visibility, tags, ...)   [versioned]
-        description.md  Workshop description source (markdown)                 [versioned]
+        workshop.json   metadata (title, visibility, tags, ...)                [versioned]
+        description.md  Workshop description DRAFT (markdown) - never uploaded  [versioned]
         image.png       Steam Workshop thumbnail                               [versioned]
         mod_id.txt      published item id, written after first upload          [versioned]
         content/        the mod files that actually get uploaded               [gitignored]
 
     workshop.json and image.png are hand-maintained and never clobbered; this
     script only stages content/ and (optionally) patches named metadata fields.
-    If description.md exists, it is the source of truth for the description:
-    every staging run converts it to Steam BBCode and writes it into
-    workshop.json "description" (Steam renders BBCode, not markdown).
+    The Workshop DESCRIPTION is edited by hand on the Steam item page (images
+    are hosted there) and is never pushed by this script: workshop.json
+    "description" is forced to null so ModUploader leaves it unchanged.
+    description.md is only a drafting copy; -RenderDescription prints it as
+    Steam BBCode for pasting into the web editor.
 
     Staging is the default. Uploading is opt-in (-Upload) because publishing to
     the Workshop is outward-facing and not trivially reversible.
@@ -43,6 +45,10 @@
 
 .PARAMETER Visibility
     Override workshop.json "visibility" (private | friends | friendsonly | public).
+
+.PARAMETER RenderDescription
+    Convert workshop/description.md to Steam BBCode, print it, and copy it to the
+    clipboard for pasting into the Workshop web editor. Does nothing else.
 
 .PARAMETER IncludePdb
     Also copy TheWitch.pdb into content/ (debug symbols). Off by default.
@@ -73,6 +79,7 @@ param(
     [switch]$SkipPublish,
     [switch]$Upload,
     [string]$ChangeNote = "",
+    [switch]$RenderDescription,
     [ValidateSet("", "private", "friends", "friendsonly", "public")]
     [string]$Visibility = "",
     [switch]$IncludePdb,
@@ -137,6 +144,18 @@ $uploaderDir = Split-Path -Parent $Uploader
 # --- Resolve the workspace -------------------------------------------------
 if (-not $Workspace) { $Workspace = Join-Path $repoRoot 'workshop' }
 
+# --- -RenderDescription: markdown draft -> BBCode for the Steam web editor ---
+if ($RenderDescription) {
+    $descriptionMd = Join-Path $Workspace 'description.md'
+    if (-not (Test-Path $descriptionMd)) { throw "description.md not found: $descriptionMd" }
+    $bb = Convert-MarkdownToBBCode ([System.IO.File]::ReadAllText($descriptionMd, [System.Text.Encoding]::UTF8))
+    Write-Output $bb
+    try { Set-Clipboard -Value $bb; Write-Warn2 "BBCode copied to clipboard. Paste into the Workshop item's description editor (Steam does not push it)." }
+    catch { Write-Warn2 "Clipboard unavailable; copy the output above." }
+    if ($bb -match '!!NEED IMAGE HERE!!') { Write-Warn2 "Draft still contains '!!NEED IMAGE HERE!!' placeholders." }
+    exit 0
+}
+
 # --- Step 1: publish (default) ---------------------------------------------
 if ($SkipPublish) {
     Write-Step "Skipping publish (-SkipPublish); reusing existing mods/ outputs."
@@ -180,7 +199,7 @@ if ($seededNew -and (Test-Path $workshopJson)) {
     if ($mod.dependencies) { $deps = @($mod.dependencies | ForEach-Object { $_.id }) }
     $ws = [ordered]@{
         title        = $mod.name
-        description  = $mod.description
+        description  = $null   # edited by hand on the Steam item page; null = unchanged
         visibility   = "private"
         changeNote   = "Initial upload"
         tags         = @()
@@ -188,7 +207,7 @@ if ($seededNew -and (Test-Path $workshopJson)) {
     }
     $json = $ws | ConvertTo-Json -Depth 10
     [System.IO.File]::WriteAllText($workshopJson, $json, (New-Object System.Text.UTF8Encoding($false)))
-    Write-Warn2 "Edit $workshopJson (title/description/tags) and replace image.png before your first public upload."
+    Write-Warn2 "Edit $workshopJson (title/tags) and replace image.png before your first public upload."
 }
 
 # --- Step 3 & 4: stage content/ --------------------------------------------
@@ -241,19 +260,19 @@ Write-Host "    staged:" (Get-ChildItem $contentDir | ForEach-Object { $_.Name }
 # changeNote is always rewritten on upload runs: workshop.json is versioned, so
 # leaving it untouched would resend the PREVIOUS upload's note as this update's
 # patch notes. No -ChangeNote => blank note (no patch-note text on Steam).
-# description.md (if present) is the description's source of truth: converted
-# to Steam BBCode and synced into workshop.json on every staging run.
-$descriptionMd = Join-Path $Workspace 'description.md'
-$hasDescMd = Test-Path $descriptionMd
-if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload -or $hasDescMd) {
+# The description is never pushed from here (hand-edited on Steam, see header):
+# a non-null "description" in workshop.json would overwrite the live page.
+$forceNullDesc = $false
+if (Test-Path $workshopJson) {
+    $probe = Get-Content $workshopJson -Raw | ConvertFrom-Json
+    $forceNullDesc = ($null -ne $probe.PSObject.Properties['description']) -and ($null -ne $probe.description)
+}
+if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload -or $forceNullDesc) {
     if (-not (Test-Path $workshopJson)) { throw "workshop.json missing: $workshopJson" }
     $ws = Get-Content $workshopJson -Raw | ConvertFrom-Json
-    if ($hasDescMd) {
-        $bbDesc = Convert-MarkdownToBBCode (Get-Content $descriptionMd -Raw)
-        if ($ws.description -ne $bbDesc) {
-            $ws.description = $bbDesc
-            Write-Step "description synced from description.md (converted to BBCode)"
-        }
+    if ($forceNullDesc) {
+        $ws.description = $null
+        Write-Warn2 "workshop.json had a non-null description; set to null so the hand-edited Steam description is not overwritten."
     }
     if ($ChangeNote -ne "") { $ws.changeNote = $ChangeNote; Write-Step "changeNote = '$ChangeNote'" }
     elseif ($Upload -and $ws.changeNote -ne "") {

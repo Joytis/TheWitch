@@ -46,7 +46,7 @@
       "brief": "This is a nice glue piece for the Brambles archetype. It should depict nurtured, actively growing, and thorny plants. The plants themselves can either be sinister or tame, but should depict the thorny themes of brambles."
     },
     "Forbidden Magic": {
-      "artist": "",
+      "artist": "Joytis",
       "brief": "The witch casts a devious spell, sacrificing some of their own power to wallop the enemy with magic. The spell should feel devastating, but the witch should be distressed by casting it."
     },
     "Herbal Brew": {
@@ -65,10 +65,6 @@
       "artist": "Joytis",
       "brief": "The placeholder depiction is quite strong here - an evil, lashing whip of thorns, berries still attached to the brambles. This can either depict the weapon itself or the action of hitting an enemy, though weapon focus gives a much more clear read on the thorns and berries at a distance."
     },
-    "Pact of Agony": {
-      "artist": "",
-      "brief": "The witch stabs/slices a portion of their body, blood rushing out in a nova, cutting enemies in turn. String themes of 'paying the cost' for heavy damage."
-    },
     "Read the Bones": {
       "artist": "Joytis",
       "brief": "Carved bones lay on the tray, inlays glowing a soft purple as they speak sinister intent. Potential: eyes glow faintly in the background, or a claw sneaks towards the bones to inspect them."
@@ -86,7 +82,7 @@
       "brief": "A slashing claw, fingertips trailing purple. Hexes are sinister, so feel free to play with carved spells or blood."
     },
     "Weathered Witch Hat": {
-      "artist": "",
+      "artist": "Kitsu",
       "brief": "Depiction of a big, worn, patchy witch hat. It should feel comfortable, old, reverent with years of experience. Can be depict either in a peaceful sunlit room, or actively worn by the witch herself."
     },
     "Wicked Brew": {
@@ -98,7 +94,7 @@
       "brief": "Familiar. Associated Cards: Hibernate, Mutilate. \nA big ole bear! It should feel sturdy, difficult to move, big trying to do so would probably be a bad idea. Thematically, players will pick this bear when they want a generally solid set of cards which don't synergize with other strategies. Big, beefy value cards."
     },
     "Bind in Blood": {
-      "artist": "",
+      "artist": "Joytis",
       "brief": "Another 'pay the price' card - depiction of a cost being paid (contract, sacrifice, signature), and purple wispy tendrils curling out of the payment (imminent hexing!)"
     },
     "Bramble Shield": {
@@ -258,6 +254,18 @@
       "brief": ""
     },
     "Wisdom": {
+      "artist": "Joytis",
+      "brief": ""
+    },
+    "Wicker Heart": {
+      "artist": "Joytis",
+      "brief": ""
+    },
+    "Wicker Bones": {
+      "artist": "Joytis",
+      "brief": ""
+    },
+    "Wicker Consumation": {
       "artist": "Joytis",
       "brief": ""
     }

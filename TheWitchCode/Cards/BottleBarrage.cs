@@ -30,7 +30,7 @@ public sealed class BottleBarrage : WitchCard
     ];
 
     public BottleBarrage()
-        : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdpgl5qq10lc0"
-path="res://.godot/imported/potion_damage_multiplier_power.png-814fd4be9ea43b8820b4afc807147f2d.ctex"
+uid="uid://cvg1koe1k307f"
+path="res://.godot/imported/moonlight_power.png-37c46c3b915f6918adbaa30895112327.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/powers/potion_damage_multiplier_power.png"
-dest_files=["res://.godot/imported/potion_damage_multiplier_power.png-814fd4be9ea43b8820b4afc807147f2d.ctex"]
+source_file="res://TheWitch/images/powers/moonlight_power.png"
+dest_files=["res://.godot/imported/moonlight_power.png-37c46c3b915f6918adbaa30895112327.ctex"]
 
 [params]
 

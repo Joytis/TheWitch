@@ -41,6 +41,6 @@ public sealed class Sprouts : WitchCard
     protected override void OnUpgrade() 
     {
         DynamicVars.Block.UpgradeValueBy(2m);
-        DynamicVars.Brambles().UpgradeValueBy(2m);
+        DynamicVars.Brambles().UpgradeValueBy(1m);
     }
 }

@@ -38,6 +38,7 @@ public sealed class CaptureSoul : WitchCard
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
+        HoverTipFactory.Static(StaticHoverTip.Fatal),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [

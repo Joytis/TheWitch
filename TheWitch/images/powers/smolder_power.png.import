@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvg1koe1k307f"
-path="res://.godot/imported/moonbeam_power.png-531580e6a987fcfcef3d95ccfc5991f4.ctex"
+uid="uid://b2oe3wsk8bi0q"
+path="res://.godot/imported/smolder_power.png-fbe60b32a08a9693564844a04a65c6b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/images/powers/moonbeam_power.png"
-dest_files=["res://.godot/imported/moonbeam_power.png-531580e6a987fcfcef3d95ccfc5991f4.ctex"]
+source_file="res://TheWitch/images/powers/smolder_power.png"
+dest_files=["res://.godot/imported/smolder_power.png-fbe60b32a08a9693564844a04a65c6b2.ctex"]
 
 [params]
 

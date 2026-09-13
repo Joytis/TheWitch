@@ -11,7 +11,7 @@ using TheWitch.TheWitchCode.Extensions;
 
 namespace TheWitch.TheWitchCode.Potions;
 
-/// <summary>Fertilizer: feed the witch's thorns — gain Brambles. Tagged offensive in the loot table.</summary>
+/// <summary>Prickly Vial: the target player gains Brambles (token payload).</summary>
 public sealed class PricklyVial : WitchPotion
 {
     public override PotionRarity Rarity => PotionRarity.Token;
@@ -31,6 +31,6 @@ public sealed class PricklyVial : WitchPotion
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        await PowerCmd.Apply<BramblesPower>(choiceContext, Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, null);
+        await PowerCmd.Apply<BramblesPower>(choiceContext, target ?? Owner.Creature, DynamicVars.Brambles().BaseValue, Owner.Creature, null);
     }
 }

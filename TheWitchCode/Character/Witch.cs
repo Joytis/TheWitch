@@ -57,7 +57,7 @@ public class Witch : PlaceholderCharacterModel
         .. MegaCrit.Sts2.Core.Nodes.Vfx.NPowerUpVfx.AssetPaths,
         .. MegaCrit.Sts2.Core.Nodes.Vfx.NThinSliceVfx.AssetPaths,
         .. MegaCrit.Sts2.Core.Nodes.Vfx.NGroundFireVfx.AssetPaths,
-        // MoonbeamPower re-fires the beam every turn, so it can't rely on the card's own assets.
+        // MoonlightPower re-fires the beam every turn, so it can't rely on the card's own assets.
         Vfx.NMoonbeamVfx.scenePath,
         .. Potions.NUnstablePotionVfx.AssetPaths,
     ];

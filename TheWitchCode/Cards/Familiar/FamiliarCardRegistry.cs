@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.Runs;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -21,10 +22,21 @@ public static class FamiliarCardRegistry
 
     /// <summary>
     /// Canonical models for every familiar *summon* card — the <see cref="IFamiliarSummon" /> Power cards
-    /// (Owl, Cat, Rat, Bear, Crow, Wolf). Backs Embrace the Wilds.
+    /// (Owl, Cat, Rat, Bear, Crow, Wolf, …). Backs Buddy in a Bottle.
+    /// Filtered by the run's player count (like <c>CardFactory</c>), so MP-only summons such as
+    /// Plague Tide never roll in singleplayer.
     /// </summary>
-    public static IReadOnlyList<CardModel> AllSummonCanonical =>
-        ModelDb.AllCards.OfType<IFamiliarSummon>().Cast<CardModel>().ToList();
+    public static IReadOnlyList<CardModel> AllSummonCanonical(IRunState runState)
+    {
+        bool multiplayer = runState.Players.Count > 1;
+        return ModelDb.AllCards
+            .OfType<IFamiliarSummon>()
+            .Cast<CardModel>()
+            .Where(c => multiplayer
+                ? c.MultiplayerConstraint != CardMultiplayerConstraint.SingleplayerOnly
+                : c.MultiplayerConstraint != CardMultiplayerConstraint.MultiplayerOnly)
+            .ToList();
+    }
 
     /// <summary>
     /// Create <paramref name="amount" /> real familiar cards of type <typeparamref name="T" /> for

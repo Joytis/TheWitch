@@ -1,0 +1,34 @@
+name: loc-upload-source
+
+# Push the English source strings to every ParaTranz project.
+# Runs automatically when TheWitch/localization/eng/ changes on main; also manual.
+# Requires the PARATRANZ_API_KEY repository secret.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "TheWitch/localization/eng/**"
+      - ".github/configs/paratranz.json"
+  workflow_dispatch: {}
+
+concurrency:
+  group: loc-upload-source
+  cancel-in-progress: true
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Upload English source to ParaTranz
+        env:
+          PARATRANZ_API_KEY: ${{ secrets.PARATRANZ_API_KEY }}
+        run: python tools/localization/para_upload_source.py

@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheWitch.TheWitchCode.Extensions;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
@@ -36,7 +35,6 @@ public sealed class WaxAndWane : WitchCard
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(1m);
-        DynamicVars["WaxAndWanePower"].UpgradeValueBy(1m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

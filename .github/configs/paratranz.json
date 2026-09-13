@@ -1,0 +1,31 @@
+{
+  "mod_dir": "TheWitch",
+  "repo_url": "https://github.com/Joytis/TheWitch",
+  "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3768831080",
+  "project_name": "The Witch (StS2) Translation ({lang})",
+  "logo": "https://raw.githubusercontent.com/Joytis/TheWitch/main/workshop/image.png",
+  "tagline": "{lang_name} translation of The Witch, a Slay the Spire 2 character mod. Rules & links: see below.",
+  "announcement_file": "Docs/paratranz-description.md",
+  "languages": {
+    "zhs": "zh-cn",
+    "deu": "de",
+    "fra": "fr",
+    "ita": "it",
+    "jpn": "ja",
+    "kor": "ko",
+    "ptb": "pt",
+    "rus": "ru",
+    "spa": "es"
+  },
+  "projects": {
+    "zhs": 20686,
+    "deu": 20687,
+    "fra": 20688,
+    "ita": 20689,
+    "jpn": 20690,
+    "kor": 20691,
+    "ptb": 20692,
+    "rus": 20693,
+    "spa": 20694
+  }
+}

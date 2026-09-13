@@ -1,5 +1,4 @@
 using System.Linq;
-using Godot;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,7 +10,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Mulch: compost X cards from your hand, and X fresh random Witch cards sprout in their place —
-/// free to play for the rest of the combat.
+/// free to play this turn.
 /// </summary>
 public sealed class Mulch : WitchCard
 {
@@ -45,9 +44,10 @@ public sealed class Mulch : WitchCard
             await CardCmd.Exhaust(choiceContext, pick);
         }
 
-        // TakeRandom clamps to the pool size, so a huge X (debug energy) can't over-ask; the adds go
-        // through ONE batched call — per-card awaited adds stall/lock the game when X is large.
-        x = Mathf.Min(x, picks.Count());
+        // Each sentence resolves on its own (base-game Burning Pact / Scavenge shape): X cards sprout even
+        // when fewer (or no) cards were exhausted. TakeRandom clamps to the pool size, so a huge X (debug
+        // energy) can't over-ask; the adds go through ONE batched call — per-card awaited adds stall/lock
+        // the game when X is large.
         List<CardModel> sprouted = CardFactory.GetDistinctForCombat(
             Owner,
             Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint),
@@ -55,7 +55,7 @@ public sealed class Mulch : WitchCard
             Owner.RunState.Rng.CombatCardGeneration).ToList();
         foreach (CardModel card in sprouted)
         {
-            card.SetToFreeThisCombat();
+            card.SetToFreeThisTurn();
         }
         await CardPileCmd.AddGeneratedCardsToCombat(sprouted, PileType.Hand, Owner);
     }

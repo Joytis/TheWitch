@@ -53,8 +53,5 @@ public sealed class Ferocity : WitchFamiliarCard
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-    }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -8,7 +8,7 @@ using TheWitch.TheWitchCode.Potions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Hasty Brew: fast mana — brew an Energy Potion. Exhausts; upgrade removes Exhaust.</summary>
+/// <summary>Hasty Brew: fast mana — brew an Energy Potion. Exhausts; upgrade costs 0.</summary>
 public sealed class HastyBrew : WitchCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -29,5 +29,5 @@ public sealed class HastyBrew : WitchCard
         await Witch.ProducePotion<EnergyPotion>(Owner, Witch.PotionMode.Unstable);
     }
 
-    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

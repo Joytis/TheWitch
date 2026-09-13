@@ -1,0 +1,82 @@
+[h1]The Witch[/h1]
+
+[i]The woods are broken. They are angry.[/i]
+
+In active development. Expect regular balance changes and some placeholder card art.
+
+[b]Languages:[/b] English. Community translations (Chinese, German, French, Italian, Japanese, Korean, Brazilian Portuguese, Russian, Spanish) are in progress on ParaTranz - see [i]Help translate[/i] below.
+
+[hr][/hr]
+
+[h1]Starting Kit[/h1]
+
+[list]
+[*]4× [b]Strike[/b]
+[*]4× [b]Defend[/b]
+[*]1× [b]Harvest[/b]
+[*]1× [b]Incant[/b]
+[/list]
+
+[hr][/hr]
+
+[h1]Potions[/h1]
+
+The Witch makes her own potions mid-fight. Cards brew all sorts of potions, most of them [b]Unstable[/b] - gone at the end of combat. A fun way to stack effects across turns! (I've also added a little patch which plays potions immediatley on Right-Click!)
+
+[h1]Hex[/h1]
+
+A curse that makes every Attack hurt more - [b]+2 damage per Hex[/b] - and fades one stack each time the target is Hit! Stack it up, then cash in with an attack, or just use it as a nifty way to chip in with damage :) 
+
+[h1]Familiars[/h1]
+
+Summon little buddies during combat! At the start of every turn, each familiar gives you a card! Each familiar has their own two unique cards. All sorts of decks want familiars, so don't be shy bringing one along <33
+
+[h1]Brambles[/h1]
+
+Grow some BIG OLE THICKETS and hunker down! Every attack that hits you deals damage back, then removes one bramble (like thorns, but strictly worse). Build up some block, grow a big ole wall of spikes, and let the spire do the work for you :flex_emoji:x100
+
+[hr][/hr]
+
+[h1]Custom Art[/h1]
+
+Every finished card, relic, potion, and familiar is hand-drawn (Art is hard and we're doing out best <3). Cards still on placeholders are being replaced piece by piece - the current state of the art pass is public at the [url=https://joytis.github.io/TheWicken/pages/art-tracker.html]art tracker[/url].
+
+[b]No AI-generated art is used anywhere in The Witch.[/b]
+
+[hr][/hr]
+
+[h1]Dependencies[/h1]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3737335127]BaseLib[/url]
+[/list]
+
+[h1]Help translate[/h1]
+
+Translations are crowd-sourced on ParaTranz. Join the project for your language, translate what you can, and it ships in the next release with your name in the credits:
+
+[list]
+[*][url=https://paratranz.cn/projects/20686]简体中文[/url] · [url=https://paratranz.cn/projects/20687]Deutsch[/url] · [url=https://paratranz.cn/projects/20688]Français[/url] · [url=https://paratranz.cn/projects/20689]Italiano[/url] · [url=https://paratranz.cn/projects/20690]日本語[/url] · [url=https://paratranz.cn/projects/20691]한국어[/url] · [url=https://paratranz.cn/projects/20692]Português (BR)[/url] · [url=https://paratranz.cn/projects/20693]Русский[/url] · [url=https://paratranz.cn/projects/20694]Español[/url]
+[/list]
+
+[h1]Bugs & Feedback[/h1]
+
+Report bugs on [url=https://github.com/Joytis/TheWitch/issues]GitHub[/url] or in the Slay the Spire [url=https://discord.com/invite/slaythespire]Discord[/url].Please include a log file if you have it!! ([b]%APPDATA%/SlayTheSpire2/logs/[/b] - newest file).
+
+[hr][/hr]
+
+[h1]Credits[/h1]
+
+[list]
+[*][b]Design & Engineering:[/b] Joytis
+[*][b]Art!!![/b] Kitsu
+[/list]
+
+[h2]Artists[/h2]
+
+[list]
+[*][url=https://x.com/Phenelia]Phenelia[/url] - Strike
+[*][url=https://jsruesch.com/]Jake Ruesch[/url] - Defend
+[/list]
+
+Thanks to Alchyr for BaseLib and the ModTemplate!! And to everyone in the StS modding Discord. Y'all are epic and awesome and cool and epic and great <333

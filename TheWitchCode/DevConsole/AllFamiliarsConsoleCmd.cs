@@ -53,5 +53,6 @@ public sealed class AllFamiliarsConsoleCmd : AbstractConsoleCmd
         await PowerCmd.Apply<OwlFamiliarPower>(new BlockingPlayerChoiceContext(), creature, stacks, creature, null);
         await PowerCmd.Apply<RatFamiliarPower>(new BlockingPlayerChoiceContext(), creature, stacks, creature, null);
         await PowerCmd.Apply<WolfFamiliarPower>(new BlockingPlayerChoiceContext(), creature, stacks, creature, null);
+        await PowerCmd.Apply<MothFamiliarPower>(new BlockingPlayerChoiceContext(), creature, stacks, creature, null);
     }
 }

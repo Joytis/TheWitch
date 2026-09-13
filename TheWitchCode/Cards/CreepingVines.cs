@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using TheWitch.TheWitchCode.Powers;
 using TheWitch.TheWitchCode.Extensions;
 
@@ -25,11 +24,11 @@ public sealed class CreepingVines : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(5m)
+        new PowerVar<BramblesPower>(6m)
     ];
 
     public CreepingVines()
-        : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
     }
 

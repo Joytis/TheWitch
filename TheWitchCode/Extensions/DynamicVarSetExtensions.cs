@@ -11,4 +11,6 @@ public static class DynamicVarSetExtensions
     public static PowerVar<BramblesPower> Brambles(this DynamicVarSet set) => (PowerVar<BramblesPower>)set[nameof(BramblesPower)];
 
     public static PowerVar<HexPower> Hex(this DynamicVarSet set) => (PowerVar<HexPower>)set[nameof(HexPower)];
+
+    public static PowerVar<MoonlightPower> Moonlight(this DynamicVarSet set) => (PowerVar<MoonlightPower>)set[nameof(MoonlightPower)];
 }

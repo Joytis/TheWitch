@@ -38,6 +38,13 @@ public partial class MainFile : Node
                 state.Deserialize(reader);
                 return state;
             });
+        // The bottled card's captured cost rides as its own plain int (see BottledMessage.BottledCost).
+        BaseLib.Patches.Saves.ExtendedSaveTypes.RegisterSavedValue<Potions.BottledMessage, int>(
+            "thewitch_bottled_cost",
+            potion => potion.BottledCost,
+            (potion, cost) => potion.BottledCost = cost,
+            (cost, writer) => writer.WriteInt(cost),
+            reader => reader.ReadInt());
 
         // Unstable potions: combat-end sweeper rides the run's hook iteration. No save persistence
         // needed — run saves are written at room entry / post-victory (after the sweep), so a save

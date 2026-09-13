@@ -6,14 +6,14 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Flock: a burst of familiar tokens — create N random Familiar cards in hand (see <see cref="FamiliarCardRegistry" />).</summary>
-public sealed class Flock : WitchCard
+/// <summary>Animal Handling: a burst of familiar tokens — create N random Familiar cards in hand (see <see cref="FamiliarCardRegistry" />).</summary>
+public sealed class AnimalHandling : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(3)
     ];
 
-    public Flock()
+    public AnimalHandling()
         : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
     }

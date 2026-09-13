@@ -128,7 +128,6 @@ public abstract class FamiliarPower : WitchPower
                 // Use the "generated" path (not a plain Add) so the card counts as created — records combat
                 // history and fires AfterCardGeneratedForCombat, which card-creation payoffs like Cloak of Moonlight listen to.
                 await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
-                await Cmd.Wait(0.1f);
             }
         }
     }

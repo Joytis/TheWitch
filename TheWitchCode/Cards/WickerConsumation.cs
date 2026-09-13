@@ -13,13 +13,11 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>
 /// Wicker Consumation: final link of the Wicker chain, created by <see cref="WickerBones" />. Styled as a Witch
 /// Rare, lives in the shared <see cref="WitchSpawnedCardPool" /> (never a reward). Big hit; at the last bramble
-/// threshold it grants <see cref="IncarnationPower" />. Not upgradable.
+/// threshold it grants <see cref="IncarnationPower" />. Upgrade: +5 damage.
 /// </summary>
 [Pool(typeof(WitchSpawnedCardPool))]
 public sealed class WickerConsumation : WitchCard
 {
-    public override int MaxUpgradeLevel => 0;
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
         HoverTipFactory.FromPower<IncarnationPower>(),
@@ -54,4 +52,6 @@ public sealed class WickerConsumation : WitchCard
             await PowerCmd.Apply<IncarnationPower>(choiceContext, Owner.Creature, DynamicVars["IncarnationPower"].BaseValue, Owner.Creature, this);
         }
     }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(5m);
 }

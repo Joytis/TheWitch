@@ -12,6 +12,7 @@ public sealed class CrowFamiliar : WitchCard, IFamiliarSummon
         HoverTipFactory.FromPower<CrowFamiliarPower>(),
         HoverTipFactory.FromCard<DarkOmen>(IsUpgraded),
         HoverTipFactory.FromCard<Shiny>(IsUpgraded),
+        Shiny.TreasureTip(IsUpgraded),
     ];
 
     public CrowFamiliar()
