@@ -1,15 +1,15 @@
 {
-    "title": "The Witch - Main Branch",
-    "description": null,
-    "visibility": "public",
-    "changeNote": "v0.11.0",
-    "tags": [
-        "Characters",
-        "Cards",
-        "Relics",
-        "Potions"
-    ],
-    "dependencies": [
-        3737335127
-    ]
+    "title":  "The Witch - Main Branch",
+    "description":  null,
+    "visibility":  "public",
+    "changeNote":  "v0.12.0",
+    "tags":  [
+                 "Characters",
+                 "Cards",
+                 "Relics",
+                 "Potions"
+             ],
+    "dependencies":  [
+                         3737335127
+                     ]
 }
