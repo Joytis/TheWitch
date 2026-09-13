@@ -9,3 +9,4 @@ Texture = ExtResource("2_tex")
 Offset = Vector2(0, 0)
 SpeciesDistance = 50.0
 VisualsScale = 0.7
+HasShadow = false

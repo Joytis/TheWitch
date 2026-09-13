@@ -32,11 +32,11 @@ advance_mode = 2
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_silent"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xkjgo"]
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xkjgo"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_silent"]
 switch_mode = 2
 advance_mode = 2
 
@@ -366,19 +366,22 @@ position = Vector2(0, -146)
 position = Vector2(41, -244)
 
 [node name="bear_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(281, -46)
+position = Vector2(255, -21)
 
 [node name="cat_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(-135, -36)
+position = Vector2(-147, -12)
 
 [node name="owl_familiar_pos" type="Marker2D" parent="."]
 position = Vector2(-112, -252)
 
 [node name="rat_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(98, 8)
+position = Vector2(93, -2)
 
 [node name="crow_familiar_pos" type="Marker2D" parent="."]
 position = Vector2(97, -255)
 
 [node name="wolf_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(167, -90)
+position = Vector2(152, -97)
+
+[node name="moth_familiar_pos" type="Marker2D" parent="."]
+position = Vector2(-149, -154)
