@@ -1,0 +1,16 @@
+{
+  "OWL_PET.name": "Сова",
+  "OWL_PET.moves.NOTHING_MOVE.title": "Ничего",
+  "CAT_PET.name": "Кот",
+  "CAT_PET.moves.NOTHING_MOVE.title": "Ничего",
+  "BEAR_PET.name": "Медведь",
+  "BEAR_PET.moves.NOTHING_MOVE.title": "Ничего",
+  "CROW_PET.name": "Ворон",
+  "CROW_PET.moves.NOTHING_MOVE.title": "Ничего",
+  "MOTH_PET.name": "Мотылёк",
+  "MOTH_PET.moves.NOTHING_MOVE.title": "Ничего",
+  "RAT_PET.name": "Крыса",
+  "RAT_PET.moves.NOTHING_MOVE.title": "Ничего",
+  "WOLF_PET.name": "Волк",
+  "WOLF_PET.moves.NOTHING_MOVE.title": "Ничего"
+}
