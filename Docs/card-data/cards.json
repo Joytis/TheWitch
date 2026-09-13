@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12",
+  "generated": "2026-09-13",
   "cards": [
     {
       "name": "Defend",
@@ -1635,15 +1635,15 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 6 Block. Whenever you play a Skill this turn, deal 4 damage to ALL enemies.",
+      "text": "Gain 6 Block. Whenever you play a Skill this turn, deal 3 damage to ALL enemies.",
       "numbers": {
-        "SaltAndAsh": 4,
+        "SaltAndAsh": 3,
         "Block": 6
       },
       "upgrade": "Block +2, SaltAndAsh +1",
       "multiplayer": false,
       "note": "Salt and Ash: a ward of Block, then every Skill played this turn scatters burning ash over ALL enemies (<see cref=\"SaltAndAshPower\" />, the base-game Rage shape with damage instead of Block).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1881,16 +1881,16 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "At the start of the next {:diff() turns}, gain [E] and 4 Brambles.",
+      "text": "At the start of the next {:diff() turns}, gain [E] and 5 Brambles.",
       "numbers": {
         "WildGrowth": 2,
-        "Brambles": 4,
+        "Brambles": 5,
         "Energy": 1
       },
       "upgrade": "WildGrowth +1",
       "multiplayer": false,
       "note": "Wild Growth: for the next N turns, gain Energy and Brambles at turn start (via <see cref=\"WildGrowthPower\" />).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,

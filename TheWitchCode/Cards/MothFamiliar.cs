@@ -12,6 +12,7 @@ public sealed class MothFamiliar : WitchCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<MothFamiliarPower>(),
+        HoverTipFactory.FromPower<MoonlightPower>(),
         HoverTipFactory.FromCard<StarDust>(IsUpgraded),
         HoverTipFactory.FromCard<Gossamer>(IsUpgraded),
     ];
