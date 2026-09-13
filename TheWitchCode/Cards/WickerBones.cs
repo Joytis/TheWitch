@@ -23,7 +23,7 @@ public sealed class WickerBones : WitchCard
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
-        HoverTipFactory.FromCard<WickerConsumation>(),
+        HoverTipFactory.FromCard<WickerConsumation>(IsUpgraded),
         HoverTipFactory.FromPower<IncarnationPower>(),
     ];
 

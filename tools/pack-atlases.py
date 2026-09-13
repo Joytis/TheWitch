@@ -216,9 +216,17 @@ def pack_pets(generated: set[str]) -> None:
     pngs = sorted((IMAGES / "pets").glob("*.png"))
     if not pngs:
         return
-    entries = [(p.stem, Image.open(p).convert("RGBA")) for p in pngs]
-    w = max(img.width for _, img in entries)
-    h = max(img.height for _, img in entries)
+    raw = [(p.stem, Image.open(p).convert("RGBA")) for p in pngs]
+    w = max(img.width for _, img in raw)
+    h = max(img.height for _, img in raw)
+    # Cells are uniform (max source size), so anchor every sprite at the cell's BOTTOM-CENTER.
+    # PetVisuals.Populate pivots the sprite at (width/2, height) of the SLICE — a smaller pet
+    # pasted top-left would float up-and-left of its spawn marker by half the size difference.
+    entries = []
+    for key, img in raw:
+        cell = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        cell.paste(img, ((w - img.width) // 2, h - img.height))
+        entries.append((key, cell))
     n = pack_group("pets_atlas", "pets_atlas.sprites", (w, h), entries, generated)
     print(f"  pets: {len(entries)} packed, {n} .tres updated")
 

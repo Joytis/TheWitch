@@ -4,15 +4,18 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using TheWitch.TheWitchCode.Character;
+using TheWitch.TheWitchCode.Potions;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Co-op (MP-only): pass a round of brews — you and every ally each gain a random potion.</summary>
+/// <summary>Co-op (MP-only): pass a round of brews — you and every ally each gain a random Unstable potion.</summary>
 public sealed class ShareTheBrew : WitchCard
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [ UnstablePotions.UnstableHoverTip ];
 
     public ShareTheBrew()
         : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.AllAllies)
@@ -34,7 +37,7 @@ public sealed class ShareTheBrew : WitchCard
             {
                 potion = PotionFactory.CreateRandomPotionInCombat(player, player.RunState.Rng.CombatPotionGeneration);
             }
-            await PotionCmd.TryToProcure(potion.ToMutable(), player);
+            await Witch.ProducePotion(potion, player, Witch.PotionMode.Unstable);
         }
     }
 

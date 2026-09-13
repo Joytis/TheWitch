@@ -16,7 +16,7 @@ public sealed class StarDust : WitchFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<MoonlightPower>(3m)
+        new PowerVar<MoonlightPower>(4m)
     ];
 
     public StarDust()

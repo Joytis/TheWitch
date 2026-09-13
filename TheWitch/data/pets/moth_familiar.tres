@@ -8,5 +8,5 @@ script = ExtResource("1_cfg")
 Texture = ExtResource("2_tex")
 Offset = Vector2(0, 0)
 SpeciesDistance = 50.0
-VisualsScale = 0.7
+VisualsScale = 0.2
 HasShadow = false

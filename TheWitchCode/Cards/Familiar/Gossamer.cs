@@ -12,7 +12,7 @@ public sealed class Gossamer : WitchFamiliarCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(3m, ValueProp.Move)
+        new BlockVar(4m, ValueProp.Move)
     ];
 
     public Gossamer()
@@ -25,5 +25,5 @@ public sealed class Gossamer : WitchFamiliarCard
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(2m);
 }

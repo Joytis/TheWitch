@@ -190,7 +190,7 @@
   "THEWITCH-CREEPING_VINES.title": "Creeping Vines",
   "THEWITCH-CREEPING_VINES.description": "Gain {BramblesPower:diff()} [gold]Brambles[/gold] X times.",
   "THEWITCH-SHARE_THE_BREW.title": "Share the Brew",
-  "THEWITCH-SHARE_THE_BREW.description": "You and your allies each gain a random [gold]Potion[/gold].",
+  "THEWITCH-SHARE_THE_BREW.description": "You and your allies each gain a random [gold]Unstable[/gold] [gold]Potion[/gold].",
   "THEWITCH-BOTTLE_BARRAGE.title": "Bottle Barrage",
   "THEWITCH-BOTTLE_BARRAGE.description": "Deal {Damage:diff()} damage for each [gold]Potion[/gold] created this combat.{InCombat:\n(Hits {CalculatedHits:diff()} {CalculatedHits:plural:time|times})|}",
   "THEWITCH-MESSAGE_IN_A_BOTTLE.title": "Message in a Bottle",

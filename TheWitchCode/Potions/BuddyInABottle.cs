@@ -22,7 +22,7 @@ public sealed class BuddyInABottle : WitchPotion
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        CardModel canonical = Owner.RunState.Rng.CombatCardGeneration.NextItem(FamiliarCardRegistry.AllSummonCanonical)!;
+        CardModel canonical = Owner.RunState.Rng.CombatCardGeneration.NextItem(FamiliarCardRegistry.AllSummonCanonical(Owner.RunState))!;
         CardModel summon = Owner.Creature.CombatState!.CreateCard(canonical, Owner);
         summon.SetToFreeThisTurn();
         await CardPileCmd.AddGeneratedCardToCombat(summon, PileType.Hand, Owner);

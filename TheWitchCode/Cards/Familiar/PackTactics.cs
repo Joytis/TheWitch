@@ -17,7 +17,7 @@ public sealed class PackTactics : WitchFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<StrengthPower>(2m)
+        new PowerVar<StrengthPower>(3m)
     ];
 
     public PackTactics()
