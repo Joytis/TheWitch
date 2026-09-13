@@ -9,7 +9,8 @@ mod cache over its own, so any game script/scene renamed since the decompile
 resolves to a dead path (symptom: bestiary "NBestiaryActDivider.cs class could not
 be found" on the beta branch).
 
-This rewrites the pck's uid_cache.bin entry to keep only res://TheWitch/ mappings.
+This rewrites the pck's uid_cache.bin entry to keep only res://TheWitch/ and
+res://TheWitchCode/ (mod script uid) mappings.
 The filtered blob is smaller than the original, so it is written over the old data
 at the same offset and the directory entry's size + md5 are patched; nothing moves.
 
@@ -20,7 +21,7 @@ import struct
 import sys
 from pathlib import Path
 
-KEEP_PREFIX = b"res://TheWitch/"
+KEEP_PREFIXES = (b"res://TheWitch/", b"res://TheWitchCode/")
 PACK_REL_FILEBASE = 2
 
 
@@ -33,7 +34,7 @@ def filter_cache(blob: bytes) -> tuple[bytes, int, int]:
         off += 12
         path = blob[off:off + length]
         off += length
-        if path.startswith(KEEP_PREFIX):
+        if path.startswith(KEEP_PREFIXES):
             kept.append(struct.pack("<qI", uid, length) + path)
     if off != len(blob):
         raise SystemExit(f"uid_cache.bin: trailing bytes ({len(blob) - off}) - format changed?")

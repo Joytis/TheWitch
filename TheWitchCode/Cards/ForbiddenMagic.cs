@@ -1,5 +1,7 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -10,6 +12,10 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class ForbiddenMagic : WitchCard
 {
+    // Gold glow while any enemy is Hexed (Dismantle shape) — the bonus is live.
+    protected override bool ShouldGlowGoldInternal =>
+        CombatState?.HittableEnemies.Any((Creature e) => e.HasPower<HexPower>()) ?? false;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
     ];

@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Models;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Mulch: compost X cards from your hand, and X fresh random Witch cards sprout in their place —
+/// Mulch: compost X cards from your hand, and one fresh random Witch card sprouts per card composted —
 /// free to play this turn.
 /// </summary>
 public sealed class Mulch : WitchCard
@@ -39,19 +39,24 @@ public sealed class Mulch : WitchCard
             prefs: new CardSelectorPrefs(SelectionScreenPrompt, x),
             filter: null,
             source: this);
+        int exhausted = 0;
         foreach (CardModel pick in picks)
         {
             await CardCmd.Exhaust(choiceContext, pick);
+            exhausted++;
+        }
+        if (exhausted <= 0)
+        {
+            return;
         }
 
-        // Each sentence resolves on its own (base-game Burning Pact / Scavenge shape): X cards sprout even
-        // when fewer (or no) cards were exhausted. TakeRandom clamps to the pool size, so a huge X (debug
-        // energy) can't over-ask; the adds go through ONE batched call — per-card awaited adds stall/lock
-        // the game when X is large.
+        // One sprout per card actually exhausted (not per X) — a small hand can't over-generate. TakeRandom
+        // clamps to the pool size; the adds go through ONE batched call — per-card awaited adds stall/lock
+        // the game when the count is large.
         List<CardModel> sprouted = CardFactory.GetDistinctForCombat(
             Owner,
             Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint),
-            x,
+            exhausted,
             Owner.RunState.Rng.CombatCardGeneration).ToList();
         foreach (CardModel card in sprouted)
         {

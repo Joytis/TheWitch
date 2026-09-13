@@ -35,6 +35,6 @@ public sealed class WaxAndWane : WitchCard
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars["WaxAndWanePower"].UpgradeValueBy(1m);
     }
 }

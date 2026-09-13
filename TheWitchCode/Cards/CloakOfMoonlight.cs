@@ -31,5 +31,5 @@ public sealed class CloakOfMoonlight : WitchCard
             choiceContext, Owner.Creature, DynamicVars["CloakOfMoonlightPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

@@ -4,7 +4,7 @@
 
 In active development. Expect regular balance changes and some placeholder card art.
 
-[b]Languages:[/b] English. Community translations (Chinese, German, French, Italian, Japanese, Korean, Brazilian Portuguese, Russian, Spanish) are in progress on ParaTranz - see [i]Help translate[/i] below.
+[b]Languages:[/b] English, Russian (Thanks Klomer <33!). Community translations (Chinese, German, French, Italian, Japanese, Korean, Brazilian Portuguese, Spanish) are in progress on ParaTranz - see [i]Help translate[/i] below.
 
 [hr][/hr]
 
@@ -77,6 +77,12 @@ Report bugs on [url=https://github.com/Joytis/TheWitch/issues]GitHub[/url] or in
 [list]
 [*][url=https://x.com/Phenelia]Phenelia[/url] - Strike
 [*][url=https://jsruesch.com/]Jake Ruesch[/url] - Defend
+[/list]
+
+[h2]Translators[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/profiles/76561199215106917/]Klomer[/url] - Russian
 [/list]
 
 Thanks to Alchyr for BaseLib and the ModTemplate!! And to everyone in the StS modding Discord. Y'all are epic and awesome and cool and epic and great <333

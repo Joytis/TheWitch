@@ -1,0 +1,105 @@
+{
+ "generated_at": "2026-09-13T22:30:00Z",
+ "pending_total": 0,
+ "projects": [
+  {
+   "lang": "deu",
+   "name": "German",
+   "project_id": 20687,
+   "url": "https://paratranz.cn/projects/20687",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "fra",
+   "name": "French",
+   "project_id": 20688,
+   "url": "https://paratranz.cn/projects/20688",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "ita",
+   "name": "Italian",
+   "project_id": 20689,
+   "url": "https://paratranz.cn/projects/20689",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "jpn",
+   "name": "Japanese",
+   "project_id": 20690,
+   "url": "https://paratranz.cn/projects/20690",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "kor",
+   "name": "Korean",
+   "project_id": 20691,
+   "url": "https://paratranz.cn/projects/20691",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "ptb",
+   "name": "Brazilian Portuguese",
+   "project_id": 20692,
+   "url": "https://paratranz.cn/projects/20692",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "rus",
+   "name": "Russian",
+   "project_id": 20693,
+   "url": "https://paratranz.cn/projects/20693",
+   "members": 1,
+   "total": 542,
+   "translated": 541,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "spa",
+   "name": "Spanish",
+   "project_id": 20694,
+   "url": "https://paratranz.cn/projects/20694",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  },
+  {
+   "lang": "zhs",
+   "name": "Simplified Chinese",
+   "project_id": 20686,
+   "url": "https://paratranz.cn/projects/20686",
+   "members": 1,
+   "total": 542,
+   "translated": 0,
+   "reviewed": 0,
+   "open_applications": []
+  }
+ ]
+}

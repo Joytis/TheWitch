@@ -12,7 +12,7 @@ public sealed class Gossamer : WitchFamiliarCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(4m, ValueProp.Move)
+        new BlockVar(3m, ValueProp.Move)
     ];
 
     public Gossamer()

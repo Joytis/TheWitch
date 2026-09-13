@@ -40,5 +40,5 @@ public sealed class Smolder : WitchCard
             choiceContext, Owner.Creature, DynamicVars["SmolderPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars["SmolderPower"].UpgradeValueBy(1m);
 }

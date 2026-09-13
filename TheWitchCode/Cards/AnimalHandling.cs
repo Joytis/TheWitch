@@ -10,7 +10,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class AnimalHandling : WitchCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(3)
+        new CardsVar(2)
     ];
 
     public AnimalHandling()

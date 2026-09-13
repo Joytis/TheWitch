@@ -16,6 +16,7 @@ public sealed class RotBloom : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
+        HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
