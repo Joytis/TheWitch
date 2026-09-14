@@ -1,9 +1,9 @@
 {
-  "THEWITCH-UNSTABLE.title": "Нестабильное зелье",
-  "THEWITCH-UNSTABLE.description": "В конце боя это [gold]зелье[/gold] уничтожается.\n([gold]Щелкните правой кнопкой мыши[/gold], чтобы использовать его мгновенно).",
-  "THEWITCH-TREASURE.title": "Сокровище",
-  "THEWITCH-TREASURE.description": "Наносит [blue]5[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]15[/blue] [gold]золота[/gold].",
-  "THEWITCH-BREW_PROMPT.title": "Выберите [gold]зелье[/gold] для создания.",
-  "THEWITCH-BIG_TREASURE.title": "Большое сокровище",
-  "THEWITCH-BIG_TREASURE.description": "Наносит [blue]7[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]30[/blue] [gold]золота[/gold]."
+    "THEWITCH-UNSTABLE.title": "Нестабильное зелье",
+    "THEWITCH-UNSTABLE.description": "В конце боя это [gold]зелье[/gold] уничтожается.\n([gold]Щелкните правой кнопкой мыши[/gold], чтобы использовать его мгновенно).",
+    "THEWITCH-TREASURE.title": "Сокровище",
+    "THEWITCH-TREASURE.description": "Наносит [blue]5[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]15[/blue] [gold]золота[/gold].",
+    "THEWITCH-BREW_PROMPT.title": "Выберите [gold]зелье[/gold] для создания.",
+    "THEWITCH-BIG_TREASURE.title": "Большое сокровище",
+    "THEWITCH-BIG_TREASURE.description": "Наносит [blue]7[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]30[/blue] [gold]золота[/gold]."
 }
