@@ -98,6 +98,8 @@
     "THEWITCH-A_LITTLE_SIP_POWER.description": "Каждый раз, когда вы используете [gold]зелье[/gold], вы получаете [gold]силу[/gold] и добираете карты.",
     "THEWITCH-A_LITTLE_SIP_POWER.smartDescription": "Каждый раз, когда вы используете [gold]зелье[/gold], вы получаете [blue]{StrengthPower}[/blue] [gold]силы[/gold] и добираете [blue]{Amount}[/blue] {Amount:plural(ru):карту|карты|карт}.",
     "THEWITCH-A_LITTLE_SIP_POWER.title": "Маленький глоток",
+    "THEWITCH-HEX_POWER.description": "Существа с [gold]порчей[/gold] получают на [blue]2[/blue] больше урона от Атак за каждую [gold]порчу[/gold]. При попадании Атакой теряют [blue]1[/blue] [gold]порчу[/gold].",
+    "THEWITCH-HEX_POWER.smartDescription": "{OnPlayer:Получаете|Получает} на [blue]{TotalDamage}[/blue] больше урона от Атак. При попадании Атакой {OnPlayer:теряете|теряет} [blue]1[/blue] [gold]порчу[/gold].",
     "THEWITCH-HEX_POWER.title": "Порча",
     "THEWITCH-ROTTING_ROOTS_POWER.description": "В начале вашего хода ВСЕ враги теряют ОЗ и получают [blue]1[/blue] [gold]порчу[/gold].",
     "THEWITCH-ROTTING_ROOTS_POWER.smartDescription": "В начале вашего хода ВСЕ враги теряют [blue]{Amount}[/blue] ОЗ и получают [blue]1[/blue] [gold]порчу[/gold].",
