@@ -26,6 +26,7 @@
     ./launch-witch.ps1                # one solo instance
     ./launch-witch.ps1 -Build publish -WitchBootstrap   # publish, then straight into combat
     ./launch-witch.ps1 -Build publish -TestAll -Headless -TailLog   # full smoke test: menus + cards + potions + relics
+    ./launch-witch.ps1 -Solo -AutoSlay -Headless -Seed ABC123 -AutoSlayLog out.log   # one bot run, reproducible seed
     ./launch-witch.ps1 -TestUpdatePopup
     ./launch-witch.ps1 -Solo -ResetFtue   # replay the Witch tutorial tips
     ./launch-witch.ps1 -Players 4    # 1 host + 3 clients
@@ -38,6 +39,8 @@ param(
     # Solo-only debug launch modes (see TheWitchCode/Debug/WitchDebug.cs):
     [switch]$WitchBootstrap,   # -witch-debug -witch-bootstrap: skip menu, enter combat with 100 energy
     [switch]$AutoSlay,         # -witch-debug -autoslay: run the smoke-test bot
+    [string]$Seed = "",        # -seed <s>: run seed for -AutoSlay / -WitchBootstrap / smoke tests (random if omitted)
+    [string]$AutoSlayLog = "", # -log-file <path>: AutoSlay's own per-run log (game-native; independent of godot.log)
     [switch]$Headless,         # solo only: pass Godot --headless (no window/GPU); waits for
                                # exit and propagates the game's exit code (AutoSlay: 0=run done, 1=fail)
     [switch]$FxLab,            # -witch-debug -witch-fxlab: open the SFX/VFX browser scene
@@ -157,7 +160,10 @@ if ($Solo -or -not $PSBoundParameters.ContainsKey('Players')) {
     if ($AutoSlay) {
         if ('-witch-debug' -notin $gameArgs) { $gameArgs += '-witch-debug' }
         $gameArgs += '-autoslay'
+        # `=` form so Start-Process never splits a path with spaces from its key.
+        if ($AutoSlayLog) { $gameArgs += "-log-file=`"$AutoSlayLog`"" }
     }
+    if ($Seed) { $gameArgs += "-seed=$Seed" }
     if ($FxLab) {
         if ('-witch-debug' -notin $gameArgs) { $gameArgs += '-witch-debug' }
         $gameArgs += '-witch-fxlab'
