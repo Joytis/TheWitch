@@ -56,7 +56,9 @@ $noise = @(
     'FMOD',                                # audio device chatter under --headless
     'Sentry',
     'Parameter "t" is null',               # dummy renderer texture_2d_initialize under --headless
+    'Parameter "texture" is null',         # dummy renderer texture_free at exit under --headless
     'Expected BoundObject to be a SpineSprite'  # NMerchantCharacter (BaseLib-patched) spine binding under the dummy renderer; not ours
+    'but its creature node doesn''t exist'     # CubexConstruct.RepeaterBlastMove: dies to Brambles mid-attack, then TriggerAnim(AttackEnd) on the freed node; base-game log-not-throw
 )
 
 Write-Host "[autoslay-run] #$Index seed=$Seed -> $stem.*"
@@ -92,7 +94,8 @@ $errors = $errLines | Group-Object { "$($_.message)|$($_.frame)" } | ForEach-Obj
 } | Sort-Object count -Descending
 
 $failure = $null
-$failIdx = [array]::FindIndex([string[]]$asLines, [Predicate[string]]{ param($x) $x -match '\[AutoSlay\] Run failed' })
+# Empty AutoSlay log (game died before the bot started) — [string[]]@() casts to null in PS 5.1.
+$failIdx = if ($asLines.Count -gt 0) { [array]::FindIndex([string[]]$asLines, [Predicate[string]]{ param($x) $x -match '\[AutoSlay\] Run failed' }) } else { -1 }
 if ($failIdx -ge 0) {
     $failure = ($asLines[$failIdx..([Math]::Min($failIdx + 12, $asLines.Count - 1))] -join "`n")
 }

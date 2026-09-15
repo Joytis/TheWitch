@@ -12,9 +12,8 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>Prickly Vial: the target player gains Brambles (token payload).</summary>
-public sealed class PricklyVial : WitchPotion
+public sealed class PricklyVial : WitchTokenPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

@@ -8,12 +8,11 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Potions;
 
-public sealed class NoxiousBrew : WitchPotion
+public sealed class NoxiousBrew : WitchTokenPotion
 {
     // Token rarity keeps NoxiousBrew out of the random drop/shop pool (PotionFactory
     // only rolls Common/Uncommon/Rare) while staying registered so Favorite Spellbook's
     // PotionCmd.TryToProcure<NoxiousBrew> can still grant it. Card-only by design.
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

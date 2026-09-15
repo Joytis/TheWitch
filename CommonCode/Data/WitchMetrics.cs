@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using MegaCrit.Sts2.Core.AutoSlay;
 using MegaCrit.Sts2.Core.Debug;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Map;
@@ -77,6 +78,11 @@ internal static class WitchMetrics
         }
         if (run.GameMode != GameMode.Standard)
         {
+            return;
+        }
+        if (AutoSlayer.IsActive)
+        {
+            MainFile.Logger.Info("Skipping Witch analytics upload: AutoSlay bot run.");
             return;
         }
         SerializablePlayer? localPlayer = run.Players.FirstOrDefault(p => p.NetId == localPlayerId);
