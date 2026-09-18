@@ -3256,13 +3256,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Add a Rats into your Hand. Add 2 Rats into your Draw Pile and Discard Pile.",
+      "text": "Add 2 Rats into your Draw Pile and Discard Pile.",
       "numbers": {
         "Cards": 2
       },
       "upgrade": "Cards +1",
       "multiplayer": false,
-      "note": "Rat familiar token: flood everything — one Rat to hand, plus Rats shuffled into BOTH the draw and discard piles (Refuse Pile pattern).",
+      "note": "Rat familiar token: flood the piles — Rats shuffled into BOTH the draw and discard piles (Refuse Pile pattern).",
       "tested": false,
       "artFinal": false,
       "vfxPass": true,

@@ -7,8 +7,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Rat familiar token: flood everything — one Rat to hand, plus Rats shuffled into BOTH the draw
-/// and discard piles (Refuse Pile pattern).
+/// Rat familiar token: flood the piles — Rats shuffled into BOTH the draw and discard piles
+/// (Refuse Pile pattern).
 /// </summary>
 public sealed class Swarm : WitchFamiliarCard
 {
@@ -28,9 +28,6 @@ public sealed class Swarm : WitchFamiliarCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-
-        var handRat = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, 1, CombatState, IsUpgraded);
-        await CardPileCmd.AddGeneratedCardsToCombat(handRat, PileType.Hand, Owner);
 
         int perPile = DynamicVars.Cards.IntValue;
         var drawRats = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, perPile, CombatState, IsUpgraded);
