@@ -2,6 +2,7 @@ using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
@@ -9,15 +10,16 @@ namespace TheWitch.TheWitchCode.Powers;
 
 /// <summary>
 /// Ritual Casting: whenever the owner plays a card that costs 2 or more (its cost when played,
-/// <see cref="ResourceInfo.EnergyValue" /> — so auto-plays of big cards count too), a random card
-/// in their hand becomes free to play this turn. Only cards that would actually benefit are
-/// eligible: Unplayable cards (curses/statuses) and cards already costing 0 (incl. X) are skipped.
+/// <see cref="ResourceInfo.EnergyValue" /> — so auto-plays of big cards count too), <see cref="PowerModel.Amount" />
+/// distinct random cards in their hand become free to play this turn (one per stack). Only cards that would
+/// actually benefit are eligible: Unplayable cards (curses/statuses) and cards already costing 0 (incl. X)
+/// are skipped.
 /// </summary>
 public sealed class RitualCastingPower : WitchPower
 {
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.None;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -32,15 +34,18 @@ public sealed class RitualCastingPower : WitchPower
             .Where(c => !c.Keywords.Contains(CardKeyword.Unplayable)
                 && c.EnergyCost.GetWithModifiers(CostModifiers.All) > 0)
             .ToList();
-        CardModel? pick = player.RunState.Rng.CombatCardSelection.NextItem(hand);
-        if (pick == null)
+        if (hand.Count == 0)
         {
             return Task.CompletedTask;
         }
 
+        hand.UnstableShuffle(player.RunState.Rng.CombatCardSelection);
         Flash();
-        pick.SetToFreeThisTurn();
-        CardCmd.Preview(pick);
+        foreach (CardModel pick in hand.Take((int)Amount))
+        {
+            pick.SetToFreeThisTurn();
+            CardCmd.Preview(pick);
+        }
         return Task.CompletedTask;
     }
 }

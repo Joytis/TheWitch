@@ -17,7 +17,7 @@ public sealed class Swarm : WitchFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1)
+        new CardsVar(2)
     ];
 
     public Swarm()
@@ -41,4 +41,6 @@ public sealed class Swarm : WitchFamiliarCard
         var generatedDiscard = await CardPileCmd.AddGeneratedCardsToCombat(discardRats, PileType.Discard, Owner);
         CardCmd.PreviewCardPileAdd(generatedDiscard);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1);
 }
