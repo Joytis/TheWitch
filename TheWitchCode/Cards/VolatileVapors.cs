@@ -12,7 +12,7 @@ public sealed class VolatileVapors : WitchCard
     public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<VolatileVaporsPower>(3m)
+        new PowerVar<VolatileVaporsPower>(4m)
     ];
 
     public VolatileVapors()

@@ -1,4 +1,5 @@
 using System.Linq;
+using MegaCrit.Sts2.Core.AutoSlay;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -42,7 +43,9 @@ public static class PotionSelectCmd
         PotionModel? potion;
         if (ShouldSelectLocal(player))
         {
-            NChoosePotionScreen? screen = NChoosePotionScreen.ShowScreen(potions, header);
+            // The AutoSlay smoke-test bot has no handler for this Witch overlay (it stalled a run on
+            // Distill until the 300s room timeout); resolve like TestMode instead of opening it.
+            NChoosePotionScreen? screen = AutoSlayer.IsActive ? null : NChoosePotionScreen.ShowScreen(potions, header);
             // TestMode has no UI — resolve deterministically to the first option.
             potion = screen == null ? potions[0] : await screen.PotionSelected();
             int index = potion == null ? -1 : potions.ToList().IndexOf(potion);

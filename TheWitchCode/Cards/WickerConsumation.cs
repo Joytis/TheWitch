@@ -24,6 +24,7 @@ public sealed class WickerConsumation : WitchCard
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [
+        CardKeyword.Retain,
         CardKeyword.Exhaust
     ];
 

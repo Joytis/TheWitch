@@ -20,7 +20,7 @@ public sealed class CloakOfMoonlight : WitchCard
     ];
 
     public CloakOfMoonlight()
-        : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
     {
     }
 
@@ -31,5 +31,5 @@ public sealed class CloakOfMoonlight : WitchCard
             choiceContext, Owner.Creature, DynamicVars["CloakOfMoonlightPower"].BaseValue, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 }

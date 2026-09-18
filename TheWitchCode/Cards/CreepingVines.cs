@@ -24,7 +24,7 @@ public sealed class CreepingVines : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(6m)
+        new PowerVar<BramblesPower>(5m)
     ];
 
     public CreepingVines()
@@ -42,5 +42,5 @@ public sealed class CreepingVines : WitchCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Brambles().UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Brambles().UpgradeValueBy(1m);
 }

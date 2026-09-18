@@ -13,9 +13,8 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>Cursed Bottle: throwable Common potion that applies Hex to an enemy (base-game WeakPotion shape).</summary>
-public sealed class OminousFlask : WitchPotion
+public sealed class OminousFlask : WitchTokenPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

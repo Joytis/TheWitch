@@ -17,7 +17,7 @@ public sealed class WildGrowth : WitchCard
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<WildGrowthPower>(2m),
         new EnergyVar(1),
-        new PowerVar<BramblesPower>(5m),
+        new PowerVar<BramblesPower>(6m),
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

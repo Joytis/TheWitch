@@ -10,9 +10,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>Ember Jar: deal 4 damage to an enemy. Tagged offensive in the Harvest loot table.</summary>
-public sealed class EmberJar : WitchPotion
+public sealed class EmberJar : WitchTokenPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

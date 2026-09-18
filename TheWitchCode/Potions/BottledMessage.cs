@@ -19,9 +19,8 @@ namespace TheWitch.TheWitchCode.Potions;
 /// the run save AND the potion's net serialization via BaseLib's ExtendedSaveTypes (registered in
 /// MainFile) as a <see cref="SerializableCard"/> attached to this potion's SerializablePotion entry.
 /// </summary>
-public sealed class BottledMessage : WitchPotion
+public sealed class BottledMessage : WitchTokenPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

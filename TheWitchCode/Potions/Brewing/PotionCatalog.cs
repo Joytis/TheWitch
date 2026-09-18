@@ -27,7 +27,8 @@ public static class PotionCatalog
     /// <summary>
     /// The potions the Witch character can actually roll: the mod's own <see cref="WitchPotionPool" /> plus the
     /// base-game <see cref="SharedPotionPool" />. Excludes other characters' pools (Defect/Ironclad/Silent/...) and
-    /// the Event/Token/Deprecated pools — mirrors how <c>PotionFactory.GetPotionOptions</c> builds a character's
+    /// the Event/Token/Deprecated pools and the mod's own <see cref="WitchTokenPotionPool" /> — mirrors how
+    /// <c>PotionFactory.GetPotionOptions</c> builds a character's
     /// options. Use this for any "make a potion" effect so off-color potions never leak in.
     /// </summary>
     public static IEnumerable<PotionModel> WitchAndShared =>

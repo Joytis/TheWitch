@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Owl familiar token: draw 2, discard 1 — the upgrade drops the discard.</summary>
+/// <summary>Owl familiar token: draw 2, discard 1 — the upgrade scales both (draw 3, discard 2).</summary>
 public sealed class Wisdom : WitchFamiliarCard
 {
     public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
@@ -17,7 +17,8 @@ public sealed class Wisdom : WitchFamiliarCard
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1)
+        new CardsVar(2),
+        new CardsVar("Discard", 1),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -27,8 +28,12 @@ public sealed class Wisdom : WitchFamiliarCard
             await CardSelectCmd.FromHandForDiscard(
                 choiceContext,
                 Owner,
-                new CardSelectorPrefs(CardSelectorPrefs.DiscardSelectionPrompt, 1), null, this));
+                new CardSelectorPrefs(CardSelectorPrefs.DiscardSelectionPrompt, DynamicVars["Discard"].IntValue), null, this));
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Cards.UpgradeValueBy(1);
+        DynamicVars["Discard"].UpgradeValueBy(1);
+    }
 }

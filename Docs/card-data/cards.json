@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-13",
+  "generated": "2026-09-18",
   "cards": [
     {
       "name": "Defend",
@@ -161,14 +161,15 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Apply 2 Hex.",
+      "text": "Lose 1 HP. Apply 2 Hex.",
       "numbers": {
-        "Hex": 2
+        "Hex": 2,
+        "HpLoss": 1
       },
       "upgrade": "Hex +1",
       "multiplayer": false,
-      "note": "Bind in Blood: seed the target with Hex.",
-      "tested": true,
+      "note": "Bind in Blood: pay 1 HP to seed the target with Hex.",
+      "tested": false,
       "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
@@ -413,15 +414,15 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 8 damage. Gain 3 Brambles.",
+      "text": "Deal 9 damage. Gain 3 Brambles.",
       "numbers": {
         "Brambles": 3,
-        "Damage": 8
+        "Damage": 9
       },
       "upgrade": "Damage +2, Brambles +1",
       "multiplayer": false,
       "note": "Needle Whip: lash out with a thorned vine — damage plus Brambles.",
-      "tested": true,
+      "tested": false,
       "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
@@ -565,7 +566,7 @@
       "name": "Tinder",
       "entry": "TINDER",
       "file": "TheWitchCode/Cards/Tinder.cs",
-      "cost": 1,
+      "cost": 0,
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
@@ -574,7 +575,7 @@
       "upgrade": "EnergyNextTurn +1",
       "multiplayer": false,
       "note": "Tinder: burn a card as kindling — the Energy arrives next turn (base-game <see cref=\"EnergyNextTurnPower\" />) and an <see cref=\"Ash\" /> is left in the discard pile.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,
@@ -843,7 +844,7 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 6 damage for each Potion created this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
+      "text": "Deal 6 damage for each Potion you have created this combat.{InCombat: (Hits {CalculatedHits:diff()} times)|}",
       "numbers": {
         "Damage": 6,
         "CalculationBase": 0,
@@ -852,7 +853,7 @@
       "upgrade": "Damage +2",
       "multiplayer": false,
       "note": "Hurl the whole belt: one 10-damage hit per potion you've brewed this combat.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,
@@ -973,7 +974,7 @@
       "name": "Cloak of Moonlight",
       "entry": "CLOAK_OF_MOONLIGHT",
       "file": "TheWitchCode/Cards/CloakOfMoonlight.cs",
-      "cost": 2,
+      "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
@@ -981,7 +982,7 @@
       "numbers": {
         "CloakOfMoonlight": 1
       },
-      "upgrade": "Cost -1",
+      "upgrade": "custom (see code)",
       "multiplayer": false,
       "note": "Cloak of Moonlight: whenever you create a card or a potion, a random enemy is touched by <see cref=\"MoonlightPower\" />.",
       "tested": false,
@@ -1730,15 +1731,15 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 7 Brambles. Gain 1 Vulnerable.",
+      "text": "Gain 8 Brambles. Gain 1 Vulnerable.",
       "numbers": {
-        "Brambles": 7,
+        "Brambles": 8,
         "Vulnerable": 1
       },
       "upgrade": "Brambles +3",
       "multiplayer": false,
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1850,14 +1851,14 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Whenever you use or create a Potion, deal 3 damage to a random enemy.",
+      "text": "Whenever you use or create a Potion, deal 4 damage to a random enemy.",
       "numbers": {
-        "VolatileVapors": 3
+        "VolatileVapors": 4
       },
       "upgrade": "VolatileVapors +1",
       "multiplayer": false,
       "note": "Volatile Vapors: every brew fumes — using or creating a potion vents damage at a random enemy.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1881,10 +1882,10 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "At the start of the next {:diff() turns}, gain [E] and 5 Brambles.",
+      "text": "At the start of the next {:diff() turns}, gain [E] and 6 Brambles.",
       "numbers": {
         "WildGrowth": 2,
-        "Brambles": 5,
+        "Brambles": 6,
         "Energy": 1
       },
       "upgrade": "WildGrowth +1",
@@ -2196,14 +2197,14 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 6 Brambles X times.",
+      "text": "Gain 5 Brambles X times.",
       "numbers": {
-        "Brambles": 6
+        "Brambles": 5
       },
-      "upgrade": "Brambles +2",
+      "upgrade": "Brambles +1",
       "multiplayer": false,
       "note": "Spend X energy to pile Brambles on yourself, 7 at a time, X times — a fast way to stack a big Bramble count.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,
@@ -2357,14 +2358,14 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Deal 12 damage. Add Replay {Replay:diff()} and Exhaust to a card in your Hand.",
+      "text": "Deal 10 damage. Add Replay {Replay:diff()} and Exhaust to a card in your Hand.",
       "numbers": {
-        "Damage": 12
+        "Damage": 10
       },
       "upgrade": "Replay +1",
       "multiplayer": false,
       "note": "Extract Life: an Attack that also enchants a chosen card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -3231,9 +3232,9 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "AnyEnemy",
-      "text": "Apply 3 Moonlight.",
+      "text": "Apply 4 Moonlight.",
       "numbers": {
-        "Moonlight": 3
+        "Moonlight": 4
       },
       "upgrade": "Moonlight +1",
       "multiplayer": false,
@@ -3255,14 +3256,14 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Add a Rats into your Hand, Draw Pile, and Discard Pile.",
+      "text": "Add 2 Rats into your Draw Pile and Discard Pile.",
       "numbers": {
-        "Cards": 1
+        "Cards": 2
       },
-      "upgrade": "none",
+      "upgrade": "Cards +1",
       "multiplayer": false,
-      "note": "Rat familiar token: flood everything — one Rat to hand, plus Rats shuffled into BOTH the draw and discard piles (Refuse Pile pattern).",
-      "tested": true,
+      "note": "Rat familiar token: flood the piles — Rats shuffled into BOTH the draw and discard piles (Refuse Pile pattern).",
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,
@@ -3290,14 +3291,14 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Draw 1 card. Discard 1 card.",
+      "text": "Draw 2 cards. Discard {Discard:diff()} cards.",
       "numbers": {
-        "Cards": 1
+        "Cards": 2
       },
-      "upgrade": "Cards +1",
+      "upgrade": "Cards +1, Discard +1",
       "multiplayer": false,
-      "note": "Owl familiar token: draw 2, discard 1 — the upgrade drops the discard.",
-      "tested": true,
+      "note": "Owl familiar token: draw 2, discard 1 — the upgrade scales both (draw 3, discard 2).",
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,

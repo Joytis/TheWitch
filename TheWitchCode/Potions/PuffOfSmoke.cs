@@ -11,9 +11,8 @@ namespace TheWitch.TheWitchCode.Potions;
 /// <summary>
 /// Vial of Smoke: a card-only (Token rarity) defensive potion that grants Block. Created by Light the Candle.
 /// </summary>
-public sealed class PuffOfSmoke : WitchPotion
+public sealed class PuffOfSmoke : WitchTokenPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

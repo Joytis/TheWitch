@@ -7,8 +7,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Rat familiar token: flood everything — one Rat to hand, plus Rats shuffled into BOTH the draw
-/// and discard piles (Refuse Pile pattern).
+/// Rat familiar token: flood the piles — Rats shuffled into BOTH the draw and discard piles
+/// (Refuse Pile pattern).
 /// </summary>
 public sealed class Swarm : WitchFamiliarCard
 {
@@ -17,7 +17,7 @@ public sealed class Swarm : WitchFamiliarCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(1)
+        new CardsVar(2)
     ];
 
     public Swarm()
@@ -29,9 +29,6 @@ public sealed class Swarm : WitchFamiliarCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        var handRat = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, 1, CombatState, IsUpgraded);
-        await CardPileCmd.AddGeneratedCardsToCombat(handRat, PileType.Hand, Owner);
-
         int perPile = DynamicVars.Cards.IntValue;
         var drawRats = FamiliarCardRegistry.CreateFamiliarCards<Rats>(Owner, perPile, CombatState, IsUpgraded);
         var generatedDraw = await CardPileCmd.AddGeneratedCardsToCombat(drawRats, PileType.Draw, Owner, CardPilePosition.Random);
@@ -41,4 +38,6 @@ public sealed class Swarm : WitchFamiliarCard
         var generatedDiscard = await CardPileCmd.AddGeneratedCardsToCombat(discardRats, PileType.Discard, Owner);
         CardCmd.PreviewCardPileAdd(generatedDiscard);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1);
 }

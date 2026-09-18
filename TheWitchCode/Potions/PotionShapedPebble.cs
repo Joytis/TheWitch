@@ -8,9 +8,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheWitch.TheWitchCode.Potions;
 
-public sealed class PotionShapedPebble : WitchPotion
+public sealed class PotionShapedPebble : WitchTokenPotion
 {
-    public override PotionRarity Rarity => PotionRarity.Token;
 
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

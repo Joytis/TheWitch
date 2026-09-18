@@ -28,6 +28,7 @@ public sealed class WickerBones : WitchCard
     ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [
+        CardKeyword.Retain,
         CardKeyword.Exhaust
     ];
 

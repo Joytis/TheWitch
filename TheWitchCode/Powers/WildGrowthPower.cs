@@ -22,7 +22,7 @@ public sealed class WildGrowthPower : WitchPower
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new EnergyVar(1),
-        new PowerVar<BramblesPower>(5m),
+        new PowerVar<BramblesPower>(6m),
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

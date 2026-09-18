@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-09-13T22:30:00Z",
- "pending_total": 0,
+ "generated_at": "2026-09-17T13:47:55Z",
+ "pending_total": 1,
  "projects": [
   {
    "lang": "deu",
@@ -73,7 +73,7 @@
    "name": "Russian",
    "project_id": 20693,
    "url": "https://paratranz.cn/projects/20693",
-   "members": 1,
+   "members": 2,
    "total": 542,
    "translated": 541,
    "reviewed": 0,
@@ -99,7 +99,19 @@
    "total": 542,
    "translated": 0,
    "reviewed": 0,
-   "open_applications": []
+   "open_applications": [
+    {
+     "id": 36432,
+     "created_at": "2026-09-17T02:59:51.594Z",
+     "status": 0,
+     "status_name": "pending",
+     "username": "saqiershiyi",
+     "nickname": "Ru",
+     "user_id": 82822,
+     "last_visit": "2026-09-17T11:54:55.534Z",
+     "message": "meow"
+    }
+   ]
   }
  ]
 }
