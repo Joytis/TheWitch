@@ -8,7 +8,7 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Vile Renewal: Block, and this turn Attacks don't remove Hex or Brambles (see <see cref="VileRenewalPower" />).</summary>
+/// <summary>Vile Renewal: Block, draw a card, and this turn Attacks don't remove Hex or Brambles (see <see cref="VileRenewalPower" />).</summary>
 public sealed class VileRenewal : WitchCard
 {
     public override bool GainsBlock => true;
@@ -19,7 +19,8 @@ public sealed class VileRenewal : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(5m, ValueProp.Move)
+        new BlockVar(6m, ValueProp.Move),
+        new CardsVar(1)
     ];
 
     public VileRenewal()
@@ -30,6 +31,7 @@ public sealed class VileRenewal : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
         await PowerCmd.Apply<VileRenewalPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
 

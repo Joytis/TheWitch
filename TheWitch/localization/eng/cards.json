@@ -153,7 +153,7 @@
   "THEWITCH-CROW_FAMILIAR.title": "Crow Familiar",
   "THEWITCH-CROW_FAMILIAR.description": "Summon a [gold]{IfUpgraded:show:Crow Familiar+|Crow Familiar}[/gold].",
   "THEWITCH-POCKET_RATS.title": "Pocket Rats",
-  "THEWITCH-POCKET_RATS.description": "Add {Cards:diff()} [gold]{IfUpgraded:show:Rats+|Rats}[/gold] into your [gold]Hand[/gold].",
+  "THEWITCH-POCKET_RATS.description": "Add {Cards:diff()} [gold]Rats[/gold] into your [gold]Hand[/gold].",
   "THEWITCH-BROOM_STRIKE.title": "Broom Strike",
   "THEWITCH-BROOM_STRIKE.description": "Deal {Damage:diff()} damage to ALL enemies.\nThe next Skill you play costs {energyPrefix:energyIcons(1)} less.",
   "THEWITCH-EYE_OF_NEWT.title": "Eye of Newt",
@@ -223,7 +223,7 @@
   "THEWITCH-WICKER_CONSUMATION.title": "Wicker Consumation",
   "THEWITCH-WICKER_CONSUMATION.description": "Deal {Damage:diff()} damage.\nIf you have {TargetBrambles:diff()} [gold]Brambles[/gold], gain [gold]Incarnation[/gold].",
   "THEWITCH-VILE_RENEWAL.title": "Vile Renewal",
-  "THEWITCH-VILE_RENEWAL.description": "Gain {Block:diff()} [gold]Block[/gold].\nAttacks do not remove [gold]Hex[/gold] or [gold]Brambles[/gold] this turn.",
+  "THEWITCH-VILE_RENEWAL.description": "Gain {Block:diff()} [gold]Block[/gold].\nDraw {Cards:diff()} {Cards:plural:card|cards}.\nAttacks do not remove [gold]Hex[/gold] or [gold]Brambles[/gold] this turn.",
   "THEWITCH-ANIMAL_HANDLING.title": "Animal Handling",
   "THEWITCH-ANIMAL_HANDLING.description": "Add {Cards:diff()} random [gold]Familiar[/gold] {Cards:plural:card|cards} into your [gold]Hand[/gold]."
 }

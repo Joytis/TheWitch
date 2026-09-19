@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-18",
+  "generated": "2026-09-19",
   "cards": [
     {
       "name": "Defend",
@@ -449,10 +449,10 @@
       "numbers": {
         "Cards": 2
       },
-      "upgrade": "none",
+      "upgrade": "custom (see code)",
       "multiplayer": false,
-      "note": "Pocket Rats: dump a handful of one-shot Rats straight into your hand (upgraded Rats when upgraded).",
-      "tested": true,
+      "note": "Pocket Rats: dump a handful of one-shot Rats straight into your hand.",
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1636,10 +1636,10 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 6 Block. Whenever you play a Skill this turn, deal 3 damage to ALL enemies.",
+      "text": "Gain 7 Block. Whenever you play a Skill this turn, deal 3 damage to ALL enemies.",
       "numbers": {
         "SaltAndAsh": 3,
-        "Block": 6
+        "Block": 7
       },
       "upgrade": "Block +2, SaltAndAsh +1",
       "multiplayer": false,
@@ -1827,14 +1827,15 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 5 Block. Attacks do not remove Hex or Brambles this turn.",
+      "text": "Gain 6 Block. Draw 1 card. Attacks do not remove Hex or Brambles this turn.",
       "numbers": {
-        "Block": 5
+        "Block": 6,
+        "Cards": 1
       },
       "upgrade": "Block +3",
       "multiplayer": false,
-      "note": "Vile Renewal: Block, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
-      "tested": true,
+      "note": "Vile Renewal: Block, draw a card, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
