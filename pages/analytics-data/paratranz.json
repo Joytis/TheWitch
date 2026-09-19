@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-18T13:10:25Z",
+ "generated_at": "2026-09-19T12:42:14Z",
  "pending_total": 0,
  "projects": [
   {
@@ -75,7 +75,7 @@
    "url": "https://paratranz.cn/projects/20693",
    "members": 2,
    "total": 544,
-   "translated": 534,
+   "translated": 543,
    "reviewed": 0,
    "open_applications": []
   },
@@ -97,7 +97,7 @@
    "url": "https://paratranz.cn/projects/20686",
    "members": 2,
    "total": 544,
-   "translated": 1,
+   "translated": 9,
    "reviewed": 0,
    "open_applications": []
   }
