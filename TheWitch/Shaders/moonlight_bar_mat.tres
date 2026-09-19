@@ -1,0 +1,43 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://cnvab4mvtmdpk"]
+
+[ext_resource type="Shader" uid="uid://dr84l7mk2n0d" path="res://TheWitch/Shaders/moonlight_bar.gdshader" id="1_moon"]
+
+[sub_resource type="Gradient" id="Gradient_moon"]
+offsets = PackedFloat32Array(0, 0.514583, 1)
+colors = PackedColorArray(0.19370279, 0.43259004, 0.5927345, 1, 0.75903404, 0.94308287, 1.1271316, 1, 0.14914486, 0.45091313, 0.6845609, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_moon"]
+gradient = SubResource("Gradient_moon")
+use_hdr = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_moon"]
+noise_type = 3
+frequency = 0.0383
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_moon"]
+noise = SubResource("FastNoiseLite_moon")
+
+[resource]
+shader = ExtResource("1_moon")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_moon")
+shader_parameter/gradient_tex = SubResource("GradientTexture1D_moon")
+shader_parameter/cloud_scale = 0.37400001450512
+shader_parameter/cloud_speed = 0.0010000000475
+shader_parameter/cloud_warp = 0.25
+shader_parameter/cloud_warp_scale = 0.22200000984648
+shader_parameter/cloud_edge = 0.410000019475
+shader_parameter/cloud_softness = 0.1
+shader_parameter/sky_color = Color(0.041879028, 0.055282243, 0.1998533, 1)
+shader_parameter/cloud_mix = 0.31200001482
+shader_parameter/rim_color = Color(0.8, 0.89000005, 1, 1)
+shader_parameter/rim_intensity = 0.58400002774
+shader_parameter/rim_width = 0.32
+shader_parameter/rim_falloff = 1.44000004465
+shader_parameter/rim_inset = 0.06
+shader_parameter/star_cell_px = 9.0
+shader_parameter/star_chance = 0.434000020615
+shader_parameter/star_size_px = 1.1
+shader_parameter/star_brightness = 0.9
+shader_parameter/star_twinkle_speed = 1.3600000646
+shader_parameter/star_twinkle_depth = 0.586000027835
+shader_parameter/star_cloud_dim = 0.6

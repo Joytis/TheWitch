@@ -1,5 +1,7 @@
 # TODO — Staging / Inbox
 
+- Add a 'cyan' health bar for moonlight stacks. 
+
 ## autoslay-loop notes
 - (2026-09-14 soak) Distill bot-stall fix (PotionSelectCmd skips the overlay under AutoSlayer.IsActive) is verified by code path only: the seed KRHHUZG replay diverged and never played Distill with 2+ potions. Re-hit it manually with `launch-witch.ps1 -Solo -AutoSlay` if paranoid.
 - (2026-09-14 soak) Base-game noise seen once (seed KRHHUZG, Act 2): `Attempted to play animation on creature Cubex Construct but its creature node doesn't exist!` from CubexConstruct.RepeaterBlastMove. No Witch frame; add to autoslay-run.ps1 $noise if it recurs.
