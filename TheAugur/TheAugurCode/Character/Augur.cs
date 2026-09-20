@@ -42,6 +42,9 @@ public class Augur : PlaceholderCharacterModel
         ModelDb.Card<DefendAugur>(),
         ModelDb.Card<AugurStarterA>(),
         ModelDb.Card<AugurStarterB>(),
+        // PROTOTYPE: two Foretell cards in the starting deck so the mechanic shows up in every combat.
+        ModelDb.Card<Foresight>(),
+        ModelDb.Card<Foresight>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

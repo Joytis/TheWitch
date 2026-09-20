@@ -1,1 +1,5 @@
-{}
+{
+  "THEAUGUR-FORETELL_POWER.title": "Portents",
+  "THEAUGUR-FORETELL_POWER.description": "Foretold cards waiting to be played for free at the start of a later turn.",
+  "THEAUGUR-FORETELL_POWER.smartDescription": "[blue]{Amount}[/blue] foretold {Amount:plural:card|cards} waiting.\nEach is played for free at the start of a later turn."
+}

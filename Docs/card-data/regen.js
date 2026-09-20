@@ -61,6 +61,17 @@ function parseCanonicalVars(src) {
     if (vm[1] === "Power") continue;
     vars.push({ token: vm[1], name: vm[1], value: num(vm[2]) });
   }
+  // new DynamicVar("Name", 2m) / new DynamicVar(SomeVarName, 2m) — plain named vars (e.g. the Augur's
+  // Foretell count, Large Pockets' PotionSlots). A constant reference resolves to its literal when the
+  // class defines `const string X = "..."` or inherits it (ForetellVarName); else the identifier is used.
+  for (const dm of body.matchAll(/new\s+DynamicVar\s*\(\s*(?:"(\w+)"|(\w+))\s*,\s*(-?\d+)m?/g)) {
+    let name = dm[1];
+    if (!name) {
+      const c = src.match(new RegExp(`const\\s+string\\s+${dm[2]}\\s*=\\s*"(\\w+)"`));
+      name = c ? c[1] : dm[2].replace(/VarName$/, "");
+    }
+    vars.push({ token: name, name, value: num(dm[3]) });
+  }
   return vars;
 }
 

@@ -96,6 +96,287 @@
       "role": [],
       "sub": [],
       "threads": []
+    },
+    {
+      "name": "Foresight",
+      "entry": "FORESIGHT",
+      "file": "TheAugur/TheAugurCode/Cards/Foresight.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Foretell 2. Deal 18 damage.",
+      "numbers": {
+        "Damage": 18,
+        "Foretell": 2
+      },
+      "upgrade": "Damage +6",
+      "multiplayer": false,
+      "note": "Foretell prototype card: pay 1 now, 18 damage to a random enemy in 2 turns.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "Foretell"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Attack (Common)",
+      "entry": "AUGUR_STUB_ATTACK_COMMON",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubAttackCommon.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Common",
+      "target": "AnyEnemy",
+      "text": "Deal 9 damage.",
+      "numbers": {
+        "Damage": 9
+      },
+      "upgrade": "Damage +3",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Power (Common)",
+      "entry": "AUGUR_STUB_POWER_COMMON",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubPowerCommon.cs",
+      "cost": 1,
+      "type": "Power",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 1 Strength.",
+      "numbers": {
+        "Strength": 1
+      },
+      "upgrade": "Strength +1",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Skill (Common)",
+      "entry": "AUGUR_STUB_SKILL_COMMON",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubSkillCommon.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Common",
+      "target": "Self",
+      "text": "Gain 8 Block.",
+      "numbers": {
+        "Block": 8
+      },
+      "upgrade": "Block +3",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Attack (Uncommon)",
+      "entry": "AUGUR_STUB_ATTACK_UNCOMMON",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubAttackUncommon.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Uncommon",
+      "target": "AnyEnemy",
+      "text": "Deal 14 damage.",
+      "numbers": {
+        "Damage": 14
+      },
+      "upgrade": "Damage +4",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Power (Uncommon)",
+      "entry": "AUGUR_STUB_POWER_UNCOMMON",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubPowerUncommon.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 2 Strength.",
+      "numbers": {
+        "Strength": 2
+      },
+      "upgrade": "Strength +1",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Skill (Uncommon)",
+      "entry": "AUGUR_STUB_SKILL_UNCOMMON",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubSkillUncommon.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Uncommon",
+      "target": "Self",
+      "text": "Gain 12 Block.",
+      "numbers": {
+        "Block": 12
+      },
+      "upgrade": "Block +4",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Attack (Rare)",
+      "entry": "AUGUR_STUB_ATTACK_RARE",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubAttackRare.cs",
+      "cost": 2,
+      "type": "Attack",
+      "rarity": "Rare",
+      "target": "AnyEnemy",
+      "text": "Deal 24 damage.",
+      "numbers": {
+        "Damage": 24
+      },
+      "upgrade": "Damage +8",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Power (Rare)",
+      "entry": "AUGUR_STUB_POWER_RARE",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubPowerRare.cs",
+      "cost": 3,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 3 Strength.",
+      "numbers": {
+        "Strength": 3
+      },
+      "upgrade": "Strength +1",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Stub Skill (Rare)",
+      "entry": "AUGUR_STUB_SKILL_RARE",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStubSkillRare.cs",
+      "cost": 2,
+      "type": "Skill",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Gain 20 Block.",
+      "numbers": {
+        "Block": 20
+      },
+      "upgrade": "Block +6",
+      "multiplayer": false,
+      "note": "Reward/merchant-pool stub (one per type x rarity). Replace with a designed card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "None"
+      ],
+      "role": [
+        "Standalone"
+      ],
+      "sub": [],
+      "threads": []
     }
   ]
 }

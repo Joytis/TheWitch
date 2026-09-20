@@ -2040,10 +2040,11 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Exhaust 2 cards. Gain [E] [E] [E] [E]. Add {Ashes:diff()} Ashes into your Discard Pile.",
+      "text": "Exhaust 2 cards. Gain [E] [E] [E] [E]. Add 2 Ashes into your Discard Pile.",
       "numbers": {
         "Energy": 4,
-        "Cards": 2
+        "Cards": 2,
+        "Ashes": 2
       },
       "upgrade": "Energy +1",
       "multiplayer": false,
@@ -2327,8 +2328,11 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon {Familiars:diff()} random Familiars. Draw {DrawReduction:diff()} fewer cards each turn.",
-      "numbers": {},
+      "text": "Summon 3 random Familiars. Draw 2 fewer cards each turn.",
+      "numbers": {
+        "DrawReduction": 2,
+        "Familiars": 3
+      },
       "upgrade": "Familiars +1",
       "multiplayer": false,
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
@@ -2737,9 +2741,10 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 5 Brambles. If you have {TargetBrambles:diff()} Brambles, add Wicker Bones into your Hand.",
+      "text": "Gain 5 Brambles. If you have 10 Brambles, add Wicker Bones into your Hand.",
       "numbers": {
-        "Brambles": 5
+        "Brambles": 5,
+        "TargetBrambles": 10
       },
       "upgrade": "Brambles +2",
       "multiplayer": false,
@@ -2791,9 +2796,10 @@
       "type": "Skill",
       "rarity": "Special",
       "target": "Self",
-      "text": "Gain 12 Block. If you have {TargetBrambles:diff()} Brambles, add Wicker Consumation into your Hand.",
+      "text": "Gain 12 Block. If you have 30 Brambles, add Wicker Consumation into your Hand.",
       "numbers": {
-        "Block": 12
+        "Block": 12,
+        "TargetBrambles": 30
       },
       "upgrade": "Block +4",
       "multiplayer": false,
@@ -2815,10 +2821,11 @@
       "type": "Attack",
       "rarity": "Special",
       "target": "AnyEnemy",
-      "text": "Deal 20 damage. If you have {TargetBrambles:diff()} Brambles, gain Incarnation.",
+      "text": "Deal 20 damage. If you have 50 Brambles, gain Incarnation.",
       "numbers": {
         "Incarnation": 1,
-        "Damage": 20
+        "Damage": 20,
+        "TargetBrambles": 50
       },
       "upgrade": "Damage +5",
       "multiplayer": false,

@@ -19,6 +19,9 @@ public partial class MainFile : Node
         // can bind mod C# scripts by res:// path.
         Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
 
+        Config.AugurConfig config = new();
+        BaseLib.Config.ModConfigRegistry.Register(ModId, config);
+
         // Shared Common/ services (source-included): run analytics + Workshop self-update.
         Bird.Common.BirdModContext ctx = new()
         {
@@ -27,6 +30,7 @@ public partial class MainFile : Node
             Logger = Logger,
             CharacterKey = Character.Augur.CharacterId,
             Character = () => MegaCrit.Sts2.Core.Models.ModelDb.Character<Character.Augur>(),
+            AnalyticsEnabled = () => Config.AugurConfig.AnalyticsEnabled,
         };
         Bird.Common.Data.RunAnalytics.Initialize(ctx);
         Bird.Common.Steam.WorkshopSelfUpdate.Initialize(ctx);
