@@ -1,0 +1,4 @@
+{
+  "comment": "Per-card art metadata for The Augur, keyed by card name. Same shape as card-briefs.json (the Witch file): 'artist' (who is working on it), 'brief' (art direction notes). Status is DERIVED: artFinal=true in augur.json -> Done; artist set here -> In Progress; else Placeholder. Authored via the card-designs page (Augur tab).",
+  "briefs": {}
+}

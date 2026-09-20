@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Generate pages/art-tracker.html — a static, self-contained art-asset tracker
-// suitable for GitHub Pages. Data sources:
-//   - ../card-data/cards.json      (cards; artFinal=true → Final)
-//   - ./card-briefs.json           (hand-maintained card art briefs / status overrides)
-//   - ./assets.json                (hand-maintained non-card asset categories)
+// suitable for GitHub Pages. One page, sectioned per character (../card-data/characters.js):
+//   - <dataFile>   (Docs/card-data/cards.json | augur.json — cards; artFinal=true → Final)
+//   - <briefs>     (Docs/art-tracker/card-briefs.json | augur-briefs.json — artist / brief per card)
+//   - <assets>     (Docs/art-tracker/assets.json | augur-assets.json — non-card asset categories)
 // Thumbnails are referenced by repo-relative paths (../TheWitch/images/...) so the
 // page works when the whole repo is served (Pages) or opened from Docs/ locally.
 //
@@ -11,12 +11,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const { KEYS, CHARACTERS } = require(path.join(__dirname, '..', 'card-data', 'characters.js'));
 
-const cardsData = require(path.join(__dirname, '..', 'card-data', 'cards.json'));
-const briefs = require(path.join(__dirname, 'card-briefs.json')).briefs || {};
-const assetCats = require(path.join(__dirname, 'assets.json')).categories;
-
+const root = path.join(__dirname, '..', '..');
 const CARD_DIMS = '1000x760';
+// .replace strips a UTF-8 BOM — editors re-save the localization JSON with one on and off.
+const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, ''));
+const readJsonOr = (p, fallback) => (fs.existsSync(p) ? readJson(p) : fallback);
 
 // sanitize card text (same rules as gen-art-tracker.js)
 let cur = null;
@@ -32,95 +33,115 @@ function clean(s) {
   function varValue(v) { return cur && cur.numbers && cur.numbers[v] != null ? String(cur.numbers[v]) : v; }
 }
 
-// build card rows
-const root = path.join(__dirname, '..', '..');
-function cardArtPath(entry) {
-  const base = entry.toLowerCase() + '.png';
-  for (const dir of ['TheWitch/images/card_portraits/', 'TheWitch/images/card_portraits/familiar/']) {
-    if (fs.existsSync(path.join(root, dir + base))) return dir + base;
-  }
-  return 'TheWitch/images/card_portraits/' + base; // convention target even if missing
-}
 // status is derived: done → Done; artist assigned → In Progress; else Placeholder
 function derive(done, artist) { return done ? 'Done' : (artist ? 'In Progress' : 'Placeholder'); }
+function exists(p) { return p && fs.existsSync(path.join(root, p)); }
 
-const cardRows = cardsData.cards.map(c => {
-  cur = c;
-  const b = briefs[c.name] || {};
-  return {
-    name: c.name,
-    artist: b.artist || '',
-    status: derive(c.artFinal, b.artist),
-    brief: b.brief || '',
-    type: c.type,
-    rarity: c.rarity,
-    cost: c.cost === -1 ? 'X' : String(c.cost),
-    text: clean(c.text),
-    upgrade: clean(c.upgrade),
-    mechanics: (c.mechanics || []).filter(m => m && m !== 'None').join(', '),
-    path: cardArtPath(c.entry),
-    dims: CARD_DIMS,
-  };
-});
+// Build one character's section: card rows + asset categories (Powers auto-enumerated from its loc).
+function buildCharacter(ch) {
+  const cardsData = readJsonOr(path.join(root, ch.dataFile), { cards: [] });
+  const briefs = readJsonOr(path.join(root, ch.briefs), {}).briefs || {};
+  const assetsFile = readJsonOr(path.join(root, ch.assets), {});
+  const assetCats = assetsFile.categories || [];
 
-// Powers tab: auto-enumerated from the localization file (every power must have loc, so it is the
-// authoritative list — new powers appear on the next regen). Optional per-power curation (artist/done/brief)
-// lives in assets.json under "powerOverrides", keyed by the loc entry (e.g. "HEX_POWER").
-// .replace strips a UTF-8 BOM — editors re-save the localization JSON with one on and off.
-const powerLoc = JSON.parse(fs.readFileSync(path.join(root, 'TheWitch', 'localization', 'eng', 'powers.json'), 'utf8').replace(/^﻿/, ''));
-const powerOverrides = require(path.join(__dirname, 'assets.json')).powerOverrides || {};
-const powerEntries = Object.keys(powerLoc)
-  .filter(k => k.endsWith('.title'))
-  .map(k => k.slice('THEWITCH-'.length, -'.title'.length));
-const powersCat = {
-  id: 'powers',
-  title: 'Powers',
-  dims: '64x64 (small) + 256x256 (big)',
-  assets: powerEntries.map(entry => {
-    const o = powerOverrides[entry] || {};
-    cur = null;
+  // Source art lives at <portraits>/<entry>.png; some characters author subsets under a subdir
+  // (Witch familiar tokens → familiar/). Probe root then each subdir; fall back to the root path.
+  function cardArtPath(entry) {
+    const base = entry.toLowerCase() + '.png';
+    for (const dir of [ch.portraits + '/', ...ch.portraitSubdirs.map((d) => `${ch.portraits}/${d}/`)]) {
+      if (fs.existsSync(path.join(root, dir + base))) return dir + base;
+    }
+    return ch.portraits + '/' + base; // convention target even if missing
+  }
+
+  const cardRows = (cardsData.cards || []).map(c => {
+    cur = c;
+    const b = briefs[c.name] || {};
     return {
-      name: powerLoc[`THEWITCH-${entry}.title`] + ` (${entry.toLowerCase()})`,
+      name: c.name,
+      artist: b.artist || '',
+      status: derive(c.artFinal, b.artist),
+      brief: b.brief || '',
+      type: c.type,
+      rarity: c.rarity,
+      cost: c.cost === -1 ? 'X' : String(c.cost),
+      text: clean(c.text),
+      upgrade: clean(c.upgrade),
+      mechanics: (c.mechanics || []).filter(m => m && m !== 'None').join(', '),
+      path: cardArtPath(c.entry),
+      dims: CARD_DIMS,
+    };
+  });
+
+  // Powers tab: auto-enumerated from the localization file (every power must have loc, so it is the
+  // authoritative list — new powers appear on the next regen). Optional per-power curation (artist/done/brief)
+  // lives in the assets file under "powerOverrides", keyed by the loc entry (e.g. "HEX_POWER").
+  const powerLoc = readJsonOr(path.join(root, ch.powersLoc), {});
+  const powerOverrides = assetsFile.powerOverrides || {};
+  const imagesDir = ch.portraits.replace(/\/card_portraits$/, '');
+  const powerEntries = Object.keys(powerLoc)
+    .filter(k => k.startsWith(ch.prefix) && k.endsWith('.title'))
+    .map(k => k.slice(ch.prefix.length, -'.title'.length));
+  const powersCat = {
+    id: 'powers',
+    title: 'Powers',
+    dims: '64x64 (small) + 256x256 (big)',
+    assets: powerEntries.map(entry => {
+      const o = powerOverrides[entry] || {};
+      cur = null;
+      return {
+        name: powerLoc[`${ch.prefix}${entry}.title`] + ` (${entry.toLowerCase()})`,
+        artist: o.artist || '',
+        done: !!o.done,
+        brief: o.brief || '',
+        effect: clean(String(powerLoc[`${ch.prefix}${entry}.description`] || '').replace(/\[\/?[a-z]+\]/g, '')),
+        path: imagesDir + '/powers/' + entry.toLowerCase() + '.png',
+      };
+    }),
+  };
+  // Powers with mod art but base-game loc (ICustomPower subclasses) can't be enumerated from powers.json —
+  // they are listed by hand in the assets file under "extraPowers", keyed by entry.
+  const extraPowers = assetsFile.extraPowers || {};
+  for (const [entry, o] of Object.entries(extraPowers)) {
+    powersCat.assets.push({
+      name: (o.name || entry) + ` (${entry.toLowerCase()})`,
       artist: o.artist || '',
       done: !!o.done,
       brief: o.brief || '',
-      effect: clean(String(powerLoc[`THEWITCH-${entry}.description`] || '').replace(/\[\/?[a-z]+\]/g, '')),
-      path: 'TheWitch/images/powers/' + entry.toLowerCase() + '.png',
-    };
-  }),
-};
-// Powers with mod art but base-game loc (ICustomPower subclasses) can't be enumerated from powers.json —
-// they are listed by hand in assets.json under "extraPowers", keyed by entry.
-const extraPowers = require(path.join(__dirname, 'assets.json')).extraPowers || {};
-for (const [entry, o] of Object.entries(extraPowers)) {
-  powersCat.assets.push({
-    name: (o.name || entry) + ` (${entry.toLowerCase()})`,
-    artist: o.artist || '',
-    done: !!o.done,
-    brief: o.brief || '',
-    effect: o.effect || '',
-    path: 'TheWitch/images/powers/' + entry.toLowerCase() + '.png',
-  });
+      effect: o.effect || '',
+      path: imagesDir + '/powers/' + entry.toLowerCase() + '.png',
+    });
+  }
+  const petsIdx = assetCats.findIndex(c => c.id === 'pets');
+  if (petsIdx >= 0) assetCats.splice(petsIdx, 0, powersCat); else assetCats.push(powersCat);
+
+  // check which referenced images actually exist
+  for (const r of cardRows) r.hasArt = exists(r.path);
+  for (const cat of assetCats) for (const a of cat.assets) a.hasArt = exists(a.path);
+
+  return {
+    key: ch.key,
+    label: ch.label,
+    generated: cardsData.generated || '',
+    cards: cardRows,
+    categories: assetCats.map(c => ({
+      id: c.id, title: c.title, dims: c.dims,
+      assets: c.assets.map(a => ({
+        name: a.name, artist: a.artist || '', status: derive(a.done, a.artist), brief: a.brief || '',
+        rarity: a.rarity || '', orientation: a.orientation || '',
+        effect: a.effect || '', path: a.path || '', dims: a.dims || c.dims || '',
+        hasArt: a.hasArt,
+      })),
+    })),
+    // raw (pre-map) lists kept for the console report below
+    _assetCats: assetCats,
+  };
 }
-assetCats.splice(assetCats.findIndex(c => c.id === 'pets'), 0, powersCat);
 
-// check which referenced images actually exist
-function exists(p) { return p && fs.existsSync(path.join(root, p)); }
-for (const r of cardRows) r.hasArt = exists(r.path);
-for (const cat of assetCats) for (const a of cat.assets) a.hasArt = exists(a.path);
-
+const sections = KEYS.map((k) => buildCharacter(CHARACTERS[k]));
 const data = {
   generated: new Date().toISOString().slice(0, 10),
-  cards: cardRows,
-  categories: assetCats.map(c => ({
-    id: c.id, title: c.title, dims: c.dims,
-    assets: c.assets.map(a => ({
-      name: a.name, artist: a.artist || '', status: derive(a.done, a.artist), brief: a.brief || '',
-      rarity: a.rarity || '', orientation: a.orientation || '',
-      effect: a.effect || '', path: a.path || '', dims: a.dims || c.dims || '',
-      hasArt: a.hasArt,
-    })),
-  })),
+  characters: sections.map(({ _assetCats, ...s }) => s),
 };
 
 const html = `<!DOCTYPE html>
@@ -128,7 +149,7 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Witch — Art Tracker</title>
+<title>Art Tracker — The Witch · The Augur</title>
 <style>
   /* Witch-house palette — keep in sync with pages/analytics.html */
   :root{
@@ -141,6 +162,9 @@ const html = `<!DOCTYPE html>
   header{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
   h1{margin:0 0 4px;font-size:20px;color:var(--gold);letter-spacing:.5px}
   .sub{color:var(--muted);font-size:12px}
+  .chars{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .char{background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:6px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:.3px;user-select:none}
+  .char.on{background:var(--gold);border-color:var(--gold);color:#3a2a10}
   .tabs{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
   .tab{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px 8px 0 0;cursor:pointer;font-size:13px;font-weight:600;user-select:none}
   .tab.on{background:var(--accent);border-color:var(--accent);color:#26301a}
@@ -177,8 +201,9 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>The Witch — Art Tracker</h1>
+  <h1 id="h1">Art Tracker</h1>
   <div class="sub">Generated ${data.generated} from repo state · statuses reflect the current project, not artist assignments</div>
+  <div class="chars" id="chars"></div>
   <div class="tabs" id="tabs"></div>
   <div class="controls">
     <input type="search" id="q" placeholder="filter by name / text…">
@@ -195,13 +220,18 @@ const html = `<!DOCTYPE html>
 const DATA = ${JSON.stringify(data)};
 const esc = s => String(s??'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const scls = s => 's-' + s.toLowerCase().replace(/\\s+/g,'');
-// tabs: cards + each asset category
-const TABS = [{id:'cards', title:'Cards'}].concat(DATA.categories.map(c=>({id:c.id,title:c.title})));
-let tab = 'cards', filter = 'all', q = '';
+// top-level switcher: one section per character; each section has its own tabs (cards + asset categories)
+let CH = DATA.characters[0], tab = 'cards', filter = 'all', q = '';
+const tabsOf = ch => [{id:'cards', title:'Cards'}].concat(ch.categories.map(c=>({id:c.id,title:c.title})));
 
 function rows() {
-  if (tab === 'cards') return DATA.cards;
-  return DATA.categories.find(c=>c.id===tab).assets;
+  if (tab === 'cards') return CH.cards;
+  return CH.categories.find(c=>c.id===tab).assets;
+}
+function buildTabs() {
+  document.getElementById('h1').textContent = CH.label + ' — Art Tracker';
+  document.querySelectorAll('.char').forEach(c=>c.classList.toggle('on', c.dataset.c===CH.key));
+  tabsEl.innerHTML = tabsOf(CH).map(t=>'<span class="tab" data-t="'+t.id+'">'+esc(t.title)+'</span>').join('');
 }
 function render() {
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.dataset.t===tab));
@@ -215,7 +245,7 @@ function render() {
   document.getElementById('progbar').style.width = (all.length ? 100*fin/all.length : 0) + '%';
 
   const isCards = tab === 'cards';
-  const cat = isCards ? null : DATA.categories.find(c=>c.id===tab);
+  const cat = isCards ? null : CH.categories.find(c=>c.id===tab);
   let h = '';
   if (cat && cat.dims) h += '<div class="catnote">Required dimensions: ' + esc(cat.dims) + '</div>';
   h += '<table><thead><tr><th></th><th>Status</th><th>Artist</th><th>Art Brief</th><th>Name</th>';
@@ -247,7 +277,12 @@ function render() {
   document.getElementById('main').innerHTML = h;
 }
 const tabsEl = document.getElementById('tabs');
-tabsEl.innerHTML = TABS.map(t=>'<span class="tab" data-t="'+t.id+'">'+esc(t.title)+'</span>').join('');
+const charsEl = document.getElementById('chars');
+charsEl.innerHTML = DATA.characters.map(c=>'<span class="char" data-c="'+esc(c.key)+'">'+esc(c.label)+'</span>').join('');
+charsEl.addEventListener('click', e => {
+  const c=e.target.closest('.char');
+  if(c && c.dataset.c!==CH.key){ CH=DATA.characters.find(x=>x.key===c.dataset.c); tab='cards'; buildTabs(); render(); }
+});
 tabsEl.addEventListener('click', e => { const t=e.target.closest('.tab'); if(t){tab=t.dataset.t; render();} });
 document.querySelector('.controls').addEventListener('click', e => { const c=e.target.closest('.chip'); if(c){filter=c.dataset.f; render();} });
 document.getElementById('q').addEventListener('input', e => { q=e.target.value.toLowerCase(); render(); });
@@ -257,6 +292,7 @@ document.getElementById('main').addEventListener('click', e => {
   if (img) { lb.querySelector('img').src = img.src; lb.style.display='flex'; }
 });
 lb.addEventListener('click', () => lb.style.display='none');
+buildTabs();
 render();
 </script>
 </body>
@@ -265,8 +301,10 @@ render();
 
 const outPath = path.join(root, 'pages', 'art-tracker.html');
 fs.writeFileSync(outPath, html);
-const total = cardRows.length + assetCats.reduce((n, c) => n + c.assets.length, 0);
-console.log(`art-tracker.html written: ${cardRows.length} cards + ${total - cardRows.length} other assets = ${total} rows`);
-const missing = [...cardRows.filter(r => !r.hasArt).map(r => 'card: ' + r.name),
-  ...assetCats.flatMap(c => c.assets.filter(a => a.path && !a.hasArt).map(a => c.title + ': ' + a.name))];
-if (missing.length) console.log('MISSING IMAGE FILES:\n  ' + missing.join('\n  '));
+for (const sec of sections) {
+  const other = sec._assetCats.reduce((n, c) => n + c.assets.length, 0);
+  console.log(`art-tracker.html [${sec.label}]: ${sec.cards.length} cards + ${other} other assets = ${sec.cards.length + other} rows`);
+  const missing = [...sec.cards.filter(r => !r.hasArt).map(r => 'card: ' + r.name),
+    ...sec._assetCats.flatMap(c => c.assets.filter(a => a.path && !a.hasArt).map(a => c.title + ': ' + a.name))];
+  if (missing.length) console.log(`MISSING IMAGE FILES [${sec.label}]:\n  ` + missing.join('\n  '));
+}

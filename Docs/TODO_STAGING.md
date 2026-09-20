@@ -1,6 +1,8 @@
 # TODO — Staging / Inbox
 
-- Add a 'cyan' health bar for moonlight stacks. 
+- Thank you so much!! I'll have to test that out. The upgraded version hits ALL enemies, but it doesn't quite make sense that the base version wouldn't stack. I'll note that in TODO. Thank you!!
+- CoM stacks are a bit awkward - maybe have it stack on card play instead? 
+- Wild Growth Rework? 
 
 ## autoslay-loop notes
 - (2026-09-14 soak) Distill bot-stall fix (PotionSelectCmd skips the overlay under AutoSlayer.IsActive) is verified by code path only: the seed KRHHUZG replay diverged and never played Distill with 2+ potions. Re-hit it manually with `launch-witch.ps1 -Solo -AutoSlay` if paranoid.

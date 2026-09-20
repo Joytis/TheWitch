@@ -1,7 +1,7 @@
 """Shared helpers for the ParaTranz sync scripts.
 
 Config lives in .github/configs/paratranz.json:
-  mod_dir      - repo folder holding localization/<lang>/*.json (TheWitch)
+  mod_dir      - repo folder holding localization/<lang>/*.json (TheWitch/TheWitch)
   languages    - game language code -> ParaTranz language code (used by create_projects.py)
   projects     - game language code -> ParaTranz project id (filled by create_projects.py)
 

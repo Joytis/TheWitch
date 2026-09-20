@@ -1,0 +1,101 @@
+{
+  "generated": "2026-09-20",
+  "cards": [
+    {
+      "name": "Defend",
+      "entry": "DEFEND_AUGUR",
+      "file": "TheAugur/TheAugurCode/Cards/DefendAugur.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Gain 5 Block.",
+      "numbers": {
+        "Block": 5
+      },
+      "upgrade": "Block +3",
+      "multiplayer": false,
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Starter A",
+      "entry": "AUGUR_STARTER_A",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStarterA.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 8 damage.",
+      "numbers": {
+        "Damage": 8
+      },
+      "upgrade": "Damage +3",
+      "multiplayer": false,
+      "note": "Starter stub #1: placeholder attack until the Augur's signature starters are designed.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Starter B",
+      "entry": "AUGUR_STARTER_B",
+      "file": "TheAugur/TheAugurCode/Cards/AugurStarterB.cs",
+      "cost": 1,
+      "type": "Skill",
+      "rarity": "Starter",
+      "target": "Self",
+      "text": "Draw 1 card.",
+      "numbers": {
+        "Cards": 1
+      },
+      "upgrade": "Cards +1",
+      "multiplayer": false,
+      "note": "Starter stub #2: placeholder skill until the Augur's signature starters are designed.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
+    },
+    {
+      "name": "Strike",
+      "entry": "STRIKE_AUGUR",
+      "file": "TheAugur/TheAugurCode/Cards/StrikeAugur.cs",
+      "cost": 1,
+      "type": "Attack",
+      "rarity": "Starter",
+      "target": "AnyEnemy",
+      "text": "Deal 6 damage.",
+      "numbers": {
+        "Damage": 6
+      },
+      "upgrade": "Damage +3",
+      "multiplayer": false,
+      "note": "",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [],
+      "role": [],
+      "sub": [],
+      "threads": []
+    }
+  ]
+}

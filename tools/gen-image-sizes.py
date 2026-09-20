@@ -47,7 +47,7 @@ except ImportError:
 
 # Repo root is the parent of this tools/ folder.
 REPO_ROOT = Path(__file__).resolve().parent.parent
-IMAGES_ROOT = REPO_ROOT / "TheWitch" / "images"
+IMAGES_ROOT = REPO_ROOT / "TheWitch" / "TheWitch" / "images"
 
 # Category -> (small_dir, big_dir). Optional keys:
 #   no_upscale — downscale-only: never generate big/ from small
@@ -62,7 +62,7 @@ CATEGORIES = {
 
 # Localization files are the authoritative content lists for powers/potions
 # (every shipped power/potion must have a .title loc entry). Used for seeding.
-LOC_DIR = REPO_ROOT / "TheWitch" / "localization" / "eng"
+LOC_DIR = REPO_ROOT / "TheWitch" / "TheWitch" / "localization" / "eng"
 POWER_PLACEHOLDER = IMAGES_ROOT / "powers" / "power.png"
 POWERS_DIR = IMAGES_ROOT / "powers"
 POTION_PLACEHOLDER = IMAGES_ROOT / "potions" / "potion.png"

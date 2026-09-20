@@ -1,0 +1,288 @@
+<#
+.SYNOPSIS
+    Character-mod dev launcher for Slay the Spire 2. Default: one solo instance
+    of the Witch (with optional mod debug flags); -Character Augur targets the
+    Augur mod instead. Pass -Players N for multiplayer testing
+    (1 host [-fastmp host_standard] + N-1 clients [-fastmp join]).
+
+.DESCRIPTION
+    In multiplayer mode the first instance hosts. Each additional client gets a
+    unique -clientId starting at 1000 (1000, 1001, 1002, ...), as required for
+    3+ players.
+
+    The game is launched directly (no Steam) via the steam_appid.txt next to
+    the executable. Start-Process sets the working directory to the game folder
+    so the game finds steam_appid.txt and its data dir.
+
+.PARAMETER Character
+    Which character mod the debug flags, build step and log tags target
+    (Witch | Augur; default Witch). Passed to the game as
+    -bird-character=<id>, which the dev-only BirdDebug mod (owner of every
+    -bird-* flag) resolves to that character - so both mods can be installed
+    at once.
+
+.PARAMETER Players
+    Total number of instances to launch (host + clients). Omitted = one solo
+    instance; providing it switches to multiplayer mode. (-Solo still forces
+    solo and is what the VS Code tasks pass explicitly.)
+
+.PARAMETER Sts2Path
+    Path to the Slay the Spire 2 install folder (containing SlayTheSpire2.exe).
+    Auto-discovered from the Steam library registry if not given.
+
+.EXAMPLE
+    ./launch.ps1                      # one solo instance (Witch)
+    ./launch.ps1 -Character Augur -Build publish -Bootstrap   # publish the Augur, straight into combat
+    ./launch.ps1 -Build publish -TestAll -Headless -TailLog   # full Witch smoke test: menus + cards + potions + relics
+    ./launch.ps1 -Solo -AutoSlay -Headless -Seed ABC123 -AutoSlayLog out.log   # one bot run, reproducible seed
+    ./launch.ps1 -TestUpdatePopup
+    ./launch.ps1 -Solo -ResetFtue     # replay the Witch tutorial tips
+    ./launch.ps1 -Players 4           # 1 host + 3 clients
+#>
+param(
+    [ValidateSet('Witch','Augur')]
+    [string]$Character = 'Witch',
+    [int]$Players = 2,
+    [string]$Sts2Path = "",
+    [switch]$Solo,
+    [int]$DelayMs = 0,
+    # Solo-only debug launch modes (see BirdDebug/BirdDebugCode/BirdDebugFlags.cs - the dev-only BirdDebug mod):
+    [Alias('WitchBootstrap')]
+    [switch]$Bootstrap,        # -bird-debug -bird-bootstrap: skip menu, enter combat with 100 energy
+    [switch]$AutoSlay,         # -bird-debug -autoslay: run the smoke-test bot
+    [string]$Seed = "",        # -seed <s>: run seed for -AutoSlay / -Bootstrap / smoke tests (random if omitted)
+    [string]$AutoSlayLog = "", # -log-file <path>: AutoSlay's own per-run log (game-native; independent of godot.log)
+    [switch]$Headless,         # solo only: pass Godot --headless (no window/GPU); waits for
+                               # exit and propagates the game's exit code (AutoSlay: 0=run done, 1=fail)
+    [switch]$FxLab,            # -bird-debug -bird-fxlab: open the SFX/VFX browser scene
+    [switch]$IconLab,          # -bird-debug -bird-iconlab: open the relic/potion icon browser scene
+    [switch]$CardTest,         # -bird-debug -bird-cardtest: headless smoke test that plays every card (CardTest)
+    [switch]$PotionTest,       # -bird-debug -bird-potiontest: uses + discards every potion
+    [switch]$RelicTest,        # -bird-debug -bird-relictest: equips every relic, then every card + potion
+    [switch]$MenuTest,         # -bird-debug -bird-menutest: opens every main-menu screen + renders every hover tip
+    [switch]$TestAll,          # -bird-debug -bird-testall: menu sweep, cards, potions, then relics in one run
+    [string]$Encounter = "",   # optional encounter id for -Bootstrap (e.g. SLIMES_WEAK)
+    [switch]$ResetFtue,                # -bird-reset-ftue: forget the character's tutorial tips so they show again
+    [switch]$TestUpdatePopup,          # -bird-test-update-popup: show the Workshop-update restart popup (no Steam calls)
+    [switch]$ForceWorkshopDownload,    # -bird-force-workshop-download=<id>: force the Workshop download path;
+                                       # item id read from <workshop dir>/mod_id.txt (local builds need it)
+    [switch]$TailLog,          # solo only: stream %appdata%\SlayTheSpire2\logs\godot.log to this console
+    [ValidateSet('none','build','publish')]
+    [string]$Build = 'none'    # run `dotnet build` (code deploy) or `dotnet publish` (code + .pck) first; abort on failure
+)
+
+$ErrorActionPreference = "Stop"
+
+if ($Players -lt 1) { throw "Players must be >= 1 (got $Players)." }
+
+. (Join-Path $PSScriptRoot 'characters.ps1')
+$repoRoot = Split-Path $PSScriptRoot -Parent
+$Char = Get-BirdCharacter $Character
+$CharArg = "-bird-character=$($Char.Key)"
+Write-Host "Character: $($Char.Key) ($($Char.ModId))"
+
+# --- Optional build step (build = deploy dll/json; publish = also export the .pck) ---
+# The character mod first, then the dev-only BirdDebug mod (owner of every -bird-* flag; dll only,
+# so it is always a plain build even when the character is published).
+if ($Build -ne 'none') {
+    $csproj = Join-Path $repoRoot $Char.Csproj
+    Write-Host "[$Build] dotnet $Build $csproj"
+    & dotnet $Build $csproj
+    if ($LASTEXITCODE -ne 0) { throw "dotnet $Build failed (exit $LASTEXITCODE); not launching." }
+    $debugCsproj = Join-Path $repoRoot $BirdDebugCsproj
+    Write-Host "[build] dotnet build $debugCsproj"
+    & dotnet build $debugCsproj
+    if ($LASTEXITCODE -ne 0) { throw "dotnet build (BirdDebug) failed (exit $LASTEXITCODE); not launching." }
+}
+
+# --- Smoke-test report: skim the tailed log, errors loud, passes routine ---------
+# One harness (BirdDebug CardTest) behind the flags; $tag picks the log prefix to parse.
+$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
+$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll
+function Write-CardTestReport {
+    param([System.Collections.Generic.List[string]]$lines, [string]$tag = $SmokeTag)
+    $rtag = [regex]::Escape($tag)
+    # Under -TestAll the menu sweep logs with its own tag before the combat phases; count both.
+    if ($TestAll) { $rtag = "(?:$rtag|\[bird-menutest\])" }
+    $started  = @($lines | Where-Object { $_ -match "\[INFO\] \[AutoSlay\] $rtag ([\w/]+)$" } | ForEach-Object { $Matches[1] })
+    $failed   = @($lines | Where-Object { $_ -match "$rtag FAILED ([\w/]+): (.*)$" } |
+                 ForEach-Object { [pscustomobject]@{ Card = $Matches[1]; Message = $Matches[2] } })
+    # Stray errors = every [ERROR] line the harness itself did not emit (game-side exceptions,
+    # missing resources, ...). Keyed by the first line so a repeated stack trace counts once.
+    $errors   = @($lines | Where-Object { $_ -match '^\[ERROR\]' -and $_ -notmatch [regex]::Escape($tag) })
+    $errGroups = $errors | Group-Object | Sort-Object Count -Descending
+    $passed = $started.Count - $failed.Count
+
+    $red = 'Red'; $yellow = 'Yellow'; $green = 'Green'; $dim = 'DarkGray'
+    Write-Host ''
+    Write-Host "================ SMOKE TEST REPORT $tag ================" -ForegroundColor Cyan
+    if ($errors.Count -gt 0) {
+        Write-Host "!! $($errors.Count) stray [ERROR] line(s) during the run ($($errGroups.Count) distinct):" -ForegroundColor $red
+        foreach ($g in $errGroups) {
+            $msg = $g.Name -replace '^\[ERROR\]\s*', ''
+            if ($msg.Length -gt 200) { $msg = $msg.Substring(0, 200) + '...' }
+            Write-Host ("  {0,4}x  {1}" -f $g.Count, $msg) -ForegroundColor $red
+        }
+    }
+    if ($failed.Count -gt 0) {
+        Write-Host "!! $($failed.Count) item(s) FAILED:" -ForegroundColor $red
+        foreach ($f in $failed) { Write-Host ("  - {0}: {1}" -f $f.Card, $f.Message) -ForegroundColor $yellow }
+    }
+    if ($errors.Count -eq 0 -and $failed.Count -eq 0) {
+        Write-Host "No errors, no failures." -ForegroundColor $green
+    }
+    Write-Host ("Items: {0} run, {1} passed, {2} failed | stray errors: {3}" -f $started.Count, $passed, $failed.Count, $errors.Count) -ForegroundColor $(if ($failed.Count -or $errors.Count) { $yellow } else { $green })
+    if ($started.Count -eq 0) { Write-Host "(no $tag lines seen - did the harness run? needs -bird-debug $($tag.Trim('[',']') -replace '^', '-'))" -ForegroundColor $dim }
+    Write-Host '=======================================================================' -ForegroundColor Cyan
+}
+
+# --- Resolve the game install folder ---------------------------------------
+function Resolve-Sts2Path {
+    param([string]$Override)
+    if ($Override) { return $Override }
+
+    $candidates = @()
+    try {
+        $steam = (Get-ItemProperty 'HKCU:\Software\Valve\Steam' -Name SteamPath -ErrorAction Stop).SteamPath
+        if ($steam) { $candidates += (Join-Path $steam 'steamapps\common\Slay the Spire 2') }
+    } catch {}
+    $candidates += 'C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2'
+
+    foreach ($c in $candidates) {
+        if (Test-Path (Join-Path $c 'SlayTheSpire2.exe')) { return $c }
+    }
+    throw "Could not find SlayTheSpire2.exe. Pass -Sts2Path explicitly."
+}
+
+$gameDir = Resolve-Sts2Path -Override $Sts2Path
+$exe     = Join-Path $gameDir 'SlayTheSpire2.exe'
+$appId   = Join-Path $gameDir 'steam_appid.txt'
+
+if (-not (Test-Path $exe))   { throw "Executable not found: $exe" }
+if (-not (Test-Path $appId)) {
+    Write-Warning "steam_appid.txt missing next to exe; creating it (2868840)."
+    Set-Content -Path $appId -Value '2868840' -NoNewline -Encoding ascii
+}
+
+Write-Host "Game dir : $gameDir"
+
+# --- Solo (no multiplayer) --------------------------------------------------
+# Solo is the default; multiplayer only when -Players is given explicitly.
+if ($Solo -or -not $PSBoundParameters.ContainsKey('Players')) {
+    $gameArgs = @($CharArg)
+    if ($Bootstrap -or $AutoSlay -or $FxLab -or $IconLab -or $SmokeTest) {
+        # Game-native dev switch: skips the intro logo (checked once at startup).
+        # Child processes inherit the environment, so set it just for this launch.
+        $env:STS2_DEV_SKIP = '1'
+    }
+    if ($Bootstrap) {
+        $bootstrapArg = if ($Encounter) { "-bird-bootstrap=$Encounter" } else { '-bird-bootstrap' }
+        $gameArgs += @('-bird-debug', $bootstrapArg)
+    }
+    if ($AutoSlay) {
+        if ('-bird-debug' -notin $gameArgs) { $gameArgs += '-bird-debug' }
+        $gameArgs += '-autoslay'
+        # `=` form so Start-Process never splits a path with spaces from its key.
+        if ($AutoSlayLog) { $gameArgs += "-log-file=`"$AutoSlayLog`"" }
+    }
+    if ($Seed) { $gameArgs += "-seed=$Seed" }
+    if ($FxLab) {
+        if ('-bird-debug' -notin $gameArgs) { $gameArgs += '-bird-debug' }
+        $gameArgs += '-bird-fxlab'
+    }
+    if ($IconLab) {
+        if ('-bird-debug' -notin $gameArgs) { $gameArgs += '-bird-debug' }
+        $gameArgs += '-bird-iconlab'
+    }
+    if ($SmokeTest) {
+        if ('-bird-debug' -notin $gameArgs) { $gameArgs += '-bird-debug' }
+        $gameArgs += '-' + $SmokeTag.Trim('[', ']')   # -bird-cardtest / -bird-potiontest / -bird-relictest / -bird-testall
+    }
+    if ($Headless) {
+        # Godot engine flag: dummy display server, no window/render/GPU. The game is
+        # headless-aware (Logger switches to console printing, graphics prefs skipped,
+        # AutoSlay's UiHelper bypasses hover/focus checks).
+        $gameArgs += '--headless'
+    }
+    # Workshop self-update debug flags (not gated on -bird-debug; handled in
+    # WorkshopSelfUpdate.Initialize).
+    if ($TestUpdatePopup) {
+        $gameArgs += '-bird-test-update-popup'
+    }
+    if ($ResetFtue) {
+        $gameArgs += '-bird-reset-ftue'
+    }
+    if ($ForceWorkshopDownload) {
+        $modIdFile = Join-Path $repoRoot (Join-Path $Char.Workshop 'mod_id.txt')
+        if (Test-Path $modIdFile) {
+            $itemId = (Get-Content $modIdFile -Raw).Trim()
+            $gameArgs += "-bird-force-workshop-download=$itemId"
+        } else {
+            Write-Warning "$($Char.Workshop)/mod_id.txt not found; passing the flag without an item id (only works for a Workshop-loaded install)."
+            $gameArgs += '-bird-force-workshop-download'
+        }
+    }
+    $launchTime = Get-Date
+    Write-Host "[solo ] launching single instance: $($gameArgs -join ' ')"
+    $proc = Start-Process -FilePath $exe -WorkingDirectory $gameDir -ArgumentList $gameArgs -PassThru
+    if ($DelayMs -gt 0) {
+        Write-Host "Waiting ${DelayMs}ms for the runtime to come up (debugger attach)..."
+        Start-Sleep -Milliseconds $DelayMs
+    }
+    Write-Host "Launched 1 solo instance."
+
+    # --- Headless without a tail: block until the game exits, report the code ---
+    if ($Headless -and -not $TailLog) {
+        Write-Host "[headless] waiting for game exit (AutoSlay run cap is 25 min)..."
+        $proc.WaitForExit()
+        Write-Host "[headless] game exited (code $($proc.ExitCode))"
+        exit $proc.ExitCode
+    }
+
+    # --- Live log tail (the game is a GUI app; its output only goes to godot.log) ---
+    if ($TailLog) {
+        $logFile = Join-Path $env:APPDATA 'SlayTheSpire2\logs\godot.log'
+        # The game rotates the previous godot.log on startup; wait for the fresh one.
+        while (-not $proc.HasExited -and
+               (-not (Test-Path $logFile) -or (Get-Item $logFile).LastWriteTime -lt $launchTime)) {
+            Start-Sleep -Milliseconds 250
+        }
+        if ($proc.HasExited) { Write-Host "Game exited before writing a log."; return }
+        Write-Host "--- tailing $logFile (closes when the game exits) ---"
+        # Share Read/Write/Delete so the game can keep writing and rotate freely.
+        $fs = [System.IO.FileStream]::new($logFile, 'Open', 'Read', [System.IO.FileShare]'ReadWrite,Delete')
+        $sr = [System.IO.StreamReader]::new($fs)
+        $captured = [System.Collections.Generic.List[string]]::new()
+        try {
+            while (-not $proc.HasExited) {
+                $line = $sr.ReadLine()
+                if ($null -ne $line) { Write-Host $line; if ($SmokeTest) { $captured.Add($line) } } else { Start-Sleep -Milliseconds 200 }
+            }
+            while ($null -ne ($line = $sr.ReadLine())) { Write-Host $line; if ($SmokeTest) { $captured.Add($line) } }
+        } finally { $sr.Dispose() }
+        Write-Host "--- game exited (code $($proc.ExitCode)) ---"
+        if ($SmokeTest) { Write-CardTestReport $captured }
+        if ($Headless) { exit $proc.ExitCode }
+    }
+    return
+}
+
+if ($Headless) { Write-Warning "-Headless is solo-only; ignoring for multiplayer launch." }
+
+Write-Host "Players  : $Players (1 host + $($Players - 1) client(s))"
+
+# --- Launch host ------------------------------------------------------------
+Write-Host "[host ] -fastmp host_standard"
+Start-Process -FilePath $exe -WorkingDirectory $gameDir -ArgumentList @($CharArg,'-fastmp','host_standard')
+
+# --- Launch clients ---------------------------------------------------------
+# clientId starts at 1000; the default join clientId is 1000 so the first
+# client could omit it, but passing it explicitly keeps every id unique.
+for ($i = 0; $i -lt ($Players - 1); $i++) {
+    $cid = 1000 + $i
+    Write-Host "[cli $cid] -fastmp join -clientId $cid"
+    Start-Process -FilePath $exe -WorkingDirectory $gameDir -ArgumentList @($CharArg,'-fastmp','join','-clientId',"$cid")
+    Start-Sleep -Milliseconds 750   # brief stagger so the host is up first
+}
+
+Write-Host "Launched $Players instance(s)."

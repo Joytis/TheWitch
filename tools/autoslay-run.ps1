@@ -1,9 +1,9 @@
-<#
+﻿<#
 .SYNOPSIS
-    One headless AutoSlay run of the Witch, skimmed for errors.
+    One headless AutoSlay run of a character mod (Witch by default), skimmed for errors.
 
 .DESCRIPTION
-    Launches `launch-witch.ps1 -Solo -AutoSlay -Headless` with a seed and a
+    Launches `launch.ps1 -Character <c> -Solo -AutoSlay -Headless` with a seed and a
     per-run AutoSlay log, waits for exit (run cap is 25 min), then copies the
     game's godot.log next to it and writes a JSON summary:
 
@@ -24,6 +24,8 @@
     ./tools/autoslay-run.ps1 -OutDir out -Seed 8V3KQ2 -Build publish   # reproduce a seed after a fix
 #>
 param(
+    [ValidateSet('Witch','Augur')]
+    [string]$Character = 'Witch',
     [Parameter(Mandatory)][string]$OutDir,
     [int]$Index = 0,
     [string]$Seed = "",
@@ -33,7 +35,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$launcher = Join-Path $PSScriptRoot 'launch-witch.ps1'
+$launcher = Join-Path $PSScriptRoot 'launch.ps1'
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 $OutDir = (Resolve-Path $OutDir).Path
 

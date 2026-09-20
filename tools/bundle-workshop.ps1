@@ -7,7 +7,7 @@
     Produces an upload-ready workspace under <repo>/workshop and stages the
     deployable mod files into workshop/content. By default it first runs
     `dotnet publish` so the .pck is freshly exported, then copies the build
-    outputs (TheWitch.json/.dll/.pck) from the game's mods folder into the
+    outputs (<ModId>.json/.dll/.pck) from the game's mods folder into the
     workspace.
 
     Workspace layout consumed by ModUploader:
@@ -32,6 +32,10 @@
     configured via $env:DISCORD_WEBHOOK_URL or tools/discord-webhook.local.txt
     (gitignored; file contains just the webhook URL).
 
+.PARAMETER Character
+    Which character mod to bundle (Witch | Augur; default Witch). Picks the
+    csproj, manifest, source tree and default workspace (tools/characters.ps1).
+
 .PARAMETER SkipPublish
     Skip `dotnet publish`; reuse whatever is already in the mods folder.
     The script warns if the staged .pck looks older than the source tree.
@@ -51,10 +55,10 @@
     clipboard for pasting into the Workshop web editor. Does nothing else.
 
 .PARAMETER IncludePdb
-    Also copy TheWitch.pdb into content/ (debug symbols). Off by default.
+    Also copy the mod's .pdb into content/ (debug symbols). Off by default.
 
 .PARAMETER Workspace
-    Workspace directory. Defaults to <repo>/workshop.
+    Workspace directory. Defaults to the character's workshop dir (<repo>/workshop for the Witch).
 
 .PARAMETER ModsPath
     The game's mods/ folder. Auto-resolved from the build (msbuild ModsPath) if omitted.
@@ -76,6 +80,8 @@
 #>
 [CmdletBinding()]
 param(
+    [ValidateSet('Witch','Augur')]
+    [string]$Character = 'Witch',
     [switch]$SkipPublish,
     [switch]$Upload,
     [string]$ChangeNote = "",
@@ -92,8 +98,10 @@ $ErrorActionPreference = "Stop"
 
 # Repo root is the parent of this tools/ folder.
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$csproj   = Join-Path $repoRoot 'TheWitch.csproj'
-$manifest = Join-Path $repoRoot 'TheWitch.json'
+. (Join-Path $PSScriptRoot 'characters.ps1')
+$Char     = Get-BirdCharacter $Character
+$csproj   = Join-Path $repoRoot $Char.Csproj
+$manifest = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId).json")
 
 function Write-Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 function Write-Warn2($msg) { Write-Host "[warn] $msg" -ForegroundColor Yellow }
@@ -142,7 +150,7 @@ if (-not (Test-Path $Uploader)) { throw "ModUploader.exe not found: $Uploader" }
 $uploaderDir = Split-Path -Parent $Uploader
 
 # --- Resolve the workspace -------------------------------------------------
-if (-not $Workspace) { $Workspace = Join-Path $repoRoot 'workshop' }
+if (-not $Workspace) { $Workspace = Join-Path $repoRoot $Char.Workshop }
 
 # --- -RenderDescription: markdown draft -> BBCode for the Steam web editor ---
 if ($RenderDescription) {
@@ -224,7 +232,8 @@ foreach ($f in @($json, $dll, $pck)) {
 # Stale check (only meaningful when reusing outputs).
 if ($SkipPublish) {
     $pckTime = (Get-Item $pck).LastWriteTimeUtc
-    $newestSrc = Get-ChildItem -Path (Join-Path $repoRoot 'TheWitchCode'), (Join-Path $repoRoot 'TheWitch') -Recurse -File -ErrorAction SilentlyContinue |
+    $srcRoot = Join-Path $repoRoot $Char.ProjectDir
+    $newestSrc = Get-ChildItem -Path (Join-Path $srcRoot "$($Char.ModId)Code"), (Join-Path $srcRoot $Char.ModId) -Recurse -File -ErrorAction SilentlyContinue |
         Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
     if ($newestSrc -and $newestSrc.LastWriteTimeUtc -gt $pckTime) {
         Write-Warn2 "Staged .pck ($pckTime UTC) is older than $($newestSrc.Name). Outputs may be stale -- drop -SkipPublish to rebuild."

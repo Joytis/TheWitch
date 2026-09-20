@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 /*
- * regen.js — rebuild Docs/card-data/cards.json from the card source.
+ * regen.js — rebuild the per-character card data (Docs/card-data/cards.json for the Witch,
+ * Docs/card-data/augur.json for the Augur — see characters.js) from the card source.
  *
- *   node Docs/card-data/regen.js          (rewrites cards.json + prints a report)
- *   node Docs/card-data/regen.js --check  (no write; exits 1 if drift found — for CI/pre-commit)
+ *   node Docs/card-data/regen.js                      (rewrites every character's data + prints a report)
+ *   node Docs/card-data/regen.js --character augur  (one character; `all` is the default)
+ *   node Docs/card-data/regen.js --check              (no write; exits 1 if drift found — for CI/pre-commit)
  *
- * It parses every card class in TheWitchCode/Cards (+ Familiar/) for the mechanical fields
- * (cost / type / rarity / target / numbers / upgrade) and the localization JSON for name + text.
+ * For each character it parses every card class under its cardsDir (recursed, e.g. + Familiar/)
+ * for the mechanical fields (cost / type / rarity / target / numbers / upgrade) and the
+ * localization JSON for name + text.
  *
  * PRESERVED across runs (keyed by entry): `tested`/`artFinal`/`vfxPass`/`sfxPass` flags and any
  * curated `note`. `artFinal`/`vfxPass`/`sfxPass` are manual-only and never auto-cleared.
@@ -20,13 +23,8 @@ const path = require("path");
 const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8").replace(/^﻿/, ""));
 
 const ROOT = path.resolve(__dirname, "..", "..");                 // repo root
-const CARDS_DIR = path.join(ROOT, "TheWitchCode", "Cards");
-const LOC_PATH = path.join(ROOT, "TheWitch", "localization", "eng", "cards.json");
-const OUT_PATH = path.join(__dirname, "cards.json");
-const MOD_PREFIX = "THEWITCH-";
+const characters = require("./characters");
 
-// Base classes / interfaces / registries — not real cards.
-const SKIP = new Set(["WitchCard", "WitchFamiliarCard", "IFamiliarSummon", "FamiliarCardRegistry"]);
 const RAR_ORDER = ["Starter", "Common", "Uncommon", "Rare", "Special", "Token"];
 const RAR_MAP = { Basic: "Starter" }; // CardRarity.Basic is the starter rarity
 
@@ -38,6 +36,7 @@ const num = (s) => Number(String(s).replace(/m$/, ""));
 
 function listCardFiles(dir) {
   const out = [];
+  if (!fs.existsSync(dir)) return out; // a character with no cards yet (or no Familiar/-style subdir)
   for (const name of fs.readdirSync(dir)) {
     const full = path.join(dir, name);
     if (fs.statSync(full).isDirectory()) { out.push(...listCardFiles(full)); continue; }
@@ -128,7 +127,8 @@ function resolveCtorArgs(childSrc, parent, srcByClass) {
   return isResolved(args) ? args : null;
 }
 
-function parseCard(file, srcByClass) {
+// `ch` = a characters.js config; `SKIP` = its base classes / interfaces / registries — not real cards.
+function parseCard(file, srcByClass, ch, SKIP) {
   let src = fs.readFileSync(file, "utf8");
   const cls = src.match(/public\s+sealed\s+class\s+(\w+)\s*:\s*(\w+)/) || src.match(/public\s+class\s+(\w+)\s*:\s*(\w+)/);
   if (!cls) return null;
@@ -148,9 +148,10 @@ function parseCard(file, srcByClass) {
   }
 
   const hasX = /HasEnergyCostX\s*=>\s*true/.test(src);
-  // Cards bound to WitchSpawnedCardPool (Wicker Bones / Consumation) keep a Rare frame in-game but
-  // only ever exist as a payload of another card's execution — never drafted. Doc them as "Special".
-  const spawned = /\[Pool\(typeof\(WitchSpawnedCardPool\)\)\]/.test(src);
+  // Cards bound to the character's spawned pool (Witch: WitchSpawnedCardPool — Wicker Bones / Consumation)
+  // keep a Rare frame in-game but only ever exist as a payload of another card's execution — never
+  // drafted. Doc them as "Special". Characters without such a pool (spawnedPool: null) never match.
+  const spawned = !!ch.spawnedPool && new RegExp(String.raw`\[Pool\(typeof\(${ch.spawnedPool}\)\)\]`).test(src);
   const rarityRaw = spawned ? "Special" : ctorArgs[2].replace("CardRarity.", "");
   const vars = parseCanonicalVars(src);
 
@@ -171,9 +172,10 @@ function parseCard(file, srcByClass) {
 }
 
 // ---------- localization ----------
-function loadLoc() {
-  const raw = readJson(LOC_PATH);
-  return raw; // flat map of "THEWITCH-ENTRY.field" -> string
+function loadLoc(ch) {
+  const p = path.join(ROOT, ch.loc);
+  if (!fs.existsSync(p)) { console.log(`  ! no localization file at ${ch.loc}`); return {}; }
+  return readJson(p); // flat map of "<PREFIX>ENTRY.field" -> string
 }
 
 function renderText(desc, vars) {
@@ -198,9 +200,11 @@ function renderText(desc, vars) {
 }
 
 // ---------- build ----------
-function build() {
-  const loc = loadLoc();
-  const files = listCardFiles(CARDS_DIR);
+function build(ch) {
+  const MOD_PREFIX = ch.prefix;
+  const SKIP = new Set(ch.skipClasses);
+  const loc = loadLoc(ch);
+  const files = listCardFiles(path.join(ROOT, ch.cardsDir));
   // index abstract/intermediate bases by class name for ctor-inheritance fallthrough
   const srcByClass = {};
   for (const f of files) {
@@ -208,7 +212,7 @@ function build() {
     const m = s.match(/public\s+(?:abstract\s+|sealed\s+)?class\s+(\w+)\s*:\s*(\w+)/);
     if (m) srcByClass[m[1]] = { src: s, parent: m[2] };
   }
-  const parsed = files.map((f) => parseCard(f, srcByClass)).filter(Boolean);
+  const parsed = files.map((f) => parseCard(f, srcByClass, ch, SKIP)).filter(Boolean);
 
   const cards = parsed.map((p) => {
     const title = loc[`${MOD_PREFIX}${p.entry}.title`] || p.className;
@@ -248,9 +252,10 @@ function build() {
 const fingerprint = (c) =>
   JSON.stringify([c.cost, c.type, c.rarity, c.target, c.text, c.numbers, c.upgrade]);
 
-function main() {
-  const check = process.argv.includes("--check");
-  const fresh = build();
+function regenCharacter(ch, check) {
+  const OUT_PATH = path.join(ROOT, ch.dataFile);
+  console.log(`== ${ch.label} ==`);
+  const fresh = build(ch);
 
   let old = { cards: [] };
   if (fs.existsSync(OUT_PATH)) { try { old = readJson(OUT_PATH); } catch {} }
@@ -297,16 +302,31 @@ function main() {
   if (missingLoc.length) console.log("  ! missing localization title:", missingLoc.join(", "));
   if (!added.length && !removed.length && !changed.length) console.log("  up to date.");
 
-  const drift = added.length || removed.length || changed.length;
-  if (check) { process.exit(drift ? 1 : 0); }
+  const drift = !!(added.length || removed.length || changed.length);
+  if (check) return drift;
 
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + "\n");
-  console.log(`Wrote ${path.relative(ROOT, OUT_PATH).split(path.sep).join("/")}`);
+  console.log(`Wrote ${ch.dataFile}`);
+  return drift;
+}
 
-  // keep the static art tracker page in sync with the fresh card data
+function main() {
+  const argv = process.argv.slice(2);
+  const check = argv.includes("--check");
+  const ci = argv.indexOf("--character");
+  const which = ci >= 0 ? argv[ci + 1] : (argv.find((a) => a.startsWith("--character=")) || "").slice("--character=".length);
+  let selected;
+  try { selected = characters.select(which || "all"); }
+  catch (e) { console.error(e.message); process.exit(2); }
+
+  let drift = false;
+  for (const ch of selected) drift = regenCharacter(ch, check) || drift;
+  if (check) { process.exit(drift ? 1 : 0); }
+
+  // keep the static art tracker page in sync with the fresh card data (all characters share one page)
   require("child_process").execFileSync(process.execPath,
     [path.join(ROOT, "Docs", "art-tracker", "regen-art-tracker.js")], { stdio: "inherit" });
-  // ...and the pool-comparison report (Docs/pool-comparison.md)
+  // ...and the pool-comparison report (Docs/pool-comparison.md — Witch vs base game)
   require("child_process").execFileSync(process.execPath,
     [path.join(__dirname, "compare.js")], { stdio: "inherit" });
 }

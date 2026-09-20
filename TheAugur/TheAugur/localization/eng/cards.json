@@ -1,0 +1,10 @@
+{
+  "THEAUGUR-STRIKE_AUGUR.title": "Strike",
+  "THEAUGUR-STRIKE_AUGUR.description": "Deal {Damage:diff()} damage.",
+  "THEAUGUR-DEFEND_AUGUR.title": "Defend",
+  "THEAUGUR-DEFEND_AUGUR.description": "Gain {Block:diff()} [gold]Block[/gold].",
+  "THEAUGUR-AUGUR_STARTER_A.title": "Starter A",
+  "THEAUGUR-AUGUR_STARTER_A.description": "Deal {Damage:diff()} damage.",
+  "THEAUGUR-AUGUR_STARTER_B.title": "Starter B",
+  "THEAUGUR-AUGUR_STARTER_B.description": "Draw {Cards:diff()} {Cards:plural:card|cards}."
+}

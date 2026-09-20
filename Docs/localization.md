@@ -6,8 +6,8 @@ Translations are crowd-sourced on [ParaTranz](https://paratranz.cn), one project
 
 | Path | Role |
 |---|---|
-| `TheWitch/localization/eng/*.json` | English source. The only files humans edit. |
-| `TheWitch/localization/<lang>/*.json` | Translations. **Generated** by the nightly download; never hand-edit (the next sync overwrites). |
+| `TheWitch/TheWitch/localization/eng/*.json` | English source. The only files humans edit. |
+| `TheWitch/TheWitch/localization/<lang>/*.json` | Translations. **Generated** by the nightly download; never hand-edit (the next sync overwrites). |
 | `.github/configs/paratranz.json` | `languages` (game code → ParaTranz code) and `projects` (game code → ParaTranz project id). |
 | `tools/localization/*.py` | Sync scripts. Need `PARATRANZ_API_KEY` in the environment (ParaTranz → Settings → API Token). |
 

@@ -9,19 +9,23 @@ mod cache over its own, so any game script/scene renamed since the decompile
 resolves to a dead path (symptom: bestiary "NBestiaryActDivider.cs class could not
 be found" on the beta branch).
 
-This rewrites the pck's uid_cache.bin entry to keep only res://TheWitch/ and
-res://TheWitchCode/ (mod script uid) mappings.
+This rewrites the pck's uid_cache.bin entry to keep only res://<mod>/ and
+res://<mod>Code/ (mod script uid) mappings (--mod defaults to TheWitch).
 The filtered blob is smaller than the original, so it is written over the old data
 at the same offset and the directory entry's size + md5 are patched; nothing moves.
 
-Usage:  py tools/strip-uid-cache.py <path/to/TheWitch.pck>
+Usage:  py tools/strip-uid-cache.py <path/to/TheWitch.pck> [--mod TheAugur]
 """
 import hashlib
 import struct
 import sys
 from pathlib import Path
 
-KEEP_PREFIXES = (b"res://TheWitch/", b"res://TheWitchCode/")
+def keep_prefixes(mod_id: str) -> tuple[bytes, bytes]:
+    return (f"res://{mod_id}/".encode(), f"res://{mod_id}Code/".encode())
+
+
+KEEP_PREFIXES = keep_prefixes("TheWitch")
 PACK_REL_FILEBASE = 2
 
 
@@ -82,4 +86,6 @@ def main(pck_path: Path) -> None:
 
 
 if __name__ == "__main__":
+    if "--mod" in sys.argv:
+        KEEP_PREFIXES = keep_prefixes(sys.argv[sys.argv.index("--mod") + 1])
     main(Path(sys.argv[1]))
