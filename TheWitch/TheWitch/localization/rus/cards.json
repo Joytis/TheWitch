@@ -152,6 +152,7 @@
     "THEWITCH-CROW_FAMILIAR.title": "Фамильяр-Ворон",
     "THEWITCH-CROW_FAMILIAR.description": "Призывает [gold]{IfUpgraded:show:«Фамильяр-Ворон+»|«Фамильяр-Ворон»}[/gold].",
     "THEWITCH-POCKET_RATS.title": "Карманные крысы",
+    "THEWITCH-POCKET_RATS.description": "Добавьте {Cards:diff()} [gold]{Cards:plural(ru):крысу|крысы|крыс}[/gold] в [gold]руку[/gold].",
     "THEWITCH-BROOM_STRIKE.title": "Удар метлой",
     "THEWITCH-BROOM_STRIKE.description": "Наносит {Damage:diff()} урона ВСЕМ врагам.\nСледующий разыгрываемый вами Навык стоит на {energyPrefix:energyIcons(1)} меньше.",
     "THEWITCH-EYE_OF_NEWT.title": "Глаз тритона",
@@ -221,6 +222,7 @@
     "THEWITCH-WICKER_CONSUMATION.title": "Плетёное поглощение",
     "THEWITCH-WICKER_CONSUMATION.description": "Наносит {Damage:diff()} урона.\nЕсли у вас {TargetBrambles:diff()} [gold]терний[/gold], вы получаете [gold]Воплощение[/gold].",
     "THEWITCH-VILE_RENEWAL.title": "Мерзкое обновление",
+    "THEWITCH-VILE_RENEWAL.description": "Дает {Block:diff()} [gold]защиты[/gold].\nВы добираете {Cards:diff()} {Cards:plural(ru):карту|карты|карт}.\nВ этот ход атаки не снимают [gold]Порчу[/gold] и [gold]Тернии[/gold].",
     "THEWITCH-ANIMAL_HANDLING.title": "Обращение с животными",
     "THEWITCH-ANIMAL_HANDLING.description": "Добавляет {Cards:diff()} {Cards:plural(ru):случайную карту [gold]фамильяра[/gold]|случайные карты [gold]фамильяра[/gold]|случайных карт [gold]фамильяра[/gold]} в вашу [gold]руку[/gold]."
 }
