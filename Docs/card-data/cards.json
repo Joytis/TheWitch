@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-18",
+  "generated": "2026-09-20",
   "cards": [
     {
       "name": "Defend",
       "entry": "DEFEND_WITCH",
-      "file": "TheWitchCode/Cards/DefendWitch.cs",
+      "file": "TheWitch/TheWitchCode/Cards/DefendWitch.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Starter",
@@ -32,7 +32,7 @@
     {
       "name": "Harvest",
       "entry": "HARVEST",
-      "file": "TheWitchCode/Cards/Harvest.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Harvest.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Starter",
@@ -62,7 +62,7 @@
     {
       "name": "Incant",
       "entry": "INCANT",
-      "file": "TheWitchCode/Cards/Incant.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Incant.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Starter",
@@ -96,7 +96,7 @@
     {
       "name": "Strike",
       "entry": "STRIKE_WITCH",
-      "file": "TheWitchCode/Cards/StrikeWitch.cs",
+      "file": "TheWitch/TheWitchCode/Cards/StrikeWitch.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Starter",
@@ -124,7 +124,7 @@
     {
       "name": "Bewitching Grin",
       "entry": "BEWITCHING_GRIN",
-      "file": "TheWitchCode/Cards/BewitchingGrin.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BewitchingGrin.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -156,7 +156,7 @@
     {
       "name": "Bind in Blood",
       "entry": "BIND_IN_BLOOD",
-      "file": "TheWitchCode/Cards/BindInBlood.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BindInBlood.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Common",
@@ -190,7 +190,7 @@
     {
       "name": "Broom Strike",
       "entry": "BROOM_STRIKE",
-      "file": "TheWitchCode/Cards/BroomStrike.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BroomStrike.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -222,7 +222,7 @@
     {
       "name": "Call the Pack",
       "entry": "CALL_THE_PACK",
-      "file": "TheWitchCode/Cards/CallThePack.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CallThePack.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -255,7 +255,7 @@
     {
       "name": "Forbidden Magic",
       "entry": "FORBIDDEN_MAGIC",
-      "file": "TheWitchCode/Cards/ForbiddenMagic.cs",
+      "file": "TheWitch/TheWitchCode/Cards/ForbiddenMagic.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -291,7 +291,7 @@
     {
       "name": "Frenzy",
       "entry": "FRENZY",
-      "file": "TheWitchCode/Cards/Frenzy.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Frenzy.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -323,7 +323,7 @@
     {
       "name": "Hide in a Bush",
       "entry": "HIDE_IN_A_BUSH",
-      "file": "TheWitchCode/Cards/HideInABush.cs",
+      "file": "TheWitch/TheWitchCode/Cards/HideInABush.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -354,7 +354,7 @@
     {
       "name": "Lavender and Sage",
       "entry": "LAVENDER_AND_SAGE",
-      "file": "TheWitchCode/Cards/LavenderAndSage.cs",
+      "file": "TheWitch/TheWitchCode/Cards/LavenderAndSage.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -387,7 +387,7 @@
     {
       "name": "Moth Familiar",
       "entry": "MOTH_FAMILIAR",
-      "file": "TheWitchCode/Cards/MothFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/MothFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Common",
@@ -409,7 +409,7 @@
     {
       "name": "Needle Whip",
       "entry": "NEEDLE_WHIP",
-      "file": "TheWitchCode/Cards/NeedleWhip.cs",
+      "file": "TheWitch/TheWitchCode/Cards/NeedleWhip.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -440,7 +440,7 @@
     {
       "name": "Pocket Rats",
       "entry": "POCKET_RATS",
-      "file": "TheWitchCode/Cards/PocketRats.cs",
+      "file": "TheWitch/TheWitchCode/Cards/PocketRats.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -449,10 +449,10 @@
       "numbers": {
         "Cards": 2
       },
-      "upgrade": "none",
+      "upgrade": "custom (see code)",
       "multiplayer": false,
-      "note": "Pocket Rats: dump a handful of one-shot Rats straight into your hand (upgraded Rats when upgraded).",
-      "tested": true,
+      "note": "Pocket Rats: dump a handful of one-shot Rats straight into your hand.",
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -473,7 +473,7 @@
     {
       "name": "Smolder",
       "entry": "SMOLDER",
-      "file": "TheWitchCode/Cards/Smolder.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Smolder.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -506,7 +506,7 @@
     {
       "name": "Stony Brew",
       "entry": "STONY_BREW",
-      "file": "TheWitchCode/Cards/StonyBrew.cs",
+      "file": "TheWitch/TheWitchCode/Cards/StonyBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -534,7 +534,7 @@
     {
       "name": "Strike Fear",
       "entry": "STRIKE_FEAR",
-      "file": "TheWitchCode/Cards/StrikeFear.cs",
+      "file": "TheWitch/TheWitchCode/Cards/StrikeFear.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -565,7 +565,7 @@
     {
       "name": "Tinder",
       "entry": "TINDER",
-      "file": "TheWitchCode/Cards/Tinder.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Tinder.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Common",
@@ -595,7 +595,7 @@
     {
       "name": "Torment",
       "entry": "TORMENT",
-      "file": "TheWitchCode/Cards/Torment.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Torment.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Common",
@@ -625,7 +625,7 @@
     {
       "name": "Vexing Strike",
       "entry": "VEXING_STRIKE",
-      "file": "TheWitchCode/Cards/VexingStrike.cs",
+      "file": "TheWitch/TheWitchCode/Cards/VexingStrike.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Common",
@@ -658,7 +658,7 @@
     {
       "name": "Wax and Wane",
       "entry": "WAX_AND_WANE",
-      "file": "TheWitchCode/Cards/WaxAndWane.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WaxAndWane.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -692,7 +692,7 @@
     {
       "name": "Weathered Witch Hat",
       "entry": "WEATHERED_WITCH_HAT",
-      "file": "TheWitchCode/Cards/WeatheredWitchHat.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WeatheredWitchHat.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Common",
@@ -722,7 +722,7 @@
     {
       "name": "Wicked Brew",
       "entry": "WICKED_BREW",
-      "file": "TheWitchCode/Cards/WickedBrew.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WickedBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Common",
@@ -750,7 +750,7 @@
     {
       "name": "Animal Handling",
       "entry": "ANIMAL_HANDLING",
-      "file": "TheWitchCode/Cards/AnimalHandling.cs",
+      "file": "TheWitch/TheWitchCode/Cards/AnimalHandling.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -774,7 +774,7 @@
     {
       "name": "Bag of Teeth",
       "entry": "BAG_OF_TEETH",
-      "file": "TheWitchCode/Cards/BagOfTeeth.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BagOfTeeth.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -808,7 +808,7 @@
     {
       "name": "Bear Familiar",
       "entry": "BEAR_FAMILIAR",
-      "file": "TheWitchCode/Cards/BearFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BearFamiliar.cs",
       "cost": 0,
       "type": "Power",
       "rarity": "Uncommon",
@@ -839,7 +839,7 @@
     {
       "name": "Bottle Barrage",
       "entry": "BOTTLE_BARRAGE",
-      "file": "TheWitchCode/Cards/BottleBarrage.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BottleBarrage.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -874,7 +874,7 @@
     {
       "name": "Brambleburst",
       "entry": "BRAMBLEBURST",
-      "file": "TheWitchCode/Cards/Brambleburst.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Brambleburst.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -909,7 +909,7 @@
     {
       "name": "Cat Familiar",
       "entry": "CAT_FAMILIAR",
-      "file": "TheWitchCode/Cards/CatFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CatFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -940,7 +940,7 @@
     {
       "name": "Circle of Rot",
       "entry": "CIRCLE_OF_ROT",
-      "file": "TheWitchCode/Cards/CircleOfRot.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CircleOfRot.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -973,7 +973,7 @@
     {
       "name": "Cloak of Moonlight",
       "entry": "CLOAK_OF_MOONLIGHT",
-      "file": "TheWitchCode/Cards/CloakOfMoonlight.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CloakOfMoonlight.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -997,7 +997,7 @@
     {
       "name": "Cloak of Twilight",
       "entry": "CLOAK_OF_TWILIGHT",
-      "file": "TheWitchCode/Cards/CloakOfTwilight.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CloakOfTwilight.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1021,7 +1021,7 @@
     {
       "name": "Command",
       "entry": "COMMAND",
-      "file": "TheWitchCode/Cards/Command.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Command.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1053,7 +1053,7 @@
     {
       "name": "Crow Familiar",
       "entry": "CROW_FAMILIAR",
-      "file": "TheWitchCode/Cards/CrowFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CrowFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1084,7 +1084,7 @@
     {
       "name": "Deep Roots",
       "entry": "DEEP_ROOTS",
-      "file": "TheWitchCode/Cards/DeepRoots.cs",
+      "file": "TheWitch/TheWitchCode/Cards/DeepRoots.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1116,7 +1116,7 @@
     {
       "name": "Grind Down",
       "entry": "GRIND_DOWN",
-      "file": "TheWitchCode/Cards/GrindDown.cs",
+      "file": "TheWitch/TheWitchCode/Cards/GrindDown.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1146,7 +1146,7 @@
     {
       "name": "Hasty Brew",
       "entry": "HASTY_BREW",
-      "file": "TheWitchCode/Cards/HastyBrew.cs",
+      "file": "TheWitch/TheWitchCode/Cards/HastyBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1176,7 +1176,7 @@
     {
       "name": "Herbal Brew",
       "entry": "HERBAL_BREW",
-      "file": "TheWitchCode/Cards/HerbalBrew.cs",
+      "file": "TheWitch/TheWitchCode/Cards/HerbalBrew.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1204,7 +1204,7 @@
     {
       "name": "Hidden in Smoke",
       "entry": "HIDDEN_IN_SMOKE",
-      "file": "TheWitchCode/Cards/HiddenInSmoke.cs",
+      "file": "TheWitch/TheWitchCode/Cards/HiddenInSmoke.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1234,7 +1234,7 @@
     {
       "name": "Light the Candle",
       "entry": "LIGHT_THE_CANDLE",
-      "file": "TheWitchCode/Cards/LightTheCandle.cs",
+      "file": "TheWitch/TheWitchCode/Cards/LightTheCandle.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1265,7 +1265,7 @@
     {
       "name": "Moonbeam",
       "entry": "MOONBEAM",
-      "file": "TheWitchCode/Cards/Moonbeam.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Moonbeam.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1296,7 +1296,7 @@
     {
       "name": "Overrun",
       "entry": "OVERRUN",
-      "file": "TheWitchCode/Cards/Overrun.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Overrun.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1327,7 +1327,7 @@
     {
       "name": "Pact of Fury",
       "entry": "PACT_OF_FURY",
-      "file": "TheWitchCode/Cards/PactOfFury.cs",
+      "file": "TheWitch/TheWitchCode/Cards/PactOfFury.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1361,7 +1361,7 @@
     {
       "name": "Pick Clean",
       "entry": "PICK_CLEAN",
-      "file": "TheWitchCode/Cards/PickClean.cs",
+      "file": "TheWitch/TheWitchCode/Cards/PickClean.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1393,7 +1393,7 @@
     {
       "name": "Polymorph",
       "entry": "POLYMORPH",
-      "file": "TheWitchCode/Cards/Polymorph.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Polymorph.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1425,7 +1425,7 @@
     {
       "name": "Prices Paid",
       "entry": "PRICES_PAID",
-      "file": "TheWitchCode/Cards/PricesPaid.cs",
+      "file": "TheWitch/TheWitchCode/Cards/PricesPaid.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1458,7 +1458,7 @@
     {
       "name": "Read the Bones",
       "entry": "READ_THE_BONES",
-      "file": "TheWitchCode/Cards/ReadTheBones.cs",
+      "file": "TheWitch/TheWitchCode/Cards/ReadTheBones.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1493,7 +1493,7 @@
     {
       "name": "Refuse Pile",
       "entry": "REFUSE_PILE",
-      "file": "TheWitchCode/Cards/RefusePile.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RefusePile.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1526,7 +1526,7 @@
     {
       "name": "Ritual Sacrifice",
       "entry": "RITUAL_SACRIFICE",
-      "file": "TheWitchCode/Cards/RitualSacrifice.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RitualSacrifice.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1563,7 +1563,7 @@
     {
       "name": "Rot Bloom",
       "entry": "ROT_BLOOM",
-      "file": "TheWitchCode/Cards/RotBloom.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RotBloom.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1597,7 +1597,7 @@
     {
       "name": "Rotting Roots",
       "entry": "ROTTING_ROOTS",
-      "file": "TheWitchCode/Cards/RottingRoots.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RottingRoots.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1631,15 +1631,15 @@
     {
       "name": "Salt and Ash",
       "entry": "SALT_AND_ASH",
-      "file": "TheWitchCode/Cards/SaltAndAsh.cs",
+      "file": "TheWitch/TheWitchCode/Cards/SaltAndAsh.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 6 Block. Whenever you play a Skill this turn, deal 3 damage to ALL enemies.",
+      "text": "Gain 7 Block. Whenever you play a Skill this turn, deal 3 damage to ALL enemies.",
       "numbers": {
         "SaltAndAsh": 3,
-        "Block": 6
+        "Block": 7
       },
       "upgrade": "Block +2, SaltAndAsh +1",
       "multiplayer": false,
@@ -1665,7 +1665,7 @@
     {
       "name": "Share the Brew",
       "entry": "SHARE_THE_BREW",
-      "file": "TheWitchCode/Cards/ShareTheBrew.cs",
+      "file": "TheWitch/TheWitchCode/Cards/ShareTheBrew.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1693,7 +1693,7 @@
     {
       "name": "Sprouts",
       "entry": "SPROUTS",
-      "file": "TheWitchCode/Cards/Sprouts.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Sprouts.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1726,7 +1726,7 @@
     {
       "name": "Stuck in a Bush",
       "entry": "STUCK_IN_A_BUSH",
-      "file": "TheWitchCode/Cards/StuckInABush.cs",
+      "file": "TheWitch/TheWitchCode/Cards/StuckInABush.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1760,7 +1760,7 @@
     {
       "name": "Taste of Blood",
       "entry": "TASTE_OF_BLOOD",
-      "file": "TheWitchCode/Cards/TasteOfBlood.cs",
+      "file": "TheWitch/TheWitchCode/Cards/TasteOfBlood.cs",
       "cost": 4,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1792,7 +1792,7 @@
     {
       "name": "Toil and Trouble",
       "entry": "TOIL_AND_TROUBLE",
-      "file": "TheWitchCode/Cards/ToilAndTrouble.cs",
+      "file": "TheWitch/TheWitchCode/Cards/ToilAndTrouble.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Uncommon",
@@ -1822,19 +1822,20 @@
     {
       "name": "Vile Renewal",
       "entry": "VILE_RENEWAL",
-      "file": "TheWitchCode/Cards/VileRenewal.cs",
+      "file": "TheWitch/TheWitchCode/Cards/VileRenewal.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 5 Block. Attacks do not remove Hex or Brambles this turn.",
+      "text": "Gain 6 Block. Draw 1 card. Attacks do not remove Hex or Brambles this turn.",
       "numbers": {
-        "Block": 5
+        "Block": 6,
+        "Cards": 1
       },
       "upgrade": "Block +3",
       "multiplayer": false,
-      "note": "Vile Renewal: Block, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
-      "tested": true,
+      "note": "Vile Renewal: Block, draw a card, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1846,7 +1847,7 @@
     {
       "name": "Volatile Vapors",
       "entry": "VOLATILE_VAPORS",
-      "file": "TheWitchCode/Cards/VolatileVapors.cs",
+      "file": "TheWitch/TheWitchCode/Cards/VolatileVapors.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1877,7 +1878,7 @@
     {
       "name": "Wild Growth",
       "entry": "WILD_GROWTH",
-      "file": "TheWitchCode/Cards/WildGrowth.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WildGrowth.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Uncommon",
@@ -1911,7 +1912,7 @@
     {
       "name": "Wolf Familiar",
       "entry": "WOLF_FAMILIAR",
-      "file": "TheWitchCode/Cards/WolfFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WolfFamiliar.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Uncommon",
@@ -1942,7 +1943,7 @@
     {
       "name": "A Little Sip",
       "entry": "A_LITTLE_SIP",
-      "file": "TheWitchCode/Cards/ALittleSip.cs",
+      "file": "TheWitch/TheWitchCode/Cards/ALittleSip.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -1975,7 +1976,7 @@
     {
       "name": "Ambush!",
       "entry": "AMBUSH",
-      "file": "TheWitchCode/Cards/Ambush.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Ambush.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Rare",
@@ -2006,7 +2007,7 @@
     {
       "name": "Blood Anointment",
       "entry": "BLOOD_ANOINTMENT",
-      "file": "TheWitchCode/Cards/BloodAnointment.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BloodAnointment.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -2034,15 +2035,16 @@
     {
       "name": "Bonfire",
       "entry": "BONFIRE",
-      "file": "TheWitchCode/Cards/Bonfire.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Bonfire.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Exhaust 2 cards. Gain [E] [E] [E] [E]. Add {Ashes:diff()} Ashes into your Discard Pile.",
+      "text": "Exhaust 2 cards. Gain [E] [E] [E] [E]. Add 2 Ashes into your Discard Pile.",
       "numbers": {
         "Energy": 4,
-        "Cards": 2
+        "Cards": 2,
+        "Ashes": 2
       },
       "upgrade": "Energy +1",
       "multiplayer": false,
@@ -2066,7 +2068,7 @@
     {
       "name": "Bottle Wall",
       "entry": "BOTTLE_WALL",
-      "file": "TheWitchCode/Cards/BottleWall.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BottleWall.cs",
       "cost": 2,
       "type": "Skill",
       "rarity": "Rare",
@@ -2098,7 +2100,7 @@
     {
       "name": "Bottomless Cauldron",
       "entry": "BOTTOMLESS_CAULDRON",
-      "file": "TheWitchCode/Cards/BottomlessCauldron.cs",
+      "file": "TheWitch/TheWitchCode/Cards/BottomlessCauldron.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -2128,7 +2130,7 @@
     {
       "name": "Capture Soul",
       "entry": "CAPTURE_SOUL",
-      "file": "TheWitchCode/Cards/CaptureSoul.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CaptureSoul.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Rare",
@@ -2162,7 +2164,7 @@
     {
       "name": "Cauldron Dance",
       "entry": "CAULDRON_DANCE",
-      "file": "TheWitchCode/Cards/CauldronDance.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CauldronDance.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -2192,7 +2194,7 @@
     {
       "name": "Creeping Vines",
       "entry": "CREEPING_VINES",
-      "file": "TheWitchCode/Cards/CreepingVines.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CreepingVines.cs",
       "cost": "X",
       "type": "Skill",
       "rarity": "Rare",
@@ -2224,7 +2226,7 @@
     {
       "name": "Crystal Bottle",
       "entry": "CRYSTAL_BOTTLE",
-      "file": "TheWitchCode/Cards/CrystalBottle.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CrystalBottle.cs",
       "cost": 3,
       "type": "Power",
       "rarity": "Rare",
@@ -2256,7 +2258,7 @@
     {
       "name": "Cursed Spellbook",
       "entry": "CURSED_SPELLBOOK",
-      "file": "TheWitchCode/Cards/CursedSpellbook.cs",
+      "file": "TheWitch/TheWitchCode/Cards/CursedSpellbook.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Rare",
@@ -2293,7 +2295,7 @@
     {
       "name": "Distill",
       "entry": "DISTILL",
-      "file": "TheWitchCode/Cards/Distill.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Distill.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
@@ -2321,13 +2323,16 @@
     {
       "name": "Embrace the Wilds",
       "entry": "EMBRACE_THE_WILDS",
-      "file": "TheWitchCode/Cards/EmbraceTheWilds.cs",
+      "file": "TheWitch/TheWitchCode/Cards/EmbraceTheWilds.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon {Familiars:diff()} random Familiars. Draw {DrawReduction:diff()} fewer cards each turn.",
-      "numbers": {},
+      "text": "Summon 3 random Familiars. Draw 2 fewer cards each turn.",
+      "numbers": {
+        "DrawReduction": 2,
+        "Familiars": 3
+      },
       "upgrade": "Familiars +1",
       "multiplayer": false,
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
@@ -2353,7 +2358,7 @@
     {
       "name": "Extract Life",
       "entry": "EXTRACT_LIFE",
-      "file": "TheWitchCode/Cards/ExtractLife.cs",
+      "file": "TheWitch/TheWitchCode/Cards/ExtractLife.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Rare",
@@ -2381,7 +2386,7 @@
     {
       "name": "Eye of Newt",
       "entry": "EYE_OF_NEWT",
-      "file": "TheWitchCode/Cards/EyeOfNewt.cs",
+      "file": "TheWitch/TheWitchCode/Cards/EyeOfNewt.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Rare",
@@ -2415,7 +2420,7 @@
     {
       "name": "Hexblast",
       "entry": "HEXBLAST",
-      "file": "TheWitchCode/Cards/Hexblast.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Hexblast.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
@@ -2450,7 +2455,7 @@
     {
       "name": "Message in a Bottle",
       "entry": "MESSAGE_IN_A_BOTTLE",
-      "file": "TheWitchCode/Cards/MessageInABottle.cs",
+      "file": "TheWitch/TheWitchCode/Cards/MessageInABottle.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Rare",
@@ -2481,7 +2486,7 @@
     {
       "name": "Mulch",
       "entry": "MULCH",
-      "file": "TheWitchCode/Cards/Mulch.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Mulch.cs",
       "cost": "X",
       "type": "Skill",
       "rarity": "Rare",
@@ -2512,7 +2517,7 @@
     {
       "name": "Owl Familiar",
       "entry": "OWL_FAMILIAR",
-      "file": "TheWitchCode/Cards/OwlFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/OwlFamiliar.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -2543,7 +2548,7 @@
     {
       "name": "Plague Tide",
       "entry": "PLAGUE_TIDE",
-      "file": "TheWitchCode/Cards/PlagueTide.cs",
+      "file": "TheWitch/TheWitchCode/Cards/PlagueTide.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -2569,7 +2574,7 @@
     {
       "name": "Plaguestorm",
       "entry": "PLAGUESTORM",
-      "file": "TheWitchCode/Cards/Plaguestorm.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Plaguestorm.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Rare",
@@ -2606,7 +2611,7 @@
     {
       "name": "Primal Form",
       "entry": "PRIMAL_FORM",
-      "file": "TheWitchCode/Cards/PrimalForm.cs",
+      "file": "TheWitch/TheWitchCode/Cards/PrimalForm.cs",
       "cost": 3,
       "type": "Power",
       "rarity": "Rare",
@@ -2638,7 +2643,7 @@
     {
       "name": "Rat Familiar",
       "entry": "RAT_FAMILIAR",
-      "file": "TheWitchCode/Cards/RatFamiliar.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RatFamiliar.cs",
       "cost": 2,
       "type": "Power",
       "rarity": "Rare",
@@ -2669,7 +2674,7 @@
     {
       "name": "Rattling Bottles",
       "entry": "RATTLING_BOTTLES",
-      "file": "TheWitchCode/Cards/RattlingBottles.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RattlingBottles.cs",
       "cost": 3,
       "type": "Attack",
       "rarity": "Rare",
@@ -2702,7 +2707,7 @@
     {
       "name": "Ritual Casting",
       "entry": "RITUAL_CASTING",
-      "file": "TheWitchCode/Cards/RitualCasting.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RitualCasting.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Rare",
@@ -2731,14 +2736,15 @@
     {
       "name": "Wicker Heart",
       "entry": "WICKER_HEART",
-      "file": "TheWitchCode/Cards/WickerHeart.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WickerHeart.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 5 Brambles. If you have {TargetBrambles:diff()} Brambles, add Wicker Bones into your Hand.",
+      "text": "Gain 5 Brambles. If you have 10 Brambles, add Wicker Bones into your Hand.",
       "numbers": {
-        "Brambles": 5
+        "Brambles": 5,
+        "TargetBrambles": 10
       },
       "upgrade": "Brambles +2",
       "multiplayer": false,
@@ -2755,7 +2761,7 @@
     {
       "name": "Witchcraft",
       "entry": "WITCHCRAFT",
-      "file": "TheWitchCode/Cards/Witchcraft.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Witchcraft.cs",
       "cost": "X",
       "type": "Skill",
       "rarity": "Rare",
@@ -2785,14 +2791,15 @@
     {
       "name": "Wicker Bones",
       "entry": "WICKER_BONES",
-      "file": "TheWitchCode/Cards/WickerBones.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WickerBones.cs",
       "cost": 1,
       "type": "Skill",
       "rarity": "Special",
       "target": "Self",
-      "text": "Gain 12 Block. If you have {TargetBrambles:diff()} Brambles, add Wicker Consumation into your Hand.",
+      "text": "Gain 12 Block. If you have 30 Brambles, add Wicker Consumation into your Hand.",
       "numbers": {
-        "Block": 12
+        "Block": 12,
+        "TargetBrambles": 30
       },
       "upgrade": "Block +4",
       "multiplayer": false,
@@ -2809,15 +2816,16 @@
     {
       "name": "Wicker Consumation",
       "entry": "WICKER_CONSUMATION",
-      "file": "TheWitchCode/Cards/WickerConsumation.cs",
+      "file": "TheWitch/TheWitchCode/Cards/WickerConsumation.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Special",
       "target": "AnyEnemy",
-      "text": "Deal 20 damage. If you have {TargetBrambles:diff()} Brambles, gain Incarnation.",
+      "text": "Deal 20 damage. If you have 50 Brambles, gain Incarnation.",
       "numbers": {
         "Incarnation": 1,
-        "Damage": 20
+        "Damage": 20,
+        "TargetBrambles": 50
       },
       "upgrade": "Damage +5",
       "multiplayer": false,
@@ -2834,7 +2842,7 @@
     {
       "name": "Dark Omen",
       "entry": "DARK_OMEN",
-      "file": "TheWitchCode/Cards/Familiar/DarkOmen.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/DarkOmen.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2869,7 +2877,7 @@
     {
       "name": "Ferocity",
       "entry": "FEROCITY",
-      "file": "TheWitchCode/Cards/Familiar/Ferocity.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Ferocity.cs",
       "cost": 1,
       "type": "Attack",
       "rarity": "Token",
@@ -2905,7 +2913,7 @@
     {
       "name": "Gnash",
       "entry": "GNASH",
-      "file": "TheWitchCode/Cards/Familiar/Gnash.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Gnash.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -2940,7 +2948,7 @@
     {
       "name": "Gossamer",
       "entry": "GOSSAMER",
-      "file": "TheWitchCode/Cards/Familiar/Gossamer.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Gossamer.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -2964,7 +2972,7 @@
     {
       "name": "Hibernate",
       "entry": "HIBERNATE",
-      "file": "TheWitchCode/Cards/Familiar/Hibernate.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Hibernate.cs",
       "cost": 3,
       "type": "Skill",
       "rarity": "Token",
@@ -2998,7 +3006,7 @@
     {
       "name": "Knowledge",
       "entry": "KNOWLEDGE",
-      "file": "TheWitchCode/Cards/Familiar/Knowledge.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Knowledge.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3030,7 +3038,7 @@
     {
       "name": "Mutilate",
       "entry": "MUTILATE",
-      "file": "TheWitchCode/Cards/Familiar/Mutilate.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Mutilate.cs",
       "cost": 2,
       "type": "Attack",
       "rarity": "Token",
@@ -3064,7 +3072,7 @@
     {
       "name": "Nimble",
       "entry": "NIMBLE",
-      "file": "TheWitchCode/Cards/Familiar/Nimble.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Nimble.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3099,7 +3107,7 @@
     {
       "name": "Pack Tactics",
       "entry": "PACK_TACTICS",
-      "file": "TheWitchCode/Cards/Familiar/PackTactics.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/PackTactics.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3128,7 +3136,7 @@
     {
       "name": "Rats",
       "entry": "RATS",
-      "file": "TheWitchCode/Cards/Familiar/Rats.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Rats.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Token",
@@ -3162,7 +3170,7 @@
     {
       "name": "Rummage",
       "entry": "RUMMAGE",
-      "file": "TheWitchCode/Cards/Familiar/Rummage.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Rummage.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3196,7 +3204,7 @@
     {
       "name": "Shiny!",
       "entry": "SHINY",
-      "file": "TheWitchCode/Cards/Familiar/Shiny.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Shiny.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3227,7 +3235,7 @@
     {
       "name": "Star Dust",
       "entry": "STAR_DUST",
-      "file": "TheWitchCode/Cards/Familiar/StarDust.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/StarDust.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3251,7 +3259,7 @@
     {
       "name": "Swarm",
       "entry": "SWARM",
-      "file": "TheWitchCode/Cards/Familiar/Swarm.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Swarm.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3286,7 +3294,7 @@
     {
       "name": "Wisdom",
       "entry": "WISDOM",
-      "file": "TheWitchCode/Cards/Familiar/Wisdom.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Wisdom.cs",
       "cost": 0,
       "type": "Skill",
       "rarity": "Token",
@@ -3321,7 +3329,7 @@
     {
       "name": "Ash",
       "entry": "ASH",
-      "file": "TheWitchCode/Cards/Ash.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Ash.cs",
       "cost": "-1",
       "type": "Status",
       "rarity": "Status",
@@ -3347,7 +3355,7 @@
     {
       "name": "Catalyst",
       "entry": "CATALYST",
-      "file": "TheWitchCode/Cards/Catalyst.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Catalyst.cs",
       "cost": 1,
       "type": "Power",
       "rarity": "Ancient",
@@ -3377,7 +3385,7 @@
     {
       "name": "Rip Soul",
       "entry": "RIP_SOUL",
-      "file": "TheWitchCode/Cards/RipSoul.cs",
+      "file": "TheWitch/TheWitchCode/Cards/RipSoul.cs",
       "cost": 0,
       "type": "Attack",
       "rarity": "Ancient",
@@ -3412,7 +3420,7 @@
     {
       "name": "Wormy",
       "entry": "WORMY",
-      "file": "TheWitchCode/Cards/Wormy.cs",
+      "file": "TheWitch/TheWitchCode/Cards/Wormy.cs",
       "cost": 1,
       "type": "Status",
       "rarity": "Status",

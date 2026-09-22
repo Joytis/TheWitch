@@ -24,8 +24,8 @@ The user works alongside the loop and can answer questions at any moment — ask
 ## Step 2 — Work the loop
 
 1. **Pick** the top-most `TODO` item (skip `BLOCKED`).
-2. **Implement** to the Rule. Touch only what the item needs. Update matching localization JSON under `TheWitch/localization/eng/`.
-3. **Verify**: `dotnet build "<repo-root>/TheWitch.csproj"` must succeed — **0 errors** is the gate (build = deploy; no test suite). Run from the **repo root**, never `gamedata/`.
+2. **Implement** to the Rule. Touch only what the item needs. Update matching localization JSON under `TheWitch/TheWitch/localization/eng/`.
+3. **Verify**: `dotnet build "<repo-root>/TheWitch/TheWitch.csproj"` must succeed — **0 errors** is the gate (build = deploy; no test suite). Run from the **repo root**, never `gamedata/`.
 4. **Finish**: remove the item from `TODO.md`; append ONE line to `DONE.md` — title + date, plus a "needs in-game playtest" flag when runtime behavior is compile-check only. No status updates, no narrative — rationale goes in the commit message if it matters.
 5. Loop. Stop at a real blocker, a build failure, or an empty queue. Honor any pacing the user sets.
 

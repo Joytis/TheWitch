@@ -5,7 +5,7 @@ description: Run the game's AutoSlay bot headless on the Witch in a timed loop �
 
 # AutoSlay loop
 
-Unattended soak test. The game's own `AutoSlayer` (`gamedata/src/Core/AutoSlay/`) plays a full singleplayer run — random-ish card picks, every room type, up to floor 49 — and `WitchDebug` forces it onto the Witch. This skill runs it repeatedly, skims each run for errors, and fixes what is provably broken.
+Unattended soak test. The game's own `AutoSlayer` (`gamedata/src/Core/AutoSlay/`) plays a full singleplayer run — random-ish card picks, every room type, up to floor 49 — and the BirdDebug mod (`-bird-debug -autoslay`, `-bird-character=<c>`) forces it onto the chosen character. This skill runs it repeatedly, skims each run for errors, and fixes what is provably broken.
 
 **Argument:** a time budget — `/autoslay-loop 2h`, `90m`. Default `1h`. The deadline caps *starting* new runs; a run in flight finishes (≤ 25 min, game-enforced `AutoSlayConfig.runTimeout`).
 
@@ -49,4 +49,4 @@ Unattended soak test. The game's own `AutoSlayer` (`gamedata/src/Core/AutoSlay/`
 - The bot sets FastMode, disables FTUE tips, and reveals epochs on the *real* prefs save — it's the same profile the user plays on. Don't run this while the user has the game open.
 - Exit-time `RID allocations`/`resources still in use` spam is engine teardown, already filtered.
 - A run that hits `lastFloor` = null with `failure` about the main menu usually means the `.pck` is stale/missing (`Build publish`) or the game is already running.
-- Do not edit `AutoSlayConfig` timeouts or the base bot — it's game code (`sts2.dll`). Bot-driving fixes belong in `TheWitchCode/Debug/WitchDebug.cs` via Harmony, as the character-select redirect does.
+- Do not edit `AutoSlayConfig` timeouts or the base bot — it's game code (`sts2.dll`). Bot-driving fixes belong in `BirdDebug/BirdDebugCode/BirdDebugFlags.cs` via Harmony, as the character-select redirect does.

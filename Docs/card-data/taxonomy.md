@@ -1,6 +1,6 @@
 # Card Tag Taxonomy — `sub` and `threads`
 
-Every card in `Docs/card-data/{cards,silent,necrobinder,ironclad,defect,regent}.json` carries two
+Every card in `Docs/card-data/{cards,augur,silent,necrobinder,ironclad,defect,regent}.json` carries two
 curated tag arrays beyond the original `mechanics[]`/`role[]`:
 
 - **`sub[]`** — *sub-archetype* within a class pillar, named `Pillar:SubName` (e.g. `Potions:Brew`,
@@ -112,6 +112,21 @@ Format: `Pillar:Sub` — definition (count).
 - `Familiars:Summon` — applies a FamiliarPower stack (7) · `Familiars:TokenGen` — injects token cards directly (7) · `Familiars:CountPayoff` — scales per active familiar (3) · `Familiars:Sacrifice` — consumes a familiar for a payout (2) · `Familiars:Token` — the generated payload cards (12).
 - `Brambles:Rider` — small gain stapled to a normal card (5) · `Brambles:Ramp` — big one-shot stacking (3) · `Brambles:Engine` — repeatable passive generation (2) · `Brambles:Spend` — consumes Brambles as currency (3).
 - `Hex:Apply` — applies Hex to enemies (13) · `Hex:Exploit` — dedicated hex/debuff payoff (3) · `Hex:Self` — gains Hex on the PLAYER as a cost (2). *(Pillar renamed from `Debuff/Buff` 2026-07-27; non-hex Weak/Vulnerable cards are now generic `None`.)*
+
+### Augur (augur.json)
+`mechanics[]` vocabulary: **Foretell** / **Omen** / **Augury** (roles are the shared
+Generator/Payoff/Enabler/Token/Standalone). Definitions — the pool is 4 stub cards at the time of
+writing, so no sub-archetypes have the >=2 members needed to exist yet; add `Pillar:Sub` rows here as
+the pool fills in.
+- **Foretell** — `Foretell N`: the card is set aside (out of every pile, shown as a rift over
+  the Augur) and resolves at the start of your turn N turns later. Waiting cards are *Portents*.
+  Stack a huge turn or land value when it matters.
+- **Omen** — `Omen` cards split on play into two Omens (one to discard, one shuffled into draw);
+  when both are in hand at once the omen is *Fulfilled*: both exhaust, 10 damage to ALL enemies.
+  Payoffs key off "whenever an Omen is Fulfilled".
+- **Augury** — deck reading/manipulation: `Scry N`, *Revelation:* (drawn-first effects),
+  *Prophesied* (primed when reshuffled from discard into draw), draw/discard swaps
+  (cross-class thread cousin: `TopdeckControl`).
 
 ### Silent
 - `Poison:Burst` (5) · `Poison:Engine` — repeating application (3) · `Poison:Payoff` (4).

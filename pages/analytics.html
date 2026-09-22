@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Witch — Balance Analytics</title>
+<title>Balance Analytics</title>
 <style>
   /* Witch-house chrome + rarity colors, both ported from the retired matplotlib
      scripts. Rarity hues are close under color-blindness — tooltips, the table
@@ -67,6 +67,9 @@
   .chip.on{background:var(--sage);border-color:var(--sage);color:#26301a;font-weight:600}
   .toggle{cursor:pointer;user-select:none}
 
+  .char-tabs{display:flex;gap:4px;margin-bottom:10px}
+  .char-tabs .tab{padding:6px 16px;font-size:13px;border-radius:8px;border-bottom:1px solid var(--grid)}
+  .char-tabs .tab.on{border-color:var(--frame)}
   .tabs{display:flex;gap:4px;margin-bottom:14px}
   .tab{background:transparent;border:1px solid var(--grid);border-bottom:none;color:var(--ink-2);
        border-radius:8px 8px 0 0;padding:7px 18px;font:inherit;font-size:14px;cursor:pointer}
@@ -139,9 +142,10 @@
 </head>
 <body>
 <main>
-  <h1>The Witch — Balance Analytics</h1>
+  <h1 id="pageTitle">Balance Analytics</h1>
   <div class="sub">Aggregate run telemetry · rates recomputed live from daily count tables ·
     <a href="../index.html">back to docs</a></div>
+  <div class="char-tabs" id="charTabs" role="tablist" aria-label="Character"></div>
   <div class="fresh" id="fresh">Loading…</div>
 
   <div class="filters" id="filters" hidden>
@@ -192,7 +196,7 @@
     </div>
     <div class="panel">
       <h2>Win rate by archetype</h2>
-      <div class="note">Each run bucketed by the mechanic with the most Witch cards in its
+      <div class="note">Each run bucketed by the mechanic with the most <span class="char-short">Witch</span> cards in its
         final deck (3+ cards to commit; otherwise Unfocused). Measures the package, not
         individual cards.</div>
       <div id="archTable"></div>
@@ -280,7 +284,7 @@
     <div id="archSection">
       <h2 style="margin-top:16px">Win rate by archetype</h2>
       <div class="note">This card inside each dominant archetype (deck bucketed by its most
-        common Witch mechanic). Dashed = that archetype's overall win rate.</div>
+        common <span class="char-short">Witch</span> mechanic). Dashed = that archetype's overall win rate.</div>
       <div id="chartCardArch"></div>
     </div>
     <div id="copiesSection">
@@ -298,8 +302,58 @@ const $ = id => document.getElementById(id);
 const CSS = getComputedStyle(document.documentElement);
 const C = name => CSS.getPropertyValue(name).trim();
 const RARITY_COLOR = {Rare: C("--rare"), Uncommon: C("--uncommon"), Common: C("--common")};
-const MECHANICS = ["All", "Hex", "Potions", "Familiars", "Brambles", "None"];
 const DATE_PRESETS = [["7d", 7], ["30d", 30], ["90d", 90], ["All time", 0]];
+
+// ---------- characters ----------
+// Mirrors Docs/card-data/characters.js + tools/analytics/common.CHARACTERS. `dir` is where
+// export_stats.py writes that character's tables (the Witch keeps the historical root folder).
+// `optional`: the folder may not exist yet (export not enabled) — show an empty state, not an error.
+const CHARACTERS = {
+  witch: {key: "witch", id: "TheWitch", label: "The Witch", short: "Witch", prefix: "THEWITCH-",
+          dir: "analytics-data", mechanics: ["Hex", "Potions", "Familiars", "Brambles"]},
+  augur: {key: "augur", id: "TheAugur", label: "The Augur", short: "Augur",
+            prefix: "THEAUGUR-", dir: "analytics-data/augur", optional: true,
+            mechanics: ["Foretell", "Omen", "Augury"],
+            emptyMsg: "No Augur runs exported yet — enable the Augur export in " +
+                      ".github/workflows/analytics.yml after the character column migration " +
+                      "(tools/analytics/migrations/001_character_column.sql)."},
+};
+const CHAR_KEY = "analytics.character";
+// ?character=<key> wins for this load, then the remembered choice, then the Witch.
+const CHAR = (() => {
+  const q = new URLSearchParams(location.search).get("character");
+  if (q && CHARACTERS[q]) return CHARACTERS[q];
+  try { const v = localStorage.getItem(CHAR_KEY); if (v && CHARACTERS[v]) return CHARACTERS[v]; }
+  catch {}
+  return CHARACTERS.witch;
+})();
+const MECHANICS = ["All", ...CHAR.mechanics, "None"];
+const ARCH_ORDER = [...CHAR.mechanics, "Unfocused"];
+const DATA_DIR = CHAR.dir;
+// cards_meta `own` = "belongs to this mod character" (older exports call it `witch`).
+const isOwn = meta => !!(meta && (meta.own ?? meta.witch));
+
+function setCharacter(key) {
+  if (!CHARACTERS[key] || key === CHAR.key) return;
+  try { localStorage.setItem(CHAR_KEY, key); } catch {}
+  const url = new URL(location.href);
+  url.searchParams.set("character", key);
+  url.hash = "";                       // card deep-links are per character
+  location.href = url.href;            // full reload: every table is fetched once in init()
+}
+function renderCharacterChrome() {
+  document.title = `${CHAR.label} — Balance Analytics`;
+  $("pageTitle").textContent = `${CHAR.label} — Balance Analytics`;
+  document.querySelectorAll(".char-short").forEach(n => n.textContent = CHAR.short);
+  $("charTabs").replaceChildren(...Object.values(CHARACTERS).map(ch => {
+    const b = document.createElement("button");
+    b.className = "tab" + (ch.key === CHAR.key ? " on" : "");
+    b.setAttribute("role", "tab"); b.setAttribute("aria-selected", ch.key === CHAR.key);
+    b.textContent = ch.label;
+    b.addEventListener("click", () => setCharacter(ch.key));
+    return b;
+  }));
+}
 
 let META, RUNS, CARDS, CMETA, CHOICES, DEATHS, DFLOORS, ENCS, ARCHS;  // fetched data
 let HOURS = [];  // runs_hourly.json — optional (absent until the exporter re-runs)
@@ -341,11 +395,11 @@ function groupSum(rows, keyFn, fields = ["runs", "wins"]) {
 
 function cardVisible(card) {
   const meta = CMETA[card];
-  // Other classes' cards drift into Witch decks via events/mods — unbalanceable noise,
-  // hidden unless explicitly included.
-  if (!state.showOther && !(meta && meta.witch)) return false;
+  // Other classes' cards drift into the mod character's decks via events/mods — unbalanceable
+  // noise, hidden unless explicitly included.
+  if (!state.showOther && !isOwn(meta)) return false;
   if (state.mech !== "All") {
-    if (!(meta && meta.witch)) return false;
+    if (!isOwn(meta)) return false;
     const mechs = meta.mechanics || [];
     if (state.mech === "None" ? mechs.length > 0 : !mechs.includes(state.mech)) return false;
   }
@@ -386,7 +440,7 @@ function wilson(wins, n) {
 }
 
 function prettyName(card) {
-  return card.replace(/^THEWITCH-/, "").toLowerCase()
+  return (card.startsWith(CHAR.prefix) ? card.slice(CHAR.prefix.length) : card).toLowerCase()
              .replace(/_/g, " ").replace(/\b\w/g, ch => ch.toUpperCase());
 }
 
@@ -830,7 +884,7 @@ function countColumns(host, rows, opts = {}) {  // rows: [{label, v}]
 // Whitelist beats heuristics: some mods register unprefixed encounter ids, so base-game
 // membership comes from encounters_meta.json (generated from the game's own model list).
 function encVisible(enc) {
-  return state.showOther || enc.startsWith("THEWITCH-") || BASE_ENC.has(enc);
+  return state.showOther || enc.startsWith(CHAR.prefix) || BASE_ENC.has(enc);
 }
 
 function renderEncounters() {
@@ -889,7 +943,6 @@ function renderEncounters() {
   $("encTable").replaceChildren(rows.length ? tbl : emptyNote());
 }
 
-const ARCH_ORDER = ["Hex", "Potions", "Familiars", "Brambles", "Unfocused"];
 function renderArchetypes() {
   const byArch = groupSum(ARCHS.filter(r => sliceFilter(r)), r => r.arch);
   const rows = ARCH_ORDER.filter(a => byArch.has(a)).map(a => ({arch: a, ...byArch.get(a)}));
@@ -1059,28 +1112,33 @@ function renderLoc() {
 }
 
 async function init() {
+  renderCharacterChrome();
   let files;
   try {
     files = await Promise.all(["meta", "runs_daily", "cards_daily", "cards_meta",
         "choices_daily", "deaths_daily", "death_floors_daily", "encounters_daily",
         "archetypes_daily", "encounters_meta"]
-      .map(n => fetch(`analytics-data/${n}.json`).then(r => {
-        if (!r.ok) throw new Error(`${n}.json: HTTP ${r.status}`);
+      .map(n => fetch(`${DATA_DIR}/${n}.json`).then(r => {
+        if (!r.ok) { const e = new Error(`${n}.json: HTTP ${r.status}`); e.status = r.status; throw e; }
         return r.json();
       })));
   } catch (err) {
     $("fresh").textContent = "";
     $("loadError").hidden = false;
-    $("loadError").textContent = "Could not load analytics data — " + err.message +
-      ". (Serve over http, not file://.)";
+    // A character whose export isn't enabled yet has no data folder at all — that's an
+    // expected empty state, not a broken page.
+    $("loadError").textContent = CHAR.optional && err.status === 404
+      ? CHAR.emptyMsg || `No ${CHAR.short} runs exported yet.`
+      : "Could not load analytics data — " + err.message + ". (Serve over http, not file://.)";
     return;
   }
   [META, RUNS, CARDS, CMETA, CHOICES, DEATHS, DFLOORS, ENCS, ARCHS] = files;
   BASE_ENC = new Set(files[9]);
   // Optional — older exports don't have it; the hourly panel explains itself when empty.
-  HOURS = await fetch("analytics-data/runs_hourly.json")
+  HOURS = await fetch(`${DATA_DIR}/runs_hourly.json`)
     .then(r => r.ok ? r.json() : []).catch(() => []);
-  // Optional — written by the loc-download workflow (tools/localization/para_status.py).
+  // Optional — written by the loc-download workflow (tools/localization/para_status.py) into
+  // the root data folder; it is repo-wide, not per character.
   LOC = await fetch("analytics-data/paratranz.json")
     .then(r => r.ok ? r.json() : null).catch(() => null);
   renderLoc();

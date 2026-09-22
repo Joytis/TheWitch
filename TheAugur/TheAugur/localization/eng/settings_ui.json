@@ -1,0 +1,10 @@
+{
+  "THEAUGUR-WORKSHOP_UPDATE.header": "The Augur Updated",
+  "THEAUGUR-WORKSHOP_UPDATE.body": "A newer version of The Augur was downloaded from the Steam Workshop.\nRestart the game to load the new version.",
+  "THEAUGUR-WORKSHOP_UPDATE.later": "Later",
+  "THEAUGUR-WORKSHOP_UPDATE.quit": "Quit Now",
+  "THEAUGUR.mod_title": "The Augur",
+  "THEAUGUR-ANALYTICS_ENABLED.title": "Analytics Enabled",
+  "THEAUGUR-ANALYTICS_ENABLED.hover.title": "Analytics Enabled",
+  "THEAUGUR-ANALYTICS_ENABLED.hover.desc": "Send anonymous Augur run results (win/loss, deck, card picks) to the mod team for balance tuning. Only active if the game's own Upload Data setting is on."
+}

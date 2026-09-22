@@ -28,10 +28,20 @@ jobs:
 
       - run: pip install requests pandas
 
-      - name: Export aggregate stats
+      # One export per character mod. The shared `runs` table carries a `character` column
+      # (= uploading mod id; tools/analytics/migrations/001_character_column.sql, applied
+      # 2026-09-20 — pre-existing rows defaulted to TheWitch). The Witch keeps writing the
+      # page's root folder pages/analytics-data/; every other character writes
+      # pages/analytics-data/<key>/.
+      - name: Export aggregate stats (Witch)
         env:
           SUPABASE_READ_KEY: ${{ secrets.SUPABASE_READ_KEY }}
-        run: python tools/analytics/export_stats.py
+        run: python tools/analytics/export_stats.py --character TheWitch --out-dir pages/analytics-data
+
+      - name: Export aggregate stats (Augur)
+        env:
+          SUPABASE_READ_KEY: ${{ secrets.SUPABASE_READ_KEY }}
+        run: python tools/analytics/export_stats.py --character TheAugur --out-dir pages/analytics-data/augur
 
       - name: Commit if changed
         run: |

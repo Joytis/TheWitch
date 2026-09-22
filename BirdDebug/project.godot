@@ -1,0 +1,14 @@
+; Engine configuration file.
+; BirdDebug has no assets or .pck; this file exists only so the Godot.NET.Sdk build has an
+; assembly name to generate its interop against.
+
+config_version=5
+
+[application]
+
+config/name="BirdDebug"
+config/features=PackedStringArray("4.5", "C#")
+
+[dotnet]
+
+project/assembly_name="BirdDebug"

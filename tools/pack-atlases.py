@@ -37,7 +37,8 @@ power-of-two cell, laid out in a near-square grid; the sheet is then rounded up 
 so it tiles cleanly for ParticleProcessMaterial / Sprite2D hframes x vframes (printed per sheet).
 e.g. 4 x 256px bottles -> 512x512, 2x2.
 
-Run with no args; invoked automatically by `dotnet publish` (PackAtlases target).
+Run with no args (= the Witch) or `--character augur` etc.; invoked automatically by `dotnet publish`
+(PackAtlases target of each character's csproj).
 Pass --vfx to also rebuild the vfx sprite sheets (tracked; VS Code task 'VFX: Pack sprite sheets').
 """
 
@@ -50,9 +51,28 @@ from pathlib import Path
 from PIL import Image, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
-IMAGES = ROOT / "TheWitch" / "images"
+
+# Character mods hosted in this repo: key (for --character) -> (Godot project dir, mod id / res:// root).
+# Each character is its own Godot project folder; <dir>/<mod id>/ holds its assets.
+CHARACTERS = {
+    "witch": (ROOT / "TheWitch", "TheWitch"),
+    "augur": (ROOT / "TheAugur", "TheAugur"),
+}
+
+
+def _select_character(argv: list[str]) -> tuple[Path, str]:
+    key = "witch"
+    if "--character" in argv:
+        key = argv[argv.index("--character") + 1].lower()
+    if key not in CHARACTERS:
+        raise SystemExit(f"pack-atlases: unknown --character '{key}' (known: {', '.join(CHARACTERS)})")
+    return CHARACTERS[key]
+
+
+PROJECT_DIR, MOD_ID = _select_character(sys.argv)
+IMAGES = PROJECT_DIR / MOD_ID / "images"
 OUT_DIR = IMAGES / "atlases"
-RES_BASE = "res://TheWitch/images/atlases"
+RES_BASE = f"res://{MOD_ID}/images/atlases"
 
 MAX_ATLAS = 4096
 PAD = 1

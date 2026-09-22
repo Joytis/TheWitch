@@ -41,7 +41,7 @@ jobs:
 
       - name: Commit if changed
         run: |
-          git add TheWitch/localization pages/analytics-data/paratranz.json
+          git add TheWitch/TheWitch/localization pages/analytics-data/paratranz.json
           if git diff --staged --quiet; then
             echo "Translations unchanged - nothing to commit."
           else

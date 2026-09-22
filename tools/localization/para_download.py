@@ -11,7 +11,7 @@ import re
 from collections import OrderedDict
 from pathlib import Path
 
-from paratranz_common import REPO_ROOT, Client, api_key, load_config, projects
+from paratranz_common import REPO_ROOT, Client, api_key, load_config, parse_remote_path, projects
 
 
 def main():
@@ -24,11 +24,10 @@ def main():
         files = [f for f in client.list_files(pid) if "TM" not in f["name"]]
         lang_total = 0
         for f in files:
-            parts = Path(f["name"]).parts
-            if len(parts) != 4 or parts[1] != "localization" or parts[2] != lang:
+            filename = parse_remote_path(config, lang, f["name"])
+            if filename is None:
                 print(f"  skip (unexpected path): {f['name']}")
                 continue
-            filename = parts[3]
             source_path = mod_root / "eng" / filename
             if not source_path.exists():
                 print(f"  skip (no English source in repo): {filename}")

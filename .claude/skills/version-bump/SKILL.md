@@ -9,8 +9,8 @@ Prepares a Workshop release: pick the new version, bump it where it lives, and w
 
 ## Version source of truth
 
-`TheWitch.json` → `"version"` (format `vX.Y.Z`). This is the ONLY place to edit.
-Derived/do-not-touch: `workshop/workshop.json` `changeNote` (rewritten by `tools/bundle-workshop.ps1` on upload), staged `workshop/content/TheWitch.json` (synced by the bundle script), `pages/analytics-data/*` (data).
+`TheWitch/TheWitch.json` → `"version"` (format `vX.Y.Z`). This is the ONLY place to edit.
+Derived/do-not-touch: `TheWitch/workshop/workshop.json` `changeNote` (rewritten by `tools/bundle-workshop.ps1` on upload), staged `workshop/content/TheWitch.json` (synced by the bundle script), `pages/analytics-data/*` (data).
 
 ## Protocol
 
@@ -28,11 +28,11 @@ If the user didn't specify, ask (AskUserQuestion) with suggested options: patch 
 
 ### 3. Bump
 
-Edit `TheWitch.json` `"version"`. Nothing else.
+Edit `TheWitch/TheWitch.json` `"version"`. Nothing else.
 
 ### 4. Author patch notes
 
-Diff the release ref against the working tree (committed + uncommitted): `git diff <ref> -- TheWitchCode TheWitch/localization TheWitch/data`. Write `Docs/patch-notes/vX.Y.Z.md`.
+Diff the release ref against the working tree (committed + uncommitted): `git diff <ref> -- TheWitch/TheWitchCode TheWitch/TheWitch/localization TheWitch/data`. Write `Docs/patch-notes/vX.Y.Z.md`.
 
 Style rules:
 - **Player-facing only.** Skip refactors, art-pipeline changes, internal renames, doc/tooling work. A localization text change matters only if it reflects a mechanic change (or is funny flavor worth calling out).

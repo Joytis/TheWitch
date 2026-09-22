@@ -1,0 +1,16 @@
+.godot/
+bin/
+# Junctions into ../gamedata/ (recreate with: pwsh tools/setup-gamedata-links.ps1 -Character Augur)
+/scenes/
+/fonts/
+/materials/
+/shaders/
+/images/
+/src/
+/themes/
+/addons/
+# Generated atlas pages + .tres slices (tools/pack-atlases.py --character Augur)
+/TheAugur/images/atlases/
+# Steam Workshop bundle staging (tools/bundle-workshop.ps1 -Character Augur)
+/workshop/content/
+/workshop/README.md

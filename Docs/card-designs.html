@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Witch Card Designs</title>
+<title>Card Designs</title>
 <style>
   /* Witch-house palette — keep in sync with pages/analytics.html */
   :root{
@@ -91,6 +91,9 @@
   .m-Stars{background:#6b5a2a33;color:#e6cf74}
   .m-Forge{background:#7b3a2a33;color:#e69074}
   .m-Vigor{background:#2a6b4a33;color:#74e6a8}
+  .m-Foretell{background:#2a5a6b33;color:#7fd6e6}
+  .m-Omen{background:#7b2a6b33;color:#e68fe0}
+  .m-Augury{background:#5a6b2a33;color:#c6e67f}
   .m-None{background:#6d5a5533;color:#a08a7d}
   .r-Generator{background:#2f6b5a33;color:#5fe0b8}
   .r-Payoff{background:#7b5a2a33;color:#e6c15c}
@@ -113,7 +116,7 @@
 <body>
 <header>
   <div class="tabs" id="tabs"></div>
-  <h1 id="title">Witch Card Designs</h1>
+  <h1 id="title">Card Designs</h1>
   <div class="sub" id="subline"></div>
   <div class="controls">
     <input type="search" id="q" placeholder="search name / text / entry…" />
@@ -145,10 +148,12 @@ const RAR_COLOR = {Starter:"--starter",Common:"--common",Uncommon:"--uncommon",R
 const ART_RANK = { none:0, placeholder:1, final:2 };
 const ROLES = ["Generator","Payoff","Enabler","Token","Standalone"];
 
-// Per-tab config. `dev` = the mod's own cards (cards.json) with art/tested tooling + server writes.
-// `ref` = read-only base-game reference pulled from decompiled source.
+// Per-tab config. `dev` = one of this repo's own character mods (browser-side mirror of
+// card-data/characters.js: file / prefix / mechanics — keep in sync) with art/tested tooling + server
+// writes keyed by `character`. `ref` = read-only base-game reference pulled from decompiled source.
 const CLASSES = {
-  witch:      { label:"Witch",      file:"cards.json",       mode:"dev", mechanics:["Brambles","Potions","Familiars","Hex","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
+  witch:      { label:"Witch",      file:"cards.json",       mode:"dev", character:"witch",   prefix:"THEWITCH-",   mechanics:["Brambles","Potions","Familiars","Hex","None"], note:"Living design doc — toggle TESTED only after verifying a card in-game." },
+  augur:    { label:"Augur",    file:"augur.json",     mode:"dev", character:"augur", prefix:"THEAUGUR-", mechanics:["Foretell","Omen","Augury","None"],        note:"Living design doc — toggle TESTED only after verifying a card in-game. Pillars: Suspend · Paradox (Split) · DeckManip." },
   silent:      { label:"Silent",      file:"silent.json",      mode:"ref", mechanics:["Poison","Shivs","Discard","None"],       note:"Base-game reference (decompiled). Pillars: Poison · Shivs · Discard." },
   necrobinder: { label:"Necrobinder", file:"necrobinder.json", mode:"ref", mechanics:["Osty","Soul","Doom","Ethereal","None"], note:"Base-game reference (decompiled). Pillars: Osty (summons) · Soul · Doom · Ethereal." },
   ironclad:    { label:"Ironclad",    file:"ironclad.json",    mode:"ref", mechanics:["Strength","Exhaust","Self-Harm","Vulnerable","None"], note:"Base-game reference (decompiled). Pillars: Strength · Exhaust · Self-Harm · Vulnerable." },
@@ -197,12 +202,12 @@ async function load(){
     const d = await r.json();
     CARDS = d.cards;
     imgver++;
-    document.getElementById("title").textContent = cfg.label==="Witch" ? "Witch Card Designs" : cfg.label+" — Class Makeup";
+    document.getElementById("title").textContent = MODE==="dev" ? cfg.label+" Card Designs" : cfg.label+" — Class Makeup";
     document.getElementById("subline").innerHTML = cfg.note + (d.generated ? ` <span class="muted">· ${d.generated}</span>` : "");
     SERVER = (location.protocol === "http:" || location.protocol === "https:");
     if(MODE==="dev" && !SERVER) document.body.classList.add("nosrv");
     if(MODE==="dev" && SERVER){
-      try{ BRIEFS = (await (await fetch("/briefs.json?_="+Date.now())).json()).briefs || {}; }
+      try{ BRIEFS = (await (await fetch("/briefs.json?character="+cfg.character+"&_="+Date.now())).json()).briefs || {}; }
       catch(e){ BRIEFS = {}; }
     }
     buildHead();
@@ -400,12 +405,12 @@ function render(){
       const art = c.art || "none";
       const isNone = art === "none";
       const artLabel = {none:"No Art", placeholder:"Placeholder", final:"Final"}[art];
-      html += `<td class="thumb"><img loading="lazy" src="art/${esc(c.entry)}.png?v=${imgver}" class="${isNone?"noart":""}" alt="" title="${esc(c.entry.toLowerCase())}.png — click to open"></td>`;
+      html += `<td class="thumb"><img loading="lazy" src="art/${esc(c.entry)}.png?c=${esc(CLASSES[CLS].character)}&v=${imgver}" class="${isNone?"noart":""}" alt="" title="${esc(c.entry.toLowerCase())}.png — click to open"></td>`;
       const bf = BRIEFS[c.name] || {};
       var devTail = `
         <td><input class="bfield aartist" data-name="${esc(c.name)}" value="${esc(bf.artist||"")}" placeholder="—" title="Artist working on this card (saved on change)"></td>
         <td><textarea class="bfield abrief" data-name="${esc(c.name)}" rows="4" placeholder="notes for the artist…" title="Art brief (saved on change)">${esc(bf.brief||"")}</textarea></td>
-        <td><button class="copy" data-cmd="card THEWITCH-${esc(c.entry)}" title="copy console command">card THEWITCH-${esc(c.entry)}</button></td>
+        <td><button class="copy" data-cmd="card ${esc(CLASSES[CLS].prefix)}${esc(c.entry)}" title="copy console command">card ${esc(CLASSES[CLS].prefix)}${esc(c.entry)}</button></td>
         <td class="artcell">
           <span class="artbadge art-${art}">${artLabel}</span>
           <button class="afinal ${art==="final"?"on":""}" data-entry="${esc(c.entry)}" ${isNone?"disabled":""}
@@ -482,7 +487,7 @@ document.addEventListener("click", async (e)=>{
       render();
       if(SERVER){
         try{
-          const r = await fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry,[field]:next})});
+          const r = await fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry,[field]:next,character:CLASSES[CLS].character})});
           if(!r.ok) throw new Error(await r.text());
         }catch(err){
           card[field] = !next; render();
@@ -502,7 +507,7 @@ document.addEventListener("click", async (e)=>{
       render(); renderMakeup();
       if(SERVER){
         try{
-          const r = await fetch("/api/artfinal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry,artFinal:next})});
+          const r = await fetch("/api/artfinal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry,artFinal:next,character:CLASSES[CLS].character})});
           if(!r.ok) throw new Error(await r.text());
           const j = await r.json();
           card.art = j.art; render(); renderMakeup();
@@ -550,7 +555,7 @@ document.addEventListener("change", async (e)=>{
   if(artist || brief) BRIEFS[name] = { artist, brief }; else delete BRIEFS[name];
   if(SERVER){
     try{
-      const r = await fetch("/api/brief",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,artist,brief})});
+      const r = await fetch("/api/brief",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,artist,brief,character:CLASSES[CLS].character})});
       if(!r.ok) throw new Error(await r.text());
       f.classList.add("saved"); setTimeout(()=>f.classList.remove("saved"), 800);
     }catch(err){

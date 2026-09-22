@@ -10,7 +10,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -TailLog -DelayMs 4000 -Build ${input:build.publish}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -TailLog -DelayMs 4000 -Build ${input:build.publish}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -34,7 +34,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch one STS2 instance, tailing the game log. Prompts for the build step (None / Build / Publish; default Publish). Debugger-attachable via 'Launch STS2 + Attach'."
+            "detail": "Launch one STS2 instance, tailing the game log. Prompts for the build step (None / Build / Publish; default Publish). Debugger-attachable via 'Launch STS2 + Attach'. Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Run: Reset Witch Tutorials",
@@ -45,7 +45,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -ResetFtue -TailLog -DelayMs 4000 -Build ${input:build.publish}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -ResetFtue -TailLog -DelayMs 4000 -Build ${input:build.publish}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -69,7 +69,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Like Run, but passes -witch-reset-ftue: at the main menu, forgets every Witch tutorial tip (e.g. the Unstable potion tip) and re-enables tutorials so they show again. Base-game tutorials untouched."
+            "detail": "Like Run, but passes -witch-reset-ftue: at the main menu, forgets every Witch tutorial tip (e.g. the Unstable potion tip) and re-enables tutorials so they show again. Base-game tutorials untouched. Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "MP: Launch",
@@ -80,7 +80,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Players ${input:playerCount} -Build ${input:build.none}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Players ${input:playerCount} -Build ${input:build.none}"
             ],
             "problemMatcher": [],
             "presentation": {
@@ -88,7 +88,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch a host + (N-1) clients for local multiplayer. Prompts for player count and build step (default None)."
+            "detail": "Launch a host + (N-1) clients for local multiplayer. Prompts for player count and build step (default None). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: Combat",
@@ -99,7 +99,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -WitchBootstrap -TailLog -DelayMs 4000 -Build ${input:build.publish}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -Bootstrap -TailLog -DelayMs 4000 -Build ${input:build.publish}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -123,7 +123,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 straight into a Witch combat with 100 energy, tailing the game log. Prompts for the build step (default Publish). Debugger-attachable via 'Combat + Attach'."
+            "detail": "Launch STS2 straight into a combat as the chosen character with 100 energy, tailing the game log. Prompts for the build step (default Publish). Debugger-attachable via 'Combat + Attach'. Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: AutoSlay",
@@ -134,7 +134,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -AutoSlay -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.windowed}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -AutoSlay -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.windowed}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -158,7 +158,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 with the AutoSlay smoke-test bot, tailing the game log. Prompts for the build step (default Build) and windowed vs headless. Debugger-attachable via 'AutoSlay + Attach'."
+            "detail": "Launch STS2 with the AutoSlay smoke-test bot, tailing the game log. Prompts for the build step (default Build) and windowed vs headless. Debugger-attachable via 'AutoSlay + Attach'. Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: Card Test",
@@ -169,7 +169,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -CardTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -CardTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -193,7 +193,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 with --witch-cardtest: plays every Witch card in a throwaway test combat and logs [witch-cardtest] FAILED lines (grep the tailed log). Prompts for the build step (default Build) and windowed vs headless (default Headless)."
+            "detail": "Launch STS2 with --witch-cardtest: plays every Witch card in a throwaway test combat and logs [witch-cardtest] FAILED lines (grep the tailed log). Prompts for the build step (default Build) and windowed vs headless (default Headless). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: Potion Test",
@@ -204,7 +204,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -PotionTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -PotionTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -228,7 +228,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 with --witch-potiontest: procures, uses and discards every Witch potion in a throwaway test combat and logs [witch-potiontest] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless)."
+            "detail": "Launch STS2 with --witch-potiontest: procures, uses and discards every Witch potion in a throwaway test combat and logs [witch-potiontest] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: Relic Test",
@@ -239,7 +239,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -RelicTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -RelicTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -263,7 +263,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 with --witch-relictest: equips EVERY Witch relic, then plays every card and uses every potion in throwaway test combats and logs [witch-relictest] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless)."
+            "detail": "Launch STS2 with --witch-relictest: equips EVERY Witch relic, then plays every card and uses every potion in throwaway test combats and logs [witch-relictest] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: Menu Test",
@@ -274,7 +274,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -MenuTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -MenuTest -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -298,7 +298,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 with --witch-menutest: opens every main-menu screen (character select with the Witch picked, card library per pool tab, relic collection, potion lab, bestiary, stats, run history, timeline, settings, profile) and renders every Witch hover tip, logging [witch-menutest] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless)."
+            "detail": "Launch STS2 with --witch-menutest: opens every main-menu screen (character select with the Witch picked, card library per pool tab, relic collection, potion lab, bestiary, stats, run history, timeline, settings, profile) and renders every Witch hover tip, logging [witch-menutest] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: Test All",
@@ -309,7 +309,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -TestAll -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -TestAll -TailLog -DelayMs 4000 -Build ${input:build.build} ${input:headless.headless}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -333,7 +333,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 with --witch-testall: runs the menu sweep, then the card, potion and relic smoke tests back to back in one process and logs [witch-testall] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless)."
+            "detail": "Launch STS2 with --witch-testall: runs the menu sweep, then the card, potion and relic smoke tests back to back in one process and logs [witch-testall] FAILED lines. Prompts for the build step (default Build) and windowed vs headless (default Headless). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: FX Lab",
@@ -344,7 +344,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -FxLab -TailLog -DelayMs 4000 -Build ${input:build.build}"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -FxLab -TailLog -DelayMs 4000 -Build ${input:build.build}"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -368,7 +368,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch STS2 into the SFX/VFX browser scene, tailing the game log. Prompts for the build step (default Build). Debugger-attachable via 'FX Lab + Attach'."
+            "detail": "Launch STS2 into the SFX/VFX browser scene, tailing the game log. Prompts for the build step (default Build). Debugger-attachable via 'FX Lab + Attach'. Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Debug: FX Lab + Combat",
@@ -379,7 +379,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "& '${workspaceFolder}/tools/launch-witch.ps1' -Solo -FxLab -DelayMs 2000 -Build ${input:build.publish}; & '${workspaceFolder}/tools/launch-witch.ps1' -Solo -WitchBootstrap -TailLog -DelayMs 4000"
+                "& '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -FxLab -DelayMs 2000 -Build ${input:build.publish}; & '${workspaceFolder}/tools/launch.ps1' -Character ${input:character} -Solo -Bootstrap -TailLog -DelayMs 4000"
             ],
             "isBackground": true,
             "problemMatcher": {
@@ -403,7 +403,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Launch TWO STS2 instances: FX Lab first, then Witch combat (tailing its log) — VFX iteration with a live combat reference. Prompts for the build step (default Publish; applied once, before the first launch)."
+            "detail": "Launch TWO STS2 instances: FX Lab first, then Witch combat (tailing its log) — VFX iteration with a live combat reference. Prompts for the build step (default Publish; applied once, before the first launch). Prompts for the character mod (Witch / Augur)."
         },
         {
             "label": "Godot: Import assets",
@@ -414,7 +414,9 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}/tools/import-assets.ps1"
+                "${workspaceFolder}/tools/import-assets.ps1",
+                "-Character",
+                "${input:character}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -425,7 +427,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Headless Godot --import: generate .import sidecars for new pngs (card portraits, etc.)."
+            "detail": "Headless Godot --import: generate .import sidecars for new pngs (card portraits, etc.). Prompts for the character mod."
         },
         {
             "label": "Images: Generate missing sizes",
@@ -451,6 +453,8 @@
             "command": "py",
             "args": [
                 "${workspaceFolder}/tools/pack-atlases.py",
+                "--character",
+                "${input:character}",
                 "--vfx"
             ],
             "options": {
@@ -462,7 +466,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Pack each TheWitch/images/vfx/raw/<name>/ folder into a power-of-two sprite sheet at images/vfx/sheets/<name>.png (tracked; prints hframes/vframes). Also runs the regular atlas pack."
+            "detail": "Pack each <ModId>/images/vfx/raw/<name>/ folder into a power-of-two sprite sheet at images/vfx/sheets/<name>.png (tracked; prints hframes/vframes). Also runs the regular atlas pack."
         },
         {
             "label": "Images: Generate locked char-select silhouette",
@@ -488,7 +492,7 @@
             "command": "dotnet",
             "args": [
                 "build",
-                "TheWitch.csproj"
+                "${input:csproj}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -501,7 +505,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
-            }
+            },
+            "detail": "dotnet build for the chosen character mod (prompts: Witch = TheWitch.csproj, Augur = TheAugur/TheAugur.csproj)."
         },
         {
             "label": "dotnet publish",
@@ -509,7 +514,7 @@
             "command": "dotnet",
             "args": [
                 "publish",
-                "TheWitch.csproj"
+                "${input:csproj}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -518,7 +523,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
-            }
+            },
+            "detail": "dotnet publish for the chosen character mod (prompts: Witch = TheWitch.csproj, Augur = TheAugur/TheAugur.csproj)."
         },
         {
             "label": "Workshop: Bundle",
@@ -529,7 +535,9 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}/tools/bundle-workshop.ps1"
+                "${workspaceFolder}/tools/bundle-workshop.ps1",
+                "-Character",
+                "${input:character}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -540,7 +548,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "dotnet publish (export .pck) + stage the mod into workshop/content. Run before deploying; does NOT upload."
+            "detail": "dotnet publish (export .pck) + stage the chosen character mod into its workshop/content. Run before deploying; does NOT upload."
         },
         {
             "label": "Workshop: Deploy (upload to Steam)",
@@ -552,6 +560,8 @@
                 "Bypass",
                 "-File",
                 "${workspaceFolder}/tools/bundle-workshop.ps1",
+                "-Character",
+                "${input:character}",
                 "-SkipPublish",
                 "-Upload",
                 "-ChangeNote",
@@ -567,7 +577,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it)."
+            "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it). Prompts for the character mod."
         },
         {
             "label": "Card Data: Regen",
@@ -705,10 +715,46 @@
                 "panel": "dedicated",
                 "clear": true
             },
-            "detail": "Rebuild Docs/balance-dashboard.html from Docs/card-data/*.json (Witch vs base classes damage/block per card + per energy), serve the repo on http://localhost:7822 and open it. Terminate the task to stop. Re-run after card edits + 'Card Data: Regen'."
+            "detail": "Rebuild Docs/balance-dashboard.html from Docs/card-data/*.json (Witch / Augur vs base classes damage/block per card + per energy; focus character switchable on the page), serve the repo on http://localhost:7822 and open it. Terminate the task to stop. Re-run after card edits + 'Card Data: Regen'."
         }
     ],
     "inputs": [
+        {
+            "id": "character",
+            "type": "pickString",
+            "description": "Which character mod?",
+            "options": [
+                {
+                    "label": "Witch (TheWitch)",
+                    "value": "Witch"
+                },
+                {
+                    "label": "Augur (TheAugur)",
+                    "value": "Augur"
+                }
+            ],
+            "default": "Witch"
+        },
+        {
+            "id": "csproj",
+            "type": "pickString",
+            "description": "Which character mod project?",
+            "options": [
+                {
+                    "label": "Witch (TheWitch/TheWitch.csproj)",
+                    "value": "TheWitch/TheWitch.csproj"
+                },
+                {
+                    "label": "Augur (TheAugur/TheAugur.csproj)",
+                    "value": "TheAugur/TheAugur.csproj"
+                },
+                {
+                    "label": "BirdDebug (BirdDebug/BirdDebug.csproj, dev-only debug flags)",
+                    "value": "BirdDebug/BirdDebug.csproj"
+                }
+            ],
+            "default": "TheWitch/TheWitch.csproj"
+        },
         {
             "id": "playerCount",
             "type": "promptString",

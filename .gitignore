@@ -2,15 +2,8 @@
 bin/
 /gamedata/
 
-# Junctions into gamedata/ so the Godot editor resolves base-game res:// paths
-# (recreate with: pwsh tools/setup-gamedata-links.ps1)
-/scenes/
-/fonts/
-/materials/
-/shaders/
-/images/
-/src/
-/themes/
+# Per-project junctions into gamedata/, .godot caches, generated atlases and workshop
+# staging are ignored by each Godot project's own .gitignore (TheWitch/, TheAugur/).
 /addons/
 /android/
 .git/
@@ -25,9 +18,6 @@ packages/
 # Machine-specific build settings (GodotPath, Sts2Path) — see Directory.Build.props
 /local.props
 
-# Steam Workshop bundle: keep config (workshop.json, image.png, mod_id.txt), drop staged build artifacts
-/workshop/content/
-/workshop/README.md
 tools/ModUploader-win-x64/mod-uploader.log
 
 # Discord webhook URL for workshop-upload notifications (secret, machine-local)
@@ -41,5 +31,3 @@ tools/ModUploader-win-x64/mod-uploader.log
 Docs/art-tracker/outline-sheet.png
 __pycache__/
 
-# Generated card atlas pages + .tres slices (tools/pack-card-atlas.py; source art = card_portraits/)
-/TheWitch/images/atlases/

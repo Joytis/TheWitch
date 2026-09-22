@@ -37,7 +37,7 @@ from pathlib import Path
 from PIL import Image, ImageFilter
 
 REPO = Path(__file__).resolve().parent.parent
-DEFAULT_SRC = REPO / "TheWitch/images/charui/char_select_char_name.png"
+DEFAULT_SRC = REPO / "TheWitch/TheWitch/images/charui/char_select_char_name.png"
 
 
 def key_background_mask(img: Image.Image, tolerance: int) -> Image.Image:

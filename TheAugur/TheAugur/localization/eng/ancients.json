@@ -1,0 +1,18 @@
+{
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.0-0r.char": "I have already seen how this ends.",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.0-0r.next": "Continue",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.0-1r.ancient": "Oh? Didn't expect [i]you[/i]...",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.0-attack": "Both",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.1-0r.ancient": "Back again? Or is this still the first time?",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.1-0r.next": "Respond",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.1-1r.char": "Every time. All at once.",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.1-1r.next": "Continue",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.1-2r.char": "Let us finish it.",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.1-attack": "Both",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.2-0r.char": "You are running out of turns.",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.2-0r.next": "Continue",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.2-1r.ancient": "[jitter]Pfft[/jitter]. Pathetic.",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.2-1r.next": "Retort",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.2-2r.ancient": "Time was never yours to keep.",
+  "THE_ARCHITECT.talk.THEAUGUR-AUGUR.2-attack": "Both"
+}

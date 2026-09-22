@@ -1,0 +1,14 @@
+{
+  "id": "TheAugur",
+  "name": "The Augur",
+  "author": "Joytis",
+  "description": "Slay the Spire 2 character mod: The Augur (Suspend / Paradox / deck manipulation). Prototype.",
+  "version": "v0.0.1",
+  "min_game_version": "0.107.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [
+    {"id": "BaseLib", "min_version": "3.4.7"}
+  ],
+  "affects_gameplay": true
+}

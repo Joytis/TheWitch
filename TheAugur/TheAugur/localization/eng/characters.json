@@ -1,0 +1,17 @@
+{
+  "THEAUGUR-AUGUR.aromaPrinciple": "[sine]Time is a hallway. Every door is already open.[/sine]",
+  "THEAUGUR-AUGUR.banter.alive.endTurnPing": "Not yet.",
+  "THEAUGUR-AUGUR.banter.dead.endTurnPing": "...",
+  "THEAUGUR-AUGUR.cardsModifierDescription": "Augur cards will now appear in rewards and shops.",
+  "THEAUGUR-AUGUR.cardsModifierTitle": "Augur Cards",
+  "THEAUGUR-AUGUR.description": "A traveler unstuck from time.\nSuspends cards, splits paradoxes, and bends the deck.",
+  "THEAUGUR-AUGUR.eventDeathPrevention": "Not here. Not now.",
+  "THEAUGUR-AUGUR.goldMonologue": "[sine]Later. It will matter later.[/sine]",
+  "THEAUGUR-AUGUR.possessiveAdjective": "their",
+  "THEAUGUR-AUGUR.pronounObject": "them",
+  "THEAUGUR-AUGUR.pronounPossessive": "theirs",
+  "THEAUGUR-AUGUR.pronounSubject": "they",
+  "THEAUGUR-AUGUR.title": "The Augur",
+  "THEAUGUR-AUGUR.titleObject": "The Augur",
+  "THEAUGUR-AUGUR.unlockText": "Play a single run with [orange]{Prerequisite}[/orange] to unlock this character."
+}

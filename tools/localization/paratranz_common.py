@@ -1,7 +1,11 @@
 """Shared helpers for the ParaTranz sync scripts.
 
 Config lives in .github/configs/paratranz.json:
-  mod_dir      - repo folder holding localization/<lang>/*.json (TheWitch)
+  mod_dir      - repo folder holding localization/<lang>/*.json (TheWitch/TheWitch)
+  remote_dir   - folder prefix of the files ON ParaTranz (<remote_dir>/localization/<lang>/<file>).
+                 Deliberately decoupled from mod_dir: ParaTranz keys files by full path, so moving the
+                 repo folder must never move the remote files (that duplicates every string and
+                 orphans the translations). Leave it alone; run para_prune_files.py if it ever drifts.
   languages    - game language code -> ParaTranz language code (used by create_projects.py)
   projects     - game language code -> ParaTranz project id (filled by create_projects.py)
 
@@ -100,6 +104,14 @@ class Client:
     def get_translation(self, project_id, file_id):
         return self.get_json(f"/projects/{project_id}/files/{file_id}/translation")
 
+    def rename_file(self, project_id, file_id, new_name):
+        """PUT /projects/{id}/files/{fid}  {name: <full path>} - keeps strings + translations."""
+        return self.put_json(f"/projects/{project_id}/files/{file_id}", {"name": new_name})
+
+    def delete_file(self, project_id, file_id):
+        """DELETE /projects/{id}/files/{fid} - drops the file AND every translation in it."""
+        return self._req("DELETE", f"/projects/{project_id}/files/{file_id}")
+
 
 LANG_NAMES = {
     "zhs": "Simplified Chinese", "deu": "German", "fra": "French", "ita": "Italian",
@@ -140,8 +152,25 @@ def eng_files(config):
     return [p for p in sorted(eng_dir.glob("*.json")) if json.loads(p.read_text(encoding="utf-8-sig"))]
 
 
+def remote_dir(config):
+    return config.get("remote_dir") or config["mod_dir"]
+
+
 def remote_path(config, lang, filename):
-    return f"{config['mod_dir']}/localization/{lang}/{filename}"
+    return f"{remote_dir(config)}/localization/{lang}/{filename}"
+
+
+def parse_remote_path(config, lang, name):
+    """Inverse of remote_path: the bare filename if `name` is one of this language's files, else None."""
+    prefix = f"{remote_dir(config)}/localization/{lang}/"
+    if not name.startswith(prefix):
+        return None
+    rest = name[len(prefix):]
+    return rest if rest and "/" not in rest else None
+
+
+def expected_remote_paths(config, lang):
+    return {remote_path(config, lang, p.name) for p in eng_files(config)}
 
 
 def projects(config):

@@ -1,0 +1,15 @@
+{
+    "title":  "The Witch - Beta Branch",
+    "description":  null,
+    "visibility":  "public",
+    "changeNote":  "v0.12.3",
+    "tags":  [
+                 "Characters",
+                 "Cards",
+                 "Relics",
+                 "Potions"
+             ],
+    "dependencies":  [
+                         3737335127
+                     ]
+}

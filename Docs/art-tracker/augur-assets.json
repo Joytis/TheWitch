@@ -1,0 +1,11 @@
+{
+  "comment": "Non-card art assets for The Augur. Same shape as assets.json (the Witch file): per asset 'artist' and 'done'; status is DERIVED. Cards come from ../card-data/augur.json + ./augur-briefs.json. The Powers tab is auto-enumerated from TheAugur's powers.json; 'powerOverrides' / 'extraPowers' curate it.",
+  "categories": [
+    { "id": "potions", "title": "Potions", "dims": "256x256", "assets": [] },
+    { "id": "relics", "title": "Relics", "dims": "256x256", "assets": [] },
+    { "id": "pets", "title": "Familiar Pets", "dims": "512x512", "assets": [] },
+    { "id": "charui", "title": "Character & UI", "dims": "", "assets": [] }
+  ],
+  "powerOverrides": {},
+  "extraPowers": {}
+}
