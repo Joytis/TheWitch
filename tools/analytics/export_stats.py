@@ -166,9 +166,11 @@ def main() -> int:
     if not args.include_seed and not runs.empty:
         runs = runs[runs["mod_version"] != "seed-test"]
     if runs.empty:
-        print("No runs to export (after seed filter) — leaving existing data untouched.",
-              file=sys.stderr)
-        return 1
+        # Not an error: an unshipped character (the Augur until release) or a quiet window has
+        # no rows. Exit clean so the per-character workflow steps don't fail the whole job.
+        print(f"No runs to export for {ch['id']} (after seed filter) — leaving existing data "
+              "untouched.", file=sys.stderr)
+        return 0
 
     tables = build_tables(runs, ch)
     days = sorted({r["day"] for r in tables["runs_daily"]})

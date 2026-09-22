@@ -34,6 +34,10 @@ public sealed class BottleBarrage : WitchCard
     {
     }
 
+    // The bottle-throw vfx isn't globally preloaded (see NBottleThrowVfx) - without this the first play
+    // does a synchronous ResourceLoader.Load with an "Asset not cached" warning, same as Rats/Plaguestorm.
+    protected override IEnumerable<string> ExtraRunAssetPaths => [NBottleThrowVfx.scenePath];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
