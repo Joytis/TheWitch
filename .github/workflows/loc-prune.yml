@@ -1,0 +1,36 @@
+name: loc-prune
+
+# Manual: delete ParaTranz files that don't match <remote_dir>/localization/<lang>/<eng file>.
+# Dry run by default; tick "apply" to delete. Files holding translations are never deleted
+# without "force". Requires the PARATRANZ_API_KEY repository secret.
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Actually delete (unticked = dry run, just lists)"
+        required: false
+        type: boolean
+        default: false
+      force:
+        description: "Also delete stray files that already hold translations"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Prune stray ParaTranz files
+        env:
+          PARATRANZ_API_KEY: ${{ secrets.PARATRANZ_API_KEY }}
+        run: python tools/localization/para_prune_files.py ${{ inputs.apply && '--apply' || '' }} ${{ inputs.force && '--force' || '' }}

@@ -11,6 +11,8 @@ Translations are crowd-sourced on [ParaTranz](https://paratranz.cn), one project
 | `.github/configs/paratranz.json` | `languages` (game code → ParaTranz code) and `projects` (game code → ParaTranz project id). |
 | `tools/localization/*.py` | Sync scripts. Need `PARATRANZ_API_KEY` in the environment (ParaTranz → Settings → API Token). |
 
+**Remote paths are pinned.** Files on ParaTranz live at `<remote_dir>/localization/<lang>/<file>` (`remote_dir` in `.github/configs/paratranz.json`, currently `TheWitch`), independent of where the repo keeps them. ParaTranz keys files by full path, so changing that prefix makes the upload *create* a second copy of every file (doubling the string count, translations stranded on the old copies) instead of updating - which is what the 2026-09-20 folder move did. Never change `remote_dir`; if the projects ever drift, run `tools/localization/para_prune_files.py` (dry run by default, `--apply` deletes; the `loc-prune` workflow wraps it) - it removes files outside the expected set but refuses to delete any that hold translations unless `--force`.
+
 Language codes are the game's (`LocManager.Languages`): `zhs deu esp fra ita jpn kor pol ptb rus spa tha tur`. The game loads `res://TheWitch/localization/<lang>/<file>.json` for the active language and falls back to the English table per key, so partial translations ship fine.
 
 ## Workflows
@@ -20,6 +22,7 @@ Language codes are the game's (`LocManager.Languages`): `zhs deu esp fra ita jpn
 | `loc-upload-source` | push to `main` touching `localization/eng/`; manual | `para_upload_source.py` — create/update English source files in every project |
 | `loc-download` | nightly 08:47 UTC; manual | `para_download.py` — write translated strings (stage ≥ 1) in English key order; then `para_status.py` — snapshot per-project string counts, member counts and unanswered join applications to `pages/analytics-data/paratranz.json` (the **Localization** tab of `pages/analytics.html`); commit `Localization: sync translations from ParaTranz` |
 | `loc-upload-translations` | manual, pick a language | `para_upload_translations.py` — seed a project from translations already in the repo |
+| `loc-prune` | manual (`apply`/`force` inputs) | `para_prune_files.py` — delete files outside `<remote_dir>/localization/<lang>/` (dry run unless `apply`; never touches files holding translations unless `force`) |
 
 Secret required: `PARATRANZ_API_KEY` (repo Settings → Secrets → Actions). The download job pushes with the default `GITHUB_TOKEN` (`contents: write`).
 
