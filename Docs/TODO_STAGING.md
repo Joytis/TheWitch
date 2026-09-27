@@ -10,5 +10,4 @@
 - (user report) Token-rarity Witch potions (Ominous Flask, Noxious Brew, Ember Jar, Prickly Vial, Puff/Vial of Smoke, Bottled Message, Potion-Shaped Pebble) can be granted by 4 base events that pick uniformly from Character.PotionPool + SharedPotionPool with no rarity filter: TheLegendsWereTrue, BattlewornDummy, EndlessConveyor, Wellspring. Base game avoids this via separate TokenPotionPool/EventPotionPool. Recommended fix: WitchTokenPotionPool + rebind the Token potions. Awaiting design call.
 
 # BENCHED - NEEDS FURTHER EVALUATION
-- Broken Pact: COMPLETE REWORK. BUNJI BLAST 
 - Need Unique VFX for Primal Form. 

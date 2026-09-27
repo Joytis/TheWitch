@@ -10,7 +10,7 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>Bonfire: feed the flames — a burst of Energy, paid for by exhausting two cards; the fire leaves
-/// <see cref="Ash" /> behind in the discard pile. Ash can't be fed to the fire (excluded from the exhaust pick).</summary>
+/// <see cref="Ash" /> behind in the discard pile.</summary>
 public sealed class Bonfire : WitchCard
 {
     public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
@@ -35,7 +35,7 @@ public sealed class Bonfire : WitchCard
     {
         IEnumerable<CardModel> toExhaust = await CardSelectCmd.FromHand(
             choiceContext, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue),
-            c => c is not Ash, this);
+            null, this);
 
         foreach (CardModel card in toExhaust)
         {
