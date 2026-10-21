@@ -1,6 +1,16 @@
 {
     "THEWITCH.mod_title": "女巫",
+    "THEWITCH-TURBO_WITCHERY.title": "极速巫术",
+    "THEWITCH-TURBO_WITCHERY.hover.title": "极速巫术",
+    "THEWITCH-TURBO_WITCHERY.hover.desc": "在多人模式中，房主的设置对所有玩家生效。",
+    "THEWITCH-BETA_IMAGES.title": "测试版图片",
+    "THEWITCH-BETA_IMAGES.hover.title": "测试版图片",
+    "THEWITCH-BETA_IMAGES.hover.desc": "显示原始的测试版卡图，而非最终卡图。可能需要重启游戏才能完全生效。",
+    "THEWITCH-ANALYTICS_ENABLED.title": "启用数据分析",
+    "THEWITCH-ANALYTICS_ENABLED.hover.title": "启用数据分析",
+    "THEWITCH-ANALYTICS_ENABLED.hover.desc": "将匿名的女巫对局结果（胜负、牌组、选牌）发送给模组团队，用于平衡调整。仅当游戏自身的“上传数据”设置开启时生效。",
     "THEWITCH-WORKSHOP_UPDATE.header": "已更新的女巫",
+    "THEWITCH-WORKSHOP_UPDATE.body": "已从Steam创意工坊下载了新版本的女巫。\n重启游戏以加载新版本。",
     "THEWITCH-WORKSHOP_UPDATE.later": "以后",
     "THEWITCH-WORKSHOP_UPDATE.quit": "现在离开"
 }

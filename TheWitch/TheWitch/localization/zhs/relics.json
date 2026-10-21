@@ -1,4 +1,26 @@
 {
+    "THEWITCH-BOTTLED_CURIOSITY.title": "瓶装好奇心",
+    "THEWITCH-BOTTLED_CURIOSITY.description": "每当你进入[gold]?[/gold]房间时，获得一瓶随机[gold]药水[/gold]。",
+    "THEWITCH-BOTTLED_CURIOSITY.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
+    "THEWITCH-LARGE_POCKETS.title": "大口袋",
+    "THEWITCH-LARGE_POCKETS.description": "拾起时，获得[blue]{PotionSlots}[/blue]个[gold]药水[/gold]{PotionSlots:plural:栏位}。",
+    "THEWITCH-LARGE_POCKETS.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
+    "THEWITCH-COZY_NEST.title": "舒适小窝",
+    "THEWITCH-COZY_NEST.description": "在每场战斗开始时，召唤一只[gold]乌鸦魔宠[/gold]。",
+    "THEWITCH-COZY_NEST.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
+    "THEWITCH-SEPARATORY_FUNNEL.title": "分液漏斗",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "每当有效果将生成一瓶随机[gold]药水[/gold]时，改为由你选择。",
+    "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "一袋子零食",
-    "THEWITCH-TASTY_HERBS.title": "美味的药草"
+    "THEWITCH-SACK_OF_TREATS.description": "你的[gold]魔宠[/gold]在你的回合开始时生成它们的所有牌。",
+    "THEWITCH-SACK_OF_TREATS.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
+    "THEWITCH-WORMYS_APPLE.title": "小虫子的苹果",
+    "THEWITCH-WORMYS_APPLE.description": "拾起时，将你的最大生命值提升[blue]{MaxHp}[/blue]。在每场战斗开始时，将一张[gold]小虫子[/gold]加入你的[gold]手牌[/gold]。",
+    "THEWITCH-WORMYS_APPLE.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
+    "THEWITCH-MORGANNE.description": "你每打出的第[blue]10[/blue]张牌都会回到你的[gold]手牌[/gold]。",
+    "THEWITCH-MORGANNE.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
+    "THEWITCH-MORGANNE.title": "莫甘妮",
+    "THEWITCH-TASTY_HERBS.title": "美味的药草",
+    "THEWITCH-TASTY_HERBS.description": "每当你使用一瓶[gold]不稳定的[/gold][gold]药水[/gold]时，有[blue]25%[/blue]的几率额外使用一次。",
+    "THEWITCH-TASTY_HERBS.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]"
 }

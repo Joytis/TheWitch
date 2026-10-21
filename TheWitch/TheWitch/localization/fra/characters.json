@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]Les bois sont brisés. Ils sont en colère.[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "Ne traînons pas.",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+    "THEWITCH-WITCH.cardsModifierDescription": "Les cartes de la Sorcière peuvent apparaître dans les récompenses et dans la boutique.",
+    "THEWITCH-WITCH.cardsModifierTitle": "Cartes de la Sorcière",
+    "THEWITCH-WITCH.description": "Une antique protectrice liée aux racines.\nPratique une sorcellerie douteuse avec ses compagnons",
+    "THEWITCH-WITCH.eventDeathPrevention": "Il reste du travail à accomplir.",
+    "THEWITCH-WITCH.goldMonologue": "[sine]Vous dînerez bien ce soir, mes compagnons...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "son/sa/ses",
+    "THEWITCH-WITCH.pronounObject": "elle",
+    "THEWITCH-WITCH.pronounPossessive": "le sien/la sienne/les siens/les siennes",
+    "THEWITCH-WITCH.pronounSubject": "elle",
+    "THEWITCH-WITCH.title": "La Sorcière",
+    "THEWITCH-WITCH.titleObject": "de la Sorcière",
+    "THEWITCH-WITCH.unlockText": "Jouez une partie avec [orange]{Prerequisite}[/orange] pour débloquer ce personnage."
+}

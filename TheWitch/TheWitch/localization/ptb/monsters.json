@@ -1,0 +1,16 @@
+{
+    "OWL_PET.name": "Coruja",
+    "OWL_PET.moves.NOTHING_MOVE.title": "Nada",
+    "CAT_PET.name": "Gato",
+    "CAT_PET.moves.NOTHING_MOVE.title": "Nada",
+    "BEAR_PET.name": "Urso",
+    "BEAR_PET.moves.NOTHING_MOVE.title": "Nada",
+    "CROW_PET.name": "Corvo",
+    "CROW_PET.moves.NOTHING_MOVE.title": "Nada",
+    "MOTH_PET.name": "Mariposa",
+    "MOTH_PET.moves.NOTHING_MOVE.title": "Nada",
+    "RAT_PET.name": "Rato",
+    "RAT_PET.moves.NOTHING_MOVE.title": "Nada",
+    "WOLF_PET.name": "Lobo",
+    "WOLF_PET.moves.NOTHING_MOVE.title": "Nada"
+}

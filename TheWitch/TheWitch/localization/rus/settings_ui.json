@@ -1,5 +1,5 @@
 {
-    "THEWITCH.mod_title": "The Witch",
+    "THEWITCH.mod_title": "Ведьма",
     "THEWITCH-TURBO_WITCHERY.title": "Турбо-ведьмовство",
     "THEWITCH-TURBO_WITCHERY.hover.title": "Турбо-ведьмовство",
     "THEWITCH-TURBO_WITCHERY.hover.desc": "В многопользовательской игре настройка хоста применяется ко всем игрокам.",
@@ -9,8 +9,8 @@
     "THEWITCH-ANALYTICS_ENABLED.title": "Отправка аналитики",
     "THEWITCH-ANALYTICS_ENABLED.hover.title": "Отправка аналитики",
     "THEWITCH-ANALYTICS_ENABLED.hover.desc": "Отправлять анонимные результаты забегов за Ведьму (победа/поражение, колода, выбор карт) команде мода для настройки баланса. Работает, только если в самой игре включена настройка «Отправка данных».",
-    "THEWITCH-WORKSHOP_UPDATE.header": "The Witch обновлена",
-    "THEWITCH-WORKSHOP_UPDATE.body": "Новая версия The Witch загружена из Steam Workshop.\nПерезапустите игру, чтобы загрузить новую версию.",
+    "THEWITCH-WORKSHOP_UPDATE.header": "«Ведьма» обновлена",
+    "THEWITCH-WORKSHOP_UPDATE.body": "Новая версия «Ведьмы» загружена из Steam Workshop.\nПерезапустите игру, чтобы загрузить новую версию.",
     "THEWITCH-WORKSHOP_UPDATE.later": "Позже",
     "THEWITCH-WORKSHOP_UPDATE.quit": "Выйти сейчас"
 }

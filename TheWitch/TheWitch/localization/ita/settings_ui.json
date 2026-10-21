@@ -1,0 +1,16 @@
+{
+    "THEWITCH.mod_title": "La Strega",
+    "THEWITCH-TURBO_WITCHERY.title": "Stregoneria Turbo",
+    "THEWITCH-TURBO_WITCHERY.hover.title": "Stregoneria Turbo",
+    "THEWITCH-TURBO_WITCHERY.hover.desc": "In modalità multigiocatore, l'impostazione dell'host si applica a tutti i giocatori.",
+    "THEWITCH-BETA_IMAGES.title": "Immagini Beta",
+    "THEWITCH-BETA_IMAGES.hover.title": "Immagini Beta",
+    "THEWITCH-BETA_IMAGES.hover.desc": "Mostra le illustrazioni beta originali delle carte al posto di quelle definitive. Potrebbe essere necessario un riavvio per applicare del tutto la modifica.",
+    "THEWITCH-ANALYTICS_ENABLED.title": "Statistiche attive",
+    "THEWITCH-ANALYTICS_ENABLED.hover.title": "Statistiche attive",
+    "THEWITCH-ANALYTICS_ENABLED.hover.desc": "Invia al team della mod i risultati anonimi delle partite con la Strega (vittoria/sconfitta, mazzo, carte scelte) per il bilanciamento. Attivo solo se l'impostazione Invio dati del gioco è attiva.",
+    "THEWITCH-WORKSHOP_UPDATE.header": "La Strega è stata aggiornata",
+    "THEWITCH-WORKSHOP_UPDATE.body": "È stata scaricata dallo Steam Workshop una versione più recente de La Strega.\nRiavvia il gioco per caricare la nuova versione.",
+    "THEWITCH-WORKSHOP_UPDATE.later": "Più tardi",
+    "THEWITCH-WORKSHOP_UPDATE.quit": "Esci ora"
+}

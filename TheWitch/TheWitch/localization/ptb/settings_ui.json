@@ -1,0 +1,16 @@
+{
+    "THEWITCH.mod_title": "A Bruxa",
+    "THEWITCH-TURBO_WITCHERY.title": "Bruxaria Turbo",
+    "THEWITCH-TURBO_WITCHERY.hover.title": "Bruxaria Turbo",
+    "THEWITCH-TURBO_WITCHERY.hover.desc": "No multijogador, a configuração do anfitrião se aplica a todos os jogadores.",
+    "THEWITCH-BETA_IMAGES.title": "Imagens Beta",
+    "THEWITCH-BETA_IMAGES.hover.title": "Imagens Beta",
+    "THEWITCH-BETA_IMAGES.hover.desc": "Mostra a arte beta original das cartas em vez da arte final. Pode ser necessário reiniciar para aplicar totalmente.",
+    "THEWITCH-ANALYTICS_ENABLED.title": "Análise de Dados Ativada",
+    "THEWITCH-ANALYTICS_ENABLED.hover.title": "Análise de Dados Ativada",
+    "THEWITCH-ANALYTICS_ENABLED.hover.desc": "Envia resultados anônimos das partidas com a Bruxa (vitória/derrota, baralho, cartas escolhidas) para a equipe do mod, para ajustes de balanceamento. Só fica ativo se a configuração Enviar Dados do próprio jogo estiver ligada.",
+    "THEWITCH-WORKSHOP_UPDATE.header": "A Bruxa Foi Atualizada",
+    "THEWITCH-WORKSHOP_UPDATE.body": "Uma versão mais recente de A Bruxa foi baixada da Oficina Steam.\nReinicie o jogo para carregar a nova versão.",
+    "THEWITCH-WORKSHOP_UPDATE.later": "Mais Tarde",
+    "THEWITCH-WORKSHOP_UPDATE.quit": "Sair Agora"
+}

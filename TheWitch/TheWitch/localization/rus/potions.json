@@ -10,7 +10,7 @@
     "THEWITCH-PRICKLY_VIAL.title": "Колючий флакон",
     "THEWITCH-PRICKLY_VIAL.description": "Дает [blue]{BramblesPower}[/blue] [gold]терний[/gold].",
     "THEWITCH-BUDDY_IN_A_BOTTLE.title": "Друг в бутылке",
-    "THEWITCH-BUDDY_IN_A_BOTTLE.description": "Добавляет случайного [gold]фамильяра[/gold] в вашу [gold]руку[/gold]. В этом ходу его можно разыграть бесплатно.",
+    "THEWITCH-BUDDY_IN_A_BOTTLE.description": "Добавляет случайную карту призыва [gold]фамильяра[/gold] в вашу [gold]руку[/gold]. В этом ходу ее можно разыграть бесплатно.",
     "THEWITCH-VIAL_OF_SMOKE.title": "Флакон дыма",
     "THEWITCH-VIAL_OF_SMOKE.description": "Дает [blue]{Block}[/blue] [gold]защиты[/gold].",
     "THEWITCH-PUFF_OF_SMOKE.title": "Облачко дыма",

@@ -1,5 +1,9 @@
 {
     "THEWITCH-UNSTABLE.title": "不稳定的",
+    "THEWITCH-UNSTABLE.description": "在战斗结束时，这瓶[gold]药水[/gold]会被摧毁。\n（[gold]右键点击[/gold]即可立刻使用。）",
     "THEWITCH-TREASURE.title": "宝藏",
-    "THEWITCH-BIG_TREASURE.title": "超大宝藏"
+    "THEWITCH-TREASURE.description": "造成[blue]5[/blue]点伤害。\n也可以卖给[gold]商人[/gold]换取[blue]15[/blue][gold]金币[/gold]。",
+    "THEWITCH-BREW_PROMPT.title": "选择一瓶要制作的药水。",
+    "THEWITCH-BIG_TREASURE.title": "超大宝藏",
+    "THEWITCH-BIG_TREASURE.description": "造成[blue]7[/blue]点伤害。\n也可以卖给[gold]商人[/gold]换取[blue]30[/blue][gold]金币[/gold]。"
 }

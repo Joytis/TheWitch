@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]숲이 망가졌다. 숲이 분노하고 있다.[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "지체하지 마라.",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+    "THEWITCH-WITCH.cardsModifierDescription": "이제 마녀 카드가 보상과 상점에 등장합니다.",
+    "THEWITCH-WITCH.cardsModifierTitle": "마녀 카드",
+    "THEWITCH-WITCH.description": "뿌리에 얽매인 고대의 수호자입니다.\n동료들과 함께 수상쩍은 마녀술을 부립니다.",
+    "THEWITCH-WITCH.eventDeathPrevention": "아직 할 일이 남았다.",
+    "THEWITCH-WITCH.goldMonologue": "[sine]오늘 밤은 배불리 먹겠구나, 동료들아...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "그녀의",
+    "THEWITCH-WITCH.pronounObject": "그녀를",
+    "THEWITCH-WITCH.pronounPossessive": "그녀의 것",
+    "THEWITCH-WITCH.pronounSubject": "그녀",
+    "THEWITCH-WITCH.title": "마녀",
+    "THEWITCH-WITCH.titleObject": "마녀",
+    "THEWITCH-WITCH.unlockText": "이 캐릭터를 해금하려면 [orange]{Prerequisite}[/orange]로 게임을 한 번 플레이하세요."
+}

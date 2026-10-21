@@ -1,0 +1,16 @@
+{
+    "THEWITCH.mod_title": "La Sorcière",
+    "THEWITCH-TURBO_WITCHERY.title": "Sorcellerie turbo",
+    "THEWITCH-TURBO_WITCHERY.hover.title": "Sorcellerie turbo",
+    "THEWITCH-TURBO_WITCHERY.hover.desc": "En multijoueur, le réglage de l'hôte s'applique à tous les joueurs.",
+    "THEWITCH-BETA_IMAGES.title": "Images bêta",
+    "THEWITCH-BETA_IMAGES.hover.title": "Images bêta",
+    "THEWITCH-BETA_IMAGES.hover.desc": "Affiche les illustrations bêta d'origine des cartes au lieu des illustrations finales. Un redémarrage peut être nécessaire pour que le changement s'applique entièrement.",
+    "THEWITCH-ANALYTICS_ENABLED.title": "Statistiques activées",
+    "THEWITCH-ANALYTICS_ENABLED.hover.title": "Statistiques activées",
+    "THEWITCH-ANALYTICS_ENABLED.hover.desc": "Envoie à l'équipe du mod les résultats anonymes de vos parties avec la Sorcière (victoire/défaite, deck, choix de cartes) pour l'équilibrage. Actif uniquement si le réglage d'envoi de données du jeu est activé.",
+    "THEWITCH-WORKSHOP_UPDATE.header": "La Sorcière a été mise à jour",
+    "THEWITCH-WORKSHOP_UPDATE.body": "Une nouvelle version de La Sorcière a été téléchargée depuis le Steam Workshop.\nRedémarrez le jeu pour charger la nouvelle version.",
+    "THEWITCH-WORKSHOP_UPDATE.later": "Plus tard",
+    "THEWITCH-WORKSHOP_UPDATE.quit": "Quitter maintenant"
+}

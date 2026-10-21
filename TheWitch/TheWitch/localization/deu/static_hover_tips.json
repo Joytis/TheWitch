@@ -1,0 +1,9 @@
+{
+    "THEWITCH-UNSTABLE.title": "Instabil",
+    "THEWITCH-UNSTABLE.description": "Am Ende des Kampfes wird dieser [gold]Trank[/gold] zerstört.\n([gold]Rechtsklick[/gold], um ihn sofort zu benutzen).",
+    "THEWITCH-TREASURE.title": "Schatz",
+    "THEWITCH-TREASURE.description": "Füge [blue]5[/blue] Schaden zu.\nKann stattdessen dem [gold]Händler[/gold] für [blue]15[/blue] [gold]Gold[/gold] verkauft werden.",
+    "THEWITCH-BREW_PROMPT.title": "Wähle einen Trank zum Erzeugen.",
+    "THEWITCH-BIG_TREASURE.title": "Großer Schatz",
+    "THEWITCH-BIG_TREASURE.description": "Füge [blue]7[/blue] Schaden zu.\nKann stattdessen dem [gold]Händler[/gold] für [blue]30[/blue] [gold]Gold[/gold] verkauft werden."
+}

@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]A floresta está partida. Ela está furiosa.[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "Não se demore.",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+    "THEWITCH-WITCH.cardsModifierDescription": "Cartas da Bruxa aparecerão em recompensas e lojas.",
+    "THEWITCH-WITCH.cardsModifierTitle": "Cartas da Bruxa",
+    "THEWITCH-WITCH.description": "Uma antiga protetora enraizada na floresta.\nPratica bruxaria duvidosa com seus companheiros",
+    "THEWITCH-WITCH.eventDeathPrevention": "Ainda há trabalho a ser feito.",
+    "THEWITCH-WITCH.goldMonologue": "[sine]Vocês jantarão bem esta noite, companheiros...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "dela",
+    "THEWITCH-WITCH.pronounObject": "ela",
+    "THEWITCH-WITCH.pronounPossessive": "sua",
+    "THEWITCH-WITCH.pronounSubject": "ela",
+    "THEWITCH-WITCH.title": "A Bruxa",
+    "THEWITCH-WITCH.titleObject": "A Bruxa",
+    "THEWITCH-WITCH.unlockText": "Jogue uma partida com [orange]{Prerequisite}[/orange] para desbloquear esta personagem."
+}

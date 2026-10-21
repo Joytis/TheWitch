@@ -1,0 +1,9 @@
+{
+    "THEWITCH-UNSTABLE.title": "Inestable",
+    "THEWITCH-UNSTABLE.description": "Al final del combate, esta [gold]Poción[/gold] se destruye.\n(Haz [gold]clic derecho[/gold] para usarla al instante).",
+    "THEWITCH-TREASURE.title": "Tesoro",
+    "THEWITCH-TREASURE.description": "Inflige [blue]5[/blue] de daño.\nTambién puede venderse al [gold]Comerciante[/gold] por [blue]15[/blue] de [gold]Oro[/gold].",
+    "THEWITCH-BREW_PROMPT.title": "Elige una Poción para crear.",
+    "THEWITCH-BIG_TREASURE.title": "Gran tesoro",
+    "THEWITCH-BIG_TREASURE.description": "Inflige [blue]7[/blue] de daño.\nTambién puede venderse al [gold]Comerciante[/gold] por [blue]30[/blue] de [gold]Oro[/gold]."
+}

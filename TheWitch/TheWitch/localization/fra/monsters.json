@@ -1,0 +1,16 @@
+{
+    "OWL_PET.name": "Hibou",
+    "OWL_PET.moves.NOTHING_MOVE.title": "Rien",
+    "CAT_PET.name": "Chat",
+    "CAT_PET.moves.NOTHING_MOVE.title": "Rien",
+    "BEAR_PET.name": "Ours",
+    "BEAR_PET.moves.NOTHING_MOVE.title": "Rien",
+    "CROW_PET.name": "Corbeau",
+    "CROW_PET.moves.NOTHING_MOVE.title": "Rien",
+    "MOTH_PET.name": "Phalène",
+    "MOTH_PET.moves.NOTHING_MOVE.title": "Rien",
+    "RAT_PET.name": "Rat",
+    "RAT_PET.moves.NOTHING_MOVE.title": "Rien",
+    "WOLF_PET.name": "Loup",
+    "WOLF_PET.moves.NOTHING_MOVE.title": "Rien"
+}

@@ -1,0 +1,16 @@
+{
+    "OWL_PET.name": "Eule",
+    "OWL_PET.moves.NOTHING_MOVE.title": "Nichts",
+    "CAT_PET.name": "Katze",
+    "CAT_PET.moves.NOTHING_MOVE.title": "Nichts",
+    "BEAR_PET.name": "Bär",
+    "BEAR_PET.moves.NOTHING_MOVE.title": "Nichts",
+    "CROW_PET.name": "Krähe",
+    "CROW_PET.moves.NOTHING_MOVE.title": "Nichts",
+    "MOTH_PET.name": "Motte",
+    "MOTH_PET.moves.NOTHING_MOVE.title": "Nichts",
+    "RAT_PET.name": "Ratte",
+    "RAT_PET.moves.NOTHING_MOVE.title": "Nichts",
+    "WOLF_PET.name": "Wolf",
+    "WOLF_PET.moves.NOTHING_MOVE.title": "Nichts"
+}

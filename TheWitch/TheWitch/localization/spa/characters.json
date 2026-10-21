@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]Los bosques están rotos. Están furiosos.[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "No te demores.",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+    "THEWITCH-WITCH.cardsModifierDescription": "Ahora las cartas de la Bruja aparecerán en las recompensas y tiendas.",
+    "THEWITCH-WITCH.cardsModifierTitle": "Cartas de la Bruja",
+    "THEWITCH-WITCH.description": "Una antigua protectora unida a las raíces.\nPractica una brujería dudosa junto a sus compañeros",
+    "THEWITCH-WITCH.eventDeathPrevention": "Aún queda trabajo por hacer.",
+    "THEWITCH-WITCH.goldMonologue": "[sine]Esta noche cenaréis bien, compañeros...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "su",
+    "THEWITCH-WITCH.pronounObject": "a ella",
+    "THEWITCH-WITCH.pronounPossessive": "suya",
+    "THEWITCH-WITCH.pronounSubject": "ella",
+    "THEWITCH-WITCH.title": "La Bruja",
+    "THEWITCH-WITCH.titleObject": "La Bruja",
+    "THEWITCH-WITCH.unlockText": "Juega una partida con [orange]{Prerequisite}[/orange] para desbloquear este personaje."
+}

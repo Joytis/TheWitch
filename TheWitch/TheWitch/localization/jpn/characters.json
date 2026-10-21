@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]森は壊れた。森は怒っている。[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "ぐずぐずするな。",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "……",
+    "THEWITCH-WITCH.cardsModifierDescription": "報酬やショップにウィッチのカードが出現するようになる。",
+    "THEWITCH-WITCH.cardsModifierTitle": "ウィッチのカード",
+    "THEWITCH-WITCH.description": "根に縛られた古き守護者。\n仲間たちと共に、怪しげな魔女術を操る。",
+    "THEWITCH-WITCH.eventDeathPrevention": "まだ為すべきことがある。",
+    "THEWITCH-WITCH.goldMonologue": "[sine]今夜はごちそうだよ、仲間たち……[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "彼女の",
+    "THEWITCH-WITCH.pronounObject": "彼女",
+    "THEWITCH-WITCH.pronounPossessive": "彼女の",
+    "THEWITCH-WITCH.pronounSubject": "彼女",
+    "THEWITCH-WITCH.title": "ウィッチ",
+    "THEWITCH-WITCH.titleObject": "ウィッチ",
+    "THEWITCH-WITCH.unlockText": "[orange]{Prerequisite}[/orange] で1回プレイして、このキャラクターをアンロック。"
+}

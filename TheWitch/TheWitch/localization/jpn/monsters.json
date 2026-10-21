@@ -1,0 +1,16 @@
+{
+    "OWL_PET.name": "フクロウ",
+    "OWL_PET.moves.NOTHING_MOVE.title": "何もしない",
+    "CAT_PET.name": "ネコ",
+    "CAT_PET.moves.NOTHING_MOVE.title": "何もしない",
+    "BEAR_PET.name": "クマ",
+    "BEAR_PET.moves.NOTHING_MOVE.title": "何もしない",
+    "CROW_PET.name": "カラス",
+    "CROW_PET.moves.NOTHING_MOVE.title": "何もしない",
+    "MOTH_PET.name": "蛾",
+    "MOTH_PET.moves.NOTHING_MOVE.title": "何もしない",
+    "RAT_PET.name": "ネズミ",
+    "RAT_PET.moves.NOTHING_MOVE.title": "何もしない",
+    "WOLF_PET.name": "オオカミ",
+    "WOLF_PET.moves.NOTHING_MOVE.title": "何もしない"
+}

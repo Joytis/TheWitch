@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]I boschi sono spezzati. Sono furiosi.[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "Non indugiare.",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+    "THEWITCH-WITCH.cardsModifierDescription": "le carte della Strega ora compariranno nelle ricompense e nei negozi.",
+    "THEWITCH-WITCH.cardsModifierTitle": "Carte della Strega",
+    "THEWITCH-WITCH.description": "Un'antica protettrice legata alle radici.\nPratica una dubbia stregoneria insieme ai suoi compagni",
+    "THEWITCH-WITCH.eventDeathPrevention": "C'è ancora del lavoro da fare.",
+    "THEWITCH-WITCH.goldMonologue": "[sine]Stasera banchetterete, compagni miei ...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "sua/suo/sue/suoi",
+    "THEWITCH-WITCH.pronounObject": "le",
+    "THEWITCH-WITCH.pronounPossessive": "la sua/il suo/le sue/i suoi",
+    "THEWITCH-WITCH.pronounSubject": "lei",
+    "THEWITCH-WITCH.title": "La Strega",
+    "THEWITCH-WITCH.titleObject": "la Strega",
+    "THEWITCH-WITCH.unlockText": "Gioca una partita con [orange]{Prerequisite}[/orange] per sbloccare questo personaggio."
+}

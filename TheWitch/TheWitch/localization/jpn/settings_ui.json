@@ -1,0 +1,16 @@
+{
+    "THEWITCH.mod_title": "ウィッチ",
+    "THEWITCH-TURBO_WITCHERY.title": "ターボ魔女術",
+    "THEWITCH-TURBO_WITCHERY.hover.title": "ターボ魔女術",
+    "THEWITCH-TURBO_WITCHERY.hover.desc": "マルチプレイでは、ホストの設定が全プレイヤーに適用される。",
+    "THEWITCH-BETA_IMAGES.title": "ベータ版画像",
+    "THEWITCH-BETA_IMAGES.hover.title": "ベータ版画像",
+    "THEWITCH-BETA_IMAGES.hover.desc": "最終版のアートの代わりに、ベータ版のオリジナルのカードアートを表示する。完全に反映するには再起動が必要な場合がある。",
+    "THEWITCH-ANALYTICS_ENABLED.title": "分析データ送信",
+    "THEWITCH-ANALYTICS_ENABLED.hover.title": "分析データ送信",
+    "THEWITCH-ANALYTICS_ENABLED.hover.desc": "バランス調整のため、ウィッチのプレイ結果（勝敗、デッキ、カードの選択）を匿名でMODチームに送信する。ゲーム本体の「データをアップロード」設定がオンの場合のみ有効。",
+    "THEWITCH-WORKSHOP_UPDATE.header": "ウィッチが更新されました",
+    "THEWITCH-WORKSHOP_UPDATE.body": "Steamワークショップからウィッチの新しいバージョンがダウンロードされました。\n新しいバージョンを読み込むには、ゲームを再起動してください。",
+    "THEWITCH-WORKSHOP_UPDATE.later": "後で",
+    "THEWITCH-WORKSHOP_UPDATE.quit": "今すぐ終了"
+}
