@@ -21,9 +21,10 @@ namespace TheWitch.TheWitchCode.Cards;
 public abstract class WitchFamiliarCard(int cost, CardType type, CardRarity rarity, TargetType target) :
     CustomCardModel(cost, type, rarity, target)
 {
-    // Familiar token-cards are one-shot per-turn payloads — Exhaust by default so they never clog the deck.
-    // A subclass that needs extra keywords must re-include Exhaust in its own CanonicalKeywords override.
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    // Familiar token-cards are one-shot per-turn payloads — Exhaust by default so they never clog the deck —
+    // and carry the Familiar keyword so "Familiar card" payoffs are readable on the card face.
+    // A subclass that needs extra keywords must re-include both in its own CanonicalKeywords override.
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [WitchKeywords.Familiar, CardKeyword.Exhaust];
 
     /// <summary>Artist credit for this card's art (data-only for now — no in-game display).
     /// Defaults to Kitsu; override per card, or return null for uncredited.</summary>

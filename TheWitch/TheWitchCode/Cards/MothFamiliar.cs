@@ -11,6 +11,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class MothFamiliar : WitchCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<MothFamiliarPower>(),
         HoverTipFactory.FromPower<MoonlightPower>(),
         HoverTipFactory.FromCard<StarDust>(IsUpgraded),

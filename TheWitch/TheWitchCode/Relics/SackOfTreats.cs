@@ -1,4 +1,6 @@
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.HoverTips;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Relics;
 
@@ -10,4 +12,8 @@ namespace TheWitch.TheWitchCode.Relics;
 public sealed class SackOfTreats : WitchRelic
 {
     public override RelicRarity Rarity => RelicRarity.Rare;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
+    ];
 }

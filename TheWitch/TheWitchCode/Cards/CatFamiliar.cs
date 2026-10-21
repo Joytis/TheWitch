@@ -14,6 +14,7 @@ public sealed class CatFamiliar : WitchCard, IFamiliarSummon
     }
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<CatFamiliarPower>(),
         HoverTipFactory.FromCard<Ferocity>(IsUpgraded),
         HoverTipFactory.FromCard<Nimble>(IsUpgraded),

@@ -11,6 +11,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class RitualSacrifice : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<HexPower>(),
     ];
 
