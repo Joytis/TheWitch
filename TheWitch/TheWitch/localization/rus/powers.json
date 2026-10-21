@@ -104,7 +104,6 @@
     "THEWITCH-HIDDEN_IN_SMOKE_POWER.description": "В начале вашего хода создает [gold]Нестабильное зелье[/gold] [gold]«Облачко дыма»[/gold].",
     "THEWITCH-HIDDEN_IN_SMOKE_POWER.smartDescription": "В начале вашего хода создает [gold]Нестабильное зелье[/gold] [gold]«Облачко дыма»[/gold].",
     "THEWITCH-HIDDEN_IN_SMOKE_POWER.title": "Укрытие в дыму",
-    "THEWITCH-OVERRUN_POWER.description": "Каждый раз, когда вы разыгрываете карту [gold]фамильяра[/gold] в этом ходу, наносит урон выбранному врагу.",
     "THEWITCH-OVERRUN_POWER.remoteDescription": "Получает [blue]{Amount}[/blue] урона, когда [gold]{ApplierName}[/gold] разыгрывает карту [gold]фамильяра[/gold] в этом ходу.",
     "THEWITCH-OVERRUN_POWER.smartDescription": "Каждый раз, когда вы разыгрываете карту [gold]фамильяра[/gold] в этом ходу, наносит [blue]{Amount}[/blue] урона этому врагу.",
     "THEWITCH-OVERRUN_POWER.title": "Натиск",
