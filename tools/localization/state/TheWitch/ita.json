@@ -101,6 +101,8 @@
         "THEWITCH-ANIMAL_HANDLING.description": "bdf8d5726a36",
         "THEWITCH-ANIMAL_HANDLING.title": "89c6c3a4bc79",
         "THEWITCH-ASH.title": "1273827574a8",
+        "THEWITCH-A_LITTLE_SIP.description": "e82195704120",
+        "THEWITCH-A_LITTLE_SIP.title": "5806b785e94c",
         "THEWITCH-BAG_OF_TEETH.description": "7654d6233fda",
         "THEWITCH-BAG_OF_TEETH.title": "8ec0ed529d34",
         "THEWITCH-BEAR_FAMILIAR.description": "a66332db638e",
@@ -399,6 +401,9 @@
         "THEWITCH-VIAL_OF_SMOKE.title": "e1dcf19e3fd9"
     },
     "powers.json": {
+        "THEWITCH-A_LITTLE_SIP_POWER.description": "25627a49bce4",
+        "THEWITCH-A_LITTLE_SIP_POWER.smartDescription": "ea7f5c3691bf",
+        "THEWITCH-A_LITTLE_SIP_POWER.title": "5806b785e94c",
         "THEWITCH-BEAR_FAMILIAR_POWER.description": "0a6e2218c2f7",
         "THEWITCH-BEAR_FAMILIAR_POWER.smartDescription": "b2b323167a04",
         "THEWITCH-BEAR_FAMILIAR_POWER.title": "950ad777d1a4",

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-21",
+  "generated": "2026-10-28",
   "cards": [
     {
       "name": "Defend",
@@ -1941,6 +1941,38 @@
       ]
     },
     {
+      "name": "A Little Sip",
+      "entry": "A_LITTLE_SIP",
+      "file": "TheWitch/TheWitchCode/Cards/ALittleSip.cs",
+      "cost": 2,
+      "type": "Power",
+      "rarity": "Rare",
+      "target": "Self",
+      "text": "Whenever you use a Potion, draw a card.",
+      "numbers": {
+        "ALittleSip": 1
+      },
+      "upgrade": "custom (see code)",
+      "multiplayer": false,
+      "note": "A Little Sip: a Power — whenever you use a potion, draw a card.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "Potions"
+      ],
+      "role": [
+        "Payoff"
+      ],
+      "sub": [
+        "Potions:UsePayoff"
+      ],
+      "threads": [
+        "Draw"
+      ]
+    },
+    {
       "name": "Ambush!",
       "entry": "AMBUSH",
       "file": "TheWitch/TheWitchCode/Cards/Ambush.cs",
@@ -2699,28 +2731,6 @@
         "TurnEngine",
         "CostReduction"
       ]
-    },
-    {
-      "name": "Unbroken Chant",
-      "entry": "UNBROKEN_CHANT",
-      "file": "TheWitch/TheWitchCode/Cards/UnbrokenChant.cs",
-      "cost": 2,
-      "type": "Skill",
-      "rarity": "Rare",
-      "target": "Self",
-      "text": "Draw a card and play it for free. If it was a Skill, repeat this effect.",
-      "numbers": {},
-      "upgrade": "custom (see code)",
-      "multiplayer": false,
-      "note": "Unbroken Chant: draw a card and play it for free; keep going for as long as the drawn card is a Skill.",
-      "tested": false,
-      "artFinal": false,
-      "vfxPass": false,
-      "sfxPass": false,
-      "mechanics": [],
-      "role": [],
-      "sub": [],
-      "threads": []
     },
     {
       "name": "Wicker Heart",
