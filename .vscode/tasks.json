@@ -21,7 +21,7 @@
                 "clear": true,
                 "focus": true
             },
-            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions + addons/mega_text per project; for the Witch also the PROTOTYPE Live2D toolchain (asks once to accept Live2D's SDK license, then downloads + builds GDCubism). Needs gamedata/."
+            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions + addons/mega_text per project; for the Witch also the Live2D toolchain (asks once to accept Live2D's SDK license, then downloads + builds our GDCubism fork; required to bundle the Witch). Needs gamedata/."
         },
         {
             "label": "Run",

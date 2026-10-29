@@ -3,31 +3,43 @@ using Godot;
 namespace TheWitch.TheWitchCode.Live2D;
 
 /// <summary>
-/// PROTOTYPE. Live2D support via the GDCubism GDExtension (github.com/MizunagiKB/gd_cubism).
+/// PROTOTYPE. Live2D support via our fork of the GDCubism GDExtension
+/// (github.com/MizunagiKB/gd_cubism, built by <c>tools/live2d/setup-live2d.ps1</c>).
+///
+/// The fork prefixes every class (<c>GDCubismUserModel</c> -> <see cref="ModelClass"/>) and loads its
+/// shaders from <see cref="ShaderResDir"/>, so another mod shipping stock GDCubism can't collide
+/// with it: Godot keeps whichever extension registers a class name first, and a later pck
+/// overrides earlier files at the same res:// path.
 ///
 /// The extension is a native dll, which cannot live inside our .pck, so it sits on disk next to
-/// TheWitch.dll (staged by <c>tools/live2d/setup-live2d.ps1</c>, copied by the csproj on build):
+/// TheWitch.dll (copied by the csproj on build, shipped by bundle-workshop.ps1):
 /// <code>
-///   mods/TheWitch/live2d/gd_cubism.gdextension
-///   mods/TheWitch/live2d/bin/libgd_cubism.windows.release.x86_64.dll
+///   mods/TheWitch/live2d/witch_cubism.gdextension
+///   mods/TheWitch/live2d/bin/libwitch_cubism.windows.release.x86_64.dll
 /// </code>
 /// The extension is never registered with the game's project; it is loaded on first use with
 /// <see cref="GDExtensionManager.LoadExtension"/> and its nodes are made via <see cref="ClassDB"/>.
 /// Models live in the pck under <see cref="ModelResDir"/> (GDCubism reads them through FileAccess):
 /// loose model files can't go under mods/, the game's ModManager parses every *.json there as a
-/// mod manifest. GDCubism's shaders are in the pck too, at the
-/// <c>res://addons/gd_cubism/res/shader/</c> path it hardcodes.
+/// mod manifest.
 ///
-/// On whenever the extension and a model are present; otherwise the static sprite stays.
+/// On whenever the extension and a model are present (Windows x64 only, the one platform built);
+/// otherwise the static sprite stays.
 /// </summary>
 internal static class Live2DRuntime
 {
     public const string ModelName = "witch";
-    public const string ModelClass = "GDCubismUserModel";
+
+    /// <summary>The fork's class-name prefix (stock GDCubism uses <c>GDCubism</c>).</summary>
+    public const string ClassPrefix = "WitchCubism";
+    public const string ModelClass = $"{ClassPrefix}UserModel";
 
     private static bool? _loaded;
 
     public const string ModelResDir = $"{MainFile.ResPath}/live2d";
+
+    /// <summary>Where the fork loads its shaders from; setup-live2d.ps1 patches this path in.</summary>
+    public const string ShaderResDir = $"{ModelResDir}/shader";
 
     public static string Live2DDir =>
         Path.Combine(Path.GetDirectoryName(typeof(MainFile).Assembly.Location)!, "live2d").Replace('\\', '/');
@@ -40,10 +52,17 @@ internal static class Live2DRuntime
             return _loaded.Value;
         }
 
-        string extensionPath = $"{Live2DDir}/gd_cubism.gdextension";
+        // Only a Windows x64 library is built; elsewhere LoadExtension would just log an engine error.
+        if (OS.GetName() != "Windows" || Engine.GetArchitectureName() != "x86_64")
+        {
+            MainFile.Logger.Info($"[live2d] no build for {OS.GetName()} {Engine.GetArchitectureName()}; using the static sprite");
+            _loaded = false;
+            return false;
+        }
+
+        string extensionPath = $"{Live2DDir}/witch_cubism.gdextension";
         if (!File.Exists(extensionPath))
         {
-            // The normal case for Workshop installs, which don't ship the extension.
             MainFile.Logger.Info($"[live2d] {extensionPath} not found; using the static sprite");
             _loaded = false;
             return false;

@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
-    PROTOTYPE. Fetches + builds the GDCubism Live2D GDExtension and stages it (plus a sample
-    model) so the Witch renders as Live2D. Run by tools/setup.ps1; idempotent.
+    Fetches + builds the Witch's fork of the GDCubism Live2D GDExtension and stages it (plus a
+    sample model) so the Witch renders as Live2D. Run by tools/setup.ps1; idempotent.
 
 .DESCRIPTION
     GDCubism (github.com/MizunagiKB/gd_cubism, MIT) must be compiled against Live2D's Cubism SDK
@@ -9,21 +9,28 @@
     SDK version once you accept them (prompted, or -AcceptLive2DLicense), and caches the zip in
     build/live2d/ so later runs never ask again. -SdkZip uses a zip you downloaded yourself.
 
+    The fork is the pinned upstream tag plus the transforms in Invoke-ForkPatch, so another mod
+    shipping its own GDCubism can't collide with ours (Godot keeps whichever extension registers
+    a class name first, and pcks loaded later override earlier res:// paths):
+      - every GDCubism* class -> WitchCubism* (WitchCubismUserModel, ...)
+      - shaders loaded from res://TheWitch/live2d/shader/ instead of res://addons/gd_cubism/
+      - library built as libwitch_cubism.*.dll, loaded via witch_cubism.gdextension
+    Bump $ForkRev whenever the transforms change; the checkout is then re-cloned and rebuilt.
+
     Prerequisites (checked up front): git, Python 3 (scons is pip-installed for the user if
     missing), Visual Studio 2022+ or Build Tools with the C++ x64 toolset.
 
     Steps (each skipped when its output already exists, unless -Rebuild):
       1. download the Cubism SDK zip to build/live2d/ (license prompt)
-      2. clone gd_cubism <Tag> (+ godot-cpp submodule) into build/live2d/gd_cubism
+      2. clone gd_cubism <Tag> (+ godot-cpp submodule) into build/live2d/gd_cubism, apply the fork
       3. unpack the SDK into its thirdparty/ folder
       4. scons platform=windows target=template_release
       5. stage the native side into TheWitch/live2d/ (gitignored, .gdignore'd; the csproj copies
-         it to mods/TheWitch/live2d/ on build):
-           gd_cubism.gdextension, bin/libgd_cubism.windows.release.x86_64.dll
+         it to mods/TheWitch/live2d/ on build, bundle-workshop.ps1 ships it):
+           witch_cubism.gdextension, bin/libwitch_cubism.windows.release.x86_64.dll, licenses/
          and a Live2D sample model from the SDK into TheWitch/TheWitch/live2d/samples/<sample
          lowercased>/ (gitignored; packed into the .pck)
-      6. copy GDCubism's shaders to TheWitch/addons/gd_cubism/res/shader/ (gitignored; exported
-         into the .pck at the res:// path GDCubism hardcodes)
+      6. copy the shaders to TheWitch/TheWitch/live2d/shader/ (gitignored; packed into the .pck)
     Steps 5-6 need a `dotnet publish` to reach the game.
 
     Then launch normally (e.g. the "Debug: Combat" task on the Witch).
@@ -47,8 +54,13 @@ $repo = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $work = Join-Path $repo 'build/live2d'
 $src = Join-Path $work 'gd_cubism'
 $stage = Join-Path $repo 'TheWitch/live2d'
-$dllName = 'libgd_cubism.windows.release.x86_64.dll'
+$ForkRev = '1'                     # bump when Invoke-ForkPatch changes
+$forkMarker = Join-Path $src '.witch-fork'
+$extName = 'witch_cubism'
+$dllName = "lib$extName.windows.release.x86_64.dll"
 $builtDll = Join-Path $src "demo/addons/gd_cubism/bin/$dllName"
+# Must match Live2DRuntime.ShaderResDir.
+$shaderRes = 'res://TheWitch/live2d/shader/'
 
 function Write-Step($msg) { Write-Host "==> [live2d] $msg" -ForegroundColor Cyan }
 
@@ -111,11 +123,34 @@ if (-not $SdkZip) {
 }
 if (-not (Test-Path $SdkZip)) { throw "SDK zip not found: $SdkZip" }
 
-# --- 2. GDCubism source -----------------------------------------------------
+# --- 2. GDCubism source + fork ----------------------------------------------
+# The fork's transforms over upstream (see .DESCRIPTION). Fails loudly when upstream no longer
+# matches what they expect, rather than building something that collides.
+function Invoke-ForkPatch {
+    $utf8 = New-Object System.Text.UTF8Encoding($false)
+    $files = Get-ChildItem (Join-Path $src 'src') -Recurse -File -Include '*.cpp', '*.hpp', '*.h'
+    $shaderHits = 0
+    foreach ($f in $files) {
+        $text = [IO.File]::ReadAllText($f.FullName)
+        $new = [regex]::Replace($text, '\bGDCubism(?=[A-Z])', 'WitchCubism')
+        $shaderHits += ([regex]::Matches($new, [regex]::Escape('res://addons/gd_cubism/res/shader/'))).Count
+        $new = $new.Replace('res://addons/gd_cubism/res/shader/', $shaderRes)
+        if ($new -ne $text) { [IO.File]::WriteAllText($f.FullName, $new, $utf8) }
+        if ($new -match 'GDCubism[A-Z]') { throw "Fork patch missed a GDCubism class name in $($f.FullName)" }
+    }
+    if ($shaderHits -eq 0) { throw "Fork patch found no shader paths to relocate; upstream changed." }
+
+    # SConstruct names the library after the single demo/addons/*/*.gdextension.
+    $ext = Join-Path $src 'demo/addons/gd_cubism/gd_cubism.gdextension'
+    if (-not (Test-Path $ext)) { throw "Fork patch: $ext not found; upstream changed." }
+    Rename-Item $ext "$extName.gdextension"
+}
+
 if (Test-Path $src) {
     $have = "$(& { $ErrorActionPreference = 'Continue'; git -C $src describe --tags 2>&1 | Select-Object -First 1 })"
-    if ($Rebuild -or $have -ne $Tag) {
-        Write-Step "Removing gd_cubism checkout ($have, want $Tag)..."
+    $haveFork = if (Test-Path $forkMarker) { (Get-Content $forkMarker -Raw).Trim() } else { '' }
+    if ($Rebuild -or $have -ne $Tag -or $haveFork -ne $ForkRev) {
+        Write-Step "Removing gd_cubism checkout ($have fork '$haveFork', want $Tag fork '$ForkRev')..."
         Remove-Item $src -Recurse -Force
     }
 }
@@ -123,6 +158,9 @@ if (-not (Test-Path $src)) {
     Write-Step "Cloning gd_cubism $Tag..."
     New-Item -ItemType Directory -Force $work | Out-Null
     Invoke-Native { git clone --depth 1 --branch $Tag --recurse-submodules --shallow-submodules https://github.com/MizunagiKB/gd_cubism.git $src } 'git clone'
+    Write-Step "Applying the Witch fork (rev $ForkRev)..."
+    Invoke-ForkPatch
+    Set-Content $forkMarker $ForkRev -Encoding ascii
 }
 
 # --- 3. SDK into thirdparty/ (SConstruct picks the highest CubismSdkForNative* folder) ---------
@@ -154,8 +192,17 @@ if ($Rebuild -or -not (Test-Path $builtDll)) {
 }
 
 # --- 5. stage ---------------------------------------------------------------
+# Start clean so renamed or dropped files (e.g. the pre-fork gd_cubism.*) never ship.
+Get-ChildItem $stage -Force -ErrorAction SilentlyContinue | Where-Object Name -ne '.gdignore' | Remove-Item -Recurse -Force
 New-Item -ItemType Directory -Force (Join-Path $stage 'bin') | Out-Null
 Copy-Item $builtDll (Join-Path $stage "bin/$dllName") -Force
+# Notices for what the dll contains: GDCubism (MIT), godot-cpp (MIT), Cubism SDK (Live2D licenses).
+$licenses = Join-Path $stage 'licenses'
+New-Item -ItemType Directory -Force $licenses | Out-Null
+Copy-Item (Join-Path $src 'LICENSE.en.adoc') (Join-Path $licenses 'gd_cubism-LICENSE.adoc')
+Copy-Item (Join-Path $src 'godot-cpp/LICENSE.md') (Join-Path $licenses 'godot-cpp-LICENSE.md')
+Copy-Item (Join-Path $sdk.FullName 'LICENSE.md') (Join-Path $licenses 'CubismSdk-LICENSE.md')
+Copy-Item (Join-Path $sdk.FullName 'NOTICE.md') (Join-Path $licenses 'CubismSdk-NOTICE.md')
 # Loaded at runtime from disk, outside res://; the game is a release template, but list debug too
 # so the editor-run game (MegaDot) resolves the same binary.
 @"
@@ -168,7 +215,7 @@ compatibility_minimum = 4.3
 
 windows.debug.x86_64 = "bin/$dllName"
 windows.release.x86_64 = "bin/$dllName"
-"@ | Set-Content (Join-Path $stage 'gd_cubism.gdextension') -Encoding ascii
+"@ | Set-Content (Join-Path $stage "$extName.gdextension") -Encoding ascii
 
 # Models go in the pck, NOT next to the dll: the game's ModManager treats every *.json under
 # mods/ as a mod manifest. Samples land in a gitignored folder that bundle-workshop.ps1 refuses.
@@ -181,9 +228,14 @@ if (Test-Path $modelDst) { Remove-Item $modelDst -Recurse -Force }
 Copy-Item $modelSrc $modelDst -Recurse
 
 # --- 6. shaders -------------------------------------------------------------
-$shaderDst = Join-Path $repo 'TheWitch/addons/gd_cubism/res/shader'
+# At the res:// path the fork loads them from ($shaderRes).
+$shaderDst = Join-Path $repo 'TheWitch/TheWitch/live2d/shader'
+if (Test-Path $shaderDst) { Remove-Item $shaderDst -Recurse -Force }
 New-Item -ItemType Directory -Force $shaderDst | Out-Null
 Copy-Item (Join-Path $src 'demo/addons/gd_cubism/res/shader/*.gdshader') $shaderDst -Force
+# Pre-fork location; the export filter excludes addons/* again, so it's just clutter.
+$oldShaders = Join-Path $repo 'TheWitch/addons/gd_cubism'
+if (Test-Path $oldShaders) { Remove-Item $oldShaders -Recurse -Force }
 
 Write-Step "Staged into $stage (sample model: $($Sample.ToLowerInvariant()))."
 Write-Step "Next: dotnet publish TheWitch/TheWitch.csproj, then launch the Witch."

@@ -1,8 +1,9 @@
-# Live2D for the Witch (prototype)
+# Live2D for the Witch
 
-Status: **prototype, local-only.** It switches on by itself wherever the extension is installed
-(i.e. after `setup-live2d.ps1` + a build). The extension doesn't ship to the Workshop
-(`bundle-workshop.ps1` copies only json/dll/pck), so players keep the static sprite.
+Status: **ships with the Witch (Windows x64), no Witch model yet.** It switches on by itself
+wherever the extension is installed: after `setup-live2d.ps1` + a build locally, and for players
+from the Workshop bundle (`bundle-workshop.ps1` ships `live2d/` next to the dll). Until a model
+lands in `res://TheWitch/live2d/witch/`, players keep the static sprite.
 
 ## Plugin
 
@@ -17,20 +18,42 @@ and gives you `.moc3` playback, physics, pose, expressions, motions (`start_moti
 priority)`, `motion_finished` signal), plus effect nodes (`GDCubismEffectEyeBlink`, `...Breath`,
 `...TargetPoint`, `...HitArea`).
 
+## The fork
+
+We ship our own build, not stock GDCubism, so another mod shipping GDCubism can't collide with
+ours. Two copies would otherwise fight: Godot keeps whichever extension registers a class name
+first (the other one only logs "Class already registered"), so both mods would run on one dll
+whatever its version. And a pck loaded later overrides earlier files at the same `res://` path,
+so both would also share one set of shaders.
+
+The fork is upstream `v0.9.1` plus scripted transforms in `setup-live2d.ps1` (`Invoke-ForkPatch`),
+applied to a fresh clone. No fork repo to maintain.
+
+| Upstream | Fork |
+|---|---|
+| `GDCubism*` classes (`GDCubismUserModel`, `GDCubismEffectBreath`, ...) | `WitchCubism*` (`Live2DRuntime.ClassPrefix`) |
+| shaders at `res://addons/gd_cubism/res/shader/` | `res://TheWitch/live2d/shader/` (`Live2DRuntime.ShaderResDir`) |
+| `gd_cubism.gdextension`, `libgd_cubism.*.dll` | `witch_cubism.gdextension`, `libwitch_cubism.*.dll` |
+
+The patch throws if upstream stops matching what it expects. Bump `$ForkRev` in the script when
+the transforms change; the checkout is then re-cloned and rebuilt. Left as-is: the entry symbol
+(looked up per dll) and the `*.motion3.json` → `Animation` resource loader (both copies would
+register one; we never load motions through `ResourceLoader`, GDCubism reads them itself).
+
 ## How it hooks into the mod
 
 A GDExtension is a native dll, and a native dll can't live inside a `.pck`. So:
 
 | Piece | Where | How it gets there |
 |---|---|---|
-| `gd_cubism.gdextension` + `bin/libgd_cubism.windows.release.x86_64.dll` | `mods/TheWitch/live2d/` (disk) | `tools/live2d/setup-live2d.ps1` stages into `TheWitch/live2d/` (gitignored); the csproj `CopyLive2DToModsFolder` target copies it on build |
+| `witch_cubism.gdextension` + `bin/libwitch_cubism.windows.release.x86_64.dll` + `licenses/` | `mods/TheWitch/live2d/` (disk) | `tools/live2d/setup-live2d.ps1` stages into `TheWitch/live2d/` (gitignored); the csproj `CopyLive2DToModsFolder` target copies it on build; `bundle-workshop.ps1` ships it as `content/live2d/` |
 | model folders (`*.model3.json`, `.moc3`, textures, motions) | inside `TheWitch.pck`: `res://TheWitch/live2d/<name>/` (real models, commit like other art) or `.../live2d/samples/<name>/` (SDK samples, gitignored) | export `include_filter="*.moc3"`; json/png are normal resources. **Not on disk:** the game's ModManager parses every `*.json` under `mods/` as a mod manifest and logs an error per file. `bundle-workshop.ps1` refuses to run while `samples/` exists |
-| GDCubism shaders (hardcoded to `res://addons/gd_cubism/res/shader/`) | inside `TheWitch.pck` | setup script copies them to `TheWitch/addons/gd_cubism/` (gitignored); the export filter now excludes only `addons/mega_text/*`. Needs `dotnet publish` |
+| shaders (`res://TheWitch/live2d/shader/`, patched in by the fork) | inside `TheWitch.pck` | setup script copies them to `TheWitch/TheWitch/live2d/shader/` (gitignored). Needs `dotnet publish` |
 
 At runtime ([TheWitchCode/Live2D/](../TheWitch/TheWitchCode/Live2D/)):
 
-- `Live2DRuntime` loads the extension on first use with `GDExtensionManager.LoadExtension(<abs path>)`.
-  The game never registers it. The game's own Godot build already runs native extensions (FMOD,
+- `Live2DRuntime` loads the extension on first use with `GDExtensionManager.LoadExtension(<abs path>)`
+  (Windows x64 only; other platforms skip straight to the sprite). The game never registers it. The game's own Godot build already runs native extensions (FMOD,
   Spine), and runtime loading has been verified in-game.
 - `WitchLive2DVisualsPatch` is a Harmony postfix on `CharacterModel.CreateVisuals`, the same
   shape as `WitchPetVisualsPatch`. It runs whenever the extension loads. Model lookup:
@@ -67,16 +90,21 @@ hand-downloaded zip, and `-Rebuild` starts the clone and build over.
 Log lines are tagged `[live2d]`. Any failure (missing files, load error) falls back to the
 static sprite.
 
-## Before shipping (open items)
+## Shipping
 
-- **Licensing.** The dll statically links Cubism Core, which is under the *Live2D Proprietary
-  Software License*. Distributing it needs a check against Live2D's terms, including the
-  publication-license rules and revenue thresholds for "Expandable Applications". The models'
-  own licenses apply too. Sample models are under the Free Material License and must not ship
-  as the Witch.
+- **Licensing:** cleared for the Witch as a free product. The bundle carries the GDCubism,
+  godot-cpp and Cubism SDK license/notice files in `live2d/licenses/`. Sample models are under
+  the Free Material License and must not ship as the Witch.
+- `bundle-workshop.ps1` refuses to bundle the Witch without the staged extension and shaders,
+  while `samples/` exists, or when the pck still contains sample models or lacks the shaders.
+- Workshop updates (untested): a loaded native dll is locked on Windows. It only loads at the
+  Witch's first visuals (combat, game over, ...), so an update applied before that should still
+  replace it; Steam skips files whose content didn't change anyway.
+
+## Open items
+
 - Platforms: Windows x64 only. macOS/Linux players would need their own builds plus extra
-  `[libraries]` entries, and until then a fallback to the sprite.
-- Workshop bundle: add `live2d/` to `bundle-workshop.ps1`.
+  `[libraries]` entries; until then they get the sprite.
 - Rest site, merchant and character select are still the static scenes.
 - Editor preview: the TheWitch Godot project doesn't load the extension, so models can't be
   placed or previewed in the editor yet.

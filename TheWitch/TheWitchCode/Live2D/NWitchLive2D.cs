@@ -24,7 +24,7 @@ public partial class NWitchLive2D : Node
         ["PowerUp"] = ["TapBody"],
     };
 
-    // GDCubismUserModel.Priority
+    // WitchCubismUserModel.Priority
     private const int PriorityIdle = 1;
     private const int PriorityForce = 3;
 
@@ -72,9 +72,9 @@ public partial class NWitchLive2D : Node
         model.Position = new Vector2(0f, -(size.Y - origin.Y) * k) / body.Scale;
 
         // Blink + breathing come from GDCubism effect nodes reading the model's standard params.
-        foreach (string effect in new[] { "GDCubismEffectEyeBlink", "GDCubismEffectBreath" })
+        foreach (string effect in new[] { "EffectEyeBlink", "EffectBreath" })
         {
-            if (ClassDB.Instantiate(effect).AsGodotObject() is Node node)
+            if (ClassDB.Instantiate(Live2DRuntime.ClassPrefix + effect).AsGodotObject() is Node node)
             {
                 model.AddChild(node);
             }

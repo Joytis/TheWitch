@@ -115,10 +115,10 @@
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
     </Target>
 
-    <!-- PROTOTYPE Live2D: native GDCubism extension + models staged by tools/live2d/setup-live2d.ps1.
-         Loaded from disk at runtime (a native dll can't live in the pck). Local-only: the Workshop
-         bundle copies just json/dll/pck. -->
-    <Target Name="CopyLive2DToModsFolder" AfterTargets="CopyToModsFolderOnBuild" Condition="Exists('live2d/gd_cubism.gdextension')">
+    <!-- Live2D: the Witch's GDCubism fork (native extension + licenses) staged by
+         tools/live2d/setup-live2d.ps1. Loaded from disk at runtime (a native dll can't live in the
+         pck); bundle-workshop.ps1 ships the same live2d/ folder. -->
+    <Target Name="CopyLive2DToModsFolder" AfterTargets="CopyToModsFolderOnBuild" Condition="Exists('live2d/witch_cubism.gdextension')">
         <ItemGroup>
             <Live2DFiles Include="live2d/**" Exclude="live2d/.gdignore" />
         </ItemGroup>

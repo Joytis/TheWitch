@@ -8,7 +8,8 @@
       1. gamedata junctions (tools/setup-gamedata-links.ps1)
       2. addons/mega_text copied from gamedata/addons/ (base-game scenes need it in the editor)
     Witch only:
-      3. PROTOTYPE Live2D: GDCubism + Cubism SDK + sample model (tools/live2d/setup-live2d.ps1).
+      3. Live2D: our GDCubism fork + Cubism SDK + sample model (tools/live2d/setup-live2d.ps1);
+         required to bundle the Witch for the Workshop.
          Prompts once to accept Live2D's SDK license. A failure or a declined license only skips
          this step; -SkipLive2D skips it outright.
 
