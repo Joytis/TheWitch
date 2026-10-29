@@ -551,6 +551,9 @@
         "THEWITCH-ANALYTICS_ENABLED.hover.desc": "82a72e4151f8",
         "THEWITCH-ANALYTICS_ENABLED.hover.title": "7f93876ac9e3",
         "THEWITCH-ANALYTICS_ENABLED.title": "7f93876ac9e3",
+        "THEWITCH-ARTIST_CREDITS.hover.desc": "00e1e17b2a11",
+        "THEWITCH-ARTIST_CREDITS.hover.title": "ffa16c917151",
+        "THEWITCH-ARTIST_CREDITS.title": "ffa16c917151",
         "THEWITCH-BETA_IMAGES.hover.desc": "8fe2f3a4384a",
         "THEWITCH-BETA_IMAGES.hover.title": "b140f0cdcd6c",
         "THEWITCH-BETA_IMAGES.title": "b140f0cdcd6c",
@@ -564,6 +567,7 @@
         "THEWITCH.mod_title": "f241fdb72bcd"
     },
     "static_hover_tips.json": {
+        "THEWITCH-ART_BY.title": "43244945609f",
         "THEWITCH-BIG_TREASURE.description": "dd73430e6f30",
         "THEWITCH-BIG_TREASURE.title": "7b84585bac9a",
         "THEWITCH-BREW_PROMPT.title": "b6716b86253e",

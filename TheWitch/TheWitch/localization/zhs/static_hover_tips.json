@@ -5,5 +5,6 @@
     "THEWITCH-TREASURE.description": "造成[blue]5[/blue]点伤害。\n也可以卖给[gold]商人[/gold]换取[blue]15[/blue][gold]金币[/gold]。",
     "THEWITCH-BREW_PROMPT.title": "选择一瓶要制作的药水。",
     "THEWITCH-BIG_TREASURE.title": "超大宝藏",
-    "THEWITCH-BIG_TREASURE.description": "造成[blue]7[/blue]点伤害。\n也可以卖给[gold]商人[/gold]换取[blue]30[/blue][gold]金币[/gold]。"
+    "THEWITCH-BIG_TREASURE.description": "造成[blue]7[/blue]点伤害。\n也可以卖给[gold]商人[/gold]换取[blue]30[/blue][gold]金币[/gold]。",
+    "THEWITCH-ART_BY.title": "美术：{name}"
 }

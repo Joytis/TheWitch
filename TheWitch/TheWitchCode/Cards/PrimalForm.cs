@@ -9,6 +9,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Primal Form: shed the skin, keep the fury — your first few Attacks each turn are played an additional time.</summary>
 public sealed class PrimalForm : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [

@@ -10,6 +10,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Call the Pack: hunker down behind the wolves — gain Block, shuffle Gnash tokens into the Draw Pile.</summary>
 public sealed class CallThePack : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

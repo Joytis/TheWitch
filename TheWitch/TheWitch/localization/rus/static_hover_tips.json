@@ -5,5 +5,6 @@
     "THEWITCH-TREASURE.description": "Наносит [blue]5[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]15[/blue] [gold]золота[/gold].",
     "THEWITCH-BREW_PROMPT.title": "Выберите зелье для создания.",
     "THEWITCH-BIG_TREASURE.title": "Большое сокровище",
-    "THEWITCH-BIG_TREASURE.description": "Наносит [blue]7[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]30[/blue] [gold]золота[/gold]."
+    "THEWITCH-BIG_TREASURE.description": "Наносит [blue]7[/blue] урона.\nМожно продать [gold]торговцу[/gold] за [blue]30[/blue] [gold]золота[/gold].",
+    "THEWITCH-ART_BY.title": "Художник: {name}"
 }

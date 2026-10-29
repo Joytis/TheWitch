@@ -5,5 +5,6 @@
     "THEWITCH-TREASURE.description": "Cause [blue]5[/blue] de dano.\nPode ser vendido ao [gold]Mercador[/gold] em troca de [blue]15[/blue] de [gold]Ouro[/gold].",
     "THEWITCH-BREW_PROMPT.title": "Escolha uma Poção para criar.",
     "THEWITCH-BIG_TREASURE.title": "Grande Tesouro",
-    "THEWITCH-BIG_TREASURE.description": "Cause [blue]7[/blue] de dano.\nPode ser vendido ao [gold]Mercador[/gold] em troca de [blue]30[/blue] de [gold]Ouro[/gold]."
+    "THEWITCH-BIG_TREASURE.description": "Cause [blue]7[/blue] de dano.\nPode ser vendido ao [gold]Mercador[/gold] em troca de [blue]30[/blue] de [gold]Ouro[/gold].",
+    "THEWITCH-ART_BY.title": "Arte de {name}"
 }

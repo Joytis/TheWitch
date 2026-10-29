@@ -13,6 +13,9 @@ internal class WitchConfig : SimpleModConfig
     public static bool BetaImages { get; set; } = false;
 
     [ConfigHoverTip]
+    public static bool ArtistCredits { get; set; } = true;
+
+    [ConfigHoverTip]
     public static bool AnalyticsEnabled { get; set; } = true;
 
     /// <summary>Host's value, received via <see cref="TurboWitcheryMessage"/>. Null until synced.</summary>

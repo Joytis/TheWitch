@@ -12,6 +12,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>"Double, double, toil and trouble" — hit twice, then enchant a random card in your Draw Pile with Replay.</summary>
 public sealed class ToilAndTrouble : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     private const int Hits = 2;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

@@ -18,7 +18,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 [Pool(typeof(WitchCardPool))]
 public abstract class WitchCard(int cost, CardType type, CardRarity rarity, TargetType target) :
-    CustomCardModel(cost, type, rarity, target)
+    CustomCardModel(cost, type, rarity, target), Artists.IArtCredited
 {
     //Source art (any resolution; landscape = normal, taller-than-wide = full art) lives in card_portraits/
     //and is packed into 250x190 (250x351 full art) atlas slices by tools/pack-card-atlas.py — cards render the .tres slice.
@@ -26,7 +26,7 @@ public abstract class WitchCard(int cost, CardType type, CardRarity rarity, Targ
     public override string PortraitPath => CustomPortraitPath;
     public override string BetaPortraitPath => CustomPortraitPath;
 
-    /// <summary>Artist credit for this card's art (data-only for now — no in-game display).
+    /// <summary>Artist credit for this card's art, shown in game as an "Art by …" hover tip.
     /// Defaults to Kitsu; override per card, or return null for uncredited.</summary>
     public virtual Artists.Artist? ArtBy => Artists.Artist.Kitsu;
 

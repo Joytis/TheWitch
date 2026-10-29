@@ -7,6 +7,8 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class HerbalBrew : OrientationBrewCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override PotionOrientation Orientation => PotionOrientation.Utility;
 
     public HerbalBrew() : base(1, CardRarity.Uncommon)
