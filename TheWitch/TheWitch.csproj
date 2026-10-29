@@ -115,6 +115,16 @@
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
     </Target>
 
+    <!-- PROTOTYPE Live2D: native GDCubism extension + models staged by tools/live2d/setup-live2d.ps1.
+         Loaded from disk at runtime (a native dll can't live in the pck). Local-only: the Workshop
+         bundle copies just json/dll/pck. -->
+    <Target Name="CopyLive2DToModsFolder" AfterTargets="CopyToModsFolderOnBuild" Condition="Exists('live2d/gd_cubism.gdextension')">
+        <ItemGroup>
+            <Live2DFiles Include="live2d/**" Exclude="live2d/.gdignore" />
+        </ItemGroup>
+        <Copy SourceFiles="@(Live2DFiles)" DestinationFiles="@(Live2DFiles->'$(ModsPath)$(MSBuildProjectName)/live2d/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    </Target>
+
     <Target Name="CopyQuickPck" AfterTargets="PackPck" Condition="Exists('$(PckPackerOutputPath)') And '$(PckPackerSkipped)' != 'true'">
         <Message Text="Copying quick .pck to mods folder." Importance="high"/>
         <Copy SourceFiles="$(PckPackerOutputPath)"

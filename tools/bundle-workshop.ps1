@@ -142,6 +142,13 @@ $mod = Get-Content $manifest -Raw | ConvertFrom-Json
 $modId = $mod.id
 if (-not $modId) { throw "Manifest has no 'id': $manifest" }
 
+# Live2D SDK sample models (tools/live2d/setup-live2d.ps1) are local-only but get packed into the
+# .pck when present; they must never reach the Workshop.
+$live2dSamples = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/samples")
+if (Test-Path $live2dSamples) {
+    throw "Live2D sample models present at $live2dSamples - delete that folder before bundling (they would be packed into the .pck)."
+}
+
 # --- Resolve the ModUploader executable ------------------------------------
 if (-not $Uploader) {
     $Uploader = Join-Path $PSScriptRoot 'ModUploader-win-x64/ModUploader.exe'
