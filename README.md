@@ -13,13 +13,15 @@
 
 1. Install Slay the Spire 2 (the build finds it via the Steam registry; override with `local.props` if needed).
 2. Place the decompiled game source at `gamedata/` (local-only, gitignored — proprietary, never committed).
-3. **Required — create the gamedata junctions in every project:**
+3. **Required — run the project setup** (VS Code task **Setup: Project**, idempotent):
 
    ```powershell
-   powershell -ExecutionPolicy Bypass -File tools\setup-gamedata-links.ps1 -Character All
+   powershell -ExecutionPolicy Bypass -File tools\setup.ps1            # -Character Witch|Augur|All, -SkipLive2D
    ```
 
-   This creates per-project junctions `scenes/`, `materials/`, `shaders/`, `images/`, `src/`, `themes/`, `fonts/` → `gamedata/<same>` so the Godot editor resolves base-game `res://` paths referenced by mod scenes (at runtime they resolve from the game's pck regardless). The script is idempotent — re-run it any time the editor reports broken dependencies (e.g. `Scene 'res://themes/…' has broken dependencies: res://fonts/…`), which means a junction is missing.
+   It creates the gamedata junctions (below), copies `addons/mega_text` from `gamedata/` into each project, and for the Witch stages the **prototype Live2D** toolchain ([Docs/live2d.md](Docs/live2d.md)): it asks once to accept Live2D's Cubism SDK license, then downloads the SDK and builds our GDCubism fork. That needs Python 3 (scons is pip-installed if missing) and Visual Studio 2022+ / Build Tools with the C++ workload. A declined license or a missing toolchain only skips the Live2D step, but `bundle-workshop.ps1` then refuses to bundle the Witch (the extension ships with her). `tools\setup-gamedata-links.ps1` still runs the junction step on its own.
+
+   The junction step creates per-project junctions `scenes/`, `materials/`, `shaders/`, `images/`, `src/`, `themes/`, `fonts/` → `gamedata/<same>` so the Godot editor resolves base-game `res://` paths referenced by mod scenes (at runtime they resolve from the game's pck regardless). The script is idempotent — re-run it any time the editor reports broken dependencies (e.g. `Scene 'res://themes/…' has broken dependencies: res://fonts/…`), which means a junction is missing.
 
    The junctions are gitignored and excluded from export in each `export_presets.cfg` — don't remove those excludes, or game assets get packed into the mod `.pck`.
 

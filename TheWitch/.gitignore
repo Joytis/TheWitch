@@ -9,6 +9,11 @@ bin/
 /src/
 /themes/
 /addons/
+# Live2D (tools/live2d/setup-live2d.ps1): native extension, shaders + sample models, staged locally
+/live2d/*
+!/live2d/.gdignore
+/TheWitch/live2d/samples/
+/TheWitch/live2d/shader/
 # Generated atlas pages + .tres slices (tools/pack-atlases.py --character Witch)
 /TheWitch/images/atlases/
 # Steam Workshop bundle staging (tools/bundle-workshop.ps1): keep config (workshop.json, image.png, mod_id.txt)

@@ -1,5 +1,5 @@
 {
-    "DARV.talk.THEWITCH-WITCH.0-0.ancient": "Что-то ты приуныл, приятель!\nХочешь взглянуть на что-нибудь хорошенькое?",
+    "DARV.talk.THEWITCH-WITCH.0-0.ancient": "Что-то ты приуныла, приятель!\nХочешь взглянуть на что-нибудь хорошенькое?",
     "DARV.talk.THEWITCH-WITCH.0-0.next": "Продолжить",
     "DARV.talk.THEWITCH-WITCH.0-1.char": "Нет, спасибо...",
     "DARV.talk.THEWITCH-WITCH.0-1.next": "Продолжить",
@@ -67,7 +67,7 @@
     "VAKUU.talk.THEWITCH-WITCH.0-1.char": "К сожалению.\nМне нужно больше силы, демон.",
     "VAKUU.talk.THEWITCH-WITCH.0-1.next": "Продолжить",
     "VAKUU.talk.THEWITCH-WITCH.0-2.ancient": "Нам с тобой предстоит немного [i]развлечься[/i].",
-    "VAKUU.talk.THEWITCH-WITCH.1-0r.ancient": "Может, я смогла бы спасти леса, если бы ты предложил больше...",
+    "VAKUU.talk.THEWITCH-WITCH.1-0r.ancient": "Может, я смогла бы спасти леса, если бы ты предложила больше...",
     "VAKUU.talk.THEWITCH-WITCH.2-0.char": "Эти сделки не стоят моего времени...",
     "VAKUU.talk.THEWITCH-WITCH.2-0.next": "Продолжить",
     "VAKUU.talk.THEWITCH-WITCH.2-1.ancient": "И всё же ты продолжаешь возвращаться.\nЧто за жалкая отговорка.",
@@ -87,6 +87,6 @@
     "THE_ARCHITECT.talk.THEWITCH-WITCH.2-0r.next": "Продолжить",
     "THE_ARCHITECT.talk.THEWITCH-WITCH.2-1r.ancient": "[jitter]Пфф[/jitter]. Жалко.",
     "THE_ARCHITECT.talk.THEWITCH-WITCH.2-1r.next": "Возразить",
-    "THE_ARCHITECT.talk.THEWITCH-WITCH.2-2r.ancient": "Вернись к ним сам.",
+    "THE_ARCHITECT.talk.THEWITCH-WITCH.2-2r.ancient": "Вернись к ним сама.",
     "THE_ARCHITECT.talk.THEWITCH-WITCH.2-attack": "Both"
 }

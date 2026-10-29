@@ -16,6 +16,7 @@ public sealed class OwlFamiliar : WitchCard, IFamiliarSummon
     }
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<OwlFamiliarPower>(),
         HoverTipFactory.FromCard<Wisdom>(IsUpgraded),
         HoverTipFactory.FromCard<Knowledge>(IsUpgraded),

@@ -11,8 +11,7 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>Tinder: burn a card as kindling — the Energy arrives next turn (base-game
-/// <see cref="EnergyNextTurnPower" />) and an <see cref="Ash" /> is left in the discard pile.
-/// Ash can't be used as kindling (excluded from the exhaust pick).</summary>
+/// <see cref="EnergyNextTurnPower" />) and an <see cref="Ash" /> is left in the discard pile.</summary>
 public sealed class Tinder : WitchCard
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -31,7 +30,7 @@ public sealed class Tinder : WitchCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         CardModel? kindling = (await CardSelectCmd.FromHand(
-            choiceContext, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1), c => c is not Ash, this))
+            choiceContext, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1), null, this))
             .FirstOrDefault();
         if (kindling != null)
         {

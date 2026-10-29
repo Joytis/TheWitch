@@ -9,6 +9,7 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class CrowFamiliar : WitchCard, IFamiliarSummon
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<CrowFamiliarPower>(),
         HoverTipFactory.FromCard<DarkOmen>(IsUpgraded),
         HoverTipFactory.FromCard<Shiny>(IsUpgraded),

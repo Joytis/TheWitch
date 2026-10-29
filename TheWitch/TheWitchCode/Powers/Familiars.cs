@@ -1,6 +1,8 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Random;
+using TheWitch.TheWitchCode.Cards;
 
 namespace TheWitch.TheWitchCode.Powers;
 
@@ -11,6 +13,9 @@ namespace TheWitch.TheWitchCode.Powers;
 /// </summary>
 public static class Familiars
 {
+    /// <summary>Shared "Familiar" tip — the Familiar card keyword's tooltip, the one place the familiar rule is stated.</summary>
+    public static IHoverTip HoverTip => HoverTipFactory.FromKeyword(WitchKeywords.Familiar);
+
     /// <summary>All familiar powers currently on the creature (one entry per familiar type present).</summary>
     public static IReadOnlyList<FamiliarPower> On(Creature creature) =>
         creature.Powers.OfType<FamiliarPower>().ToList();

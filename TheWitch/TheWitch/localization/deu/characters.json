@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]Die Wälder sind zerbrochen. Sie sind zornig.[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "Säume nicht.",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "...",
+    "THEWITCH-WITCH.cardsModifierDescription": "Hexen-Karten tauchen nun in Belohnungen und Läden auf.",
+    "THEWITCH-WITCH.cardsModifierTitle": "Hexen-Karten",
+    "THEWITCH-WITCH.description": "Eine uralte, wurzelgebundene Beschützerin.\nPraktiziert zweifelhafte Hexerei mit ihren Gefährten",
+    "THEWITCH-WITCH.eventDeathPrevention": "Es gibt noch Arbeit zu erledigen.",
+    "THEWITCH-WITCH.goldMonologue": "[sine]Ihr werdet heute Abend gut speisen, Gefährten ...[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "ihr",
+    "THEWITCH-WITCH.pronounObject": "sie",
+    "THEWITCH-WITCH.pronounPossessive": "ihres",
+    "THEWITCH-WITCH.pronounSubject": "sie",
+    "THEWITCH-WITCH.title": "Die Hexe",
+    "THEWITCH-WITCH.titleObject": "Die Hexe",
+    "THEWITCH-WITCH.unlockText": "Spiele einen einzigen Run mit [orange]{Prerequisite}[/orange], um diesen Charakter freizuschalten."
+}

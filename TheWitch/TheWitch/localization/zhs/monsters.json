@@ -1,0 +1,16 @@
+{
+    "OWL_PET.name": "猫头鹰",
+    "OWL_PET.moves.NOTHING_MOVE.title": "无",
+    "CAT_PET.name": "猫",
+    "CAT_PET.moves.NOTHING_MOVE.title": "无",
+    "BEAR_PET.name": "熊",
+    "BEAR_PET.moves.NOTHING_MOVE.title": "无",
+    "CROW_PET.name": "乌鸦",
+    "CROW_PET.moves.NOTHING_MOVE.title": "无",
+    "MOTH_PET.name": "飞蛾",
+    "MOTH_PET.moves.NOTHING_MOVE.title": "无",
+    "RAT_PET.name": "老鼠",
+    "RAT_PET.moves.NOTHING_MOVE.title": "无",
+    "WOLF_PET.name": "狼",
+    "WOLF_PET.moves.NOTHING_MOVE.title": "无"
+}

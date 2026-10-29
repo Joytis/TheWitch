@@ -17,6 +17,7 @@ public sealed class PlagueTide : WitchCard, IFamiliarSummon
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<RatFamiliarPower>(),
         HoverTipFactory.FromCard<Swarm>(IsUpgraded),
         HoverTipFactory.FromCard<Rummage>(IsUpgraded),

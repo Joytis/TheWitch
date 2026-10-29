@@ -1,0 +1,19 @@
+{
+    "THEWITCH.mod_title": "Die Hexe",
+    "THEWITCH-TURBO_WITCHERY.title": "Turbo-Hexerei",
+    "THEWITCH-TURBO_WITCHERY.hover.title": "Turbo-Hexerei",
+    "THEWITCH-TURBO_WITCHERY.hover.desc": "Im Mehrspielermodus gilt die Einstellung des Hosts für alle Spieler.",
+    "THEWITCH-BETA_IMAGES.title": "Beta-Bilder",
+    "THEWITCH-BETA_IMAGES.hover.title": "Beta-Bilder",
+    "THEWITCH-BETA_IMAGES.hover.desc": "Zeigt die ursprünglichen Beta-Kartenbilder statt der finalen Bilder. Erfordert eventuell einen Neustart, um vollständig zu greifen.",
+    "THEWITCH-ARTIST_CREDITS.title": "Künstler-Credits",
+    "THEWITCH-ARTIST_CREDITS.hover.title": "Künstler-Credits",
+    "THEWITCH-ARTIST_CREDITS.hover.desc": "Zeigt in den Tooltips jeder Karte, wer ihr Bild gezeichnet hat.",
+    "THEWITCH-ANALYTICS_ENABLED.title": "Analyse aktiviert",
+    "THEWITCH-ANALYTICS_ENABLED.hover.title": "Analyse aktiviert",
+    "THEWITCH-ANALYTICS_ENABLED.hover.desc": "Sendet anonyme Ergebnisse deiner Hexen-Runs (Sieg/Niederlage, Deck, Kartenwahl) zur Balance-Abstimmung an das Mod-Team. Nur aktiv, wenn die spieleigene Einstellung „Spieldaten hochladen“ eingeschaltet ist.",
+    "THEWITCH-WORKSHOP_UPDATE.header": "Die Hexe wurde aktualisiert",
+    "THEWITCH-WORKSHOP_UPDATE.body": "Eine neuere Version von Die Hexe wurde aus dem Steam Workshop heruntergeladen.\nStarte das Spiel neu, um die neue Version zu laden.",
+    "THEWITCH-WORKSHOP_UPDATE.later": "Später",
+    "THEWITCH-WORKSHOP_UPDATE.quit": "Jetzt beenden"
+}

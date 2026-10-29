@@ -13,7 +13,7 @@ namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>
 /// Bottled Message: card-only (Token rarity) payload potion created by Message in a Bottle. Stores the
-/// bottled card's CANONICAL model + upgrade level + enchantment — never the live combat card (a dead
+/// bottled card's CANONICAL model + upgrade level + enchantment + saved properties — never the live combat card (a dead
 /// combat's card instance replayed across fights caused an MP desync). Using it creates a fresh copy of
 /// that card in your hand via the generated path; hovering previews the held card. State is baked into
 /// the run save AND the potion's net serialization via BaseLib's ExtendedSaveTypes (registered in
@@ -30,6 +30,7 @@ public sealed class BottledMessage : WitchTokenPotion
     private int _bottledUpgrades;
     private EnchantmentModel? _bottledEnchantCanonical;
     private int _bottledEnchantAmount;
+    private SavedProperties? _bottledProps;
     private int _bottledCost = -1;
 
     /// <summary>
@@ -60,6 +61,9 @@ public sealed class BottledMessage : WitchTokenPotion
         _bottledUpgrades = card.CurrentUpgradeLevel;
         _bottledEnchantCanonical = card.Enchantment?.CanonicalInstance;
         _bottledEnchantAmount = card.Enchantment?.Amount ?? 0;
+        // Per-copy [SavedProperty] state (Capture Soul's BonusHex, …) — the same snapshot the run save takes of a
+        // deck card, so a grown card comes back out of the bottle as grown as it went in.
+        _bottledProps = SavedProperties.From(card);
         // Keep the card's current cost reduction (Snecko roll, "costs 0 until played", etc.): capture the
         // cost with LOCAL modifiers only (global hook effects re-evaluate naturally in the next combat).
         // Applied reduce-only on unbottle, so a cost INCREASE is never carried over.
@@ -75,6 +79,7 @@ public sealed class BottledMessage : WitchTokenPotion
             {
                 Id = canonical.Id,
                 CurrentUpgradeLevel = _bottledUpgrades,
+                Props = _bottledProps,
                 Enchantment = _bottledEnchantCanonical is { } enchant
                     ? new SerializableEnchantment { Id = enchant.Id, Amount = _bottledEnchantAmount }
                     : null,
@@ -91,9 +96,11 @@ public sealed class BottledMessage : WitchTokenPotion
             _bottledUpgrades = 0;
             _bottledEnchantCanonical = null;
             _bottledEnchantAmount = 0;
+            _bottledProps = null;
             return;
         }
         _bottledUpgrades = state!.CurrentUpgradeLevel;
+        _bottledProps = state.Props;
         _bottledEnchantCanonical = state.Enchantment?.Id is { } enchantId
             ? ModelDb.GetByIdOrNull<EnchantmentModel>(enchantId)
             : null;
@@ -111,6 +118,8 @@ public sealed class BottledMessage : WitchTokenPotion
         }
 
         CardModel card = combat.CreateCard(canonical, Owner);
+        // Saved props before upgrades — CardModel.FromSerializable's order.
+        _bottledProps?.Fill(card);
         for (int i = 0; i < _bottledUpgrades; i++)
         {
             CardCmd.Upgrade(card);

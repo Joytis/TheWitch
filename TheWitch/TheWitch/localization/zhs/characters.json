@@ -1,0 +1,17 @@
+{
+    "THEWITCH-WITCH.aromaPrinciple": "[sine][red]森林已然破碎。它们愤怒不已。[/red][/sine]",
+    "THEWITCH-WITCH.banter.alive.endTurnPing": "莫要拖延。",
+    "THEWITCH-WITCH.banter.dead.endTurnPing": "……",
+    "THEWITCH-WITCH.cardsModifierDescription": "女巫的卡牌现在会出现在奖励和商店中。",
+    "THEWITCH-WITCH.cardsModifierTitle": "女巫卡牌",
+    "THEWITCH-WITCH.description": "一位古老的、与根系相缚的守护者。\n与她的伙伴们一同施展可疑的巫术",
+    "THEWITCH-WITCH.eventDeathPrevention": "还有工作要做。",
+    "THEWITCH-WITCH.goldMonologue": "[sine]今晚你们可以饱餐一顿了，伙伴们……[/sine]",
+    "THEWITCH-WITCH.possessiveAdjective": "她的",
+    "THEWITCH-WITCH.pronounObject": "她",
+    "THEWITCH-WITCH.pronounPossessive": "她的",
+    "THEWITCH-WITCH.pronounSubject": "她",
+    "THEWITCH-WITCH.title": "女巫",
+    "THEWITCH-WITCH.titleObject": "女巫",
+    "THEWITCH-WITCH.unlockText": "用[orange]{Prerequisite}[/orange]进行一局游戏来解锁这个角色。"
+}

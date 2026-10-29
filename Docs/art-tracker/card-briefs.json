@@ -34,7 +34,7 @@
       "brief": "A broom brought down from on high, sweeping enemies away, can depict either scampering mice, or one of the smaller common slay the spire enemies being dispersed. The card itself is not a synergy piece for a large theme, and more a glue card for other decks."
     },
     "Call the Pack": {
-      "artist": "",
+      "artist": "Vuwa",
       "brief": "Familiars ended up having a 'Wolf' sub-archetype, decks focused on generating as many 'Gnash' cards as possible. See Gnash for thematic details. This is a common include for the 'Wolf' deck. It should depict the witch calling a pack of wolves."
     },
     "Gnash": {
@@ -50,7 +50,7 @@
       "brief": "The witch casts a devious spell, sacrificing some of their own power to wallop the enemy with magic. The spell should feel devastating, but the witch should be distressed by casting it."
     },
     "Herbal Brew": {
-      "artist": "",
+      "artist": "Vuwa",
       "brief": "One of the Common Brew trio. This will create a common, valuable utility potion for the player. These potions can draw cards, reduce mana cost, generally any action not directly related to offense or defense. It should feel herbal, mysterious, fluid. Depicts full focus on a single potion bottle."
     },
     "Hide in a Bush": {
@@ -134,7 +134,7 @@
       "brief": "Depictions of a brewing apparatus hooked into potions, seeking to distill powerful potions into *even more powerful versions*. Should feel experimental, controlled, and intentional, like a fantasy chemical distillation."
     },
     "Toil and Trouble": {
-      "artist": "",
+      "artist": "Vuwa",
       "brief": "DESIGN UNCERTAIN - CARD NOT CONFIRMED"
     },
     "Eye of Newt": {
@@ -267,6 +267,10 @@
     },
     "Wicker Consumation": {
       "artist": "Joytis",
+      "brief": ""
+    },
+    "Primal Form": {
+      "artist": "Vuwa",
       "brief": ""
     }
   }

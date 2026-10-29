@@ -2,6 +2,28 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Setup: Project",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/setup.ps1",
+                "-Character",
+                "${input:characterOrAll}"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            },
+            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions + addons/mega_text per project; for the Witch also the Live2D toolchain (asks once to accept Live2D's SDK license, then downloads + builds our GDCubism fork; required to bundle the Witch). Needs gamedata/."
+        },
+        {
             "label": "Run",
             "type": "process",
             "command": "powershell",
@@ -719,6 +741,13 @@
         }
     ],
     "inputs": [
+        {
+            "id": "characterOrAll",
+            "type": "pickString",
+            "description": "Set up which character projects?",
+            "options": ["All", "Witch", "Augur"],
+            "default": "All"
+        },
         {
             "id": "character",
             "type": "pickString",

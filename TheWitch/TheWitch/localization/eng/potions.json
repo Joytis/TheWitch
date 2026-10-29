@@ -10,7 +10,7 @@
   "THEWITCH-PRICKLY_VIAL.title": "Prickly Vial",
   "THEWITCH-PRICKLY_VIAL.description": "Gain [blue]{BramblesPower}[/blue] [gold]Brambles[/gold].",
   "THEWITCH-BUDDY_IN_A_BOTTLE.title": "Buddy in a Bottle",
-  "THEWITCH-BUDDY_IN_A_BOTTLE.description": "Add a random [gold]Familiar[/gold] into your [gold]Hand[/gold]. It's free to play this turn.",
+  "THEWITCH-BUDDY_IN_A_BOTTLE.description": "Add a random card that summons a [gold]Familiar[/gold] into your [gold]Hand[/gold]. It's free to play this turn.",
   "THEWITCH-VIAL_OF_SMOKE.title": "Vial of Smoke",
   "THEWITCH-VIAL_OF_SMOKE.description": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
   "THEWITCH-PUFF_OF_SMOKE.title": "Puff of Smoke",

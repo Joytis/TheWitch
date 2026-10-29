@@ -1,0 +1,10 @@
+{
+    "THEWITCH-UNSTABLE.title": "不安定",
+    "THEWITCH-UNSTABLE.description": "戦闘終了時、この[gold]ポーション[/gold]は破壊される。\n（[gold]右クリック[/gold]で即座に使用できる）",
+    "THEWITCH-TREASURE.title": "宝物",
+    "THEWITCH-TREASURE.description": "[blue]5[/blue]ダメージを与える。\nまたは、[gold]商人[/gold]に[blue]15[/blue][gold]ゴールド[/gold]で売ることができる。",
+    "THEWITCH-BREW_PROMPT.title": "作成するポーションを選ぶ。",
+    "THEWITCH-BIG_TREASURE.title": "大きな宝物",
+    "THEWITCH-BIG_TREASURE.description": "[blue]7[/blue]ダメージを与える。\nまたは、[gold]商人[/gold]に[blue]30[/blue][gold]ゴールド[/gold]で売ることができる。",
+    "THEWITCH-ART_BY.title": "アート：{name}"
+}

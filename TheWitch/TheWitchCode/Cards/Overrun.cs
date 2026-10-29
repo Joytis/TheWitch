@@ -2,6 +2,7 @@ using System;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using TheWitch.TheWitchCode.Powers;
@@ -13,6 +14,10 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class Overrun : WitchCard
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(8m, ValueProp.Move),
         new ExtraDamageVar(6m)
@@ -33,11 +38,7 @@ public sealed class Overrun : WitchCard
             .WithHitFx(VfxCmd.thrashPath)
             .Execute(choiceContext);
 
-        if (Owner.Creature.GetPower<OverrunPower>() is null)
-        {
-            await PowerCmd.Apply<OverrunPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
-        }
-        Owner.Creature.GetPower<OverrunPower>()?.AddStrike(cardPlay.Target, DynamicVars.ExtraDamage.BaseValue, this);
+        await PowerCmd.Apply<OverrunPower>(choiceContext, cardPlay.Target, DynamicVars.ExtraDamage.BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

@@ -17,6 +17,7 @@ public sealed class CozyNest : WitchRelic
     public override RelicRarity Rarity => RelicRarity.Rare;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        Familiars.HoverTip,
         HoverTipFactory.FromPower<CrowFamiliarPower>(),
         HoverTipFactory.FromCard<DarkOmen>(),
         HoverTipFactory.FromCard<Shiny>(),
