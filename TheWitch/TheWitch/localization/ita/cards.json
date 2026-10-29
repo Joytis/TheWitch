@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "Accendi la Candela",
     "THEWITCH-LIGHT_THE_CANDLE.description": "Crei una [gold]Fiala di Fumo[/gold] [gold]Instabile[/gold].\n[gold]Potenzi[/gold] {Cards:diff()} {Cards:plural:carta casuale|carte casuali} nella tua [gold]mano[/gold].",
     "THEWITCH-WITCHCRAFT.title": "Stregoneria",
-    "THEWITCH-WITCHCRAFT.description": "Crei {IfUpgraded:show:X+1|X} [gold]pozioni[/gold] [gold]Instabili[/gold] casuali.",
+    "THEWITCH-WITCHCRAFT.description": "Crei X [gold]pozioni[/gold] [gold]Instabili[/gold] casuali.",
     "THEWITCH-WAX_AND_WANE.title": "Crescente e Calante",
     "THEWITCH-WAX_AND_WANE.description": "Ottieni {Block:diff()} di [gold]Blocco[/gold].\nIl prossimo turno, applichi {WaxAndWanePower:diff()} di [gold]Maleficio[/gold] a TUTTI i nemici.",
     "THEWITCH-VEXING_STRIKE.title": "Colpo Molesto",

@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "点亮蜡烛",
     "THEWITCH-LIGHT_THE_CANDLE.description": "生成[gold]不稳定的[/gold][gold]一瓶浓烟[/gold]。\n随机[gold]升级[/gold]你[gold]手牌[/gold]中的{Cards:diff()}{Cards:plural:张牌}。",
     "THEWITCH-WITCHCRAFT.title": "巫术",
-    "THEWITCH-WITCHCRAFT.description": "随机生成{IfUpgraded:show:X+1|X}瓶[gold]不稳定的[/gold][gold]药水[/gold]。",
+    "THEWITCH-WITCHCRAFT.description": "随机生成X瓶[gold]不稳定的[/gold][gold]药水[/gold]。",
     "THEWITCH-WAX_AND_WANE.title": "月之盈亏",
     "THEWITCH-WAX_AND_WANE.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n下回合给予所有敌人{WaxAndWanePower:diff()}层[gold]恶咒[/gold]。",
     "THEWITCH-VEXING_STRIKE.title": "恼人打击",

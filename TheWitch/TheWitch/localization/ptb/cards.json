@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "Acender a Vela",
     "THEWITCH-LIGHT_THE_CANDLE.description": "Crie uma [gold]Ampola de Fumaça[/gold] [gold]Instável[/gold].\n[gold]Aprimore[/gold] {Cards:diff()} {Cards:plural:carta aleatória|cartas aleatórias} na sua [gold]Mão[/gold].",
     "THEWITCH-WITCHCRAFT.title": "Bruxaria",
-    "THEWITCH-WITCHCRAFT.description": "Crie {IfUpgraded:show:X+1|X} [gold]Poções[/gold] [gold]Instáveis[/gold] aleatórias.",
+    "THEWITCH-WITCHCRAFT.description": "Crie X [gold]Poções[/gold] [gold]Instáveis[/gold] aleatórias.",
     "THEWITCH-WAX_AND_WANE.title": "Crescer e Minguar",
     "THEWITCH-WAX_AND_WANE.description": "Receba {Block:diff()} de [gold]Proteção[/gold].\nNo próximo turno, aplique {WaxAndWanePower:diff()} de [gold]Feitiço[/gold] a TODOS os inimigos.",
     "THEWITCH-VEXING_STRIKE.title": "Golpe Vexatório",

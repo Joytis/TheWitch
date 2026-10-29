@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "Encender la vela",
     "THEWITCH-LIGHT_THE_CANDLE.description": "Crea un [gold]Vial de humo[/gold] [gold]Inestable[/gold].\n[gold]Mejora[/gold] {Cards:diff()} {Cards:plural:carta aleatoria|cartas aleatorias} de tu [gold]Mano[/gold].",
     "THEWITCH-WITCHCRAFT.title": "Brujería",
-    "THEWITCH-WITCHCRAFT.description": "Crea {IfUpgraded:show:X+1|X} [gold]Pociones[/gold] [gold]Inestables[/gold] aleatorias.",
+    "THEWITCH-WITCHCRAFT.description": "Crea X [gold]Pociones[/gold] [gold]Inestables[/gold] aleatorias.",
     "THEWITCH-WAX_AND_WANE.title": "Crecer y menguar",
     "THEWITCH-WAX_AND_WANE.description": "Gana {Block:diff()} de [gold]Bloqueo[/gold].\nEl siguiente turno, aplica {WaxAndWanePower:diff()} de [gold]Maleficio[/gold] a TODOS los enemigos.",
     "THEWITCH-VEXING_STRIKE.title": "Golpe maldito",

@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "Entzünde die Kerze",
     "THEWITCH-LIGHT_THE_CANDLE.description": "Erzeuge eine [gold]Instabile[/gold] [gold]Rauchphiole[/gold].\n[gold]Verbessere[/gold] {Cards:diff()} zufällige {Cards:plural:Karte|Karten} auf deiner [gold]Hand[/gold].",
     "THEWITCH-WITCHCRAFT.title": "Hexerei",
-    "THEWITCH-WITCHCRAFT.description": "Erzeuge {IfUpgraded:show:X+1|X} zufällige [gold]Instabile[/gold] [gold]Tränke[/gold].",
+    "THEWITCH-WITCHCRAFT.description": "Erzeuge X zufällige [gold]Instabile[/gold] [gold]Tränke[/gold].",
     "THEWITCH-WAX_AND_WANE.title": "Zu- und Abnehmen",
     "THEWITCH-WAX_AND_WANE.description": "Erhalte {Block:diff()} [gold]Block[/gold].\nWende im nächsten Zug auf ALLE Gegner {WaxAndWanePower:diff()} [gold]Verhexung[/gold] an.",
     "THEWITCH-VEXING_STRIKE.title": "Plagender Schlag",

@@ -38,10 +38,6 @@ public sealed class Witchcraft : WitchCard
 
         Rng rng = Owner.RunState.Rng.CombatPotionGeneration;
         int times = ResolveEnergyXValue();
-        if (IsUpgraded)
-		{
-			times++;
-		}
         for (int i = 0; i < times; i++)
         {
             // Base-game PotionFactory rarity thresholds: <=0.1 Rare, <=0.35 Uncommon, else Common.
@@ -62,4 +58,6 @@ public sealed class Witchcraft : WitchCard
             }
         }
     }
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 }

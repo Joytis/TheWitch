@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "Зажечь свечу",
     "THEWITCH-LIGHT_THE_CANDLE.description": "Создает [gold]Нестабильное зелье[/gold] [gold]«Флакон дыма»[/gold].\n[gold]Улучшает[/gold] {Cards:diff()} {Cards:plural(ru):случайную карту|случайные карты|случайных карт} в вашей [gold]руке[/gold].",
     "THEWITCH-WITCHCRAFT.title": "Ведьмовство",
-    "THEWITCH-WITCHCRAFT.description": "Создает {IfUpgraded:show:X+1|X} случайных [gold]Нестабильных зелий[/gold].",
+    "THEWITCH-WITCHCRAFT.description": "Создает X случайных [gold]Нестабильных зелий[/gold].",
     "THEWITCH-WAX_AND_WANE.title": "Прилив и отлив",
     "THEWITCH-WAX_AND_WANE.description": "Вы получаете {Block:diff()} [gold]защиты[/gold].\nВ следующем ходу накладывает {WaxAndWanePower:diff()} [gold]порчи[/gold] на ВСЕХ врагов.",
     "THEWITCH-VEXING_STRIKE.title": "Досадный удар",

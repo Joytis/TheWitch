@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "Allumer la chandelle",
     "THEWITCH-LIGHT_THE_CANDLE.description": "Créez une [gold]Fiole de fumée[/gold] [gold]Instable[/gold].\n[gold]Améliorez[/gold] {Cards:diff()} {Cards:plural:carte|cartes} au hasard dans votre [gold]Main[/gold].",
     "THEWITCH-WITCHCRAFT.title": "Sorcellerie",
-    "THEWITCH-WITCHCRAFT.description": "Créez {IfUpgraded:show:X+1|X} [gold]Potions[/gold] [gold]Instables[/gold] aléatoires.",
+    "THEWITCH-WITCHCRAFT.description": "Créez X [gold]Potions[/gold] [gold]Instables[/gold] aléatoires.",
     "THEWITCH-WAX_AND_WANE.title": "Croître et décroître",
     "THEWITCH-WAX_AND_WANE.description": "Gagnez {Block:diff()} d'[gold]Armure[/gold].\nAu prochain tour, appliquez {WaxAndWanePower:diff()} de [gold]Sortilège[/gold] à TOUS les ennemis.",
     "THEWITCH-VEXING_STRIKE.title": "Frappe vexante",

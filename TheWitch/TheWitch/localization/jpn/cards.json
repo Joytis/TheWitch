@@ -206,7 +206,7 @@
     "THEWITCH-LIGHT_THE_CANDLE.title": "ろうそくを灯せ",
     "THEWITCH-LIGHT_THE_CANDLE.description": "[gold]不安定[/gold]な[gold]煙の小瓶[/gold]を作成する。\n[gold]手札[/gold]のランダムなカードを{Cards:diff()}枚[gold]アップグレード[/gold]する。",
     "THEWITCH-WITCHCRAFT.title": "魔女術",
-    "THEWITCH-WITCHCRAFT.description": "ランダムな[gold]不安定[/gold]な[gold]ポーション[/gold]を{IfUpgraded:show:X+1|X}個作成する。",
+    "THEWITCH-WITCHCRAFT.description": "ランダムな[gold]不安定[/gold]な[gold]ポーション[/gold]をX個作成する。",
     "THEWITCH-WAX_AND_WANE.title": "満ち欠け",
     "THEWITCH-WAX_AND_WANE.description": "{Block:diff()}[gold]ブロック[/gold]を得る。\n次のターン、すべての敵に[gold]呪術[/gold]{WaxAndWanePower:diff()}を付与する。",
     "THEWITCH-VEXING_STRIKE.title": "苛みのストライク",
