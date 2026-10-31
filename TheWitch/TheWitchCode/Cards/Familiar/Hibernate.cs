@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -22,6 +23,8 @@ public sealed class Hibernate : WitchFamiliarCard
         new BlockVar(15m, ValueProp.Move),
         new PowerVar<StrengthNextTurnPower>(3m)
     ];
+
+    public override CardModel Summon => ModelDb.Card<BearFamiliar>();
 
     public Hibernate()
         : base(3, CardType.Skill, CardRarity.Token, TargetType.Self)

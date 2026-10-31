@@ -9,8 +9,6 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class BagOfTeeth : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.BobbyHessler;
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(2m, ValueProp.Move),
         new RepeatVar(4)

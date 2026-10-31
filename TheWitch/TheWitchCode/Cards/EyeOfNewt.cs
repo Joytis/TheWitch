@@ -15,6 +15,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// power's HitsAll mode, no stat change.</summary>
 public sealed class EyeOfNewt : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPotion(ModelDb.Potion<NoxiousBrew>()),
         UnstablePotions.UnstableHoverTip,

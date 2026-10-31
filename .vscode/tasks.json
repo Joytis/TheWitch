@@ -658,6 +658,47 @@
             "detail": "Open the local art tracker page (pages/art-tracker.html) in the default browser. Live copy: https://joytis.github.io/TheWicken/pages/art-tracker.html"
         },
         {
+            "label": "Art Tracker: Edit (local)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/art-tracker-edit.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "detail": "Open the art tracker in edit mode (http://localhost:7820/pages/art-tracker.html via the card-designs server): artist / stage / final / brief fields save to the repo JSON. Stop with 'Card Designs: Stop'."
+        },
+        {
+            "label": "Frame Preview: Open",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-Command",
+                "Start-Process 'http://localhost:7822/pages/frame-preview.html'; py -m http.server 7822 --directory '${workspaceFolder}'"
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "detail": "Serve the repo on http://localhost:7822 and open the Frame Previewer (served so the 'start from an existing card' list and repo-art compare work; from file:// they're hidden). Terminate the task to stop. Live copy: https://joytis.github.io/TheWicken/pages/frame-preview.html"
+        },
+        {
             "label": "Card Designs: Stop",
             "type": "process",
             "command": "powershell",

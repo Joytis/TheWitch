@@ -1,25 +1,66 @@
 #!/usr/bin/env node
-// Generate pages/art-tracker.html — a static, self-contained art-asset tracker
-// suitable for GitHub Pages. One page, sectioned per character (../card-data/characters.js):
+// Generate pages/art-tracker.html — the static, self-contained art tracker served by GitHub Pages.
+// One page, sectioned per character (../card-data/characters.js):
 //   - <dataFile>   (Docs/card-data/cards.json | augur.json — cards; artFinal=true → Final)
-//   - <briefs>     (Docs/art-tracker/card-briefs.json | augur-briefs.json — artist / brief per card)
+//   - <briefs>     (Docs/art-tracker/card-briefs.json | augur-briefs.json — artist / brief / stage per card)
 //   - <assets>     (Docs/art-tracker/assets.json | augur-assets.json — non-card asset categories)
-// Thumbnails are referenced by repo-relative paths (../TheWitch/images/...) so the
-// page works when the whole repo is served (Pages) or opened from Docs/ locally.
+// The page itself is tracker.template.html (data injected at /*@@DATA@@*/); cards render in their real
+// frames through the Frame Previewer's renderer (pages/frame-preview/).
 //
 // Usage: node Docs/art-tracker/regen-art-tracker.js
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { KEYS, CHARACTERS } = require(path.join(__dirname, '..', 'card-data', 'characters.js'));
 
 const root = path.join(__dirname, '..', '..');
-const CARD_DIMS = '1000x760';
+const CARD_DIMS = '1000x760 or 2000x1520';
+// Card art must be delivered at exactly one of these sizes (health check 'Non-standard resolution').
+const CARD_SIZES = [[1000, 760], [2000, 1520]];
+const FULL_ART_DIMS = '~600x842 (full-art: taller than wide)';   // Ancient frame; packs to 250x351
 // .replace strips a UTF-8 BOM — editors re-save the localization JSON with one on and off.
-const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, ''));
+const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^﻿/, ''));
 const readJsonOr = (p, fallback) => (fs.existsSync(p) ? readJson(p) : fallback);
 
-// sanitize card text (same rules as gen-art-tracker.js)
+// Status: Final (artFinal / done) > explicit stage > artist assigned > unassigned.
+const STAGES = { assigned: 'Assigned', sketching: 'Sketching' };
+function derive(done, artist, stage) {
+  if (done) return 'Final';
+  if (stage && STAGES[stage]) return STAGES[stage];
+  return artist ? 'Assigned' : 'Unassigned';
+}
+
+// ---- source image facts (dimensions from the PNG header; placeholder = card.png or a shared copy) -----
+function pngSize(file) {
+  try {
+    const fd = fs.openSync(file, 'r'), b = Buffer.alloc(24);
+    fs.readSync(fd, b, 0, 24, 0); fs.closeSync(fd);
+    return b.toString('ascii', 12, 16) === 'IHDR' ? { w: b.readUInt32BE(16), h: b.readUInt32BE(20) } : null;
+  } catch { return null; }
+}
+const sha1 = (file) => { try { return crypto.createHash('sha1').update(fs.readFileSync(file)).digest('hex'); } catch { return null; } };
+function imgFacts(p, placeholderHashes) {
+  const file = p && path.join(root, p);
+  if (!file || !fs.existsSync(file)) return { hasArt: false, srcW: 0, srcH: 0, placeholderArt: false };
+  const size = pngSize(file) || { w: 0, h: 0 };
+  return { hasArt: true, srcW: size.w, srcH: size.h, placeholderArt: !!placeholderHashes && placeholderHashes.has(sha1(file)) };
+}
+// Card art that is the generic card.png back, or byte-identical across several cards, is a placeholder
+// (same rule as the card-designs server's "No Art" state).
+function placeholderHashes(ch, artPaths) {
+  const out = new Set(), seen = new Map();
+  const back = sha1(path.join(root, ch.portraits, 'card.png'));
+  if (back) out.add(back);
+  for (const p of new Set(artPaths)) {
+    const h = sha1(path.join(root, p));
+    if (!h) continue;
+    if (seen.has(h)) out.add(h); else seen.set(h, p);
+  }
+  return out;
+}
+
+// sanitize card text (plain, for search + table view)
 let cur = null;
 function clean(s) {
   return String(s ?? '')
@@ -33,16 +74,40 @@ function clean(s) {
   function varValue(v) { return cur && cur.numbers && cur.numbers[v] != null ? String(cur.numbers[v]) : v; }
 }
 
-// status is derived: done → Done; artist assigned → In Progress; else Placeholder
-function derive(done, artist) { return done ? 'Done' : (artist ? 'In Progress' : 'Placeholder'); }
-function exists(p) { return p && fs.existsSync(path.join(root, p)); }
+// ---- in-game artist credit (ArtBy) -------------------------------------------------------------
+// Characters with an Artists/Artist.cs credit their art in game; read each card's ArtBy override (or the
+// base-class default) so the health panel can flag Final art whose credit disagrees with the tracker.
+function creditReader(ch) {
+  const codeDir = path.dirname(path.join(root, ch.cardsDir));
+  const artistFile = path.join(codeDir, 'Artists', 'Artist.cs');
+  if (!fs.existsSync(artistFile)) return null;
+  const names = {};
+  for (const m of fs.readFileSync(artistFile, 'utf8').matchAll(/static readonly Artist (\w+)\s*=\s*new\("([^"]+)"/g)) names[m[1]] = m[2];
+  const ARTBY = /ArtBy\s*=>\s*(?:Artists\.)?(?:Artist\.)?(\w+)\s*;/;
+  let fallback = null;
+  for (const f of fs.readdirSync(path.join(root, ch.cardsDir))) {
+    if (!f.endsWith('.cs')) continue;
+    const src = fs.readFileSync(path.join(root, ch.cardsDir, f), 'utf8');
+    const m = /virtual\s+Artists\.Artist\?\s+ArtBy/.test(src) && src.match(ARTBY);
+    if (m) { fallback = m[1]; break; }
+  }
+  return (file) => {
+    let key = fallback;
+    try { const m = fs.readFileSync(path.join(root, file), 'utf8').match(ARTBY); if (m) key = m[1]; } catch {}
+    return key === 'null' || !key ? '' : (names[key] || key);
+  };
+}
+
+const sameArtist = (a, b) => String(a).toLowerCase().replace(/[^a-z0-9]/g, '') === String(b).toLowerCase().replace(/[^a-z0-9]/g, '');
 
 // Build one character's section: card rows + asset categories (Powers auto-enumerated from its loc).
 function buildCharacter(ch) {
   const cardsData = readJsonOr(path.join(root, ch.dataFile), { cards: [] });
   const briefs = readJsonOr(path.join(root, ch.briefs), {}).briefs || {};
   const assetsFile = readJsonOr(path.join(root, ch.assets), {});
-  const assetCats = assetsFile.categories || [];
+  const assetCats = JSON.parse(JSON.stringify(assetsFile.categories || []));
+  const cardLoc = readJsonOr(path.join(root, ch.loc), {});
+  const credit = creditReader(ch);
 
   // Source art lives at <portraits>/<entry>.png; some characters author subsets under a subdir
   // (Witch familiar tokens → familiar/). Probe root then each subdir; fall back to the root path.
@@ -53,28 +118,45 @@ function buildCharacter(ch) {
     }
     return ch.portraits + '/' + base; // convention target even if missing
   }
+  // Frame the card renders in (pages/frame-preview styles).
+  const styleOf = (c) => ch.key === 'augur' ? 'augur'
+    : c.rarity === 'Status' ? 'status'
+    : /[\\/]Familiar[\\/]/.test(c.file || '') ? 'familiar' : 'witch';
 
+  const cardPaths = (cardsData.cards || []).map(c => cardArtPath(c.entry));
+  const placeholders = placeholderHashes(ch, cardPaths);
   const cardRows = (cardsData.cards || []).map(c => {
     cur = c;
     const b = briefs[c.name] || {};
+    const p = cardArtPath(c.entry);
     return {
+      kind: 'card',
       name: c.name,
+      entry: c.entry,
       artist: b.artist || '',
-      status: derive(c.artFinal, b.artist),
+      stage: b.stage || '',
+      final: !!c.artFinal,
+      status: derive(c.artFinal, b.artist, b.stage),
       brief: b.brief || '',
+      credit: credit ? credit(c.file) : null,
       type: c.type,
       rarity: c.rarity,
-      cost: c.cost === -1 ? 'X' : String(c.cost),
+      cost: c.cost === -1 || c.cost === '-1' ? '' : String(c.cost),
       text: clean(c.text),
+      desc: cardLoc[`${ch.prefix}${c.entry}.description`] || '',
+      numbers: c.numbers || {},
       upgrade: clean(c.upgrade),
-      mechanics: (c.mechanics || []).filter(m => m && m !== 'None').join(', '),
-      path: cardArtPath(c.entry),
-      dims: CARD_DIMS,
+      mechanics: (c.mechanics || []).filter(m => m && m !== 'None'),
+      role: c.role || [],
+      style: styleOf(c),
+      path: p,
+      dims: c.rarity === 'Ancient' ? FULL_ART_DIMS : CARD_DIMS,
+      ...imgFacts(p, placeholders),
     };
   });
 
   // Powers tab: auto-enumerated from the localization file (every power must have loc, so it is the
-  // authoritative list — new powers appear on the next regen). Optional per-power curation (artist/done/brief)
+  // authoritative list — new powers appear on the next regen). Optional per-power curation (artist/done/brief/stage)
   // lives in the assets file under "powerOverrides", keyed by the loc entry (e.g. "HEX_POWER").
   const powerLoc = readJsonOr(path.join(root, ch.powersLoc), {});
   const powerOverrides = assetsFile.powerOverrides || {};
@@ -85,15 +167,14 @@ function buildCharacter(ch) {
   const powersCat = {
     id: 'powers',
     title: 'Powers',
-    dims: '64x64 (small) + 256x256 (big)',
+    dims: '256x256',
     assets: powerEntries.map(entry => {
       const o = powerOverrides[entry] || {};
       cur = null;
       return {
         name: powerLoc[`${ch.prefix}${entry}.title`] + ` (${entry.toLowerCase()})`,
-        artist: o.artist || '',
-        done: !!o.done,
-        brief: o.brief || '',
+        ref: { power: entry },
+        artist: o.artist || '', done: !!o.done, brief: o.brief || '', stage: o.stage || '',
         effect: clean(String(powerLoc[`${ch.prefix}${entry}.description`] || '').replace(/\[\/?[a-z]+\]/g, '')),
         path: imagesDir + '/powers/' + entry.toLowerCase() + '.png',
       };
@@ -101,13 +182,11 @@ function buildCharacter(ch) {
   };
   // Powers with mod art but base-game loc (ICustomPower subclasses) can't be enumerated from powers.json —
   // they are listed by hand in the assets file under "extraPowers", keyed by entry.
-  const extraPowers = assetsFile.extraPowers || {};
-  for (const [entry, o] of Object.entries(extraPowers)) {
+  for (const [entry, o] of Object.entries(assetsFile.extraPowers || {})) {
     powersCat.assets.push({
       name: (o.name || entry) + ` (${entry.toLowerCase()})`,
-      artist: o.artist || '',
-      done: !!o.done,
-      brief: o.brief || '',
+      ref: { extraPower: entry },
+      artist: o.artist || '', done: !!o.done, brief: o.brief || '', stage: o.stage || '',
       effect: o.effect || '',
       path: imagesDir + '/powers/' + entry.toLowerCase() + '.png',
     });
@@ -115,196 +194,65 @@ function buildCharacter(ch) {
   const petsIdx = assetCats.findIndex(c => c.id === 'pets');
   if (petsIdx >= 0) assetCats.splice(petsIdx, 0, powersCat); else assetCats.push(powersCat);
 
-  // check which referenced images actually exist
-  for (const r of cardRows) r.hasArt = exists(r.path);
-  for (const cat of assetCats) for (const a of cat.assets) a.hasArt = exists(a.path);
+  const categories = assetCats.map(c => ({
+    id: c.id, title: c.title, dims: c.dims,
+    assets: c.assets.map(a => ({
+      kind: 'asset',
+      name: a.name, artist: a.artist || '', stage: a.stage || '', final: !!a.done, status: derive(a.done, a.artist, a.stage), brief: a.brief || '',
+      ref: a.ref || { cat: c.id, name: a.name },  // where edit mode writes it back (Docs/card-data/server.js /api/asset)
+      rarity: a.rarity || '', orientation: a.orientation || '',
+      effect: a.effect || '', path: a.path || '', dims: a.dims || c.dims || '',
+      ...imgFacts(a.path),
+    })),
+  }));
+
+  // ---- data health ----------------------------------------------------------------------------
+  const names = new Set(cardRows.map(r => r.name));
+  const shapeOff = (r) => r.srcW && r.srcH && r.srcW >= r.srcH && Math.abs((r.srcW / r.srcH) / (1000 / 760) - 1) > 0.015;
+  const health = {
+    orphanBriefs: Object.keys(briefs).filter(n => !names.has(n)),
+    creditMismatch: cardRows.filter(r => r.status === 'Final' && r.credit !== null && r.artist && !sameArtist(r.artist, r.credit))
+      .map(r => ({ name: r.name, entry: r.entry, tracker: r.artist, game: r.credit || '(uncredited)' })),
+    finalNoArtist: cardRows.filter(r => r.status === 'Final' && !r.artist).map(r => ({ name: r.name, entry: r.entry, game: r.credit || '' })),
+    missingArt: [...cardRows, ...categories.flatMap(c => c.assets)].filter(r => r.path && (!r.hasArt || r.placeholderArt))
+      .map(r => ({ name: r.name, entry: r.entry || '', file: r.path.split('/').pop(), placeholder: r.hasArt })),
+    offShape: cardRows.filter(r => r.hasArt && !r.placeholderArt && r.rarity !== 'Ancient' && shapeOff(r)).map(r => ({ name: r.name, entry: r.entry, w: r.srcW, h: r.srcH })),
+    tallArt: cardRows.filter(r => r.hasArt && r.srcH > r.srcW && r.rarity !== 'Ancient').map(r => ({ name: r.name, entry: r.entry, w: r.srcW, h: r.srcH })),
+    nonStandardSize: cardRows.filter(r => r.hasArt && !r.placeholderArt && r.rarity !== 'Ancient' && r.srcW && !CARD_SIZES.some(([w, h]) => r.srcW === w && r.srcH === h))
+      .map(r => ({ name: r.name, entry: r.entry, w: r.srcW, h: r.srcH })),
+    ancientLandscape: cardRows.filter(r => r.hasArt && !r.placeholderArt && r.rarity === 'Ancient' && r.srcW >= r.srcH).map(r => ({ name: r.name, entry: r.entry, w: r.srcW, h: r.srcH })),
+  };
 
   return {
     key: ch.key,
     label: ch.label,
     generated: cardsData.generated || '',
     cards: cardRows,
-    categories: assetCats.map(c => ({
-      id: c.id, title: c.title, dims: c.dims,
-      assets: c.assets.map(a => ({
-        name: a.name, artist: a.artist || '', status: derive(a.done, a.artist), brief: a.brief || '',
-        rarity: a.rarity || '', orientation: a.orientation || '',
-        effect: a.effect || '', path: a.path || '', dims: a.dims || c.dims || '',
-        hasArt: a.hasArt,
-      })),
-    })),
-    // raw (pre-map) lists kept for the console report below
-    _assetCats: assetCats,
+    categories,
+    health,
   };
 }
 
-const sections = KEYS.map((k) => buildCharacter(CHARACTERS[k]));
 const data = {
   generated: new Date().toISOString().slice(0, 10),
-  characters: sections.map(({ _assetCats, ...s }) => s),
+  stages: STAGES,
+  characters: KEYS.map((k) => buildCharacter(CHARACTERS[k])),
 };
 
-const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Art Tracker — The Witch · The Augur</title>
-<style>
-  /* Witch-house palette — keep in sync with pages/analytics.html */
-  :root{
-    --bg:#2e2226; --panel:#382a2c; --panel2:#41302f; --line:#4d3b3a;
-    --ink:#e8dcc8; --muted:#9b8577; --gold:#e6c15c; --accent:#b8d48f;
-    --ok:#b8d48f; --warn:#e6c15c; --no:#6d5a55;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Segoe UI",system-ui,sans-serif}
-  header{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
-  h1{margin:0 0 4px;font-size:20px;color:var(--gold);letter-spacing:.5px}
-  .sub{color:var(--muted);font-size:12px}
-  .chars{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .char{background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:6px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:.3px;user-select:none}
-  .char.on{background:var(--gold);border-color:var(--gold);color:#3a2a10}
-  .tabs{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
-  .tab{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px 8px 0 0;cursor:pointer;font-size:13px;font-weight:600;user-select:none}
-  .tab.on{background:var(--accent);border-color:var(--accent);color:#26301a}
-  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
-  input[type=search]{background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:7px 10px;border-radius:6px;min-width:220px;font-size:13px}
-  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:6px 11px;border-radius:14px;cursor:pointer;font-size:12px;user-select:none}
-  .chip.on{background:var(--accent);border-color:var(--accent);color:#26301a}
-  .prog{margin-left:auto;color:var(--muted);font-size:12px;text-align:right}
-  .bar{width:180px;height:7px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:4px}
-  .bar > i{display:block;height:100%;background:var(--ok);width:0}
-  main{padding:14px 22px 60px}
-  table{width:100%;border-collapse:collapse}
-  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{background:var(--panel);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
-  tbody tr:hover{background:var(--panel2)}
-  .name{font-weight:600}
-  .meta{color:var(--muted);font-size:12px;white-space:nowrap}
-  .text{max-width:340px}
-  .brief{max-width:420px;color:#c99a90;font-style:italic;font-size:12px}
-  .dims{font:11px/1.4 ui-monospace,Consolas,monospace;color:var(--muted)}
-  .pathcell{font:10px/1.4 ui-monospace,Consolas,monospace;color:var(--muted);max-width:220px;word-break:break-all}
-  .badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
-  .s-done{background:#b8d48f33;color:#cfe3a8}
-  .s-inprogress{background:#e6c15c33;color:#e6c15c}
-  .s-placeholder{background:#6d5a5533;color:#a08a7d}
-  .artist{color:var(--accent);font-size:12px;white-space:nowrap}
-  .thumb{width:60px}
-  .thumb img{width:52px;height:auto;border-radius:4px;border:1px solid var(--line);background:#241a1d;display:block;cursor:zoom-in}
-  .thumb .none{width:52px;height:40px;border:1px dashed var(--line);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--no);font-size:10px}
-  #lightbox{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
-  #lightbox img{max-width:88vw;max-height:88vh;border-radius:8px;border:1px solid var(--line)}
-  .catnote{color:var(--muted);font-size:12px;margin:8px 0 12px}
-</style>
-</head>
-<body>
-<header>
-  <h1 id="h1">Art Tracker</h1>
-  <div class="sub">Generated ${data.generated} from repo state · statuses reflect the current project, not artist assignments</div>
-  <div class="chars" id="chars"></div>
-  <div class="tabs" id="tabs"></div>
-  <div class="controls">
-    <input type="search" id="q" placeholder="filter by name / text…">
-    <span class="chip" data-f="all">All</span>
-    <span class="chip" data-f="Placeholder">Placeholder</span>
-    <span class="chip" data-f="In Progress">In Progress</span>
-    <span class="chip" data-f="Done">Done</span>
-    <div class="prog"><span id="progtext"></span><div class="bar"><i id="progbar"></i></div></div>
-  </div>
-</header>
-<main id="main"></main>
-<div id="lightbox"><img alt=""></div>
-<script>
-const DATA = ${JSON.stringify(data)};
-const esc = s => String(s??'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const scls = s => 's-' + s.toLowerCase().replace(/\\s+/g,'');
-// top-level switcher: one section per character; each section has its own tabs (cards + asset categories)
-let CH = DATA.characters[0], tab = 'cards', filter = 'all', q = '';
-const tabsOf = ch => [{id:'cards', title:'Cards'}].concat(ch.categories.map(c=>({id:c.id,title:c.title})));
-
-function rows() {
-  if (tab === 'cards') return CH.cards;
-  return CH.categories.find(c=>c.id===tab).assets;
-}
-function buildTabs() {
-  document.getElementById('h1').textContent = CH.label + ' — Art Tracker';
-  document.querySelectorAll('.char').forEach(c=>c.classList.toggle('on', c.dataset.c===CH.key));
-  tabsEl.innerHTML = tabsOf(CH).map(t=>'<span class="tab" data-t="'+t.id+'">'+esc(t.title)+'</span>').join('');
-}
-function render() {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.dataset.t===tab));
-  document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on', c.dataset.f===filter));
-  const all = rows();
-  const shown = all.filter(r =>
-    (filter==='all' || r.status===filter) &&
-    (!q || (r.name + ' ' + (r.text||r.effect||'') + ' ' + (r.brief||'') + ' ' + (r.artist||'')).toLowerCase().includes(q)));
-  const fin = all.filter(r=>r.status==='Done').length;
-  document.getElementById('progtext').textContent = fin + ' / ' + all.length + ' done';
-  document.getElementById('progbar').style.width = (all.length ? 100*fin/all.length : 0) + '%';
-
-  const isCards = tab === 'cards';
-  const cat = isCards ? null : CH.categories.find(c=>c.id===tab);
-  let h = '';
-  if (cat && cat.dims) h += '<div class="catnote">Required dimensions: ' + esc(cat.dims) + '</div>';
-  h += '<table><thead><tr><th></th><th>Status</th><th>Artist</th><th>Art Brief</th><th>Name</th>';
-  h += isCards ? '<th>Type</th><th>Rarity</th><th>Cost</th><th>Card Text</th><th>Upgrade</th><th>Mechanics</th>'
-               : '<th>Details</th>' + (cat.assets.some(a=>a.rarity)?'<th>Rarity</th>':'') + (cat.assets.some(a=>a.orientation)?'<th>Orientation</th>':'');
-  h += '<th>Required Dims</th><th>Filename</th></tr></thead><tbody>';
-  for (const r of shown) {
-    h += '<tr>';
-    h += '<td class="thumb">' + (r.hasArt
-      ? '<img loading="lazy" src="../' + esc(r.path) + '" alt="" title="click to enlarge">'
-      : '<div class="none">no art</div>') + '</td>';
-    h += '<td><span class="badge ' + scls(r.status) + '">' + esc(r.status) + '</span></td>';
-    h += '<td class="artist">' + esc(r.artist || '—') + '</td>';
-    h += '<td class="brief">' + esc(r.brief) + '</td>';
-    h += '<td class="name">' + esc(r.name) + '</td>';
-    if (isCards) {
-      h += '<td class="meta">' + esc(r.type) + '</td><td class="meta">' + esc(r.rarity) + '</td><td class="meta">' + esc(r.cost) + '</td>';
-      h += '<td class="text">' + esc(r.text) + '</td><td class="meta">' + esc(r.upgrade) + '</td><td class="meta">' + esc(r.mechanics) + '</td>';
-    } else {
-      h += '<td class="text">' + esc(r.effect) + '</td>';
-      if (cat.assets.some(a=>a.rarity)) h += '<td class="meta">' + esc(r.rarity) + '</td>';
-      if (cat.assets.some(a=>a.orientation)) h += '<td class="meta">' + esc(r.orientation) + '</td>';
-    }
-    h += '<td class="dims">' + esc(r.dims) + '</td>';
-    h += '<td class="pathcell">' + esc(r.path ? r.path.split('/').pop() : '—') + '</td>';
-    h += '</tr>';
-  }
-  h += '</tbody></table>';
-  document.getElementById('main').innerHTML = h;
-}
-const tabsEl = document.getElementById('tabs');
-const charsEl = document.getElementById('chars');
-charsEl.innerHTML = DATA.characters.map(c=>'<span class="char" data-c="'+esc(c.key)+'">'+esc(c.label)+'</span>').join('');
-charsEl.addEventListener('click', e => {
-  const c=e.target.closest('.char');
-  if(c && c.dataset.c!==CH.key){ CH=DATA.characters.find(x=>x.key===c.dataset.c); tab='cards'; buildTabs(); render(); }
-});
-tabsEl.addEventListener('click', e => { const t=e.target.closest('.tab'); if(t){tab=t.dataset.t; render();} });
-document.querySelector('.controls').addEventListener('click', e => { const c=e.target.closest('.chip'); if(c){filter=c.dataset.f; render();} });
-document.getElementById('q').addEventListener('input', e => { q=e.target.value.toLowerCase(); render(); });
-const lb = document.getElementById('lightbox');
-document.getElementById('main').addEventListener('click', e => {
-  const img = e.target.closest('.thumb img');
-  if (img) { lb.querySelector('img').src = img.src; lb.style.display='flex'; }
-});
-lb.addEventListener('click', () => lb.style.display='none');
-buildTabs();
-render();
-</script>
-</body>
-</html>
-`;
-
+const template = fs.readFileSync(path.join(__dirname, 'tracker.template.html'), 'utf8');
+// `<` escaped so card text can never close the inline <script>.
+const html = template.replace('/*@@DATA@@*/null', () => JSON.stringify(data).replace(/</g, '\\u003c'));
 const outPath = path.join(root, 'pages', 'art-tracker.html');
 fs.writeFileSync(outPath, html);
-for (const sec of sections) {
-  const other = sec._assetCats.reduce((n, c) => n + c.assets.length, 0);
+
+for (const sec of data.characters) {
+  const other = sec.categories.reduce((n, c) => n + c.assets.length, 0);
   console.log(`art-tracker.html [${sec.label}]: ${sec.cards.length} cards + ${other} other assets = ${sec.cards.length + other} rows`);
-  const missing = [...sec.cards.filter(r => !r.hasArt).map(r => 'card: ' + r.name),
-    ...sec._assetCats.flatMap(c => c.assets.filter(a => a.path && !a.hasArt).map(a => c.title + ': ' + a.name))];
-  if (missing.length) console.log(`MISSING IMAGE FILES [${sec.label}]:\n  ` + missing.join('\n  '));
+  const h = sec.health;
+  const missing = h.missingArt.filter(m => !m.placeholder);
+  if (missing.length) console.log(`MISSING IMAGE FILES [${sec.label}]:\n  ` + missing.map(m => m.name).join('\n  '));
+  const issues = { 'orphan briefs': h.orphanBriefs.length, 'credit mismatches': h.creditMismatch.length,
+    'off-shape art': h.offShape.length, 'non-standard resolutions': h.nonStandardSize.length, 'tall art': h.tallArt.length, 'landscape art on Ancient cards': h.ancientLandscape.length };
+  const list = Object.entries(issues).filter(([, n]) => n).map(([k, n]) => `${n} ${k}`);
+  if (list.length) console.log(`DATA HEALTH [${sec.label}]: ${list.join(', ')} (see the tracker's health panel)`);
 }

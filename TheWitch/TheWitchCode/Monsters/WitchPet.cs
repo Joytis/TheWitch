@@ -1,3 +1,4 @@
+using BaseLib.Abstracts;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Helpers;
@@ -21,8 +22,12 @@ namespace TheWitch.TheWitchCode.Monsters;
 /// scene — a valid NCreatureVisuals whose %Visuals body is an empty, textureless Sprite2D —
 /// and swap our own texture onto it at spawn via <see cref="WitchPetVisualsPatch" />. So we
 /// ship only PNGs (which pack/load fine), no scene authoring required.
+///
+/// ICustomModel opts the pets into BaseLib's id prefixing (THEWITCH-OWL_PET, ...). A bare
+/// MonsterModel subclass keeps the unprefixed id (OWL_PET), and ModelDb.Init silently overwrites
+/// duplicate ids, so another mod's OwlPet would replace ours.
 /// </summary>
-public abstract class WitchPet : MonsterModel
+public abstract class WitchPet : MonsterModel, ICustomModel
 {
     // Pets are never meant to take damage or die; huge HP + hidden bar mirrors Byrdpip.
     public override int MinInitialHp => 9999;

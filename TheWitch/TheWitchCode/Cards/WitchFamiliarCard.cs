@@ -4,6 +4,7 @@ using BaseLib.Utils;
 using TheWitch.TheWitchCode.Character;
 using TheWitch.TheWitchCode.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Models;
 using TheWitch.TheWitchCode.Powers;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -29,6 +30,14 @@ public abstract class WitchFamiliarCard(int cost, CardType type, CardRarity rari
     /// <summary>Artist credit for this card's art, shown in game as an "Art by …" hover tip.
     /// Defaults to Kitsu; override per card, or return null for uncredited.</summary>
     public virtual Artists.Artist? ArtBy => Artists.Artist.Kitsu;
+
+    /// <summary>The summon card whose familiar produces this token. Cosmetic only: the card frame's banner +
+    /// title outline borrow the summon's rarity (<c>FamiliarRarityPatch</c>); the real <see cref="CardModel.Rarity" />
+    /// stays Token, so reward/transform/rarity logic is untouched. Null = default Token (common) look.</summary>
+    public virtual CardModel? Summon => null;
+
+    /// <summary>Rarity the card frame renders with — the summon's, else this card's own.</summary>
+    public CardRarity DisplayRarity => Summon?.Rarity ?? Rarity;
 
     /// <summary>
     /// The familiar power instance that generated this card, and which of its stacks (0-based) rolled it —

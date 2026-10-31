@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -18,6 +19,8 @@ public sealed class DarkOmen : WitchFamiliarCard
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<HexPower>(1m),
     ];
+
+    public override CardModel Summon => ModelDb.Card<CrowFamiliar>();
 
     public DarkOmen()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.AllEnemies)

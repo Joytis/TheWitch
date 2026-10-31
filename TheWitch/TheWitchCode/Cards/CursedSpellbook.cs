@@ -11,6 +11,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Cursed Spellbook: a free surge of power with the curse baked in — Energy and cards now, Hex to pay for it.</summary>
 public sealed class CursedSpellbook : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
     ];

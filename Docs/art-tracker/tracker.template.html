@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Art Tracker — The Witch · The Augur</title>
+<!-- Generated from Docs/art-tracker/tracker.template.html by Docs/art-tracker/regen-art-tracker.js. Edit the template, not pages/art-tracker.html. -->
+<style>
+  /* Witch-house palette — keep in sync with index.html / pages/analytics.html */
+  :root{
+    --bg:#2e2226; --panel:#382a2c; --panel2:#41302f; --line:#4d3b3a; --deep:#2a1f22;
+    --ink:#e8dcc8; --muted:#9b8577; --gold:#e6c15c; --accent:#b8d48f;
+    --s-final:#b8d48f; --s-sketching:#e6c15c; --s-assigned:#c9a0dc; --s-unassigned:#6d5a55;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Segoe UI",system-ui,sans-serif}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  button{font:inherit}
+
+  header.top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 26px;background:var(--panel);border-bottom:1px solid var(--line)}
+  header.top h1{margin:0;font-size:20px;color:var(--gold)}
+  header.top .sub{color:var(--muted);font-size:12px}
+  .chars{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px}
+  .chars button{background:none;border:none;color:var(--muted);padding:5px 16px;border-radius:7px;cursor:pointer;font-weight:600;font-size:13px}
+  .chars button.on{background:var(--gold);color:#3a2a10}
+  header.top nav{margin-left:auto;display:flex;gap:16px;font-size:13px}
+  header.top nav .fp{background:#e6c15c1f;border:1px solid #e6c15c55;color:var(--gold);padding:5px 12px;border-radius:8px;font-weight:600}
+
+  .wrap{padding:20px 26px 70px;max-width:1500px;margin:0 auto}
+
+  /* ---- overview ---- */
+  .overview{display:grid;grid-template-columns:190px 1fr 1fr 1.1fr;gap:14px;margin-bottom:14px}
+  @media (max-width:1200px){.overview{grid-template-columns:190px 1fr 1fr}.overview > :last-child{grid-column:1/-1}}
+  body.queue-mode .overview,body.queue-mode details.health,body.queue-mode .tabs{display:none}
+  @media (max-width:700px){.overview{grid-template-columns:1fr}}
+  .card-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .card-box h3{margin:0 0 10px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .ring{width:112px;height:112px;border-radius:50%;display:grid;place-items:center}
+  .ring > div{width:86px;height:86px;border-radius:50%;background:var(--panel);display:grid;place-items:center}
+  .ring b{font-size:28px;color:var(--ink);line-height:1}
+  .ring small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .hero .tot{margin-top:10px;font-size:13px;color:var(--muted)}
+  .legend{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;margin-top:8px;font-size:11px;color:var(--muted)}
+  .legend i,.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:baseline}
+  .bars{display:flex;flex-direction:column;gap:3px}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 46px;gap:10px;align-items:center;font-size:12px;cursor:pointer;border-radius:6px;padding:1px 4px;margin:0 -4px}
+  .bar-row:hover{background:var(--panel2)}
+  .bar-row .n{color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+  .stack{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--deep)}
+  .stack span{display:block;height:100%}
+  .artists{display:flex;flex-wrap:wrap;gap:8px}
+  .artist-chip{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:22px;padding:4px 12px 4px 4px;cursor:pointer;font-size:12px}
+  .artist-chip:hover{border-color:var(--gold)}
+  .artist-chip .av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#2a1f22;font-size:12px}
+  .artist-chip small{color:var(--muted);display:block;font-size:10px;line-height:1.1}
+
+  /* ---- health ---- */
+  details.health{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:16px}
+  details.health summary{padding:11px 16px;cursor:pointer;font-weight:600;font-size:13px;list-style:none;display:flex;gap:10px;align-items:center}
+  details.health summary::-webkit-details-marker{display:none}
+  details.health summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+  details.health[open] summary::before{transform:rotate(90deg)}
+  .hbadge{background:#e68a5c2e;color:#f0a37c;border-radius:10px;padding:0 9px;font-size:12px}
+  .hbadge.ok{background:#b8d48f26;color:var(--accent)}
+  .hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;padding:0 16px 16px}
+  .hgroup{background:var(--deep);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+  .hgroup h4{margin:0 0 2px;font-size:13px}
+  .hgroup p{margin:0 0 6px;font-size:11px;color:var(--muted)}
+  .hgroup ul{margin:0;padding:0;list-style:none;max-height:150px;overflow:auto;font-size:12px}
+  .hgroup li{padding:2px 0;border-top:1px solid #4d3b3a66}
+  .hgroup li.click{cursor:pointer}
+  .hgroup li.click:hover{color:var(--gold)}
+  .hgroup li .m{color:var(--muted)}
+
+  /* ---- toolbar ---- */
+  .toolbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 10px;border-bottom:1px solid var(--line);margin-bottom:16px}
+  .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+  .tab{background:none;border:1px solid transparent;color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px}
+  .tab:hover{color:var(--ink)}
+  .tab.on{background:var(--panel);border-color:var(--line);color:var(--ink)}
+  .tab .c{font-weight:400;color:var(--muted);font-size:11px;margin-left:4px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  input[type=search],select{background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:6px 10px;border-radius:7px;font:inherit;font-size:13px}
+  input[type=search]{min-width:220px}
+  input:focus,select:focus{outline:none;border-color:var(--gold)}
+  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:4px 11px;border-radius:14px;cursor:pointer;font-size:12px;user-select:none;white-space:nowrap}
+  .chip.on{border-color:var(--gold);color:var(--ink);background:#e6c15c1a}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-left:auto}
+  .seg button{background:var(--panel2);border:none;color:var(--muted);padding:6px 12px;cursor:pointer;font-size:12px}
+  .seg button.on{background:var(--line);color:var(--ink)}
+  .count{color:var(--muted);font-size:12px}
+
+  .queue-banner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(90deg,#e6c15c22,transparent);border:1px solid #e6c15c55;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+  .queue-banner h2{margin:0;font-size:18px;color:var(--gold)}
+  .queue-banner .sub{color:var(--muted);font-size:12px}
+  .btn{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:6px 12px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:var(--gold);text-decoration:none}
+  .btn.primary{background:var(--gold);border-color:var(--gold);color:#3a2a10;font-weight:600}
+
+  /* ---- gallery ---- */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:22px 16px}
+  .gallery.icons{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .tile{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:10px;padding:4px 2px 8px;transition:background .12s}
+  .tile:hover{background:var(--panel)}
+  .tile canvas{width:100%;height:auto;aspect-ratio:340/456;display:block;transition:transform .15s}
+  .tile:hover canvas{transform:translateY(-4px)}
+  .tile .icon{width:100%;aspect-ratio:1;border-radius:10px;display:grid;place-items:center;
+    background:repeating-conic-gradient(#3a2c2f 0 25%,#33272a 0 50%) 0 0/18px 18px;border:1px solid var(--line)}
+  .tile .icon img{max-width:82%;max-height:82%}
+  .tile .icon .none{color:var(--muted);font-size:12px;text-align:center;padding:10px}
+  .tile .cap{font-size:13px;font-weight:600;text-align:center;line-height:1.25}
+  .tile .meta{font-size:11px;color:var(--muted);text-align:center}
+  .pill{display:inline-flex;align-items:center;gap:5px;padding:1px 9px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+  .section-h{grid-column:1/-1;margin:14px 0 -6px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+  .empty{color:var(--muted);text-align:center;padding:50px 0}
+
+  /* ---- queue (per-artist) ---- */
+  .qlist{display:flex;flex-direction:column;gap:12px}
+  .qitem{display:grid;grid-template-columns:170px 1fr;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer}
+  .qitem:hover{border-color:var(--muted)}
+  .qitem canvas{width:170px;height:auto;aspect-ratio:340/456}
+  .qitem .icon{width:150px;height:150px}
+  .qitem h3{margin:0;font-size:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .qitem .brief{margin:8px 0;padding:10px 12px;background:var(--deep);border-left:3px solid var(--gold);border-radius:6px;white-space:pre-wrap;font-size:13px}
+  .qitem .brief.none{border-left-color:var(--line);color:var(--muted);font-style:italic}
+  .kv{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--muted)}
+  .kv b{color:var(--ink);font-weight:500}
+  code{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:var(--deep);padding:1px 5px;border-radius:4px;color:var(--ink)}
+
+  /* ---- table ---- */
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:var(--panel)}
+  td.th img{width:64px;height:49px;object-fit:cover;border-radius:4px;border:1px solid var(--line);display:block;background:var(--deep)}
+  td.th.sq img{width:44px;height:44px;object-fit:contain}
+  td.th .none{width:64px;height:49px;border:1px dashed var(--line);border-radius:4px;display:grid;place-items:center;color:var(--muted);font-size:10px}
+  td .clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:460px;font-size:12px;color:#c9b6a6}
+  td.m{color:var(--muted);font-size:12px;white-space:nowrap}
+
+  /* ---- drawer ---- */
+  .scrim{position:fixed;inset:0;background:#0008;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+  .scrim.on{opacity:1;pointer-events:auto}
+  aside.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);background:var(--panel);border-left:1px solid var(--line);z-index:21;
+    transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column}
+  aside.drawer.on{transform:none}
+  .dhead{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .dhead h2{margin:0;font-size:17px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .iconbtn{background:var(--panel2);border:1px solid var(--line);color:var(--ink);width:30px;height:30px;border-radius:7px;cursor:pointer;display:grid;place-items:center}
+  .iconbtn:hover{border-color:var(--gold)}
+  .dbody{overflow:auto;padding:16px 18px 40px}
+  .dart{display:flex;gap:14px;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding:14px;border-radius:12px;background:radial-gradient(ellipse at 50% 30%,#4a3a3c 0%,var(--deep) 75%)}
+  .dart canvas{width:300px;height:auto;aspect-ratio:340/456}
+  .dart .bigicon{width:260px;height:260px;border-radius:10px;display:grid;place-items:center;background:repeating-conic-gradient(#3a2c2f 0 25%,#33272a 0 50%) 0 0/20px 20px}
+  .dart .bigicon img{max-width:90%;max-height:90%}
+  .dactions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0 4px}
+  .dsec{margin-top:18px}
+  .dsec h4{margin:0 0 6px;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .dsec .brief{padding:10px 12px;background:var(--deep);border-left:3px solid var(--gold);border-radius:6px;white-space:pre-wrap}
+  .dsec .brief.none{border-left-color:var(--line);color:var(--muted);font-style:italic}
+  .facts{display:grid;grid-template-columns:120px 1fr;gap:6px 12px;font-size:13px}
+  .facts dt{color:var(--muted)}
+  .facts dd{margin:0}
+  .tag{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:0 8px;font-size:11px;margin:0 4px 4px 0}
+  .warn{color:#f0a37c}
+  .okc{color:var(--accent)}
+  .edit-badge{background:#b8d48f26;color:var(--accent);border:1px solid #b8d48f66;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600}
+  .ein{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
+  .ein:focus{outline:none;border-color:var(--gold)}
+  select.ein{min-width:140px;cursor:pointer}
+  select.estatus{border-width:2px}
+  textarea.ebrief{width:100%;min-height:110px;resize:vertical;font-size:13px;line-height:1.45;padding:8px 10px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--accent);color:#26301a;padding:8px 16px;border-radius:8px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><h1>🎨 Art Tracker</h1><div class="sub" id="gen"></div></div>
+  <div class="chars" id="chars"></div>
+  <span class="edit-badge" id="editBadge" hidden title="Served by Docs/card-data/server.js: assignment changes save to the repo JSON files and regenerate this page. Commit when happy.">✏️ Edit mode</span>
+  <nav><a class="fp" href="frame-preview.html">🃏 Frame Previewer</a><a href="../index.html">Docs home</a></nav>
+</header>
+
+<div class="wrap">
+  <section class="overview" id="overview"></section>
+  <details class="health" id="health"></details>
+
+  <div class="queue-banner" id="queueBanner" hidden></div>
+  <div class="toolbar">
+    <div class="tabs" id="tabs"></div>
+    <div class="filters">
+      <input type="search" id="q" placeholder="Search name, text, brief, file…">
+      <span id="statusChips"></span>
+      <select id="artistSel"></select>
+      <select id="raritySel"></select>
+      <select id="sortSel">
+        <option value="status">Sort: status</option><option value="rarity">Sort: rarity</option>
+        <option value="name">Sort: name</option><option value="artist">Sort: artist</option>
+      </select>
+      <span class="count" id="count"></span>
+      <span class="seg" id="viewSeg"><button data-v="gallery" class="on">▦ Gallery</button><button data-v="table">☰ Table</button></span>
+    </div>
+  </div>
+
+  <main id="items"></main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="dhead">
+    <button class="iconbtn" id="dPrev" title="Previous (←)">‹</button>
+    <button class="iconbtn" id="dNext" title="Next (→)">›</button>
+    <h2 id="dTitle"></h2>
+    <button class="iconbtn" id="dClose" title="Close (Esc)">✕</button>
+  </div>
+  <div class="dbody" id="dBody"></div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script src="frame-preview/assets.js"></script>
+<script src="frame-preview/renderer.js"></script>
+<script>
+const DATA = /*@@DATA@@*/null;
+(async () => {
+  'use strict';
+  const FP = window.FramePreview;
+  const fpReady = FP.ready();
+  let EDIT = false;   // set below once /api/edit answers
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const STATUS = ['Sketching', 'Assigned', 'Unassigned', 'Final'];   // work-first order
+  const SCOLOR = { 'Final': 'var(--s-final)',
+                   'Sketching': 'var(--s-sketching)', 'Assigned': 'var(--s-assigned)', 'Unassigned': 'var(--s-unassigned)' };
+  const BAR_ORDER = ['Final', 'Sketching', 'Assigned', 'Unassigned'];
+  const RAR_ORDER = ['Starter', 'Basic', 'Common', 'Uncommon', 'Rare', 'Ancient', 'Special', 'Token', 'Status', 'Curse', 'Event', 'Quest'];
+  const FRAME_RARITY = { Starter: 'common', Basic: 'common', Common: 'common', Token: 'common', Uncommon: 'uncommon', Rare: 'rare',
+                         Special: 'rare', Ancient: 'ancient', Status: 'status', Curse: 'curse', Event: 'event', Quest: 'quest' };
+  const FRAME_TYPES = ['attack', 'skill', 'power', 'status', 'curse'];
+  const pill = s => `<span class="pill" style="background:color-mix(in srgb, ${SCOLOR[s]} 22%, transparent);color:${SCOLOR[s]}"><span class="dot" style="background:${SCOLOR[s]};margin:0"></span>${esc(s)}</span>`;
+  const statusRank = s => STATUS.indexOf(s);
+  const rarRank = r => { const i = RAR_ORDER.indexOf(r); return i < 0 ? 99 : i; };
+  const artistColor = name => `hsl(${[...name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 360, 7)} 45% 68%)`;
+
+  // ---- state + routing (#char=&tab=&artist=&item=&view=) ------------------------------------------------
+  const S = { ch: DATA.characters[0], tab: 'cards', status: 'all', artist: '', rarity: '', q: '', sort: 'status', view: 'gallery', item: '' };
+  (function readHash() {
+    const p = new URLSearchParams(location.hash.slice(1));
+    S.ch = DATA.characters.find(c => c.key === p.get('char')) || S.ch;
+    for (const k of ['tab', 'artist', 'view', 'item', 'status', 'q']) if (p.get(k)) S[k] = p.get(k);
+  })();
+  function writeHash() {
+    const p = new URLSearchParams();
+    p.set('char', S.ch.key);
+    if (S.artist) p.set('artist', S.artist); else p.set('tab', S.tab);
+    if (S.view !== 'gallery') p.set('view', S.view);
+    if (S.item) p.set('item', S.item);
+    history.replaceState(null, '', '#' + p.toString());
+  }
+
+  // ---- data helpers -----------------------------------------------------------------------------
+  const tabsOf = ch => [{ id: 'cards', title: 'Cards', items: ch.cards }].concat(ch.categories.map(c => ({ id: c.id, title: c.title, items: c.assets, dims: c.dims })));
+  const allItems = ch => tabsOf(ch).flatMap(t => t.items.map(it => ({ ...it, _tab: t.id, _tabTitle: t.title })));
+  const keyOf = it => it.entry || it.name;
+  const thumbSrc = it => it.hasArt ? '../' + it.path : '';
+  const hasRealArt = it => it.hasArt && !it.placeholderArt;
+  function counts(items) { const c = Object.fromEntries(BAR_ORDER.map(s => [s, 0])); for (const it of items) c[it.status]++; return c; }
+  function stack(items) {
+    const c = counts(items), n = items.length || 1;
+    return `<div class="stack" title="${BAR_ORDER.filter(s => c[s]).map(s => `${s}: ${c[s]}`).join(' · ')}">` +
+      BAR_ORDER.map(s => c[s] ? `<span style="width:${100 * c[s] / n}%;background:${SCOLOR[s]}"></span>` : '').join('') + '</div>';
+  }
+  function artists(ch) {
+    const m = {};
+    for (const it of allItems(ch)) if (it.artist) {
+      const a = m[it.artist] ||= { name: it.artist, total: 0, final: 0 };
+      a.total++; if (it.status === 'Final') a.final++;
+    }
+    return Object.values(m).sort((a, b) => b.total - a.total || a.name.localeCompare(b.name));
+  }
+
+  // ---- card frame rendering (lazy) ---------------------------------------------------------------
+  const imgCache = new Map();
+  function loadImg(src) {
+    if (!src) return Promise.resolve(null);
+    if (!imgCache.has(src)) imgCache.set(src, new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }));
+    return imgCache.get(src);
+  }
+  async function drawCard(canvas, it, cssWidth) {
+    await fpReady;
+    const art = hasRealArt(it) ? await loadImg(thumbSrc(it)) : null;
+    const type = it.type.toLowerCase();
+    FP.renderCard(canvas, {
+      style: it.style, type: FRAME_TYPES.includes(type) ? type : 'skill', rarity: FRAME_RARITY[it.rarity] || 'common',
+      title: it.name, cost: it.cost, desc: FP.locToMarkup(it.desc || it.text, it.numbers, false),
+      art, ingame: true, scale: cssWidth / 340 * Math.min(window.devicePixelRatio || 1, 2),
+      emptyText: it.placeholderArt ? ['Placeholder art', 'needs real art'] : ['No art yet', it.path.split('/').pop()],
+    });
+  }
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) {
+      io.unobserve(e.target);
+      const it = VISIBLE_BY_KEY.get(e.target.dataset.k);
+      if (it) drawCard(e.target, it, e.target.getBoundingClientRect().width || 200);
+    }
+  }, { rootMargin: '400px' });
+  let VISIBLE_BY_KEY = new Map();
+
+  // ---- header / overview / health ---------------------------------------------------------------
+  function renderChars() {
+    $('chars').innerHTML = DATA.characters.map(c => `<button data-c="${c.key}" class="${c === S.ch ? 'on' : ''}">${esc(c.label)}</button>`).join('');
+    $('gen').textContent = `${S.ch.label} · generated ${DATA.generated} from repo state`;
+  }
+  function renderOverview() {
+    const ch = S.ch, items = allItems(ch), c = counts(items), fin = c.Final, n = items.length;
+    const pct = n ? Math.round(100 * fin / n) : 0;
+    let acc = 0;
+    const grad = BAR_ORDER.map(s => { const a = acc; acc += 100 * c[s] / (n || 1); return `${SCOLOR[s]} ${a}% ${acc}%`; }).join(',');
+    let h = `<div class="card-box hero"><div class="ring" style="background:conic-gradient(${grad})"><div><div><b>${pct}%</b><small>final</small></div></div></div>
+      <div class="tot">${fin} of ${n} assets final</div>
+      <div class="legend">${BAR_ORDER.filter(s => c[s]).map(s => `<span><i style="background:${SCOLOR[s]}"></i>${s} ${c[s]}</span>`).join('')}</div></div>`;
+    h += `<div class="card-box"><h3>By category</h3><div class="bars">` + tabsOf(ch).map(t => {
+      const f = t.items.filter(i => i.status === 'Final').length;
+      return `<div class="bar-row" data-tab="${t.id}"><span>${esc(t.title)}</span>${stack(t.items)}<span class="n">${f}/${t.items.length}</span></div>`;
+    }).join('') + `</div></div>`;
+    const byRar = {};
+    for (const card of ch.cards) (byRar[card.rarity] ||= []).push(card);
+    h += `<div class="card-box"><h3>Cards by rarity</h3><div class="bars">` + Object.keys(byRar).sort((a, b) => rarRank(a) - rarRank(b)).map(r => {
+      const f = byRar[r].filter(i => i.status === 'Final').length;
+      return `<div class="bar-row" data-rarity="${esc(r)}"><span>${esc(r)}</span>${stack(byRar[r])}<span class="n">${f}/${byRar[r].length}</span></div>`;
+    }).join('') + `</div></div>`;
+    const as = artists(ch);
+    h += `<div class="card-box"><h3>Artists — click for their queue</h3><div class="artists">` + (as.length ? as.map(a =>
+      `<div class="artist-chip" data-artist="${esc(a.name)}"><span class="av" style="background:${artistColor(a.name)}">${esc(a.name[0].toUpperCase())}</span><span>${esc(a.name)}<small>${a.final} final · ${a.total - a.final} open</small></span></div>`).join('')
+      : '<span class="count">No artists assigned yet.</span>') + `</div></div>`;
+    $('overview').innerHTML = h;
+  }
+  function renderHealth() {
+    const H = S.ch.health;
+    const missing = H.missingArt.filter(m => !m.placeholder), ph = H.missingArt.filter(m => m.placeholder);
+    const groups = [
+      ['Orphan briefs', 'Brief entries whose card no longer exists (renamed or cut). Move or delete them in the briefs file.', H.orphanBriefs.map(n => ({ label: esc(n) + (EDIT ? ` <button class="btn" style="padding:0 8px;float:right" data-orphan="${esc(n)}">remove</button>` : '') }))],
+      ['Credit mismatch', 'Final art whose in-game “Art by” credit differs from the artist recorded here.', H.creditMismatch.map(m => ({ k: m.entry, label: `${esc(m.name)} <span class="m">— tracker: ${esc(m.tracker)}, in game: ${esc(m.game)}</span>` }))],
+      ['Final art without an artist', 'Marked Final but no artist recorded here, so it is missing from the artist stats.', H.finalNoArtist.map(m => ({ k: m.entry, label: `${esc(m.name)} <span class="m">${m.game ? '— credited in game to ' + esc(m.game) : ''}</span>` }))],
+      ['Off-shape card art', 'Not the 1000×760 shape. The atlas packer stretches it to fit, so it will look squashed in game.', H.offShape.map(m => ({ k: m.entry, label: `${esc(m.name)} <span class="m">— ${m.w}×${m.h}</span>` }))],
+      ['Tall card art', 'Taller than wide gets packed as full-art (Ancient), but this card is not Ancient.', H.tallArt.map(m => ({ k: m.entry, label: `${esc(m.name)} <span class="m">— ${m.w}×${m.h}</span>` }))],
+      ['Non-standard resolution', 'Card art should be exactly 1000×760 or 2000×1520.', (H.nonStandardSize || []).map(m => ({ k: m.entry, label: `${esc(m.name)} <span class="m">— ${m.w}×${m.h}</span>` }))],
+      ['Landscape art on Ancient cards', 'Ancient cards use the full-art frame and stretch landscape art tall. Needs taller-than-wide art.', (H.ancientLandscape || []).map(m => ({ k: m.entry, label: `${esc(m.name)} <span class="m">— ${m.w}×${m.h}</span>` }))],
+      ['Placeholder art', 'The image is the generic card back or a copy shared with another card.', ph.map(m => ({ k: m.entry || m.name, label: `${esc(m.name)} <span class="m">${esc(m.file)}</span>` }))],
+      ['Missing image files', 'Nothing at the expected path yet.', missing.map(m => ({ k: m.entry || m.name, label: `${esc(m.name)} <span class="m">${esc(m.file)}</span>` }))],
+    ].filter(g => g[2].length);
+    const n = groups.reduce((a, g) => a + g[2].length, 0);
+    const wasOpen = $('health').open;
+    $('health').innerHTML = `<summary>Data health <span class="hbadge ${n ? '' : 'ok'}">${n ? n + ' to look at' : 'all clear'}</span></summary>` +
+      (n ? `<div class="hgrid">${groups.map(([t, d, list]) => `<div class="hgroup"><h4>${t} <span class="count">${list.length}</span></h4><p>${d}</p><ul>${list.map(x =>
+        `<li class="${x.k ? 'click' : ''}" ${x.k ? `data-item="${esc(x.k)}"` : ''}>${x.label}</li>`).join('')}</ul></div>`).join('')}</div>` : '');
+    $('health').open = wasOpen;
+  }
+
+  // ---- toolbar ------------------------------------------------------------------------------------
+  function renderToolbar() {
+    $('tabs').innerHTML = tabsOf(S.ch).map(t => `<button class="tab ${!S.artist && t.id === S.tab ? 'on' : ''}" data-tab="${t.id}">${esc(t.title)}<span class="c">${t.items.length}</span></button>`).join('');
+    $('statusChips').innerHTML = ['all', ...BAR_ORDER].map(s => `<span class="chip ${S.status === s ? 'on' : ''}" data-s="${esc(s)}">${s === 'all' ? 'All' : `<span class="dot" style="background:${SCOLOR[s]}"></span>${s}`}</span>`).join(' ');
+    $('artistSel').innerHTML = `<option value="">All artists</option>` + artists(S.ch).map(a => `<option ${a.name === S.artist ? 'selected' : ''}>${esc(a.name)}</option>`).join('') +
+      `<option value="(none)" ${S.artist === '(none)' ? 'selected' : ''}>— Unassigned</option>`;
+    const rar = [...new Set(S.ch.cards.map(c => c.rarity))].sort((a, b) => rarRank(a) - rarRank(b));
+    $('raritySel').innerHTML = `<option value="">All rarities</option>` + rar.map(r => `<option ${r === S.rarity ? 'selected' : ''}>${esc(r)}</option>`).join('');
+    $('raritySel').hidden = !!S.artist || S.tab !== 'cards';
+    $('viewSeg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === S.view));
+    $('q').value = S.q;
+  }
+
+  // ---- item list -----------------------------------------------------------------------------------
+  function currentItems() {
+    const queue = S.artist && S.artist !== '(none)';
+    let items = queue || S.artist === '(none)' ? allItems(S.ch) : (tabsOf(S.ch).find(t => t.id === S.tab) || tabsOf(S.ch)[0]).items.map(it => ({ ...it, _tab: S.tab }));
+    if (S.artist === '(none)') items = items.filter(it => !it.artist);
+    else if (S.artist) items = items.filter(it => it.artist === S.artist);
+    if (S.status !== 'all') items = items.filter(it => it.status === S.status);
+    if (S.rarity && !S.artist && S.tab === 'cards') items = items.filter(it => it.rarity === S.rarity);
+    if (S.q) {
+      const q = S.q.toLowerCase();
+      items = items.filter(it => [it.name, it.text, it.effect, it.brief, it.artist, it.path, it.rarity, it.type].join(' ').toLowerCase().includes(q));
+    }
+    const by = {
+      status: (a, b) => statusRank(a.status) - statusRank(b.status) || rarRank(a.rarity) - rarRank(b.rarity) || a.name.localeCompare(b.name),
+      rarity: (a, b) => rarRank(a.rarity) - rarRank(b.rarity) || a.name.localeCompare(b.name),
+      name: (a, b) => a.name.localeCompare(b.name),
+      artist: (a, b) => (a.artist || '~').localeCompare(b.artist || '~') || a.name.localeCompare(b.name),
+    }[S.sort];
+    return items.sort(by);
+  }
+  let LIST = [];
+  function renderItems() {
+    LIST = currentItems();
+    VISIBLE_BY_KEY = new Map(LIST.map(it => [keyOf(it), it]));
+    $('count').textContent = `${LIST.length} shown`;
+    renderQueueBanner();
+    const el = $('items');
+    if (!LIST.length) { el.innerHTML = '<div class="empty">Nothing matches these filters.</div>'; return; }
+    const queue = S.artist && S.artist !== '(none)';
+    if (S.view === 'table') el.innerHTML = tableHtml(LIST);
+    else if (queue) el.innerHTML = queueHtml(LIST);
+    else el.innerHTML = galleryHtml(LIST, S.artist === '(none)');
+    el.querySelectorAll('canvas[data-k]').forEach(c => io.observe(c));
+  }
+  function tileVisual(it) {
+    if (it.kind === 'card') return `<canvas data-k="${esc(keyOf(it))}"></canvas>`;
+    const src = thumbSrc(it);
+    return `<div class="icon">${src ? `<img loading="lazy" src="${esc(src)}" alt="">` : `<div class="none">no art yet<br><code>${esc(it.path.split('/').pop())}</code></div>`}</div>`;
+  }
+  function galleryHtml(items, grouped) {
+    let h = '', lastTab = null;
+    const icons = items.every(it => it.kind !== 'card');
+    for (const it of items) {
+      if (grouped && it._tab !== lastTab) { h += `<div class="section-h">${esc(it._tabTitle)}</div>`; lastTab = it._tab; }
+      h += `<div class="tile" data-item="${esc(keyOf(it))}">${tileVisual(it)}
+        <div class="cap">${esc(it.kind === 'card' ? it.name : it.name.replace(/ \(\w+\)$/, ''))}</div>
+        <div class="meta">${pill(it.status)}${it.artist ? ' · ' + esc(it.artist) : ''}</div></div>`;
+    }
+    return `<div class="gallery ${icons ? 'icons' : ''}">${h}</div>`;
+  }
+  function queueHtml(items) {
+    let h = '', lastTab = null;
+    for (const it of items) {
+      if (it._tab !== lastTab) { h += `<div class="section-h" style="margin-bottom:2px">${esc(it._tabTitle)}</div>`; lastTab = it._tab; }
+      h += `<div class="qitem" data-item="${esc(keyOf(it))}">${tileVisual(it)}<div>
+        <h3>${esc(it.name)} ${pill(it.status)}</h3>
+        <div class="brief ${it.brief ? '' : 'none'}">${esc(it.brief || 'No brief yet.')}</div>
+        <div class="kv"><span>File <code>${esc(it.path.split('/').pop())}</code></span><span>Size <b>${esc(it.dims || '')}</b></span>
+          ${it.kind === 'card' ? `<span><b>${esc(it.rarity)} ${esc(it.type)}</b></span>` : ''}
+          ${it.srcW ? `<span>Current art <b>${it.srcW}×${it.srcH}</b></span>` : ''}</div>
+        ${it.kind === 'card' ? `<div style="margin-top:10px"><a class="btn" href="${previewLink(it)}" onclick="event.stopPropagation()">🃏 Preview a sketch on this card</a></div>` : ''}
+      </div></div>`;
+    }
+    return `<div class="qlist">${h}</div>`;
+  }
+  function tableHtml(items) {
+    const cards = items.some(it => it.kind === 'card');
+    let h = `<table><thead><tr><th></th><th>Name</th><th>Status</th><th>Artist</th><th>Brief</th><th>${cards ? 'Card' : 'Details'}</th><th>File</th></tr></thead><tbody>`;
+    for (const it of items) {
+      const src = thumbSrc(it);
+      h += `<tr data-item="${esc(keyOf(it))}"><td class="th ${it.kind === 'card' ? '' : 'sq'}">${src ? `<img loading="lazy" src="${esc(src)}" alt="">` : '<div class="none">no art</div>'}</td>
+        <td><b>${esc(it.name)}</b></td>
+        ${EDIT ? `<td>${statusSelect(it)}</td><td>${artistSelect(it)}</td>`
+               : `<td>${pill(it.status)}</td><td class="m">${esc(it.artist || '—')}</td>`}
+        <td><div class="clamp">${esc(it.brief)}</div></td>
+        <td class="m">${it.kind === 'card' ? `${esc(it.rarity)} ${esc(it.type)} · ${esc(it.cost === '' ? '—' : it.cost)}` : esc([it.rarity, it.orientation].filter(Boolean).join(' · '))}</td>
+        <td class="m"><code>${esc(it.path.split('/').pop())}</code></td></tr>`;
+    }
+    return h + '</tbody></table>';
+  }
+  function renderQueueBanner() {
+    const b = $('queueBanner');
+    const queue = S.artist && S.artist !== '(none)';
+    document.body.classList.toggle('queue-mode', !!queue);
+    if (!queue) { b.hidden = true; return; }
+    const mine = allItems(S.ch).filter(it => it.artist === S.artist);
+    const open = mine.filter(it => it.status !== 'Final').length;
+    b.hidden = false;
+    b.innerHTML = `<span class="artist-chip" style="cursor:default;border:none;background:none;padding:0"><span class="av" style="background:${artistColor(S.artist)};width:38px;height:38px;font-size:16px">${esc(S.artist[0].toUpperCase())}</span></span>
+      <div><h2>${esc(S.artist)}’s queue</h2><div class="sub">${S.ch.label} · ${open} open · ${mine.length - open} final</div></div>
+      <div style="margin-left:auto;display:flex;gap:8px"><button class="btn primary" id="copyQueue">🔗 Copy link to send</button><button class="btn" id="clearQueue">✕ Back to everything</button></div>`;
+    b.querySelector('#copyQueue').onclick = () => copyText(location.href.split('#')[0] + `#char=${S.ch.key}&artist=${encodeURIComponent(S.artist)}`, 'Link copied');
+    b.querySelector('#clearQueue').onclick = () => { S.artist = ''; renderAll(); };
+  }
+
+  // ---- edit mode (only when served by Docs/card-data/server.js) -----------------------------------
+  // Cards save through /api/brief (artist / brief / stage -> card-briefs.json) and /api/artfinal
+  // (cards.json); everything else through /api/asset (assets.json). The server regenerates the static
+  // page after each write; this page updates in place.
+  const STAGE_LABEL = DATA.stages;
+  const derive = it => it.final ? 'Final' : (it.stage && STAGE_LABEL[it.stage]) || (it.artist ? 'Assigned' : 'Unassigned');
+  const ALL_ARTISTS = () => [...new Set(DATA.characters.flatMap(c => allItems(c).map(i => i.artist)).filter(Boolean))].sort();
+  // Status dropdown = one control over final + stage (+ artist for Unassigned):
+  //   Final -> final art; Sketching -> stage sketching; Assigned -> stage auto (or 'assigned' with no artist);
+  //   Unassigned -> clears the artist too.
+  const STATUS_OPTS = ['Unassigned', 'Assigned', ...Object.values(STAGE_LABEL).filter(l => l !== 'Assigned'), 'Final'];
+  function statusPatch(it, status) {
+    if (status === 'Final') return { final: true };
+    if (status === 'Unassigned') return { final: false, stage: '', artist: '' };
+    if (status === 'Assigned') return { final: false, stage: it.artist ? '' : 'assigned' };
+    const stage = Object.keys(STAGE_LABEL).find(k => STAGE_LABEL[k] === status) || '';
+    return { final: false, stage };
+  }
+  const statusSelect = it => `<select class="ein estatus" data-k="${esc(keyOf(it))}" data-f="status" style="border-color:${SCOLOR[it.status]}">
+      ${STATUS_OPTS.map(s => `<option ${it.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select>`;
+  const NEW_ARTIST = '__new__';
+  const artistSelect = it => {
+    const names = ALL_ARTISTS();
+    if (it.artist && !names.includes(it.artist)) names.push(it.artist);
+    return `<select class="ein" data-k="${esc(keyOf(it))}" data-f="artist">
+      <option value="" ${it.artist ? '' : 'selected'}>— Unassigned</option>
+      ${names.map(a => `<option ${a === it.artist ? 'selected' : ''}>${esc(a)}</option>`).join('')}
+      <option value="${NEW_ARTIST}">+ New artist…</option></select>`;
+  };
+  function editHtml(it, credits, mismatch) {
+    return `<div class="dsec"><h4>Assignment <span class="count">· saves to the repo as you edit</span></h4><dl class="facts">
+        <dt>Status</dt><dd>${statusSelect(it)}</dd>
+        <dt>Artist</dt><dd>${artistSelect(it)} ${it.artist ? `<a href="#" data-artist="${esc(it.artist)}" class="count">queue →</a>` : ''}</dd>
+        ${credits ? `<dt>In-game credit</dt><dd>${esc(it.credit || '(uncredited)')} ${mismatch ? '<span class="warn">· differs from the artist above (change ArtBy in code)</span>' : ''}</dd>` : ''}
+      </dl></div>
+      <div class="dsec"><h4>Brief</h4><textarea class="ein ebrief" data-k="${esc(keyOf(it))}" data-f="brief" placeholder="Notes for the artist…">${esc(it.brief)}</textarea></div>`;
+  }
+  function origOf(key) {
+    for (const t of tabsOf(S.ch)) { const o = t.items.find(i => keyOf(i) === key); if (o) return o; }
+    return null;
+  }
+  async function post(url, body) {
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) throw new Error(await r.text());
+    return r.json();
+  }
+  async function saveEdit(key, patch) {
+    const it = origOf(key);
+    if (!it) return;
+    const prev = { ...it };
+    Object.assign(it, patch);
+    it.status = derive(it);
+    try {
+      if (it.kind === 'card') {
+        if ('final' in patch) await post('/api/artfinal', { entry: it.entry, artFinal: it.final, character: S.ch.key });
+        if (['artist', 'stage', 'brief'].some(k => k in patch))
+          await post('/api/brief', { name: it.name, artist: it.artist, brief: it.brief, stage: it.stage, character: S.ch.key });
+      } else {
+        await post('/api/asset', { character: S.ch.key, ref: it.ref, artist: it.artist, brief: it.brief, stage: it.stage, done: it.final });
+      }
+      toast(`Saved — ${it.name}`);
+    } catch (err) {
+      Object.assign(it, prev);
+      toast('Save failed: ' + String(err.message || err).slice(0, 120));
+    }
+    recomputeHealth();
+    renderOverview(); renderHealth(); renderToolbar(); renderItems();
+    if ($('drawer').classList.contains('on') && S.item === key) openItem(key);
+  }
+  // The credit checks depend on the artist field, so keep them live while editing.
+  function recomputeHealth() {
+    const same = (a, b) => String(a).toLowerCase().replace(/[^a-z0-9]/g, '') === String(b).toLowerCase().replace(/[^a-z0-9]/g, '');
+    const fin = S.ch.cards.filter(r => r.status === 'Final' && r.credit !== null);
+    S.ch.health.creditMismatch = fin.filter(r => r.artist && !same(r.artist, r.credit)).map(r => ({ name: r.name, entry: r.entry, tracker: r.artist, game: r.credit || '(uncredited)' }));
+    S.ch.health.finalNoArtist = S.ch.cards.filter(r => r.status === 'Final' && !r.artist).map(r => ({ name: r.name, entry: r.entry, game: r.credit || '' }));
+  }
+  async function removeOrphanBrief(name) {
+    try {
+      await post('/api/brief', { name, artist: '', brief: '', stage: '', character: S.ch.key });
+      S.ch.health.orphanBriefs = S.ch.health.orphanBriefs.filter(n => n !== name);
+      toast(`Removed the brief for ${name}`);
+      renderHealth();
+    } catch (err) { toast('Remove failed: ' + String(err.message || err).slice(0, 120)); }
+  }
+
+  // ---- drawer -----------------------------------------------------------------------------------
+  const previewLink = it => `frame-preview.html#card=${encodeURIComponent(it.name)}&style=${it.style}&type=${FRAME_TYPES.includes(it.type.toLowerCase()) ? it.type.toLowerCase() : 'skill'}&rarity=${FRAME_RARITY[it.rarity] || 'common'}`;
+  function shapeNote(it) {
+    if (!it.srcW) return '';
+    if (it.kind !== 'card') return `${it.srcW}×${it.srcH}px`;
+    if (it.rarity === 'Ancient') return `${it.srcW}×${it.srcH}px ` + (it.srcH > it.srcW ? '<span class="okc">· ✓ full-art shape</span>' : '<span class="warn">· landscape: stretched tall on the full-art frame</span>');
+    if (it.srcH > it.srcW) return `${it.srcW}×${it.srcH}px <span class="warn">· tall: packed as full-art</span>`;
+    const off = ((it.srcW / it.srcH) / (1000 / 760) - 1) * 100;
+    const std = [[1000, 760], [2000, 1520]].some(([w, h]) => it.srcW === w && it.srcH === h);
+    return `${it.srcW}×${it.srcH}px ` + (std ? '<span class="okc">· ✓ standard size</span>'
+      : Math.abs(off) <= 1.5 ? '<span class="warn">· right shape, but not 1000×760 / 2000×1520</span>'
+      : `<span class="warn">· off-shape, squashed ${Math.abs(off).toFixed(0)}% in game</span>`);
+  }
+  function openItem(key) {
+    const pool = LIST.some(it => keyOf(it) === key) ? LIST : allItems(S.ch);
+    const idx = pool.findIndex(it => keyOf(it) === key);
+    if (idx < 0) return;
+    const it = pool[idx];
+    S.item = key; writeHash();
+    $('dTitle').textContent = it.name;
+    const credits = it.kind === 'card' && it.credit !== null;
+    const mismatch = credits && it.status === 'Final' && it.artist && it.credit && it.artist.toLowerCase().replace(/\W/g, '') !== it.credit.toLowerCase().replace(/\W/g, '');
+    let h = `<div class="dart">${it.kind === 'card' ? `<canvas id="dCanvas"></canvas>` :
+      `<div class="bigicon">${it.hasArt ? `<img src="../${esc(it.path)}" alt="">` : '<span class="count">no art yet</span>'}</div>`}</div>
+      <div class="dactions">
+        ${it.hasArt ? `<a class="btn" href="../${esc(it.path)}" target="_blank">🔍 Full-size art</a>` : ''}
+        ${it.kind === 'card' ? `<a class="btn primary" href="${previewLink(it)}">🃏 Preview a sketch on this card</a>` : ''}
+      </div>
+      ${EDIT ? editHtml(it, credits, mismatch) : `
+      <div class="dsec"><h4>Brief</h4><div class="brief ${it.brief ? '' : 'none'}">${esc(it.brief || 'No brief yet.')}</div></div>
+      <div class="dsec"><h4>Status</h4><dl class="facts">
+        <dt>Status</dt><dd>${pill(it.status)}</dd>
+        <dt>Artist</dt><dd>${it.artist ? `<a href="#" data-artist="${esc(it.artist)}">${esc(it.artist)}</a> <span class="count">— see their queue</span>` : '<span class="count">Unassigned</span>'}</dd>
+        ${credits ? `<dt>In-game credit</dt><dd>${esc(it.credit || '(uncredited)')} ${mismatch ? '<span class="warn">· differs from the artist above</span>' : ''}</dd>` : ''}
+      </dl></div>`}`;
+    if (it.kind === 'card') {
+      h += `<div class="dsec"><h4>Card</h4><dl class="facts">
+        <dt>Type</dt><dd>${esc(it.rarity)} ${esc(it.type)} · cost ${esc(it.cost === '' ? 'none' : it.cost)}</dd>
+        <dt>Text</dt><dd>${esc(it.text)}</dd>
+        <dt>Upgrade</dt><dd>${esc(it.upgrade || '—')}</dd>
+        ${it.mechanics.length || it.role.length ? `<dt>Tags</dt><dd>${[...it.mechanics, ...it.role].map(t => `<span class="tag">${esc(t)}</span>`).join('')}</dd>` : ''}
+      </dl></div>`;
+    } else if (it.effect || it.rarity || it.orientation) {
+      h += `<div class="dsec"><h4>Details</h4><dl class="facts">
+        ${it.effect ? `<dt>Effect</dt><dd>${esc(it.effect)}</dd>` : ''}
+        ${it.rarity ? `<dt>Rarity</dt><dd>${esc(it.rarity)}</dd>` : ''}
+        ${it.orientation ? `<dt>Orientation</dt><dd>${esc(it.orientation)}</dd>` : ''}
+      </dl></div>`;
+    }
+    h += `<div class="dsec"><h4>File</h4><dl class="facts">
+        <dt>Filename</dt><dd><code>${esc(it.path.split('/').pop())}</code> <button class="btn" style="padding:2px 8px" data-copy="${esc(it.path.split('/').pop())}">Copy</button></dd>
+        <dt>Goes in</dt><dd><code style="word-break:break-all">${esc(it.path.split('/').slice(0, -1).join('/'))}/</code></dd>
+        <dt>Required size</dt><dd>${esc(it.dims || '—')}</dd>
+        <dt>Current file</dt><dd>${it.hasArt ? shapeNote(it) + (it.placeholderArt ? ' <span class="warn">· placeholder</span>' : '') : '<span class="warn">missing</span>'}</dd>
+      </dl></div>`;
+    $('dBody').innerHTML = h;
+    if (it.kind === 'card') {
+      const c = $('dCanvas');
+      drawCard(c, it, 300);
+    }
+    $('dPrev').onclick = () => idx > 0 && openItem(keyOf(pool[idx - 1]));
+    $('dNext').onclick = () => idx < pool.length - 1 && openItem(keyOf(pool[idx + 1]));
+    $('dPrev').disabled = idx === 0; $('dNext').disabled = idx === pool.length - 1;
+    $('drawer').classList.add('on'); $('scrim').classList.add('on');
+  }
+  function closeDrawer() { $('drawer').classList.remove('on'); $('scrim').classList.remove('on'); S.item = ''; writeHash(); }
+
+  // ---- events ---------------------------------------------------------------------------------------
+  function renderAll() { renderChars(); renderOverview(); renderHealth(); renderToolbar(); renderItems(); writeHash(); }
+  $('chars').onclick = e => { const b = e.target.closest('[data-c]'); if (b) { S.ch = DATA.characters.find(c => c.key === b.dataset.c); S.tab = 'cards'; S.artist = ''; S.rarity = ''; renderAll(); } };
+  $('tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (b) { S.tab = b.dataset.tab; S.artist = ''; S.rarity = ''; renderToolbar(); renderItems(); writeHash(); } };
+  $('statusChips').onclick = e => { const c = e.target.closest('[data-s]'); if (c) { S.status = c.dataset.s; renderToolbar(); renderItems(); } };
+  $('artistSel').onchange = e => { S.artist = e.target.value; renderToolbar(); renderItems(); writeHash(); window.scrollTo({ top: $('queueBanner').offsetTop - 120, behavior: 'smooth' }); };
+  $('raritySel').onchange = e => { S.rarity = e.target.value; renderItems(); };
+  $('sortSel').onchange = e => { S.sort = e.target.value; renderItems(); };
+  $('q').oninput = e => { S.q = e.target.value; renderItems(); };
+  $('viewSeg').onclick = e => { const b = e.target.closest('[data-v]'); if (b) { S.view = b.dataset.v; renderToolbar(); renderItems(); writeHash(); } };
+  document.addEventListener('click', e => {
+    const art = e.target.closest('[data-artist]');
+    if (art) { e.preventDefault(); S.artist = art.dataset.artist; closeDrawer(); renderToolbar(); renderItems(); writeHash(); $('queueBanner').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    const tab = e.target.closest('.bar-row[data-tab]');
+    if (tab) { S.tab = tab.dataset.tab; S.artist = ''; S.rarity = ''; renderToolbar(); renderItems(); writeHash(); $('tabs').scrollIntoView({ behavior: 'smooth' }); return; }
+    const rar = e.target.closest('.bar-row[data-rarity]');
+    if (rar) { S.tab = 'cards'; S.artist = ''; S.rarity = rar.dataset.rarity; renderToolbar(); renderItems(); writeHash(); $('tabs').scrollIntoView({ behavior: 'smooth' }); return; }
+    const cp = e.target.closest('[data-copy]');
+    if (cp) { copyText(cp.dataset.copy, 'Filename copied'); return; }
+    const orphan = e.target.closest('[data-orphan]');
+    if (orphan) { removeOrphanBrief(orphan.dataset.orphan); return; }
+    const item = e.target.closest('[data-item]');
+    if (item && !e.target.closest('a, input, select, textarea, label')) openItem(item.dataset.item);
+  });
+  // edit-mode fields: text saves on change (blur / Enter), selects + checkboxes immediately
+  document.addEventListener('change', e => {
+    const f = e.target.closest('.ein');
+    if (!f || !EDIT) return;
+    const key = f.dataset.k, field = f.dataset.f;
+    if (field === 'status') return saveEdit(key, statusPatch(origOf(key), f.value));
+    if (field === 'artist' && f.value === NEW_ARTIST) {
+      const name = (prompt('New artist name:') || '').trim();
+      if (!name) { f.value = origOf(key).artist; return; }
+      return saveEdit(key, { artist: name });
+    }
+    saveEdit(key, { [field]: f.value.trim() });
+  });
+  $('scrim').onclick = closeDrawer; $('dClose').onclick = closeDrawer;
+  document.addEventListener('keydown', e => {
+    if (!$('drawer').classList.contains('on')) return;
+    if (e.target.closest('input, textarea, select')) { if (e.key === 'Escape') e.target.blur(); return; }
+    if (e.key === 'Escape') closeDrawer();
+    if (e.key === 'ArrowLeft') $('dPrev').click();
+    if (e.key === 'ArrowRight') $('dNext').click();
+  });
+  let toastT;
+  function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); }
+  async function copyText(text, msg) {
+    try { await navigator.clipboard.writeText(text); toast(msg); }
+    catch { prompt('Copy this:', text); }
+  }
+
+  // Edit mode = this page is being served by the local card-designs server (it answers /api/edit).
+  // On GitHub Pages or file:// the probe fails and the page stays read-only.
+  try { EDIT = location.protocol.startsWith('http') && (await fetch('/api/edit', { cache: 'no-store' })).ok; } catch { EDIT = false; }
+  if (EDIT) {
+    document.body.classList.add('edit-mode');
+    $('editBadge').hidden = false;
+  }
+
+  renderAll();
+  if (S.item) openItem(S.item);
+})();
+</script>
+</body>
+</html>

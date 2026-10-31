@@ -1,5 +1,5 @@
 {
-  "comment": "Non-card art assets for the art tracker. Hand-maintained. Per asset: 'artist' (who is working on it â€” fill in manually) and 'done': true when final art is in. Status is DERIVED: done â†’ Done; artist set â†’ In Progress; else Placeholder. Cards are NOT listed here â€” they come from ../card-data/cards.json (artFinal) + ./card-briefs.json (artist/brief). 'extraPowers' lists powers that ship mod art but reuse base-game localization (ICustomPower subclasses) — the Powers tab is otherwise auto-enumerated from powers.json.",
+  "comment": "Non-card art assets for the art tracker. Hand-maintained. Per asset: 'artist' (who is working on it â€” fill in manually) and 'done': true when final art is in. Status is DERIVED: final art (artFinal in the card data / done here) → Final; else optional 'stage' (assigned | sketching — set via the card-designs page for cards); else artist set → Assigned; else Unassigned. Cards are NOT listed here â€” they come from ../card-data/cards.json (artFinal) + ./card-briefs.json (artist/brief). 'extraPowers' lists powers that ship mod art but reuse base-game localization (ICustomPower subclasses) — the Powers tab is otherwise auto-enumerated from powers.json.",
   "categories": [
     {
       "id": "potions",
@@ -14,7 +14,7 @@
           "rarity": "Common",
           "orientation": "Offensive",
           "effect": "Apply 3 Hex.",
-          "path": "TheWitch/images/potions/cursed_bottle.png"
+          "path": "TheWitch/TheWitch/images/potions/cursed_bottle.png"
         },
         {
           "name": "Fertilizer",
@@ -24,7 +24,7 @@
           "rarity": "Common",
           "orientation": "Defensive",
           "effect": "Gain Brambles.",
-          "path": "TheWitch/images/potions/fertilizer.png"
+          "path": "TheWitch/TheWitch/images/potions/fertilizer.png"
         },
         {
           "name": "Buddy in a Bottle",
@@ -34,7 +34,7 @@
           "rarity": "Rare",
           "orientation": "Utility",
           "effect": "Add a random Familiar into your Hand for free this turn.",
-          "path": "TheWitch/images/potions/buddy_in_a_bottle.png"
+          "path": "TheWitch/TheWitch/images/potions/buddy_in_a_bottle.png"
         },
         {
           "name": "Vial of Smoke",
@@ -44,7 +44,7 @@
           "rarity": "Token",
           "orientation": "Defensive",
           "effect": "Gain Block. (Card-only payload: Light the Candle / Hidden in Smoke)",
-          "path": "TheWitch/images/potions/vial_of_smoke.png"
+          "path": "TheWitch/TheWitch/images/potions/vial_of_smoke.png"
         },
         {
           "name": "Noxious Brew",
@@ -54,7 +54,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Deal damage. (Card-only payload: Bottomless Cauldron)",
-          "path": "TheWitch/images/potions/noxious_brew.png"
+          "path": "TheWitch/TheWitch/images/potions/noxious_brew.png"
         },
         {
           "name": "Mushroom Extract",
@@ -64,7 +64,7 @@
           "rarity": "Rare",
           "orientation": "Utility",
           "effect": "Discard Hand, draw 6 cards that cost 0 for the rest of combat.",
-          "path": "TheWitch/images/potions/mushroom_extract.png"
+          "path": "TheWitch/TheWitch/images/potions/mushroom_extract.png"
         },
         {
           "name": "Bottled Message",
@@ -74,7 +74,7 @@
           "rarity": "Token",
           "orientation": "Utility",
           "effect": "Put the bottled card into your Hand. (Card-only payload: Message in a Bottle)",
-          "path": "TheWitch/images/potions/bottled_message.png"
+          "path": "TheWitch/TheWitch/images/potions/bottled_message.png"
         },
         {
           "name": "Ominous Flask",
@@ -84,7 +84,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Apply 1 Hex. (Card-only payload: Harvest)",
-          "path": "TheWitch/images/potions/ominous_flask.png"
+          "path": "TheWitch/TheWitch/images/potions/ominous_flask.png"
         },
         {
           "name": "Prickly Vial",
@@ -94,7 +94,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Gain 3 Brambles. (Card-only payload: Harvest)",
-          "path": "TheWitch/images/potions/prickly_vial.png"
+          "path": "TheWitch/TheWitch/images/potions/prickly_vial.png"
         },
         {
           "name": "Potion-Shaped Pebble",
@@ -104,7 +104,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Deal 10 damage. (Card-only payload: Rattling Bottles)",
-          "path": "TheWitch/images/potions/potion_shaped_pebble.png"
+          "path": "TheWitch/TheWitch/images/potions/potion_shaped_pebble.png"
         },
         {
           "name": "Puff of Smoke",
@@ -114,7 +114,7 @@
           "rarity": "Token",
           "orientation": "Defensive",
           "effect": "Gain Block. (Card-only payload: Harvest)",
-          "path": "TheWitch/images/potions/puff_of_smoke.png"
+          "path": "TheWitch/TheWitch/images/potions/puff_of_smoke.png"
         },
         {
           "name": "Ember Jar",
@@ -124,7 +124,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Deal 4 damage. (Card-only payload: Harvest)",
-          "path": "TheWitch/images/potions/ember_jar.png"
+          "path": "TheWitch/TheWitch/images/potions/ember_jar.png"
         },
         {
           "name": "Polished Bottlecap",
@@ -134,7 +134,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Treasure: deal 5 damage, or sell to the shopkeeper for 15 Gold. (Card-only payload: Shiny!)",
-          "path": "TheWitch/images/potions/polished_bottlecap.png"
+          "path": "TheWitch/TheWitch/images/potions/polished_bottlecap.png"
         },
         {
           "name": "Shiny Hairpin",
@@ -144,7 +144,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Treasure: deal 5 damage, or sell to the shopkeeper for 15 Gold. (Card-only payload: Shiny!)",
-          "path": "TheWitch/images/potions/shiny_hairpin.png"
+          "path": "TheWitch/TheWitch/images/potions/shiny_hairpin.png"
         },
         {
           "name": "Foreign Coin",
@@ -154,7 +154,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Big Treasure: deal 7 damage, or sell to the shopkeeper for 30 Gold. (Card-only payload: Shiny!+)",
-          "path": "TheWitch/images/potions/foreign_coin.png"
+          "path": "TheWitch/TheWitch/images/potions/foreign_coin.png"
         },
         {
           "name": "Impeccable Silverware",
@@ -164,7 +164,7 @@
           "rarity": "Token",
           "orientation": "Offensive",
           "effect": "Big Treasure: deal 7 damage, or sell to the shopkeeper for 30 Gold. (Card-only payload: Shiny!+)",
-          "path": "TheWitch/images/potions/impeccable_silverware.png"
+          "path": "TheWitch/TheWitch/images/potions/impeccable_silverware.png"
         }
       ]
     },
@@ -180,7 +180,7 @@
           "brief": "",
           "rarity": "Uncommon",
           "effect": "Whenever you enter an unknown ? location, obtain a random potion.",
-          "path": "TheWitch/images/relics/bottled_curiosity.png"
+          "path": "TheWitch/TheWitch/images/relics/bottled_curiosity.png"
         },
         {
           "name": "Cozy Nest",
@@ -189,7 +189,7 @@
           "brief": "",
           "rarity": "Rare",
           "effect": "At the start of combat, summon a Crow Familiar.",
-          "path": "TheWitch/images/relics/cozy_nest.png"
+          "path": "TheWitch/TheWitch/images/relics/cozy_nest.png"
         },
         {
           "name": "Large Pockets",
@@ -198,7 +198,7 @@
           "brief": "",
           "rarity": "Starter",
           "effect": "Upon pickup gain potion slots. Starting relic.",
-          "path": "TheWitch/images/relics/large_pockets.png"
+          "path": "TheWitch/TheWitch/images/relics/large_pockets.png"
         },
         {
           "name": "Morganne",
@@ -207,7 +207,7 @@
           "brief": "",
           "rarity": "Rare",
           "effect": "Every 10th card you play returns to your hand.",
-          "path": "TheWitch/images/relics/morganne.png"
+          "path": "TheWitch/TheWitch/images/relics/morganne.png"
         },
         {
           "name": "Sack of Treats",
@@ -216,7 +216,7 @@
           "brief": "A burlap dripping sack of bones and a limb sticking out.",
           "rarity": "Rare",
           "effect": "Your Familiars create ALL of their cards at the start of your turn.",
-          "path": "TheWitch/images/relics/sack_of_treats.png"
+          "path": "TheWitch/TheWitch/images/relics/sack_of_treats.png"
         },
         {
           "name": "Separatory Funnel",
@@ -225,7 +225,7 @@
           "brief": "",
           "rarity": "Starter",
           "effect": "Orobas upgrade of Large Pockets: whenever an effect would create a random Potion, choose it instead.",
-          "path": "TheWitch/images/relics/separatory_funnel.png"
+          "path": "TheWitch/TheWitch/images/relics/separatory_funnel.png"
         },
         {
           "name": "Tasty Herbs",
@@ -234,7 +234,7 @@
           "brief": "",
           "rarity": "Uncommon",
           "effect": "At the end of combat, heal 3 HP if you used a potion.",
-          "path": "TheWitch/images/relics/tasty_herbs.png"
+          "path": "TheWitch/TheWitch/images/relics/tasty_herbs.png"
         },
         {
           "name": "Wormy's Apple",
@@ -243,7 +243,7 @@
           "brief": "",
           "rarity": "Uncommon",
           "effect": "Upon pickup gain Max HP. Each combat, add a Wormy into your Hand.",
-          "path": "TheWitch/images/relics/wormys_apple.png"
+          "path": "TheWitch/TheWitch/images/relics/wormys_apple.png"
         }
       ]
     },
@@ -258,7 +258,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
-          "path": "TheWitch/images/pets/wolf_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/wolf_familiar.png"
         },
         {
           "name": "Bear Pet",
@@ -266,7 +266,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
-          "path": "TheWitch/images/pets/bear_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/bear_familiar.png"
         },
         {
           "name": "Owl Pet",
@@ -274,7 +274,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
-          "path": "TheWitch/images/pets/owl_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/owl_familiar.png"
         },
         {
           "name": "Cat Pet",
@@ -282,7 +282,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
-          "path": "TheWitch/images/pets/cat_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/cat_familiar.png"
         },
         {
           "name": "Rat Pet",
@@ -290,7 +290,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
-          "path": "TheWitch/images/pets/rat_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/rat_familiar.png"
         },
         {
           "name": "Crow Pet",
@@ -298,7 +298,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing).",
-          "path": "TheWitch/images/pets/crow_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/crow_familiar.png"
         },
         {
           "name": "Moth Pet",
@@ -306,7 +306,7 @@
           "done": false,
           "brief": "",
           "effect": "Cosmetic combat sprite; dedicated pet art under images/pets/ (falls back to card art in-game if missing). PLACEHOLDER: currently a copy of the crow sprite.",
-          "path": "TheWitch/images/pets/moth_familiar.png"
+          "path": "TheWitch/TheWitch/images/pets/moth_familiar.png"
         }
       ]
     },
@@ -322,7 +322,7 @@
           "brief": "",
           "dims": "132x195",
           "effect": "Character select screen portrait.",
-          "path": "TheWitch/images/charui/char_select_char_name.png"
+          "path": "TheWitch/TheWitch/images/charui/char_select_char_name.png"
         },
         {
           "name": "Character Select Portrait (Locked)",
@@ -331,7 +331,7 @@
           "brief": "",
           "dims": "132x195",
           "effect": "Locked-state variant of the select portrait.",
-          "path": "TheWitch/images/charui/char_select_char_name_locked.png"
+          "path": "TheWitch/TheWitch/images/charui/char_select_char_name_locked.png"
         },
         {
           "name": "Character Icon",
@@ -340,7 +340,7 @@
           "brief": "",
           "dims": "128x128",
           "effect": "Small in-run character badge icon.",
-          "path": "TheWitch/images/charui/character_icon_char_name.png"
+          "path": "TheWitch/TheWitch/images/charui/character_icon_char_name.png"
         },
         {
           "name": "Map Marker",
@@ -349,7 +349,7 @@
           "brief": "",
           "dims": "128x128",
           "effect": "Icon shown on the world map.",
-          "path": "TheWitch/images/charui/map_marker_char_name.png"
+          "path": "TheWitch/TheWitch/images/charui/map_marker_char_name.png"
         },
         {
           "name": "Big Energy Icon",
@@ -358,7 +358,7 @@
           "brief": "",
           "dims": "74x74",
           "effect": "Large energy orb icon.",
-          "path": "TheWitch/images/charui/big_energy.png"
+          "path": "TheWitch/TheWitch/images/charui/big_energy.png"
         },
         {
           "name": "Text Energy Icon",
@@ -367,7 +367,7 @@
           "brief": "",
           "dims": "24x24",
           "effect": "Small inline energy icon used in card text.",
-          "path": "TheWitch/images/charui/text_energy.png"
+          "path": "TheWitch/TheWitch/images/charui/text_energy.png"
         },
         {
           "name": "Multiplayer Hand (Pointing)",
@@ -375,7 +375,7 @@
           "done": false,
           "brief": "",
           "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmPointingTexturePath).",
-          "path": "TheWitch/images/charui/multiplayer_hand_witch_point.png"
+          "path": "TheWitch/TheWitch/images/charui/multiplayer_hand_witch_point.png"
         },
         {
           "name": "Multiplayer Hand (Rock)",
@@ -383,7 +383,7 @@
           "done": false,
           "brief": "",
           "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmRockTexturePath).",
-          "path": "TheWitch/images/charui/multiplayer_hand_witch_rock.png"
+          "path": "TheWitch/TheWitch/images/charui/multiplayer_hand_witch_rock.png"
         },
         {
           "name": "Multiplayer Hand (Paper)",
@@ -391,7 +391,7 @@
           "done": false,
           "brief": "",
           "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmPaperTexturePath).",
-          "path": "TheWitch/images/charui/multiplayer_hand_witch_paper.png"
+          "path": "TheWitch/TheWitch/images/charui/multiplayer_hand_witch_paper.png"
         },
         {
           "name": "Multiplayer Hand (Scissors)",
@@ -399,7 +399,7 @@
           "done": false,
           "brief": "",
           "effect": "Witch arm sprite for the multiplayer rock-paper-scissors / pointing hand (Witch.cs CustomArmScissorsTexturePath).",
-          "path": "TheWitch/images/charui/multiplayer_hand_witch_scissors.png"
+          "path": "TheWitch/TheWitch/images/charui/multiplayer_hand_witch_scissors.png"
         },
         {
           "name": "Yummy Cookie (Witch variant)",
@@ -408,7 +408,7 @@
           "brief": "",
           "dims": "94x94 + 256x256 (relic icon + outline)",
           "effect": "Base-game Ancient relic Yummy Cookie shows a character-flavored cookie; needs a Witch-themed variant (wired via CustomYummyCookie / RelicIconData).",
-          "path": "TheWitch/images/relics/yummy_cookie.png"
+          "path": "TheWitch/TheWitch/images/relics/yummy_cookie.png"
         },
         {
           "name": "Card Frame Fallbacks",
@@ -417,7 +417,7 @@
           "brief": "",
           "dims": "card 1000x760 / potion 256x256 / relic 94x94 + 256x256 / power 64x64 + 256x256",
           "effect": "Generic fallback images (card.png, potion.png, relic.png, relic_outline.png, power.png, mystery.png) shown when a specific asset is missing.",
-          "path": "TheWitch/images/card_portraits/mystery.png"
+          "path": "TheWitch/TheWitch/images/card_portraits/mystery.png"
         }
       ]
     }

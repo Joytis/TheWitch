@@ -14,6 +14,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <see cref="EnergyNextTurnPower" />) and an <see cref="Ash" /> is left in the discard pile.</summary>
 public sealed class Tinder : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromCard<Ash>(),
     ];

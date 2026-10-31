@@ -30,6 +30,8 @@ public sealed class Shiny : WitchFamiliarCard
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [TreasureTip(IsUpgraded)];
 
+    public override CardModel Summon => ModelDb.Card<CrowFamiliar>();
+
     public Shiny()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {

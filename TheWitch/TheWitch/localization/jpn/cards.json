@@ -34,7 +34,7 @@
     "THEWITCH-DISTILL.description": "[gold]ポーション[/gold]1個を、ランダムな[gold]不安定[/gold]な[gold]レアポーション[/gold]に変化させる。",
     "THEWITCH-DISTILL.selectionScreenPrompt": "蒸留するポーションを選ぶ。",
     "THEWITCH-HARVEST.title": "収穫",
-    "THEWITCH-HARVEST.description": "{Damage:diff()}ダメージを与える。\n小さな[gold]不安定[/gold]な[gold]{Potions:plural:ポーション}[/gold]を作成する。",
+    "THEWITCH-HARVEST.description": "{Damage:diff()}ダメージを与える。\n小さな[gold]不安定[/gold]な[gold]{Potions:plural:ポーション|ポーション}[/gold]を作成する。",
     "THEWITCH-STRIKE_WITCH.description": "{Damage:diff()}ダメージを与える。",
     "THEWITCH-STRIKE_WITCH.title": "ストライク",
     "THEWITCH-DEFEND_WITCH.description": "{Block:diff()}[gold]ブロック[/gold]を得る。",

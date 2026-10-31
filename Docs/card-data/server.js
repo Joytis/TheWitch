@@ -2,7 +2,9 @@
 // Serves card-designs.html + each character's data file (+ live art state + thumbnails), and persists
 // TESTED / Art-Final toggles back to that file. Every write endpoint takes a `character` key
 // (default "witch" for back-compat); GET routes take it as ?character= / ?c=.
-//   node server.js   ->  http://localhost:7820
+// Also serves the art tracker in EDIT MODE: /pages/art-tracker.html (+ the repo files it loads) and
+// /api/edit (the page's probe) + /api/asset (non-card assets); cards reuse /api/brief + /api/artfinal.
+//   node server.js   ->  http://localhost:7820   (art tracker: http://localhost:7820/pages/art-tracker.html)
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -101,7 +103,76 @@ function computeArtStates(ch, cards) {
   return states;
 }
 
+// --- art tracker edit mode: non-card assets ----------------------------------------------------------
+// The tracker sends each asset's `ref` (see regen-art-tracker.js): { cat, name } for an entry in the
+// character's assets file, { power } for a powerOverrides entry, { extraPower } for an extraPowers entry.
+function writeAsset(body) {
+  const ch = charOf(body.character);
+  const file = path.join(ROOT, ch.assets);
+  const data = JSON.parse(fs.readFileSync(file, "utf8").replace(/^\uFEFF/, ""));
+  const ref = body.ref || {};
+  const fields = {
+    artist: String(body.artist || "").trim(),
+    brief: String(body.brief || "").trim(),
+    stage: String(body.stage || "").trim(),
+    done: !!body.done,
+  };
+  let target;
+  if (ref.cat) {
+    const cat = (data.categories || []).find((c) => c.id === ref.cat);
+    target = cat && cat.assets.find((a) => a.name === ref.name);
+    if (!target) throw new Error(`no asset "${ref.name}" in ${ref.cat}`);
+  } else if (ref.power) {
+    data.powerOverrides ||= {};
+    target = data.powerOverrides[ref.power] ||= {};
+  } else if (ref.extraPower) {
+    target = (data.extraPowers || {})[ref.extraPower];
+    if (!target) throw new Error(`no extraPower "${ref.extraPower}"`);
+  } else throw new Error("asset ref required");
+  Object.assign(target, { artist: fields.artist, done: fields.done, brief: fields.brief });
+  if (fields.stage) target.stage = fields.stage; else delete target.stage;
+  // keep powerOverrides sparse: an override with nothing in it is just noise
+  if (ref.power && !fields.artist && !fields.brief && !fields.stage && !fields.done) delete data.powerOverrides[ref.power];
+  fs.writeFileSync(file, JSON.stringify(data, null, 2) + "\n");
+  return fields;
+}
+
+// Repo files the art tracker page loads (itself, the frame renderer, source art). Read-only, and only
+// under these prefixes.
+const STATIC_PREFIXES = ["pages/", "TheWitch/TheWitch/images/", "TheAugur/TheAugur/images/"];
+const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8",
+  ".png": "image/png", ".webp": "image/webp", ".jpg": "image/jpeg", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml" };
+function serveStatic(req, res) {
+  const rel = decodeURIComponent(req.url.split("?")[0]).replace(/^\/+/, "");
+  if (!STATIC_PREFIXES.some((p) => rel.startsWith(p))) return false;
+  const file = path.resolve(ROOT, rel);
+  if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return false;
+  send(res, 200, fs.readFileSync(file), MIME[path.extname(file).toLowerCase()] || "application/octet-stream");
+  return true;
+}
+const readBody = (req) => new Promise((resolve, reject) => {
+  let raw = "";
+  req.on("data", (c) => (raw += c));
+  req.on("end", () => { try { resolve(JSON.parse(raw)); } catch (e) { reject(e); } });
+});
+
 const server = http.createServer((req, res) => {
+  // --- art tracker edit mode ----------------------------------------------
+  if (req.method === "GET" && req.url === "/api/edit") return send(res, 200, JSON.stringify({ ok: true }), "application/json");
+  if (req.method === "POST" && req.url === "/api/asset") {
+    readBody(req).then((body) => {
+      const fields = writeAsset(body);
+      regenTracker();
+      send(res, 200, JSON.stringify({ ok: true, ...fields }), "application/json");
+    }).catch((e) => send(res, 400, JSON.stringify({ error: String(e.message || e) }), "application/json"));
+    return;
+  }
+  if (req.method === "GET" && (req.url === "/tracker" || req.url === "/tracker/")) {
+    res.writeHead(302, { Location: "/pages/art-tracker.html" });
+    return res.end();
+  }
+  if (req.method === "GET" && serveStatic(req, res)) return;
+
   // --- toggles ---------------------------------------------------------
   const TOGGLE_FIELDS = { "/api/tested": "tested", "/api/artfinal": "artFinal", "/api/vfxpass": "vfxPass", "/api/sfxpass": "sfxPass" };
   if (req.method === "POST" && TOGGLE_FIELDS[req.url]) {
@@ -134,17 +205,18 @@ const server = http.createServer((req, res) => {
     req.on("data", (c) => (raw += c));
     req.on("end", () => {
       try {
-        const body = JSON.parse(raw); // { name, artist, brief, character? }
+        const body = JSON.parse(raw); // { name, artist, brief, stage?, character? }
         if (!body.name) return send(res, 400, JSON.stringify({ error: "name required" }), "application/json");
         const ch = charOf(body.character);
         const data = readBriefs(ch);
         const artist = String(body.artist || "").trim();
         const brief = String(body.brief || "").trim();
-        if (!artist && !brief) delete data.briefs[body.name];
-        else data.briefs[body.name] = { artist, brief };
+        const stage = String(body.stage || "").trim(); // art-tracker stage; "" = derived from artist
+        if (!artist && !brief && !stage) delete data.briefs[body.name];
+        else data.briefs[body.name] = { artist, brief, ...(stage ? { stage } : {}) };
         writeBriefs(ch, data);
         regenTracker();
-        send(res, 200, JSON.stringify({ ok: true, name: body.name, artist, brief }), "application/json");
+        send(res, 200, JSON.stringify({ ok: true, name: body.name, artist, brief, stage }), "application/json");
       } catch (e) {
         send(res, 400, JSON.stringify({ error: String(e) }), "application/json");
       }
@@ -204,5 +276,6 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Card designs (${characters.KEYS.join(", ")}) -> http://localhost:${PORT}`);
+  console.log(`Art tracker (edit mode) -> http://localhost:${PORT}/pages/art-tracker.html`);
   console.log("TESTED + Art-Final + VFX/SFX-Pass flags are saved to each character's Docs/card-data/*.json. Ctrl+C to stop.");
 });

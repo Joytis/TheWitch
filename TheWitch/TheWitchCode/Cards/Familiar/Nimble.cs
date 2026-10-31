@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -15,6 +16,8 @@ public sealed class Nimble : WitchFamiliarCard
         new EnergyVar(1),
         new BlockVar(0m, ValueProp.Move)
     ];
+
+    public override CardModel Summon => ModelDb.Card<CatFamiliar>();
 
     public Nimble()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)

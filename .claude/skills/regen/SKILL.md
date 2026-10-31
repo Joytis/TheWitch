@@ -12,19 +12,24 @@ node Docs/card-data/regen.js
 ```
 
 - Rebuilds `Docs/card-data/cards.json` from the card `.cs` files + localization (preserves `tested`, `artFinal`, curated `note`/`mechanics`/`role`; auto-clears `TESTED` on mechanically-changed cards).
-- Then automatically runs `Docs/art-tracker/regen-art-tracker.js`, which rewrites **`pages/art-tracker.html`** — the static, self-contained art tracker (GitHub-Pages-servable; images by repo-relative path).
+- Then automatically runs `Docs/art-tracker/regen-art-tracker.js`, which rewrites **`pages/art-tracker.html`** from `Docs/art-tracker/tracker.template.html` (edit the template, never the output). The page renders cards in their real frames via `pages/frame-preview/renderer.js`.
+- On GitHub, `.github/workflows/art-tracker.yml` runs the same regen on every push to main that touches cards/art/briefs and commits the result, so the live page never goes stale; a local regen is still how you preview it.
 
 `node Docs/card-data/regen.js --check` = drift check only (exit 1 if stale), writes nothing.
 
 ## Art tracker data sources (hand-maintained, git-tracked)
 
-- **`Docs/art-tracker/assets.json`** — non-card assets (Potions / Relics / Familiar Pets / Character & UI). Per asset: `artist` (who's on it) and `done: true` when final art lands.
-- **`Docs/art-tracker/card-briefs.json`** — per-card `artist` + `brief`, keyed by card name. Card done-ness comes from `artFinal` in `cards.json` (settable via the card-designs page).
-- **Status is derived, never stored**: `done`/`artFinal` → **Done** (green); `artist` set → **In Progress** (yellow); else **Placeholder** (grey).
+- **`Docs/art-tracker/assets.json`** — non-card assets (Potions / Relics / Familiar Pets / Character & UI). Per asset: `artist`, optional `stage`, and `done: true` when final art lands. Paths are repo-relative (`TheWitch/TheWitch/images/...`).
+- **`Docs/art-tracker/card-briefs.json`** — per-card `artist` + `brief` + optional `stage`, keyed by card name (all three editable on the card-designs page). Card done-ness comes from `artFinal` in `cards.json` (the ★ final toggle there).
+- **Status**: `done`/`artFinal` → **Final**; else `stage` (`assigned` | `sketching` → Assigned / Sketching); else `artist` set → **Assigned**; else **Unassigned**.
 
-When the user says "assign <artist> to <asset>" or "mark <asset> done": edit the matching JSON entry, then run the regen command. For card art marked done, set `artFinal: true` in `cards.json` (it is preserved across regens).
+When the user says "assign <artist> to <asset>", "move <card> to sketching" or "mark <asset> done": edit the matching JSON entry (`artist` / `stage` / `done`), then run the regen command. For card art marked done, set `artFinal: true` in `cards.json` (it is preserved across regens).
 
-The generator also prints `MISSING IMAGE FILES` — cards/assets whose expected PNG doesn't exist yet (the game shows a generic fallback for these). Mention notable ones to the user.
+The generator also prints `MISSING IMAGE FILES` (expected PNG absent) and a `DATA HEALTH` line (orphan briefs, Final art whose in-game `ArtBy` credit disagrees with the tracker's artist, off-shape or tall card art) — the same list the page's health panel shows. Mention notable ones to the user.
+
+To change assignments by hand-editing in a UI, the user runs the "Art Tracker: Edit (local)" VS Code task (edit mode via the card-designs server); otherwise edit the JSON directly.
+
+Useful links to hand out: `pages/art-tracker.html#char=witch&artist=<Name>` is that artist's queue; `pages/frame-preview.html#card=<Card Name>` opens the Frame Previewer on a card.
 
 ## Report
 
