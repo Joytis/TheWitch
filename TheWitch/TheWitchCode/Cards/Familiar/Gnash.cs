@@ -36,6 +36,8 @@ public sealed class Gnash : WitchFamiliarCard
         protected override DynamicVar GetExtraVar() => ((CardModel)_owner!).DynamicVars["CalculationExtra"];
     }
 
+    public override CardModel Summon => ModelDb.Card<WolfFamiliar>();
+
     public Gnash()
         : base(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {

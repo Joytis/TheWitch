@@ -9,13 +9,14 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Character;
 
 /// <summary>
-/// Builds the Witch's card trail from the script-less card_trail_witch.tscn. The scene cannot
-/// ship with the game's NCardTrailVfx/NCardTrail scripts attached: the Godot export strips
-/// script references it can't resolve (res://src/... exists only in the game's own tree), so
-/// the packed scene instantiates as plain nodes and Instantiate&lt;NCardTrailVfx&gt; would throw.
-/// BaseLib has NodeFactory conversions for energy counters / creature visuals but none for
-/// trails — this prefix does the same job in code: instantiate the plain scene, rebuild the
-/// root as a real NCardTrailVfx, and swap every Line2D for an NCardTrail with its properties.
+/// Fallback builder for the Witch's card trail. card_trail_witch.tscn attaches the game's
+/// NCardTrailVfx/NCardTrail scripts directly (res://src/... resolves through the gamedata src/
+/// junction at export, the same way Downfall's trail scenes do), so it normally instantiates as
+/// the real thing and this prefix only wires _nodeToFollow. If an export ever strips those script
+/// references again, the scene comes in as plain nodes and Instantiate&lt;NCardTrailVfx&gt; would
+/// throw — then this rebuilds the root as an NCardTrailVfx and swaps every Line2D for an NCardTrail.
+/// (The scripts must stay on the scene: RitsuLib's Priority.First prefix on Create claims every
+/// existing trail scene and skips ours, and its converter does not turn Line2D into NCardTrail.)
 /// </summary>
 [HarmonyPatch(typeof(NCardTrailVfx), nameof(NCardTrailVfx.Create))]
 public static class WitchCardTrailPatch
@@ -43,8 +44,8 @@ public static class WitchCardTrailPatch
             Node source = PreloadManager.Cache.GetScene(characterTrailPath)
                 .Instantiate(PackedScene.GenEditState.Disabled);
 
-            // If the scripts ever survive the export (or BaseLib grows a trail factory),
-            // the scene is already the real thing — just wire it up.
+            // Normal case: the scene's scripts survived the export, so it is already the
+            // real thing — just wire it up. Otherwise convert the plain nodes.
             if (source is not NCardTrailVfx vfx)
             {
                 vfx = new NCardTrailVfx();

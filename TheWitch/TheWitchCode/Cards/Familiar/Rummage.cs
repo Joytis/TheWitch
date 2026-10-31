@@ -14,6 +14,8 @@ public sealed class Rummage : WitchFamiliarCard
         new CardsVar(1)
     ];
 
+    public override CardModel Summon => ModelDb.Card<RatFamiliar>();
+
     public Rummage()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {

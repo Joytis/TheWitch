@@ -1,0 +1,57 @@
+name: art-tracker
+
+# Keep the GitHub Pages art tracker (pages/art-tracker.html) current: on every push to main that touches
+# cards, art, briefs or the tracker tooling, re-run the card-data regen (cards.json → art tracker →
+# pool comparison) and commit whatever actually changed. Pushes made by this workflow use
+# GITHUB_TOKEN, which does not re-trigger workflows, so there is no loop.
+# Note: pages/frame-preview/assets.js needs the local gamedata/ decompile and is NOT rebuilt here.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "TheWitch/TheWitchCode/Cards/**"
+      - "TheWitch/TheWitchCode/Artists/**"
+      - "TheAugur/TheAugurCode/Cards/**"
+      - "TheWitch/TheWitch/localization/eng/**"
+      - "TheAugur/TheAugur/localization/eng/**"
+      - "TheWitch/TheWitch/images/**"
+      - "TheAugur/TheAugur/images/**"
+      - "Docs/art-tracker/**"
+      - "Docs/card-data/**"
+      - ".github/workflows/art-tracker.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: art-tracker
+  cancel-in-progress: true
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Regenerate card data and art tracker
+        run: node Docs/card-data/regen.js
+
+      - name: Commit if changed
+        run: |
+          node Docs/art-tracker/ci-drop-date-only-changes.js Docs/card-data Docs/pool-comparison.md pages/art-tracker.html
+          git add Docs/card-data Docs/pool-comparison.md pages/art-tracker.html
+          if git diff --staged --quiet; then
+            echo "Art tracker already current - nothing to commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Art tracker: regenerate from repo state"
+            git pull --rebase
+            git push
+          fi

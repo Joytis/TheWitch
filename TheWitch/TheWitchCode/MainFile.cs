@@ -65,8 +65,33 @@ public partial class MainFile : Node
         Bird.Common.Data.RunAnalytics.Initialize(ctx);
         Bird.Common.Steam.WorkshopSelfUpdate.Initialize(ctx);
 
-        Harmony harmony = new(ModId);
+        PatchAllIsolated(new Harmony(ModId));
+    }
 
-        harmony.PatchAll();
+    /// <summary>
+    /// <see cref="Harmony.PatchAll()"/> stops at the first patch class that throws, silently dropping every
+    /// later one. A throw can come from another mod: Harmony rebuilds a method with ALL its patches, so a
+    /// broken third-party patch on a method we share surfaces in our call. Patch class by class instead,
+    /// so one failure costs only that class (logged), not the rest of the Witch.
+    /// </summary>
+    private static void PatchAllIsolated(Harmony harmony)
+    {
+        int failed = 0;
+        foreach (Type type in AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()))
+        {
+            try
+            {
+                harmony.CreateClassProcessor(type).Patch();
+            }
+            catch (Exception e)
+            {
+                failed++;
+                Logger.Error($"Harmony patch class {type.FullName} failed to apply: {e}");
+            }
+        }
+        if (failed > 0)
+        {
+            Logger.Error($"{failed} Harmony patch class(es) failed; the rest of the mod is still patched.");
+        }
     }
 }

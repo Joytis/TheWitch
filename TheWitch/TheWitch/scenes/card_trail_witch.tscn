@@ -1,5 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://bug781tm37qaa"]
+[gd_scene load_steps=15 format=3 uid="uid://bug781tm37qaa"]
 
+[ext_resource type="Script" uid="uid://bb3fwupsnhf43" path="res://src/Core/Nodes/Vfx/NCardTrailVfx.cs" id="1_trailvfx"]
+[ext_resource type="Script" uid="uid://cl44l3vqar6tb" path="res://src/Core/Nodes/Vfx/NCardTrail.cs" id="1_trail"]
 [ext_resource type="Texture2D" uid="uid://smodwbd31f4n" path="res://TheWitch/images/packed/vfx/trail.png" id="2_ktjaj"]
 [ext_resource type="Texture2D" uid="uid://7rwtbrv1vwan" path="res://TheWitch/images/packed/vfx/trail2.png" id="4_afirv"]
 [ext_resource type="Texture2D" uid="uid://dn267staemdkf" path="res://TheWitch/images/vfx/brush_particle_2.png" id="5_mlept"]
@@ -32,6 +34,7 @@ colors = PackedColorArray(0.5727701, 0.7788739, 0.5901138, 1, 0.5627421, 0.80322
 
 [node name="CardTrailWitch" type="Node2D"]
 show_behind_parent = true
+script = ExtResource("1_trailvfx")
 
 [node name="Trails" type="Node2D" parent="."]
 
@@ -45,6 +48,7 @@ gradient = SubResource("Gradient_6eyfw")
 texture = ExtResource("2_ktjaj")
 texture_mode = 2
 joint_mode = 2
+script = ExtResource("1_trail")
 
 [node name="InnerTrail" type="Line2D" parent="Trails"]
 modulate = Color(0.33389997, 0.53, 0.3861933, 0.5019608)
@@ -55,6 +59,7 @@ gradient = SubResource("Gradient_fdg7u")
 texture = ExtResource("4_afirv")
 texture_mode = 2
 joint_mode = 2
+script = ExtResource("1_trail")
 
 [node name="Sprites" type="Node2D" parent="."]
 

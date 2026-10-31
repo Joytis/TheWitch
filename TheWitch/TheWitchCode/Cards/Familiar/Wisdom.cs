@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -10,6 +11,8 @@ namespace TheWitch.TheWitchCode.Cards;
 public sealed class Wisdom : WitchFamiliarCard
 {
     public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+
+    public override CardModel Summon => ModelDb.Card<OwlFamiliar>();
 
     public Wisdom()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)

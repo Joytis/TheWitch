@@ -28,6 +28,8 @@ public sealed class Ferocity : WitchFamiliarCard
             .WithMultiplier((card, _) => AttacksPlayedThisTurnBefore(card))
     ];
 
+    public override CardModel Summon => ModelDb.Card<CatFamiliar>();
+
     public Ferocity()
         : base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
     {

@@ -91,8 +91,15 @@ class Mod:
         return self.state[lang]
 
     def save_state(self, lang):
+        # Prune keys (and files) no longer in English, mirroring apply's drop from the translation
+        # files - otherwise every rename/cut leaves a dead hash in every language's state.
+        eng = self.eng()
         st = self.lang_state(lang)
-        clean = OrderedDict((f, OrderedDict(sorted(k.items()))) for f, k in sorted(st.items()) if k)
+        clean = OrderedDict()
+        for f, keys in sorted(st.items()):
+            live = OrderedDict(sorted((k, h) for k, h in keys.items() if k in eng.get(f, {})))
+            if live:
+                clean[f] = live
         write_json(self.state_dir / f"{lang}.json", clean)
 
     def recorded(self, lang, filename, key):
@@ -153,7 +160,9 @@ def placeholders(text):
 # (LocManager.CultureInfoFromThreeLetterCode -> PluralRules) returns an index into the words and
 # THROWS when the index is past the end: Russian/Polish pick 0-2 (a 2-word plural crashes on 5),
 # CJK/Thai always pick 0, the rest choose between 2 words (3+ words change meaning, e.g. zero|one|other).
-PLURAL_WORDS = {"rus": (3,), "pol": (3,), "zhs": (1, 2), "jpn": (1, 2), "kor": (1, 2), "tha": (1, 2)}
+# CJK/Thai still need 2 words (same word twice is fine): other mods swap those rules globally - Downfall's
+# PluralRulesPatch maps zh to English one|other, under which a 1-word plural throws and shows raw text.
+PLURAL_WORDS = {"rus": (3,), "pol": (3,), "zhs": (2,), "jpn": (2,), "kor": (2,), "tha": (2,)}
 
 
 def plural_word_counts(text):

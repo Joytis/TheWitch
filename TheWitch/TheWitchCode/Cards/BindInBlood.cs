@@ -12,6 +12,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Bind in Blood: pay 1 HP to seed the target with Hex.</summary>
 public sealed class BindInBlood : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<HexPower>(),
     ];

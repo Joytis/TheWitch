@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -19,6 +20,8 @@ public sealed class Swarm : WitchFamiliarCard
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CardsVar(2)
     ];
+
+    public override CardModel Summon => ModelDb.Card<RatFamiliar>();
 
     public Swarm()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)

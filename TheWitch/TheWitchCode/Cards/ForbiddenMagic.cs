@@ -12,6 +12,8 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class ForbiddenMagic : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+
     // Gold glow while any enemy is Hexed (Dismantle shape) — the bonus is live.
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.HittableEnemies.Any((Creature e) => e.HasPower<HexPower>()) ?? false;

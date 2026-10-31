@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -14,6 +15,8 @@ public sealed class Mutilate : WitchFamiliarCard
         new DamageVar(12m, ValueProp.Move),
         new PowerVar<VulnerablePower>(2m)
     ];
+
+    public override CardModel Summon => ModelDb.Card<BearFamiliar>();
 
     public Mutilate()
         : base(2, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)

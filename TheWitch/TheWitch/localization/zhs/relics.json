@@ -3,7 +3,7 @@
     "THEWITCH-BOTTLED_CURIOSITY.description": "每当你进入[gold]?[/gold]房间时，获得一瓶随机[gold]药水[/gold]。",
     "THEWITCH-BOTTLED_CURIOSITY.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
     "THEWITCH-LARGE_POCKETS.title": "大口袋",
-    "THEWITCH-LARGE_POCKETS.description": "拾起时，获得[blue]{PotionSlots}[/blue]个[gold]药水[/gold]{PotionSlots:plural:栏位}。",
+    "THEWITCH-LARGE_POCKETS.description": "拾起时，获得[blue]{PotionSlots}[/blue]个[gold]药水[/gold]{PotionSlots:plural:栏位|栏位}。",
     "THEWITCH-LARGE_POCKETS.flavor": "[red]这件遗物的细节将在未来揭晓……[/red]",
     "THEWITCH-COZY_NEST.title": "舒适小窝",
     "THEWITCH-COZY_NEST.description": "在每场战斗开始时，召唤一只[gold]乌鸦魔宠[/gold]。",

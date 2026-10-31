@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-29",
+  "generated": "2026-10-31",
   "cards": [
     {
       "name": "Defend",
@@ -37,9 +37,10 @@
       "type": "Attack",
       "rarity": "Starter",
       "target": "AnyEnemy",
-      "text": "Deal 3 damage. Create a small Unstable Potions.",
+      "text": "Deal 3 damage. Create a small Unstable Potion.",
       "numbers": {
-        "Damage": 3
+        "Damage": 3,
+        "Potions": 1
       },
       "upgrade": "Damage +2",
       "multiplayer": false,
@@ -298,7 +299,8 @@
       "target": "AnyEnemy",
       "text": "Deal 4 damage twice. Next turn, gain [E].",
       "numbers": {
-        "Damage": 4
+        "Damage": 4,
+        "EnergyNextTurnPower": 1
       },
       "upgrade": "Damage +2",
       "multiplayer": false,
@@ -570,8 +572,10 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Exhaust a card. Next turn, gain [E]. Add an Ash into your Discard Pile.",
-      "numbers": {},
+      "text": "Exhaust a card. Next turn, gain [E] [E]. Add an Ash into your Discard Pile.",
+      "numbers": {
+        "EnergyNextTurnPower": 2
+      },
       "upgrade": "EnergyNextTurn +1",
       "multiplayer": false,
       "note": "Tinder: burn a card as kindling — the Energy arrives next turn (base-game <see cref=\"EnergyNextTurnPower\" />) and an <see cref=\"Ash\" /> is left in the discard pile.",
@@ -1157,7 +1161,7 @@
       "multiplayer": false,
       "note": "Hasty Brew: fast mana — brew an Energy Potion.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -1430,10 +1434,11 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Lose 1 HP. Deal 6 damage. Create {Brews:diff()} Unstable Noxious Brews.",
+      "text": "Lose 1 HP. Deal 6 damage. Create 1 Unstable Noxious Brew.",
       "numbers": {
         "Damage": 6,
-        "HpLoss": 1
+        "HpLoss": 1,
+        "Brews": 1
       },
       "upgrade": "HpLoss +1, Brews +1",
       "multiplayer": false,
@@ -1466,7 +1471,8 @@
       "text": "Apply 2 Hex. Next turn, gain [E] and draw 1 card.",
       "numbers": {
         "Hex": 2,
-        "DrawCardsNextTurn": 1
+        "DrawCardsNextTurn": 1,
+        "EnergyNextTurnPower": 1
       },
       "upgrade": "DrawCardsNextTurn +1",
       "multiplayer": false,
@@ -1797,9 +1803,10 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 4 damage twice. Add Replay {Replay:diff()} to a random card in your Draw Pile.",
+      "text": "Deal 4 damage twice. Add Replay 1 to a random card in your Draw Pile.",
       "numbers": {
-        "Damage": 4
+        "Damage": 4,
+        "Replay": 1
       },
       "upgrade": "Damage +2",
       "multiplayer": false,
@@ -2362,9 +2369,10 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. Add Replay {Replay:diff()} and Exhaust to a card in your Hand.",
+      "text": "Deal 10 damage. Add Replay 1 and Exhaust to a card in your Hand.",
       "numbers": {
-        "Damage": 10
+        "Damage": 10,
+        "Replay": 1
       },
       "upgrade": "Replay +1",
       "multiplayer": false,
@@ -3298,9 +3306,10 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Draw 2 cards. Discard {Discard:diff()} cards.",
+      "text": "Draw 2 cards. Discard 1 card.",
       "numbers": {
-        "Cards": 2
+        "Cards": 2,
+        "Discard": 1
       },
       "upgrade": "Cards +1, Discard +1",
       "multiplayer": false,

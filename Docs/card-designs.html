@@ -61,6 +61,7 @@
   .bfield:focus{outline:none;border-color:var(--accent)}
   .bfield.saved{border-color:var(--ok)}
   input.aartist{width:90px}
+  select.astage{width:90px;margin-top:4px;font-size:11px}
   textarea.abrief{width:620px;min-height:80px;resize:vertical;line-height:1.35}
   .tog{cursor:pointer;font-size:18px;background:none;border:none;color:var(--no)}
   .tog.on{color:var(--ok)}
@@ -381,6 +382,10 @@ function visible(){
   return list;
 }
 
+// Art stage for the art tracker (Docs/art-tracker/regen-art-tracker.js STAGES). Empty = auto:
+// "Assigned" once an artist is set, else "Unassigned". Final is the ★ final flag, not a stage.
+const STAGE_OPTS = [["","stage: auto"],["assigned","Assigned"],["sketching","Sketching"]];
+
 function numsHtml(n){
   const ks = Object.keys(n||{});
   if(!ks.length) return '<span class="up">—</span>';
@@ -408,7 +413,8 @@ function render(){
       html += `<td class="thumb"><img loading="lazy" src="art/${esc(c.entry)}.png?c=${esc(CLASSES[CLS].character)}&v=${imgver}" class="${isNone?"noart":""}" alt="" title="${esc(c.entry.toLowerCase())}.png — click to open"></td>`;
       const bf = BRIEFS[c.name] || {};
       var devTail = `
-        <td><input class="bfield aartist" data-name="${esc(c.name)}" value="${esc(bf.artist||"")}" placeholder="—" title="Artist working on this card (saved on change)"></td>
+        <td><input class="bfield aartist" data-name="${esc(c.name)}" value="${esc(bf.artist||"")}" placeholder="—" title="Artist working on this card (saved on change)">
+          <select class="bfield astage" data-name="${esc(c.name)}" title="Art stage shown on the art tracker (Final comes from the ★ final flag)">${STAGE_OPTS.map(([v,l])=>`<option value="${v}" ${(bf.stage||"")===v?"selected":""}>${l}</option>`).join("")}</select></td>
         <td><textarea class="bfield abrief" data-name="${esc(c.name)}" rows="4" placeholder="notes for the artist…" title="Art brief (saved on change)">${esc(bf.brief||"")}</textarea></td>
         <td><button class="copy" data-cmd="card ${esc(CLASSES[CLS].prefix)}${esc(c.entry)}" title="copy console command">card ${esc(CLASSES[CLS].prefix)}${esc(c.entry)}</button></td>
         <td class="artcell">
@@ -552,10 +558,11 @@ document.addEventListener("change", async (e)=>{
   const tr = f.closest("tr");
   const artist = (tr.querySelector(".aartist")?.value || "").trim();
   const brief = (tr.querySelector(".abrief")?.value || "").trim();
-  if(artist || brief) BRIEFS[name] = { artist, brief }; else delete BRIEFS[name];
+  const stage = tr.querySelector(".astage")?.value || "";
+  if(artist || brief || stage) BRIEFS[name] = { artist, brief, ...(stage ? { stage } : {}) }; else delete BRIEFS[name];
   if(SERVER){
     try{
-      const r = await fetch("/api/brief",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,artist,brief,character:CLASSES[CLS].character})});
+      const r = await fetch("/api/brief",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,artist,brief,stage,character:CLASSES[CLS].character})});
       if(!r.ok) throw new Error(await r.text());
       f.classList.add("saved"); setTimeout(()=>f.classList.remove("saved"), 800);
     }catch(err){

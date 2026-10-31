@@ -16,6 +16,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class Knowledge : WitchFamiliarCard
 {
+    public override CardModel Summon => ModelDb.Card<OwlFamiliar>();
+
     public Knowledge()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {

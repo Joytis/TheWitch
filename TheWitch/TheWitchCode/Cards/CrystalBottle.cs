@@ -10,6 +10,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.</summary>
 public sealed class CrystalBottle : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
 

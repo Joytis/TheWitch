@@ -61,6 +61,12 @@ function parseCanonicalVars(src) {
     if (vm[1] === "Power") continue;
     vars.push({ token: vm[1], name: vm[1], value: num(vm[2]) });
   }
+  // CardsVar("Discard", 1) / EnergyVar("EnergyNextTurnPower", 1) / IntVar("Brews", 1m) — typed vars with an
+  // explicit name; the loc tokens use that name verbatim. (DynamicVar is handled below.)
+  for (const nm of body.matchAll(/new\s+(\w+)Var\s*\(\s*"(\w+)"\s*,\s*(-?\d+)m?/g)) {
+    if (nm[1] === "Dynamic") continue;
+    vars.push({ token: nm[2], name: nm[2], value: num(nm[3]) });
+  }
   // new DynamicVar("Name", 2m) / new DynamicVar(SomeVarName, 2m) — plain named vars (e.g. the Augur's
   // Foretell count, Large Pockets' PotionSlots). A constant reference resolves to its literal when the
   // class defines `const string X = "..."` or inherits it (ForetellVarName); else the identifier is used.
