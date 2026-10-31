@@ -580,7 +580,7 @@
       "multiplayer": false,
       "note": "Tinder: burn a card as kindling — the Energy arrives next turn (base-game <see cref=\"EnergyNextTurnPower\" />) and an <see cref=\"Ash\" /> is left in the discard pile.",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
@@ -2245,7 +2245,7 @@
       "multiplayer": false,
       "note": "Crystal Bottle: a Power — the next potion you use becomes a Buff that repeats its effect each turn.",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -2279,7 +2279,7 @@
       "multiplayer": false,
       "note": "Cursed Spellbook: a free surge of power with the curse baked in — Energy and cards now, Hex to pay for it.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -2406,7 +2406,7 @@
       "multiplayer": false,
       "note": "Eye of Newt: a Power that fans your potions out to one extra random target (upgraded: ALL valid targets), plus an unstable Ember Jar to throw.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
