@@ -13,6 +13,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Sprouts: a small guard that reseeds itself — block + Brambles, and a copy of this card sprouts in your Discard pile (Anger pattern).</summary>
 public sealed class Sprouts : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

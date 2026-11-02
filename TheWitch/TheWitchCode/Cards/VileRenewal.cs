@@ -11,6 +11,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Vile Renewal: Block, draw a card, and this turn Attacks don't remove Hex or Brambles (see <see cref="VileRenewalPower" />).</summary>
 public sealed class VileRenewal : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

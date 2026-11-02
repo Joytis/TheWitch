@@ -10,7 +10,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// <summary>Owl familiar token: draw 2, discard 1 — the upgrade scales both (draw 3, discard 2).</summary>
 public sealed class Wisdom : WitchFamiliarCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     public override CardModel Summon => ModelDb.Card<OwlFamiliar>();
 
