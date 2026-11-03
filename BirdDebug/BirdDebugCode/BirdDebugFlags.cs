@@ -53,6 +53,9 @@ namespace Bird.BirdDebug;
 ///                                     history, timeline, settings, profile) and renders every mod
 ///                                     hover tip. Catches render-time faults the combat harness misses.
 ///   --bird-testall                   menu sweep, then cards, potions, relics — all in one process.
+///   --bird-shot=&lt;name&gt;              Workshop marketing screenshot (MarketingShots: charselect,
+///                                     familiars, restsite, mp-relics); writes --bird-shot-out and
+///                                     quits. Driven by tools/capture-marketing.ps1. Wins over the rest.
 ///   --bird-reset-ftue                at main-menu ready, forgets every mod FTUE (progress-save
 ///                                     keys prefixed with the character's model-id prefix, e.g.
 ///                                     "thewitch_") and re-enables tutorials, then saves — so a mod
@@ -130,7 +133,11 @@ public static class BirdDebug
                 postfix: new HarmonyMethod(typeof(BirdDebug), nameof(ResetFtueMenuReadyPostfix)));
         }
 
-        if (CommandLineHelper.HasArg("bird-fxlab"))
+        if (MarketingShots.TryApply(harmony))
+        {
+            // Workshop marketing screenshot (MarketingShots): owns the launch, like the labs below.
+        }
+        else if (CommandLineHelper.HasArg("bird-fxlab"))
         {
             Logger.Info("--bird-fxlab: will skip menu and open the FX Lab");
             harmony.Patch(

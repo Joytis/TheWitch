@@ -219,11 +219,11 @@ if ($UpdateMarketing -and -not $Upload) {
 }
 
 # --- Live2D guards (bundling only: -RenderDescription / marketing-only runs never touch the .pck) ---
-# Live2D SDK sample models (tools/live2d/setup-live2d.ps1) are local-only but get packed into the
-# .pck when present; they must never reach the Workshop.
+# Live2D SDK sample models (staged by older tools/live2d/setup-live2d.ps1 runs; the current one deletes
+# them) get packed into the .pck when present; they must never reach the Workshop.
 $live2dSamples = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/samples")
 if (Test-Path $live2dSamples) {
-    throw "Live2D sample models present at $live2dSamples - delete that folder before bundling (they would be packed into the .pck)."
+    throw "Live2D sample models present at $live2dSamples - delete that folder (or re-run tools/live2d/setup-live2d.ps1) before bundling (they would be packed into the .pck)."
 }
 # The Live2D extension (the character's GDCubism fork) ships as loose files next to the dll; a
 # project that has a live2d/ stage folder must have it built (tools/live2d/setup-live2d.ps1).

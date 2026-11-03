@@ -1,8 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://btcqkv2sr5amu"]
+[gd_scene load_steps=21 format=3 uid="uid://btcqkv2sr5amu"]
 
-[ext_resource type="Texture2D" uid="uid://eliyyn5nk1c" path="res://TheWitch/textures/witch_idle.png" id="1_hni02"]
-[ext_resource type="Texture2D" uid="uid://ds3vpnagm15nb" path="res://TheWitch/textures/witch_attack.png" id="1_yxqrw"]
-[ext_resource type="Texture2D" path="res://TheWitch/live2d/witch/editor_preview.png" id="live2d_preview"]
+[ext_resource type="Texture2D" uid="uid://oo0nvtk5vypw" path="res://TheWitch/live2d/witch/editor_preview.png" id="live2d_preview"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yxqrw"]
 animation = &"Attack"
@@ -60,36 +58,24 @@ graph_offset = Vector2(-175, 55)
 [sub_resource type="Animation" id="Animation_et516"]
 resource_name = "Attack"
 length = 0.65
-tracks/0/type = "value"
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("VisualsRoot/Visuals:texture")
+tracks/0/path = NodePath("VisualsRoot:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("1_yxqrw"), ExtResource("1_hni02")]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("VisualsRoot:position:x")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 3, 2),
 "points": PackedFloat32Array(0, -0.25, 0, 0.005740789, 173, 91, -0.043843515, 92, 0.043843515, -92, 0, -0.096666664, 0, 0, 0),
 "times": PackedFloat32Array(0, 0.058773093, 0.6492824)
 }
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("VisualsRoot:position:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VisualsRoot:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 2, 2),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.011666667, 0, 0, 0, 0, -0.096666664, 0, 0, 0),
 "times": PackedFloat32Array(0, 0.07, 0.65)
@@ -156,53 +142,29 @@ tracks/1/keys = {
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.025366029, 0, 0.14130065, 0, 0, -0.00019216537, 0, 0.14110848, 0, 0, -0.16666667, 0, 0, 0),
 "times": PackedFloat32Array(0, 0.15219617, 0.15334916, 1)
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("VisualsRoot/Visuals:texture")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("1_hni02")]
-}
 
 [sub_resource type="Animation" id="Animation_8jdyg"]
 resource_name = "Idle"
 length = 3.1333
 loop_mode = 1
-tracks/0/type = "value"
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("VisualsRoot/Visuals:texture")
+tracks/0/path = NodePath("VisualsRoot:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("1_hni02")]
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("VisualsRoot:scale:x")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 2, 2),
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.16776612, 0, 0, 0, 1, -0.35445055, 0, 0, 0),
 "times": PackedFloat32Array(0, 1.0065967, 3.1333)
 }
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("VisualsRoot:scale:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VisualsRoot:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "handle_modes": PackedInt32Array(3, 3, 2),
 "points": PackedFloat32Array(0.99999994, -0.2, -0.03188938, 0.2, 0.03188938, 1.0198559, -0.3, 0.0069568157, 0.3, -0.0069568157, 0.99999994, -0.9333, -0.03186792, 0, 0),
 "times": PackedFloat32Array(0, 1.0333333, 3.1333)
@@ -257,22 +219,21 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_3hfbp"]
 length = 0.001
-tracks/0/type = "value"
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("VisualsRoot/Visuals:texture")
+tracks/0/path = NodePath("VisualsRoot:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("1_hni02")]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("VisualsRoot:position:x")
+tracks/1/path = NodePath("VisualsRoot:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -283,18 +244,18 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("VisualsRoot:position:y")
+tracks/2/path = NodePath("VisualsRoot:scale:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("VisualsRoot:scale:x")
+tracks/3/path = NodePath("VisualsRoot:scale:y")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -305,21 +266,10 @@ tracks/3/keys = {
 tracks/4/type = "bezier"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("VisualsRoot:scale:y")
+tracks/4/path = NodePath("VisualsRoot:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/5/type = "bezier"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("VisualsRoot:rotation")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
@@ -348,18 +298,13 @@ libraries = {
 
 [node name="VisualsRoot" type="Node2D" parent="."]
 
-[node name="Visuals" type="Sprite2D" parent="VisualsRoot"]
-scale = Vector2(0.1256349, 0.1256349)
-texture = ExtResource("1_hni02")
-offset = Vector2(-180, -1000)
-
-[node name="Live2DRoot" type="Node2D" parent="VisualsRoot"]
-position = Vector2(-22.9, 44.9)
+[node name="Visuals" type="Node2D" parent="VisualsRoot"]
+unique_name_in_owner = true
+position = Vector2(4.999998, 20.215212)
 scale = Vector2(0.1163, 0.1163)
 metadata/live2d_model = "witch"
-metadata/live2d_fallback = NodePath("../Visuals")
 
-[node name="EditorPreview" type="Sprite2D" parent="VisualsRoot/Live2DRoot"]
+[node name="EditorPreview" type="Sprite2D" parent="VisualsRoot/Visuals"]
 scale = Vector2(2, 2)
 texture = ExtResource("live2d_preview")
 centered = false
@@ -376,25 +321,25 @@ offset_right = 121.0
 position = Vector2(0, -146)
 
 [node name="IntentPos" type="Marker2D" parent="."]
-position = Vector2(41, -244)
+position = Vector2(48, -279)
 
 [node name="bear_familiar_pos" type="Marker2D" parent="."]
 position = Vector2(255, -21)
 
 [node name="cat_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(-147, -12)
+position = Vector2(-118, -34)
 
 [node name="owl_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(-112, -252)
+position = Vector2(-110, -273)
 
 [node name="rat_familiar_pos" type="Marker2D" parent="."]
 position = Vector2(93, -2)
 
 [node name="crow_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(97, -255)
+position = Vector2(122, -269)
 
 [node name="wolf_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(152, -97)
+position = Vector2(160, -93)
 
 [node name="moth_familiar_pos" type="Marker2D" parent="."]
-position = Vector2(-149, -154)
+position = Vector2(-139, -150)

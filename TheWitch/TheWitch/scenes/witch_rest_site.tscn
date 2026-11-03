@@ -1,24 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://fc5x7hciyofl"]
+[gd_scene load_steps=2 format=3 uid="uid://fc5x7hciyofl"]
 
-[ext_resource type="Texture2D" uid="uid://b1rjl4fd2r62e" path="res://TheWitch/textures/campfire_witch.png" id="1_au015"]
 [ext_resource type="Texture2D" path="res://TheWitch/live2d/witch_rest/editor_preview.png" id="live2d_preview"]
 
 [node name="WitchRestSite" type="Node2D"]
 position = Vector2(-2, 42)
 scale = Vector2(0.760006, 0.760006)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(60.525845, 0)
-scale = Vector2(0.705, 0.705)
-texture = ExtResource("1_au015")
-
-[node name="Live2DRoot" type="Node2D" parent="."]
+[node name="Visuals" type="Node2D" parent="."]
 position = Vector2(46.6, 376.8)
 scale = Vector2(0.3358, 0.3358)
 metadata/live2d_model = "witch_rest"
-metadata/live2d_fallback = NodePath("../Sprite2D")
 
-[node name="EditorPreview" type="Sprite2D" parent="Live2DRoot"]
+[node name="EditorPreview" type="Sprite2D" parent="Visuals"]
 scale = Vector2(2, 2)
 texture = ExtResource("live2d_preview")
 centered = false

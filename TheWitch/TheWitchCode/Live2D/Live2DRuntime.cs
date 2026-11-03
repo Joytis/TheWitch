@@ -23,8 +23,8 @@ namespace TheWitch.TheWitchCode.Live2D;
 /// loose model files can't go under mods/, the game's ModManager parses every *.json there as a
 /// mod manifest.
 ///
-/// On whenever the extension and a model are present (Windows x64 only, the one platform built);
-/// otherwise the static sprite stays.
+/// Required: the Witch has no static sprite, so a platform without a build (only Windows x64 is
+/// built so far) or a missing extension/model leaves her invisible, logged as an error.
 /// </summary>
 internal static class Live2DRuntime
 {
@@ -53,7 +53,7 @@ internal static class Live2DRuntime
         // Only a Windows x64 library is built; elsewhere LoadExtension would just log an engine error.
         if (OS.GetName() != "Windows" || Engine.GetArchitectureName() != "x86_64")
         {
-            MainFile.Logger.Info($"[live2d] no build for {OS.GetName()} {Engine.GetArchitectureName()}; using the static sprite");
+            MainFile.Logger.Error($"[live2d] no Live2D build for {OS.GetName()} {Engine.GetArchitectureName()}; the Witch will be invisible");
             _loaded = false;
             return false;
         }
@@ -61,7 +61,7 @@ internal static class Live2DRuntime
         string extensionPath = $"{Live2DDir}/witch_cubism.gdextension";
         if (!File.Exists(extensionPath))
         {
-            MainFile.Logger.Info($"[live2d] {extensionPath} not found; using the static sprite");
+            MainFile.Logger.Error($"[live2d] {extensionPath} not found; the Witch will be invisible");
             _loaded = false;
             return false;
         }
@@ -74,29 +74,20 @@ internal static class Live2DRuntime
     }
 
     /// <summary>
-    /// The <c>*.model3.json</c> in <c>res://TheWitch/live2d/&lt;modelName&gt;/</c> (real models, committed
-    /// like other art), else in the first folder under <c>.../live2d/samples/</c> (SDK samples,
-    /// local-only), or null.
+    /// The <c>*.model3.json</c> in <c>res://TheWitch/live2d/&lt;modelName&gt;/</c> (committed like other
+    /// art), or null (logged as an error).
     /// </summary>
     public static string? FindModelJson(string modelName)
     {
-        string samplesDir = $"{ModelResDir}/samples";
-        IEnumerable<string> samples = DirAccess.DirExistsAbsolute(samplesDir)
-            ? DirAccess.GetDirectoriesAt(samplesDir).Order().Select(d => $"{samplesDir}/{d}")
-            : [];
-        foreach (string dir in samples.Prepend($"{ModelResDir}/{modelName}"))
+        string dir = $"{ModelResDir}/{modelName}";
+        string? file = DirAccess.DirExistsAbsolute(dir)
+            ? DirAccess.GetFilesAt(dir).FirstOrDefault(f => f.EndsWith(".model3.json"))
+            : null;
+        if (file != null)
         {
-            if (!DirAccess.DirExistsAbsolute(dir))
-            {
-                continue;
-            }
-            string? file = DirAccess.GetFilesAt(dir).FirstOrDefault(f => f.EndsWith(".model3.json"));
-            if (file != null)
-            {
-                return $"{dir}/{file}";
-            }
+            return $"{dir}/{file}";
         }
-        MainFile.Logger.Warn($"[live2d] no *.model3.json under {ModelResDir}/{modelName} or {samplesDir}");
+        MainFile.Logger.Error($"[live2d] no *.model3.json under {dir}");
         return null;
     }
 }

@@ -9,7 +9,7 @@ bin/
 /src/
 /themes/
 /addons/
-# Live2D (tools/live2d/setup-live2d.ps1): native extension, shaders + sample models, staged locally
+# Live2D (tools/live2d/setup-live2d.ps1): native extension + shaders staged locally; samples/ = SDK sample models older setups staged (never ship)
 /live2d/*
 !/live2d/.gdignore
 /TheWitch/live2d/samples/

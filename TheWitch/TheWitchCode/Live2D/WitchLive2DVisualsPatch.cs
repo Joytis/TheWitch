@@ -10,19 +10,19 @@ namespace TheWitch.TheWitchCode.Live2D;
 
 /// <summary>
 /// PROTOTYPE. Mounts a Live2D model wherever a Witch scene declares one: a <c>Node2D</c> named
-/// <see cref="RootName"/> carrying two metadata entries,
-/// <list type="bullet">
-///   <item><c>live2d_model</c>: folder under <c>res://TheWitch/live2d/</c> (<c>witch</c>, <c>witch_rest</c>, <c>witch_shop</c>);</item>
-///   <item><c>live2d_fallback</c>: NodePath (relative to the root) of the static sprite the model replaces.</item>
-/// </list>
+/// <see cref="RootName"/> whose <c>live2d_model</c> metadata names a folder under
+/// <c>res://TheWitch/live2d/</c> (<c>witch</c>, <c>witch_rest</c>, <c>witch_shop</c>).
+/// There is no static sprite: in combat that node IS the creature body (<c>%Visuals</c>, which
+/// NCreatureVisuals requires), so every game effect aimed at the body (revive fade, Surrounded
+/// flip, Doom reparent) acts on the model directly.
 /// The model sits under the root at native canvas size with the canvas bottom-centre on the root's
-/// origin, so the root's position/scale in the .tscn is the only placement knob and moving it
-/// never touches the sprite or anything else in the scene. Any failure leaves the static sprite.
-/// Place the root in the editor against its <see cref="EditorPreviewName"/> child.
+/// origin, so the root's position/scale in the .tscn is the only placement knob. Place it in the
+/// editor against its <see cref="EditorPreviewName"/> child. If Live2D fails to load the Witch is
+/// invisible, and the failure is logged as an error.
 /// </summary>
 internal static class WitchLive2DMount
 {
-    public const string RootName = "Live2DRoot";
+    public const string RootName = "Visuals";
 
     /// <summary>
     /// Child of the root holding the model's flattened rest pose, drawn exactly where the model's
@@ -50,17 +50,10 @@ internal static class WitchLive2DMount
             return;
         }
 
-        string modelName = root.GetMeta("live2d_model").AsString();
-        if (root.GetNodeOrNull(root.GetMeta("live2d_fallback", new NodePath("")).AsNodePath()) is not CanvasItem fallback)
-        {
-            MainFile.Logger.Error($"[live2d] {root.GetPath()}: live2d_fallback does not point at a CanvasItem");
-            return;
-        }
-
-        string? modelJson = Live2DRuntime.FindModelJson(modelName);
+        string? modelJson = Live2DRuntime.FindModelJson(root.GetMeta("live2d_model").AsString());
         if (modelJson != null)
         {
-            NWitchLive2D.Attach(root, fallback, tree, modelJson);
+            NWitchLive2D.Attach(root, tree, modelJson);
         }
     }
 }

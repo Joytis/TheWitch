@@ -3,26 +3,22 @@ using Godot;
 namespace TheWitch.TheWitchCode.Live2D;
 
 /// <summary>
-/// PROTOTYPE. Drives a GDCubism Live2D model mounted under a scene's <c>Live2DRoot</c> node
+/// PROTOTYPE. Drives a GDCubism Live2D model mounted under a scene's <c>Visuals</c> node
 /// (see <see cref="WitchLive2DMount"/>).
 ///
 /// In combat the witch_visuals.tscn AnimationTree stays the source of truth: BaseLib travels its
 /// state machine (Idle / Attack / AttackSilent / Hit / PowerUp / Dead) and its tracks keep moving
-/// VisualsRoot (lunge, recoil, death tumble), which the model inherits through Live2DRoot. This
+/// VisualsRoot (lunge, recoil, death tumble), which the model inherits through Visuals. This
 /// node watches the state machine and mirrors each state entry onto a Live2D motion group of the
 /// same name, so a Witch model only has to author motion groups named after the states. Between
 /// one-shots, and in scenes without a tree (rest site, merchant), it plays a random "Idle" motion.
 /// </summary>
 public partial class NWitchLive2D : Node
 {
-    // Live2D sample models (Hiyori etc.) only ship "Idle" + "TapBody"; stand-ins until the
-    // Witch model authors her own groups.
+    // Motion groups tried, in order, when the model has no group named after the state.
     private static readonly Dictionary<string, string[]> Fallbacks = new()
     {
-        ["AttackSilent"] = ["Attack", "TapBody"],
-        ["Attack"] = ["TapBody"],
-        ["Hit"] = ["TapBody"],
-        ["PowerUp"] = ["TapBody"],
+        ["AttackSilent"] = ["Attack"],
     };
 
     // WitchCubismUserModel.Priority
@@ -33,8 +29,6 @@ public partial class NWitchLive2D : Node
     private const string DeadState = "Dead";
 
     private Node2D _model = null!;
-    private Node2D _root = null!;
-    private CanvasItem _fallback = null!;
     private AnimationTree? _tree;
     private AnimationNodeStateMachinePlayback? _playback;
     private Godot.Collections.Dictionary _motionCounts = new();
@@ -45,10 +39,9 @@ public partial class NWitchLive2D : Node
     /// <summary>
     /// Builds the model for <paramref name="modelJson"/> under <paramref name="root"/> at its native
     /// canvas size, bottom-centre of the canvas on the root's origin, so the root's own transform is
-    /// the only placement knob. Hides <paramref name="fallback"/> (the static sprite) and keeps the
-    /// root's visibility and modulate in step with it. Null when the extension or model fails to load.
+    /// the only placement knob. Null when the extension or model fails to load.
     /// </summary>
-    public static Node2D? Attach(Node2D root, CanvasItem fallback, AnimationTree? tree, string modelJson)
+    public static Node2D? Attach(Node2D root, AnimationTree? tree, string modelJson)
     {
         if (ClassDB.Instantiate(Live2DRuntime.ModelClass).AsGodotObject() is not Node2D model)
         {
@@ -82,19 +75,9 @@ public partial class NWitchLive2D : Node
             }
         }
 
-        model.AddChild(new NWitchLive2D { Name = "Driver", _model = model, _root = root, _fallback = fallback, _tree = tree });
+        model.AddChild(new NWitchLive2D { Name = "Driver", _model = model, _tree = tree });
         root.AddChild(model);
-        // Keep the static sprite in the tree (NCreatureVisuals uses it as %Visuals and the game
-        // tweens its modulate, e.g. the revive fade); just stop it drawing its own texture.
-        fallback.SelfModulate = Colors.Transparent;
-        SyncWithFallback(root, fallback);
         return model;
-    }
-
-    private static void SyncWithFallback(Node2D root, CanvasItem fallback)
-    {
-        root.Visible = fallback.Visible;
-        root.Modulate = fallback.Modulate;
     }
 
     public override void _Ready()
@@ -109,7 +92,6 @@ public partial class NWitchLive2D : Node
 
     public override void _Process(double delta)
     {
-        SyncWithFallback(_root, _fallback);
         if (_playback == null)
         {
             return;

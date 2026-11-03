@@ -7,6 +7,10 @@
 //
 // Usage:
 //   WorkshopMarketing --item <publishedFileId> --manifest <marketing.json> [--dry-run] [--allow-empty]
+//   WorkshopMarketing --item <publishedFileId> --pull <dir>
+//
+// --pull downloads the live gallery into <dir> (images under their Steam original filenames) and
+// writes <dir>/pulled.json, a manifest-shaped list of what was there -- a backup / reference copy.
 //
 // The manifest is the source of truth: the gallery ends up holding exactly its entries, in order.
 // Anything else on the item's gallery (e.g. images added by hand on the web page) is removed.
@@ -51,7 +55,7 @@ internal static class Program
     private static int Main(string[] args)
     {
         ulong itemId = 0;
-        string? manifestPath = null;
+        string? manifestPath = null, pullDir = null;
         bool dryRun = false, allowEmpty = false;
         for (int i = 0; i < args.Length; i++)
         {
@@ -63,25 +67,28 @@ internal static class Program
                 case "--manifest" when i + 1 < args.Length:
                     manifestPath = Path.GetFullPath(args[++i]);
                     break;
+                case "--pull" when i + 1 < args.Length:
+                    pullDir = Path.GetFullPath(args[++i]);
+                    break;
                 case "--dry-run": dryRun = true; break;
                 case "--allow-empty": allowEmpty = true; break;
                 default: return Usage($"unknown argument '{args[i]}'");
             }
         }
         if (itemId == 0) return Usage("--item is required");
-        if (manifestPath is null) return Usage("--manifest is required");
+        if (manifestPath is null == pullDir is null) return Usage("pass exactly one of --manifest or --pull");
 
-        List<Desired> desired;
+        List<Desired> desired = [];
         try
         {
-            desired = LoadManifest(manifestPath);
+            if (manifestPath is not null) desired = LoadManifest(manifestPath);
         }
         catch (Exception e)
         {
             Error($"manifest: {e.Message}");
             return 1;
         }
-        if (desired.Count == 0 && !allowEmpty)
+        if (manifestPath is not null && desired.Count == 0 && !allowEmpty)
         {
             Error("the manifest lists no previews; refusing to clear the item's gallery (pass --allow-empty to do that on purpose).");
             return 1;
@@ -97,7 +104,9 @@ internal static class Program
 
         try
         {
-            return Sync(new PublishedFileId_t(itemId), desired, dryRun);
+            return pullDir is not null
+                ? Pull(new PublishedFileId_t(itemId), pullDir)
+                : Sync(new PublishedFileId_t(itemId), desired, dryRun);
         }
         catch (Exception e)
         {
@@ -187,6 +196,39 @@ internal static class Program
             Warn("The live gallery does not match the manifest key-for-key; the next run will re-upload the mismatched tail.");
         }
         Step("Done.");
+        return 0;
+    }
+
+    private static int Pull(PublishedFileId_t item, string dir)
+    {
+        AppId_t appId = SteamUtils.GetAppID();
+        List<Existing> existing = QueryGallery(item, appId);
+        Directory.CreateDirectory(dir);
+        using var http = new HttpClient();
+        var entries = new List<Dictionary<string, string>>();
+        foreach (Existing e in existing)
+        {
+            if (e.Type == EItemPreviewType.k_EItemPreviewType_YouTubeVideo)
+            {
+                entries.Add(new() { ["youtube"] = e.UrlOrVideoId });
+                Detail($"youtube {e.UrlOrVideoId}");
+            }
+            else if (e.Type == EItemPreviewType.k_EItemPreviewType_Image)
+            {
+                string name = Path.GetFileName(e.OriginalFileName);
+                if (string.IsNullOrWhiteSpace(name)) name = $"preview-{entries.Count}.png";
+                File.WriteAllBytes(Path.Combine(dir, name), http.GetByteArrayAsync(e.UrlOrVideoId).GetAwaiter().GetResult());
+                entries.Add(new() { ["image"] = name });
+                Detail($"image   {name}");
+            }
+            else
+            {
+                Warn($"skipped {e.Label}");
+            }
+        }
+        string json = JsonSerializer.Serialize(new { previews = entries }, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(Path.Combine(dir, "pulled.json"), json + Environment.NewLine);
+        Step($"Pulled {entries.Count} gallery entr{(entries.Count == 1 ? "y" : "ies")} into {dir}.");
         return 0;
     }
 
@@ -337,7 +379,7 @@ internal static class Program
     private static int Usage(string message)
     {
         Error(message);
-        Console.Error.WriteLine("usage: WorkshopMarketing --item <publishedFileId> --manifest <marketing.json> [--dry-run] [--allow-empty]");
+        Console.Error.WriteLine("usage: WorkshopMarketing --item <publishedFileId> (--manifest <marketing.json> [--dry-run] [--allow-empty] | --pull <dir>)");
         return 2;
     }
 
