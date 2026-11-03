@@ -3,8 +3,8 @@
   "size": "1920x1080",
   "shots": [
     { "shot": "charselect", "file": "shot-character-select.png" },
-    { "shot": "familiars", "file": "shot-familiars.png" },
-    { "shot": "mp-relics", "file": "shot-multiplayer-relics.png" },
-    { "shot": "restsite", "file": "shot-rest-site.png" }
+    { "shot": "familiars", "file": "shot-familiars.png", "crop": [280, 300, 860, 780] },
+    { "shot": "mp-relics", "file": "shot-multiplayer-relics.png", "crop": [230, 175, 1460, 905] },
+    { "shot": "restsite", "file": "shot-rest-site.png", "crop": [440, 500, 1000, 450] }
   ]
 }

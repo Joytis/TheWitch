@@ -19,6 +19,7 @@ using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Debug;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
+using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Screens.CharacterSelect;
 using MegaCrit.Sts2.Core.Nodes.Screens.MainMenu;
@@ -244,11 +245,16 @@ public static class MarketingShots
 
         NHandImageCollection hands = Descendants<NHandImageCollection>(room).FirstOrDefault()
                                      ?? throw new InvalidOperationException("no NHandImageCollection in the treasure room");
-        List<NTreasureRoomRelicHolder> holders = Descendants<NTreasureRoomRelicHolder>(room).Where(h => h.IsVisibleInTree()).ToList();
+        // Hands enter from a side per slot (NHandImage: slot 0 bottom, slot 1 left, ...). Slot 0 takes the
+        // rightmost relic and slot 1 the leftmost, so the bottom and left arms never cross.
+        List<NTreasureRoomRelicHolder> holders = Descendants<NTreasureRoomRelicHolder>(room)
+            .Where(h => h.IsVisibleInTree())
+            .OrderByDescending(h => h.GlobalPosition.X)
+            .ToList();
         IRunState run = RunManager.Instance.DebugOnlyGetState() ?? throw new InvalidOperationException("no run state");
         for (int i = 0; i < run.Players.Count && holders.Count > 0; i++)
         {
-            NTreasureRoomRelicHolder holder = holders[i % holders.Count];
+            NTreasureRoomRelicHolder holder = holders[i == 1 ? holders.Count - 1 : i % holders.Count];
             Vector2 target = holder.GlobalPosition + holder.Size * 0.5f;
             hands.GetHand(run.Players[i].NetId)?.SetPointingPosition(target - hands.GlobalPosition);
         }
@@ -308,9 +314,15 @@ public static class MarketingShots
         {
             throw new InvalidOperationException("--bird-shot-out=<path.png> is required");
         }
-        // Keep the OS cursor off the window so nothing is hovered.
+        // Nothing may be hovered: stop GUI input (no new mouse-enter), drop any open hover tips and
+        // move the OS cursor off the window. The warp alone isn't reliable (the cursor can sit over
+        // the window wherever the user left it).
+        Game.GetViewport().GuiDisableInput = true;
         Input.WarpMouse(new Vector2(-200, -200));
+        NHoverTipSet.Clear();
         await Frames(3);
+        NHoverTipSet.Clear();
+        await Frames(2);
         await Game.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
         Image image = Game.GetViewport().GetTexture().GetImage();
         string? crop = CommandLineHelper.GetValue("bird-shot-crop");
