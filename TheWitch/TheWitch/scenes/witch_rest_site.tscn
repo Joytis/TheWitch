@@ -1,13 +1,13 @@
 [gd_scene load_steps=2 format=3 uid="uid://fc5x7hciyofl"]
 
-[ext_resource type="Texture2D" path="res://TheWitch/live2d/witch_rest/editor_preview.png" id="live2d_preview"]
+[ext_resource type="Texture2D" uid="uid://1ivy2srlkorv" path="res://TheWitch/live2d/witch_rest/editor_preview.png" id="live2d_preview"]
 
 [node name="WitchRestSite" type="Node2D"]
 position = Vector2(-2, 42)
 scale = Vector2(0.760006, 0.760006)
 
 [node name="Visuals" type="Node2D" parent="."]
-position = Vector2(46.6, 376.8)
+position = Vector2(0, 285.52405)
 scale = Vector2(0.3358, 0.3358)
 metadata/live2d_model = "witch_rest"
 

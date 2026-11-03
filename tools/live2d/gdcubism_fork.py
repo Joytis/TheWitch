@@ -13,6 +13,7 @@ Transforms:
   - library named libwitch_cubism.* (SConstruct names it after the demo's *.gdextension)
   - parts drawn in sibling order instead of z_index, so they can't draw over the game's UI
   - unmasked Multiply parts actually multiply (upstream's norm_mul shader is a copy of norm_mix)
+  - WitchCubismEffectBreath gets an `intensity` property scaling its (hard-coded) swings
 
 Bump FORK_REV whenever a transform changes; setup-live2d.ps1 then re-clones and rebuilds.
 
@@ -24,7 +25,7 @@ import re
 import sys
 from pathlib import Path
 
-FORK_REV = "3"
+FORK_REV = "4"
 EXT_NAME = "witch_cubism"
 # Must match Live2DRuntime.ShaderResDir.
 SHADER_RES = "res://TheWitch/live2d/shader/"
@@ -120,6 +121,63 @@ def multiply_blend(src):
     write(path, text)
 
 
+def breath_intensity(src):
+    # Upstream's breath effect hard-codes the stock Cubism breath curves (head sway on
+    # ParamAngleX/Y/Z, ParamBodyAngleX, ParamBreath). Expose `intensity` (default 1 = upstream)
+    # multiplying every curve's peak, settable any time (re-applies the curves).
+    path = src / "src/gd_cubism_effect_breath.hpp"
+    text = read(path)
+    text = replace_once(text, """protected:
+    static void _bind_methods() {}
+
+private:
+    Csm::CubismBreath* _breath = nullptr;
+""", """protected:
+    static void _bind_methods() {
+        ClassDB::bind_method(D_METHOD("set_intensity", "intensity"), &WitchCubismEffectBreath::set_intensity);
+        ClassDB::bind_method(D_METHOD("get_intensity"), &WitchCubismEffectBreath::get_intensity);
+        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "intensity"), "set_intensity", "get_intensity");
+    }
+
+private:
+    Csm::CubismBreath* _breath = nullptr;
+    // Witch fork: multiplies every curve's peak; 1 = upstream (see tools/live2d/gdcubism_fork.py).
+    float _intensity = 1.0f;
+
+    void witch_set_breath_parameters() {
+        const float k = this->_intensity;
+        Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleX), 0.0f, 15.0f * k, 6.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleY), 0.0f, 8.0f * k, 3.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleZ), 0.0f, 10.0f * k, 5.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBodyAngleX), 0.0f, 4.0f * k, 15.5345f, 0.5f));
+        param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBreath), 0.5f, 0.5f * k, 3.2345f, 0.5f));
+        this->_breath->SetParameters(param);
+    }
+""", path)
+    text = replace_once(text, """public:
+    virtual void _cubism_init(""", """public:
+    void set_intensity(const float intensity) {
+        this->_intensity = intensity;
+        if(this->_breath != nullptr) this->witch_set_breath_parameters();
+    }
+    float get_intensity() const { return this->_intensity; }
+
+    virtual void _cubism_init(""", path)
+    text = replace_once(text, """            Csm::csmVector<Csm::CubismBreath::BreathParameterData> param;
+
+            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleX), 0.0f, 15.0f, 6.5345f, 0.5f));
+            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleY), 0.0f, 8.0f, 3.5345f, 0.5f));
+            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamAngleZ), 0.0f, 10.0f, 5.5345f, 0.5f));
+            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBodyAngleX), 0.0f, 4.0f, 15.5345f, 0.5f));
+            param.PushBack(Csm::CubismBreath::BreathParameterData(CubismFramework::GetIdManager()->GetId(ParamBreath), 0.5f, 0.5f, 3.2345f, 0.5f));
+
+            this->_breath->SetParameters(param);
+""", """            this->witch_set_breath_parameters();
+""", path)
+    write(path, text)
+
+
 def rename_extension(src):
     # SConstruct names the library after the single demo/addons/*/*.gdextension.
     ext = src / "demo/addons/gd_cubism/gd_cubism.gdextension"
@@ -132,6 +190,7 @@ def apply(src):
     rename_classes_and_shader_paths(src)
     draw_order_by_siblings(src)
     multiply_blend(src)
+    breath_intensity(src)
     rename_extension(src)
 
 

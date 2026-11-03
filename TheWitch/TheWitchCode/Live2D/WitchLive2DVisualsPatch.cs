@@ -12,6 +12,7 @@ namespace TheWitch.TheWitchCode.Live2D;
 /// PROTOTYPE. Mounts a Live2D model wherever a Witch scene declares one: a <c>Node2D</c> named
 /// <see cref="RootName"/> whose <c>live2d_model</c> metadata names a folder under
 /// <c>res://TheWitch/live2d/</c> (<c>witch</c>, <c>witch_rest</c>, <c>witch_shop</c>).
+/// Optional <c>live2d_breath_intensity</c> (float, default 1) scales the PLACEHOLDER breathing effect.
 /// There is no static sprite: in combat that node IS the creature body (<c>%Visuals</c>, which
 /// NCreatureVisuals requires), so every game effect aimed at the body (revive fade, Surrounded
 /// flip, Doom reparent) acts on the model directly.
@@ -31,10 +32,15 @@ internal static class WitchLive2DMount
     /// </summary>
     public const string EditorPreviewName = "EditorPreview";
 
+    /// <summary>True when <paramref name="scene"/> carries a Live2D mount node.</summary>
+    public static bool Declares(Node scene) => FindRoot(scene) != null;
+
+    private static Node2D? FindRoot(Node scene) =>
+        scene.FindChild(RootName, recursive: true, owned: false) is Node2D root && root.HasMeta("live2d_model") ? root : null;
+
     public static void TryMount(Node scene, AnimationTree? tree = null)
     {
-        if (scene.FindChild(RootName, recursive: true, owned: false) is not Node2D root
-            || !root.HasMeta("live2d_model"))
+        if (FindRoot(scene) is not { } root)
         {
             return;
         }
@@ -53,7 +59,10 @@ internal static class WitchLive2DMount
         string? modelJson = Live2DRuntime.FindModelJson(root.GetMeta("live2d_model").AsString());
         if (modelJson != null)
         {
-            NWitchLive2D.Attach(root, tree, modelJson);
+            // PLACEHOLDER breathing (see NWitchLive2D.Attach): per-scene swing scale, e.g. the combat
+            // model's metadata/live2d_breath_intensity, which replaced the old Idle scale keyframes.
+            float breath = root.GetMeta("live2d_breath_intensity", 1f).AsSingle();
+            NWitchLive2D.Attach(root, tree, modelJson, breath);
         }
     }
 }
@@ -90,13 +99,28 @@ public static class WitchLive2DRestSitePatch
 
 /// <summary>
 /// Merchant: witch_merchant.tscn, converted to an NMerchantCharacter by BaseLib. The node doesn't
-/// know its player, so the scene's own Live2DRoot metadata is the only gate. Runs even when
-/// BaseLib's prefix skips the Spine-only _Ready body.
+/// know its player, so the scene's own <c>live2d_model</c> metadata is the only gate.
+///
+/// The base _Ready / PlayAnimation wrap child 0 in a MegaSprite, which throws for anything but a
+/// SpineSprite. BaseLib's prefixes skip them only for nodes it marks as factory-made, and its
+/// PackedScene auto-conversion (how the game's own Instantiate reaches this scene) never sets that
+/// mark, so the base body ran and threw ("Expected BoundObject to be a SpineSprite"), which also
+/// skipped this postfix: no model, only the editor preview sprite. Skip them for Live2D scenes.
 /// </summary>
-[HarmonyPatch(typeof(NMerchantCharacter), nameof(NMerchantCharacter._Ready))]
+[HarmonyPatch(typeof(NMerchantCharacter))]
 public static class WitchLive2DMerchantPatch
 {
-    private static void Postfix(NMerchantCharacter __instance)
+    [HarmonyPatch(nameof(NMerchantCharacter._Ready))]
+    [HarmonyPrefix]
+    private static bool SkipSpineReady(NMerchantCharacter __instance) => !WitchLive2DMount.Declares(__instance);
+
+    [HarmonyPatch(nameof(NMerchantCharacter.PlayAnimation))]
+    [HarmonyPrefix]
+    private static bool SkipSpinePlayAnimation(NMerchantCharacter __instance) => !WitchLive2DMount.Declares(__instance);
+
+    [HarmonyPatch(nameof(NMerchantCharacter._Ready))]
+    [HarmonyPostfix]
+    private static void Mount(NMerchantCharacter __instance)
     {
         WitchLive2DMount.TryMount(__instance);
     }

@@ -37,6 +37,7 @@ namespace Bird.BirdDebug;
 ///   --bird-shot=familiars     combat: every "*Familiar" summon card (IFamiliarSummon) of the character's
 ///                             assembly is played, then a fresh copy of each is put in hand
 ///   --bird-shot=restsite      a rest site
+///   --bird-shot=shop          a merchant room
 ///   --bird-shot=mp-relics     two-player treasure room ("Choose the Relic YOU Want!"): launch one
 ///                             instance with -fastmp host_standard and one with -fastmp join, both with
 ///                             this flag. Both pick the character and ready up; the game's own
@@ -104,8 +105,9 @@ public static class MarketingShots
         {
             "charselect" => CharacterSelect(__instance),
             "familiars" => Familiars(__instance),
-            "restsite" => RestSite(__instance),
-            _ => throw new ArgumentException($"unknown shot '{_shot}' (charselect | familiars | restsite | mp-relics)"),
+            "restsite" => EnterRoom(RoomType.RestSite),
+            "shop" => EnterRoom(RoomType.Shop),
+            _ => throw new ArgumentException($"unknown shot '{_shot}' (charselect | familiars | restsite | shop | mp-relics)"),
         }));
     }
 
@@ -175,10 +177,10 @@ public static class MarketingShots
         await Capture();
     }
 
-    private static async Task RestSite(NMainMenu menu)
+    private static async Task EnterRoom(RoomType room)
     {
         await StartRun();
-        await RunManager.Instance.EnterRoomDebug(RoomType.RestSite);
+        await RunManager.Instance.EnterRoomDebug(room);
         RunManager.Instance.ActionExecutor.Unpause();
         await Seconds(4);
         await Capture();

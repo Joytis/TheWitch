@@ -54,7 +54,7 @@ namespace Bird.BirdDebug;
 ///                                     hover tip. Catches render-time faults the combat harness misses.
 ///   --bird-testall                   menu sweep, then cards, potions, relics — all in one process.
 ///   --bird-shot=&lt;name&gt;              Workshop marketing screenshot (MarketingShots: charselect,
-///                                     familiars, restsite, mp-relics); writes --bird-shot-out and
+///                                     familiars, restsite, shop, mp-relics); writes --bird-shot-out and
 ///                                     quits. Driven by tools/capture-marketing.ps1. Wins over the rest.
 ///   --bird-reset-ftue                at main-menu ready, forgets every mod FTUE (progress-save
 ///                                     keys prefixed with the character's model-id prefix, e.g.

@@ -35,13 +35,15 @@ public partial class NWitchLive2D : Node
     private StringName _lastState = new("");
     private double _lastPosition;
     private bool _dead;
+    private bool _partsLogged;
 
     /// <summary>
     /// Builds the model for <paramref name="modelJson"/> under <paramref name="root"/> at its native
     /// canvas size, bottom-centre of the canvas on the root's origin, so the root's own transform is
-    /// the only placement knob. Null when the extension or model fails to load.
+    /// the only placement knob. <paramref name="breathIntensity"/> scales the breathing effect's
+    /// swings (1 = GDCubism's stock curves). Null when the extension or model fails to load.
     /// </summary>
-    public static Node2D? Attach(Node2D root, AnimationTree? tree, string modelJson)
+    public static Node2D? Attach(Node2D root, AnimationTree? tree, string modelJson, float breathIntensity = 1f)
     {
         if (ClassDB.Instantiate(Live2DRuntime.ModelClass).AsGodotObject() is not Node2D model)
         {
@@ -67,10 +69,20 @@ public partial class NWitchLive2D : Node
         MainFile.Logger.Info($"[live2d] {modelJson}: canvas {size}, origin {origin}, mounted under {root.Name}");
 
         // Blink + breathing come from GDCubism effect nodes reading the model's standard params.
+        // PLACEHOLDER: EffectBreath sways ParamAngleX/Y/Z, ParamBodyAngleX and ParamBreath on stock
+        // sine curves (gd_cubism_effect_breath.hpp), on top of whatever motion plays. It stands in
+        // for the artist's Idle motions; drop it (or set intensity 0) once those arrive, or it will
+        // layer extra head sway over them. `intensity` is a Witch-fork property (fork rev 4); an
+        // older plugin build ignores it and breathes at 1.
         foreach (string effect in new[] { "EffectEyeBlink", "EffectBreath" })
         {
             if (ClassDB.Instantiate(Live2DRuntime.ClassPrefix + effect).AsGodotObject() is Node node)
             {
+                if (effect == "EffectBreath")
+                {
+                    node.Set("intensity", breathIntensity);
+                    MainFile.Logger.Info($"[live2d] placeholder breathing on, intensity {node.Get("intensity")}");
+                }
                 model.AddChild(node);
             }
         }
@@ -92,6 +104,14 @@ public partial class NWitchLive2D : Node
 
     public override void _Process(double delta)
     {
+        if (!_partsLogged)
+        {
+            // Parts are built on the model's first update, after this node's _Ready.
+            _partsLogged = true;
+            Live2DBlendOverrides.Apply(_model, _model.Get("assets").AsString().GetBaseDir().GetFile());
+            LogParts();
+        }
+
         if (_playback == null)
         {
             return;
@@ -130,6 +150,22 @@ public partial class NWitchLive2D : Node
         {
             _model.Call("start_motion", group, RandomMotion(group), PriorityForce);
         }
+    }
+
+    /// <summary>
+    /// One line per model: how many parts use each blend shader (2d_cubism_norm_mix = Normal,
+    /// _mul = Multiply, _add = Additive; mask_* = clipped by a mask). Tells you whether a part the
+    /// artist meant as Multiply was actually exported as one.
+    /// </summary>
+    private void LogParts()
+    {
+        var counts = new SortedDictionary<string, int>();
+        foreach (MeshInstance2D part in _model.FindChildren("*", nameof(MeshInstance2D), recursive: false, owned: false).OfType<MeshInstance2D>())
+        {
+            string shader = (part.Material as ShaderMaterial)?.Shader?.ResourcePath.GetFile().GetBaseName() ?? "(none)";
+            counts[shader] = counts.GetValueOrDefault(shader) + 1;
+        }
+        MainFile.Logger.Info($"[live2d] {_model.Get("assets")}: parts by blend shader: {string.Join(", ", counts.Select(c => $"{c.Key} {c.Value}"))}");
     }
 
     private void PlayIdle()

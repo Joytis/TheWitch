@@ -16,6 +16,8 @@ namespace TheWitch.TheWitchCode.Live2D;
 /// <code>
 ///   mods/TheWitch/live2d/witch_cubism.gdextension
 ///   mods/TheWitch/live2d/bin/libwitch_cubism.windows.release.x86_64.dll
+///   mods/TheWitch/live2d/bin/libwitch_cubism.linux.release.x86_64.so
+///   mods/TheWitch/live2d/bin/libwitch_cubism.macos.release.framework   (universal: arm64 + x86_64)
 /// </code>
 /// The extension is never registered with the game's project; it is loaded on first use with
 /// <see cref="GDExtensionManager.LoadExtension"/> and its nodes are made via <see cref="ClassDB"/>.
@@ -23,8 +25,8 @@ namespace TheWitch.TheWitchCode.Live2D;
 /// loose model files can't go under mods/, the game's ModManager parses every *.json there as a
 /// mod manifest.
 ///
-/// Required: the Witch has no static sprite, so a platform without a build (only Windows x64 is
-/// built so far) or a missing extension/model leaves her invisible, logged as an error.
+/// Required: the Witch has no static sprite, so an unsupported platform or a missing
+/// extension/library/model leaves her invisible, logged as an error.
 /// </summary>
 internal static class Live2DRuntime
 {
@@ -50,8 +52,9 @@ internal static class Live2DRuntime
             return _loaded.Value;
         }
 
-        // Only a Windows x64 library is built; elsewhere LoadExtension would just log an engine error.
-        if (OS.GetName() != "Windows" || Engine.GetArchitectureName() != "x86_64")
+        // Libraries are built for these (tools/live2d/setup-live2d.ps1, live2d-build workflow);
+        // elsewhere LoadExtension would only log an engine error.
+        if (!IsSupportedPlatform())
         {
             MainFile.Logger.Error($"[live2d] no Live2D build for {OS.GetName()} {Engine.GetArchitectureName()}; the Witch will be invisible");
             _loaded = false;
@@ -72,6 +75,13 @@ internal static class Live2DRuntime
         MainFile.Logger.Info($"[live2d] load {extensionPath}: {status}, {ModelClass} registered: {ClassDB.ClassExists(ModelClass)}");
         return _loaded.Value;
     }
+
+    private static bool IsSupportedPlatform() => (OS.GetName(), Engine.GetArchitectureName()) switch
+    {
+        ("Windows", "x86_64") or ("Linux", "x86_64") => true,
+        ("macOS", "arm64" or "x86_64") => true,
+        _ => false,
+    };
 
     /// <summary>
     /// The <c>*.model3.json</c> in <c>res://TheWitch/live2d/&lt;modelName&gt;/</c> (committed like other

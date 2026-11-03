@@ -233,6 +233,12 @@ if ($shipLive2D) {
     if (-not (Get-ChildItem $live2dStage -Filter '*.gdextension' -File)) {
         throw "Live2D extension not staged in $live2dStage - run tools/live2d/setup-live2d.ps1 first."
     }
+    # Live2D is required (no static-sprite fallback): every platform the game ships on needs its library.
+    $live2dLibs = @('*.windows.release.x86_64.dll', '*.linux.release.x86_64.so', '*.macos.release.framework')
+    $live2dMissing = @($live2dLibs | Where-Object { -not (Get-ChildItem (Join-Path $live2dStage 'bin') -Filter $_ -ErrorAction SilentlyContinue) })
+    if ($live2dMissing) {
+        throw "Live2D libraries missing in $live2dStage/bin ($($live2dMissing -join ', ')) - the Witch would be invisible on those platforms. Run the live2d-build workflow (GitHub Actions, manual), then tools/live2d/setup-live2d.ps1 -FromCI."
+    }
     $live2dShaders = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/shader")
     if (-not (Get-ChildItem $live2dShaders -Filter '*.gdshader' -File -ErrorAction SilentlyContinue)) {
         throw "Live2D shaders missing at $live2dShaders - run tools/live2d/setup-live2d.ps1 first."
