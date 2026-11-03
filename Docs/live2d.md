@@ -1,6 +1,8 @@
 # Live2D for the Witch
 
-Status: **ships with the Witch (Windows x64); first models in (2026-11-02 drop, idle rigs only,
+> Bringing in a new art drop? Start with [live2d-art-handoff.md](live2d-art-handoff.md).
+
+Status: **ships with the Witch (Windows, Linux, macOS builds via CI); first models in (2026-11-02 drop, idle rigs only,
 no motions yet).** It switches on by itself wherever the extension is installed: after
 `setup-live2d.ps1` + a build locally, and for players from the Workshop bundle
 (`bundle-workshop.ps1` ships `live2d/` next to the dll). Three models, one per scene:
