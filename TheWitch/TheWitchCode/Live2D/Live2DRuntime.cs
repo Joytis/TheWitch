@@ -28,8 +28,6 @@ namespace TheWitch.TheWitchCode.Live2D;
 /// </summary>
 internal static class Live2DRuntime
 {
-    public const string ModelName = "witch";
-
     /// <summary>The fork's class-name prefix (stock GDCubism uses <c>GDCubism</c>).</summary>
     public const string ClassPrefix = "WitchCubism";
     public const string ModelClass = $"{ClassPrefix}UserModel";
@@ -76,17 +74,17 @@ internal static class Live2DRuntime
     }
 
     /// <summary>
-    /// The <c>*.model3.json</c> in <c>res://TheWitch/live2d/witch/</c> (the real model, committed like
-    /// other art), else in the first folder under <c>.../live2d/samples/</c> (SDK samples, local-only),
-    /// or null.
+    /// The <c>*.model3.json</c> in <c>res://TheWitch/live2d/&lt;modelName&gt;/</c> (real models, committed
+    /// like other art), else in the first folder under <c>.../live2d/samples/</c> (SDK samples,
+    /// local-only), or null.
     /// </summary>
-    public static string? FindModelJson()
+    public static string? FindModelJson(string modelName)
     {
         string samplesDir = $"{ModelResDir}/samples";
         IEnumerable<string> samples = DirAccess.DirExistsAbsolute(samplesDir)
             ? DirAccess.GetDirectoriesAt(samplesDir).Order().Select(d => $"{samplesDir}/{d}")
             : [];
-        foreach (string dir in samples.Prepend($"{ModelResDir}/{ModelName}"))
+        foreach (string dir in samples.Prepend($"{ModelResDir}/{modelName}"))
         {
             if (!DirAccess.DirExistsAbsolute(dir))
             {
@@ -98,7 +96,7 @@ internal static class Live2DRuntime
                 return $"{dir}/{file}";
             }
         }
-        MainFile.Logger.Warn($"[live2d] no *.model3.json under {ModelResDir}/{ModelName} or {samplesDir}");
+        MainFile.Logger.Warn($"[live2d] no *.model3.json under {ModelResDir}/{modelName} or {samplesDir}");
         return null;
     }
 }

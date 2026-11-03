@@ -54,7 +54,7 @@ Report bugs on [url=https://github.com/Joytis/TheWitch/issues]GitHub[/url] or in
 [h1]Credits[/h1]
 [list]
 [*][b]Design & Engineering:[/b] Joytis
-[*][b]Art!!![/b] Kitsu
+[*][b]Art!!![/b] Kitsu, [*][url=https://vuwa.art/]Vuwa[/url]
 [/list]
 
 [h2]Artists[/h2]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://btcqkv2sr5amu"]
+[gd_scene load_steps=23 format=3 uid="uid://btcqkv2sr5amu"]
 
 [ext_resource type="Texture2D" uid="uid://eliyyn5nk1c" path="res://TheWitch/textures/witch_idle.png" id="1_hni02"]
 [ext_resource type="Texture2D" uid="uid://ds3vpnagm15nb" path="res://TheWitch/textures/witch_attack.png" id="1_yxqrw"]
+[ext_resource type="Texture2D" path="res://TheWitch/live2d/witch/editor_preview.png" id="live2d_preview"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yxqrw"]
 animation = &"Attack"
@@ -351,6 +352,18 @@ libraries = {
 scale = Vector2(0.1256349, 0.1256349)
 texture = ExtResource("1_hni02")
 offset = Vector2(-180, -1000)
+
+[node name="Live2DRoot" type="Node2D" parent="VisualsRoot"]
+position = Vector2(-22.9, 44.9)
+scale = Vector2(0.1163, 0.1163)
+metadata/live2d_model = "witch"
+metadata/live2d_fallback = NodePath("../Visuals")
+
+[node name="EditorPreview" type="Sprite2D" parent="VisualsRoot/Live2DRoot"]
+scale = Vector2(2, 2)
+texture = ExtResource("live2d_preview")
+centered = false
+offset = Vector2(-525, -1450)
 
 [node name="Bounds" type="Control" parent="."]
 layout_mode = 3

@@ -1,9 +1,17 @@
 # Live2D for the Witch
 
-Status: **ships with the Witch (Windows x64), no Witch model yet.** It switches on by itself
-wherever the extension is installed: after `setup-live2d.ps1` + a build locally, and for players
-from the Workshop bundle (`bundle-workshop.ps1` ships `live2d/` next to the dll). Until a model
-lands in `res://TheWitch/live2d/witch/`, players keep the static sprite.
+Status: **ships with the Witch (Windows x64); first models in (2026-11-02 drop, idle rigs only,
+no motions yet).** It switches on by itself wherever the extension is installed: after
+`setup-live2d.ps1` + a build locally, and for players from the Workshop bundle
+(`bundle-workshop.ps1` ships `live2d/` next to the dll). Three models, one per scene:
+
+| Folder (`res://TheWitch/live2d/…`) | Scene | Replaces |
+|---|---|---|
+| `witch/` | `witch_visuals.tscn` (combat, game over, unlock, …) | `VisualsRoot/Visuals` |
+| `witch_rest/` | `witch_rest_site.tscn` | `Sprite2D` |
+| `witch_shop/` | `witch_merchant.tscn` | `Sprite2D` |
+
+A scene without a model folder (or without the extension) keeps its static sprite.
 
 ## Plugin
 
@@ -34,6 +42,7 @@ applied to a fresh clone. No fork repo to maintain.
 | `GDCubism*` classes (`GDCubismUserModel`, `GDCubismEffectBreath`, ...) | `WitchCubism*` (`Live2DRuntime.ClassPrefix`) |
 | shaders at `res://addons/gd_cubism/res/shader/` | `res://TheWitch/live2d/shader/` (`Live2DRuntime.ShaderResDir`) |
 | `gd_cubism.gdextension`, `libgd_cubism.*.dll` | `witch_cubism.gdextension`, `libwitch_cubism.*.dll` |
+| part draw order via `z_index` = Cubism render order (escapes the model: parts drew over the pause overlay/UI) | sibling order, `z_index` left at 0, re-sorted only when the order changes (`internal_cubism_renderer_2d.cpp`) |
 
 The patch throws if upstream stops matching what it expects. Bump `$ForkRev` in the script when
 the transforms change; the checkout is then re-cloned and rebuilt. Left as-is: the entry symbol
@@ -55,25 +64,60 @@ At runtime ([TheWitchCode/Live2D/](../TheWitch/TheWitchCode/Live2D/)):
 - `Live2DRuntime` loads the extension on first use with `GDExtensionManager.LoadExtension(<abs path>)`
   (Windows x64 only; other platforms skip straight to the sprite). The game never registers it. The game's own Godot build already runs native extensions (FMOD,
   Spine), and runtime loading has been verified in-game.
-- `WitchLive2DVisualsPatch` is a Harmony postfix on `CharacterModel.CreateVisuals`, the same
-  shape as `WitchPetVisualsPatch`. It runs whenever the extension loads. Model lookup:
-  `res://TheWitch/live2d/witch/`, else the first folder under `.../live2d/samples/`.
-- `NWitchLive2D.Attach` parents the model under the `%Visuals` sprite and hides only the
-  sprite's own texture (`SelfModulate`). Modulate, visibility and the `VisualsRoot` animation
-  tracks (lunge, recoil, death tumble) all still apply. The model is scaled to 300 px with its
-  feet on the creature origin, and blink and breath effect nodes are added.
+- **Mount point = a `Live2DRoot` Node2D in the scene** with metadata `live2d_model` (folder name
+  above) and `live2d_fallback` (NodePath to the static sprite). The model hangs under it at native
+  canvas size, bottom-centre of the canvas on the root's origin, so **the root's position/scale in
+  the .tscn is the only placement knob** — adjust it in the editor without touching the sprite,
+  markers, hitbox or anything else. Its starting values were fitted so the new art's bounding box
+  matches the old static sprite's (same height, feet, horizontal centre); tune by eye from there.
+- `WitchLive2DMount.TryMount` (in `WitchLive2DVisualsPatch.cs`) finds the root and mounts it. Hooks:
+  `CharacterModel.CreateVisuals` postfix (Witch only, same shape as `WitchPetVisualsPatch`),
+  `NRestSiteCharacter._Ready` postfix (Witch players only), `NMerchantCharacter._Ready` postfix
+  (gated by the root's metadata; the node doesn't know its player). Model lookup:
+  `res://TheWitch/live2d/<live2d_model>/`, else the first folder under `.../live2d/samples/`.
+- `NWitchLive2D.Attach` hides only the fallback sprite's own texture (`SelfModulate`) and every
+  frame copies the sprite's `Visible`/`Modulate` onto the root, so game effects aimed at the body
+  (revive fade, phobia toggle) still reach the model; in combat the root sits under `VisualsRoot`,
+  so its animation tracks (lunge, recoil, death tumble) apply too. Don't author a modulate on the
+  root itself — it's overwritten. Blink and breath effect nodes are added to every model.
 - The driver node watches the existing `witch_visuals.tscn` AnimationTree state machine. It
   mirrors each state entry (`Attack`, `AttackSilent`, `Hit`, `PowerUp`, `Dead`) onto the
   **Live2D motion group of the same name**, and returns to a random `Idle` motion when a
-  one-shot finishes. Sample models fall back to `TapBody`.
+  one-shot finishes. Rest site and merchant have no tree: they just loop `Idle`. Sample models
+  fall back to `TapBody`.
+
+## Placing a model
+
+Each `Live2DRoot` has an `EditorPreview` Sprite2D child showing the model's flattened rest pose
+(`live2d/<model>/editor_preview.png`: the artist's flat PNG export at half size, drawn at scale 2
+with `offset = (-w/2, -h)`), which covers exactly the rectangle the model's canvas will occupy.
+Open the scene in the Godot editor, select `Live2DRoot` and move/scale it until the preview
+sits where she should stand (feet on the ground line, against `Bounds`/`Hitbox`, familiar
+markers, etc.). Never move or scale `EditorPreview` itself, only the root. `WitchLive2DMount`
+deletes `EditorPreview` at runtime before mounting, so it never shows in game.
+
+- Hide the old sprite with the eye icon if it's in the way, but **turn it back on before saving**:
+  the model copies the fallback sprite's visibility, so a saved-hidden sprite means an invisible
+  model.
+- When a drop changes a model's canvas, regenerate its preview from the new flat PNG
+  (`magick <flat>.png -resize 50% editor_preview.png`) and fix the offset if the size changed.
+- `publish`, then check in game (`./tools/launch.ps1 -Character Witch -Solo -Bootstrap` for
+  combat; walk to a rest site / shop for the others).
 
 ## What the Witch's model needs (artist contract)
 
 - Export from Cubism Editor 5.x as moc3. The `5-r.3` core reads moc3 up to v5.0.
 - `model3.json` motion groups: `Idle` (several variations, picked at random), `Attack`, `Hit`,
-  `PowerUp`, `Dead`, optional `AttackSilent`.
-- Standard parameter ids (`ParamEyeLOpen`, `ParamBreath`, …) so the blink and breath effects work.
-- Feet at the bottom of the canvas, because the canvas bottom lands on the creature origin.
+  `PowerUp`, `Dead`, optional `AttackSilent`. Rest and shop models: `Idle` only (the rest
+  model's "Fire glow" parameter is animated by its idle motion).
+- Motions are exported as `*.motion3.json` and registered in `model3.json` under `Motions`:
+  Cubism Editor → select the animation/scene → File → Export For Runtime → Export motion file
+  ([Live2D manual](https://docs.live2d.com/en/cubism-editor-manual/export-moc3-motion3-files/)).
+  The model3.json then needs re-exporting (or hand-editing) so `Motions` lists them by group.
+- Standard parameter ids (`ParamEyeLOpen`, `ParamBreath`, …) so the blink and breath effects work,
+  and the eye params listed in the `EyeBlink` group (the blink effect reads that group).
+- Placement is tuned per scene via `Live2DRoot`, so canvas framing no longer has to be exact; keep
+  each model's canvas stable between drops so the tuned root values keep fitting.
 
 ## Run it
 
@@ -105,7 +149,13 @@ static sprite.
 
 - Platforms: Windows x64 only. macOS/Linux players would need their own builds plus extra
   `[libraries]` entries; until then they get the sprite.
-- Rest site, merchant and character select are still the static scenes.
-- Editor preview: the TheWitch Godot project doesn't load the extension, so models can't be
-  placed or previewed in the editor yet.
+- Character select is still the static scene.
+- 2026-11-02 drop: no motion3.json yet (models stand still apart from blink/breath effects),
+  `EyeBlink` group empty, no physics3.json, no .cmo3/.can3 sources.
+- Combat `Cast` trigger: the Witch's cards fire `Cast` 21× but `witch_visuals.tscn` has no `Cast`
+  animation/state, so BaseLib drops it and the driver never sees it. Add a `Cast` state before
+  asking for a `Cast` motion.
+- Rest site `HideFlameGlow` (Spine `_tracks/light_off`) has no Live2D equivalent yet.
+- Editor preview is a static stand-in (see "Placing a model"), not the live model: the TheWitch
+  Godot project doesn't load the extension (`live2d/.gdignore`), so motions can't be previewed.
 - `NCreatureVisuals` effects that swap `_body.Material` (liquid overlay) don't reach the model.

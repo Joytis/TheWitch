@@ -17,6 +17,7 @@
         image.png       Steam Workshop thumbnail                               [versioned]
         mod_id.txt      published item id, written after first upload          [versioned]
         content/        the mod files that actually get uploaded               [gitignored]
+        marketing/      gallery manifest (marketing.json) + its images         [versioned]
 
     workshop.json and image.png are hand-maintained and never clobbered; this
     script only stages content/ and (optionally) patches named metadata fields.
@@ -55,6 +56,16 @@
     Convert workshop/description.md to Steam BBCode, print it, and copy it to the
     clipboard for pasting into the Workshop web editor. Does nothing else.
 
+.PARAMETER UpdateMarketing
+    Update Marketing Material: sync the Workshop item's gallery (additional preview
+    images + YouTube videos) to <workspace>/marketing/marketing.json, in manifest
+    order, via tools/WorkshopMarketing (ModUploader can only set image.png). Alone
+    it does only that (no publish/stage/upload); with -Upload it runs after the
+    upload. Needs mod_id.txt and Steam running + logged in.
+
+.PARAMETER MarketingDryRun
+    With -UpdateMarketing (implied): print the gallery diff without submitting.
+
 .PARAMETER IncludePdb
     Also copy the mod's .pdb into content/ (debug symbols). Off by default.
 
@@ -78,6 +89,14 @@
 .EXAMPLE
     ./bundle-workshop.ps1 -Upload -ChangeNote "Phase 3 cards + potion brewing"
     # publish, stage, then upload to the Workshop
+
+.EXAMPLE
+    ./bundle-workshop.ps1 -UpdateMarketing -MarketingDryRun
+    # show how the Workshop gallery differs from workshop/marketing/marketing.json
+
+.EXAMPLE
+    ./bundle-workshop.ps1 -UpdateMarketing
+    # only push the gallery (images + videos); no build, no content upload
 #>
 [CmdletBinding()]
 param(
@@ -87,6 +106,8 @@ param(
     [switch]$Upload,
     [string]$ChangeNote = "",
     [switch]$RenderDescription,
+    [switch]$UpdateMarketing,
+    [switch]$MarketingDryRun,
     [ValidateSet("", "private", "friends", "friendsonly", "public")]
     [string]$Visibility = "",
     [switch]$IncludePdb,
@@ -143,26 +164,6 @@ $mod = Get-Content $manifest -Raw | ConvertFrom-Json
 $modId = $mod.id
 if (-not $modId) { throw "Manifest has no 'id': $manifest" }
 
-# Live2D SDK sample models (tools/live2d/setup-live2d.ps1) are local-only but get packed into the
-# .pck when present; they must never reach the Workshop.
-$live2dSamples = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/samples")
-if (Test-Path $live2dSamples) {
-    throw "Live2D sample models present at $live2dSamples - delete that folder before bundling (they would be packed into the .pck)."
-}
-# The Live2D extension (the character's GDCubism fork) ships as loose files next to the dll; a
-# project that has a live2d/ stage folder must have it built (tools/live2d/setup-live2d.ps1).
-$live2dStage = Join-Path $repoRoot (Join-Path $Char.ProjectDir 'live2d')
-$shipLive2D = Test-Path $live2dStage
-if ($shipLive2D) {
-    if (-not (Get-ChildItem $live2dStage -Filter '*.gdextension' -File)) {
-        throw "Live2D extension not staged in $live2dStage - run tools/live2d/setup-live2d.ps1 first."
-    }
-    $live2dShaders = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/shader")
-    if (-not (Get-ChildItem $live2dShaders -Filter '*.gdshader' -File -ErrorAction SilentlyContinue)) {
-        throw "Live2D shaders missing at $live2dShaders - run tools/live2d/setup-live2d.ps1 first."
-    }
-}
-
 # --- Resolve the ModUploader executable ------------------------------------
 if (-not $Uploader) {
     $Uploader = Join-Path $PSScriptRoot 'ModUploader-win-x64/ModUploader.exe'
@@ -183,6 +184,59 @@ if ($RenderDescription) {
     catch { Write-Warn2 "Clipboard unavailable; copy the output above." }
     if ($bb -match '!!NEED IMAGE HERE!!') { Write-Warn2 "Draft still contains '!!NEED IMAGE HERE!!' placeholders." }
     exit 0
+}
+
+# --- Update Marketing Material: Workshop gallery from marketing/marketing.json ---
+# ModUploader only sets the main preview (image.png); the gallery images + YouTube videos go
+# through tools/WorkshopMarketing, which diffs the live gallery against the manifest and only
+# submits what changed. Runs standalone (no publish/stage/upload) or after -Upload.
+if ($MarketingDryRun) { $UpdateMarketing = $true }
+function Update-WorkshopMarketing {
+    $marketingJson = Join-Path $Workspace 'marketing/marketing.json'
+    if (-not (Test-Path $marketingJson)) { throw "Marketing manifest not found: $marketingJson" }
+    $idFile = Join-Path $Workspace 'mod_id.txt'
+    if (-not (Test-Path $idFile)) { throw "No mod_id.txt in $Workspace -- upload the item once (-Upload) before updating its gallery." }
+    $itemId = (Get-Content $idFile -Raw).Trim()
+    if (-not (Get-Process -Name steam -ErrorAction SilentlyContinue)) {
+        throw "Steam is not running. Start Steam (logged in) before updating marketing material."
+    }
+
+    $toolProj = Join-Path $PSScriptRoot 'WorkshopMarketing/WorkshopMarketing.csproj'
+    $toolOut  = Join-Path $PSScriptRoot 'WorkshopMarketing/bin/out'
+    Write-Step "Building WorkshopMarketing..."
+    & dotnet build $toolProj -c Release -o $toolOut -nologo -v q
+    if ($LASTEXITCODE -ne 0) { throw "WorkshopMarketing build failed (exit $LASTEXITCODE)." }
+
+    $toolArgs = @('--item', $itemId, '--manifest', $marketingJson)
+    if ($MarketingDryRun) { $toolArgs += '--dry-run' }
+    Write-Step "Updating marketing material (Workshop gallery) for item $itemId..."
+    & (Join-Path $toolOut 'WorkshopMarketing.exe') @toolArgs
+    if ($LASTEXITCODE -ne 0) { throw "WorkshopMarketing failed (exit $LASTEXITCODE)." }
+}
+if ($UpdateMarketing -and -not $Upload) {
+    Update-WorkshopMarketing
+    exit 0
+}
+
+# --- Live2D guards (bundling only: -RenderDescription / marketing-only runs never touch the .pck) ---
+# Live2D SDK sample models (tools/live2d/setup-live2d.ps1) are local-only but get packed into the
+# .pck when present; they must never reach the Workshop.
+$live2dSamples = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/samples")
+if (Test-Path $live2dSamples) {
+    throw "Live2D sample models present at $live2dSamples - delete that folder before bundling (they would be packed into the .pck)."
+}
+# The Live2D extension (the character's GDCubism fork) ships as loose files next to the dll; a
+# project that has a live2d/ stage folder must have it built (tools/live2d/setup-live2d.ps1).
+$live2dStage = Join-Path $repoRoot (Join-Path $Char.ProjectDir 'live2d')
+$shipLive2D = Test-Path $live2dStage
+if ($shipLive2D) {
+    if (-not (Get-ChildItem $live2dStage -Filter '*.gdextension' -File)) {
+        throw "Live2D extension not staged in $live2dStage - run tools/live2d/setup-live2d.ps1 first."
+    }
+    $live2dShaders = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/shader")
+    if (-not (Get-ChildItem $live2dShaders -Filter '*.gdshader' -File -ErrorAction SilentlyContinue)) {
+        throw "Live2D shaders missing at $live2dShaders - run tools/live2d/setup-live2d.ps1 first."
+    }
 }
 
 # --- Step 1: publish (default) ---------------------------------------------
@@ -392,6 +446,9 @@ if ($Upload) {
     } else {
         Write-Warn2 "No Discord webhook configured (set DISCORD_WEBHOOK_URL or create tools/discord-webhook.local.txt); skipping notification."
     }
+
+    # --- Step 9: marketing material (after the notification, so a gallery failure never skips it) ---
+    if ($UpdateMarketing) { Update-WorkshopMarketing }
 } else {
     Write-Step "Staged. To upload, run:"
     Write-Host "    ./tools/bundle-workshop.ps1 -Upload" -ForegroundColor Green

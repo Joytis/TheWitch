@@ -1,0 +1,9 @@
+{
+  "_format": "Workshop gallery, in display order. Each entry is {\"image\": \"<file in this folder>\"} or {\"youtube\": \"<url or video id>\"}; extra fields like \"note\" are ignored. Uploaded by tools/bundle-workshop.ps1 -UpdateMarketing; the live gallery is made to match this list exactly.",
+  "previews": [
+    { "image": "cards-starter.png", "note": "the 4 starter cards, 4x1" },
+    { "image": "cards-common.png", "note": "15 Common cards, 5x3 (tools/render-marketing-cards.js; selection in card-grids.json)" },
+    { "image": "cards-uncommon.png", "note": "15 Uncommon cards, 5x3" },
+    { "image": "cards-rare.png", "note": "15 Rare cards, 5x3" }
+  ]
+}

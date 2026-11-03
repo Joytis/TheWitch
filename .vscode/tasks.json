@@ -602,6 +602,56 @@
             "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it). Prompts for the character mod."
         },
         {
+            "label": "Workshop: Update Marketing Material",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/bundle-workshop.ps1",
+                "-Character",
+                "${input:character}",
+                "-UpdateMarketing"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Sync the Workshop item's gallery (images + YouTube videos) to <workshop>/marketing/marketing.json. No build or content upload. Requires Steam running & logged in."
+        },
+        {
+            "label": "Workshop: Update Marketing Material (dry run)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/bundle-workshop.ps1",
+                "-Character",
+                "${input:character}",
+                "-MarketingDryRun"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Print how the live Workshop gallery differs from <workshop>/marketing/marketing.json without changing anything. Requires Steam running."
+        },
+        {
             "label": "Card Data: Regen",
             "type": "process",
             "command": "node",

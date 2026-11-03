@@ -15,6 +15,7 @@
       - every GDCubism* class -> WitchCubism* (WitchCubismUserModel, ...)
       - shaders loaded from res://TheWitch/live2d/shader/ instead of res://addons/gd_cubism/
       - library built as libwitch_cubism.*.dll, loaded via witch_cubism.gdextension
+      - parts drawn in sibling order instead of z_index, so they can't draw over the game's UI
     Bump $ForkRev whenever the transforms change; the checkout is then re-cloned and rebuilt.
 
     Prerequisites (checked up front): git, Python 3 (scons is pip-installed for the user if
@@ -54,7 +55,7 @@ $repo = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $work = Join-Path $repo 'build/live2d'
 $src = Join-Path $work 'gd_cubism'
 $stage = Join-Path $repo 'TheWitch/live2d'
-$ForkRev = '1'                     # bump when Invoke-ForkPatch changes
+$ForkRev = '2'                     # bump when Invoke-ForkPatch changes
 $forkMarker = Join-Path $src '.witch-fork'
 $extName = 'witch_cubism'
 $dllName = "lib$extName.windows.release.x86_64.dll"
@@ -139,6 +140,55 @@ function Invoke-ForkPatch {
         if ($new -match 'GDCubism[A-Z]') { throw "Fork patch missed a GDCubism class name in $($f.FullName)" }
     }
     if ($shaderHits -eq 0) { throw "Fork patch found no shader paths to relocate; upstream changed." }
+
+    # Draw order: upstream sets each part's z_index to its Cubism render order (0..N). z_index is
+    # relative to the model, not contained by it, so parts sort against the rest of the scene and
+    # draw over UI at z 0 (pause overlay, popups). Order the part nodes as siblings instead (only
+    # when the order changed) and leave z_index at 0, so the model draws as one block in tree order.
+    $renderer = Join-Path $src 'src/private/internal_cubism_renderer_2d.cpp'
+    $text = [IO.File]::ReadAllText($renderer).Replace("`r`n", "`n")
+    $edits = @(
+        @("#include <cfloat>`n", @'
+#include <cfloat>
+#include <algorithm>
+#include <utility>
+#include <vector>
+
+'@),
+        @("    // update meshes`n", @'
+    // Witch fork: draw order by sibling order, not z_index (see setup-live2d.ps1).
+    std::vector<std::pair<Csm::csmInt32, MeshInstance2D *>> witch_draw_order;
+
+    // update meshes
+
+'@),
+        @("        node->set_z_index(renderOrder[index]);`n", @'
+        witch_draw_order.emplace_back(renderOrder[index], node);
+
+'@),
+        @("    // update masks`n", @'
+    std::sort(witch_draw_order.begin(), witch_draw_order.end(),
+              [](const auto &a, const auto &b) { return a.first < b.first; });
+    for (size_t i = 1; i < witch_draw_order.size(); i++) {
+        if (witch_draw_order[i - 1].second->get_index() > witch_draw_order[i].second->get_index()) {
+            for (auto &entry : witch_draw_order) {
+                entry.second->get_parent()->move_child(entry.second, -1);
+            }
+            break;
+        }
+    }
+
+    // update masks
+
+'@)
+    )
+    foreach ($e in $edits) {
+        $old = $e[0]; $new = $e[1].Replace("`r`n", "`n").TrimEnd("`n") + "`n"
+        $hits = ([regex]::Matches($text, [regex]::Escape($old))).Count
+        if ($hits -ne 1) { throw "Fork patch: expected 1 match of '$($old.Trim())' in $renderer, found $hits; upstream changed." }
+        $text = $text.Replace($old, $new)
+    }
+    [IO.File]::WriteAllText($renderer, $text, $utf8)
 
     # SConstruct names the library after the single demo/addons/*/*.gdextension.
     $ext = Join-Path $src 'demo/addons/gd_cubism/gd_cubism.gdextension'
