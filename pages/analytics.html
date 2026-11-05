@@ -180,7 +180,7 @@
     <div class="fgroup"><span class="chips" id="worldChips"></span></div>
     <div class="fgroup" title="The win rate the character is balanced around. Strong / Weak verdicts are judged against it. Remembered in this browser.">
       <span class="lab">Target</span><span class="stepper"><button id="tgtMinus" aria-label="lower target">−</button><span
-      class="v" id="tgtVal">30%</span><button id="tgtPlus" aria-label="raise target">+</button></span></div>
+      class="v" id="tgtVal">25%</span><button id="tgtPlus" aria-label="raise target">+</button></span></div>
   </div>
   <div class="scope" id="scope"></div>
 
@@ -374,7 +374,7 @@
         the baseline every Δ is measured against (default: the line before). Solo is the default mode because
         co-op teams carry each other. "Base-game world" drops runs that went through another mod's acts or
         met another mod's monsters — those change the difficulty underneath the Witch.</p>
-      <p><b>Balance target</b> (default 30%, set in the filter bar). The win rate the character is balanced around.
+      <p><b>Balance target</b> (default 25%, set in the filter bar). The win rate the character is balanced around.
         Card, archetype and relic verdicts are judged against it: <span class="verdict strong-up">Strong ▲</span> when the
         whole 95% interval sits above it, <span class="verdict strong-down">Weak ▼</span> when it sits below,
         <span class="verdict lean-up">Leaning strong</span> / <span class="verdict lean-down">Leaning weak</span> when the
@@ -470,7 +470,7 @@ const state = {
   cardSort: "est", cardAsc: false, encSort: "share", encAsc: false,
   tier: "All", act: "All", ancSearch: "", relSearch: "",
   target: (() => { try { const v = parseFloat(localStorage.getItem("analytics.target")); if (v > 0 && v < 1) return v; } catch {}
-                   return 0.30; })(),   // the win rate the character is balanced around
+                   return 0.25; })(),   // the win rate the character is balanced around
 };
 const MODES = ["Solo", "Co-op", "Both"];
 const WORLDS = ["Base-game world", "Any world"];
@@ -536,7 +536,7 @@ function tvp(g) {
   return {est, half, n: g.off, pk: g.pk, sk};
 }
 // ---------- balance target ----------
-// The win rate the character is balanced around (default 30%, adjustable in the filter bar).
+// The win rate the character is balanced around (default 25%, adjustable in the filter bar).
 // Strong = the whole 95% interval sits above it; Weak = the whole interval sits below it.
 const tpct = () => Math.round(state.target * 100) + "%";
 function verdictT(s, enough) {
