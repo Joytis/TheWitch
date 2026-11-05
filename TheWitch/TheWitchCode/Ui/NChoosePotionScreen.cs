@@ -18,18 +18,24 @@ using TheWitch.TheWitchCode.Extensions;
 namespace TheWitch.TheWitchCode.Ui;
 
 /// <summary>
-/// Mid-combat "choose a potion" overlay: a 4-column grid of <see cref="NPotionChoiceCell" />s under the
-/// base-game common banner, pushed on <see cref="NOverlayStack" /> (shared dim backstop). Structure cloned
-/// from NChooseARelicSelection; layout authored in choose_potion_screen.tscn (this script is its root):
-/// banner + a full-width band from 60% viewport height down, with the grid shrink-centered inside it so
-/// rows sit top-center under the title and grow downward. Force-pick: there is no Skip button — the
+/// Mid-combat "choose a potion" overlay: a grid of <see cref="NPotionChoiceCell" />s (4 columns, widening
+/// to 8 for big pools) under the base-game common banner, pushed on <see cref="NOverlayStack" /> (shared
+/// dim backstop). Structure cloned from NChooseARelicSelection; layout authored in choose_potion_screen.tscn
+/// (this script is its root): banner + a full-width band from 60% viewport height to the bottom, with the
+/// grid shrink-centered inside it so rows sit top-center under the title and grow downward. The band is a
+/// base-game <see cref="NScrollableContainer" /> (Scroll/Mask/Content + Scrollbar, the potion-lab shape):
+/// wheel/drag/scrollbar scroll, controller focus auto-scrolls; inert while the grid fits. Needed because
+/// other mods' shared potions can grow the pool past one screen. Force-pick: there is no Skip button — the
 /// screen resolves only by choosing. Await <see cref="PotionSelected" />. Show via
 /// <see cref="PotionSelectCmd.FromChoosePotionScreen" /> for the MP-synced flow, not directly.
 /// </summary>
 [GlobalClass]
 public partial class NChoosePotionScreen : Control, IOverlayScreen
 {
-    private const int _columns = 4;
+    private const int _minColumns = 4;
+    private const int _maxColumns = 8;
+    // Columns grow once the 4-wide grid would pass this many rows, so big pools spread sideways first.
+    private const int _rowsBeforeWidening = 4;
 
     public static readonly string scenePath = "ui/choose_potion_screen.tscn".CharacterScenePath();
 
@@ -37,6 +43,8 @@ public partial class NChoosePotionScreen : Control, IOverlayScreen
     private IReadOnlyList<PotionModel> _potions = null!;
     private LocString _header = null!;
     private GridContainer _grid = null!;
+    private NScrollableContainer _scroll = null!;
+    private int _columns = _minColumns;
     private NPeekButton _peekButton = null!;
     private Tween? _fadeTween;
 
@@ -73,7 +81,10 @@ public partial class NChoosePotionScreen : Control, IOverlayScreen
         banner.label.SetTextAutoSize(_header.GetRawText());
         banner.AnimateIn();
 
+        _scroll = GetNode<NScrollableContainer>("%Scroll");
+        _scroll.DisableScrollingIfContentFits();
         _grid = GetNode<GridContainer>("%Grid");
+        _columns = Math.Clamp((_potions.Count + _rowsBeforeWidening - 1) / _rowsBeforeWidening, _minColumns, _maxColumns);
         _grid.Columns = _columns;
 
         foreach (PotionModel potion in _potions)
@@ -99,7 +110,7 @@ public partial class NChoosePotionScreen : Control, IOverlayScreen
     {
         NPeekButton peek = GetNode<NPeekButton>("%PeekButton");
         _peekButton = peek;
-        peek.AddTargets(_grid, banner);
+        peek.AddTargets(_scroll, banner);
         peek.Connect(NPeekButton.SignalName.Toggled, Callable.From<NPeekButton>(_ =>
         {
             if (peek.IsPeeking)
@@ -114,7 +125,7 @@ public partial class NChoosePotionScreen : Control, IOverlayScreen
         }));
     }
 
-    /// <summary>Non-wrapping 4-column grid navigation; a partial last row is reachable from anywhere above it.</summary>
+    /// <summary>Non-wrapping grid navigation; a partial last row is reachable from anywhere above it.</summary>
     private void WireControllerFocus()
     {
         List<NPotionChoiceCell> cells = _grid.GetChildren().OfType<NPotionChoiceCell>().ToList();

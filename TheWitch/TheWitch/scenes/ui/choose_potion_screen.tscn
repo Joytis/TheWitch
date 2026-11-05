@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://437lovwjymy7"]
+[gd_scene load_steps=6 format=3 uid="uid://437lovwjymy7"]
 
 [ext_resource type="Script" uid="uid://c8tkgi6cwdr6s" path="res://TheWitchCode/Ui/NChoosePotionScreen.cs" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://7osm1qqwcp6e" path="res://scenes/ui/common_banner.tscn" id="2_banner"]
 [ext_resource type="PackedScene" uid="uid://rxgwkwxf1dsr" path="res://scenes/combat/peek_button.tscn" id="3_peek"]
+[ext_resource type="Script" uid="uid://cv2mvg7qmvhjt" path="res://src/Core/Nodes/GodotExtensions/NScrollableContainer.cs" id="4_scroll"]
+[ext_resource type="PackedScene" uid="uid://b6nko387cwp7n" path="res://scenes/ui/scrollbar.tscn" id="5_scrollbar"]
 
 [node name="ChoosePotionScreen" type="Control"]
 layout_mode = 3
@@ -19,25 +21,60 @@ layout_mode = 1
 offset_top = -400.155
 offset_bottom = -238.155
 
-[node name="Column" type="VBoxContainer" parent="."]
+[node name="Scroll" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.6
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -312.0
-offset_bottom = -217.71497
+offset_top = -332.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_scroll")
+
+[node name="Mask" type="Control" parent="Scroll"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Grid" type="GridContainer" parent="Column"]
+[node name="Content" type="MarginContainer" parent="Scroll/Mask"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Grid" type="GridContainer" parent="Scroll/Mask/Content"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
 theme_override_constants/h_separation = 28
 theme_override_constants/v_separation = 28
 columns = 4
+
+[node name="Scrollbar" parent="Scroll" instance=ExtResource("5_scrollbar")]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = 20.0
+offset_right = -102.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 2
 
 [node name="PeekButton" parent="." instance=ExtResource("3_peek")]
 unique_name_in_owner = true
