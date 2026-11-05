@@ -53,6 +53,8 @@ namespace Bird.BirdDebug;
 ///                                     history, timeline, settings, profile) and renders every mod
 ///                                     hover tip. Catches render-time faults the combat harness misses.
 ///   --bird-testall                   menu sweep, then cards, potions, relics — all in one process.
+///   --bird-hextest                   Witch Hex trigger rules across 1-4 player party compositions
+///                                     (HexMpTest): who may trigger a Hex on an enemy.
 ///   --bird-shot=&lt;name&gt;              Workshop marketing screenshot (MarketingShots: charselect,
 ///                                     familiars, restsite, shop, mp-relics); writes --bird-shot-out and
 ///                                     quits. Driven by tools/capture-marketing.ps1. Wins over the rest.
@@ -96,6 +98,7 @@ public static class BirdDebug
         if (CommandLineHelper.HasArg("bird-relictest")) { mode = CardTest.Mode.Relics; return true; }
         if (CommandLineHelper.HasArg("bird-menutest")) { mode = CardTest.Mode.Menu; return true; }
         if (CommandLineHelper.HasArg("bird-testall")) { mode = CardTest.Mode.All; return true; }
+        if (CommandLineHelper.HasArg("bird-hextest")) { mode = CardTest.Mode.Hex; return true; }
         mode = default;
         return false;
     }
@@ -321,6 +324,11 @@ public static class BirdDebug
         NAudioManager.Instance?.SetMasterVol(0f);
         try
         {
+            if (_smokeTestMode == CardTest.Mode.Hex)
+            {
+                await HexMpTest.RunAll(seed);
+                return;
+            }
             int priorTotal = 0;
             List<(string item, Exception ex)>? priorFailures = null;
             if (_smokeTestMode is CardTest.Mode.Menu or CardTest.Mode.All)

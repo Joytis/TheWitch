@@ -60,6 +60,7 @@ param(
     [switch]$PotionTest,       # -bird-debug -bird-potiontest: uses + discards every potion
     [switch]$RelicTest,        # -bird-debug -bird-relictest: equips every relic, then every card + potion
     [switch]$MenuTest,         # -bird-debug -bird-menutest: opens every main-menu screen + renders every hover tip
+    [switch]$HexTest,          # -bird-debug -bird-hextest: Hex trigger rules across 1-4 player parties (HexMpTest)
     [switch]$TestAll,          # -bird-debug -bird-testall: menu sweep, cards, potions, then relics in one run
     [string]$Encounter = "",   # optional encounter id for -Bootstrap (e.g. SLIMES_WEAK)
     [switch]$ResetFtue,                # -bird-reset-ftue: forget the character's tutorial tips so they show again
@@ -97,8 +98,8 @@ if ($Build -ne 'none') {
 
 # --- Smoke-test report: skim the tailed log, errors loud, passes routine ---------
 # One harness (BirdDebug CardTest) behind the flags; $tag picks the log prefix to parse.
-$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
-$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll
+$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($HexTest) { '[bird-hextest]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
+$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll -or $HexTest
 function Write-CardTestReport {
     param([System.Collections.Generic.List[string]]$lines, [string]$tag = $SmokeTag)
     $rtag = [regex]::Escape($tag)

@@ -22,6 +22,8 @@ namespace TheWitch.TheWitchCode.Powers;
 /// (ModifyDamageAdditive per hit + AfterAttack consume).
 /// Witch-only: in multiplayer, only attacks from a Witch-character player trigger the bonus or burn
 /// a stack — other characters' attacks leave Hex untouched, so the Witch can build critical mass.
+/// Exception: a non-Witch player who applied Hex to this creature themselves (Witch cards picked up via
+/// Kaleidoscope etc.) can trigger it too — otherwise their own Hex would be inert.
 /// </summary>
 public sealed class HexPower : WitchPower
 {
@@ -43,6 +45,15 @@ public sealed class HexPower : WitchPower
     // Witch as hit and Hex on the Witch never decremented. The receive hook still fires on the inner call.
     private bool _hitThisAttack;
 
+    // Non-Witch players who applied Hex to this creature; their attacks may trigger it too (see summary).
+    private HashSet<Player> _appliers = [];
+
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        _appliers = [];
+    }
+
     public override Task BeforeAttack(AttackCommand command)
     {
         _hitThisAttack = false;
@@ -63,6 +74,10 @@ public sealed class HexPower : WitchPower
         if (power == this)
         {
             DynamicVars[TotalDamageKey].BaseValue = DamagePerStack * Math.Max(Amount, 0);
+            if (amount > 0 && applier?.Player is { } player)
+            {
+                _appliers.Add(player);
+            }
         }
 
         await Task.CompletedTask;
@@ -119,12 +134,15 @@ public sealed class HexPower : WitchPower
     }
 
     /// <summary>
-    /// On an enemy, Hex only responds to a Witch-character player's attacks (any Witch in MP).
+    /// On an enemy, Hex only responds to a Witch-character player's attacks (any Witch in MP), or to
+    /// a non-Witch player who applied Hex to it themselves.
     /// On a player, enemy attacks trigger it — intents pick the bonus up automatically since
     /// intent damage runs through the ModifyDamage hook pipeline.
     /// </summary>
     private bool TriggeredBy(Creature? attacker) =>
-        Owner.IsPlayer ? attacker?.IsMonster == true : IsWitch(attacker);
+        Owner.IsPlayer
+            ? attacker?.IsMonster == true
+            : IsWitch(attacker) || (attacker?.Player is { } player && _appliers.Contains(player));
 
     private static bool IsWitch(Creature? attacker) =>
         attacker?.Player?.Character is Witch;

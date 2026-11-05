@@ -43,7 +43,7 @@ namespace Bird.BirdDebug;
 /// </summary>
 public static class CardTest
 {
-    public enum Mode { Cards, Potions, Relics, Menu, All }
+    public enum Mode { Cards, Potions, Relics, Menu, All, Hex }
 
     public static string TagFor(Mode mode) => mode switch
     {
@@ -51,6 +51,7 @@ public static class CardTest
         Mode.Relics => "[bird-relictest]",
         Mode.Menu => MenuTest.Tag,
         Mode.All => "[bird-testall]",
+        Mode.Hex => HexMpTest.Tag,
         _ => "[bird-cardtest]",
     };
 
