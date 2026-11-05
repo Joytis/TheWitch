@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
 namespace TheWitch.TheWitchCode.Cards;
 
@@ -58,6 +59,8 @@ public sealed class Mulch : WitchCard
             Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint),
             exhausted,
             Owner.RunState.Rng.CombatCardGeneration).ToList();
+        // Sprouts arrive Upgraded (CardCmd.Upgrade skips non-upgradable cards) and free this turn.
+        CardCmd.Upgrade(sprouted, CardPreviewStyle.HorizontalLayout);
         foreach (CardModel card in sprouted)
         {
             card.SetToFreeThisTurn();

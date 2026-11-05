@@ -29,7 +29,7 @@ public sealed class WickerConsumation : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(20m, ValueProp.Move),
+        new DamageVar(24m, ValueProp.Move),
         new DynamicVar("TargetBrambles", 50m),
         new PowerVar<IncarnationPower>(1m)
     ];

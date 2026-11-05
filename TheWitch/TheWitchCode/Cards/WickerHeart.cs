@@ -30,7 +30,7 @@ public sealed class WickerHeart : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<BramblesPower>(5m),
+        new PowerVar<BramblesPower>(6m),
         new DynamicVar("TargetBrambles", 10m)
     ];
 

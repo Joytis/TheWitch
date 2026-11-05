@@ -16,7 +16,7 @@ public sealed class AnimalHandling : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new CardsVar(2)
+        new CardsVar(3)
     ];
 
     public AnimalHandling()
@@ -29,7 +29,7 @@ public sealed class AnimalHandling : WitchCard
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
         List<CardModel> cards = FamiliarCardRegistry.CreateRandom(
-            Owner, DynamicVars.Cards.IntValue, CombatState!, Owner.RunState.Rng.CombatCardGeneration, isUpgraded: false);
+            Owner, DynamicVars.Cards.IntValue, CombatState!, Owner.RunState.Rng.CombatCardGeneration, isUpgraded: IsUpgraded);
         List<CardPileAddResult> results = new(cards.Count);
         foreach (CardModel card in cards)
         {
@@ -37,5 +37,5 @@ public sealed class AnimalHandling : WitchCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1);
+    // Upgrade = the created Familiar cards are upgraded (handled in OnPlay); the count stays fixed.
 }

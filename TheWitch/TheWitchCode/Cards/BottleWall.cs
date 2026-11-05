@@ -23,7 +23,7 @@ public sealed class BottleWall : WitchCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(8m, ValueProp.Move)
+        new BlockVar(6m, ValueProp.Move)
     ];
 
     public BottleWall()

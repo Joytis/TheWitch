@@ -19,7 +19,7 @@ public sealed class RefusePile : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(11m, ValueProp.Move),
-        new CardsVar(1)
+        new CardsVar(2)
     ];
 
     public RefusePile()

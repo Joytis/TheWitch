@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using TheWitch.TheWitchCode.Character;
 using TheWitch.TheWitchCode.Potions;
 using TheWitch.TheWitchCode.Powers;
 
@@ -23,7 +24,10 @@ public sealed class BottomlessCauldron : WitchCard
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<BottomlessCauldronPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        // Upgrade = one Noxious Brew up front (bounded tempo payback); cost stays 2, the per-potion engine is unchanged.
+        if (IsUpgraded)
+        {
+            await Witch.ProducePotion<NoxiousBrew>(Owner, Witch.PotionMode.Unstable);
+        }
     }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
