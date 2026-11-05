@@ -2373,7 +2373,7 @@
         "Damage": 10,
         "Replay": 1
       },
-      "upgrade": "Replay +1",
+      "upgrade": "Damage +5",
       "multiplayer": false,
       "note": "Extract Life: an Attack that also enchants a chosen card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
       "tested": false,
@@ -2747,15 +2747,15 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 5 Brambles. If you have 10 Brambles, add Wicker Bones into your Hand.",
+      "text": "Gain 6 Brambles. If you have 10 Brambles, add Wicker Bones into your Hand.",
       "numbers": {
-        "Brambles": 5,
+        "Brambles": 6,
         "TargetBrambles": 10
       },
       "upgrade": "Brambles +2",
       "multiplayer": false,
       "note": "Wicker Heart: first link of the Wicker chain.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -2827,10 +2827,10 @@
       "type": "Attack",
       "rarity": "Special",
       "target": "AnyEnemy",
-      "text": "Deal 20 damage. If you have 50 Brambles, gain Incarnation.",
+      "text": "Deal 24 damage. If you have 50 Brambles, gain Incarnation.",
       "numbers": {
         "Incarnation": 1,
-        "Damage": 20,
+        "Damage": 24,
         "TargetBrambles": 50
       },
       "upgrade": "Damage +5",
