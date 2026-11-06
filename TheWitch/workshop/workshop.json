@@ -7,7 +7,18 @@
                  "Characters",
                  "Cards",
                  "Relics",
-                 "Potions"
+                 "Potions",
+                 "Expansion",
+                 "English",
+                 "Simplified Chinese",
+                 "German",
+                 "French",
+                 "Italian",
+                 "Japanese",
+                 "Korean",
+                 "Portuguese - Brazil",
+                 "Russian",
+                 "Spanish - Spain"
              ],
     "dependencies":  [
                          3737335127

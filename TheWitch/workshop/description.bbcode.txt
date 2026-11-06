@@ -2,9 +2,9 @@
 [i]The woods are broken. They are angry.[/i]
 In active development. Expect regular balance changes and some placeholder card art.
 
-[b]Languages:[/b] English, Russian (Thanks Klomer <33!). 
+[b]Languages:[/b] Fully translated into English, Simplified Chinese, German, French, Italian, Japanese, Korean, Brazilian Portuguese, Russian (Thanks Klomer <33!), and Spanish.
 
-Community translations (Chinese, German, French, Italian, Japanese, Korean, Brazilian Portuguese, Spanish) are in progress on ParaTranz - see [i]Help translate[/i] below.
+Some lines may be CLUNKY! Translations can be improved on ParaTranz - see [i]Help translate[/i] below.
 
 [hr][/hr]
 [h1]Starting Kit[/h1]
@@ -42,7 +42,7 @@ Every finished card, relic, potion, and familiar is hand-drawn (Art is hard and 
 [/list]
 
 [h1]Help translate[/h1]
-Translations are crowd-sourced on ParaTranz. Join the project for your language, translate what you can, and it ships in the next release with your name in the credits:
+Every language is fully translated, and fixes are always welcome! Translations live on ParaTranz. Join the project for your language, improve what you can, and it ships in the next release with your name in the credits:
 [list]
 [*][url=https://paratranz.cn/projects/20686]简体中文[/url] · [url=https://paratranz.cn/projects/20687]Deutsch[/url] · [url=https://paratranz.cn/projects/20688]Français[/url] · [url=https://paratranz.cn/projects/20689]Italiano[/url] · [url=https://paratranz.cn/projects/20690]日本語[/url] · [url=https://paratranz.cn/projects/20691]한국어[/url] · [url=https://paratranz.cn/projects/20692]Português (BR)[/url] · [url=https://paratranz.cn/projects/20693]Русский[/url] · [url=https://paratranz.cn/projects/20694]Español[/url]
 [/list]
