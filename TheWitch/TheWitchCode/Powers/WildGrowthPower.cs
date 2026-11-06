@@ -20,6 +20,10 @@ public sealed class WildGrowthPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    /// <summary>Each play is its own countdown (Toric Toughness / The Bomb shape): two plays = double payload
+    /// for the shorter span, not one long stream.</summary>
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new EnergyVar(1),
         new PowerVar<BramblesPower>(6m),

@@ -1,0 +1,166 @@
+name: live2d-build
+
+# Builds the Witch's GDCubism fork (the native Live2D extension) for every platform the game ships
+# on: Windows x64, Linux x64 (glibc 2.31, so it loads inside the Steam Linux Runtime and on
+# Ubuntu 20.04+/SteamOS) and macOS universal (arm64 + x86_64, macOS 11+). The fork itself is
+# tools/live2d/gdcubism_fork.py, the same script the local Windows build uses.
+#
+# Manual only: Actions tab -> live2d-build -> Run workflow, ticking the Live2D license box (the
+# build downloads Live2D's Cubism SDK for Native, which can't be committed). Stage the results
+# locally with:  ./tools/live2d/setup-live2d.ps1 -FromCI   (latest successful run; -RunId <id>)
+
+on:
+  workflow_dispatch:
+    inputs:
+      accept_live2d_license:
+        description: "I accept the Live2D Proprietary Software License Agreement and Open Software License Agreement (the build downloads the Cubism SDK for Native)"
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live2d-build
+  cancel-in-progress: true
+
+env:
+  GDCUBISM_TAG: v0.9.1   # keep in step with tools/live2d/setup-live2d.ps1
+  SDK_VERSION: 5-r.3
+
+jobs:
+  build:
+    name: build (${{ matrix.platform }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows
+            os: windows-latest
+            arch: x86_64
+            lib: libwitch_cubism.windows.release.x86_64.dll
+          - platform: linux
+            os: ubuntu-latest
+            arch: x86_64
+            lib: libwitch_cubism.linux.release.x86_64.so
+          - platform: macos
+            os: macos-14
+            arch: universal
+            lib: libwitch_cubism.macos.release.framework
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Live2D license
+        if: ${{ !inputs.accept_live2d_license }}
+        run: |
+          echo "::error::Re-run with the Live2D license box ticked; the build downloads the Cubism SDK for Native."
+          exit 1
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Clone GDCubism and apply the Witch fork
+        run: |
+          git clone --depth 1 --branch "$GDCUBISM_TAG" --recurse-submodules --shallow-submodules https://github.com/MizunagiKB/gd_cubism.git gd_cubism
+          python tools/live2d/gdcubism_fork.py gd_cubism
+
+      - name: Download the Cubism SDK for Native
+        run: |
+          curl -fsSL -o sdk.zip "https://cubism.live2d.com/sdk-native/bin/CubismSdkForNative-$SDK_VERSION.zip"
+          python -c "import zipfile; zipfile.ZipFile('sdk.zip').extractall('gd_cubism/thirdparty')"
+
+      # The SDK ships Core libs per MSVC toolset (140..143) and SConstruct looks up the folder
+      # named after the detected toolset; newer toolsets link the newest one fine.
+      - name: Windows - map Cubism Core to the runner's MSVC toolset
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $sdk = Get-ChildItem gd_cubism/thirdparty -Directory -Filter 'CubismSdkForNative*' | Select-Object -First 1
+          $lib = Join-Path $sdk.FullName 'Core/lib/windows/x86_64'
+          $newest = Get-ChildItem $lib -Directory | Sort-Object { [int]$_.Name } | Select-Object -Last 1
+          foreach ($v in ([int]$newest.Name + 1)..149) {
+              $dir = Join-Path $lib $v
+              if (-not (Test-Path $dir)) { Copy-Item $newest.FullName $dir -Recurse }
+          }
+
+      - name: macOS - universal Cubism Core
+        if: matrix.platform == 'macos'
+        run: |
+          cd gd_cubism/thirdparty/CubismSdkForNative-*/Core/lib/macos
+          mkdir -p universal
+          lipo -create arm64/libLive2DCubismCore.a x86_64/libLive2DCubismCore.a -output universal/libLive2DCubismCore.a
+
+      - name: Build (Windows, macOS)
+        if: matrix.platform != 'linux'
+        working-directory: gd_cubism
+        run: |
+          python -m pip install --quiet scons
+          extra=""
+          if [ "${{ matrix.platform }}" = macos ]; then extra="macos_deployment_target=11.0"; fi
+          python -m SCons platform=${{ matrix.platform }} arch=${{ matrix.arch }} target=template_release $extra -j4
+
+      # Built inside Ubuntu 20.04 (glibc 2.31, same as the Steam Linux Runtime 3.0 "sniper"), so
+      # the .so doesn't demand a newer glibc than the game's environment provides.
+      - name: Build (Linux, Ubuntu 20.04 container)
+        if: matrix.platform == 'linux'
+        run: |
+          docker run --rm -v "$PWD/gd_cubism:/src" -w /src ubuntu:20.04 bash -euo pipefail -c '
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -qq
+            apt-get install -y -qq g++ python3-pip > /dev/null
+            python3 -m pip install --quiet scons
+            python3 -m SCons platform=linux arch=x86_64 target=template_release -j"$(nproc)"'
+
+      - name: Collect the library
+        run: |
+          mkdir -p out/bin
+          cp -R "gd_cubism/demo/addons/gd_cubism/bin/${{ matrix.lib }}" out/bin/
+          find out -type f -exec ls -l {} \;
+
+      # Apple Silicon refuses unsigned code; an ad-hoc signature is the minimum.
+      - name: macOS - ad-hoc sign + report
+        if: matrix.platform == 'macos'
+        run: |
+          find out/bin -type f | while read -r f; do
+            if file "$f" | grep -q Mach-O; then
+              codesign --force --sign - "$f"
+              lipo -info "$f"
+              otool -l "$f" | grep -A3 LC_BUILD_VERSION | grep minos || true
+            fi
+          done
+
+      - name: Linux - report glibc requirement
+        if: matrix.platform == 'linux'
+        run: objdump -T out/bin/*.so | grep -o 'GLIBC_[0-9.]*' | sort -uV | tail -1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: live2d-${{ matrix.platform }}
+          path: out/
+          if-no-files-found: error
+
+      # Platform-independent files, from one job: license notices for what the binaries contain
+      # (GDCubism MIT, godot-cpp MIT, Cubism SDK) and the fork's shaders (packed into the .pck).
+      - name: Collect licenses + shaders
+        if: matrix.platform == 'linux'
+        run: |
+          sdk=$(ls -d gd_cubism/thirdparty/CubismSdkForNative-*)
+          mkdir -p common/licenses common/shader
+          cp gd_cubism/LICENSE.en.adoc common/licenses/gd_cubism-LICENSE.adoc
+          cp gd_cubism/godot-cpp/LICENSE.md common/licenses/godot-cpp-LICENSE.md
+          cp "$sdk/LICENSE.md" common/licenses/CubismSdk-LICENSE.md
+          cp "$sdk/NOTICE.md" common/licenses/CubismSdk-NOTICE.md
+          cp gd_cubism/demo/addons/gd_cubism/res/shader/*.gdshader common/shader/
+
+      - uses: actions/upload-artifact@v4
+        if: matrix.platform == 'linux'
+        with:
+          name: live2d-common
+          path: common/
+          if-no-files-found: error

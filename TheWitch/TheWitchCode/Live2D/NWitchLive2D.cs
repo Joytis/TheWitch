@@ -3,25 +3,22 @@ using Godot;
 namespace TheWitch.TheWitchCode.Live2D;
 
 /// <summary>
-/// PROTOTYPE. Drives a GDCubism Live2D model from the Witch's existing visuals scene.
+/// PROTOTYPE. Drives a GDCubism Live2D model mounted under a scene's <c>Visuals</c> node
+/// (see <see cref="WitchLive2DMount"/>).
 ///
-/// The witch_visuals.tscn AnimationTree stays the source of truth: BaseLib travels its state
-/// machine (Idle / Attack / AttackSilent / Hit / PowerUp / Dead) and its tracks keep moving
-/// VisualsRoot (lunge, recoil, death tumble), which the model inherits as a child of the body
-/// sprite. This node watches the state machine and mirrors each state entry onto a Live2D
-/// motion group of the same name, so a Witch model only has to author motion groups named after
-/// the states. Between one-shots it plays a random "Idle" motion.
+/// In combat the witch_visuals.tscn AnimationTree stays the source of truth: BaseLib travels its
+/// state machine (Idle / Attack / AttackSilent / Hit / PowerUp / Dead) and its tracks keep moving
+/// VisualsRoot (lunge, recoil, death tumble), which the model inherits through Visuals. This
+/// node watches the state machine and mirrors each state entry onto a Live2D motion group of the
+/// same name, so a Witch model only has to author motion groups named after the states. Between
+/// one-shots, and in scenes without a tree (rest site, merchant), it plays a random "Idle" motion.
 /// </summary>
 public partial class NWitchLive2D : Node
 {
-    // Live2D sample models (Hiyori etc.) only ship "Idle" + "TapBody"; stand-ins until the
-    // Witch model authors her own groups.
+    // Motion groups tried, in order, when the model has no group named after the state.
     private static readonly Dictionary<string, string[]> Fallbacks = new()
     {
-        ["AttackSilent"] = ["Attack", "TapBody"],
-        ["Attack"] = ["TapBody"],
-        ["Hit"] = ["TapBody"],
-        ["PowerUp"] = ["TapBody"],
+        ["AttackSilent"] = ["Attack"],
     };
 
     // WitchCubismUserModel.Priority
@@ -38,13 +35,15 @@ public partial class NWitchLive2D : Node
     private StringName _lastState = new("");
     private double _lastPosition;
     private bool _dead;
+    private bool _partsLogged;
 
     /// <summary>
-    /// Builds the model for <paramref name="modelJson"/> and parents it under <paramref name="body"/>
-    /// (the %Visuals sprite, whose own texture is hidden) with its feet on the creature origin and
-    /// <paramref name="height"/> px tall. Null when the extension or model fails to load.
+    /// Builds the model for <paramref name="modelJson"/> under <paramref name="root"/> at its native
+    /// canvas size, bottom-centre of the canvas on the root's origin, so the root's own transform is
+    /// the only placement knob. <paramref name="breathIntensity"/> scales the breathing effect's
+    /// swings (1 = GDCubism's stock curves). Null when the extension or model fails to load.
     /// </summary>
-    public static Node2D? Attach(Sprite2D body, AnimationTree? tree, string modelJson, float height)
+    public static Node2D? Attach(Node2D root, AnimationTree? tree, string modelJson, float breathIntensity = 1f)
     {
         if (ClassDB.Instantiate(Live2DRuntime.ModelClass).AsGodotObject() is not Node2D model)
         {
@@ -62,29 +61,34 @@ public partial class NWitchLive2D : Node
             return null;
         }
 
-        // The model draws centred on its canvas origin; scale to the target height and lift it so
-        // the bottom of the canvas sits on the creature origin. Divide out the body sprite's own
-        // scale since the model is its child.
+        // The model draws centred on its canvas origin; lift it so the bottom of the canvas sits on
+        // the root's origin.
         Vector2 size = canvas["size_in_pixels"].AsVector2();
         Vector2 origin = canvas["origin_in_pixels"].AsVector2();
-        float k = height / size.Y;
-        model.Scale = Vector2.One * k / body.Scale;
-        model.Position = new Vector2(0f, -(size.Y - origin.Y) * k) / body.Scale;
+        model.Position = new Vector2(0f, -(size.Y - origin.Y));
+        MainFile.Logger.Info($"[live2d] {modelJson}: canvas {size}, origin {origin}, mounted under {root.Name}");
 
         // Blink + breathing come from GDCubism effect nodes reading the model's standard params.
+        // PLACEHOLDER: EffectBreath sways ParamAngleX/Y/Z, ParamBodyAngleX and ParamBreath on stock
+        // sine curves (gd_cubism_effect_breath.hpp), on top of whatever motion plays. It stands in
+        // for the artist's Idle motions; drop it (or set intensity 0) once those arrive, or it will
+        // layer extra head sway over them. `intensity` is a Witch-fork property (fork rev 4); an
+        // older plugin build ignores it and breathes at 1.
         foreach (string effect in new[] { "EffectEyeBlink", "EffectBreath" })
         {
             if (ClassDB.Instantiate(Live2DRuntime.ClassPrefix + effect).AsGodotObject() is Node node)
             {
+                if (effect == "EffectBreath")
+                {
+                    node.Set("intensity", breathIntensity);
+                    MainFile.Logger.Info($"[live2d] placeholder breathing on, intensity {node.Get("intensity")}");
+                }
                 model.AddChild(node);
             }
         }
 
         model.AddChild(new NWitchLive2D { Name = "Driver", _model = model, _tree = tree });
-        body.AddChild(model);
-        // Keep the body sprite in the tree (NCreatureVisuals uses it as %Visuals and its
-        // modulate/visibility should still reach the model); just stop it drawing its texture.
-        body.SelfModulate = Colors.Transparent;
+        root.AddChild(model);
         return model;
     }
 
@@ -100,6 +104,14 @@ public partial class NWitchLive2D : Node
 
     public override void _Process(double delta)
     {
+        if (!_partsLogged)
+        {
+            // Parts are built on the model's first update, after this node's _Ready.
+            _partsLogged = true;
+            Live2DBlendOverrides.Apply(_model, _model.Get("assets").AsString().GetBaseDir().GetFile());
+            LogParts();
+        }
+
         if (_playback == null)
         {
             return;
@@ -138,6 +150,22 @@ public partial class NWitchLive2D : Node
         {
             _model.Call("start_motion", group, RandomMotion(group), PriorityForce);
         }
+    }
+
+    /// <summary>
+    /// One line per model: how many parts use each blend shader (2d_cubism_norm_mix = Normal,
+    /// _mul = Multiply, _add = Additive; mask_* = clipped by a mask). Tells you whether a part the
+    /// artist meant as Multiply was actually exported as one.
+    /// </summary>
+    private void LogParts()
+    {
+        var counts = new SortedDictionary<string, int>();
+        foreach (MeshInstance2D part in _model.FindChildren("*", nameof(MeshInstance2D), recursive: false, owned: false).OfType<MeshInstance2D>())
+        {
+            string shader = (part.Material as ShaderMaterial)?.Shader?.ResourcePath.GetFile().GetBaseName() ?? "(none)";
+            counts[shader] = counts.GetValueOrDefault(shader) + 1;
+        }
+        MainFile.Logger.Info($"[live2d] {_model.Get("assets")}: parts by blend shader: {string.Join(", ", counts.Select(c => $"{c.Key} {c.Value}"))}");
     }
 
     private void PlayIdle()

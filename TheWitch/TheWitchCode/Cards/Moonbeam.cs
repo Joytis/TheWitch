@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -12,8 +14,9 @@ using TheWitch.TheWitchCode.Powers;
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// Moonbeam: strike, then bathe the target in <see cref="MoonlightPower" /> — it takes that much damage at the
-/// end of each of your turns (stacks on repeat plays).
+/// Moonbeam: strike, then bathe the target in <see cref="MoonlightPower" /> equal to the damage dealt (Blight Strike
+/// pattern: blocked + unblocked, so Strength/Vigor scale the Moonlight too). It takes that much damage at the start
+/// of each of your turns (stacks on repeat plays).
 /// </summary>
 public sealed class Moonbeam : WitchCard
 {
@@ -23,7 +26,6 @@ public sealed class Moonbeam : WitchCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(10m, ValueProp.Move),
-        new PowerVar<MoonlightPower>(10m)
     ];
 
     public Moonbeam()
@@ -35,7 +37,7 @@ public sealed class Moonbeam : WitchCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        AttackCommand attack = await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitVfxNode((Creature c) => WitchFx.MoonbeamNode(Owner.Creature, c))
@@ -43,16 +45,15 @@ public sealed class Moonbeam : WitchCard
             .WithHitFx(null, WitchFx.CelestialSfx, null)
             .Execute(choiceContext);
 
-        if (cardPlay.Target.IsAlive)
+        int dealt = attack.Results.SelectMany(r => r).Sum(r => r.TotalDamage);
+        if (cardPlay.Target.IsAlive && dealt > 0)
         {
-            await PowerCmd.Apply<MoonlightPower>(
-                choiceContext, cardPlay.Target, DynamicVars.Moonlight().BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<MoonlightPower>(choiceContext, cardPlay.Target, dealt, Owner.Creature, this);
         }
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars.Moonlight().UpgradeValueBy(2m);
     }
 }

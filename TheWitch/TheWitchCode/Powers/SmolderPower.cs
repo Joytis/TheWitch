@@ -17,6 +17,9 @@ public sealed class SmolderPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    /// <summary>Each play is its own countdown (Toric Toughness / The Bomb shape), same as <see cref="WildGrowthPower" />.</summary>
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         UnstablePotions.UnstableHoverTip,
         HoverTipFactory.FromPotion<EmberJar>(),

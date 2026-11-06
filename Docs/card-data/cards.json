@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31",
+  "generated": "2026-11-06",
   "cards": [
     {
       "name": "Defend",
@@ -77,7 +77,7 @@
       "multiplayer": false,
       "note": "Incant (starter): block, plus Hex if you have already drunk a potion this turn — the second half of the starting deck's potion loop (Harvest generates, Incant pays off).",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -330,15 +330,15 @@
       "type": "Skill",
       "rarity": "Common",
       "target": "Self",
-      "text": "Gain 6 Block. Gain 3 Brambles.",
+      "text": "Gain 7 Block. Gain 3 Brambles.",
       "numbers": {
         "Brambles": 3,
-        "Block": 6
+        "Block": 7
       },
       "upgrade": "Block +2, Brambles +1",
       "multiplayer": false,
       "note": "Hide in a Bush (formerly Spines): Block plus Brambles.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,
@@ -416,10 +416,10 @@
       "type": "Attack",
       "rarity": "Common",
       "target": "AnyEnemy",
-      "text": "Deal 9 damage. Gain 3 Brambles.",
+      "text": "Deal 10 damage. Gain 3 Brambles.",
       "numbers": {
         "Brambles": 3,
-        "Damage": 9
+        "Damage": 10
       },
       "upgrade": "Damage +2, Brambles +1",
       "multiplayer": false,
@@ -759,11 +759,11 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Add 2 random Familiar cards into your Hand.",
+      "text": "Add 3 random{IfUpgraded:show: Upgraded} Familiar cards into your Hand.",
       "numbers": {
-        "Cards": 2
+        "Cards": 3
       },
-      "upgrade": "Cards +1",
+      "upgrade": "none",
       "multiplayer": false,
       "note": "Animal Handling: a burst of familiar tokens — create N random Familiar cards in hand (see <see cref=\"FamiliarCardRegistry\" />).",
       "tested": false,
@@ -1274,15 +1274,14 @@
       "type": "Attack",
       "rarity": "Uncommon",
       "target": "AnyEnemy",
-      "text": "Deal 10 damage. Apply 10 Moonlight.",
+      "text": "Deal 10 damage. Apply Moonlight equal to damage dealt.",
       "numbers": {
-        "Moonlight": 10,
         "Damage": 10
       },
-      "upgrade": "Damage +2, Moonlight +2",
+      "upgrade": "Damage +2",
       "multiplayer": false,
-      "note": "Moonbeam: strike, then bathe the target in <see cref=\"MoonlightPower\" /> — it takes that much damage at the end of each of your turns (stacks on repeat plays).",
-      "tested": true,
+      "note": "Moonbeam: strike, then bathe the target in <see cref=\"MoonlightPower\" /> equal to the damage dealt (Blight Strike pattern: blocked + unblocked, so Strength/Vigor scale the Moonlight too).",
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1504,15 +1503,15 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 11 Block. Add a Rats into your Draw Pile and Discard Pile.",
+      "text": "Gain 11 Block. Add 2 Rats into your Draw Pile and Discard Pile.",
       "numbers": {
         "Block": 11,
-        "Cards": 1
+        "Cards": 2
       },
       "upgrade": "Block +3",
       "multiplayer": false,
       "note": "Refuse Pile: block up and seed your piles with Rats — two into the draw pile, two into the discard.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -1704,16 +1703,16 @@
       "type": "Skill",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Gain 3 Block. Gain 3 Brambles. Add a copy of this card into your Discard Pile.",
+      "text": "Gain 4 Block. Gain 3 Brambles. Add a copy of this card into your Discard Pile.",
       "numbers": {
         "Brambles": 3,
-        "Block": 3
+        "Block": 4
       },
       "upgrade": "Block +2, Brambles +1",
       "multiplayer": false,
       "note": "Sprouts: a small guard that reseeds itself — block + Brambles, and a copy of this card sprouts in your Discard pile (Anger pattern).",
-      "tested": true,
-      "artFinal": false,
+      "tested": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -1843,7 +1842,7 @@
       "multiplayer": false,
       "note": "Vile Renewal: Block, draw a card, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [],
@@ -1859,9 +1858,9 @@
       "type": "Power",
       "rarity": "Uncommon",
       "target": "Self",
-      "text": "Whenever you use or create a Potion, deal 4 damage to a random enemy.",
+      "text": "Whenever you use or create a Potion, deal 3 damage to a random enemy.",
       "numbers": {
-        "VolatileVapors": 4
+        "VolatileVapors": 3
       },
       "upgrade": "VolatileVapors +1",
       "multiplayer": false,
@@ -1955,13 +1954,13 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Whenever you use a Potion, draw a card.",
+      "text": "Whenever you use a Potion, gain {BramblesPower:diff()} Brambles and draw a card.",
       "numbers": {
         "ALittleSip": 1
       },
       "upgrade": "custom (see code)",
       "multiplayer": false,
-      "note": "A Little Sip: a Power — whenever you use a potion, draw a card.",
+      "note": "A Little Sip: a Power — whenever you use a potion, gain Brambles and draw a card.",
       "tested": false,
       "artFinal": false,
       "vfxPass": false,
@@ -2079,14 +2078,14 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 8 Block. Create an Unstable Fortifier Potion.",
+      "text": "Gain 6 Block. Create an Unstable Fortifier Potion.",
       "numbers": {
-        "Block": 8
+        "Block": 6
       },
       "upgrade": "Block +4",
       "multiplayer": false,
       "note": "Bottle Wall: gain Block and brew up a Fortifier potion.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -2113,10 +2112,10 @@
       "target": "Self",
       "text": "Whenever you use a Potion, create an Unstable Noxious Brew.",
       "numbers": {},
-      "upgrade": "Cost -1",
+      "upgrade": "none",
       "multiplayer": false,
       "note": "",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -2334,15 +2333,15 @@
       "type": "Power",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Summon 3 random Familiars. Draw 2 fewer cards each turn.",
+      "text": "Summon 3 random Familiars. Draw 1 fewer card each turn.",
       "numbers": {
-        "DrawReduction": 2,
+        "DrawReduction": 1,
         "Familiars": 3
       },
       "upgrade": "Familiars +1",
       "multiplayer": false,
       "note": "Embrace the Wilds: summon a burst of random familiars at the cost of drawing fewer cards each turn for the rest of combat.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -2374,7 +2373,7 @@
         "Damage": 10,
         "Replay": 1
       },
-      "upgrade": "Replay +1",
+      "upgrade": "Damage +5",
       "multiplayer": false,
       "note": "Extract Life: an Attack that also enchants a chosen card in your hand with Replay and Exhaust — one big extra payoff this combat, then gone.",
       "tested": false,
@@ -2498,7 +2497,7 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Exhaust X cards. For each card Exhausted, add a random card into your Hand. It is free to play this turn.",
+      "text": "Exhaust X cards. For each card Exhausted, add a random Upgraded card into your Hand. It is free to play this turn.",
       "numbers": {},
       "upgrade": "none",
       "multiplayer": false,
@@ -2535,7 +2534,7 @@
       "multiplayer": false,
       "note": "Summons a cosmetic owl pet alongside the familiar power.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -2748,15 +2747,15 @@
       "type": "Skill",
       "rarity": "Rare",
       "target": "Self",
-      "text": "Gain 5 Brambles. If you have 10 Brambles, add Wicker Bones into your Hand.",
+      "text": "Gain 6 Brambles. If you have 10 Brambles, add Wicker Bones into your Hand.",
       "numbers": {
-        "Brambles": 5,
+        "Brambles": 6,
         "TargetBrambles": 10
       },
       "upgrade": "Brambles +2",
       "multiplayer": false,
       "note": "Wicker Heart: first link of the Wicker chain.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
@@ -2779,7 +2778,7 @@
       "multiplayer": false,
       "note": "Witchcraft: spend X Energy, create X random Unstable potions.",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -2828,10 +2827,10 @@
       "type": "Attack",
       "rarity": "Special",
       "target": "AnyEnemy",
-      "text": "Deal 20 damage. If you have 50 Brambles, gain Incarnation.",
+      "text": "Deal 24 damage. If you have 50 Brambles, gain Incarnation.",
       "numbers": {
         "Incarnation": 1,
-        "Damage": 20,
+        "Damage": 24,
         "TargetBrambles": 50
       },
       "upgrade": "Damage +5",
@@ -2935,7 +2934,7 @@
       "multiplayer": false,
       "note": "Wolf familiar token.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
@@ -2960,9 +2959,9 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain 3 Block.",
+      "text": "Gain 5 Block.",
       "numbers": {
-        "Block": 3
+        "Block": 5
       },
       "upgrade": "Block +1",
       "multiplayer": false,
@@ -3271,13 +3270,14 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Add 2 Rats into your Draw Pile and Discard Pile.",
+      "text": "Add 2 Rats into your Draw Pile and Discard Pile. Rats deal 1 additional damage.",
       "numbers": {
+        "QueenOfTheRats": 1,
         "Cards": 2
       },
       "upgrade": "Cards +1",
       "multiplayer": false,
-      "note": "Rat familiar token: flood the piles — Rats shuffled into BOTH the draw and discard piles (Refuse Pile pattern).",
+      "note": "Rat familiar token: flood the piles — Rats shuffled into BOTH the draw and discard piles (Refuse Pile pattern) — and crown the Queen of the Rats: every Rats card deals more damage (<see cref=\"QueenOfTheRatsPower\" />).",
       "tested": false,
       "artFinal": false,
       "vfxPass": true,
@@ -3306,14 +3306,13 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Draw 2 cards. Discard 1 card.",
+      "text": "Draw 2 cards.",
       "numbers": {
-        "Cards": 2,
-        "Discard": 1
+        "Cards": 2
       },
-      "upgrade": "Cards +1, Discard +1",
+      "upgrade": "Cards +1",
       "multiplayer": false,
-      "note": "Owl familiar token: draw 2, discard 1 — the upgrade scales both (draw 3, discard 2).",
+      "note": "Owl familiar token: draw 2 (upgraded: draw 3).",
       "tested": false,
       "artFinal": false,
       "vfxPass": true,

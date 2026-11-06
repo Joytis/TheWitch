@@ -19,7 +19,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class Incant : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     public override bool GainsBlock => true;
 

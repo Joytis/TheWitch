@@ -20,14 +20,20 @@ REPO = Path(__file__).resolve().parents[2]
 CHARACTERS = {
     "witch": {"key": "witch", "id": "TheWitch", "prefix": "THEWITCH-",
               "data_file": "Docs/card-data/cards.json",
+              "code_dir": "TheWitch/TheWitchCode",                  # relic rarities
+              "loc_dir": "TheWitch/TheWitch/localization/eng",      # display names
+              "patch_notes": "Docs/patch-notes",                     # "What changed" view
               # dominant-archetype tie-break order (see export_stats.dominant_archetype)
               "mechanics": ["Hex", "Potions", "Familiars", "Brambles"]},
     "augur": {"key": "augur", "id": "TheAugur", "prefix": "THEAUGUR-",
                 "data_file": "Docs/card-data/augur.json",
+                "code_dir": "TheAugur/TheAugurCode",
+                "loc_dir": "TheAugur/TheAugur/localization/eng",
+                "patch_notes": None,
                 "mechanics": ["Foretell", "Omen", "Augury"]},
 }
 DEFAULT_CHARACTER = "witch"
-BASE_CLASS_FILES = ("silent", "necrobinder", "ironclad")
+BASE_CLASS_FILES = ("silent", "necrobinder", "ironclad", "defect", "regent")
 
 
 def character_config(character: str | None) -> dict:
@@ -69,7 +75,10 @@ PAGE_SIZE = 1000
 
 def fetch_runs(key: str, mod_version: str | None, game_version: str | None,
                days_back: int | None, character: str | None = None) -> pd.DataFrame:
-    params = {"select": "victory,ascension,floor,data,mod_version,game_version,created_at",
+    # player_hash is read for per-player derivations (distinct counts, first-seen) and never
+    # written out by the exporter.
+    params = {"select": "victory,ascension,floor,data,mod_version,game_version,created_at,"
+                        "player_hash,playtime",
               "order": "created_at.asc", "limit": str(PAGE_SIZE)}
     # `character` = uploading mod id ("TheWitch" / "TheAugur"); the shared runs table gained the
     # column with tools/analytics/migrations/001_character_column.sql. Opt-in so the export keeps

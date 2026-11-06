@@ -19,7 +19,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class Witchcraft : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     protected override bool HasEnergyCostX => true;
 

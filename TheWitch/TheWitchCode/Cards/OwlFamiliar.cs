@@ -8,7 +8,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class OwlFamiliar : WitchCard, IFamiliarSummon
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     public OwlFamiliar()
         : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)

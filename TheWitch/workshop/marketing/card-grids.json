@@ -1,0 +1,83 @@
+{
+  "_about": "Which cards each marketing grid shows, in grid order. Written once by tools/render-marketing-cards.js (deterministic sample, seed below; --reroll rewrites it), then authoritative: edit by hand to swap or reorder.",
+  "seed": "thewitch-marketing-v1",
+  "grids": [
+    {
+      "file": "cards-common.jpg",
+      "rarity": "Common",
+      "cols": 5,
+      "cards": [
+        "FRENZY",
+        "MOTH_FAMILIAR",
+        "WAX_AND_WANE",
+        "STRIKE_FEAR",
+        "STONY_BREW",
+        "CALL_THE_PACK",
+        "FORBIDDEN_MAGIC",
+        "TORMENT",
+        "BROOM_STRIKE",
+        "VEXING_STRIKE",
+        "NEEDLE_WHIP",
+        "HIDE_IN_A_BUSH",
+        "SMOLDER",
+        "LAVENDER_AND_SAGE",
+        "WICKED_BREW"
+      ]
+    },
+    {
+      "file": "cards-uncommon.jpg",
+      "rarity": "Uncommon",
+      "cols": 5,
+      "cards": [
+        "POLYMORPH",
+        "SALT_AND_ASH",
+        "STUCK_IN_A_BUSH",
+        "SHARE_THE_BREW",
+        "GRIND_DOWN",
+        "COMMAND",
+        "ROT_BLOOM",
+        "DEEP_ROOTS",
+        "CIRCLE_OF_ROT",
+        "CAT_FAMILIAR",
+        "CLOAK_OF_TWILIGHT",
+        "VOLATILE_VAPORS",
+        "ROTTING_ROOTS",
+        "WILD_GROWTH",
+        "MOONBEAM"
+      ]
+    },
+    {
+      "file": "cards-rare.jpg",
+      "rarity": "Rare",
+      "cols": 5,
+      "cards": [
+        "CAULDRON_DANCE",
+        "CURSED_SPELLBOOK",
+        "BLOOD_ANOINTMENT",
+        "MESSAGE_IN_A_BOTTLE",
+        "BOTTOMLESS_CAULDRON",
+        "PRIMAL_FORM",
+        "CRYSTAL_BOTTLE",
+        "RITUAL_CASTING",
+        "OWL_FAMILIAR",
+        "PLAGUE_TIDE",
+        "DISTILL",
+        "BOTTLE_WALL",
+        "AMBUSH",
+        "WICKER_HEART",
+        "WITCHCRAFT"
+      ]
+    },
+    {
+      "file": "cards-starter.jpg",
+      "rarity": "Starter",
+      "cols": 4,
+      "cards": [
+        "STRIKE_WITCH",
+        "DEFEND_WITCH",
+        "HARVEST",
+        "INCANT"
+      ]
+    }
+  ]
+}

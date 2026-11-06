@@ -602,6 +602,31 @@
             "detail": "Bundle, then upload to the Steam Workshop. Requires Steam running & logged in. First upload creates a new item and writes workshop/mod_id.txt (commit it). Prompts for the character mod."
         },
         {
+            "label": "Workshop: Upload Marketing Material",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/bundle-workshop.ps1",
+                "-Character",
+                "${input:character}",
+                "${input:marketingMode}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Sync the Workshop item's gallery (images + YouTube videos) to <workshop>/marketing/marketing.json. Prompts: character, then Dry run (print the diff) or Live (upload). No build or content upload. Requires Steam running & logged in."
+        },
+        {
             "label": "Card Data: Regen",
             "type": "process",
             "command": "node",
@@ -782,6 +807,22 @@
         }
     ],
     "inputs": [
+        {
+            "id": "marketingMode",
+            "type": "pickString",
+            "description": "Marketing upload: dry run or live?",
+            "options": [
+                {
+                    "label": "Dry run (show what would change on the Workshop gallery)",
+                    "value": "-MarketingDryRun"
+                },
+                {
+                    "label": "Live (upload to the Workshop gallery)",
+                    "value": "-UpdateMarketing"
+                }
+            ],
+            "default": "-MarketingDryRun"
+        },
         {
             "id": "characterOrAll",
             "type": "pickString",

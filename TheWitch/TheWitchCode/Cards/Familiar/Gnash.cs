@@ -18,6 +18,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class Gnash : WitchFamiliarCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new CalculationBaseVar(3m),
         new ExtraDamageVar(3m),

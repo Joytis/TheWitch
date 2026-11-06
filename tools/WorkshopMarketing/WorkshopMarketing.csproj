@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!--
+      Syncs a Workshop item's gallery (additional preview images + YouTube videos) to a
+      marketing manifest. Driven by tools/bundle-workshop.ps1 -UpdateMarketing; see Program.cs.
+      Deliberately NOT in TheWicken.slnx: it is a release tool, not part of the mod build.
+
+      Steamworks.NET + steam_api64.dll come from the installed game as a MATCHED PAIR: the managed
+      bindings call flat functions by name and hand them interface pointers of the SDK version they
+      were built for, so they must come from the same SDK as the native dll. (The NuGet 15.0.1
+      bindings vs ModUploader's newer steam_api64.dll failed with "Unable to find an entry point
+      named 'SteamAPI_Init'".) Game discovery is shared with the mod csprojs.
+    -->
+    <Import Project="..\..\Sts2PathDiscovery.props" />
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <PlatformTarget>x64</PlatformTarget>
+        <SelfContained>false</SelfContained>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Steamworks.NET">
+            <HintPath>$(Sts2DataDir)/Steamworks.NET.dll</HintPath>
+        </Reference>
+        <None Include="$(Sts2DataDir)/steam_api64.dll" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+        <!-- steam_appid.txt (2868840 = Slay the Spire 2) is read from the working directory at
+             SteamAPI.Init; Program.cs switches to the exe folder, so it ships beside the exe. -->
+        <None Include="..\ModUploader-win-x64\steam_appid.txt" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    </ItemGroup>
+
+    <Target Name="CheckSts2Found" BeforeTargets="ResolveAssemblyReferences">
+        <Error Text="Slay the Spire 2 data not found at '$(Sts2DataDir)' (WorkshopMarketing takes Steamworks.NET + steam_api64.dll from it). Set Sts2Path in local.props."
+               Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)/Steamworks.NET.dll')" />
+    </Target>
+
+</Project>

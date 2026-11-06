@@ -1,13 +1,19 @@
 [gd_scene load_steps=2 format=3 uid="uid://dt14luwusxnb5"]
 
-[ext_resource type="Texture2D" uid="uid://eliyyn5nk1c" path="res://TheWitch/textures/witch_idle.png" id="1_yelt3"]
+[ext_resource type="Texture2D" uid="uid://b3s3e23jcnbl4" path="res://TheWitch/live2d/witch_shop/editor_preview.png" id="live2d_preview"]
 
 [node name="WitchMerchant" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.19, 0.19)
-texture = ExtResource("1_yelt3")
-offset = Vector2(-178.815, -1034.555)
+[node name="Visuals" type="Node2D" parent="."]
+position = Vector2(-29.5, 61.7)
+scale = Vector2(0.1777, 0.1777)
+metadata/live2d_model = "witch_shop"
+
+[node name="EditorPreview" type="Sprite2D" parent="Visuals"]
+scale = Vector2(2, 2)
+texture = ExtResource("live2d_preview")
+centered = false
+offset = Vector2(-450, -1300)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

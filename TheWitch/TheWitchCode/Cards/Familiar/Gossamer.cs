@@ -13,7 +13,7 @@ public sealed class Gossamer : WitchFamiliarCard
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new BlockVar(3m, ValueProp.Move)
+        new BlockVar(5m, ValueProp.Move)
     ];
 
     public override CardModel Summon => ModelDb.Card<MothFamiliar>();

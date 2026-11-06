@@ -1,21 +1,27 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
-/// A Little Sip: a Power — whenever you use a potion, draw a card. Each copy adds one stack (one more card
-/// per potion). Ethereal until upgraded. See <see cref="ALittleSipPower" />.
+/// A Little Sip: a Power — whenever you use a potion, gain Brambles and draw a card. Each copy adds one stack
+/// (1 more Bramble and one more card per potion). Ethereal until upgraded. See <see cref="ALittleSipPower" />.
 /// </summary>
 public sealed class ALittleSip : WitchCard
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new PowerVar<ALittleSipPower>(1m)
+        new PowerVar<ALittleSipPower>(1m),
+        new PowerVar<BramblesPower>(ALittleSipPower.BramblesPerStack),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<BramblesPower>(),
     ];
 
     public ALittleSip()

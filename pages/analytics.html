@@ -5,267 +5,415 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Balance Analytics</title>
 <style>
-  /* Witch-house chrome + rarity colors, both ported from the retired matplotlib
-     scripts. Rarity hues are close under color-blindness — tooltips, the table
-     rarity column, and search-dimming carry identity alongside color. */
+  /* Witch-house chrome (keep in sync with ../index.html). Data colors were run through the
+     dataviz validator against --panel (dark): rarity triple passes all-pairs CVD/normal-vision;
+     "this window" vs "compare" is an emphasis pair (accent vs de-emphasis gray), never color-alone —
+     every compare chart has a legend and a table/tooltip. */
   :root{
-    --ground:#2e2226; --panel:#382a2c; --frame:#8a6f66;
+    --ground:#2e2226; --panel:#382a2c; --panel-2:#41302f; --frame:#8a6f66;
     --ink:#e8dcc8; --ink-2:#cbb8a4; --muted:#9b8577;
     --grid:#4d3b3a; --baseline:#5c4844;
-    --sage:#b8d48f; --rose:#c99a90;
-    --rare:#e6c15c; --uncommon:#b8d48f; --common:#cf9a8f; --other:#8a7f74;
+    --sage:#b8d48f; --rose:#c99a90; --gold:#e6c15c;
+    --cur:#8fb24f; --cmp:#8a7a72;
+    --rare:#b98a12; --uncommon:#4f8fd6; --common:#cc5f7a; --other:#8a7f74;
+    --good:#9fcf6a; --bad:#e0938a;
   }
   *{box-sizing:border-box}
+  [hidden]{display:none !important}
   body{margin:0;background:var(--ground);color:var(--ink);
        font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-  main{max-width:1150px;margin:0 auto;padding:28px 24px 80px}
-  h1{font-size:24px;margin:0 0 2px}
+  main{max-width:1180px;margin:0 auto;padding:26px 24px 80px}
+  h1{font-size:24px;margin:0 0 2px;color:var(--gold)}
   .sub{color:var(--ink-2);font-size:13px;margin-bottom:6px}
-  .fresh{color:var(--muted);font-size:12px;margin-bottom:18px}
+  .fresh{color:var(--muted);font-size:12px;margin-bottom:14px}
   a{color:var(--sage)}
+  button{font:inherit}
 
-  .filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  /* filter bar — one row above everything it scopes */
+  .filters{position:sticky;top:0;z-index:15;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;
            background:var(--panel);border:1px solid var(--grid);border-radius:10px;
-           padding:10px 14px;margin-bottom:14px}
-  .filters label{font-size:12px;color:var(--ink-2);display:flex;gap:6px;align-items:center}
-  select,input[type=search]{
-    background:var(--ground);color:var(--ink);border:1px solid var(--frame);
-    border-radius:6px;padding:4px 8px;font:inherit;font-size:13px}
-  .msel{position:relative}
-  .msel>button{background:var(--ground);color:var(--ink);border:1px solid var(--frame);
-    border-radius:6px;padding:4px 8px;font:inherit;font-size:13px;cursor:pointer;
-    max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .msel>button::after{content:" ▾";color:var(--muted)}
-  .msel>button:hover,.msel.open>button{border-color:var(--sage)}
-  .msel .pop{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:20;
-    background:var(--panel);border:1px solid var(--frame);border-radius:8px;
-    padding:6px;min-width:150px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
-  .msel.open .pop{display:block}
-  .msel .pop label{display:flex;gap:7px;align-items:center;padding:4px 6px;
-    border-radius:5px;cursor:pointer;font-size:13px;color:var(--ink);white-space:nowrap}
-  .msel .pop label:hover{background:#41302f}
-  .msel .pop .all{border-bottom:1px solid var(--grid);margin-bottom:4px;padding-bottom:6px;
-    color:var(--ink-2)}
-  input[type=checkbox]{appearance:none;-webkit-appearance:none;width:15px;height:15px;
-    border:1px solid var(--frame);border-radius:4px;background:var(--ground);
-    cursor:pointer;position:relative;vertical-align:-3px;margin:0 2px 0 0}
-  input[type=checkbox]:hover{border-color:var(--sage)}
-  input[type=checkbox]:checked{background:var(--sage);border-color:var(--sage)}
-  input[type=checkbox]:checked::after{content:"✓";position:absolute;inset:0;
-    text-align:center;font-size:11px;line-height:15px;color:#26301a;font-weight:700}
+           padding:10px 14px;margin-bottom:12px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .fgroup{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--ink-2)}
+  .fgroup>.lab{color:var(--muted)}
+  select{background:var(--ground);color:var(--ink);border:1px solid var(--frame);
+         border-radius:6px;padding:3px 8px;font-size:13px}
+  input[type=search]{background:var(--ground);color:var(--ink);border:1px solid var(--frame);
+         border-radius:6px;padding:4px 8px;font-size:13px;width:220px}
+  .chips{display:flex;gap:4px;flex-wrap:wrap}
+  .chip{background:transparent;border:1px solid var(--grid);color:var(--ink-2);
+        border-radius:14px;padding:2px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+  .chip:hover{border-color:var(--frame)}
+  .chip.on{background:var(--sage);border-color:var(--sage);color:#26301a;font-weight:600}
+  .chip .n{opacity:.7;font-weight:400;margin-left:4px}
+  .chip.cmp.on{background:var(--cmp);border-color:var(--cmp);color:#1f1719}
   .stepper{display:inline-flex;align-items:center;border:1px solid var(--frame);
     border-radius:14px;overflow:hidden;background:var(--ground)}
   .stepper button{background:transparent;border:none;color:var(--ink-2);cursor:pointer;
-    font:inherit;font-size:14px;padding:2px 10px;line-height:1.3}
+    font-size:14px;padding:1px 9px;line-height:1.3}
   .stepper button:hover{background:var(--panel);color:var(--sage)}
-  .stepper .v{min-width:22px;text-align:center;font-size:13px;color:var(--ink);
-    font-variant-numeric:tabular-nums}
-  .chips{display:flex;gap:4px;flex-wrap:wrap}
-  .chip{background:transparent;border:1px solid var(--grid);color:var(--ink-2);
-        border-radius:14px;padding:3px 11px;font:inherit;font-size:12px;cursor:pointer}
-  .chip:hover{border-color:var(--frame)}
-  .chip.on{background:var(--sage);border-color:var(--sage);color:#26301a;font-weight:600}
-  .toggle{cursor:pointer;user-select:none}
+  .stepper .v{min-width:24px;text-align:center;font-size:12px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .scope{font-size:12px;color:var(--muted);margin:-4px 2px 12px}
+  .scope b{color:var(--ink-2);font-weight:600}
 
-  .char-tabs{display:flex;gap:4px;margin-bottom:10px}
-  .char-tabs .tab{padding:6px 16px;font-size:13px;border-radius:8px;border-bottom:1px solid var(--grid)}
-  .char-tabs .tab.on{border-color:var(--frame)}
-  .tabs{display:flex;gap:4px;margin-bottom:14px}
+  .char-tabs{display:flex;gap:4px;margin:8px 0 6px}
+  .tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
   .tab{background:transparent;border:1px solid var(--grid);border-bottom:none;color:var(--ink-2);
-       border-radius:8px 8px 0 0;padding:7px 18px;font:inherit;font-size:14px;cursor:pointer}
+       border-radius:8px 8px 0 0;padding:6px 16px;font-size:14px;cursor:pointer}
   .tab.on{background:var(--panel);color:var(--ink);font-weight:600}
+  .char-tabs .tab{border-radius:8px;border-bottom:1px solid var(--grid);font-size:13px;padding:5px 14px}
   .view{display:none}
   .view.on{display:block}
 
-  .cards-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-  .tile{background:var(--panel);border:1px solid var(--grid);border-radius:10px;
-        padding:12px 18px;min-width:130px}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:14px}
+  .tile{background:var(--panel);border:1px solid var(--grid);border-radius:10px;padding:11px 16px}
   .tile .lab{font-size:12px;color:var(--ink-2)}
-  .tile .val{font-size:26px;font-weight:600;margin-top:2px}
+  .tile .val{font-size:25px;font-weight:600;margin-top:1px}
+  .tile .val small{font-size:13px;font-weight:400;color:var(--ink-2);margin-left:4px}
+  .tile .delta{font-size:12px;color:var(--muted);margin-top:1px}
 
   .panel{background:var(--panel);border:1px solid var(--grid);border-radius:10px;
          padding:14px 16px;margin-bottom:14px}
   .row2{display:flex;gap:14px;flex-wrap:wrap}
-  .row2 .panel{flex:1 1 420px;min-width:0}
-  .panel h2{font-size:14px;margin:0 0 2px;color:var(--ink)}
-  .panel .note{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .row2>.panel{flex:1 1 440px;min-width:0}
+  .multiples{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+  .multiples .panel{margin:0;background:var(--ground)}
+  .panel h2{font-size:15px;margin:0 0 2px;color:var(--ink)}
+  .panel .note{font-size:12px;color:var(--muted);margin-bottom:9px;max-width:900px}
+  .panel .note b{color:var(--ink-2);font-weight:600}
   svg{display:block;width:100%;height:auto}
   svg text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-  .legend{display:flex;gap:16px;font-size:12px;color:var(--ink-2);margin:6px 2px 0}
-  .legend .sw{display:inline-block;width:10px;height:10px;border-radius:50%;
-              margin-right:5px;vertical-align:-1px}
-  .legend .ln{display:inline-block;width:16px;height:0;border-top:2px dashed var(--rose);
-              margin-right:5px;vertical-align:3px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:6px 2px 0}
+  .legend .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+  .legend .ln{display:inline-block;width:16px;height:0;border-top:2px dashed var(--rose);margin-right:6px;vertical-align:3px}
+  .legend .tick{display:inline-block;width:2px;height:12px;background:var(--ink);margin-right:6px;vertical-align:-2px}
 
-  .modal-back{position:fixed;inset:0;background:rgba(20,13,15,.72);z-index:20;
-              display:flex;align-items:center;justify-content:center;padding:24px}
-  .modal-back[hidden]{display:none}
-  .modal{background:var(--panel);border:1px solid var(--frame);border-radius:12px;
-         padding:18px 22px;max-width:940px;width:100%;max-height:90vh;overflow:auto;
-         position:relative}
-  .modal h2{font-size:17px;margin:0 26px 2px 0}
-  .modal .note{font-size:12px;color:var(--muted);margin-bottom:8px}
-  .modal-close{position:absolute;top:10px;right:12px;background:none;border:none;
-               color:var(--ink-2);font-size:22px;cursor:pointer;line-height:1}
-  .modal-close:hover{color:var(--ink)}
+  .watch{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:10px}
+  .wl{border:1px solid var(--grid);border-radius:8px;padding:9px 12px;background:var(--ground)}
+  .wl h3{font-size:12.5px;margin:0 0 5px;color:var(--ink-2);font-weight:600;letter-spacing:.2px}
+  .wl ul{margin:0;padding:0;list-style:none}
+  .wl li{display:flex;gap:8px;align-items:baseline;font-size:13px;padding:2px 0}
+  .wl li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .wl li .nm.link{cursor:pointer}
+  .wl li .nm.link:hover{color:var(--sage)}
+  .wl li .v{font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:12px;white-space:nowrap}
+  .wl .none{color:var(--muted);font-size:12.5px}
 
   .tooltip{position:fixed;pointer-events:none;background:#241a1d;border:1px solid var(--frame);
            border-radius:6px;padding:6px 10px;font-size:12.5px;color:var(--ink-2);
-           display:none;z-index:10;max-width:280px}
+           display:none;z-index:40;max-width:300px}
+  .tooltip .t{color:var(--ink);font-weight:600;margin-bottom:2px}
   .tooltip .v{color:var(--ink);font-weight:600}
 
   table{border-collapse:collapse;width:100%;font-size:13px}
-  th,td{text-align:left;padding:5px 10px;border-bottom:1px solid var(--grid)}
-  th{color:var(--ink-2);font-weight:600;cursor:pointer;user-select:none;white-space:nowrap}
+  th,td{text-align:left;padding:5px 9px;border-bottom:1px solid var(--grid);vertical-align:middle}
+  th{color:var(--ink-2);font-weight:600;user-select:none;white-space:nowrap;font-size:12px}
+  th.sort{cursor:pointer}
   th.sorted::after{content:" ▾";color:var(--sage)}
   th.sorted.asc::after{content:" ▴"}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  td.dim{color:var(--muted)}
   tr.rowlink{cursor:pointer}
-  tr.rowlink:hover td{background:#41302f}
-  .rar{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px}
-  .up{color:var(--sage)} .down{color:#e0938a}
-  .minibar{display:inline-block;height:8px;border-radius:0 4px 4px 0;background:var(--sage);
-           vertical-align:1px}
-  .empty{color:var(--muted);font-size:14px;padding:26px;text-align:center}
+  tr.rowlink:hover td{background:var(--panel-2)}
+  .tablewrap{overflow-x:auto}
+  .rar{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:0}
+  .up{color:var(--good)} .down{color:var(--bad)}
+  .verdict{font-size:11.5px;white-space:nowrap;padding:1px 7px;border-radius:9px;border:1px solid var(--grid);color:var(--ink-2)}
+  .verdict.strong-up{border-color:var(--good);color:var(--good)}
+  .verdict.strong-down{border-color:var(--bad);color:var(--bad)}
+  .verdict.lean-up{color:var(--good);border-style:dashed}
+  .verdict.lean-down{color:var(--bad);border-style:dashed}
+  .verdict.few{color:var(--muted)}
+  .minibar{display:inline-block;height:7px;border-radius:0 3px 3px 0;background:var(--cur);vertical-align:1px;margin-left:6px}
+  .mech{font-size:11px;color:var(--muted)}
+  .empty{color:var(--muted);font-size:14px;padding:22px;text-align:center}
+  .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--ink-2)}
+
+  .patch{border:1px solid var(--grid);border-radius:8px;padding:10px 14px;margin-bottom:10px;background:var(--ground)}
+  .patch .hd{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-size:13px}
+  .patch .sec{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+  .patch .txt{color:var(--ink);font-size:13.5px;margin:3px 0 8px}
+  .patch table{font-size:12.5px;table-layout:fixed}
+  .patch th:nth-child(1){width:30%} .patch th:nth-child(2),.patch th:nth-child(3){width:11%}
+  .patch th:nth-child(4){width:14%} .patch th:nth-child(5){width:130px} .patch th:nth-child(7){width:11%}
+  .patch td,.patch th{padding:3px 8px}
+  .vhead{font-size:13px;color:var(--gold);font-weight:600;margin:16px 0 8px}
+
+  .modal-back{position:fixed;inset:0;background:rgba(20,13,15,.72);z-index:30;
+              display:flex;align-items:flex-start;justify-content:center;padding:4vh 24px;overflow:auto}
+  .modal-back[hidden]{display:none}
+  .modal{background:var(--panel);border:1px solid var(--frame);border-radius:12px;
+         padding:18px 22px;max-width:980px;width:100%;position:relative}
+  .modal h2{font-size:19px;margin:0 30px 2px 0;color:var(--ink)}
+  .modal h3{font-size:13.5px;margin:16px 0 2px;color:var(--ink)}
+  .modal .note{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .modal-close{position:absolute;top:10px;right:14px;background:none;border:none;
+               color:var(--ink-2);font-size:24px;cursor:pointer;line-height:1}
+  .modal-close:hover{color:var(--ink)}
+  .modal .tiles{margin:10px 0 4px}
+
+  .method p,.method li{font-size:13.5px;color:var(--ink-2);max-width:880px}
+  .method code{background:var(--ground);padding:1px 5px;border-radius:4px;font-size:12.5px;color:var(--ink)}
   .badge{display:inline-block;min-width:18px;padding:0 6px;margin-left:7px;border-radius:9px;
-         background:var(--rose);color:#2e1b18;font-size:11px;font-weight:700;line-height:18px;
-         text-align:center;vertical-align:1px}
-  .app{border:1px solid var(--grid);border-radius:8px;padding:10px 14px;margin-bottom:10px;
-       background:var(--ground)}
+         background:var(--rose);color:#2e1b18;font-size:11px;font-weight:700;line-height:18px;text-align:center}
+  .app{border:1px solid var(--grid);border-radius:8px;padding:10px 14px;margin-bottom:10px;background:var(--ground)}
   .app .who{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;font-size:13px}
-  .app .who b{color:var(--ink)}
   .app .who .lang{color:var(--sage);font-weight:600}
-  .app .who .when,.app .who .st{color:var(--muted);font-size:12px}
-  .app .who .st.expired{color:var(--rose)}
+  .app .who .when{color:var(--muted);font-size:12px}
   .app .msg{margin-top:6px;white-space:pre-wrap;color:var(--ink-2);font-size:13px}
+  .loading{opacity:.5;transition:opacity .15s}
 </style>
 </head>
 <body>
 <main>
   <h1 id="pageTitle">Balance Analytics</h1>
-  <div class="sub">Aggregate run telemetry · rates recomputed live from daily count tables ·
-    <a href="../index.html">back to docs</a></div>
+  <div class="sub">Run telemetry, skill-adjusted · <a href="../index.html">back to docs</a> ·
+    <a href="#method" data-jump="method">how to read this</a></div>
   <div class="char-tabs" id="charTabs" role="tablist" aria-label="Character"></div>
   <div class="fresh" id="fresh">Loading…</div>
 
   <div class="filters" id="filters" hidden>
-    <div class="chips" id="dateChips"></div>
-    <label>Mod <span class="msel" id="modSel"></span></label>
-    <label>Game <span class="msel" id="gameSel"></span></label>
-    <label class="toggle"><input type="checkbox" id="showOther" /> Include other mods' content</label>
-  <label class="toggle"><input type="checkbox" id="includeMP" /> Include multiplayer runs</label>
-    <div class="chips" id="mechChips"></div>
-    <label>Min runs <span class="stepper"><button id="minMinus" aria-label="decrease">−</button><span
-    class="v" id="minRunsVal">3</span><button id="minPlus" aria-label="increase">+</button></span></label>
+    <div class="fgroup"><span class="lab">Window</span><span class="chips" id="relChips"></span></div>
+    <div class="fgroup"><span class="lab">vs</span><span class="chips" id="cmpChips"></span></div>
+    <div class="fgroup"><span class="chips" id="modeChips"></span></div>
+    <div class="fgroup"><span class="lab">Ascension</span><span class="chips" id="ascChips"></span></div>
+    <div class="fgroup"><span class="chips" id="worldChips"></span></div>
+    <div class="fgroup" title="The win rate the character is balanced around. Strong / Weak verdicts are judged against it. Remembered in this browser.">
+      <span class="lab">Target</span><span class="stepper"><button id="tgtMinus" aria-label="lower target">−</button><span
+      class="v" id="tgtVal">25%</span><button id="tgtPlus" aria-label="raise target">+</button></span></div>
   </div>
+  <div class="scope" id="scope"></div>
 
-  <div class="tabs" id="tabs" hidden>
-    <button class="tab on" data-view="overview">Overview</button>
+  <div class="tabs" id="tabs" hidden role="tablist">
+    <button class="tab on" data-view="pulse">Pulse</button>
+    <button class="tab" data-view="changes">What changed</button>
     <button class="tab" data-view="cards">Cards</button>
-    <button class="tab" data-view="encounters">Encounters</button>
-    <button class="tab" data-view="diff">Diff</button>
+    <button class="tab" data-view="arch">Archetypes</button>
+    <button class="tab" data-view="relics">Relics</button>
+    <button class="tab" data-view="threats">Threats</button>
+    <button class="tab" data-view="history">History</button>
+    <button class="tab" data-view="method">Method</button>
     <button class="tab" data-view="loc">Localization<span class="badge" id="locBadge" hidden></span></button>
   </div>
 
-  <div class="view on" id="view-overview">
-    <div class="cards-row" id="tiles"></div>
+  <!-- ============ PULSE ============ -->
+  <div class="view on" id="view-pulse">
+    <div class="tiles" id="pulseTiles"></div>
+    <div class="panel">
+      <h2>Watchlist</h2>
+      <div class="note">Generated from the current filters, judged against the <b>balance target</b> (set in the filter bar).
+        A card only lands under Strong / Weak when its whole 95% interval is above / below the target — the data
+        can tell, not just a lucky streak. Click a card for its breakdown.</div>
+      <div class="watch" id="watch"></div>
+    </div>
     <div class="row2">
       <div class="panel">
-        <h2>Win rate by day</h2>
-        <div class="note">Share of runs won, per upload day. Hover for run counts.</div>
-        <div id="chartDay"></div>
+        <h2>How far runs get</h2>
+        <div class="note">Share of runs that cleared each act. The gap between bars is where runs die.</div>
+        <div id="chartFunnel"></div>
+        <div class="legend" id="legFunnel"></div>
       </div>
+      <div class="panel">
+        <h2>Win rate by player skill</h2>
+        <div class="note">Players bucketed by their lifetime win rate (all characters, before this run).
+          The tick is what the skill model expects — bars past the tick beat expectation.</div>
+        <div id="chartSkill"></div>
+        <div class="legend" id="legSkill"></div>
+      </div>
+    </div>
+    <div class="row2">
       <div class="panel">
         <h2>Win rate by ascension</h2>
-        <div class="note">Dashed line = overall win rate across the current filters.</div>
+        <div class="note">Whiskers are 95% intervals; tick = expected for that band's players.</div>
         <div id="chartAsc"></div>
-        <div class="legend"><span><span class="ln"></span>overall win rate</span></div>
+        <div class="legend" id="legAsc"></div>
       </div>
-    </div>
-    <div class="row2">
       <div class="panel">
         <h2>Runs per day</h2>
-        <div class="note">Uploaded runs per day across the current filters.</div>
-        <div id="chartRunsDay"></div>
+        <div class="note">Window highlighted; compare window in gray. Release days marked.</div>
+        <div id="chartDays"></div>
       </div>
-      <div class="panel">
-        <h2>Runs in the past 24 hours</h2>
-        <div class="note">Hourly run volume over the 24h before the last data refresh (UTC).</div>
-        <div id="chartRunsHour"></div>
-      </div>
-    </div>
-    <div class="panel">
-      <h2>Win rate by archetype</h2>
-      <div class="note">Each run bucketed by the mechanic with the most <span class="char-short">Witch</span> cards in its
-        final deck (3+ cards to commit; otherwise Unfocused). Measures the package, not
-        individual cards.</div>
-      <div id="archTable"></div>
     </div>
   </div>
 
+  <!-- ============ WHAT CHANGED ============ -->
+  <div class="view" id="view-changes">
+    <div class="panel">
+      <h2>What changed — and did it move?</h2>
+      <div class="note">Every patch-note line in the window that names a card or relic, with that content's
+        numbers in the <b>compare</b> window (before) next to the <b>current</b> window (after). Taken-vs-passed
+        lift is the cleanest strength read; small samples say "too few" rather than guess. Potions are not in
+        the telemetry.</div>
+      <div id="changes"></div>
+    </div>
+  </div>
+
+  <!-- ============ CARDS ============ -->
   <div class="view" id="view-cards">
     <div class="panel">
-      <h2>Card win rate vs pick rate</h2>
-      <div class="note">Pick rate = taken ÷ offered at rewards (draft desirability,
-        normalized by opportunity). Deck rate = share of runs whose final deck contains the
-        card — includes cards gained outside rewards, so never-offered cards only appear in
-        that view. Pip size = run count. Hover a point; click it for the ascension
-        breakdown.</div>
-      <div style="margin-bottom:8px;display:flex;gap:12px;align-items:center">
-        <input type="search" id="cardSearch" placeholder="Search cards…" style="width:240px" />
-        <span class="chips" id="xChips"></span>
-      </div>
-      <div id="chartScatter"></div>
-      <div class="legend" id="scatterLegend"></div>
+      <h2>Draft map</h2>
+      <div class="note">Pick rate (x) against the card's win rate (y), with the balance target dashed. <b>Top-left</b>:
+        players pass it but runs that take it beat the target — underrated. <b>Bottom-right</b>: popular but runs that
+        take it fall short — a trap. Pip size = offers; faded pips have too few samples; Strong / Weak cards are labeled.</div>
+      <div id="chartDraft"></div>
+      <div class="legend" id="legDraft"></div>
     </div>
     <div class="panel">
-      <h2>All cards</h2>
-      <div class="note">Click a header to sort; click a row for the ascension breakdown.</div>
-      <div id="cardTable"></div>
+      <h2>Cards</h2>
+      <div class="ctl">
+        <input type="search" id="cardSearch" placeholder="Search cards…" />
+        <span class="chips" id="mechChips"></span>
+        <span class="chips" id="rarChips"></span>
+        <label><input type="checkbox" id="showOther" /> include non-<span class="char-short">Witch</span> cards</label>
+        <span>min offers <span class="stepper"><button id="minMinus" aria-label="fewer">−</button><span class="v" id="minVal">20</span><button id="minPlus" aria-label="more">+</button></span></span>
+      </div>
+      <div class="note"><b>Win rate</b> = the window's win rate plus the card's taken-vs-passed lift: how much more often
+        runs won after taking it than runs that saw it and passed, skill-adjusted (hover for the lift itself). The
+        verdict compares it with the balance target: <b>Strong</b> / <b>Weak</b> when the whole 95% interval is above /
+        below. <b>Deck WR</b> is the raw win rate of runs ending with the card — survivorship-biased (long runs hold
+        more cards), for reference. <b>Upgr.</b> = campfire upgrades per run holding it. Δ = vs the compare window.</div>
+      <div class="tablewrap" id="cardTable"></div>
     </div>
   </div>
 
-  <div class="view" id="view-encounters">
+  <!-- ============ ARCHETYPES ============ -->
+  <div class="view" id="view-arch">
     <div class="panel">
-      <h2>Deaths by floor</h2>
-      <div class="note">Where losing runs ended (combat deaths only).</div>
-      <div id="chartDeathFloors"></div>
+      <h2>Archetype health</h2>
+      <div class="note">Each run is filed under the mechanic with the most <span class="char-short">Witch</span> cards in its
+        final deck (3+ to commit; otherwise Unfocused). The verdict compares its win rate with the balance target.
+        Committed archetypes read a little high (runs that die early end with fewer cards, so more of them are
+        Unfocused). <b>Vs expected</b> is the skill-adjusted read — useful when strong players favor a package.</div>
+      <div class="tablewrap" id="archTable"></div>
+    </div>
+    <div class="panel">
+      <h2>Archetypes across releases</h2>
+      <div class="note">One panel per archetype: share of runs (columns) and win rate (dot + 95% interval, dashed =
+        target) per release line, same mode / ascension / world filters. Current window highlighted.</div>
+      <div id="archMultiples" class="multiples"></div>
+    </div>
+  </div>
+
+  <!-- ============ RELICS ============ -->
+  <div class="view" id="view-relics">
+    <div class="panel">
+      <h2><span class="char-short">Witch</span> relics</h2>
+      <div class="note">Runs ending with the relic, against the balance target. Starter relics are held by nearly every
+        run, so they just track the character's overall line.</div>
+      <div class="tablewrap" id="ownRelicTable"></div>
+    </div>
+    <div class="panel">
+      <h2>Ancient choices</h2>
+      <div class="note">Options offered at Ancients during <span class="char-short">Witch</span> runs: how often each is taken, and its
+        win rate when taken (window win rate + taken-vs-passed lift, same method as cards) against the target.</div>
+      <div class="ctl"><input type="search" id="ancSearch" placeholder="Search relics…" /></div>
+      <div class="tablewrap" id="ancTable"></div>
+    </div>
+    <div class="panel">
+      <h2>Every relic held</h2>
+      <div class="note">All base-game and <span class="char-short">Witch</span> relics in final relic bars. Correlation, not cause —
+        relics picked up late show up in runs that were already doing well, so these read high.</div>
+      <div class="ctl"><input type="search" id="relSearch" placeholder="Search relics…" /></div>
+      <div class="tablewrap" id="relicTable"></div>
+    </div>
+  </div>
+
+  <!-- ============ THREATS ============ -->
+  <div class="view" id="view-threats">
+    <div class="row2">
+      <div class="panel">
+        <h2>Where runs die</h2>
+        <div class="note">Losing runs by the floor they ended on.</div>
+        <div id="chartFloors"></div>
+      </div>
+      <div class="panel">
+        <h2>Bosses</h2>
+        <div class="note">Death rate per boss fight, current window vs compare.</div>
+        <div id="chartBosses"></div>
+        <div class="legend" id="legBosses"></div>
+      </div>
     </div>
     <div class="panel">
       <h2>Encounter toll</h2>
-      <div class="note">Per encounter across the current filters: how often it was fought,
-        the average HP it cost, how long it took, and how many runs it ended.</div>
-      <div id="encTable"></div>
+      <div class="ctl"><span class="chips" id="tierChips"></span><span class="chips" id="actChips"></span></div>
+      <div class="note"><b>Death rate</b> = runs ended ÷ times fought. <b>Share of deaths</b> = this encounter's slice
+        of every loss in the window. Δ = change vs compare window.</div>
+      <div class="tablewrap" id="encTable"></div>
     </div>
   </div>
 
-  <div class="view" id="view-diff">
+  <!-- ============ HISTORY ============ -->
+  <div class="view" id="view-history">
     <div class="panel">
-      <h2>Version diff — per-card win rate</h2>
-      <div class="note">Compares two mod releases. The mod-version filter above is ignored
-        here; date/build/card filters still apply. Sorted by biggest win-rate swing; cards
-        need the min-runs threshold on BOTH sides to appear.</div>
-      <div style="margin-bottom:10px;display:flex;gap:14px;align-items:center">
-        <label style="font-size:12px;color:var(--ink-2)">A <select id="diffA"></select></label>
-        <span style="color:var(--muted);font-size:12px">vs</span>
-        <label style="font-size:12px;color:var(--ink-2)">B <select id="diffB"></select></label>
+      <h2>Is she getting stronger?</h2>
+      <div class="note">Wins vs expected per release, every version on record — the skill model's verdict on each
+        build. Same mode / ascension / world filters; the window is highlighted.</div>
+      <div id="chartVersions"></div>
+    </div>
+    <div class="row2">
+      <div class="panel">
+        <h2>Raw win rate per release</h2>
+        <div class="note">Unadjusted. Compare with the chart above: a gap means the player mix changed.</div>
+        <div id="chartVersionsRaw"></div>
       </div>
-      <div id="diffTable"></div>
+      <div class="panel">
+        <h2>Players per release line</h2>
+        <div class="note">Distinct players (solo + co-op rows as filtered) and how many came back for 2+ runs.</div>
+        <div id="chartPlayers"></div>
+        <div class="legend"><span><span class="sw" style="background:var(--cur)"></span>players</span>
+          <span><span class="sw" style="background:var(--cmp)"></span>returned for 2+ runs</span></div>
+      </div>
     </div>
   </div>
 
+  <!-- ============ METHOD ============ -->
+  <div class="view method" id="view-method">
+    <div class="panel">
+      <h2>How to read this page</h2>
+      <p><b>Window</b> is the slice under study (default: the newest release line, all its patches); <b>vs</b> is
+        the baseline every Δ is measured against (default: the line before). Solo is the default mode because
+        co-op teams carry each other. "Base-game world" drops runs that went through another mod's acts or
+        met another mod's monsters — those change the difficulty underneath the Witch.</p>
+      <p><b>Balance target</b> (default 25%, set in the filter bar). The win rate the character is balanced around.
+        Card, archetype and relic verdicts are judged against it: <span class="verdict strong-up">Strong ▲</span> when the
+        whole 95% interval sits above it, <span class="verdict strong-down">Weak ▼</span> when it sits below,
+        <span class="verdict lean-up">Leaning strong</span> / <span class="verdict lean-down">Leaning weak</span> when the
+        estimate is more than half an interval away, <span class="verdict">Near target</span> otherwise. A card's win rate
+        is the window's run win rate plus its taken-vs-passed lift, so if the whole character runs above target, its
+        average card does too. The target is one number for every filter — at A10 nearly everything reads Weak.</p>
+      <p><b>Wins vs expected.</b> Who is playing moves win rate far more than any card. Every run gets an expected
+        win probability from a logistic model fitted on all <span class="char-short">Witch</span> runs on record:</p>
+      <div class="tablewrap" id="modelTable"></div>
+      <p>"Wins vs expected" = (wins − expected wins) ÷ runs, in percentage points. Its 95% interval is
+        ±1.96·√Σp(1−p) ÷ runs — the spread you'd see if the slice were exactly as strong as expected. Player skill
+        is the game's own lifetime win rate for that player (every character); the uploaded value already
+        includes the run itself, so that run's result is backed out first.</p>
+      <p><b>Taken vs passed (card / Ancient lift).</b> At each reward screen, the runs that took a card are compared
+        with the runs that saw it and passed, each against expectation. Both groups reached the same screen, so
+        the "long runs collect more cards" bias cancels. It still reflects the <i>choice</i>: a card can show a
+        negative lift because the alternatives it was offered beside were better.</p>
+      <p><b>Verdict caveats.</b> <span class="verdict few">Too few</span>: under the minimum sample (cards: the "min offers"
+        stepper, with at least a quarter of that taken and passed; archetypes 10 runs; relics 15). With ~100 cards,
+        expect a handful of Strong / Weak verdicts by chance alone — look for ones that persist across releases.</p>
+      <p><b>Archetype</b> = mechanic with the most own cards in the final deck (3+), from the curated tags in
+        <code>Docs/card-data/cards.json</code>. Card / relic / encounter detail tables cover the newest
+        <span id="detailN">3</span> release lines; run-level tables cover everything.</p>
+      <p>Data: nightly export by <code>tools/analytics/export_stats.py</code> from the runs table. No player
+        hashes or per-run rows are published — only summed counts.</p>
+    </div>
+  </div>
+
+  <!-- ============ LOCALIZATION ============ -->
   <div class="view" id="view-loc">
     <div class="panel">
       <h2>Pending applications</h2>
-      <div class="note">People asking to join a ParaTranz translation project. Approve or decline on
-        the project's Applications page — the answer is not pushed from here. Refreshed by the nightly
-        localization sync. <span id="locFresh"></span></div>
+      <div class="note">People asking to join a ParaTranz translation project. Approve or decline on the
+        project's Applications page. Refreshed by the nightly localization sync. <span id="locFresh"></span></div>
       <div id="locApps"></div>
     </div>
     <div class="panel">
       <h2>Translation projects</h2>
-      <div class="note">Strings translated / reviewed per language on ParaTranz. Anything translated
-        ships in the next release; review is optional polish.</div>
+      <div class="note">Strings translated / reviewed per language on ParaTranz.</div>
       <div id="locProjects"></div>
     </div>
   </div>
@@ -278,20 +426,8 @@
     <button class="modal-close" id="modalClose" aria-label="Close">×</button>
     <h2 id="modalTitle"></h2>
     <div class="note" id="modalSub"></div>
-    <div id="chartCardAsc"></div>
-    <div class="legend"><span><span class="sw" style="background:var(--sage)"></span>card win rate</span>
-      <span><span class="ln"></span>all-runs baseline</span></div>
-    <div id="archSection">
-      <h2 style="margin-top:16px">Win rate by archetype</h2>
-      <div class="note">This card inside each dominant archetype (deck bucketed by its most
-        common <span class="char-short">Witch</span> mechanic). Dashed = that archetype's overall win rate.</div>
-      <div id="chartCardArch"></div>
-    </div>
-    <div id="copiesSection">
-      <h2 style="margin-top:16px">Copies in deck</h2>
-      <div class="note">Does stacking it pay off? Dashed = this card's overall win rate.</div>
-      <div id="chartCardCopies"></div>
-    </div>
+    <div class="tiles" id="modalTiles"></div>
+    <div id="modalBody"></div>
   </div>
 </div>
 <div class="tooltip" id="tip"></div>
@@ -302,45 +438,1190 @@ const $ = id => document.getElementById(id);
 const CSS = getComputedStyle(document.documentElement);
 const C = name => CSS.getPropertyValue(name).trim();
 const RARITY_COLOR = {Rare: C("--rare"), Uncommon: C("--uncommon"), Common: C("--common")};
-const DATE_PRESETS = [["7d", 7], ["30d", 30], ["90d", 90], ["All time", 0]];
+const rarColor = r => RARITY_COLOR[r] || C("--other");
 
-// ---------- characters ----------
-// Mirrors Docs/card-data/characters.js + tools/analytics/common.CHARACTERS. `dir` is where
-// export_stats.py writes that character's tables (the Witch keeps the historical root folder).
-// `optional`: the folder may not exist yet (export not enabled) — show an empty state, not an error.
+// ---------- characters (mirrors Docs/card-data/characters.js + tools/analytics/common.CHARACTERS) ----------
 const CHARACTERS = {
   witch: {key: "witch", id: "TheWitch", label: "The Witch", short: "Witch", prefix: "THEWITCH-",
-          dir: "analytics-data", mechanics: ["Hex", "Potions", "Familiars", "Brambles"]},
-  augur: {key: "augur", id: "TheAugur", label: "The Augur", short: "Augur",
-            prefix: "THEAUGUR-", dir: "analytics-data/augur", optional: true,
-            mechanics: ["Foretell", "Omen", "Augury"],
-            emptyMsg: "No Augur runs exported yet — enable the Augur export in " +
-                      ".github/workflows/analytics.yml after the character column migration " +
-                      "(tools/analytics/migrations/001_character_column.sql)."},
+          dir: "analytics-data"},
+  augur: {key: "augur", id: "TheAugur", label: "The Augur", short: "Augur", prefix: "THEAUGUR-",
+          dir: "analytics-data/augur", optional: true,
+          emptyMsg: "No Augur runs exported yet — the Augur hasn't shipped."},
 };
 const CHAR_KEY = "analytics.character";
-// ?character=<key> wins for this load, then the remembered choice, then the Witch.
 const CHAR = (() => {
   const q = new URLSearchParams(location.search).get("character");
   if (q && CHARACTERS[q]) return CHARACTERS[q];
-  try { const v = localStorage.getItem(CHAR_KEY); if (v && CHARACTERS[v]) return CHARACTERS[v]; }
-  catch {}
+  try { const v = localStorage.getItem(CHAR_KEY); if (v && CHARACTERS[v]) return CHARACTERS[v]; } catch {}
   return CHARACTERS.witch;
 })();
-const MECHANICS = ["All", ...CHAR.mechanics, "None"];
-const ARCH_ORDER = [...CHAR.mechanics, "Unfocused"];
-const DATA_DIR = CHAR.dir;
-// cards_meta `own` = "belongs to this mod character" (older exports call it `witch`).
-const isOwn = meta => !!(meta && (meta.own ?? meta.witch));
 
-function setCharacter(key) {
-  if (!CHARACTERS[key] || key === CHAR.key) return;
-  try { localStorage.setItem(CHAR_KEY, key); } catch {}
-  const url = new URL(location.href);
-  url.searchParams.set("character", key);
-  url.hash = "";                       // card deep-links are per character
-  location.href = url.href;            // full reload: every table is fetched once in init()
+// ---------- data ----------
+let META, T = {};                          // T[name] = array of row objects
+const TABLES = ["runs", "days", "arch", "deck", "deck_arch", "offers", "relics",
+                "ancients", "encounters", "floors", "players"];
+const expand = t => t.rows.map(r => Object.fromEntries(t.cols.map((c, i) => [c, r[i]])));
+
+// ---------- state ----------
+const state = {
+  rels: new Set(), cmp: "",                // release ids
+  mode: "Solo", asc: new Set(), world: "Base-game world",
+  search: "", mech: "All", rar: "All", showOther: false, minOff: 20,
+  cardSort: "est", cardAsc: false, encSort: "share", encAsc: false,
+  tier: "All", act: "All", ancSearch: "", relSearch: "",
+  target: (() => { try { const v = parseFloat(localStorage.getItem("analytics.target")); if (v > 0 && v < 1) return v; } catch {}
+                   return 0.25; })(),   // the win rate the character is balanced around
+};
+const MODES = ["Solo", "Co-op", "Both"];
+const WORLDS = ["Base-game world", "Any world"];
+
+let CUR_VERS = new Set(), CMP_VERS = new Set();
+function syncVersions() {
+  CUR_VERS = new Set(META.releases.filter(r => state.rels.has(r.id)).flatMap(r => r.versions));
+  const c = META.releases.find(r => r.id === state.cmp);
+  CMP_VERS = new Set(c ? c.versions : []);
 }
+const hasCmp = () => CMP_VERS.size > 0;
+
+// Filter on everything except the version window.
+function passBase(r) {
+  if (state.mode === "Solo" && r.mp) return false;
+  if (state.mode === "Co-op" && !r.mp) return false;
+  if (state.world === "Base-game world" && r.world === 0) return false;
+  if (state.asc.size && r.ab !== undefined && !state.asc.has(r.ab)) return false;
+  return true;
+}
+const inCur = r => CUR_VERS.has(r.ver) && passBase(r);
+const inCmp = r => CMP_VERS.has(r.ver) && passBase(r);
+
+function sum(rows, fields) {
+  const g = Object.fromEntries(fields.map(f => [f, 0]));
+  for (const r of rows) for (const f of fields) g[f] += r[f] || 0;
+  return g;
+}
+function groupBy(rows, keyFn, fields) {
+  const m = new Map();
+  for (const r of rows) {
+    const k = keyFn(r);
+    let g = m.get(k);
+    if (!g) { g = Object.fromEntries(fields.map(f => [f, 0])); m.set(k, g); }
+    for (const f of fields) g[f] += r[f] || 0;
+  }
+  return m;
+}
+const RATE = ["runs", "wins", "xw", "xv"];
+const PICK = ["off", "pk", "pw", "pxw", "pxv", "sw", "sxw", "sxv"];
+
+// ---------- statistics ----------
+const Z = 1.96;
+function wilson(w, n) {
+  if (!n) return [0, 1];
+  const p = w / n, z2 = Z * Z;
+  const mid = (p + z2 / (2 * n)) / (1 + z2 / n);
+  const half = Z * Math.sqrt(p * (1 - p) / n + z2 / (4 * n * n)) / (1 + z2 / n);
+  return [Math.max(0, mid - half), Math.min(1, mid + half)];
+}
+// Wins above expected: {est, half, n}
+function wae(g) {
+  if (!g || !g.runs) return null;
+  return {est: (g.wins - g.xw) / g.runs, half: Z * Math.sqrt(g.xv) / g.runs, n: g.runs};
+}
+// Taken-vs-passed lift: {est, half, n(offers), pk, sk}
+function tvp(g) {
+  if (!g) return null;
+  const sk = g.off - g.pk;
+  if (g.pk < 1 || sk < 1) return {est: null, half: null, n: g.off, pk: g.pk, sk};
+  const est = (g.pw - g.pxw) / g.pk - (g.sw - g.sxw) / sk;
+  const half = Z * Math.sqrt(g.pxv / (g.pk * g.pk) + g.sxv / (sk * sk));
+  return {est, half, n: g.off, pk: g.pk, sk};
+}
+// ---------- balance target ----------
+// The win rate the character is balanced around (default 25%, adjustable in the filter bar).
+// Strong = the whole 95% interval sits above it; Weak = the whole interval sits below it.
+const tpct = () => Math.round(state.target * 100) + "%";
+function verdictT(s, enough) {
+  if (!s || s.est === null || s.est === undefined || !enough) return {cls: "few", text: "Too few", rank: 0};
+  const t = state.target, lo = s.lo ?? s.est - s.half, hi = s.hi ?? s.est + s.half, half = (hi - lo) / 2;
+  if (lo > t) return {cls: "strong-up", text: "Strong ▲", rank: 3};
+  if (hi < t) return {cls: "strong-down", text: "Weak ▼", rank: -3};
+  if (s.est > t + half / 2) return {cls: "lean-up", text: "Leaning strong", rank: 1};
+  if (s.est < t - half / 2) return {cls: "lean-down", text: "Leaning weak", rank: -1};
+  return {cls: "", text: "Near target", rank: 0};
+}
+// Run win rate of a slice, as {p, half, n}.
+function baseRate(pred) {
+  const s = sum(T.runs.filter(pred), ["runs", "wins"]);
+  if (!s.runs) return null;
+  const p = s.wins / s.runs;
+  return {p, half: Z * Math.sqrt(p * (1 - p) / s.runs), n: s.runs};
+}
+// Card / Ancient-option win rate = the slice's run win rate shifted by the taken-vs-passed lift
+// (the lift cancels survivorship and player skill; the slice's win rate anchors it to the target scale).
+function estWr(lift, base) {
+  if (!lift || lift.est === null || lift.est === undefined || !base) return null;
+  // Additive on the probability scale, so a big negative lift on a low base can dip below 0 — clamp the
+  // point estimate and interval ends to a real win rate.
+  const half = Math.sqrt(lift.half ** 2 + base.half ** 2), est = base.p + lift.est;
+  const c = v => Math.max(0, Math.min(1, v));
+  return {est: c(est), lo: c(est - half), hi: c(est + half), half, n: lift.n, lift};
+}
+// Raw win rate as an interval object (Wilson) — archetypes, relics.
+function rateCI(w, n) {
+  if (!n) return null;
+  const [lo, hi] = wilson(w, n);
+  return {est: w / n, lo, hi, half: (hi - lo) / 2, n};
+}
+const wrText = s => !s ? "—" : `${pct(s.est)} ±${Math.round(s.half * 100)}`;
+
+// ---------- formatting ----------
+const pct = v => v === null || v === undefined || isNaN(v) ? "—"
+  : (v * 100).toFixed(Math.abs(v) >= .1 || v === 0 ? 0 : 1) + "%";
+const pp = v => v === null || v === undefined || isNaN(v) ? "—"
+  : Math.abs(v * 100) < .05 ? "0.0" : (v >= 0 ? "+" : "−") + Math.abs(v * 100).toFixed(1);
+const ppi = s => !s || s.est === null ? "—" : `${pp(s.est)} ±${(s.half * 100).toFixed(1)}`;
+const fmtN = n => n >= 10000 ? (n / 1000).toFixed(1) + "K" : n.toLocaleString("en-US");
+function delta(cur, cmp, {unit = "pp", digits = 1} = {}) {
+  if (cur === null || cmp === null || cur === undefined || cmp === undefined || isNaN(cur) || isNaN(cmp)) return null;
+  return cur - cmp;
+}
+function deltaSpan(d, {scale = 100, unit = "", goodUp = true, digits = 1, dim = false} = {}) {
+  const s = document.createElement("span");
+  if (d === null) { s.textContent = "—"; s.className = "dim"; return s; }
+  const v = d * scale;
+  const zero = Math.abs(v) < Math.pow(10, -digits) / 2;
+  const arrow = zero ? "" : v > 0 ? "▲ " : "▼ ";
+  s.textContent = zero ? (0).toFixed(digits) + unit : arrow + (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(digits) + unit;
+  if (!dim && arrow) s.className = (v > 0) === goodUp ? "up" : "down";
+  return s;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const cardName = id => (META.cards[id] && META.cards[id].name) || id;
+const relicName = id => (META.relics[id] && META.relics[id].name) || id;
+const isOwn = id => id.startsWith(CHAR.prefix);
+
+// ---------- svg + tooltip ----------
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs = {}, text) {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (text !== undefined) n.textContent = text;
+  return n;
+}
+const tip = $("tip");
+function showTip(evt, title, lines) {
+  tip.replaceChildren();
+  if (title) { const t = document.createElement("div"); t.className = "t"; t.textContent = title; tip.append(t); }
+  for (const [label, value] of lines) {
+    const d = document.createElement("div");
+    const v = document.createElement("span"); v.className = "v"; v.textContent = value;
+    d.append(v, " " + label);
+    tip.append(d);
+  }
+  tip.style.display = "block";
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(evt.clientX + 14, innerWidth - w - 8) + "px";
+  tip.style.top = Math.min(evt.clientY + 14, innerHeight - h - 8) + "px";
+}
+const hideTip = () => tip.style.display = "none";
+function hover(node, title, lines) {
+  node.addEventListener("pointermove", e => showTip(e, title, typeof lines === "function" ? lines() : lines));
+  node.addEventListener("pointerleave", hideTip);
+}
+function emptyNote(msg) {
+  const d = document.createElement("div"); d.className = "empty";
+  d.textContent = msg || "No runs match the current filters."; return d;
+}
+function legend(host, items) {    // items: [[kind, color, label]]
+  host.replaceChildren(...items.map(([kind, color, label]) => {
+    const s = document.createElement("span");
+    const sw = document.createElement("span"); sw.className = kind;
+    if (color) sw.style.background = color;
+    s.append(sw, label); return s;
+  }));
+}
+function roundedBar(x, y, w, h, color, horizontal) {   // 4px rounded data-end, square base
+  const r = Math.max(0, Math.min(4, horizontal ? w : h, horizontal ? h / 2 : w / 2));
+  const d = horizontal
+    ? `M${x},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + h - r} Q${x + w},${y + h} ${x + w - r},${y + h} H${x} Z`
+    : `M${x},${y + h} V${y + r} Q${x},${y} ${x + r},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + h} Z`;
+  return el("path", {d, fill: color});
+}
+
+// Horizontal grouped rate bars (0..1): rows [{label, cur:{v,lo,hi,n,exp}, cmp:{...}}]
+function rateBars(host, rows, {width = 540, showCI = true, showExp = false, padL = 132, target = null} = {}) {
+  host.replaceChildren();
+  if (!rows.length || !rows.some(r => r.cur && r.cur.n)) return host.append(emptyNote());
+  const both = hasCmp();
+  const bh = 12, gap = 2, groupH = both ? bh * 2 + gap : bh, rowH = groupH + 16;
+  const pad = {l: padL, r: 46, t: 6, b: 22};
+  const H = pad.t + rows.length * rowH + pad.b;
+  const svg = el("svg", {viewBox: `0 0 ${width} ${H}`, role: "img"});
+  const px = v => pad.l + v * (width - pad.l - pad.r);
+  for (const f of [0, .25, .5, .75, 1]) {
+    svg.append(el("line", {x1: px(f), x2: px(f), y1: pad.t, y2: H - pad.b, stroke: C("--grid"), "stroke-width": 1}));
+    svg.append(el("text", {x: px(f), y: H - 6, "text-anchor": "middle", "font-size": 11, fill: C("--muted")}, (f * 100) + "%"));
+  }
+  if (target !== null)
+    svg.append(el("line", {x1: px(target), x2: px(target), y1: pad.t, y2: H - pad.b, stroke: C("--rose"), "stroke-width": 2, "stroke-dasharray": "5 4"}));
+  rows.forEach((r, i) => {
+    const y0 = pad.t + i * rowH + 8;
+    svg.append(el("text", {x: pad.l - 10, y: y0 + groupH / 2 + 4, "text-anchor": "end", "font-size": 12, fill: C("--ink-2")}, r.label));
+    const series = [["cur", r.cur, C("--cur"), "this window"]];
+    if (both) series.push(["cmp", r.cmp, C("--cmp"), "compare"]);
+    series.forEach(([key, s, color], j) => {
+      if (!s || !s.n) return;
+      const y = y0 + j * (bh + gap);
+      svg.append(roundedBar(px(0), y, Math.max(0, px(s.v) - px(0)), bh, color, true));
+      if (showCI && s.lo !== undefined) {
+        svg.append(el("line", {x1: px(s.lo), x2: px(s.hi), y1: y + bh / 2, y2: y + bh / 2, stroke: "#1d1416", "stroke-width": 4, "stroke-linecap": "round"}));
+        svg.append(el("line", {x1: px(s.lo), x2: px(s.hi), y1: y + bh / 2, y2: y + bh / 2, stroke: C("--ink"), "stroke-width": 1.5}));
+      }
+      if (showExp && s.exp !== undefined)
+        svg.append(el("line", {x1: px(s.exp), x2: px(s.exp), y1: y - 2, y2: y + bh + 2, stroke: C("--ink"), "stroke-width": 2}));
+      if (j === 0 || both)
+        svg.append(el("text", {x: Math.max(px(s.v), showCI && s.hi !== undefined ? px(s.hi) : 0) + 6, y: y + bh - 2,
+                               "font-size": 11, fill: j === 0 ? C("--ink") : C("--muted"), "font-weight": j === 0 ? 600 : 400}, pct(s.v)));
+    });
+    const hit = el("rect", {x: 0, y: y0 - 6, width, height: rowH, fill: "transparent"});
+    hover(hit, r.label, () => {
+      const L = [];
+      for (const [k, name] of [["cur", "this window"], ["cmp", "compare"]]) {
+        const s = r[k]; if (!s || (k === "cmp" && !both)) continue;
+        L.push([`${name} · ${fmtN(s.n)} runs` + (s.lo !== undefined ? ` · 95% ${pct(s.lo)}–${pct(s.hi)}` : ""), pct(s.v)]);
+        if (showExp && s.exp !== undefined) L.push([`expected (${name})`, pct(s.exp)]);
+      }
+      return L;
+    });
+    svg.append(hit);
+  });
+  host.append(svg);
+}
+const targetKey = () => ["ln", null, tpct() + " target"];
+function cmpLegend(host, extra = []) {
+  const items = [["sw", C("--cur"), "this window"]];
+  if (hasCmp()) items.push(["sw", C("--cmp"), "compare (" + state.cmp + ")"]);
+  legend(host, items.concat(extra));
+}
+
+// Forest plot: rows [{label, est, half, n, hl, sub}] — dot + interval around a zero line.
+function forest(host, rows, {width = 1080, label = "wins vs expected", rowH = 24, padL = 150, extent, center = 0} = {}) {
+  host.replaceChildren();
+  rows = rows.filter(r => r.est !== null && r.est !== undefined);
+  if (!rows.length) return host.append(emptyNote());
+  const pad = {l: padL, r: 70, t: 8, b: 26};
+  const H = pad.t + rows.length * rowH + pad.b;
+  const abs = center !== 0;     // absolute win-rate axis around the target, else signed pp around zero
+  const m = extent || Math.min(abs ? Math.min(center, 1 - center) : .6,
+                               Math.max(.06, ...rows.map(r => Math.abs(r.est - center) + r.half)) * 1.08);
+  const svg = el("svg", {viewBox: `0 0 ${width} ${H}`, role: "img"});
+  const px = v => pad.l + (v - center + m) / (2 * m) * (width - pad.l - pad.r);
+  const step = m > .3 ? .2 : m > .15 ? .1 : .05;
+  for (let t = -Math.floor(m / step) * step; t <= m + 1e-9; t += step) {
+    const zero = Math.abs(t) < 1e-9;
+    svg.append(el("line", {x1: px(center + t), x2: px(center + t), y1: pad.t, y2: H - pad.b,
+      stroke: zero ? (abs ? C("--rose") : C("--frame")) : C("--grid"), "stroke-width": zero && abs ? 2 : 1,
+      ...(zero && abs ? {"stroke-dasharray": "5 4"} : {})}));
+    svg.append(el("text", {x: px(center + t), y: H - 8, "text-anchor": "middle", "font-size": 11, fill: zero && abs ? C("--rose") : C("--muted")},
+      abs ? Math.round((center + t) * 100) + "%" : (t > 1e-9 ? "+" : t < -1e-9 ? "−" : "") + Math.round(Math.abs(t) * 100)));
+  }
+  svg.append(el("text", {x: width - pad.r + 8, y: H - 8, "font-size": 11, fill: C("--muted")}, abs ? "target" : "pp"));
+  rows.forEach((r, i) => {
+    const y = pad.t + i * rowH + rowH / 2;
+    if (r.hl) svg.append(el("rect", {x: 0, y: y - rowH / 2, width, height: rowH, fill: C("--panel-2"), rx: 4}));
+    svg.append(el("text", {x: pad.l - 10, y: y + 4, "text-anchor": "end", "font-size": 12,
+      fill: r.hl ? C("--ink") : C("--ink-2"), "font-weight": r.hl ? 600 : 400}, r.label));
+    const clamp = v => Math.max(center - m, Math.min(center + m, v));
+    const lo = clamp(r.lo ?? r.est - r.half), hi = clamp(r.hi ?? r.est + r.half);
+    const color = r.color || (r.hl ? C("--cur") : C("--cmp"));
+    svg.append(el("line", {x1: px(lo), x2: px(hi), y1: y, y2: y, stroke: color, "stroke-width": 2, "stroke-linecap": "round"}));
+    svg.append(el("circle", {cx: px(clamp(r.est)), cy: y, r: 5, fill: color, stroke: C("--panel"), "stroke-width": 2}));
+    svg.append(el("text", {x: width - pad.r + 8, y: y + 4, "font-size": 11, fill: C("--muted")}, r.sub || ("n=" + fmtN(r.n))));
+    const hit = el("rect", {x: 0, y: y - rowH / 2, width, height: rowH, fill: "transparent"});
+    const f = abs ? pct : v => pp(v) + " pp";
+    hover(hit, r.label, [[label, f(r.est)], ["95% interval", `${f(r.lo ?? r.est - r.half)} to ${f(r.hi ?? r.est + r.half)}`],
+                         ["sample", fmtN(r.n)], ...(r.extra || [])]);
+    svg.append(hit);
+  });
+  host.append(svg);
+}
+
+// Inline forest cell for tables (fixed ±extent scale shared by the column).
+function forestCell(s, extent, {width = 120, color, center = 0} = {}) {
+  const svg = el("svg", {viewBox: `0 0 ${width} 16`, width, height: 16, style: "width:" + width + "px;display:inline-block;vertical-align:middle"});
+  const px = v => 4 + (Math.max(-extent, Math.min(extent, v - center)) + extent) / (2 * extent) * (width - 8);
+  svg.append(el("line", {x1: px(center), x2: px(center), y1: 1, y2: 15, stroke: center ? C("--rose") : C("--frame"), "stroke-width": center ? 1.5 : 1}));
+  if (s && s.est !== null && s.est !== undefined) {
+    svg.append(el("line", {x1: px(s.lo ?? s.est - s.half), x2: px(s.hi ?? s.est + s.half), y1: 8, y2: 8, stroke: color || C("--cur"), "stroke-width": 2, "stroke-linecap": "round", opacity: .75}));
+    svg.append(el("circle", {cx: px(s.est), cy: 8, r: 4, fill: color || C("--cur"), stroke: C("--panel"), "stroke-width": 1.5}));
+  }
+  return svg;
+}
+
+// Count columns (runs per day / deaths per floor): rows [{label, v, hl, cmp, mark, tip}]
+function columns(host, rows, {width = 540, height = 230, labelEvery} = {}) {
+  host.replaceChildren();
+  if (!rows.length || !rows.some(r => r.v)) return host.append(emptyNote());
+  const pad = {l: 40, r: 8, t: 16, b: 26};
+  const maxV = Math.max(...rows.map(r => r.v));
+  const svg = el("svg", {viewBox: `0 0 ${width} ${height}`, role: "img"});
+  const py = v => height - pad.b - v / maxV * (height - pad.t - pad.b);
+  const nice = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000];
+  const step = nice.find(s => maxV / s <= 4) || Math.ceil(maxV / 4);
+  for (let g = 0; g <= maxV; g += step) {
+    svg.append(el("line", {x1: pad.l, x2: width - pad.r, y1: py(g), y2: py(g), stroke: C("--grid"), "stroke-width": 1}));
+    svg.append(el("text", {x: pad.l - 6, y: py(g) + 4, "text-anchor": "end", "font-size": 11, fill: C("--muted")}, fmtN(g)));
+  }
+  const slot = (width - pad.l - pad.r) / rows.length;
+  const bw = Math.max(1, Math.min(24, slot - 2));
+  const every = labelEvery || Math.max(1, Math.ceil(rows.length / Math.floor(width / 46)));
+  rows.forEach((r, i) => {
+    const x = pad.l + slot * i + (slot - bw) / 2;
+    if (r.mark) {
+      svg.append(el("line", {x1: x + bw / 2, x2: x + bw / 2, y1: pad.t - 4, y2: height - pad.b, stroke: C("--frame"), "stroke-width": 1}));
+      if (r.mark.trim()) svg.append(el("text", {x: x + bw / 2 + 3, y: pad.t + 4, "font-size": 10, fill: C("--muted")}, r.mark));
+    }
+    if (r.v > 0) {
+      const color = r.hl ? C("--cur") : r.cmp ? C("--cmp") : "#5a4744";
+      svg.append(roundedBar(x, py(r.v), bw, height - pad.b - py(r.v), color, false));
+    }
+    if (i % every === 0)
+      svg.append(el("text", {x: x + bw / 2, y: height - 8, "text-anchor": "middle", "font-size": 10.5, fill: C("--muted")}, r.label));
+    const hit = el("rect", {x: pad.l + slot * i, y: pad.t, width: slot, height: height - pad.t - pad.b, fill: "transparent"});
+    hover(hit, r.tipTitle || r.label, r.tip || [["", fmtN(r.v)]]);
+    svg.append(hit);
+  });
+  host.append(svg);
+}
+
+// ---------- generic sortable table ----------
+// cols: [{key, label, num, sort (value fn), cell (row) -> Node|string, title}]
+function table(host, rows, cols, sortState, onClick) {
+  const [sk, sa] = sortState.get();
+  const col = cols.find(c => c.key === sk) || cols[0];
+  const val = r => { const v = col.sort ? col.sort(r) : r[col.key]; return v === null || v === undefined || Number.isNaN(v) ? -Infinity : v; };
+  rows = [...rows].sort((a, b) => {
+    const x = val(a), y = val(b);
+    return (typeof x === "string" ? x.localeCompare(y) : x - y) * (sa ? 1 : -1);
+  });
+  const tbl = document.createElement("table");
+  const head = tbl.createTHead().insertRow();
+  for (const c of cols) {
+    const th = document.createElement("th");
+    th.textContent = c.label;
+    if (c.title) th.title = c.title;
+    th.className = (c.num ? "num " : "") + (c.nosort ? "" : "sort");
+    if (c.key === sk) { th.classList.add("sorted"); th.classList.toggle("asc", sa); }
+    if (!c.nosort) th.addEventListener("click", () => {
+      sortState.set(c.key, c.key === sk ? !sa : !!c.ascFirst); });
+    head.append(th);
+  }
+  const body = tbl.createTBody();
+  for (const r of rows) {
+    const tr = body.insertRow();
+    if (onClick) { tr.className = "rowlink"; tr.addEventListener("click", () => onClick(r)); }
+    for (const c of cols) {
+      const td = tr.insertCell();
+      if (c.num) td.className = "num";
+      const v = c.cell ? c.cell(r) : r[c.key];
+      if (v instanceof Node) td.append(v); else td.textContent = v === null || v === undefined ? "—" : v;
+    }
+  }
+  host.replaceChildren(rows.length ? tbl : emptyNote());
+}
+function verdictNode(v) {
+  const s = document.createElement("span"); s.className = "verdict " + v.cls; s.textContent = v.text; return s;
+}
+function cardLabel(id) {
+  const meta = META.cards[id] || {};
+  const f = document.createDocumentFragment();
+  const dot = document.createElement("span"); dot.className = "rar"; dot.style.background = rarColor(meta.rarity);
+  dot.title = meta.rarity || "";
+  f.append(dot, meta.name || id);
+  if (!isOwn(id)) { const m = document.createElement("span"); m.className = "mech"; m.textContent = "  base"; f.append(m); }
+  return f;
+}
+
+// ============ VIEW: PULSE ============
+function runsSummary(pred) {
+  return sum(T.runs.filter(pred), [...RATE, "a1", "a2", "a3", "rl", "new", "pt"]);
+}
+function distinctPlayers(vers, rels) {
+  // Distinct players aren't additive: exact for one whole release line or one version, else ≈ sum.
+  const modes = state.mode === "Solo" ? [0] : state.mode === "Co-op" ? [1] : [0, 1];
+  const relList = META.releases.filter(r => rels.has(r.id));
+  const pick = (scope, id) => T.players.filter(p => p.scope === scope && p.id === id && modes.includes(p.mp));
+  let rows, approx = modes.length > 1;
+  if (relList.length === 1 && relList[0].versions.every(v => vers.has(v))) rows = pick("rel", relList[0].id);
+  else { rows = relList.flatMap(r => pick("rel", r.id)); approx = true; }
+  const s = sum(rows, ["players", "repeat"]);
+  return {...s, approx};
+}
+function perDay(runs, vers) {
+  const days = [...vers].map(v => META.version_first_day[v]).filter(Boolean).sort();
+  if (!days.length) return 0;
+  // span = first day of the window's earliest version → day before the next newer version (or last day)
+  const later = META.versions.filter(v => !vers.has(v) && cmpSemver(v, [...vers].sort(cmpSemver).at(-1)) > 0)
+    .map(v => META.version_first_day[v]).sort()[0];
+  const end = later || META.last_day;
+  let n = Math.round((new Date(end) - new Date(days[0])) / 864e5) + (later ? 0 : 1);
+  // Overlapping releases (telemetry launched mid-v0.6/v0.7): fall back to days with any window run.
+  if (n < 1) n = new Set(T.days.filter(r => vers.has(r.ver)).map(r => r.day)).size;
+  return runs / Math.max(1, n);
+}
+function tile(label, value, sub, deltaNode, title) {
+  const t = document.createElement("div"); t.className = "tile";
+  if (title) t.title = title;
+  const l = document.createElement("div"); l.className = "lab"; l.textContent = label;
+  const v = document.createElement("div"); v.className = "val"; v.textContent = value;
+  if (sub) { const s = document.createElement("small"); s.textContent = sub; v.append(s); }
+  t.append(l, v);
+  if (deltaNode) { const d = document.createElement("div"); d.className = "delta"; d.append(deltaNode); t.append(d); }
+  return t;
+}
+function vsNode(d, opts) {
+  const f = document.createDocumentFragment();
+  f.append(deltaSpan(d, opts), " vs " + state.cmp);
+  return f;
+}
+
+function renderPulse() {
+  const cur = runsSummary(inCur), cmp = hasCmp() ? runsSummary(inCmp) : null;
+  const tiles = $("pulseTiles");
+  tiles.replaceChildren();
+  if (!cur.runs) { tiles.append(emptyNote()); return; }
+  const wr = cur.wins / cur.runs, cwr = cmp && cmp.runs ? cmp.wins / cmp.runs : null;
+  const [lo, hi] = wilson(cur.wins, cur.runs);
+  const w = wae(cur), cw = cmp && cmp.runs ? wae(cmp) : null;
+  const pl = distinctPlayers(CUR_VERS, state.rels);
+  tiles.append(
+    tile("Runs", fmtN(cur.runs), `${perDay(cur.runs, CUR_VERS).toFixed(0)}/day`,
+         cmp && cmp.runs ? (() => { const f = document.createDocumentFragment();
+           f.append(`${perDay(cmp.runs, CMP_VERS).toFixed(0)}/day in ${state.cmp}`); return f; })() : null,
+         "Runs per day = runs ÷ days the window's versions were live (first upload to last)."),
+    tile("Players", (pl.approx ? "≈" : "") + fmtN(pl.players), pl.players ? `${pct(pl.repeat / pl.players)} returned` : "",
+         null, "Distinct players in the window (approximate when it spans release lines or both modes). 'Returned' = 2+ runs."),
+    tile("Win rate", pct(wr), `${pct(lo)}–${pct(hi)}`, cmp ? vsNode(delta(wr, cwr), {unit: " pp"}) : null),
+    (() => { const v = verdictT(rateCI(cur.wins, cur.runs), cur.runs >= 20);
+      const f = document.createDocumentFragment(); f.append(verdictNode(v));
+      return tile(`Vs ${tpct()} target`, pp(wr - state.target) + " pp", "", f,
+                  "The window's win rate against the balance target. Strong / Weak only when the whole 95% interval is above / below it."); })(),
+    tile("Wins vs expected", pp(w.est) + " pp", `±${(w.half * 100).toFixed(1)}`, cmp && cw ? vsNode(delta(w.est, cw.est), {unit: " pp"}) : null,
+         "Win rate minus what these players were expected to win (skill model). The headline balance number."),
+    tile("First-time players", pct(cur.new / cur.runs), "of runs", null, "Runs that were the player's first uploaded run as this character."),
+    tile("Avg run length", Math.round(cur.pt / cur.runs / 60) + " min", "",
+         cmp && cmp.runs ? vsNode((cur.pt / cur.runs - cmp.pt / cmp.runs) / 60 / 100, {unit: " min", digits: 0, dim: true}) : null),
+    tile("Runs with reloads", pct(cur.rl / cur.runs), "", null, "Share of runs where the player reloaded a save at least once."),
+  );
+
+  // Funnel
+  const fr = (s, k) => s && s.runs ? {v: s[k] / s.runs, n: s.runs, lo: wilson(s[k], s.runs)[0], hi: wilson(s[k], s.runs)[1]} : null;
+  rateBars($("chartFunnel"), [["Cleared Act 1", "a1"], ["Cleared Act 2", "a2"], ["Cleared Act 3", "a3"], ["Won the run", "wins"]]
+    .map(([label, k]) => ({label, cur: fr(cur, k), cmp: fr(cmp, k)})));
+  cmpLegend($("legFunnel"));
+
+  // Skill + ascension, with expectation ticks
+  const bandRows = (keyName, labels) => {
+    const gc = groupBy(T.runs.filter(inCur), r => r[keyName], RATE);
+    const gp = hasCmp() ? groupBy(T.runs.filter(inCmp), r => r[keyName], RATE) : new Map();
+    const one = g => g && g.runs ? {v: g.wins / g.runs, n: g.runs, lo: wilson(g.wins, g.runs)[0], hi: wilson(g.wins, g.runs)[1], exp: g.xw / g.runs} : null;
+    return labels.map((label, i) => ({label, cur: one(gc.get(i)), cmp: one(gp.get(i))})).filter(r => r.cur || r.cmp);
+  };
+  rateBars($("chartSkill"), bandRows("sk", META.skill_bands.map(s => "Lifetime " + s)), {showExp: true, target: state.target});
+  cmpLegend($("legSkill"), [["tick", null, "expected"], targetKey()]);
+  rateBars($("chartAsc"), bandRows("ab", META.asc_bands), {showExp: true, target: state.target});
+  cmpLegend($("legAsc"), [["tick", null, "expected"], targetKey()]);
+
+  renderDays();
+  renderWatch();
+}
+
+function renderDays() {
+  const days = groupBy(T.days.filter(passBase), r => r.day, ["runs", "wins"]);
+  const verOf = new Map();
+  for (const r of T.days) if (passBase(r)) {
+    const cur = verOf.get(r.day) || new Set(); cur.add(r.ver); verOf.set(r.day, cur);
+  }
+  // Range: from the compare window's first day (or 45 days back) to the last day.
+  const firstCmp = META.releases.find(r => r.id === state.cmp);
+  const firstCur = META.releases.filter(r => state.rels.has(r.id)).map(r => r.first_day).sort()[0];
+  let start = firstCmp ? firstCmp.first_day : firstCur;
+  const lastDay = META.last_day;
+  const all = [];
+  let lastMark = -99;
+  const verStart = Object.fromEntries(Object.entries(META.version_first_day).map(([v, d]) => [d, v]));
+  for (let d = new Date(start + "T00:00:00Z"); d.toISOString().slice(0, 10) <= lastDay; d.setUTCDate(d.getUTCDate() + 1)) {
+    const day = d.toISOString().slice(0, 10);
+    const g = days.get(day) || {runs: 0, wins: 0};
+    const vs = verOf.get(day) || new Set();
+    all.push({label: day.slice(5), v: g.runs, hl: [...vs].some(v => CUR_VERS.has(v)),
+              cmp: [...vs].some(v => CMP_VERS.has(v)), mark: verStart[day] ? (all.length - lastMark >= 5 ? (lastMark = all.length, verStart[day]) : " ") : "",
+              tipTitle: day, tip: [["runs", fmtN(g.runs)], ["win rate", g.runs ? pct(g.wins / g.runs) : "—"],
+                                   ["versions", [...vs].sort().join(", ") || "—"]]});
+  }
+  columns($("chartDays"), all);
+}
+
+function cardStats(pred) {
+  const offers = groupBy(T.offers.filter(pred), r => r.card, PICK);
+  const deck = groupBy(T.deck.filter(pred), r => r.card, [...RATE, "cp", "up"]);
+  return {offers, deck};
+}
+function enoughOffers(o) {
+  return !!o && o.off >= state.minOff && o.pk >= state.minOff / 4 && (o.off - o.pk) >= state.minOff / 4;
+}
+function cardRows() {
+  const cur = cardStats(inCur), cmp = hasCmp() ? cardStats(inCmp) : null;
+  const base = baseRate(inCur), cbase = hasCmp() ? baseRate(inCmp) : null;
+  const totalRuns = base ? base.n : 0;
+  const ids = new Set([...cur.offers.keys(), ...cur.deck.keys()]);
+  const rows = [];
+  for (const id of ids) {
+    const meta = META.cards[id] || {};
+    const o = cur.offers.get(id), d = cur.deck.get(id);
+    const co = cmp && cmp.offers.get(id);
+    const lift = tvp(o), clift = tvp(co);
+    rows.push({
+      id, name: meta.name || id, rarity: meta.rarity || "Other", mech: meta.mech || [], own: isOwn(id),
+      off: o ? o.off : 0, pick: o && o.off ? o.pk / o.off : null, cpick: co && co.off ? co.pk / co.off : null,
+      lift, clift, est: estWr(lift, base), cest: estWr(clift, cbase),
+      enough: enoughOffers(o), cenough: enoughOffers(co),
+      deckRuns: d ? d.runs : 0, deckWr: d && d.runs ? d.wins / d.runs : null,
+      deckRate: d && totalRuns ? d.runs / totalRuns : null,
+      upg: d && d.runs ? d.up / d.runs : null,
+    });
+  }
+  for (const r of rows) r.v = verdictT(r.est, r.enough);
+  return rows;
+}
+
+function renderWatch() {
+  const host = $("watch");
+  const rows = cardRows().filter(r => r.own);
+  const box = (title, items, fmt) => {
+    const d = document.createElement("div"); d.className = "wl";
+    const h = document.createElement("h3"); h.textContent = title; d.append(h);
+    if (!items.length) { const n = document.createElement("div"); n.className = "none"; n.textContent = "Nothing clears the bar."; d.append(n); return d; }
+    const ul = document.createElement("ul");
+    for (const it of items) {
+      const li = document.createElement("li");
+      const nm = document.createElement("span"); nm.className = "nm" + (it.id ? " link" : "");
+      if (it.id) { nm.append(cardLabel(it.id)); nm.addEventListener("click", () => openCard(it.id)); }
+      else nm.textContent = it.name;
+      const v = document.createElement("span"); v.className = "v"; v.textContent = fmt(it);
+      li.append(nm, v); ul.append(li);
+    }
+    d.append(ul); return d;
+  };
+  const strong = rows.filter(r => r.v.rank === 3).sort((a, b) => b.est.est - a.est.est).slice(0, 6);
+  const weak = rows.filter(r => r.v.rank === -3).sort((a, b) => a.est.est - b.est.est).slice(0, 6);
+  const ignored = rows.filter(r => r.off >= Math.max(60, state.minOff) && r.pick !== null && r.pick < .08)
+    .sort((a, b) => a.pick - b.pick).slice(0, 6);
+  const movers = rows.filter(r => r.pick !== null && r.cpick !== null && r.off >= state.minOff)
+    .map(r => ({...r, dp: r.pick - r.cpick})).sort((a, b) => Math.abs(b.dp) - Math.abs(a.dp)).slice(0, 6);
+  const archFlag = archRows().filter(a => a.cur && a.cur.runs >= 10 && Math.abs(verdictT(a.wci, true).rank) >= 1);
+  const killers = encounterRows().filter(e => e.deaths > 0).sort((a, b) => b.deaths - a.deaths).slice(0, 5);
+  const wr = r => `${wrText(r.est)} · ${fmtN(r.off)} offers`;
+  host.replaceChildren(
+    box(`Strong — clearly above the ${tpct()} target`, strong, wr),
+    box(`Weak — clearly below the ${tpct()} target`, weak, wr),
+    box("Almost never taken (under 8%)", ignored, r => `${pct(r.pick)} of ${fmtN(r.off)}`),
+    box(hasCmp() ? `Biggest pick-rate moves vs ${state.cmp}` : "Biggest pick-rate moves (pick a compare window)", hasCmp() ? movers : [],
+        r => `${pct(r.cpick)} → ${pct(r.pick)}`),
+    box(`Archetypes off the ${tpct()} target`, archFlag.map(a => ({name: a.arch, a})),
+        it => `${wrText(it.a.wci)} · ${fmtN(it.a.cur.runs)} runs · ${verdictT(it.a.wci, true).text}`),
+    box("Top killers", killers.map(e => ({name: e.name, e})), it => `${fmtN(it.e.deaths)} deaths · ${pct(it.e.deathRate)} of fights`),
+  );
+}
+
+// ============ VIEW: WHAT CHANGED ============
+function renderChanges() {
+  const host = $("changes");
+  host.replaceChildren();
+  const vers = [...CUR_VERS].sort(cmpSemver).reverse();
+  const patches = META.patches.filter(p => CUR_VERS.has(p.ver));
+  if (!patches.length) return host.append(emptyNote("No patch-note lines naming cards or relics in this window."));
+  const cur = cardStats(inCur), cmp = hasCmp() ? cardStats(inCmp) : null;
+  const base = baseRate(inCur), cbase = hasCmp() ? baseRate(inCmp) : null;
+  const relCur = groupBy(T.relics.filter(inCur), r => r.relic, RATE);
+  const relCmp = hasCmp() ? groupBy(T.relics.filter(inCmp), r => r.relic, RATE) : null;
+  const runsCur = base ? base.n : 0, runsCmp = cbase ? cbase.n : 0;
+  for (const v of vers) {
+    const ps = patches.filter(p => p.ver === v);
+    if (!ps.length) continue;
+    const h = document.createElement("div"); h.className = "vhead"; h.textContent = v; host.append(h);
+    for (const p of ps) {
+      const box = document.createElement("div"); box.className = "patch";
+      box.innerHTML = `<div class="hd"><span class="sec">${esc(p.section)}</span></div><div class="txt">${esc(p.text)}</div>`;
+      const tbl = document.createElement("table");
+      tbl.innerHTML = `<thead><tr><th></th><th class="num">Offers / runs</th><th class="num">Pick / held</th>
+        <th class="num">Win rate (95%)</th><th>${Math.round((state.target - .3) * 100)}% · ${tpct()} · ${Math.round((state.target + .3) * 100)}%</th>
+        <th>Vs ${tpct()}</th><th class="num">Deck WR</th></tr></thead>`;
+      const body = tbl.createTBody();
+      let any = false;
+      const nameCell = (tr, node, label) => {
+        const name = tr.insertCell(); name.append(node);
+        const lab = document.createElement("span"); lab.className = "mech";
+        lab.textContent = "  " + label + (label === "before" ? ` (${state.cmp})` : ""); name.append(lab);
+        return name;
+      };
+      for (const ref of p.refs) {
+        if (ref.kind === "card") {
+          for (const [label, src, b] of [["before", cmp, cbase], ["after", cur, base]]) {
+            if (!src) continue;
+            const o = src.offers.get(ref.id), d = src.deck.get(ref.id);
+            const s = estWr(tvp(o), b), enough = enoughOffers(o);
+            const tr = body.insertRow(); any = true;
+            const name = nameCell(tr, cardLabel(ref.id), label);
+            name.style.cursor = "pointer"; name.addEventListener("click", () => openCard(ref.id));
+            for (const t of [o ? fmtN(o.off) : "0", o && o.off ? pct(o.pk / o.off) : "—", wrText(s)]) {
+              const td = tr.insertCell(); td.className = "num"; td.textContent = t;
+            }
+            tr.insertCell().append(forestCell(enough ? s : null, .3, {center: state.target, color: label === "after" ? C("--cur") : C("--cmp")}));
+            tr.insertCell().append(verdictNode(verdictT(s, enough)));
+            const dw = tr.insertCell(); dw.className = "num"; dw.textContent = d && d.runs ? `${pct(d.wins / d.runs)} (${fmtN(d.runs)})` : "—";
+          }
+        } else if (ref.kind === "relic") {
+          for (const [label, m, n] of [["before", relCmp, runsCmp], ["after", relCur, runsCur]]) {
+            if (!m) continue;
+            const g = m.get(ref.id), s = g ? rateCI(g.wins, g.runs) : null, enough = !!g && g.runs >= 15;
+            const tr = body.insertRow(); any = true;
+            nameCell(tr, document.createTextNode(relicName(ref.id)), label + " · relic");
+            for (const t of [g ? fmtN(g.runs) + " runs" : "0", g && n ? pct(g.runs / n) : "—", wrText(s)]) {
+              const td = tr.insertCell(); td.className = "num"; td.textContent = t;
+            }
+            tr.insertCell().append(forestCell(enough ? s : null, .3, {center: state.target, color: label === "after" ? C("--cur") : C("--cmp")}));
+            tr.insertCell().append(verdictNode(verdictT(s, enough)));
+            const dw = tr.insertCell(); dw.className = "num"; dw.textContent = "—";
+          }
+        }
+      }
+      if (any) box.append(tbl);
+      else { const n = document.createElement("div"); n.className = "mech"; n.textContent = "Potion — not tracked in run telemetry."; box.append(n); }
+      host.append(box);
+    }
+  }
+}
+
+// ============ VIEW: CARDS ============
+const cardSortState = {get: () => [state.cardSort, state.cardAsc], set: (k, a) => { state.cardSort = k; state.cardAsc = a; renderCards(); }};
+function cardVisible(r) {
+  if (!state.showOther && !r.own) return false;
+  if (state.mech !== "All") {
+    if (!r.own) return false;
+    if (state.mech === "None" ? r.mech.length : !r.mech.includes(state.mech)) return false;
+  }
+  if (state.rar !== "All" && r.rarity !== state.rar) return false;
+  if (state.search && !r.name.toLowerCase().includes(state.search.toLowerCase())) return false;
+  return true;
+}
+const scaleLabel = () => `${Math.round((state.target - .3) * 100)} · ${tpct()} · ${Math.round((state.target + .3) * 100)}`;
+function renderCards() {
+  const rows = cardRows().filter(r => r.off > 0 || r.deckRuns > 0);
+  const vis = rows.filter(cardVisible);
+  table($("cardTable"), vis, [
+    {key: "name", label: "Card", ascFirst: true, sort: r => r.name, cell: r => cardLabel(r.id)},
+    {key: "mech", label: "Mechanic", sort: r => r.mech.join(","), cell: r => { const s = document.createElement("span"); s.className = "mech"; s.textContent = r.mech.join(" · "); return s; }},
+    {key: "off", label: "Offers", num: true},
+    {key: "pick", label: "Pick", num: true, cell: r => pct(r.pick)},
+    {key: "dpick", label: "Δ pick", num: true, sort: r => r.pick !== null && r.cpick !== null ? r.pick - r.cpick : null,
+     cell: r => deltaSpan(r.pick !== null && r.cpick !== null ? r.pick - r.cpick : null, {unit: "", dim: true})},
+    {key: "est", label: "Win rate", num: true, title: "Window win rate + taken-vs-passed lift (skill-adjusted), 95% interval",
+     sort: r => r.enough && r.est ? r.est.est : null,
+     cell: r => { const s = document.createElement("span"); s.textContent = wrText(r.est);
+       if (r.lift && r.lift.est !== null) s.title = `taken vs passed ${ppi(r.lift)} pp`; return s; }},
+    {key: "estViz", label: scaleLabel(), nosort: true, cell: r => forestCell(r.enough ? r.est : null, .3, {center: state.target, color: rarColor(r.rarity)})},
+    {key: "verdict", label: `Vs ${tpct()}`, sort: r => r.v.rank + (r.enough && r.est ? r.est.est : 0), cell: r => verdictNode(r.v)},
+    {key: "dest", label: "Δ WR", num: true, sort: r => r.enough && r.cenough && r.est && r.cest ? r.est.est - r.cest.est : null,
+     cell: r => deltaSpan(r.enough && r.cenough && r.est && r.cest ? r.est.est - r.cest.est : null, {unit: ""})},
+    {key: "deckWr", label: "Deck WR", num: true, cell: r => r.deckWr === null ? "—" : `${pct(r.deckWr)}`},
+    {key: "deckRuns", label: "In decks", num: true, cell: r => r.deckRate === null ? "—" : pct(r.deckRate)},
+    {key: "upg", label: "Upgr.", num: true, cell: r => r.upg === null ? "—" : r.upg.toFixed(2)},
+  ], cardSortState, r => openCard(r.id));
+  renderDraftMap(vis);
+}
+
+function renderDraftMap(rows) {
+  const host = $("chartDraft");
+  host.replaceChildren();
+  rows = rows.filter(r => r.pick !== null && r.est && r.off >= 5);
+  if (!rows.length) return host.append(emptyNote());
+  const W = 1080, H = 440, pad = {l: 56, r: 20, t: 16, b: 40};
+  const maxX = Math.min(1, Math.max(.2, ...rows.map(r => r.pick)) * 1.08);
+  const t0 = state.target, m = Math.min(.4, t0, 1 - t0);
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img"});
+  const px = v => pad.l + v / maxX * (W - pad.l - pad.r);
+  const py = v => pad.t + (m - Math.max(-m, Math.min(m, v - t0))) / (2 * m) * (H - pad.t - pad.b);
+  for (const t of [-m, -m / 2, 0, m / 2, m]) {
+    const zero = t === 0;
+    svg.append(el("line", {x1: pad.l, x2: W - pad.r, y1: py(t0 + t), y2: py(t0 + t), stroke: zero ? C("--rose") : C("--grid"),
+                           "stroke-width": zero ? 2 : 1, ...(zero ? {"stroke-dasharray": "5 4"} : {})}));
+    svg.append(el("text", {x: pad.l - 8, y: py(t0 + t) + 4, "text-anchor": "end", "font-size": 11, fill: zero ? C("--rose") : C("--muted")},
+                  Math.round((t0 + t) * 100) + "%"));
+  }
+  const xstep = maxX > .5 ? .1 : .05;
+  for (let t = 0; t <= maxX + 1e-9; t += xstep) {
+    svg.append(el("line", {x1: px(t), x2: px(t), y1: pad.t, y2: H - pad.b, stroke: C("--grid"), "stroke-width": 1}));
+    svg.append(el("text", {x: px(t), y: H - pad.b + 16, "text-anchor": "middle", "font-size": 11, fill: C("--muted")}, Math.round(t * 100) + "%"));
+  }
+  svg.append(el("text", {x: W - pad.r, y: H - 6, "text-anchor": "end", "font-size": 11, fill: C("--muted")}, "pick rate (taken ÷ offered) →"));
+  svg.append(el("text", {x: pad.l + 4, y: H - 6, "font-size": 11, fill: C("--muted")}, `↑ win rate (dashed = ${tpct()} target)`));
+  const med = rows.map(r => r.pick).sort((a, b) => a - b)[Math.floor(rows.length / 2)];
+  svg.append(el("line", {x1: px(med), x2: px(med), y1: pad.t, y2: H - pad.b, stroke: C("--frame"), "stroke-width": 1}));
+  for (const [x, y, anchor, text] of [[pad.l + 8, pad.t + 14, "start", "underrated"], [W - pad.r - 8, pad.t + 14, "end", "strong & popular"],
+       [pad.l + 8, H - pad.b - 8, "start", "rightly ignored"], [W - pad.r - 8, H - pad.b - 8, "end", "trap?"]])
+    svg.append(el("text", {x, y, "text-anchor": anchor, "font-size": 11.5, fill: C("--muted"), "font-style": "italic"}, text));
+  const pts = rows.map(r => ({r, x: px(r.pick), y: py(r.est.est), rad: Math.max(4, Math.min(10, 2.5 + Math.sqrt(r.off) * .35))}));
+  pts.sort((a, b) => b.rad - a.rad);
+  for (const p of pts) {
+    const faded = !p.r.enough;
+    p.node = el("circle", {cx: p.x, cy: p.y, r: p.rad, fill: rarColor(p.r.rarity), opacity: faded ? .25 : .95,
+                            stroke: C("--panel"), "stroke-width": 2});
+    svg.append(p.node);
+  }
+  // Direct-label only Strong / Weak verdicts, skipping any label that would collide with one already placed.
+  const placed = [];
+  for (const p of pts.filter(p => p.r.enough && Math.abs(p.r.v.rank) === 3).sort((a, b) => Math.abs(b.r.est.est - t0) - Math.abs(a.r.est.est - t0))) {
+    const w = p.r.name.length * 6.2, box = {x: p.x + p.rad + 4, y: p.y - 7, w, h: 14};
+    if (box.x + w > W - pad.r) box.x = p.x - p.rad - 4 - w;
+    if (placed.some(b => box.x < b.x + b.w && b.x < box.x + box.w && box.y < b.y + b.h && b.y < box.y + box.h)) continue;
+    placed.push(box);
+    svg.append(el("text", {x: box.x, y: p.y + 4, "font-size": 11, fill: C("--ink-2")}, p.r.name));
+  }
+  let hot = null;
+  svg.addEventListener("pointermove", evt => {
+    const box = svg.getBoundingClientRect();
+    const mx = (evt.clientX - box.left) / box.width * W, my = (evt.clientY - box.top) / box.height * H;
+    let best = null, dist = 24 * 24;
+    for (const p of pts) { const d = (p.x - mx) ** 2 + (p.y - my) ** 2; if (d < dist) { dist = d; best = p; } }
+    if (hot && hot !== best) hot.node.setAttribute("r", hot.rad);
+    hot = best;
+    if (!best) return hideTip();
+    best.node.setAttribute("r", best.rad + 2);
+    const r = best.r;
+    showTip(evt, r.name, [["pick rate", `${pct(r.pick)} of ${fmtN(r.off)} offers`], ["win rate", wrText(r.est)],
+                         [`vs ${tpct()}`, r.v.text], ["taken vs passed", ppi(r.lift) + " pp"], ["rarity", r.rarity]]);
+  });
+  svg.addEventListener("pointerleave", () => { hideTip(); if (hot) hot.node.setAttribute("r", hot.rad); hot = null; });
+  svg.addEventListener("click", () => { if (hot) openCard(hot.r.id); });
+  host.append(svg);
+  const shown = new Set(rows.map(r => RARITY_COLOR[r.rarity] ? r.rarity : "Other"));
+  legend($("legDraft"), ["Rare", "Uncommon", "Common", "Other"].filter(r => shown.has(r)).map(r => ["dot", rarColor(r), r]).concat([targetKey()]));
+}
+
+// ---------- card modal ----------
+function openCard(id) {
+  const meta = META.cards[id] || {};
+  $("modalTitle").textContent = meta.name || id;
+  $("modalSub").textContent = [meta.rarity, meta.type, meta.cost !== undefined && meta.cost !== null ? meta.cost + " energy" : "",
+                               (meta.mech || []).join(" · ")].filter(Boolean).join(" · ") + `  ·  window ${[...state.rels].join(", ")}`;
+  const row = cardRows().find(r => r.id === id) || {};
+  const vNode = document.createDocumentFragment(); vNode.append(verdictNode(row.v || verdictT(null, false)));
+  const tiles = $("modalTiles"); tiles.replaceChildren(
+    tile("Offers", fmtN(row.off || 0)),
+    tile("Pick rate", pct(row.pick), "", hasCmp() ? vsNode(row.pick !== null && row.cpick !== null ? row.pick - row.cpick : null, {unit: " pp", dim: true}) : null),
+    tile("Win rate", row.est ? pct(row.est.est) : "—", row.est ? `±${Math.round(row.est.half * 100)}` : "", vNode,
+         `Window win rate + taken-vs-passed lift; verdict against the ${tpct()} target.`),
+    tile("Taken vs passed", row.lift && row.lift.est !== null ? pp(row.lift.est) + " pp" : "—", row.lift && row.lift.half ? `±${(row.lift.half * 100).toFixed(1)}` : ""),
+    tile("Deck win rate", pct(row.deckWr), row.deckRuns ? `${fmtN(row.deckRuns)} runs` : ""),
+    tile("Upgraded per run", row.upg === null || row.upg === undefined ? "—" : row.upg.toFixed(2)));
+  const body = $("modalBody"); body.replaceChildren();
+  const section = (title, note) => {
+    const h = document.createElement("h3"); h.textContent = title; body.append(h);
+    if (note) { const n = document.createElement("div"); n.className = "note"; n.textContent = note; body.append(n); }
+    const host = document.createElement("div"); body.append(host); return host;
+  };
+  const opts = {width: 920, label: "win rate", padL: 80, center: state.target, extent: Math.min(.4, state.target, 1 - state.target)};
+  // per version history (all detail versions, same mode/asc/world filters)
+  const vers = META.versions.filter(v => META.detail_releases.includes(releaseOf(v)));
+  const offByVer = groupBy(T.offers.filter(r => r.card === id && passBase(r)), r => r.ver, PICK);
+  forest(section("Win rate by version", `Same mode / ascension / world filters across every version with detail data. Dashed = ${tpct()} target; window highlighted.`),
+    vers.filter(v => offByVer.has(v)).map(v => { const g = offByVer.get(v), s = estWr(tvp(g), baseRate(r => r.ver === v && passBase(r)));
+      return s ? {label: v, est: s.est, half: s.half, n: g.off, hl: CUR_VERS.has(v), sub: `${pct(g.pk / g.off)} picked`} : null; }).filter(Boolean),
+    opts);
+  // by ascension band
+  const offByAsc = groupBy(T.offers.filter(r => r.card === id && inCur(r)), r => r.ab, PICK);
+  forest(section("By ascension (window)"), META.asc_bands.map((b, i) => { const g = offByAsc.get(i);
+      const s = g && estWr(tvp(g), baseRate(r => inCur(r) && r.ab === i));
+      return s ? {label: b, est: s.est, half: s.half, n: g.off, hl: true, sub: `${pct(g.pk / g.off)} picked`} : null; }).filter(Boolean),
+    opts);
+  // by archetype (deck-based, own cards only)
+  if (isOwn(id)) {
+    const da = T.deck_arch.filter(r => r.card === id && CUR_VERS.has(r.ver) && passBase(r));
+    const byArch = groupBy(da, r => r.arch, RATE);
+    const archBase = groupBy(T.arch.filter(inCur), r => r.arch, RATE);
+    forest(section("Decks it ends up in, by archetype (window)", "Raw win rate of runs ending with this card, per dominant archetype; the second number is the archetype's own win rate. Final-deck rates run high (long runs hold more cards)."),
+      META.archetypes.filter(a => byArch.has(a)).map(a => { const g = byArch.get(a), s = rateCI(g.wins, g.runs), b = archBase.get(a);
+        return {label: a, est: s.est, lo: s.lo, hi: s.hi, half: s.half, n: g.runs, hl: true, sub: b && b.runs ? `arch ${pct(b.wins / b.runs)}` : ""}; }),
+      opts);
+  }
+  const notes = META.patches.filter(p => p.refs.some(r => r.id === id));
+  if (notes.length) {
+    const host = section("Patch notes");
+    for (const p of notes.slice().reverse()) {
+      const d = document.createElement("div"); d.className = "patch";
+      d.innerHTML = `<div class="hd"><b>${esc(p.ver)}</b><span class="sec">${esc(p.section)}</span></div><div class="txt">${esc(p.text)}</div>`;
+      host.append(d);
+    }
+  }
+  $("modalBack").hidden = false;
+}
+function closeModal() { $("modalBack").hidden = true; hideTip(); }
+
+// ============ VIEW: ARCHETYPES ============
+function archRows() {
+  const gc = groupBy(T.arch.filter(inCur), r => r.arch, [...RATE, "a1", "a2", "a3"]);
+  const gp = hasCmp() ? groupBy(T.arch.filter(inCmp), r => r.arch, [...RATE, "a1", "a2", "a3"]) : new Map();
+  const nc = sum([...gc.values()], ["runs"]).runs, np = sum([...gp.values()], ["runs"]).runs;
+  return META.archetypes.map(arch => {
+    const cur = gc.get(arch), cmp = gp.get(arch);
+    return {arch, cur, cmp, share: cur && nc ? cur.runs / nc : null, cshare: cmp && np ? cmp.runs / np : null,
+            w: cur ? wae(cur) : null, cw: cmp ? wae(cmp) : null,
+            wci: cur ? rateCI(cur.wins, cur.runs) : null,
+            wr: cur && cur.runs ? cur.wins / cur.runs : null, cwr: cmp && cmp.runs ? cmp.wins / cmp.runs : null};
+  }).filter(r => r.cur || r.cmp);
+}
+const archSortState = {k: "share", a: false, get() { return [this.k, this.a]; }, set(k, a) { this.k = k; this.a = a; renderArch(); }};
+function renderArch() {
+  const rows = archRows();
+  const enough = r => !!r.cur && r.cur.runs >= 10;
+  table($("archTable"), rows, [
+    {key: "arch", label: "Archetype", ascFirst: true, sort: r => r.arch},
+    {key: "runs", label: "Runs", num: true, sort: r => r.cur ? r.cur.runs : 0, cell: r => r.cur ? fmtN(r.cur.runs) : "0"},
+    {key: "share", label: "Share", num: true, cell: r => pct(r.share)},
+    {key: "dshare", label: "Δ share", num: true, sort: r => delta(r.share, r.cshare), cell: r => deltaSpan(delta(r.share, r.cshare), {dim: true})},
+    {key: "wr", label: "Win rate", num: true, cell: r => wrText(r.wci)},
+    {key: "wviz", label: scaleLabel(), nosort: true, cell: r => forestCell(enough(r) ? r.wci : null, .3, {center: state.target})},
+    {key: "verdict", label: `Vs ${tpct()}`, sort: r => verdictT(r.wci, enough(r)).rank, cell: r => verdictNode(verdictT(r.wci, enough(r)))},
+    {key: "dwr", label: "Δ WR", num: true, sort: r => delta(r.wr, r.cwr), cell: r => deltaSpan(delta(r.wr, r.cwr))},
+    {key: "w", label: "Vs expected (pp)", num: true, title: "Skill-adjusted: win rate minus what this archetype's players were expected to win",
+     sort: r => r.w ? r.w.est : null, cell: r => ppi(r.w)},
+    {key: "a2", label: "Cleared Act 2", num: true, sort: r => r.cur && r.cur.runs ? r.cur.a2 / r.cur.runs : null, cell: r => r.cur && r.cur.runs ? pct(r.cur.a2 / r.cur.runs) : "—"},
+  ], archSortState);
+
+  // small multiples per archetype across release lines: share (columns) + win rate around the target (dot + interval)
+  const host = $("archMultiples"); host.replaceChildren();
+  const rels = META.releases.map(r => r.id);
+  const byRelArch = groupBy(T.arch.filter(passBase), r => releaseOf(r.ver) + "|" + r.arch, RATE);
+  const byRel = groupBy(T.arch.filter(passBase), r => releaseOf(r.ver), ["runs"]);
+  const t0 = state.target, span = .25;
+  for (const arch of META.archetypes) {
+    const p = document.createElement("div"); p.className = "panel";
+    p.innerHTML = `<h2>${esc(arch)}</h2>`;
+    const W = 360, H = 190, pad = {l: 34, r: 8, t: 10, b: 24}, mid = 92;
+    const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img"});
+    const slot = (W - pad.l - pad.r) / rels.length;
+    const shares = rels.map(r => { const g = byRelArch.get(r + "|" + arch), t = byRel.get(r); return g && t && t.runs ? g.runs / t.runs : 0; });
+    const maxS = Math.max(.2, ...shares);
+    svg.append(el("text", {x: 2, y: pad.t + 8, "font-size": 10, fill: C("--muted")}, "share"));
+    const yW = v => mid + 16 + (span - Math.max(-span, Math.min(span, v - t0))) / (2 * span) * (H - pad.b - mid - 16);
+    svg.append(el("line", {x1: pad.l, x2: W - pad.r, y1: yW(t0), y2: yW(t0), stroke: C("--rose"), "stroke-width": 1.5, "stroke-dasharray": "5 4"}));
+    svg.append(el("text", {x: 2, y: yW(t0) + 3, "font-size": 10, fill: C("--rose")}, tpct()));
+    rels.forEach((rel, i) => {
+      const cx = pad.l + slot * (i + .5);
+      const cur = state.rels.has(rel);
+      const h = shares[i] / maxS * (mid - pad.t - 4);
+      if (h > 0) svg.append(roundedBar(cx - Math.min(10, slot * .3), mid - h, Math.min(20, slot * .6), h, cur ? C("--cur") : C("--cmp"), false));
+      const g = byRelArch.get(rel + "|" + arch);
+      const s = g && g.runs >= 5 ? rateCI(g.wins, g.runs) : null;
+      if (s) {
+        svg.append(el("line", {x1: cx, x2: cx, y1: yW(s.hi), y2: yW(s.lo), stroke: cur ? C("--cur") : C("--cmp"), "stroke-width": 2, "stroke-linecap": "round"}));
+        svg.append(el("circle", {cx, cy: yW(s.est), r: 4, fill: cur ? C("--cur") : C("--cmp"), stroke: C("--panel"), "stroke-width": 2}));
+      }
+      svg.append(el("text", {x: cx, y: H - 6, "text-anchor": "middle", "font-size": 10, fill: cur ? C("--ink") : C("--muted")}, rel.replace("v0.", ".")));
+      const hit = el("rect", {x: cx - slot / 2, y: 0, width: slot, height: H, fill: "transparent"});
+      hover(hit, `${arch} · ${rel}`, [["share of runs", pct(shares[i])], ["runs", g ? fmtN(g.runs) : "0"],
+                                      ["win rate", s ? wrText(s) : "too few"], [`vs ${tpct()}`, s ? verdictT(s, g.runs >= 10).text : "—"]]);
+      svg.append(hit);
+    });
+    p.append(svg); host.append(p);
+  }
+}
+
+// ============ VIEW: RELICS ============
+const relSort = {own: {k: "runs", a: false}, anc: {k: "off", a: false}, all: {k: "wr", a: false}};
+function sortStateFor(name, render) {
+  return {get: () => [relSort[name].k, relSort[name].a], set: (k, a) => { relSort[name] = {k, a}; render(); }};
+}
+function renderRelics() {
+  const cur = groupBy(T.relics.filter(inCur), r => r.relic, [...RATE, "buy"]);
+  const cmp = hasCmp() ? groupBy(T.relics.filter(inCmp), r => r.relic, RATE) : new Map();
+  const n = sum(T.runs.filter(inCur), ["runs"]).runs, cn = hasCmp() ? sum(T.runs.filter(inCmp), ["runs"]).runs : 0;
+  const relRow = id => { const g = cur.get(id), c = cmp.get(id), meta = META.relics[id] || {};
+    return {id, name: meta.name || id, rarity: meta.rarity || "", g, runs: g ? g.runs : 0, held: g && n ? g.runs / n : null,
+            cheld: c && cn ? c.runs / cn : null, w: g ? wae(g) : null, wci: g ? rateCI(g.wins, g.runs) : null,
+            wr: g && g.runs ? g.wins / g.runs : null, cwr: c && c.runs ? c.wins / c.runs : null, buy: g ? g.buy : 0}; };
+  const relEnough = r => r.runs >= 15;
+  const relCols = [
+    {key: "name", label: "Relic", ascFirst: true, sort: r => r.name},
+    {key: "rarity", label: "Rarity", sort: r => r.rarity, cell: r => { const s = document.createElement("span"); s.className = "mech"; s.textContent = r.rarity; return s; }},
+    {key: "runs", label: "Runs", num: true},
+    {key: "held", label: "Held", num: true, cell: r => pct(r.held)},
+    {key: "dheld", label: "Δ held", num: true, sort: r => delta(r.held, r.cheld), cell: r => deltaSpan(delta(r.held, r.cheld), {dim: true})},
+    {key: "wr", label: "Win rate", num: true, sort: r => relEnough(r) ? r.wr : null, cell: r => wrText(r.wci)},
+    {key: "wviz", label: scaleLabel(), nosort: true, cell: r => forestCell(relEnough(r) ? r.wci : null, .3, {center: state.target})},
+    {key: "verdict", label: `Vs ${tpct()}`, sort: r => verdictT(r.wci, relEnough(r)).rank, cell: r => verdictNode(verdictT(r.wci, relEnough(r)))},
+    {key: "w", label: "Vs expected (pp)", num: true, title: "Skill-adjusted: win rate minus what these runs' players were expected to win",
+     sort: r => r.runs >= 10 && r.w ? r.w.est : null, cell: r => ppi(r.w)},
+    {key: "buy", label: "Bought", num: true, title: "Times bought at a shop"},
+  ];
+  const ownIds = Object.keys(META.relics).filter(isOwn);
+  table($("ownRelicTable"), ownIds.map(relRow), relCols, sortStateFor("own", renderRelics));
+
+  const all = [...cur.keys()].map(relRow).filter(r => r.runs >= 1 && (!state.relSearch || r.name.toLowerCase().includes(state.relSearch.toLowerCase())));
+  table($("relicTable"), all, relCols, sortStateFor("all", renderRelics));
+
+  const base = baseRate(inCur);
+  const anc = groupBy(T.ancients.filter(inCur), r => r.relic, PICK);
+  const ancC = hasCmp() ? groupBy(T.ancients.filter(inCmp), r => r.relic, PICK) : new Map();
+  const ancRows = [...anc.entries()].map(([id, g]) => { const s = tvp(g), c = ancC.get(id);
+    return {id, name: relicName(id), off: g.off, pick: g.pk / g.off, cpick: c && c.off ? c.pk / c.off : null, s, est: estWr(s, base),
+            enough: g.pk >= 5 && g.off - g.pk >= 5 && g.off >= 15}; })
+    .filter(r => !state.ancSearch || r.name.toLowerCase().includes(state.ancSearch.toLowerCase()));
+  table($("ancTable"), ancRows, [
+    {key: "name", label: "Option", ascFirst: true, sort: r => r.name},
+    {key: "off", label: "Offered", num: true},
+    {key: "pick", label: "Taken", num: true, cell: r => pct(r.pick)},
+    {key: "dpick", label: "Δ taken", num: true, sort: r => delta(r.pick, r.cpick), cell: r => deltaSpan(delta(r.pick, r.cpick), {dim: true})},
+    {key: "est", label: "Win rate", num: true, sort: r => r.enough && r.est ? r.est.est : null, cell: r => wrText(r.est)},
+    {key: "viz", label: scaleLabel(), nosort: true, cell: r => forestCell(r.enough ? r.est : null, .3, {center: state.target})},
+    {key: "verdict", label: `Vs ${tpct()}`, sort: r => verdictT(r.est, r.enough).rank, cell: r => verdictNode(verdictT(r.est, r.enough))},
+    {key: "lift", label: "Lift (pp)", num: true, title: "Taken vs passed", sort: r => r.enough && r.s.est !== null ? r.s.est : null, cell: r => r.s.est === null ? "—" : ppi(r.s)},
+  ], sortStateFor("anc", renderRelics));
+}
+
+// ============ VIEW: THREATS ============
+function encounterRows(pred = inCur) {
+  const g = groupBy(T.encounters.filter(pred), r => r.enc, ["fights", "dmg", "turns", "deaths"]);
+  const total = sum([...g.values()], ["deaths"]).deaths;
+  return [...g.entries()].map(([id, s]) => { const m = META.encounters[id] || {};
+    return {id, name: m.name || id, tier: m.tier || "", act: m.act || null, ...s,
+            deathRate: s.fights ? s.deaths / s.fights : null, avgDmg: s.fights ? s.dmg / s.fights : null,
+            avgTurns: s.fights ? s.turns / s.fights : null, share: total ? s.deaths / total : null}; });
+}
+const encSortState = {get: () => [state.encSort, state.encAsc], set: (k, a) => { state.encSort = k; state.encAsc = a; renderThreats(); }};
+function renderThreats() {
+  const cur = encounterRows(), cmpMap = new Map(hasCmp() ? encounterRows(inCmp).map(r => [r.id, r]) : []);
+  for (const r of cur) { const c = cmpMap.get(r.id); r.cDeathRate = c ? c.deathRate : null; r.cAvgDmg = c ? c.avgDmg : null; }
+  const vis = cur.filter(r => (state.tier === "All" || r.tier === state.tier) &&
+                              (state.act === "All" || String(r.act) === state.act.replace("Act ", "")));
+  table($("encTable"), vis, [
+    {key: "name", label: "Encounter", ascFirst: true, sort: r => r.name},
+    {key: "act", label: "Act", num: true, cell: r => r.act || "—"},
+    {key: "tier", label: "Tier", sort: r => r.tier, cell: r => { const s = document.createElement("span"); s.className = "mech"; s.textContent = r.tier; return s; }},
+    {key: "fights", label: "Fights", num: true},
+    {key: "avgDmg", label: "Avg HP lost", num: true, cell: r => r.avgDmg === null ? "—" : r.avgDmg.toFixed(1)},
+    {key: "dDmg", label: "Δ HP", num: true, sort: r => delta(r.avgDmg, r.cAvgDmg), cell: r => deltaSpan(delta(r.avgDmg, r.cAvgDmg), {scale: 1, goodUp: false})},
+    {key: "avgTurns", label: "Avg turns", num: true, cell: r => r.avgTurns === null ? "—" : r.avgTurns.toFixed(1)},
+    {key: "deaths", label: "Deaths", num: true},
+    {key: "deathRate", label: "Death rate", num: true, cell: r => pct(r.deathRate)},
+    {key: "dRate", label: "Δ rate", num: true, sort: r => delta(r.deathRate, r.cDeathRate), cell: r => deltaSpan(delta(r.deathRate, r.cDeathRate), {goodUp: false})},
+    {key: "share", label: "Share of deaths", num: true, cell: r => { const f = document.createDocumentFragment();
+      f.append(pct(r.share)); const b = document.createElement("span"); b.className = "minibar"; b.style.width = Math.round((r.share || 0) * 160) + "px"; f.append(b); return f; }},
+  ], encSortState);
+
+  // Floors
+  const floors = groupBy(T.floors.filter(inCur), r => r.floor, ["deaths"]);
+  const maxF = Math.max(0, ...floors.keys());
+  const actStart = {};
+  columns($("chartFloors"), Array.from({length: maxF}, (_, i) => {
+    const f = i + 1, d = floors.has(f) ? floors.get(f).deaths : 0;
+    return {label: String(f), v: d, hl: true, tipTitle: "Floor " + f + (f === 60 ? "+" : ""), tip: [["deaths", fmtN(d)]]};
+  }), {labelEvery: 5});
+
+  // Bosses
+  const bosses = cur.filter(r => r.tier === "Boss" && r.fights >= 3).sort((a, b) => (a.act || 9) - (b.act || 9) || b.fights - a.fights);
+  rateBars($("chartBosses"), bosses.map(b => {
+    const c = cmpMap.get(b.id);
+    const one = s => s && s.fights ? {v: s.deaths / s.fights, n: s.fights, lo: wilson(s.deaths, s.fights)[0], hi: wilson(s.deaths, s.fights)[1]} : null;
+    return {label: b.name, cur: one(b), cmp: one(c)};
+  }));
+  cmpLegend($("legBosses"));
+}
+
+// ============ VIEW: HISTORY ============
+function renderHistory() {
+  const byVer = groupBy(T.runs.filter(passBase), r => r.ver, RATE);
+  const vers = META.versions.filter(v => byVer.has(v));
+  forest($("chartVersions"), vers.map(v => { const g = byVer.get(v), w = wae(g);
+    return {label: v, est: w.est, half: w.half, n: g.runs, hl: CUR_VERS.has(v), sub: `${fmtN(g.runs)} runs`,
+            extra: [["win rate", pct(g.wins / g.runs)], ["expected", pct(g.xw / g.runs)]]}; }),
+    {label: "wins vs expected", padL: 90});
+  rateBars($("chartVersionsRaw"), vers.map(v => { const g = byVer.get(v); const [lo, hi] = wilson(g.wins, g.runs);
+    return {label: v, cur: {v: g.wins / g.runs, n: g.runs, lo, hi, exp: g.xw / g.runs}}; }),
+    {showExp: true, width: 540, target: state.target});
+  // players per release line
+  const modes = state.mode === "Solo" ? [0] : state.mode === "Co-op" ? [1] : [0, 1];
+  const rows = META.releases.map(r => { const s = sum(T.players.filter(p => p.scope === "rel" && p.id === r.id && modes.includes(p.mp)), ["players", "repeat"]);
+    return {label: r.id, s}; });
+  const host = $("chartPlayers"); host.replaceChildren();
+  const W = 540, H = 230, pad = {l: 44, r: 8, t: 12, b: 26};
+  const maxV = Math.max(1, ...rows.map(r => r.s.players));
+  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img"});
+  const py = v => H - pad.b - v / maxV * (H - pad.t - pad.b);
+  const step = [10, 20, 50, 100, 200, 250, 500, 1000].find(s => maxV / s <= 4) || 500;
+  for (let g = 0; g <= maxV; g += step) {
+    svg.append(el("line", {x1: pad.l, x2: W - pad.r, y1: py(g), y2: py(g), stroke: C("--grid")}));
+    svg.append(el("text", {x: pad.l - 6, y: py(g) + 4, "text-anchor": "end", "font-size": 11, fill: C("--muted")}, fmtN(g)));
+  }
+  const slot = (W - pad.l - pad.r) / rows.length, bw = Math.min(18, slot / 2 - 3);
+  rows.forEach((r, i) => {
+    const cx = pad.l + slot * (i + .5);
+    for (const [j, v, color] of [[0, r.s.players, C("--cur")], [1, r.s.repeat, C("--cmp")]]) {
+      if (v > 0) svg.append(roundedBar(cx - bw - 1 + j * (bw + 2), py(v), bw, H - pad.b - py(v), color, false));
+    }
+    svg.append(el("text", {x: cx, y: H - 8, "text-anchor": "middle", "font-size": 11, fill: state.rels.has(r.label) ? C("--ink") : C("--muted")}, r.label));
+    const hit = el("rect", {x: cx - slot / 2, y: pad.t, width: slot, height: H - pad.t - pad.b, fill: "transparent"});
+    hover(hit, r.label, [["players", fmtN(r.s.players)], ["returned (2+ runs)", fmtN(r.s.repeat)]]);
+    svg.append(hit);
+  });
+  host.append(svg);
+}
+
+// ============ VIEW: METHOD ============
+function renderMethod() {
+  const m = META.model;
+  const tbl = document.createElement("table");
+  tbl.innerHTML = `<thead><tr><th>Model term</th><th class="num">Coefficient (log-odds)</th><th>Reads as</th></tr></thead>`;
+  const reads = {"intercept": "starting point: solo, Ascension 0, base-game world, a 50% lifetime win rate and zero hours played (not a real player — the other terms move it)",
+    "skill (logit)": "per unit of the player's lifetime win rate on the log-odds scale",
+    "experience (log h)": "per ×e^5 more lifetime hours played", "modded world": "run went through another mod's acts/monsters"};
+  const body = tbl.createTBody();
+  m.features.forEach((f, i) => { const tr = body.insertRow();
+    tr.insertCell().textContent = f;
+    const c = tr.insertCell(); c.className = "num"; c.textContent = (m.coef[i] >= 0 ? "+" : "−") + Math.abs(m.coef[i]).toFixed(2);
+    const r = tr.insertCell(); r.className = "dim"; r.textContent = reads[f] || (m.coef[i] > 0 ? "raises expected win chance" : "lowers expected win chance"); });
+  const cap = document.createElement("p");
+  cap.textContent = `Fitted on ${fmtN(m.runs)} runs. Brier score ${m.brier} vs ${m.brier_baseline} for a flat guess (lower is better) — ` +
+    `the model explains a real share of who wins, which is exactly the share the "vs expected" numbers remove.`;
+  $("modelTable").replaceChildren(tbl, cap);
+  $("detailN").textContent = META.detail_releases.length;
+}
+
+// ============ LOCALIZATION ============
+let LOC = null;
+function renderLoc() {
+  const apps = $("locApps"), table = $("locProjects"), badge = $("locBadge");
+  if (!LOC) { apps.replaceChildren(emptyNote("No ParaTranz snapshot yet — the nightly localization sync writes it.")); table.innerHTML = ""; return; }
+  $("locFresh").textContent = `Snapshot ${LOC.generated_at.replace("T", " ").replace("Z", " UTC")}.`;
+  const open = LOC.projects.flatMap(p => p.open_applications.map(a => ({...a, project: p})))
+    .sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
+  const pending = open.filter(a => a.status === 0).length;
+  badge.hidden = pending === 0; badge.textContent = pending;
+  if (!open.length) apps.replaceChildren(emptyNote("No pending applications."));
+  else apps.replaceChildren(...open.map(a => {
+    const box = document.createElement("div"); box.className = "app";
+    const who = document.createElement("div"); who.className = "who";
+    const lang = document.createElement("a"); lang.className = "lang";
+    lang.href = a.project.url + "/applications"; lang.target = "_blank"; lang.rel = "noopener"; lang.textContent = a.project.name;
+    const name = document.createElement("b");
+    name.textContent = a.nickname && a.nickname !== a.username ? `${a.nickname} (${a.username})` : (a.username || "?");
+    const when = document.createElement("span"); when.className = "when"; when.textContent = (a.created_at || "").slice(0, 10);
+    who.append(lang, name, when);
+    const msg = document.createElement("div"); msg.className = "msg"; msg.textContent = a.message || "(no message)";
+    box.append(who, msg); return box;
+  }));
+  const rows = LOC.projects.map(p => {
+    const pc = p.total ? Math.round(100 * p.translated / p.total) : 0;
+    return `<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a></td>` +
+      `<td class="num">${p.translated} / ${p.total}</td><td><span class="minibar" style="width:${pc}px"></span> ${pc}%</td>` +
+      `<td class="num">${p.reviewed}</td><td class="num">${p.members}</td><td class="num">${p.open_applications.length}</td></tr>`;
+  });
+  table.innerHTML = `<table><thead><tr><th>Language</th><th class="num">Translated</th><th></th><th class="num">Reviewed</th>` +
+    `<th class="num">Members</th><th class="num">Open apps</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+}
+
+// ============ controls / chrome ============
+const semverOf = v => (v.match(/\d+/g) || []).map(Number);
+function cmpSemver(a, b) { const x = semverOf(a), y = semverOf(b);
+  for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; }
+const releaseOf = v => { const [a, b] = semverOf(v); return `v${a}.${b}`; };
+
+function renderScope() {
+  const cur = sum(T.runs.filter(inCur), ["runs"]).runs;
+  const hidden = state.world === "Base-game world"
+    ? sum(T.runs.filter(r => CUR_VERS.has(r.ver) && r.world === 0 && (state.mode === "Both" || (state.mode === "Solo") === !r.mp)
+                         && (!state.asc.size || state.asc.has(r.ab))), ["runs"]).runs : 0;
+  const parts = [`<b>${fmtN(cur)}</b> runs in ${[...state.rels].sort(cmpSemver).join(" + ")} (${[...CUR_VERS].sort(cmpSemver).join(", ")})`];
+  if (hasCmp()) parts.push(`compared with <b>${fmtN(sum(T.runs.filter(inCmp), ["runs"]).runs)}</b> in ${state.cmp}`);
+  if (hidden) parts.push(`${fmtN(hidden)} modded-world runs hidden`);
+  if (cur && cur < 150) parts.push("small window — intervals will be wide");
+  const noDetail = [...state.rels, state.cmp].filter(r => r && !META.detail_releases.includes(r));
+  if (noDetail.length) parts.push(`card / relic / encounter detail is only exported for ${META.detail_releases.join(", ")} ` +
+                                  `(${noDetail.join(", ")} shows run-level numbers only)`);
+  $("scope").innerHTML = parts.join(" · ");
+}
+
+let currentView = "pulse";
+const RENDER = {pulse: renderPulse, changes: renderChanges, cards: renderCards, arch: renderArch, relics: renderRelics,
+                threats: renderThreats, history: renderHistory, method: renderMethod, loc: renderLoc};
+function renderAll() { syncVersions(); renderScope(); RENDER[currentView](); }
+function showView(v) {
+  if (!RENDER[v]) v = "pulse";
+  currentView = v;
+  document.querySelectorAll("#tabs .tab").forEach(t => t.classList.toggle("on", t.dataset.view === v));
+  document.querySelectorAll(".view").forEach(n => n.classList.toggle("on", n.id === "view-" + v));
+  history.replaceState(null, "", "#" + v);
+  renderAll();
+}
+
+function chipRow(host, items, isOn, onClick, cls = "") {
+  host.replaceChildren(...items.map(it => {
+    const b = document.createElement("button");
+    const [value, label, n] = Array.isArray(it) ? it : [it, it];
+    b.className = "chip " + cls + (isOn(value) ? " on" : "");
+    b.textContent = label;
+    if (n !== undefined) { const s = document.createElement("span"); s.className = "n"; s.textContent = n; b.append(s); }
+    b.addEventListener("click", e => onClick(value, e));
+    return b;
+  }));
+}
+function buildFilters() {
+  const rels = META.releases;
+  const relChips = () => chipRow($("relChips"), rels.map(r => [r.id, r.id, fmtN(r.runs)]), v => state.rels.has(v), (v, e) => {
+    if (e.shiftKey || e.ctrlKey || e.metaKey) { if (state.rels.has(v) && state.rels.size > 1) state.rels.delete(v); else state.rels.add(v); }
+    else { state.rels = new Set([v]); }
+    // compare defaults to the line just before the earliest selected line
+    const first = rels.findIndex(r => state.rels.has(r.id));
+    if (state.rels.has(state.cmp) || state.cmp === "") state.cmp = first > 0 ? rels[first - 1].id : "";
+    relChips(); cmpChips(); renderAll();
+  });
+  const cmpChips = () => chipRow($("cmpChips"), [...rels.filter(r => !state.rels.has(r.id)).map(r => [r.id, r.id]), ["", "none"]],
+    v => state.cmp === v, v => { state.cmp = v; cmpChips(); renderAll(); }, "cmp");
+  relChips(); cmpChips();
+  $("relChips").title = "Click a release line; shift/ctrl-click to add more lines to the window.";
+  const mode = () => chipRow($("modeChips"), MODES, v => state.mode === v, v => { state.mode = v; mode(); renderAll(); });
+  const asc = () => chipRow($("ascChips"), [["all", "All"], ...META.asc_bands.map((b, i) => [i, b])],
+    v => v === "all" ? !state.asc.size : state.asc.has(v),
+    (v, e) => { if (v === "all") state.asc.clear();
+      else if (e.shiftKey || e.ctrlKey || e.metaKey) { state.asc.has(v) ? state.asc.delete(v) : state.asc.add(v); }
+      else state.asc = state.asc.size === 1 && state.asc.has(v) ? new Set() : new Set([v]);
+      if (state.asc.size === META.asc_bands.length) state.asc.clear();
+      asc(); renderAll(); });
+  const world = () => chipRow($("worldChips"), WORLDS, v => state.world === v, v => { state.world = v; world(); renderAll(); });
+  mode(); asc(); world();
+
+  const mechs = ["All", ...META.archetypes.filter(a => a !== "Unfocused"), "None"];
+  const mech = () => chipRow($("mechChips"), mechs, v => state.mech === v, v => { state.mech = v; mech(); renderCards(); });
+  const rar = () => chipRow($("rarChips"), ["All", "Common", "Uncommon", "Rare"], v => state.rar === v, v => { state.rar = v; rar(); renderCards(); });
+  mech(); rar();
+  $("cardSearch").addEventListener("input", e => { state.search = e.target.value.trim(); renderCards(); });
+  $("showOther").addEventListener("change", e => { state.showOther = e.target.checked; renderCards(); });
+  const bump = d => { state.minOff = Math.max(5, state.minOff + d); $("minVal").textContent = state.minOff; RENDER[currentView](); };
+  $("minMinus").addEventListener("click", () => bump(-5));
+  $("minPlus").addEventListener("click", () => bump(5));
+  $("ancSearch").addEventListener("input", e => { state.ancSearch = e.target.value.trim(); renderRelics(); });
+  $("relSearch").addEventListener("input", e => { state.relSearch = e.target.value.trim(); renderRelics(); });
+  const setTarget = d => { state.target = Math.round(Math.min(.8, Math.max(.05, state.target + d)) * 100) / 100;
+    try { localStorage.setItem("analytics.target", state.target); } catch {}
+    $("tgtVal").textContent = tpct(); renderAll(); };
+  $("tgtVal").textContent = tpct();
+  $("tgtMinus").addEventListener("click", () => setTarget(-.01));
+  $("tgtPlus").addEventListener("click", () => setTarget(.01));
+  const tier = () => chipRow($("tierChips"), ["All", "Boss", "Elite", "Normal", "Weak", "Event"], v => state.tier === v, v => { state.tier = v; tier(); renderThreats(); });
+  const act = () => chipRow($("actChips"), ["All", "Act 1", "Act 2", "Act 3"], v => state.act === v, v => { state.act = v; act(); renderThreats(); });
+  tier(); act();
+}
+
 function renderCharacterChrome() {
   document.title = `${CHAR.label} — Balance Analytics`;
   $("pageTitle").textContent = `${CHAR.label} — Balance Analytics`;
@@ -348,856 +1629,53 @@ function renderCharacterChrome() {
   $("charTabs").replaceChildren(...Object.values(CHARACTERS).map(ch => {
     const b = document.createElement("button");
     b.className = "tab" + (ch.key === CHAR.key ? " on" : "");
-    b.setAttribute("role", "tab"); b.setAttribute("aria-selected", ch.key === CHAR.key);
     b.textContent = ch.label;
-    b.addEventListener("click", () => setCharacter(ch.key));
+    b.addEventListener("click", () => {
+      if (ch.key === CHAR.key) return;
+      try { localStorage.setItem(CHAR_KEY, ch.key); } catch {}
+      const url = new URL(location.href); url.searchParams.set("character", ch.key); location.href = url.href;
+    });
     return b;
   }));
-}
-
-let META, RUNS, CARDS, CMETA, CHOICES, DEATHS, DFLOORS, ENCS, ARCHS;  // fetched data
-let HOURS = [];  // runs_hourly.json — optional (absent until the exporter re-runs)
-let BASE_ENC = new Set();              // base-game encounter whitelist
-// mod/game are Sets of selected versions; empty Set = all (every run counts — the data
-// is thin, so pooling releases with similar balance profiles is the default).
-const state = {days: 0, mod: new Set(), game: new Set(), showOther: false, includeMP: false, mech: "All",
-               minRuns: 3, search: "", sortKey: "runs", sortAsc: false,
-               diffA: "", diffB: "", encSort: "deaths", encAsc: false, xMetric: "Pick rate"};
-const matchesSearch = name => !state.search ||
-  name.toLowerCase().includes(state.search.toLowerCase());
-
-// ---------- data recomposition (counts are additive; rates never stored) ----------
-
-// mod: undefined = use the global mod filter (a Set; empty = all); "x" = that version only.
-function sliceFilter(row, mod) {
-  if (mod === undefined ? state.mod.size && !state.mod.has(row.mod) : row.mod !== mod)
-    return false;
-  if (state.game.size && !state.game.has(row.game)) return false;
-  if (!state.includeMP && row.mp) return false;  // MP team runs skew solo balance reads
-  if (state.days) {
-    const cutoff = new Date(META.last_day + "T00:00:00Z");
-    cutoff.setUTCDate(cutoff.getUTCDate() - (state.days - 1));
-    if (row.day < cutoff.toISOString().slice(0, 10)) return false;
-  }
-  return true;
-}
-
-function groupSum(rows, keyFn, fields = ["runs", "wins"]) {
-  const m = new Map();
-  for (const r of rows) {
-    const k = keyFn(r);
-    const g = m.get(k) || Object.fromEntries(fields.map(f => [f, 0]));
-    for (const f of fields) g[f] += r[f];
-    m.set(k, g);
-  }
-  return m;
-}
-
-function cardVisible(card) {
-  const meta = CMETA[card];
-  // Other classes' cards drift into the mod character's decks via events/mods — unbalanceable
-  // noise, hidden unless explicitly included.
-  if (!state.showOther && !isOwn(meta)) return false;
-  if (state.mech !== "All") {
-    if (!isOwn(meta)) return false;
-    const mechs = meta.mechanics || [];
-    if (state.mech === "None" ? mechs.length > 0 : !mechs.includes(state.mech)) return false;
-  }
-  return true;
-}
-
-function computeCards(mod) {
-  const total = RUNS.filter(r => sliceFilter(r, mod)).reduce((n, r) => n + r.runs, 0);
-  const perCard = groupSum(CARDS.filter(r => sliceFilter(r, mod)), r => r.card);
-  const offers = new Map();
-  for (const r of CHOICES.filter(r => sliceFilter(r, mod))) {
-    const g = offers.get(r.card) || {offered: 0, picked: 0};
-    g.offered += r.offered; g.picked += r.picked;
-    offers.set(r.card, g);
-  }
-  const rows = [];
-  for (const [card, g] of perCard) {
-    if (g.runs < state.minRuns || !cardVisible(card)) continue;
-    const meta = CMETA[card];
-    const off = offers.get(card);
-    rows.push({card, name: prettyName(card), runs: g.runs, wins: g.wins,
-               winrate: g.wins / g.runs, pick: total ? g.runs / total : 0,
-               offered: off ? off.offered : 0,
-               pickrate: off && off.offered ? off.picked / off.offered : null,
-               rarity: meta ? meta.rarity : "Other",
-               color: RARITY_COLOR[meta && meta.rarity] || C("--other")});
-  }
-  return {rows, total};
-}
-
-// Wilson 95% score interval — honest whiskers for small samples.
-function wilson(wins, n) {
-  if (!n) return [0, 1];
-  const z = 1.96, p = wins / n, z2 = z * z;
-  const mid = (p + z2 / (2 * n)) / (1 + z2 / n);
-  const half = z * Math.sqrt(p * (1 - p) / n + z2 / (4 * n * n)) / (1 + z2 / n);
-  return [Math.max(0, mid - half), Math.min(1, mid + half)];
-}
-
-function prettyName(card) {
-  return (card.startsWith(CHAR.prefix) ? card.slice(CHAR.prefix.length) : card).toLowerCase()
-             .replace(/_/g, " ").replace(/\b\w/g, ch => ch.toUpperCase());
-}
-
-const pct = v => (v * 100).toFixed(v * 100 >= 10 ? 0 : 1) + "%";
-
-// ---------- svg helpers ----------
-
-const NS = "http://www.w3.org/2000/svg";
-function el(tag, attrs, text) {
-  const n = document.createElementNS(NS, tag);
-  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
-  if (text !== undefined) n.textContent = text;
-  return n;
-}
-
-// Frame: y is always win-rate 0..1. Returns svg + plot mappers.
-function makeFrame(width, height, pad) {
-  const svg = el("svg", {viewBox: `0 0 ${width} ${height}`, role: "img"});
-  const px = v => pad.l + v * (width - pad.l - pad.r);   // v in 0..1
-  const py = v => height - pad.b - v * (height - pad.t - pad.b);
-  for (const f of [0, .25, .5, .75, 1]) {                // horizontal grid + % ticks
-    svg.append(el("line", {x1: pad.l, x2: width - pad.r, y1: py(f), y2: py(f),
-                           stroke: C("--grid"), "stroke-width": 1}));
-    svg.append(el("text", {x: pad.l - 8, y: py(f) + 4, "text-anchor": "end",
-                           "font-size": 11, fill: C("--ink-2")}, (f * 100) + "%"));
-  }
-  svg.append(el("line", {x1: pad.l, x2: width - pad.r, y1: py(0), y2: py(0),
-                         stroke: C("--baseline"), "stroke-width": 1}));
-  return {svg, px, py, width, height, pad};
-}
-
-function baselineDash(f, y, x1, x2) {
-  f.svg.append(el("line", {x1, x2, y1: y, y2: y, stroke: C("--rose"),
-                           "stroke-width": 2, "stroke-dasharray": "6 5"}));
-}
-
-// Push overlapping scatter pips apart just enough that each stays hoverable/clickable.
-// Tiny relaxation loop: overlapping pairs repel along their delta (deterministic angle
-// fallback for exact ties), everything stays inside the plot area.
-function nudgeApart(pts, f) {
-  const minX = f.pad.l + 6, maxX = f.width - f.pad.r - 6;
-  const minY = f.pad.t + 6, maxY = f.height - f.pad.b - 6;
-  for (let iter = 0; iter < 40; iter++) {
-    let moved = false;
-    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
-      const a = pts[i], b = pts[j];
-      const need = a.rad + b.rad + 1.5;
-      let dx = b.x - a.x, dy = b.y - a.y;
-      let d = Math.hypot(dx, dy);
-      if (d >= need) continue;
-      if (d < .01) { const ang = (i * 7 + j) % 12 / 12 * 2 * Math.PI;  // exact tie
-                     dx = Math.cos(ang); dy = Math.sin(ang); d = 1; }
-      const push = (need - d) / 2 / d;
-      a.x -= dx * push; a.y -= dy * push;
-      b.x += dx * push; b.y += dy * push;
-      moved = true;
-    }
-    if (!moved) break;
-  }
-  for (const p of pts) { p.x = Math.max(minX, Math.min(maxX, p.x));
-                         p.y = Math.max(minY, Math.min(maxY, p.y)); }
-}
-
-const tip = $("tip");
-function showTip(evt, lines) {
-  tip.replaceChildren();
-  for (const [label, value, strong] of lines) {
-    const d = document.createElement("div");
-    if (strong) { const s = document.createElement("span"); s.className = "v";
-                  s.textContent = value; d.append(s, " " + label); }
-    else d.textContent = `${label} ${value}`;
-    tip.append(d);
-  }
-  tip.style.display = "block";
-  const w = tip.offsetWidth, x = Math.min(evt.clientX + 14, innerWidth - w - 8);
-  tip.style.left = x + "px";
-  tip.style.top = (evt.clientY + 14) + "px";
-}
-const hideTip = () => tip.style.display = "none";
-
-// Single-series line with markers, surface rings, crosshair + snap tooltip.
-function lineChart(host, points, tipLines, width = 900) {  // points: [{label, v(0..1), runs}]
-  host.replaceChildren();
-  if (!points.length) return host.append(emptyNote());
-  const f = makeFrame(width, 300, {l: 52, t: 14, r: 16, b: 34});
-  const xs = i => points.length === 1 ? f.px(.5)
-                                      : f.px(i / (points.length - 1));
-  const step = Math.ceil(points.length / (width / 75));  // x labels, thinned
-  points.forEach((p, i) => { if (i % step === 0 || i === points.length - 1)
-    f.svg.append(el("text", {x: xs(i), y: f.height - 12, "text-anchor": "middle",
-                             "font-size": 11, fill: C("--ink-2")}, p.label)); });
-  const path = points.map((p, i) => `${i ? "L" : "M"}${xs(i)},${f.py(p.v)}`).join("");
-  f.svg.append(el("path", {d: path, fill: "none", stroke: C("--sage"),
-                           "stroke-width": 2, "stroke-linejoin": "round",
-                           "stroke-linecap": "round"}));
-  const cross = el("line", {y1: f.pad.t, y2: f.height - f.pad.b, stroke: C("--frame"),
-                            "stroke-width": 1, visibility: "hidden"});
-  f.svg.append(cross);
-  points.forEach((p, i) => {
-    f.svg.append(el("circle", {cx: xs(i), cy: f.py(p.v), r: 6, fill: C("--sage"),
-                               stroke: C("--panel"), "stroke-width": 2}));
-  });
-  f.svg.addEventListener("pointermove", evt => {
-    const box = f.svg.getBoundingClientRect();
-    const mx = (evt.clientX - box.left) / box.width * f.width;
-    let best = 0, dist = Infinity;
-    points.forEach((p, i) => { const d = Math.abs(xs(i) - mx);
-                               if (d < dist) { dist = d; best = i; } });
-    cross.setAttribute("x1", xs(best)); cross.setAttribute("x2", xs(best));
-    cross.setAttribute("visibility", "visible");
-    showTip(evt, tipLines(points[best]));
-  });
-  f.svg.addEventListener("pointerleave", () => { hideTip();
-    cross.setAttribute("visibility", "hidden"); });
-  host.append(f.svg);
-}
-
-// Rarity-colored scatter: pick (x, scaled to max) vs win rate (y), nearest-point hover.
-function scatterChart(host, rows) {
-  host.replaceChildren();
-  const picking = state.xMetric === "Pick rate";
-  const xv = r => picking ? r.pickrate : r.pick;   // pick rate = taken/offered
-  rows = rows.filter(r => xv(r) !== null);
-  if (!rows.length) return host.append(emptyNote());
-  const f = makeFrame(900, 430, {l: 52, t: 14, r: 20, b: 40});
-  const maxPick = Math.max(.1, ...rows.map(xv)) * 1.06;
-  for (const t of [0, .25, .5, .75, 1]) {
-    f.svg.append(el("text", {x: f.px(t), y: f.height - 10, "text-anchor": "middle",
-                             "font-size": 11, fill: C("--ink-2")}, pct(t * maxPick)));
-  }
-  f.svg.append(el("text", {x: f.px(.125), y: f.height - 10, "text-anchor": "middle",
-                           "font-size": 11, fill: C("--muted")},
-                  (picking ? "pick rate (taken ÷ offered)" : "deck rate") + " →"));
-  const overall = overallWinrate();
-  if (overall !== null) baselineDash(f, f.py(overall), f.pad.l, f.width - f.pad.r);
-  const pipR = r => Math.max(4, Math.min(9, 2.6 + Math.sqrt(r.runs) * 0.75));
-  const pts = rows.map(r => ({r, x: f.px(xv(r) / maxPick), y: f.py(r.winrate),
-                              rad: pipR(r), hit: matchesSearch(r.name)}));
-  nudgeApart(pts, f);
-  const searching = !!state.search;
-  for (const p of pts.filter(p => !p.hit)) {             // dimmed first, hits on top
-    p.node = el("circle", {cx: p.x, cy: p.y, r: p.rad, fill: p.r.color, opacity: .08});
-    f.svg.append(p.node);
-  }
-  for (const p of pts.filter(p => p.hit)) {
-    // While searching, matches trade the surface ring for a faint rose-brown rim so
-    // they read against the dimmed field.
-    p.node = el("circle", {cx: p.x, cy: p.y, r: p.rad, fill: p.r.color,
-                           stroke: searching ? "#e3c2b2" : C("--panel"),
-                           "stroke-width": searching ? 1.5 : 2,
-                           "stroke-opacity": searching ? .75 : 1, cursor: "pointer"});
-    f.svg.append(p.node);
-  }
-  let hot = null;
-  f.svg.addEventListener("pointermove", evt => {
-    const box = f.svg.getBoundingClientRect();
-    const mx = (evt.clientX - box.left) / box.width * f.width;
-    const my = (evt.clientY - box.top) / box.height * f.height;
-    let best = null, dist = 26 * 26;                     // 26px nearest-point radius
-    for (const p of pts) { if (!p.hit) continue;         // dimmed points aren't targets
-                           const d = (p.x - mx) ** 2 + (p.y - my) ** 2;
-                           if (d < dist) { dist = d; best = p; } }
-    if (hot && hot !== best) hot.node.setAttribute("r", hot.rad);
-    hot = best;
-    if (!best) return hideTip();
-    best.node.setAttribute("r", best.rad + 2);
-    showTip(evt, [[best.r.name, "", false],
-                  ["win rate", pct(best.r.winrate), true],
-                  ["deck rate", pct(best.r.pick), true],
-                  ["pick rate", best.r.pickrate === null ? "—"
-                    : `${pct(best.r.pickrate)} of ${best.r.offered} offers`, true],
-                  [`${best.r.runs} runs · ${best.r.rarity}`, "", false]]);
-  });
-  f.svg.addEventListener("pointerleave", () => { hideTip();
-    if (hot) hot.node.setAttribute("r", hot.rad); hot = null; });
-  f.svg.addEventListener("click", () => { if (hot) openModal(hot.r); });
-  host.append(f.svg);
-}
-
-// Win-rate columns + baseline dashes + Wilson whiskers (ascension + copies breakdowns).
-function rateBarChart(host, rows, height = 320) {  // rows: [{label, tipTitle, v, runs, wins, baseline}]
-  host.replaceChildren();
-  if (!rows.length) return host.append(emptyNote("No runs with this card match the filters."));
-  const f = makeFrame(900, height, {l: 52, t: 20, r: 16, b: 36});
-  const slot = (f.width - f.pad.l - f.pad.r) / rows.length;
-  const bw = Math.min(24, slot * .5);
-  rows.forEach((r, i) => {
-    const cx = f.pad.l + slot * (i + .5);
-    const y = f.py(r.v), y0 = f.py(0);
-    const h = Math.max(0, y0 - y);
-    const rad = Math.min(4, h);                          // rounded data-end, square base
-    f.svg.append(el("path", {d: `M${cx - bw / 2},${y0} V${y + rad}
-        Q${cx - bw / 2},${y} ${cx - bw / 2 + rad},${y}
-        H${cx + bw / 2 - rad} Q${cx + bw / 2},${y} ${cx + bw / 2},${y + rad} V${y0} Z`,
-        fill: C("--sage")}));
-    if (r.baseline !== null)
-      baselineDash(f, f.py(r.baseline), cx - slot * .36, cx + slot * .36);
-    // 95% interval whisker — dark halo under a parchment line so it reads on both
-    // the sage bar and the panel behind it.
-    const [lo, hi] = wilson(r.wins, r.runs);
-    for (const [y1, y2, w] of [[f.py(lo), f.py(hi), 0], [f.py(lo), f.py(lo), 4],
-                               [f.py(hi), f.py(hi), 4]]) {
-      f.svg.append(el("line", {x1: cx - w, x2: cx + w, y1, y2,
-                               stroke: "#241a1d", "stroke-width": 4, "stroke-linecap": "round"}));
-      f.svg.append(el("line", {x1: cx - w, x2: cx + w, y1, y2,
-                               stroke: C("--ink"), "stroke-width": 1.5}));
-    }
-    f.svg.append(el("text", {x: cx, y: Math.min(y, f.py(hi)) - 7, "text-anchor": "middle",
-                             "font-size": 11.5, fill: C("--ink"), "font-weight": 600},
-                    pct(r.v)));
-    f.svg.append(el("text", {x: cx, y: f.height - 12, "text-anchor": "middle",
-                             "font-size": 11.5, fill: C("--ink-2")}, r.label));
-    const hit = el("rect", {x: cx - slot / 2, y: f.pad.t, width: slot,
-                            height: f.height - f.pad.t - f.pad.b, fill: "transparent"});
-    hit.addEventListener("pointermove", evt => showTip(evt, [
-      [r.tipTitle, "", false],
-      ["card win rate", pct(r.v), true],
-      ["runs with card", String(r.runs), true],
-      ["baseline", r.baseline === null ? "—" : pct(r.baseline), true]]));
-    hit.addEventListener("pointerleave", hideTip);
-    f.svg.append(hit);
-  });
-  host.append(f.svg);
-}
-
-function emptyNote(msg) {
-  const d = document.createElement("div");
-  d.className = "empty";
-  d.textContent = msg || "No runs match the current filters.";
-  return d;
-}
-
-function overallWinrate() {
-  const s = RUNS.filter(r => sliceFilter(r)).reduce((a, r) => ({runs: a.runs + r.runs,
-    wins: a.wins + r.wins}), {runs: 0, wins: 0});
-  return s.runs ? s.wins / s.runs : null;
-}
-
-// ---------- views ----------
-
-function renderOverview() {
-  const slice = RUNS.filter(r => sliceFilter(r));
-  const total = slice.reduce((n, r) => n + r.runs, 0);
-  const wins = slice.reduce((n, r) => n + r.wins, 0);
-  const tiles = [["Runs", String(total)],
-                 ["Win rate", total ? pct(wins / total) : "—"],
-                 ["Days observed", String(new Set(slice.map(r => r.day)).size)]];
-  $("tiles").replaceChildren(...tiles.map(([lab, val]) => {
-    const t = document.createElement("div"); t.className = "tile";
-    t.innerHTML = '<div class="lab"></div><div class="val"></div>';
-    t.firstChild.textContent = lab; t.lastChild.textContent = val;
-    return t;
-  }));
-
-  const HALF = 560;                                      // side-by-side panels
-  const byDay = [...groupSum(slice, r => r.day)].sort((a, b) => a[0] < b[0] ? -1 : 1);
-  lineChart($("chartDay"),
-    byDay.map(([day, g]) => ({label: day.slice(5), v: g.wins / g.runs,
-                              runs: g.runs, day})),
-    p => [[p.day, "", false], ["win rate", pct(p.v), true], ["runs", String(p.runs), true]],
-    HALF);
-
-  const byAsc = [...groupSum(slice, r => r.asc)].sort((a, b) => a[0] - b[0]);
-  const host = $("chartAsc");
-  lineChart(host,
-    byAsc.map(([asc, g]) => ({label: "A" + asc, v: g.wins / g.runs, runs: g.runs})),
-    p => [[p.label, "", false], ["win rate", pct(p.v), true], ["runs", String(p.runs), true]],
-    HALF);
-  const overall = overallWinrate();
-  if (overall !== null && host.firstChild instanceof SVGElement) {
-    const svg = host.firstChild;
-    const y = 300 - 34 - overall * (300 - 14 - 34);      // mirror makeFrame(...,300) pads
-    svg.append(el("line", {x1: 52, x2: HALF - 16, y1: y, y2: y, stroke: C("--rose"),
-                           "stroke-width": 2, "stroke-dasharray": "6 5"}));
-  }
-
-  countColumns($("chartRunsDay"),
-    byDay.map(([day, g]) => ({label: day.slice(5), v: g.runs, day})),
-    {width: HALF, color: C("--sage"),
-     tipLines: r => [[r.day, "", false], ["runs", String(r.v), true]]});
-
-  // Past-24h timeline: one bucket per hour, ending at the export's generated_at hour.
-  // Bucketed by day+hour so the same row also serves any future hour-of-day view.
-  const byStamp = groupSum(HOURS.filter(r => sliceFilter(r)),
-                           r => `${r.day}T${String(r.hour).padStart(2, "0")}`);
-  const anchor = new Date(META.generated_at);
-  anchor.setUTCMinutes(0, 0, 0);
-  const buckets = Array.from({length: 24}, (_, i) => {
-    const d = new Date(anchor); d.setUTCHours(d.getUTCHours() - (23 - i));
-    const iso = d.toISOString();
-    const key = iso.slice(0, 13), hh = iso.slice(11, 13);
-    return {label: hh + ":00", day: iso.slice(0, 10), hh,
-            v: byStamp.has(key) ? byStamp.get(key).runs : 0};
-  });
-  countColumns($("chartRunsHour"), HOURS.length ? buckets : [],
-    {width: HALF, color: C("--sage"), labelStep: 3,
-     tipLines: r => [[`${r.day} ${r.hh}:00–${r.hh}:59 UTC`, "", false],
-                     ["runs", String(r.v), true]],
-     emptyMsg: HOURS.length
-       ? "No runs in the 24h before the last data refresh."
-       : "No hourly data yet — appears after the next stats refresh."});
-}
-
-function renderCards() {
-  const {rows} = computeCards();
-  scatterChart($("chartScatter"), rows);
-
-  const shown = new Set(rows.map(r => r.rarity));
-  $("scatterLegend").replaceChildren(...["Rare", "Uncommon", "Common", "Other"]
-    .filter(r => shown.has(r)).map(r => {
-      const s = document.createElement("span");
-      const sw = document.createElement("span"); sw.className = "sw";
-      sw.style.background = RARITY_COLOR[r] || C("--other");
-      s.append(sw, r); return s;
-    }));
-
-  const dir = state.sortAsc ? 1 : -1;
-  const tableRows = rows.filter(r => matchesSearch(r.name));
-  const val = r => r[state.sortKey] === null ? -1 : r[state.sortKey];
-  tableRows.sort((a, b) => (val(a) > val(b) ? 1 : -1) * dir);
-  const maxPick = Math.max(.001, ...tableRows.map(r => r.pick));
-  const tbl = document.createElement("table");
-  const head = tbl.createTHead().insertRow();
-  for (const [key, label, num] of [["name", "Card"], ["rarity", "Rarity"],
-       ["runs", "Runs", 1], ["winrate", "Win rate", 1], ["pickrate", "Pick rate", 1],
-       ["pick", "Deck rate", 1]]) {
-    const th = document.createElement("th");
-    th.textContent = label;
-    if (num) th.className = "num";
-    if (key === state.sortKey) { th.classList.add("sorted");
-                                 th.classList.toggle("asc", state.sortAsc); }
-    th.addEventListener("click", () => {
-      state.sortAsc = state.sortKey === key ? !state.sortAsc : key === "name";
-      state.sortKey = key; renderCards();
-    });
-    head.append(th);
-  }
-  const body = tbl.createTBody();
-  for (const r of tableRows) {
-    const tr = body.insertRow();
-    tr.className = "rowlink";
-    tr.addEventListener("click", () => openModal(r));
-    const name = tr.insertCell();
-    const dot = document.createElement("span");
-    dot.className = "rar"; dot.style.background = r.color;
-    name.append(dot, r.name);
-    tr.insertCell().textContent = r.rarity;
-    const runs = tr.insertCell(); runs.className = "num"; runs.textContent = r.runs;
-    const wr = tr.insertCell(); wr.className = "num"; wr.textContent = pct(r.winrate);
-    const pr = tr.insertCell(); pr.className = "num";
-    pr.textContent = r.pickrate === null ? "—" : pct(r.pickrate);
-    pr.title = r.offered ? `${r.offered} offers` : "never offered in observed runs";
-    const pk = tr.insertCell(); pk.className = "num";
-    const bar = document.createElement("span");
-    bar.className = "minibar"; bar.style.width = (r.pick / maxPick * 90) + "px";
-    pk.append(pct(r.pick) + " ", bar);
-  }
-  $("cardTable").replaceChildren(tableRows.length ? tbl : emptyNote());
-}
-
-// row from computeCards(mod); pass the same mod so the breakdown matches the row's slice.
-function openModal(row, mod) {
-  const [lo, hi] = wilson(row.wins, row.runs);
-  $("modalTitle").textContent = row.name;
-  $("modalSub").textContent = `${row.rarity} · ${row.runs} runs · win rate ` +
-    `${pct(row.winrate)} (95% CI ${pct(lo)}–${pct(hi)}) · deck rate ${pct(row.pick)} · ` +
-    (row.pickrate === null ? "never offered"
-      : `picked ${pct(row.pickrate)} of ${row.offered} offers`) +
-    ` — win rate by ascension below, dashed = all-runs baseline, whiskers = 95% CI`;
-
-  const cardRows = CARDS.filter(r => r.card === row.card && sliceFilter(r, mod));
-  const baseline = groupSum(RUNS.filter(r => sliceFilter(r, mod)), r => r.asc);
-  const byAsc = [...groupSum(cardRows, r => r.asc)].sort((a, b) => a[0] - b[0]);
-  rateBarChart($("chartCardAsc"), byAsc.map(([asc, g]) => ({
-    label: "A" + asc, tipTitle: "Ascension " + asc,
-    v: g.wins / g.runs, runs: g.runs, wins: g.wins,
-    baseline: baseline.has(asc) ? baseline.get(asc).wins / baseline.get(asc).runs : null})));
-
-  const archBase = groupSum(ARCHS.filter(r => sliceFilter(r, mod)), r => r.arch);
-  const byArch = groupSum(cardRows, r => r.arch);
-  const archRows = ARCH_ORDER.filter(a => byArch.has(a)).map(a => ({
-    label: a, tipTitle: a + " decks", v: byArch.get(a).wins / byArch.get(a).runs,
-    runs: byArch.get(a).runs, wins: byArch.get(a).wins,
-    baseline: archBase.has(a) ? archBase.get(a).wins / archBase.get(a).runs : null}));
-  $("archSection").hidden = archRows.length < 2;
-  if (archRows.length >= 2) rateBarChart($("chartCardArch"), archRows, 220);
-
-  const byCopies = [...groupSum(cardRows, r => r.copies)].sort((a, b) => a[0] - b[0]);
-  $("copiesSection").hidden = byCopies.length < 2;
-  if (byCopies.length >= 2)
-    rateBarChart($("chartCardCopies"), byCopies.map(([n, g]) => ({
-      label: n + (n === 3 ? "+" : "") + "×",
-      tipTitle: n + (n === 3 ? " or more" : "") + " copies",
-      v: g.wins / g.runs, runs: g.runs, wins: g.wins, baseline: row.winrate})), 220);
-  $("modalBack").hidden = false;
-}
-
-function closeModal() { $("modalBack").hidden = true; hideTip(); }
-
-// Integer-count columns (death floors, run volume) — same chrome as the % charts, count axis.
-function countColumns(host, rows, opts = {}) {  // rows: [{label, v}]
-  const tipLines = opts.tipLines ||
-    ((r, evt) => [["Floor " + r.label, "", false], ["deaths", String(r.v), true]]);
-  const color = opts.color || C("--rose");
-  host.replaceChildren();
-  if (!rows.length || !rows.some(r => r.v)) return host.append(emptyNote(opts.emptyMsg));
-  const W = opts.width || 900, H = 250, pad = {l: 46, t: 14, r: 12, b: 30};
-  const maxV = Math.max(...rows.map(r => r.v));
-  const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img"});
-  const py = v => H - pad.b - v / maxV * (H - pad.t - pad.b);
-  const step = Math.max(1, Math.ceil(maxV / 4));
-  for (let g = 0; g <= maxV; g += step) {
-    svg.append(el("line", {x1: pad.l, x2: W - pad.r, y1: py(g), y2: py(g),
-                           stroke: C("--grid"), "stroke-width": 1}));
-    svg.append(el("text", {x: pad.l - 8, y: py(g) + 4, "text-anchor": "end",
-                           "font-size": 11, fill: C("--ink-2")}, String(g)));
-  }
-  const slot = (W - pad.l - pad.r) / rows.length, bw = Math.min(24, slot * .6);
-  const labelStep = opts.labelStep || Math.ceil(rows.length / Math.floor(W / 38));
-  rows.forEach((r, i) => {
-    const cx = pad.l + slot * (i + .5), y = py(r.v), y0 = py(0);
-    if (r.v > 0) {
-      const rad = Math.min(4, y0 - y);
-      svg.append(el("path", {d: `M${cx - bw / 2},${y0} V${y + rad}
-          Q${cx - bw / 2},${y} ${cx - bw / 2 + rad},${y}
-          H${cx + bw / 2 - rad} Q${cx + bw / 2},${y} ${cx + bw / 2},${y + rad} V${y0} Z`,
-          fill: color}));
-    }
-    if (i % labelStep === 0)
-      svg.append(el("text", {x: cx, y: H - 10, "text-anchor": "middle",
-                             "font-size": 11, fill: C("--ink-2")}, r.label));
-    const hit = el("rect", {x: cx - slot / 2, y: pad.t, width: slot, height: H - pad.t - pad.b,
-                            fill: "transparent"});
-    hit.addEventListener("pointermove", evt => showTip(evt, tipLines(r, evt)));
-    hit.addEventListener("pointerleave", hideTip);
-    svg.append(hit);
-  });
-  host.append(svg);
-}
-
-// Whitelist beats heuristics: some mods register unprefixed encounter ids, so base-game
-// membership comes from encounters_meta.json (generated from the game's own model list).
-function encVisible(enc) {
-  return state.showOther || enc.startsWith(CHAR.prefix) || BASE_ENC.has(enc);
-}
-
-function renderEncounters() {
-  const floors = groupSum(DFLOORS.filter(r => sliceFilter(r)), r => r.floor, ["deaths"]);
-  const maxFloor = Math.max(0, ...floors.keys());
-  countColumns($("chartDeathFloors"), Array.from({length: maxFloor}, (_, i) => ({
-    label: String(i + 1), v: floors.has(i + 1) ? floors.get(i + 1).deaths : 0})));
-
-  const toll = new Map();
-  for (const r of ENCS.filter(r => sliceFilter(r) && encVisible(r.enc))) {
-    const g = toll.get(r.enc) || {fights: 0, dmg: 0, turns: 0, deaths: 0};
-    g.fights += r.fights; g.dmg += r.dmg; g.turns += r.turns;
-    toll.set(r.enc, g);
-  }
-  for (const r of DEATHS.filter(r => sliceFilter(r) && encVisible(r.enc))) {
-    const g = toll.get(r.enc) || {fights: 0, dmg: 0, turns: 0, deaths: 0};
-    g.deaths += r.deaths;
-    toll.set(r.enc, g);
-  }
-  const rows = [...toll].map(([enc, g]) => ({
-    name: prettyName(enc), fights: g.fights,
-    avgDmg: g.fights ? g.dmg / g.fights : null,
-    avgTurns: g.fights ? g.turns / g.fights : null,
-    deaths: g.deaths,
-    deathRate: g.fights ? g.deaths / g.fights : null}));
-  const dir = state.encAsc ? 1 : -1;
-  const val = r => r[state.encSort] === null ? -1 : r[state.encSort];
-  rows.sort((a, b) => (val(a) > val(b) ? 1 : -1) * dir);
-
-  const tbl = document.createElement("table");
-  const head = tbl.createTHead().insertRow();
-  for (const [key, label, num] of [["name", "Encounter"], ["fights", "Fights", 1],
-       ["avgDmg", "Avg HP lost", 1], ["avgTurns", "Avg turns", 1],
-       ["deaths", "Deaths", 1], ["deathRate", "Death rate", 1]]) {
-    const th = document.createElement("th");
-    th.textContent = label;
-    if (num) th.className = "num";
-    if (key === state.encSort) { th.classList.add("sorted");
-                                 th.classList.toggle("asc", state.encAsc); }
-    th.addEventListener("click", () => {
-      state.encAsc = state.encSort === key ? !state.encAsc : key === "name";
-      state.encSort = key; renderEncounters();
-    });
-    head.append(th);
-  }
-  const body = tbl.createTBody();
-  for (const r of rows) {
-    const tr = body.insertRow();
-    tr.insertCell().textContent = r.name;
-    for (const v of [r.fights, r.avgDmg === null ? "—" : r.avgDmg.toFixed(1),
-                     r.avgTurns === null ? "—" : r.avgTurns.toFixed(1), r.deaths,
-                     r.deathRate === null ? "—" : pct(r.deathRate)]) {
-      const td = tr.insertCell(); td.className = "num"; td.textContent = v;
-    }
-  }
-  $("encTable").replaceChildren(rows.length ? tbl : emptyNote());
-}
-
-function renderArchetypes() {
-  const byArch = groupSum(ARCHS.filter(r => sliceFilter(r)), r => r.arch);
-  const rows = ARCH_ORDER.filter(a => byArch.has(a)).map(a => ({arch: a, ...byArch.get(a)}));
-  const tbl = document.createElement("table");
-  const head = tbl.createTHead().insertRow();
-  for (const [label, num] of [["Archetype"], ["Runs", 1], ["Win rate", 1], ["95% CI", 1]]) {
-    const th = document.createElement("th");
-    th.textContent = label; th.style.cursor = "default";
-    if (num) th.className = "num";
-    head.append(th);
-  }
-  const body = tbl.createTBody();
-  for (const r of rows) {
-    const [lo, hi] = wilson(r.wins, r.runs);
-    const tr = body.insertRow();
-    tr.insertCell().textContent = r.arch;
-    const n = tr.insertCell(); n.className = "num"; n.textContent = r.runs;
-    const w = tr.insertCell(); w.className = "num";
-    const bar = document.createElement("span");
-    bar.className = "minibar"; bar.style.width = (r.wins / r.runs * 90) + "px";
-    w.append(pct(r.wins / r.runs) + " ", bar);
-    const ci = tr.insertCell(); ci.className = "num";
-    ci.textContent = `${pct(lo)}–${pct(hi)}`;
-  }
-  $("archTable").replaceChildren(rows.length ? tbl : emptyNote());
-}
-
-function renderDiff() {
-  const host = $("diffTable");
-  if (!state.diffA || !state.diffB || state.diffA === state.diffB)
-    return host.replaceChildren(emptyNote("Pick two different mod versions to compare."));
-  const A = new Map(computeCards(state.diffA).rows.map(r => [r.card, r]));
-  const rows = computeCards(state.diffB).rows
-    .filter(r => A.has(r.card) && matchesSearch(r.name))
-    .map(b => ({a: A.get(b.card), b}))
-    .map(({a, b}) => ({name: b.name, a, b, dWin: b.winrate - a.winrate,
-                       dPick: b.pick - a.pick}))
-    .sort((x, y) => Math.abs(y.dWin) - Math.abs(x.dWin));
-
-  const tbl = document.createElement("table");
-  const head = tbl.createTHead().insertRow();
-  for (const [label, num] of [["Card"], ["Runs A→B", 1], ["Win A", 1], ["Win B", 1],
-       ["Δ win", 1], ["Δ deck rate", 1]]) {
-    const th = document.createElement("th");
-    th.textContent = label; th.style.cursor = "default";
-    if (num) th.className = "num";
-    head.append(th);
-  }
-  const body = tbl.createTBody();
-  const signed = v => (v >= 0 ? "+" : "−") + pct(Math.abs(v));
-  for (const r of rows) {
-    const tr = body.insertRow();
-    tr.className = "rowlink";
-    tr.addEventListener("click", () => openModal(r.b, state.diffB));
-    tr.insertCell().textContent = r.name;
-    const cells = [[`${r.a.runs}→${r.b.runs}`], [pct(r.a.winrate)], [pct(r.b.winrate)],
-                   [signed(r.dWin), r.dWin >= 0 ? "up" : "down"],
-                   [signed(r.dPick), r.dPick >= 0 ? "up" : "down"]];
-    for (const [text, cls] of cells) {
-      const td = tr.insertCell(); td.className = "num" + (cls ? " " + cls : "");
-      td.textContent = text;
-    }
-  }
-  host.replaceChildren(rows.length ? tbl
-    : emptyNote("No card clears the min-runs threshold in both versions yet."));
-}
-
-function renderAll() {
-  renderOverview(); renderArchetypes(); renderCards(); renderEncounters(); renderDiff();
-}
-
-// ---------- controls ----------
-
-function chipRow(host, labels, get, set) {
-  host.replaceChildren(...labels.map(label => {
-    const b = document.createElement("button");
-    b.className = "chip" + (get() === label ? " on" : "");
-    b.textContent = label;
-    b.addEventListener("click", () => { set(label);
-      [...host.children].forEach(c => c.classList.toggle("on", c.textContent === label));
-      renderAll(); });
-    return b;
-  }));
-}
-
-// Multi-select dropdown over a Set in state. Empty Set = "all"; toggling every value on is
-// collapsed back to "all" so the label always says what it means.
-function multiSelect(host, values, allLabel, set) {
-  const btn = document.createElement("button"); btn.type = "button";
-  const pop = document.createElement("div"); pop.className = "pop";
-  const label = () => btn.textContent = !set.size ? allLabel
-    : set.size === values.length ? allLabel : values.filter(v => set.has(v)).join(", ");
-  const boxes = [];
-  const sync = () => { if (set.size === values.length) set.clear();
-    boxes.forEach(([v, cb]) => cb.checked = set.has(v)); allBox.checked = !set.size;
-    label(); renderAll(); };
-  const allLab = document.createElement("label"); allLab.className = "all";
-  const allBox = document.createElement("input"); allBox.type = "checkbox";
-  allBox.addEventListener("change", () => { set.clear(); sync(); });
-  allLab.append(allBox, allLabel);
-  pop.append(allLab);
-  for (const v of values) {
-    const lab = document.createElement("label");
-    const cb = document.createElement("input"); cb.type = "checkbox";
-    cb.addEventListener("change", () => { cb.checked ? set.add(v) : set.delete(v); sync(); });
-    lab.append(cb, v); pop.append(lab); boxes.push([v, cb]);
-  }
-  btn.addEventListener("click", e => { e.stopPropagation();
-    const open = host.classList.contains("open");
-    document.querySelectorAll(".msel.open").forEach(m => m.classList.remove("open"));
-    host.classList.toggle("open", !open); });
-  pop.addEventListener("click", e => e.stopPropagation());
-  host.replaceChildren(btn, pop);
-  boxes.forEach(([v, cb]) => cb.checked = set.has(v)); allBox.checked = !set.size; label();
-}
-addEventListener("click", () =>
-  document.querySelectorAll(".msel.open").forEach(m => m.classList.remove("open")));
-
-let LOC = null;
-
-function renderLoc() {
-  const apps = $("locApps"), table = $("locProjects"), badge = $("locBadge");
-  if (!LOC) {
-    apps.innerHTML = '<div class="empty">No ParaTranz snapshot yet — the nightly localization sync writes it.</div>';
-    table.innerHTML = "";
-    return;
-  }
-  $("locFresh").textContent = `Snapshot ${LOC.generated_at.replace("T", " ").replace("Z", " UTC")}.`;
-  const open = LOC.projects.flatMap(p => p.open_applications.map(a => ({...a, project: p})))
-    .sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
-  const pending = open.filter(a => a.status === 0).length;
-  badge.hidden = pending === 0;
-  badge.textContent = pending;
-  if (!open.length) {
-    apps.innerHTML = '<div class="empty">No pending applications.</div>';
-  } else {
-    apps.replaceChildren(...open.map(a => {
-      const box = document.createElement("div"); box.className = "app";
-      const who = document.createElement("div"); who.className = "who";
-      const lang = document.createElement("a"); lang.className = "lang";
-      lang.href = a.project.url + "/applications"; lang.target = "_blank"; lang.rel = "noopener";
-      lang.textContent = a.project.name;
-      const name = document.createElement("b");
-      name.textContent = a.nickname && a.nickname !== a.username ? `${a.nickname} (${a.username})` : (a.username || "?");
-      const when = document.createElement("span"); when.className = "when";
-      when.textContent = (a.created_at || "").slice(0, 10);
-      const st = document.createElement("span"); st.className = "st " + a.status_name;
-      st.textContent = a.status_name === "pending" ? "" : a.status_name;
-      who.append(lang, name, when, st);
-      const msg = document.createElement("div"); msg.className = "msg";
-      msg.textContent = a.message || "(no message)";
-      box.append(who, msg);
-      return box;
-    }));
-  }
-  const rows = LOC.projects.map(p => {
-    const pct = p.total ? Math.round(100 * p.translated / p.total) : 0;
-    return `<tr><td><a href="${p.url}" target="_blank" rel="noopener">${p.name}</a></td>` +
-      `<td class="num">${p.translated} / ${p.total}</td>` +
-      `<td><span class="minibar" style="width:${pct}px"></span> ${pct}%</td>` +
-      `<td class="num">${p.reviewed}</td><td class="num">${p.members}</td>` +
-      `<td class="num">${p.open_applications.length}</td></tr>`;
-  });
-  table.innerHTML = `<table><thead><tr><th>Language</th><th class="num">Translated</th><th></th>` +
-    `<th class="num">Reviewed</th><th class="num">Members</th><th class="num">Open apps</th></tr></thead>` +
-    `<tbody>${rows.join("")}</tbody></table>`;
 }
 
 async function init() {
   renderCharacterChrome();
-  let files;
+  // Localization snapshot is repo-wide and independent of the run export.
+  LOC = await fetch("analytics-data/paratranz.json").then(r => r.ok ? r.json() : null).catch(() => null);
   try {
-    files = await Promise.all(["meta", "runs_daily", "cards_daily", "cards_meta",
-        "choices_daily", "deaths_daily", "death_floors_daily", "encounters_daily",
-        "archetypes_daily", "encounters_meta"]
-      .map(n => fetch(`${DATA_DIR}/${n}.json`).then(r => {
-        if (!r.ok) { const e = new Error(`${n}.json: HTTP ${r.status}`); e.status = r.status; throw e; }
-        return r.json();
-      })));
+    const files = await Promise.all(["meta", ...TABLES].map(n => fetch(`${CHAR.dir}/${n}.json`).then(r => {
+      if (!r.ok) { const e = new Error(`${n}.json: HTTP ${r.status}`); e.status = r.status; throw e; }
+      return r.json();
+    })));
+    META = files[0];
+    TABLES.forEach((n, i) => T[n] = expand(files[i + 1]));
   } catch (err) {
     $("fresh").textContent = "";
     $("loadError").hidden = false;
-    // A character whose export isn't enabled yet has no data folder at all — that's an
-    // expected empty state, not a broken page.
-    $("loadError").textContent = CHAR.optional && err.status === 404
-      ? CHAR.emptyMsg || `No ${CHAR.short} runs exported yet.`
+    $("loadError").textContent = CHAR.optional && err.status === 404 ? CHAR.emptyMsg
       : "Could not load analytics data — " + err.message + ". (Serve over http, not file://.)";
+    $("tabs").hidden = false;
+    document.querySelectorAll(".view").forEach(n => n.classList.remove("on"));
+    document.querySelectorAll("#tabs .tab").forEach(t => { t.hidden = t.dataset.view !== "loc"; t.classList.remove("on"); });
+    document.querySelectorAll("#tabs .tab").forEach(t => t.addEventListener("click", () => {
+      currentView = "loc"; document.querySelectorAll(".view").forEach(n => n.classList.toggle("on", n.id === "view-loc")); renderLoc(); }));
     return;
   }
-  [META, RUNS, CARDS, CMETA, CHOICES, DEATHS, DFLOORS, ENCS, ARCHS] = files;
-  BASE_ENC = new Set(files[9]);
-  // Optional — older exports don't have it; the hourly panel explains itself when empty.
-  HOURS = await fetch(`${DATA_DIR}/runs_hourly.json`)
-    .then(r => r.ok ? r.json() : []).catch(() => []);
-  // Optional — written by the loc-download workflow (tools/localization/para_status.py) into
-  // the root data folder; it is repo-wide, not per character.
-  LOC = await fetch("analytics-data/paratranz.json")
-    .then(r => r.ok ? r.json() : null).catch(() => null);
+  const newest = META.releases[META.releases.length - 1];
+  state.rels = new Set([newest.id]);
+  state.cmp = META.releases.length > 1 ? META.releases[META.releases.length - 2].id : "";
+  $("fresh").textContent = `Data refreshed ${META.generated_at.replace("T", " ").replace("Z", " UTC")} · ` +
+    `${fmtN(META.total_runs)} runs on record · ${META.first_day} → ${META.last_day}`;
+  $("filters").hidden = false; $("tabs").hidden = false;
+  buildFilters();
   renderLoc();
-
-  $("fresh").textContent = `Data refreshed ${META.generated_at.replace("T", " ").replace("Z", " UTC")}` +
-    ` · ${META.total_runs} runs · ${META.first_day} → ${META.last_day}`;
-  $("filters").hidden = false;
-  $("tabs").hidden = false;
-
-  chipRow($("dateChips"), DATE_PRESETS.map(p => p[0]),
-    () => DATE_PRESETS.find(p => p[1] === state.days)[0],
-    label => state.days = DATE_PRESETS.find(p => p[0] === label)[1]);
-  chipRow($("mechChips"), MECHANICS, () => state.mech, m => state.mech = m);
-  multiSelect($("modSel"), META.mod_versions, "all versions", state.mod);
-  multiSelect($("gameSel"), META.game_versions, "all builds", state.game);
-  $("showOther").addEventListener("change", e => { state.showOther = e.target.checked; renderAll(); });
-  $("includeMP").addEventListener("change", e => { state.includeMP = e.target.checked; renderAll(); });
-  const bumpMinRuns = d => { state.minRuns = Math.max(1, state.minRuns + d);
-    $("minRunsVal").textContent = state.minRuns; renderAll(); };
-  $("minMinus").addEventListener("click", () => bumpMinRuns(-1));
-  $("minPlus").addEventListener("click", () => bumpMinRuns(1));
-  chipRow($("xChips"), ["Pick rate", "Deck rate"],
-    () => state.xMetric, m => state.xMetric = m);
-  $("cardSearch").addEventListener("input", e => {
-    state.search = e.target.value.trim(); renderCards(); renderDiff();
-  });
-  const vers = META.mod_versions;
-  state.diffA = vers.length > 1 ? vers[vers.length - 2] : "";
-  state.diffB = vers[vers.length - 1] || "";
-  for (const [id, key] of [["diffA", "diffA"], ["diffB", "diffB"]]) {
-    const sel = $(id);
-    sel.replaceChildren(...vers.map(v => {
-      const o = document.createElement("option"); o.value = v; o.textContent = v; return o;
-    }));
-    sel.value = state[key];
-    sel.addEventListener("change", e => { state[key] = e.target.value; renderDiff(); });
-  }
-
+  document.querySelectorAll("#tabs .tab").forEach(t => t.addEventListener("click", () => showView(t.dataset.view)));
+  document.querySelectorAll("[data-jump]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); showView(a.dataset.jump); }));
   $("modalClose").addEventListener("click", closeModal);
   $("modalBack").addEventListener("click", e => { if (e.target === $("modalBack")) closeModal(); });
-  addEventListener("keydown", e => { if (e.key === "Escape") { closeModal();
-    document.querySelectorAll(".msel.open").forEach(m => m.classList.remove("open")); } });
-
-  document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t === tab));
-    document.querySelectorAll(".view").forEach(v =>
-      v.classList.toggle("on", v.id === "view-" + tab.dataset.view));
-    history.replaceState(null, "", "#" + tab.dataset.view);
-  }));
-
-  renderAll();
-  const cardLink = location.hash.match(/^#card=(.+)/);
-  if (cardLink) {
-    const row = computeCards().rows.find(r => r.card === decodeURIComponent(cardLink[1]));
-    if (row) { document.querySelector('[data-view="cards"]').click(); openModal(row); }
-  } else {
-    const hashTab = document.querySelector(`[data-view="${location.hash.slice(1)}"]`);
-    if (hashTab) hashTab.click();
-  }
+  addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+  showView(location.hash.slice(1) || "pulse");
 }
 init();
 </script>
