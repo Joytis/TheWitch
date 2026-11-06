@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-05",
+  "generated": "2026-11-06",
   "cards": [
     {
       "name": "Defend",
@@ -77,7 +77,7 @@
       "multiplayer": false,
       "note": "Incant (starter): block, plus Hex if you have already drunk a potion this turn — the second half of the starting deck's potion loop (Harvest generates, Incant pays off).",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -1712,7 +1712,7 @@
       "multiplayer": false,
       "note": "Sprouts: a small guard that reseeds itself — block + Brambles, and a copy of this card sprouts in your Discard pile (Anger pattern).",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -1842,7 +1842,7 @@
       "multiplayer": false,
       "note": "Vile Renewal: Block, draw a card, and this turn Attacks don't remove Hex or Brambles (see <see cref=\"VileRenewalPower\" />).",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [],
@@ -2534,7 +2534,7 @@
       "multiplayer": false,
       "note": "Summons a cosmetic owl pet alongside the familiar power.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -2778,7 +2778,7 @@
       "multiplayer": false,
       "note": "Witchcraft: spend X Energy, create X random Unstable potions.",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
@@ -2934,7 +2934,7 @@
       "multiplayer": false,
       "note": "Wolf familiar token.",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
