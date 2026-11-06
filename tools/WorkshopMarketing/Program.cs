@@ -32,6 +32,7 @@ internal static class Program
 {
     private static readonly string[] ImageExtensions = [".png", ".jpg", ".jpeg", ".gif"];
     private static readonly TimeSpan CallTimeout = TimeSpan.FromMinutes(10);
+    private const long MaxPreviewBytes = 1024 * 1024;
 
     private sealed record Desired(string Kind, string Key, string Label, string? UploadPath);
 
@@ -311,6 +312,9 @@ internal static class Program
                 if (!File.Exists(src)) throw new Exception($"{where}: image not found: {src}");
                 string ext = Path.GetExtension(src).ToLowerInvariant();
                 if (!ImageExtensions.Contains(ext)) throw new Exception($"{where}: unsupported image type '{ext}' (png/jpg/gif).");
+                // Steam documents a 1 MB cap on preview images; over it, SubmitItemUpdate fails with k_EResultLimitExceeded.
+                long bytes = new FileInfo(src).Length;
+                if (bytes > MaxPreviewBytes) Warn($"{where}: {rel} is {bytes / 1048576.0:F2} MB; Steam may reject previews over 1 MB (k_EResultLimitExceeded). Save it as .jpg.");
 
                 string hash = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(src)))[..8].ToLowerInvariant();
                 string uploadName = $"{Path.GetFileNameWithoutExtension(src)}.{hash}{ext}";

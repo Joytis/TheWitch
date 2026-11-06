@@ -13,7 +13,9 @@
  * that the lock is the source of truth, so new cards never reshuffle the images. Edit it by hand to
  * swap or reorder cards (grid order = list order).
  *
- * Output: one PNG per grid, written next to the lock (<workshop>/marketing/<file>). Upload order is
+ * Output: one image per grid, written next to the lock (<workshop>/marketing/<file>). The file's extension
+ * picks the encoding: .jpg/.jpeg = JPEG (quality JPEG_QUALITY), else PNG. The grids ship as JPEG because the
+ * PNGs run ~4.5 MB each and Steam rejected the gallery update with k_EResultLimitExceeded. Upload order is
  * the marketing.json manifest's business, not this script's.
  */
 'use strict';
@@ -41,10 +43,10 @@ const MARKETING = {
       starterAccent: '#d39a8c',               // starter grid has no rarity colour: warm rose
     },
     grids: [
-      { file: 'cards-common.png', rarity: 'Common', count: 15, cols: 5 },
-      { file: 'cards-uncommon.png', rarity: 'Uncommon', count: 15, cols: 5 },
-      { file: 'cards-rare.png', rarity: 'Rare', count: 15, cols: 5 },
-      { file: 'cards-starter.png', rarity: 'Starter', cols: 4 },
+      { file: 'cards-common.jpg', rarity: 'Common', count: 15, cols: 5 },
+      { file: 'cards-uncommon.jpg', rarity: 'Uncommon', count: 15, cols: 5 },
+      { file: 'cards-rare.jpg', rarity: 'Rare', count: 15, cols: 5 },
+      { file: 'cards-starter.jpg', rarity: 'Starter', cols: 4 },
     ],
   },
 };
@@ -62,6 +64,7 @@ const mk = MARKETING[ch.key];
 if (!mk) throw new Error(`no marketing setup for character "${ch.key}" (add one to MARKETING in ${path.basename(__filename)})`);
 const SCALE = Number(arg('--scale', '1.25'));
 const REROLL = argv.includes('--reroll');
+const JPEG_QUALITY = 0.9;
 
 const rel = p => path.join(ROOT, p);
 const readJson = p => JSON.parse(fs.readFileSync(rel(p), 'utf8'));
@@ -268,7 +271,9 @@ function pageScript() {
         ctx.drawImage(card, rowX + col * pitchX - (V.x0 - B.x), y0 + row * pitchY - (V.y0 - B.y), B.w, B.h);
         if (/\?|\{|\}/.test(desc)) out.push({ warn: `${c.entry}: unresolved text in "${desc}"` });
       }
-      out.push({ file: grid.file, w: canvas.width, h: canvas.height, png: canvas.toDataURL('image/png') });
+      const jpeg = /.jpe?g$/i.test(grid.file);
+      out.push({ file: grid.file, w: canvas.width, h: canvas.height,
+        data: jpeg ? canvas.toDataURL('image/jpeg', JOB.jpegQuality) : canvas.toDataURL('image/png') });
     }
     const pre = document.createElement('pre');
     pre.id = 'result';
@@ -290,7 +295,7 @@ function findBrowser() {
 // ---- main ---------------------------------------------------------------------------------------
 const lock = loadLock();
 const job = {
-  scale: SCALE, seed: lock.seed, frameStyle: mk.frameStyle, theme: mk.theme,
+  scale: SCALE, jpegQuality: JPEG_QUALITY, seed: lock.seed, frameStyle: mk.frameStyle, theme: mk.theme,
   grids: lock.grids.map(g => ({ ...g, frameRarity: FRAME_RARITY[g.rarity] || 'common', cards: g.cards.map(cardJob) })),
 };
 for (const w of warnings) console.warn('[warn] ' + w);
@@ -321,7 +326,7 @@ try {
     if (r.error) { console.error('[error] ' + r.error); failed = true; continue; }
     if (r.warn) { console.warn('[warn] ' + r.warn); continue; }
     const file = path.join(marketingDir, r.file);
-    const buf = Buffer.from(r.png.split(',')[1], 'base64');
+    const buf = Buffer.from(r.data.split(',')[1], 'base64');
     fs.writeFileSync(file, buf);
     console.log(`  ${path.relative(ROOT, file)}  ${r.w}x${r.h}  ${(buf.length / 1048576).toFixed(2)} MB`);
   }

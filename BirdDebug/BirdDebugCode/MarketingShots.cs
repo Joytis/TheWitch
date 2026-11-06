@@ -45,7 +45,7 @@ namespace Bird.BirdDebug;
 ///                             IBootstrapSettings path drops the lobby straight into a treasure room;
 ///                             both open the chest; the HOST points both hands at the relics and shoots.
 ///                             The client just idles until the launcher closes it.
-///   --bird-shot-out=&lt;path.png&gt;    where to write (required on the shooting instance)
+///   --bird-shot-out=&lt;path.png|.jpg&gt; where to write (required on the shooting instance; extension picks the format)
 ///   --bird-shot-crop=x,y,w,h       crop rect in window pixels, applied before saving
 ///   --bird-shot-size=WxH           window size to render at (default 1920x1080)
 /// While a shot runs, FTUEs are treated as seen (no tutorial popups) and the game is muted. Exit code:
@@ -312,7 +312,7 @@ public static class MarketingShots
         string? path = CommandLineHelper.GetValue("bird-shot-out")?.Trim('"');
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new InvalidOperationException("--bird-shot-out=<path.png> is required");
+            throw new InvalidOperationException("--bird-shot-out=<path.png|path.jpg> is required");
         }
         // Nothing may be hovered: stop GUI input (no new mouse-enter), drop any open hover tips and
         // move the OS cursor off the window. The warp alone isn't reliable (the cursor can sit over
@@ -331,10 +331,13 @@ public static class MarketingShots
             int[] r = crop.Split(',').Select(s => int.Parse(s.Trim())).ToArray();
             image = image.GetRegion(new Rect2I(r[0], r[1], r[2], r[3]));
         }
-        Error err = image.SavePng(path);
+        // .jpg/.jpeg saves as JPEG: Steam rejects Workshop gallery images over 1 MB (k_EResultLimitExceeded),
+        // and a full-frame PNG runs ~2 MB.
+        bool jpeg = path.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase);
+        Error err = jpeg ? image.SaveJpg(path, 0.9f) : image.SavePng(path);
         if (err != Error.Ok)
         {
-            throw new InvalidOperationException($"SavePng({path}) failed: {err}");
+            throw new InvalidOperationException($"{(jpeg ? "SaveJpg" : "SavePng")}({path}) failed: {err}");
         }
         BirdDebug.Logger.Info($"{Tag} wrote {path} ({image.GetWidth()}x{image.GetHeight()})");
     }

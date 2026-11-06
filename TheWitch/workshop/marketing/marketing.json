@@ -1,14 +1,13 @@
 {
   "_format": "Workshop gallery, in display order. Each entry is {\"image\": \"<file in this folder>\"} or {\"youtube\": \"<url or video id>\"}; extra fields like \"note\" are ignored. Uploaded by tools/bundle-workshop.ps1 -UpdateMarketing; the live gallery is made to match this list exactly.",
   "previews": [
-    { "youtube": "C4bvCNr6Ioo", "note": "original trailer video" },
-    { "image": "shot-character-select.png", "note": "in-game, tools/capture-marketing.ps1 (screenshots.json)" },
+    { "image": "shot-character-select.jpg", "note": "in-game, tools/capture-marketing.ps1 (screenshots.json)" },
     { "image": "shot-familiars.png", "note": "in-game: every familiar summoned + summon cards in hand" },
     { "image": "shot-rest-site.png", "note": "in-game: rest site" },
     { "image": "shot-multiplayer-relics.png", "note": "in-game: two Witches picking treasure relics" },
-    { "image": "cards-starter.png", "note": "the 4 starter cards, 4x1 (tools/render-marketing-cards.js)" },
-    { "image": "cards-common.png", "note": "15 Common cards, 5x3 (selection in card-grids.json)" },
-    { "image": "cards-uncommon.png", "note": "15 Uncommon cards, 5x3" },
-    { "image": "cards-rare.png", "note": "15 Rare cards, 5x3" }
+    { "image": "cards-starter.jpg", "note": "the 4 starter cards, 4x1 (tools/render-marketing-cards.js)" },
+    { "image": "cards-common.jpg", "note": "15 Common cards, 5x3 (selection in card-grids.json)" },
+    { "image": "cards-uncommon.jpg", "note": "15 Uncommon cards, 5x3" },
+    { "image": "cards-rare.jpg", "note": "15 Rare cards, 5x3" }
   ]
 }
