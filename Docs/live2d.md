@@ -213,6 +213,8 @@ leaves the Witch invisible.
   animation/state, so BaseLib drops it and the driver never sees it. Add a `Cast` state before
   asking for a `Cast` motion.
 - Rest site `HideFlameGlow` (Spine `_tracks/light_off`) has no Live2D equivalent yet.
+- Parked idea: bake the Live2D models into Spine data the game renders natively (no native
+  library). Findings and plan: [live2d-to-spine-handoff.md](live2d-to-spine-handoff.md).
 - Editor preview is a static stand-in (see "Placing a model"), not the live model: the TheWitch
   Godot project doesn't load the extension (`live2d/.gdignore`), so motions can't be previewed.
 - `NCreatureVisuals` effects that swap `_body.Material` (liquid overlay) don't reach the model.
