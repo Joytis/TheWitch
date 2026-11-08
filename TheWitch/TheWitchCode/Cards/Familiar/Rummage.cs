@@ -16,6 +16,9 @@ public sealed class Rummage : WitchFamiliarCard
 
     public override CardModel Summon => ModelDb.Card<RatFamiliar>();
 
+    // Rarest random roll: Rummage re-fetching a random-familiar generator is the fun-but-swingy chain.
+    public override int RandomRollWeight => 1;
+
     public Rummage()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {

@@ -10,7 +10,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Registry of every familiar token-card (all <see cref="WitchFamiliarCard" /> subtypes). Backs the
-/// "random familiar card" effects — Woe and Whimsy, Embrace the Wilds.
+/// "random familiar card" effects — Animal Handling.
 /// Canonical models come from <see cref="ModelDb.AllCards" />; the <c>WitchFamiliarCardPool</c> is
 /// shared (<c>IsShared =&gt; true</c>), so all familiar cards are present there.
 /// </summary>
@@ -61,16 +61,18 @@ public static class FamiliarCardRegistry
 
     /// <summary>
     /// Create <paramref name="amount" /> real familiar cards for <paramref name="owner" />, each a
-    /// random familiar type rolled from <paramref name="rng" /> (upgraded if <paramref name="isUpgraded" />).
+    /// random familiar type rolled from <paramref name="rng" />, weighted by
+    /// <see cref="WitchFamiliarCard.RandomRollWeight" /> (upgraded if <paramref name="isUpgraded" />).
     /// </summary>
     public static List<CardModel> CreateRandom(Player owner, int amount, ICombatState combatState, Rng rng, bool isUpgraded)
     {
         ArgumentNullException.ThrowIfNull(combatState, "combatState");
         IReadOnlyList<WitchFamiliarCard> pool = AllCanonical;
+        int totalWeight = pool.Sum(c => Math.Max(0, c.RandomRollWeight));
         var result = new List<CardModel>(amount);
         for (int i = 0; i < amount; i++)
         {
-            WitchFamiliarCard canonical = rng.NextItem(pool)!;
+            WitchFamiliarCard canonical = PickWeighted(pool, totalWeight, rng);
             CardModel card = combatState.CreateCard(canonical, owner);
             if (isUpgraded)
             {
@@ -79,5 +81,19 @@ public static class FamiliarCardRegistry
             result.Add(card);
         }
         return result;
+    }
+
+    private static WitchFamiliarCard PickWeighted(IReadOnlyList<WitchFamiliarCard> pool, int totalWeight, Rng rng)
+    {
+        int roll = rng.NextInt(totalWeight);
+        foreach (WitchFamiliarCard card in pool)
+        {
+            roll -= Math.Max(0, card.RandomRollWeight);
+            if (roll < 0)
+            {
+                return card;
+            }
+        }
+        throw new InvalidOperationException("Familiar random-roll pool is empty or has no positive weights.");
     }
 }

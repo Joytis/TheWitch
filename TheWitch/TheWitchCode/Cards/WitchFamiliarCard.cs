@@ -39,6 +39,11 @@ public abstract class WitchFamiliarCard(int cost, CardType type, CardRarity rari
     /// <summary>Rarity the card frame renders with — the summon's, else this card's own.</summary>
     public CardRarity DisplayRarity => Summon?.Rarity ?? Rarity;
 
+    /// <summary>Relative weight when rolled by "random Familiar card" effects (Animal Handling, via
+    /// <see cref="FamiliarCardRegistry.CreateRandom" />). Rare-summon tokens 2, everything else 3;
+    /// override per card to tune further (Knowledge / Rummage = 1).</summary>
+    public virtual int RandomRollWeight => Summon?.Rarity == CardRarity.Rare ? 2 : 3;
+
     /// <summary>
     /// The familiar power instance that generated this card, and which of its stacks (0-based) rolled it —
     /// used to play the matching cosmetic pet's animation when the card is played. Null/0 for cards that

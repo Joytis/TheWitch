@@ -20,6 +20,9 @@ public sealed class Knowledge : WitchFamiliarCard
 
     public override CardModel Summon => ModelDb.Card<OwlFamiliar>();
 
+    // Rarest random roll: Knowledge copying a random-familiar generator is the fun-but-swingy chain.
+    public override int RandomRollWeight => 1;
+
     public Knowledge()
         : base(0, CardType.Skill, CardRarity.Token, TargetType.Self)
     {
