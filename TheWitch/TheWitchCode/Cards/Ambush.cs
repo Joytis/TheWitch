@@ -1,17 +1,25 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Ambush!: AoE strike that springs itself — auto-plays for free when drawn.</summary>
+/// <summary>Ambush!: AoE strike that springs itself — auto-plays for free when drawn. +1 damage per Brambles (Brambleburst shape).</summary>
 public sealed class Ambush : WitchCard
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromPower<BramblesPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(9m, ValueProp.Move)
+        new CalculationBaseVar(5m),
+        new ExtraDamageVar(1m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => card.Owner?.Creature?.GetPowerAmount<BramblesPower>() ?? 0)
     ];
 
     public Ambush()
@@ -21,7 +29,7 @@ public sealed class Ambush : WitchCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this)
             .TargetingAllOpponents(CombatState!)
             .WithHitFx(VfxCmd.scratchPath)
@@ -38,5 +46,5 @@ public sealed class Ambush : WitchCard
         await CardCmd.AutoPlay(choiceContext, this, null);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
 }

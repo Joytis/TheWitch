@@ -305,6 +305,9 @@ position = Vector2(48, -279)
 [node name="bear_familiar_pos" type="Marker2D" parent="."]
 position = Vector2(255, -21)
 
+[node name="bear_cub_pos" type="Marker2D" parent="."]
+position = Vector2(195, 14)
+
 [node name="cat_familiar_pos" type="Marker2D" parent="."]
 position = Vector2(-118, -34)
 

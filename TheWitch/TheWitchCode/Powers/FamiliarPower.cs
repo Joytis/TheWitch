@@ -151,60 +151,9 @@ public abstract class FamiliarPower : WitchPower
     }
 
     /// <summary>Despawn any remaining pets when the power is removed outright (decrement-to-zero already synced to 0 via <see cref="AfterPowerAmountChanged" />).</summary>
-    public override async Task AfterRemoved(Creature oldOwner)
-    {
-        if (oldOwner.Player is not { PlayerCombatState: not null } player)
-        {
-            return;
-        }
+    public override Task AfterRemoved(Creature oldOwner) => WitchPetSync.RemoveAll(oldOwner, Pet);
 
-        /* Owner death runs this from inside CreatureCmd.KillWithoutCheckingWinCondition's
-           RemoveAllPowersAfterDeath loop. Killing a pet there removes its NCreature node, and any
-           caller still iterating a snapshot that includes the pets then dereferences a null node —
-           The Insatiable's SandpitPower.AfterRemoved does exactly that (player + Target.Pets array
-           captured up front, Visuals.Visible set with no null check), so the NRE aborts the enemy
-           turn and the surviving co-op player's turn never starts. Hide the pets instead; the
-           combat's pet list is torn down with the combat anyway. */
-        bool ownerDied = oldOwner.IsDead;
-
-        foreach (Creature pet in FindPets(player))
-        {
-            if (ownerDied)
-            {
-                NCreature? petNode = NCombatRoom.Instance?.GetCreatureNode(pet);
-                if (petNode != null)
-                {
-                    petNode.Visuals.Visible = false;
-                }
-                continue;
-            }
-
-            await CreatureCmd.Kill(pet, force: true);
-        }
-    }
-
-    private async Task SyncPets()
-    {
-        if (Owner.Player is not { PlayerCombatState: not null } player || Owner.CombatState is not { } combat || Owner.IsDead)
-        {
-            return;
-        }
-
-        List<Creature> pets = FindPets(player);
-        int want = Math.Max(0, Amount);
-        for (int i = pets.Count; i < want; i++)
-        {
-            WitchPet petModel = (WitchPet)Pet.ToMutable();
-            petModel.SourcePower = this;
-            petModel.StackIndex = i;
-            Creature pet = combat.CreateCreature(petModel, Owner.Side, null);
-            await PlayerCmd.AddPet(pet, player);
-        }
-        for (int i = pets.Count - 1; i >= want; i--)
-        {
-            await CreatureCmd.Kill(pets[i], force: true);
-        }
-    }
+    private Task SyncPets() => WitchPetSync.Sync(this, Pet, Amount);
 
     /// <summary>Stamp the generated token with its origin so playing it can animate the matching pet (stack i ↔ pet i, spawn order).</summary>
     private void TagSource(CardModel card, int stackIndex)
@@ -259,9 +208,6 @@ public abstract class FamiliarPower : WitchPower
 
         return Task.CompletedTask;
     }
-
-    protected List<Creature> FindPets(Player player) =>
-        player.PlayerCombatState!.Pets.Where(p => p.Monster?.GetType() == Pet.GetType()).ToList();
 }
 
 /// <summary>

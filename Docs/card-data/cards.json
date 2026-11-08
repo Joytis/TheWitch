@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-06",
+  "generated": "2026-11-08",
   "cards": [
     {
       "name": "Defend",
@@ -1986,24 +1986,27 @@
       "type": "Attack",
       "rarity": "Rare",
       "target": "AllEnemies",
-      "text": "Deal 9 damage to ALL enemies. Whenever you draw this card, play it for free.",
+      "text": "Deal {CalculatedDamage:diff()} damage to ALL enemies. Deals 1 additional damage for each of your Brambles. Whenever you draw this card, play it for free.",
       "numbers": {
-        "Damage": 9
+        "CalculationBase": 9,
+        "ExtraDamage": 1
       },
-      "upgrade": "Damage +3",
+      "upgrade": "CalculationBase +3",
       "multiplayer": false,
       "note": "Ambush!: AoE strike that springs itself — auto-plays for free when drawn.",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,
       "mechanics": [
-        "None"
+        "Brambles"
       ],
       "role": [
-        "Standalone"
+        "Payoff"
       ],
-      "sub": [],
+      "sub": [
+        "Brambles:Spend"
+      ],
       "threads": [
         "AoE",
         "AutoPlay"
@@ -2917,6 +2920,42 @@
       ]
     },
     {
+      "name": "Forage",
+      "entry": "FORAGE",
+      "file": "TheWitch/TheWitchCode/Cards/Familiar/Forage.cs",
+      "cost": 0,
+      "type": "Skill",
+      "rarity": "Token",
+      "target": "Self",
+      "text": "Gain 3 Brambles for each of your Cubs.{InCombat: (Gain {CalculatedBrambles:diff()} Brambles)|}",
+      "numbers": {
+        "Brambles": 3,
+        "CalculationBase": 0
+      },
+      "upgrade": "Brambles +1",
+      "multiplayer": false,
+      "note": "Bear familiar token (the turn after Hibernate): the Cubs roll around in the blackberries — Brambles per Cub.",
+      "tested": false,
+      "artFinal": false,
+      "vfxPass": false,
+      "sfxPass": false,
+      "mechanics": [
+        "Familiars",
+        "Brambles"
+      ],
+      "role": [
+        "Token",
+        "Generator"
+      ],
+      "sub": [
+        "Familiars:Token",
+        "Brambles:Ramp"
+      ],
+      "threads": [
+        "SelfExhaust"
+      ]
+    },
+    {
       "name": "Gnash",
       "entry": "GNASH",
       "file": "TheWitch/TheWitchCode/Cards/Familiar/Gnash.cs",
@@ -2983,15 +3022,16 @@
       "type": "Skill",
       "rarity": "Token",
       "target": "Self",
-      "text": "Gain 15 Block. Next turn, gain 3 Strength.",
+      "text": "Gain 15 Block. Next turn, gain 2 Strength and 1 Cub.",
       "numbers": {
-        "StrengthNextTurn": 3,
+        "StrengthNextTurn": 2,
+        "BearCub": 1,
         "Block": 15
       },
       "upgrade": "Block +3, StrengthNextTurn +1",
       "multiplayer": false,
-      "note": "Bear familiar token: den up — block now, wake up stronger next turn.",
-      "tested": true,
+      "note": "Bear familiar token: den up — block now, wake up stronger next turn with a new Cub (read by Forage).",
+      "tested": false,
       "artFinal": false,
       "vfxPass": true,
       "sfxPass": true,
@@ -3039,40 +3079,6 @@
       "threads": [
         "CardGen",
         "SelfExhaust"
-      ]
-    },
-    {
-      "name": "Mutilate",
-      "entry": "MUTILATE",
-      "file": "TheWitch/TheWitchCode/Cards/Familiar/Mutilate.cs",
-      "cost": 2,
-      "type": "Attack",
-      "rarity": "Token",
-      "target": "AnyEnemy",
-      "text": "Deal 12 damage. Apply 2 Vulnerable.",
-      "numbers": {
-        "Vulnerable": 2,
-        "Damage": 12
-      },
-      "upgrade": "Damage +6",
-      "multiplayer": false,
-      "note": "Bear familiar token: heavy hit that leaves the target torn open (Vulnerable).",
-      "tested": true,
-      "artFinal": false,
-      "vfxPass": true,
-      "sfxPass": true,
-      "mechanics": [
-        "Familiars"
-      ],
-      "role": [
-        "Token"
-      ],
-      "sub": [
-        "Familiars:Token"
-      ],
-      "threads": [
-        "SelfExhaust",
-        "Vulnerable"
       ]
     },
     {
