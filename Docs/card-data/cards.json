@@ -1988,7 +1988,7 @@
       "target": "AllEnemies",
       "text": "Deal {CalculatedDamage:diff()} damage to ALL enemies. Deals 1 additional damage for each of your Brambles. Whenever you draw this card, play it for free.",
       "numbers": {
-        "CalculationBase": 9,
+        "CalculationBase": 5,
         "ExtraDamage": 1
       },
       "upgrade": "CalculationBase +3",
