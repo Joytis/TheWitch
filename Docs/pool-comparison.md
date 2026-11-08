@@ -97,8 +97,8 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 |---|---|---|---|---|---|
 | Potions | 18 | 7 | 6 | 0 | 2.6:1 |
 | Hex | 13 | 5 | 2 | 1 | 2.6:1 |
-| Familiars | 15 | 5 | 5 | 12 | 3.0:1 |
-| Brambles | 6 | 2 | 0 | 0 | 3.0:1 |
+| Familiars | 16 | 5 | 5 | 13 | 3.2:1 |
+| Brambles | 7 | 3 | 0 | 1 | 2.3:1 |
 
 ### silent
 
@@ -147,7 +147,7 @@ A ratio far from 1.0 is a *scrutiny flag*, not a verdict — riders (debuffs, dr
 
 | thread | witch | silent | necrobinder | ironclad | defect | regent | base med |
 |---|---|---|---|---|---|---|---|
-| SelfExhaust | 25 | 12 | 13 | 11 | 18 | 7 | 12 |
+| SelfExhaust | 26 | 12 | 13 | 11 | 18 | 7 | 12 |
 | CardGen | 16 | 10 | 9 | 5 | 4 | 6 | 6 |
 | Draw | 11 | 11 | 6 | 9 | 12 | 10 | 10 |
 | TurnEngine | 14 | 4 | 5 | 8 | 10 | 6 | 6 |

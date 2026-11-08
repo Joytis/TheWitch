@@ -1988,7 +1988,7 @@
       "target": "AllEnemies",
       "text": "Deal {CalculatedDamage:diff()} damage to ALL enemies. Deals 1 additional damage for each of your Brambles. Whenever you draw this card, play it for free.",
       "numbers": {
-        "CalculationBase": 9,
+        "CalculationBase": 5,
         "ExtraDamage": 1
       },
       "upgrade": "CalculationBase +3",
@@ -3063,7 +3063,7 @@
       "multiplayer": false,
       "note": "Owl familiar token: memorize a card — copy a chosen card in your hand (base-game Dual Wield pattern: <c>CreateClone</c>, added through the generated-card funnel so creation payoffs fire).",
       "tested": true,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [
@@ -3320,7 +3320,7 @@
       "multiplayer": false,
       "note": "Owl familiar token: draw 2 (upgraded: draw 3).",
       "tested": false,
-      "artFinal": false,
+      "artFinal": true,
       "vfxPass": true,
       "sfxPass": true,
       "mechanics": [

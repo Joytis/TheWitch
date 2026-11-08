@@ -104,12 +104,27 @@ if ($failIdx -ge 0) {
 # Last bot actions before the failure (watchdog chatter dropped) — the triage context.
 $lastActions = @()
 if ($failIdx -ge 0) {
-    $lastActions = @($asLines[0..($failIdx - 1)] | Where-Object { $_ -notmatch 'Watchdog|MemProfile' } | Select-Object -Last 10)
+    # [string] cast: Get-Content lines carry PS provider NoteProperties that ConvertTo-Json would dump.
+    $lastActions = @($asLines[0..($failIdx - 1)] | Where-Object { $_ -notmatch 'Watchdog|MemProfile' } | Select-Object -Last 10 | ForEach-Object { [string]$_ })
 }
 $completed = [bool]($asLines | Where-Object { $_ -match 'Run completed successfully' })
+# The installed bot's AbandonRunAsync still waits for TopBar/RightAlignedStuff/Options, which the
+# game renamed (PauseButton), so every full run "fails" after "max floor reached". The run itself
+# finished: count it as completed and drop that one abandon failure from failure/errors.
+$abandonOnly = $false
+if (-not $completed -and ($asLines | Where-Object { $_ -match 'Run completed \(max floor reached\)' }) -and $failure -and $failure -match 'AbandonRunAsync') {
+    $completed = $true
+    $abandonOnly = $true
+    $failure = $null
+    $lastActions = @()
+}
 $floor = ($asLines | Where-Object { $_ -match 'Entering \w+ room \(Act (\d+), Floor (\d+)\)' } |
           ForEach-Object { "A$($Matches[1])F$($Matches[2])" } | Select-Object -Last 1)
 $watchdog = @($asLines | Where-Object { $_ -match 'Watchdog|no progress' }).Count
+
+if ($abandonOnly) {
+    $errors = @($errors | Where-Object { $_.message -notmatch 'TopBar/RightAlignedStuff/Options' })
+}
 
 $result = [ordered]@{
     index      = $Index
@@ -126,7 +141,7 @@ $result = [ordered]@{
 }
 $result | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 $summary
 
-$ok = $completed -and $errors.Count -eq 0 -and $exit -eq 0
+$ok = $completed -and $errors.Count -eq 0 -and ($exit -eq 0 -or $abandonOnly)
 $color = if ($ok) { 'Green' } else { 'Yellow' }
 Write-Host ("[autoslay-run] #{0} seed={1} exit={2} completed={3} floor={4} {5}min errors={6}" -f `
     $Index, $Seed, $exit, $completed, $floor, $result.minutes, $errors.Count) -ForegroundColor $color

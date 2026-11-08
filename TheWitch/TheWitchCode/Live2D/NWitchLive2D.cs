@@ -145,7 +145,6 @@ public partial class NWitchLive2D : Node
         }
 
         string? group = new[] { state }.Concat(Fallbacks.GetValueOrDefault(state, [])).FirstOrDefault(HasGroup);
-        MainFile.Logger.Info($"[live2d] state {state} -> motion group {group ?? "(none)"}");
         if (group != null)
         {
             _model.Call("start_motion", group, RandomMotion(group), PriorityForce);
