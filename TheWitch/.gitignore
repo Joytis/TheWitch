@@ -19,3 +19,5 @@ bin/
 # Steam Workshop bundle staging (tools/bundle-workshop.ps1): keep config (workshop.json, image.png, mod_id.txt)
 /workshop/content/
 /workshop/README.md
+# Spine "Import PSD" layer images (regenerate: re-import raw/baked/*.psd in Spine). Exported atlas pngs in animation/{combat,rest,shop}/ ARE tracked — runtime textures.
+/TheWitch/animation/raw/spine/
