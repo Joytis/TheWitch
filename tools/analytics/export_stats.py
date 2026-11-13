@@ -452,6 +452,18 @@ def build(runs: pd.DataFrame, ch: dict, detail_releases: int = DETAIL_RELEASES) 
     return {"meta": meta, **tables}
 
 
+def run_game_mode(data) -> str:
+    """STANDARD / BLITZ from the uploaded payload; rows from before Blitz support carry no
+    gameMode (or the client's hard-coded STANDARD) and were all Standard runs."""
+    if isinstance(data, str):
+        try:
+            data = json.loads(data)
+        except ValueError:
+            return "STANDARD"
+    mode = data.get("gameMode") if isinstance(data, dict) else None
+    return (mode or "STANDARD").upper()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -464,6 +476,10 @@ def main() -> int:
     parser.add_argument("--out-dir", default=None,
                         help="where to write the JSON tables (default: pages/analytics-data, or "
                              "pages/analytics-data/<key> when --character is given)")
+    parser.add_argument("--game-mode", default="STANDARD", type=str.upper,
+                        help="only runs played in this game mode (STANDARD / BLITZ; default "
+                             "STANDARD). Read from the payload's gameMode, so it works before "
+                             "migrations/002_game_mode_column.sql; rows without it are STANDARD")
     parser.add_argument("--from-pickle", default=None,
                         help="read runs from a pickled list of row dicts instead of Supabase "
                              "(local iteration; never committed)")
@@ -493,6 +509,7 @@ def main() -> int:
         if not args.include_seed:
             runs = runs[runs["mod_version"] != "seed-test"]
         runs = runs[runs["mod_version"].map(lambda v: semver(v)[0] >= 0)]
+        runs = runs[runs["data"].map(run_game_mode) == args.game_mode]
     if runs.empty:
         # Not an error: an unshipped character (the Augur until release) or a quiet window has no
         # rows. Exit clean so the per-character workflow steps don't fail the whole job.
