@@ -32,8 +32,18 @@ public static class WitchPetVisualsPatch
         sprite.Scale = Vector2.One * pet.SpriteScale;
 
         // GD.Load<T>/Instantiate<T> throw when the .tres/.tscn script didn't bind — fail loud.
-        PetConfig cfg = GD.Load<PetConfig>(pet.ConfigPath);
-        PetVisuals visuals = GD.Load<PackedScene>(pet.PetScenePath).Instantiate<PetVisuals>();
+        PetConfig? cfg = GD.Load<PetConfig>(pet.ConfigPath);
+        PetVisuals? visuals = GD.Load<PackedScene>(pet.PetScenePath)?.Instantiate<PetVisuals>();
+        if (cfg == null || visuals == null)
+        {
+            // A cosmetic pet must never take the combat down: AddPet runs inside the summon's
+            // power-apply command, so an exception here aborts the action queue. Seen once under
+            // headless AutoSlay (seed 55QGFPI, Act 2 F7, second Crow of the run) as an NRE in
+            // Populate with no Godot load error logged — the pet stays as the blank rocket host.
+            MainFile.Logger.Error($"pet visuals for {pet.Id}: config={(cfg == null ? "NULL" : "ok")} ({pet.ConfigPath}) scene={(visuals == null ? "NULL" : "ok")} ({pet.PetScenePath}); leaving host sprite empty");
+            visuals?.QueueFree();
+            return;
+        }
 
         sprite.Texture = null;
         // The rocket host's Visuals sprite sits at an upward offset (body center) inside the

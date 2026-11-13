@@ -103,7 +103,12 @@ public partial class PetVisuals : Node2D
     public void Populate(PetConfig config, WitchPet pet)
     {
         _pet = pet;
-        Sprite2D sprite = GetNode<Sprite2D>("VisualsRoot/Visuals");
+        Sprite2D? sprite = GetNodeOrNull<Sprite2D>("VisualsRoot/Visuals");
+        if (sprite == null)
+        {
+            MainFile.Logger.Error($"pet visuals for {pet.Id}: scene has no VisualsRoot/Visuals sprite; skipping populate");
+            return;
+        }
         sprite.Texture = config.Texture;
 
         // Pivot at the sprite's bottom-center: with Centered on, shifting the draw rect up by
