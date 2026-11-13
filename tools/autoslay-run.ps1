@@ -31,6 +31,8 @@ param(
     [string]$Seed = "",
     [ValidateSet('none','build','publish')]
     [string]$Build = 'none',
+    [ValidateSet('Standard','Blitz','Dread')]
+    [string]$Mode = 'Standard',  # AutoSlay game mode (launch.ps1 -Mode -> game -mode=<m>)
     [switch]$Windowed            # debugging aid: skip --headless
 )
 
@@ -63,9 +65,9 @@ $noise = @(
     'but its creature node doesn''t exist'     # CubexConstruct.RepeaterBlastMove: dies to Brambles mid-attack, then TriggerAnim(AttackEnd) on the freed node; base-game log-not-throw
 )
 
-Write-Host "[autoslay-run] #$Index seed=$Seed -> $stem.*"
+Write-Host "[autoslay-run] #$Index seed=$Seed mode=$Mode -> $stem.*"
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
-$launchArgs = @{ Solo = $true; AutoSlay = $true; Seed = $Seed; AutoSlayLog = $asLog; Build = $Build }
+$launchArgs = @{ Character = $Character; Solo = $true; AutoSlay = $true; Seed = $Seed; AutoSlayLog = $asLog; Build = $Build; Mode = $Mode }
 if (-not $Windowed) { $launchArgs.Headless = $true }
 & $launcher @launchArgs
 $exit = $LASTEXITCODE
@@ -129,6 +131,7 @@ if ($abandonOnly) {
 $result = [ordered]@{
     index      = $Index
     seed       = $Seed
+    mode       = $Mode
     exitCode   = $exit
     completed  = $completed
     minutes    = [Math]::Round($sw.Elapsed.TotalMinutes, 1)

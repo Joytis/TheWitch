@@ -29,10 +29,10 @@ namespace TheWitch.TheWitchCode.Monsters;
 /// </summary>
 public abstract class WitchPet : MonsterModel, ICustomModel
 {
-    // Pets are never meant to take damage or die; huge HP + hidden bar mirrors Byrdpip.
+    // Pets are never meant to take damage or die; huge HP + non-interactable (hidden bar, untargetable) mirrors Byrdpip.
     public override int MinInitialHp => 9999;
     public override int MaxInitialHp => 9999;
-    public override bool IsHealthBarVisible => false;
+    public override bool IsInteractable => false;
 
     public virtual string PetScenePath => "familiar_visuals.tscn".CharacterScenePath();
 

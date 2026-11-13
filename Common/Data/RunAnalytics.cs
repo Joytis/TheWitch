@@ -82,7 +82,8 @@ internal static class RunAnalytics
             s_ctx.Logger.Info($"Skipping {s_ctx.ModId} analytics upload, disabled in mod config.");
             return;
         }
-        if (run.GameMode != GameMode.Standard)
+        // 0.113 folded the old GameMode.Custom into Standard + IsCustomGame; keep custom runs out.
+        if (run.GameMode != GameMode.Standard || run.IsCustomGame)
         {
             return;
         }
@@ -165,6 +166,7 @@ internal static class RunAnalytics
             BuildId = ReleaseInfoManager.Instance.ReleaseInfo?.Version ?? "NON-RELEASE-VERSION",
             BuildType = PlatformUtil.GetPlatformBranch().ToName(),
             PlayerId = HashPlayerId(progress.UniqueId),
+            GameMode = "STANDARD", // vanilla GetGameModeString(GameMode.Standard); only Standard runs reach here
             Character = localPlayer.CharacterId!,
             NumPlayers = run.Players.Count,
             Team = run.Players.Count > 1

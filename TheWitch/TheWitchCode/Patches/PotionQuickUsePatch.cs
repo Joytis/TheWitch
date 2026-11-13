@@ -139,5 +139,5 @@ public static class PotionQuickUsePatch
 
     private static bool InACardSelectScreen =>
         NPlayerHand.Instance?.IsInCardSelection == true
-        || NOverlayStack.Instance?.Peek() is ICardSelector;
+        || NOverlayStack.Instance?.Peek() is ICardSelectionScreen;
 }

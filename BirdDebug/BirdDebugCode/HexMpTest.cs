@@ -185,7 +185,7 @@ public static class HexMpTest
         ModelId encounterId = new(ModelId.SlugifyCategory<EncounterModel>(), "CULTISTS_NORMAL");
         EncounterModel encounter = ModelDb.GetById<EncounterModel>(encounterId).ToMutable();
         encounter.DebugRandomizeRng();
-        CombatState combat = new(encounter, run, run.Modifiers, run.BadgeModels, run.MultiplayerScalingModel);
+        CombatState combat = new(encounter, run, run.Modifiers, run.BadgeModels, run.RunModels);
         foreach (Player p in players)
         {
             combat.AddPlayer(p);

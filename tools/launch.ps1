@@ -61,6 +61,7 @@ param(
     [switch]$RelicTest,        # -bird-debug -bird-relictest: equips every relic, then every card + potion
     [switch]$MenuTest,         # -bird-debug -bird-menutest: opens every main-menu screen + renders every hover tip
     [switch]$HexTest,          # -bird-debug -bird-hextest: Hex trigger rules across 1-4 player parties (HexMpTest)
+    [switch]$ShopTest,         # -bird-debug -bird-shoptest: merchant roll statistics per game mode (ShopTest; Moth throttle check)
     [switch]$TestAll,          # -bird-debug -bird-testall: menu sweep, cards, potions, then relics in one run
     [string]$Encounter = "",   # optional encounter id for -Bootstrap (e.g. SLIMES_WEAK)
     [switch]$ResetFtue,                # -bird-reset-ftue: forget the character's tutorial tips so they show again
@@ -68,8 +69,10 @@ param(
     [switch]$ForceWorkshopDownload,    # -bird-force-workshop-download=<id>: force the Workshop download path;
                                        # item id read from <workshop dir>/mod_id.txt (local builds need it)
     [switch]$TailLog,          # solo only: stream %appdata%\SlayTheSpire2\logs\godot.log to this console
+    [ValidateSet('Standard','Blitz','Dread')]
+    [string]$Mode = 'Standard',  # -mode=<m>: AutoSlay game mode (game-native AutoSlayMode); Standard passes nothing
     [ValidateSet('none','build','publish')]
-    [string]$Build = 'none'    # run `dotnet build` (code deploy) or `dotnet publish` (code + .pck) first; abort on failure
+    [string]$Build = 'none'   # run `dotnet build` (code deploy) or `dotnet publish` (code + .pck) first; abort on failure
 )
 
 $ErrorActionPreference = "Stop"
@@ -98,8 +101,8 @@ if ($Build -ne 'none') {
 
 # --- Smoke-test report: skim the tailed log, errors loud, passes routine ---------
 # One harness (BirdDebug CardTest) behind the flags; $tag picks the log prefix to parse.
-$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($HexTest) { '[bird-hextest]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
-$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll -or $HexTest
+$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($HexTest) { '[bird-hextest]' } elseif ($ShopTest) { '[bird-shoptest]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
+$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll -or $HexTest -or $ShopTest
 function Write-CardTestReport {
     param([System.Collections.Generic.List[string]]$lines, [string]$tag = $SmokeTag)
     $rtag = [regex]::Escape($tag)
@@ -185,6 +188,7 @@ if ($Solo -or -not $PSBoundParameters.ContainsKey('Players')) {
         $gameArgs += '-autoslay'
         # `=` form so Start-Process never splits a path with spaces from its key.
         if ($AutoSlayLog) { $gameArgs += "-log-file=`"$AutoSlayLog`"" }
+        if ($Mode -ne 'Standard') { $gameArgs += "-mode=$($Mode.ToLowerInvariant())" }
     }
     if ($Seed) { $gameArgs += "-seed=$Seed" }
     if ($FxLab) {

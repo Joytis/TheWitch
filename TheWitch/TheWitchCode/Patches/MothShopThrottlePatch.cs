@@ -21,7 +21,7 @@ namespace TheWitch.TheWitchCode.Patches;
 /// Uses the seeded <c>PlayerRng.Shops</c> stream, so it stays deterministic in multiplayer.
 /// </summary>
 [HarmonyPatch(typeof(CardFactory), nameof(CardFactory.CreateForMerchant),
-    [typeof(Player), typeof(IEnumerable<CardModel>), typeof(CardType)])]
+    [typeof(Player), typeof(IEnumerable<CardModel>), typeof(IEnumerable<CardModel>), typeof(CardType)])]
 public static class MothShopThrottlePatch
 {
     /// <summary>Fraction of shops whose Power slot should offer Moth Familiar.</summary>

@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Debug;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
@@ -74,8 +75,8 @@ public static class MarketingShots
 
         if (_shot == "mp-relics")
         {
-            harmony.Patch(AccessTools.Method(typeof(NCharacterSelectScreen), "_Ready"),
-                postfix: new HarmonyMethod(typeof(MarketingShots), nameof(CharacterSelectReadyPostfix)));
+            harmony.Patch(AccessTools.PropertyGetter(typeof(Bootstrapper), nameof(Bootstrapper.Settings)),
+                prefix: new HarmonyMethod(typeof(MarketingShots), nameof(BootstrapSettingsPrefix)));
             harmony.Patch(AccessTools.Method(typeof(NCharacterSelectScreen), nameof(NCharacterSelectScreen.OnSubmenuOpened)),
                 postfix: new HarmonyMethod(typeof(MarketingShots), nameof(CharacterSelectOpenedPostfix)));
         }
@@ -190,17 +191,23 @@ public static class MarketingShots
     private static async Task StartRun()
     {
         await Frames(2);
-        await Game.StartNewSingleplayerRun(BirdCharacter.Model, shouldSave: false, ActModel.GetDefaultList().ToList(),
-            new List<ModifierModel>(), "BIRDSHOT", GameMode.Standard);
+        Player player = Player.CreateForNewRun(BirdCharacter.Model, SaveManager.Instance.GenerateUnlockStateFromProgress(), 1uL);
+        await Game.StartNewSingleplayerRun(player, shouldSave: false, ActModel.GetDefaultList().ToList(),
+            new List<ModifierModel>(), "BIRDSHOT", GameMode.Standard, isCustomGame: false);
     }
 
     // ---- multiplayer relic shot: -fastmp lobby -> bootstrap treasure room -----------------------
 
-    // Hands the screen the game's own multiplayer bootstrap, so BeginRun drops every lobby member
-    // into a treasure room (NCharacterSelectScreen.StartNewMultiplayerRun, BootstrapInMultiplayer).
-    private static void CharacterSelectReadyPostfix(NCharacterSelectScreen __instance)
+    // Hands the game its own multiplayer bootstrap, so BeginRun drops every lobby member into a
+    // treasure room (NCharacterSelectScreen.StartNewMultiplayerRun, BootstrapInMultiplayer).
+    // 0.113 moved the settings from the screen's _settings field to the static Bootstrapper.Settings
+    // (get-only, initonly backing field), so the getter is patched instead of the field being set.
+    private static readonly TreasureBootstrap s_treasureBootstrap = new();
+
+    private static bool BootstrapSettingsPrefix(ref IBootstrapSettings? __result)
     {
-        AccessTools.Field(typeof(NCharacterSelectScreen), "_settings").SetValue(__instance, new TreasureBootstrap());
+        __result = s_treasureBootstrap;
+        return false;
     }
 
     private static void CharacterSelectOpenedPostfix(NCharacterSelectScreen __instance)
