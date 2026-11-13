@@ -9,7 +9,7 @@ namespace TheWitch.TheWitchCode.Monsters;
 
 /// <summary>
 /// Shared "one cosmetic pet per power stack" bookkeeping, used by <see cref="Powers.FamiliarPower" /> and any
-/// other power that shows pets (Bear Cubs). Pets are matched to their power by pet TYPE, so each power type must
+/// other power that shows pets. Pets are matched to their power by pet TYPE, so each power type must
 /// use its own <see cref="WitchPet" /> subclass.
 /// </summary>
 public static class WitchPetSync

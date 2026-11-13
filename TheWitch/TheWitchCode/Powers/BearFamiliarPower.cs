@@ -12,5 +12,5 @@ public sealed class BearFamiliarPower : LootTableFamiliarPower
     protected override FamiliarLootTable BuildLootTable() =>
         new FamiliarLootTable()
             .Add<Hibernate>()
-            .Add<Forage>();
+            .Add<Mutilate>();
 }

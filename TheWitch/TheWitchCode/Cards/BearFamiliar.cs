@@ -12,7 +12,7 @@ public sealed class BearFamiliar : WitchCard, IFamiliarSummon
         Familiars.HoverTip,
         HoverTipFactory.FromPower<BearFamiliarPower>(),
         HoverTipFactory.FromCard<Hibernate>(IsUpgraded),
-        HoverTipFactory.FromCard<Forage>(IsUpgraded),
+        HoverTipFactory.FromCard<Mutilate>(IsUpgraded),
     ];
 
     public BearFamiliar()

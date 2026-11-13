@@ -44,7 +44,7 @@ public abstract class WitchPet : MonsterModel, ICustomModel
     public string ConfigPath => (PetFileName + ".tres").PetConfigPath();
 
     /// <summary>
-    /// Which power stack this pet represents (a FamiliarPower, or BearCubPower), stamped on the mutable clone by
+    /// Which power stack this pet represents (a FamiliarPower), stamped on the mutable clone by
     /// WitchPetSync.Sync. PetVisuals matches animation events against this pair.
     /// Plain C# state — cosmetic only, and mid-combat state is never restored, so it needs no serialization.
     /// </summary>

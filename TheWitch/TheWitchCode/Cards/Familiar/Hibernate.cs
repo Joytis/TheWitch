@@ -10,20 +10,18 @@ using TheWitch.TheWitchCode.Powers;
 
 namespace TheWitch.TheWitchCode.Cards;
 
-/// <summary>Bear familiar token: den up — block now, wake up stronger next turn with a new Cub (read by Forage).</summary>
+/// <summary>Bear familiar token: den up — block now, wake up stronger next turn.</summary>
 public sealed class Hibernate : WitchFamiliarCard
 {
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<StrengthPower>(),
-        HoverTipFactory.FromPower<BearCubPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new BlockVar(15m, ValueProp.Move),
-        new PowerVar<StrengthNextTurnPower>(2m),
-        new PowerVar<BearCubPower>(1m)
+        new PowerVar<StrengthNextTurnPower>(3m)
     ];
 
     public override CardModel Summon => ModelDb.Card<BearFamiliar>();
@@ -37,7 +35,6 @@ public sealed class Hibernate : WitchFamiliarCard
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         await PowerCmd.Apply<StrengthNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["StrengthNextTurnPower"].BaseValue, Owner.Creature, this);
-        await PowerCmd.Apply<BearCubNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["BearCubPower"].BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
