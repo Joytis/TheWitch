@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oo0nvtk5vypw"
-path="res://.godot/imported/editor_preview.png-77e1ae5a296bfd6fe84c78d3dceda647.ctex"
+uid="uid://d0tu4jnl7itfb"
+path="res://.godot/imported/witch_combat.png-c252023d0b993fcc23752bf5caebcdb8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/live2d/witch/editor_preview.png"
-dest_files=["res://.godot/imported/editor_preview.png-77e1ae5a296bfd6fe84c78d3dceda647.ctex"]
+source_file="res://TheWitch/animation/combat/witch_combat.png"
+dest_files=["res://.godot/imported/witch_combat.png-c252023d0b993fcc23752bf5caebcdb8.ctex"]
 
 [params]
 

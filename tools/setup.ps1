@@ -7,22 +7,14 @@
     Per character project:
       1. gamedata junctions (tools/setup-gamedata-links.ps1)
       2. addons/mega_text copied from gamedata/addons/ (base-game scenes need it in the editor)
-    Witch only:
-      3. Live2D: our GDCubism fork + Cubism SDK (tools/live2d/setup-live2d.ps1);
-         required to bundle the Witch for the Workshop.
-         Prompts once to accept Live2D's SDK license. A failure or a declined license only skips
-         this step; -SkipLive2D skips it outright.
 
 .EXAMPLE
     ./tools/setup.ps1
-    ./tools/setup.ps1 -Character Witch -AcceptLive2DLicense
-    ./tools/setup.ps1 -SkipLive2D
+    ./tools/setup.ps1 -Character Witch
 #>
 param(
     [ValidateSet('Witch', 'Augur', 'All')]
-    [string]$Character = 'All',
-    [switch]$SkipLive2D,
-    [switch]$AcceptLive2DLicense
+    [string]$Character = 'All'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -54,23 +46,6 @@ foreach ($key in $targets) {
     }
 }
 
-$live2dResult = 'skipped (not the Witch)'
-if ($targets -contains 'Witch') {
-    if ($SkipLive2D) {
-        $live2dResult = 'skipped (-SkipLive2D)'
-    } else {
-        Write-Step "Witch Live2D prototype"
-        try {
-            & (Join-Path $PSScriptRoot 'live2d/setup-live2d.ps1') -AcceptLive2DLicense:$AcceptLive2DLicense
-            $live2dResult = 'staged (publish TheWitch; the Witch then renders as Live2D)'
-        } catch {
-            Write-Warning "Live2D setup skipped: $($_.Exception.Message)"
-            $live2dResult = "FAILED/skipped: $($_.Exception.Message)"
-        }
-    }
-}
-
 Write-Step "Done."
 Write-Host "  junctions + mega_text: $($targets -join ', ')"
-Write-Host "  Live2D: $live2dResult"
 Write-Host "  next: dotnet publish <Character>/<Character>.csproj (or the Run / Debug tasks with Publish)"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://k0lwq57ni6fw"
-path="res://.godot/imported/texture_00.png-9225e5e379db1a13ca66d1762f45f8be.ctex"
+uid="uid://doqeh6gjbv6ka"
+path="res://.godot/imported/witch_shop_static.png-cb049f01db4f654f0b0b4650ebbf7ca2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/live2d/witch_shop/witch_shop_idle.4096/texture_00.png"
-dest_files=["res://.godot/imported/texture_00.png-9225e5e379db1a13ca66d1762f45f8be.ctex"]
+source_file="res://TheWitch/animation/shop/witch_shop_static.png"
+dest_files=["res://.godot/imported/witch_shop_static.png-cb049f01db4f654f0b0b4650ebbf7ca2.ctex"]
 
 [params]
 

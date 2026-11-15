@@ -21,7 +21,7 @@
                 "clear": true,
                 "focus": true
             },
-            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions + addons/mega_text per project; for the Witch also the Live2D toolchain (asks once to accept Live2D's SDK license, then downloads + builds our GDCubism fork; required to bundle the Witch). Needs gamedata/."
+            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions + editor addons (mega_text, spine) per project. Needs gamedata/."
         },
         {
             "label": "Run",
@@ -450,6 +450,30 @@
                 "clear": true
             },
             "detail": "Headless Godot --import: generate .import sidecars for new pngs (card portraits, etc.). Prompts for the character mod."
+        },
+        {
+            "label": "Spine: Export",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/export-spine.ps1",
+                "-Character",
+                "${input:character}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Export the character's Spine projects (animation/raw/spine-export.json) to runtime files: Spine CLI -> .skel/.atlas -> .spskel/.spatlas + atlas pngs in animation/{combat,rest,shop}/. Reports missing game animations and editor-hidden slots. Needs the Spine editor + GodotPath in local.props. Publish afterwards to see it in game."
         },
         {
             "label": "Images: Generate missing sizes",

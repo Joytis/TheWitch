@@ -1,0 +1,26 @@
+{
+  "spineVersion": "4.2.43",
+  "exports": [
+    {
+      "name": "witch_combat",
+      "project": "witch_combat.spine",
+      "out": "combat",
+      "atlasScale": 0.32,
+      "requiredAnimations": ["idle_loop", "attack", "cast", "hurt", "die"]
+    },
+    {
+      "name": "witch_rest",
+      "project": "witch_rest.spine",
+      "out": "rest",
+      "atlasScale": 0.6,
+      "requiredAnimations": ["overgrowth_loop", "hive_loop", "glory_loop"]
+    },
+    {
+      "name": "witch_shop",
+      "project": "witch_shop.spine",
+      "out": "shop",
+      "atlasScale": 0.674,
+      "requiredAnimations": ["relaxed_loop"]
+    }
+  ]
+}

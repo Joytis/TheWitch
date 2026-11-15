@@ -9,15 +9,11 @@ bin/
 /src/
 /themes/
 /addons/
-# Live2D (tools/live2d/setup-live2d.ps1): native extension + shaders staged locally; samples/ = SDK sample models older setups staged (never ship)
-/live2d/*
-!/live2d/.gdignore
-/TheWitch/live2d/samples/
-/TheWitch/live2d/shader/
 # Generated atlas pages + .tres slices (tools/pack-atlases.py --character Witch)
 /TheWitch/images/atlases/
 # Steam Workshop bundle staging (tools/bundle-workshop.ps1): keep config (workshop.json, image.png, mod_id.txt)
 /workshop/content/
 /workshop/README.md
-# Spine "Import PSD" layer images (regenerate: re-import raw/baked/*.psd in Spine). Exported atlas pngs in animation/{combat,rest,shop}/ ARE tracked — runtime textures.
+# Spine "Import PSD" layer images (regenerate: re-import raw/baked/*.psd in Spine). The runtime exports in
+# animation/{combat,rest,shop}/ (tools/export-spine.ps1) ARE tracked.
 /TheWitch/animation/raw/spine/
