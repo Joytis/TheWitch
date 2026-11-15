@@ -2,6 +2,8 @@
 using BaseLib.Utils.NodeFactories;
 using TheWitch.TheWitchCode.Extensions;
 using Godot;
+using MegaCrit.Sts2.Core.Animation;
+using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using TheWitch.TheWitchCode.Cards;
@@ -140,6 +142,16 @@ public class Witch : PlaceholderCharacterModel
         "yummy_cookie_outline.tres".RelicOutlineAtlasPath()
     );
     
+    // Anims / visuals
+    // The game calls this once per combat creature node, with her Spine body: the stock animator
+    // (idle_loop / attack / cast / hurt / die on track 0) plus her blink on track 1.
+    public override CreatureAnimator GenerateAnimator(MegaSprite controller)
+    {
+        CreatureAnimator animator = base.GenerateAnimator(controller);
+        WitchBlink.Attach(controller);
+        return animator;
+    }
+
     /*
     // Anims / visuals
     // public override float DeathAnimTime => ...;
