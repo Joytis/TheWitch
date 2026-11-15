@@ -27,9 +27,13 @@ $targets = if ($Character -eq 'All') { $BirdCharacters.Keys } else { @($Characte
 foreach ($key in $targets) {
     $projectDir = Join-Path $repoRoot $BirdCharacters[$key].ProjectDir
     Write-Host "== $key ($projectDir)"
-    foreach ($name in 'scenes', 'materials', 'shaders', 'images', 'src', 'themes', 'fonts') {
+    # addons\spine = the game's spine-godot GDExtension (runtime build): lets the editor / headless
+    # export load SpineSprite scenes + .spskel/.spatlas resources, and powers tools/export-spine.ps1.
+    # Export-excluded (addons/*); the game supplies its own copy at runtime.
+    foreach ($name in 'scenes', 'materials', 'shaders', 'images', 'src', 'themes', 'fonts', 'addons\spine') {
         $link = Join-Path $projectDir $name
         $target = Join-Path $gamedata $name
+        New-Item -ItemType Directory -Force (Split-Path $link -Parent) | Out-Null
 
         if (-not (Test-Path $target)) {
             Write-Warning "skipped: gamedata\$name does not exist."

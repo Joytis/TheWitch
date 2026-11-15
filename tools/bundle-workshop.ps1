@@ -8,8 +8,7 @@
     deployable mod files into workshop/content. By default it first runs
     `dotnet publish` so the .pck is freshly exported, then copies the build
     outputs (<ModId>.json/.dll/.pck) from the game's mods folder into the
-    workspace. A project with a live2d/ stage folder (the Witch) also ships it as
-    content/live2d/ (the native Live2D extension; tools/live2d/setup-live2d.ps1).
+    workspace.
 
     Workspace layout consumed by ModUploader:
         workshop.json   metadata (title, visibility, tags, ...)                [versioned]
@@ -218,33 +217,6 @@ if ($UpdateMarketing -and -not $Upload) {
     exit 0
 }
 
-# --- Live2D guards (bundling only: -RenderDescription / marketing-only runs never touch the .pck) ---
-# Live2D SDK sample models (staged by older tools/live2d/setup-live2d.ps1 runs; the current one deletes
-# them) get packed into the .pck when present; they must never reach the Workshop.
-$live2dSamples = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/samples")
-if (Test-Path $live2dSamples) {
-    throw "Live2D sample models present at $live2dSamples - delete that folder (or re-run tools/live2d/setup-live2d.ps1) before bundling (they would be packed into the .pck)."
-}
-# The Live2D extension (the character's GDCubism fork) ships as loose files next to the dll; a
-# project that has a live2d/ stage folder must have it built (tools/live2d/setup-live2d.ps1).
-$live2dStage = Join-Path $repoRoot (Join-Path $Char.ProjectDir 'live2d')
-$shipLive2D = Test-Path $live2dStage
-if ($shipLive2D) {
-    if (-not (Get-ChildItem $live2dStage -Filter '*.gdextension' -File)) {
-        throw "Live2D extension not staged in $live2dStage - run tools/live2d/setup-live2d.ps1 first."
-    }
-    # Live2D is required (no static-sprite fallback): every platform the game ships on needs its library.
-    $live2dLibs = @('*.windows.release.x86_64.dll', '*.linux.release.x86_64.so', '*.macos.release.framework')
-    $live2dMissing = @($live2dLibs | Where-Object { -not (Get-ChildItem (Join-Path $live2dStage 'bin') -Filter $_ -ErrorAction SilentlyContinue) })
-    if ($live2dMissing) {
-        throw "Live2D libraries missing in $live2dStage/bin ($($live2dMissing -join ', ')) - the Witch would be invisible on those platforms. Run the live2d-build workflow (GitHub Actions, manual), then tools/live2d/setup-live2d.ps1 -FromCI."
-    }
-    $live2dShaders = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/live2d/shader")
-    if (-not (Get-ChildItem $live2dShaders -Filter '*.gdshader' -File -ErrorAction SilentlyContinue)) {
-        throw "Live2D shaders missing at $live2dShaders - run tools/live2d/setup-live2d.ps1 first."
-    }
-}
-
 # --- Step 1: publish (default) ---------------------------------------------
 if ($SkipPublish) {
     Write-Step "Skipping publish (-SkipPublish); reusing existing mods/ outputs."
@@ -328,22 +300,6 @@ else { New-Item -ItemType Directory -Path $contentDir | Out-Null }
 Copy-Item $json -Destination $contentDir
 Copy-Item $dll  -Destination $contentDir
 Copy-Item $pck  -Destination $contentDir
-
-if ($shipLive2D) {
-    # The pck's file table is plain text: catch a stale pck (e.g. -SkipPublish after deleting the
-    # samples) that still carries sample models, or one exported before the shaders were staged.
-    $pckText = [Text.Encoding]::ASCII.GetString([IO.File]::ReadAllBytes($pck))
-    if ($pckText.Contains("$($Char.ModId)/live2d/samples/")) {
-        throw "$pck still contains Live2D sample models - re-run without -SkipPublish."
-    }
-    if (-not $pckText.Contains("$($Char.ModId)/live2d/shader/")) {
-        throw "$pck has no Live2D shaders - re-run without -SkipPublish."
-    }
-    # Copied from the repo stage, not the mods folder, so stale files there never ship.
-    $live2dDst = Join-Path $contentDir 'live2d'
-    Copy-Item $live2dStage $live2dDst -Recurse
-    Remove-Item (Join-Path $live2dDst '.gdignore') -Force -ErrorAction SilentlyContinue
-}
 
 # Keep the staged manifest's version in sync with the repo manifest (matters
 # for -SkipPublish -Upload, where the mods-folder copy predates the bump).

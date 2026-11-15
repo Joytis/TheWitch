@@ -112,7 +112,8 @@ public class Witch : PlaceholderCharacterModel
     public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
 
     public override string CustomEnergyCounterPath => "witch_energy_counter.tscn".CharacterScenePath();
-    public override string CustomVisualPath => "witch_visuals.tscn".CharacterScenePath();
+    // Spine combat body (tools/export-spine.ps1 -> animation/combat/).
+    public override string CustomVisualPath => "witch_visuals_spine.tscn".CharacterScenePath();
     public override string CustomCharacterSelectBg => "char_select_bg_witch.tscn".CharacterScenePath();
     public override string CustomTrailPath => "card_trail_witch.tscn".CharacterScenePath();
     public override string CustomRestSiteAnimPath => "witch_rest_site.tscn".CharacterScenePath();
