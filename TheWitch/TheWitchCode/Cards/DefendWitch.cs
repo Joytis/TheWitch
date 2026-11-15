@@ -8,7 +8,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class DefendWitch : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.JakeRuesch;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
 	public override bool GainsBlock => true;
 

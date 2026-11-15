@@ -25,8 +25,6 @@ public sealed record Artist(string Name, string? Handle = null, string? Url = nu
     }
 
     public static readonly Artist Kitsu = new("Kitsu");
-    public static readonly Artist JakeRuesch = new("Jake Ruesch");
-    public static readonly Artist Phenelia = new("Phenelia");
     public static readonly Artist Joytis = new("Joytis");
     public static readonly Artist Vuwa = new("Vuwa", "@via.lacroix", "https://vuwa.art/");
 }

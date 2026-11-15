@@ -59,9 +59,9 @@ Report bugs on [url=https://github.com/Joytis/TheWitch/issues]GitHub[/url] or in
 
 [h2]Artists[/h2]
 [list]
-[*][url=https://x.com/Phenelia]Phenelia[/url] - Strike
-[*][url=https://jsruesch.com/]Jake Ruesch[/url] - Defend
-[*][url=https://vuwa.art/]Vuwa[/url] - Call the Pack, Herbal Brew, Primal Form, Toil and Trouble, Crystal Bottle, Tinder, Cursed Spellbook, Eye of Newt
+[*][url=https://vuwa.art/]Vuwa[/url] - Strike, Defend, Call the Pack, Herbal Brew, Primal Form, Toil and Trouble, Crystal Bottle, Tinder, Cursed Spellbook, Eye of Newt
+[*][url=https://x.com/Phenelia]Phenelia[/url] - Beta Strike
+[*][url=https://jsruesch.com/]Jake Ruesch[/url] - Beta Defend
 [/list]
 
 Thanks to the BaseLib folks and Downfall team everything!! And to everyone in the StS modding Discord. Y'all are epic and awesome and cool and epic and great <333

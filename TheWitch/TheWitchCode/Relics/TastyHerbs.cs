@@ -53,14 +53,14 @@ public sealed class TastyHerbs : WitchRelic
 
     private static async Task Replay(PlayerChoiceContext replayContext, PotionModel potion, Creature? target, Player player)
     {
-        CombatId? combatId = CombatManager.Instance.BeginCardOrPotionEffect(player);
+        CombatManager.Instance.BeginCardOrPotionEffect(player);
         try
         {
             await (Task)PotionAutoPlay.OnUseMethod.Invoke(potion, [replayContext, target])!;
         }
         finally
         {
-            await CombatManager.Instance.EndCardOrPotionEffect(combatId, player);
+            CombatManager.Instance.EndCardOrPotionEffect(player);
         }
     }
 }

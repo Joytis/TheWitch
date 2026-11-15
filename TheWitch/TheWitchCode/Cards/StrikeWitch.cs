@@ -11,7 +11,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class StrikeWitch : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Phenelia;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
 	protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
 
@@ -31,7 +31,7 @@ public sealed class StrikeWitch : WitchCard
 	{
 		ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 		await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, cardPlay)
+            .FromCard(this)
             .Targeting(cardPlay.Target)
 			.WithHitFx(VfxCmd.scratchPath)
 			.Execute(choiceContext);

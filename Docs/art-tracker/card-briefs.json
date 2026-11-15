@@ -2,11 +2,11 @@
   "comment": "Per-card art metadata, keyed by card name. Hand-maintained; merged into art-tracker.html at generation. Fields per entry: 'artist' (who is working on it), 'brief' (art direction notes). Status is DERIVED: final art (artFinal in the card data / done here) → Final; else optional 'stage' (assigned | sketching — set via the card-designs page for cards); else artist set → Assigned; else Unassigned. Example: \"Broom Strike\": { \"artist\": \"Sam\", \"brief\": \"low angle, hat silhouette\" }",
   "briefs": {
     "Defend": {
-      "artist": "Jake Ruesch",
+      "artist": "Vuwa",
       "brief": "This is our base defend card. There will be 5 in every starting deck. - it should depict the witch in a relatively neutral state without upgrades, simply blocking. See other blocks for inspiration - they typically depict the character in portrait holding some sort of equipment while rebuffing streaks of light."
     },
     "Strike": {
-      "artist": "Phenelia",
+      "artist": "Vuwa",
       "brief": "This is our base base strike card. There will be 5 in every starting deck. Strikes. Strikes typically depict the 'basic' weapon of the character. For the witch, this will likely be vicious, extended claws."
     },
     "Bag of Teeth": {
