@@ -6,7 +6,6 @@
     Requires gamedata/ (the local decompile) at the repo root; see README "Setup".
     Per character project:
       1. gamedata junctions (tools/setup-gamedata-links.ps1)
-         (incl. addons/spine: the game's spine-godot extension, for Spine scenes + tools/export-spine.ps1)
       2. addons/mega_text copied from gamedata/addons/ (base-game scenes need it in the editor)
 
 .EXAMPLE
@@ -33,8 +32,6 @@ $targets = if ($Character -eq 'All') { @($BirdCharacters.Keys) } else { @($Chara
 Write-Step "gamedata junctions ($($targets -join ', '))"
 & (Join-Path $PSScriptRoot 'setup-gamedata-links.ps1') -Character $Character
 
-# mega_text: base-game scenes using MegaText resolve in the editor. (addons/spine is a junction into
-# gamedata/, made by setup-gamedata-links.ps1 above, so it always matches the current decompile.)
 $megaText = Join-Path $gamedata 'addons/mega_text'
 foreach ($key in $targets) {
     $dst = Join-Path $repoRoot (Join-Path $BirdCharacters[$key].ProjectDir 'addons/mega_text')
@@ -50,5 +47,5 @@ foreach ($key in $targets) {
 }
 
 Write-Step "Done."
-Write-Host "  junctions (incl. addons/spine) + mega_text: $($targets -join ', ')"
+Write-Host "  junctions + mega_text: $($targets -join ', ')"
 Write-Host "  next: dotnet publish <Character>/<Character>.csproj (or the Run / Debug tasks with Publish)"

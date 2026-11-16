@@ -19,9 +19,9 @@
    powershell -ExecutionPolicy Bypass -File tools\setup.ps1            # -Character Witch|Augur|All
    ```
 
-   It creates the gamedata junctions (below) and copies `addons/mega_text` from `gamedata/` into each project. `tools\setup-gamedata-links.ps1` still runs the junction step on its own.
+   It creates the gamedata junctions (below) and the editor addons (`addons/mega_text`, plus `addons/spine` for the Witch) in each project. `tools\setup-gamedata-links.ps1` runs the junction step on its own.
 
-   The junction step creates per-project junctions `scenes/`, `materials/`, `shaders/`, `images/`, `src/`, `themes/`, `fonts/`, `addons/spine/` → `gamedata/<same>` so the Godot editor resolves base-game `res://` paths referenced by mod scenes (at runtime they resolve from the game's pck regardless). The script is idempotent — re-run it any time the editor reports broken dependencies (e.g. `Scene 'res://themes/…' has broken dependencies: res://fonts/…`), which means a junction is missing.
+   The junction step creates per-project junctions `scenes/`, `materials/`, `shaders/`, `images/`, `src/`, `themes/`, `fonts/` → `gamedata/<same>` so the Godot editor resolves base-game `res://` paths referenced by mod scenes (at runtime they resolve from the game's pck regardless). The script is idempotent — re-run it any time the editor reports broken dependencies (e.g. `Scene 'res://themes/…' has broken dependencies: res://fonts/…`), which means a junction is missing.
 
    The junctions are gitignored and excluded from export in each `export_presets.cfg` — don't remove those excludes, or game assets get packed into the mod `.pck`.
 

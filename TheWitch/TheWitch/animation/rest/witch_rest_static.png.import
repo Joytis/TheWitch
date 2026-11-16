@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xb61d3dg73qi"
-path="res://.godot/imported/witch_rest_placeholder.png-3152ebcb8a05ec6be1dbed3d485fa90b.ctex"
+uid="uid://bug3jg0n5eq58"
+path="res://.godot/imported/witch_rest_static.png-8e51175477efaab480589be80ec0f792.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheWitch/animation/rest/witch_rest_placeholder.png"
-dest_files=["res://.godot/imported/witch_rest_placeholder.png-3152ebcb8a05ec6be1dbed3d485fa90b.ctex"]
+source_file="res://TheWitch/animation/rest/witch_rest_static.png"
+dest_files=["res://.godot/imported/witch_rest_static.png-8e51175477efaab480589be80ec0f792.ctex"]
 
 [params]
 

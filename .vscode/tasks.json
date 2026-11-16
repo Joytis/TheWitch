@@ -21,7 +21,7 @@
                 "clear": true,
                 "focus": true
             },
-            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions (incl. addons/spine) + addons/mega_text per project. Needs gamedata/."
+            "detail": "Fresh-clone / refresh setup (idempotent): gamedata junctions + editor addons (mega_text, spine) per project. Needs gamedata/."
         },
         {
             "label": "Run",
@@ -462,7 +462,7 @@
                 "-File",
                 "${workspaceFolder}/tools/export-spine.ps1",
                 "-Character",
-                "Witch"
+                "${input:character}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -473,7 +473,7 @@
                 "panel": "shared",
                 "clear": true
             },
-            "detail": "Export the Witch's Spine projects (animation/raw/*.spine) to game-loadable .spskel/.spatlas + atlas pngs in animation/<context>/: validates animation names, Spine CLI 4.2.43 export, headless MegaDot convert. Commit the outputs, then publish. Needs Spine installed + the addons/spine junction."
+            "detail": "Export the character's Spine projects (animation/raw/spine-export.json) to runtime files: Spine CLI -> .skel/.atlas -> .spskel/.spatlas + atlas pngs in animation/{combat,rest,shop}/. Reports missing game animations and editor-hidden slots. Needs the Spine editor + GodotPath in local.props. Publish afterwards to see it in game."
         },
         {
             "label": "Images: Generate missing sizes",

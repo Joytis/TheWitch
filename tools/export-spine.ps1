@@ -1,193 +1,305 @@
 <#
 .SYNOPSIS
-    Export a character's Spine project(s) into game-loadable spine-godot resources.
+    Export a character's Spine projects into the runtime files the mod ships.
 
 .DESCRIPTION
-    Per context (combat / rest / shop), from <ModId>/animation/raw/<project>.spine:
-      1. Validates the project's animation names against what the game hard-codes
-         (missing required = error, missing expected = warning).
-      2. Spine CLI export (pinned to the game's runtime version) with raw/<project>.export.json
-         (binary .skel, packed atlas, premultiplied alpha OFF) into a temp dir.
-      3. Renames the output to the context's file name (Spine names it after the skeleton) and
-         copies it into <ModId>/animation/<context>/. Atlas pages that no longer exist are removed.
-      4. Headless MegaDot --import (imports the atlas pngs), then tools/spine/convert-spine.gd:
-         .skel -> .spskel, .atlas -> .spatlas. The raw .skel/.atlas are deleted afterwards (the
-         editor can't import them; the converted files embed their contents).
-      5. Writes <name>_skel_data.tres (SpineSkeletonDataResource) if it doesn't exist yet. It is
-         never overwritten, so hand-tuned animation mixes survive re-exports.
-    Needs the addons/spine junction (tools/setup-gamedata-links.ps1) and a Spine license.
-    Outputs (.png + .import, .spskel, .spatlas, _skel_data.tres) are tracked runtime assets: commit them.
-    dotnet publish packs them like any other resource; it never runs Spine.
+    Reads <project>/<ModId>/animation/raw/spine-export.json and, for each entry whose .spine
+    project exists:
+
+      1. Runs the Spine editor CLI: binary skeleton + packed atlas at the entry's atlas scale.
+      2. Converts .skel/.atlas to .spskel/.spatlas in a throwaway Godot project that carries the
+         game's Spine GDExtension (tools/spine/convert_spine.gd). The game's extension is the
+         runtime build and has no .skel/.atlas editor importers, so the mod cannot ship those.
+      3. Copies <name>.spskel, <name>.spatlas and the atlas page pngs into
+         <project>/<ModId>/animation/<out>/, and writes <name>_skel_data.tres there if it does
+         not exist yet (it is never overwritten: animation mixes are tuned in it by hand).
+      4. Reports the animations found, any required animation that is missing, and slots that
+         are hidden in the editor but still exported.
+
+    Outputs are tracked in git, so building and publishing the mod needs neither Spine nor this
+    script. Entries whose .spine project does not exist yet are skipped.
+
+    Needs: a licensed Spine editor (the manifest pins the version), Godot/MegaDot 4.5.x
+    (GodotPath in local.props, or -Godot), and gamedata/addons/spine.
 
 .EXAMPLE
-    ./tools/export-spine.ps1                      # Witch, every context
-    ./tools/export-spine.ps1 -Context combat
+    ./tools/export-spine.ps1 -Character Witch
+    ./tools/export-spine.ps1 -Character Witch -Only witch_combat -Strict
 #>
 param(
-    [ValidateSet('Witch')]
+    [ValidateSet('Witch', 'Augur')]
     [string]$Character = 'Witch',
-    [string[]]$Context = @(),
-    [string]$Spine = 'C:\Program Files\Spine\Spine.com',
-    # Must match the game's spine-godot runtime (base-game .skel files are 4.2.43).
-    [string]$SpineVersion = '4.2.43',
-    [string]$Godot = ''
+    # Export only these manifest entries (by name). Default: all.
+    [string[]]$Only = @(),
+    # Spine CLI executable. Default: $env:SPINE_EXE, then the standard install path.
+    [string]$Spine = '',
+    # Godot 4.5.x executable. Default: GodotPath from local.props / Directory.Build.props.
+    [string]$Godot = '',
+    # Fail when a required animation is missing or an editor-hidden slot is exported.
+    [switch]$Strict,
+    # Keep the temp staging folder for inspection.
+    [switch]$KeepStage
 )
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot 'characters.ps1')
 $Char = Get-BirdCharacter $Character
-$projDir = Join-Path $repoRoot $Char.ProjectDir
-$animDir = Join-Path $projDir "$($Char.ModId)/animation"
-$rawDir = Join-Path $animDir 'raw'
-
-# Animation names hard-coded by the game (see CharacterModel.GenerateAnimator, NRestSiteCharacter,
-# NMerchantCharacter). The merchant scene reuses the COMBAT skeleton like the base game does, so
-# relaxed_loop belongs in the combat project.
-$CombatRequired = @('idle_loop')
-$CombatExpected = @('attack', 'cast', 'hurt', 'die', 'low_health_loop', 'relaxed_loop')
-$RestRequired = @('overgrowth_loop', 'hive_loop', 'glory_loop')
-
-# Per-character contexts. Add a row when a new Spine project exists.
-$Contexts = @{
-    Witch = [ordered]@{
-        combat = @{ Project = 'witch_combat'; Name = 'witch_combat'; Required = $CombatRequired; Expected = $CombatExpected }
-        # rest = @{ Project = 'witch_rest'; Name = 'witch_rest'; Required = $RestRequired; Expected = @() }
-    }
-}[$Character]
-
-if ($Context.Count -eq 0) { $Context = @($Contexts.Keys) }
-foreach ($c in $Context) {
-    if (-not $Contexts.Contains($c)) { throw "Unknown context '$c' for $Character (known: $($Contexts.Keys -join ', '))." }
-}
 
 function Write-Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 
-function Resolve-Godot([string]$Override) {
-    $path = $Override
+# Runs a native tool, returning its merged stdout/stderr as strings. Windows PowerShell wraps
+# native stderr lines in ErrorRecords, which would throw under ErrorActionPreference = Stop.
+function Invoke-Native([string]$Exe, [string[]]$Arguments) {
+    $previous = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $lines = @(& $Exe @Arguments 2>&1 | ForEach-Object { "$_" })
+    } finally {
+        $ErrorActionPreference = $previous
+    }
+    return [pscustomobject]@{ ExitCode = $LASTEXITCODE; Lines = $lines }
+}
+
+function Resolve-Spine {
+    $candidates = @($Spine, $env:SPINE_EXE, (Join-Path $env:ProgramFiles 'Spine\Spine.com')) | Where-Object { $_ }
+    foreach ($candidate in $candidates) {
+        if (Test-Path $candidate) { return (Resolve-Path $candidate).Path }
+    }
+    throw "Spine CLI not found (tried: $($candidates -join ', ')). Install the Spine editor or pass -Spine."
+}
+
+function Resolve-Godot {
+    $path = $Godot
     if (-not $path) {
-        foreach ($props in @('local.props', 'Directory.Build.props')) {
+        foreach ($props in 'local.props', 'Directory.Build.props') {
             $file = Join-Path $repoRoot $props
-            if ((Test-Path $file) -and ((Get-Content $file -Raw) -match '<GodotPath>\s*(.+?)\s*</GodotPath>')) {
-                $path = $Matches[1].Trim()
-                break
-            }
+            if (-not (Test-Path $file)) { continue }
+            # Skip commented-out examples.
+            $text = (Get-Content $file -Raw) -replace '(?s)<!--.*?-->', ''
+            if ($text -match '<GodotPath>\s*(.+?)\s*</GodotPath>') { $path = $Matches[1]; break }
         }
     }
-    if (-not $path -or -not (Test-Path $path)) { throw "Godot not found ('$path'). Set <GodotPath> in local.props or pass -Godot." }
-    # The _console build prints to stdout (the GUI build detaches from the terminal).
+    if (-not $path) { throw "Godot not found: set <GodotPath> in local.props (see Directory.Build.props) or pass -Godot." }
+    if (-not (Test-Path $path)) { throw "Godot not found at: $path" }
+    # The GUI executable does not pipe its output on Windows; prefer the console build beside it.
     $console = $path -replace '\.exe$', '_console.exe'
     if (Test-Path $console) { return $console }
     return $path
 }
 
-function Invoke-Godot([string[]]$GodotArgs, [string]$What) {
-    # Godot writes routine noise to stderr (e.g. C# TypeLoadExceptions from a stale mod assembly);
-    # under 'Stop', Windows PowerShell would turn the first stderr line into a terminating error.
-    # Only our script's lines and real errors are echoed; the full output goes to a log on failure.
-    $ErrorActionPreference = 'Continue'
-    $out = & $script:godotExe @GodotArgs 2>&1 | ForEach-Object { "$_" }
-    $out | Where-Object { $_ -match 'convert-spine|^\s*(SCRIPT )?ERROR' -and $_ -notmatch '\.NET' } | ForEach-Object { Write-Host "    $_" }
-    if ($LASTEXITCODE -ne 0) {
-        $logFile = Join-Path ([IO.Path]::GetTempPath()) 'export-spine-godot.log'
-        $out | Set-Content $logFile -Encoding utf8
-        Write-Host "    full Godot output: $logFile"
+$animDir = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId)/animation")
+$rawDir = Join-Path $animDir 'raw'
+$manifestPath = Join-Path $rawDir 'spine-export.json'
+if (-not (Test-Path $manifestPath)) {
+    throw "No Spine export manifest for $($Char.Key): $manifestPath"
+}
+$manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+$entries = @($manifest.exports)
+if ($Only.Count -gt 0) {
+    $unknown = @($Only | Where-Object { $entries.name -notcontains $_ })
+    if ($unknown) { throw "Not in $manifestPath : $($unknown -join ', ')" }
+    $entries = @($entries | Where-Object { $Only -contains $_.name })
+}
+
+$spineAddon = Join-Path $repoRoot 'gamedata/addons/spine'
+if (-not (Test-Path (Join-Path $spineAddon 'spine_godot_extension.gdextension'))) {
+    throw "gamedata/addons/spine not found: the conversion needs the game's Spine GDExtension."
+}
+$spineExe = Resolve-Spine
+$godotExe = Resolve-Godot
+$convertScript = Join-Path $PSScriptRoot 'spine/convert_spine.gd'
+
+Write-Host "Spine : $spineExe ($($manifest.spineVersion))"
+Write-Host "Godot : $godotExe"
+
+# Texture packer settings shared by every export; only the scale differs per entry.
+function New-ExportSettings([double]$Scale) {
+    return [ordered]@{
+        class        = 'export-binary'
+        extension    = '.skel'
+        open         = $false
+        nonessential = $false
+        cleanUp      = $false
+        packSource   = 'attachments'
+        packTarget   = 'perskeleton'
+        warnings     = $true
+        packAtlas    = [ordered]@{
+            stripWhitespaceX = $true; stripWhitespaceY = $true; rotation = $true; alias = $true
+            ignoreBlankImages = $false; alphaThreshold = 3
+            minWidth = 16; minHeight = 16; maxWidth = 4096; maxHeight = 4096
+            pot = $false; multipleOfFour = $false; square = $false
+            outputFormat = 'png'; jpegQuality = 0.9
+            premultiplyAlpha = $false; bleed = $true; bleedIterations = 2
+            scale = @($Scale); scaleSuffix = @(''); scaleResampling = @('bicubic')
+            paddingX = 2; paddingY = 2; edgePadding = $true; duplicatePadding = $true
+            filterMin = 'Linear'; filterMag = 'Linear'; wrapX = 'ClampToEdge'; wrapY = 'ClampToEdge'
+            format = 'RGBA8888'; atlasExtension = '.atlas'
+            combineSubdirectories = $false; flattenPaths = $false; useIndexes = $false
+            debug = $false; fast = $false; limitMemory = $true; currentProject = $true
+            packing = 'polygons'; prettyPrint = $false; legacyOutput = $false
+            ignore = $false; separator = '_'; silent = $false
+        }
     }
-    if ($LASTEXITCODE -ne 0) { throw "$What failed (Godot exit code $LASTEXITCODE)." }
 }
 
-if (-not (Test-Path $Spine)) { throw "Spine CLI not found at $Spine (pass -Spine)." }
-if (-not (Test-Path (Join-Path $projDir 'addons/spine/spine_godot_extension.gdextension'))) {
-    throw "addons/spine missing in $projDir. Run tools/setup-gamedata-links.ps1 -Character $Character."
-}
-$godotExe = Resolve-Godot $Godot
-$convertScript = (Join-Path $PSScriptRoot 'spine/convert-spine.gd') -replace '\\', '/'
-$toConvert = @()
-$exported = @()
+$stageRoot = Join-Path ([IO.Path]::GetTempPath()) ("bird-spine-" + [Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Force $stageRoot | Out-Null
+$utf8 = New-Object Text.UTF8Encoding $false
+$results = @()
+$problems = @()
 
-foreach ($c in $Context) {
-    $ctx = $Contexts[$c]
-    $spineFile = Join-Path $rawDir "$($ctx.Project).spine"
-    $settings = Join-Path $rawDir "$($ctx.Project).export.json"
-    $outDir = Join-Path $animDir $c
-    $name = $ctx.Name
-    foreach ($f in @($spineFile, $settings)) { if (-not (Test-Path $f)) { throw "Missing $f" } }
+try {
+    # One throwaway Godot project for all entries, mirroring the mod's res:// layout: a .spatlas
+    # finds its page textures relative to the res:// path it was converted at.
+    $stageProject = Join-Path $stageRoot 'project'
+    New-Item -ItemType Directory -Force (Join-Path $stageProject '.godot') | Out-Null
+    [IO.File]::WriteAllText((Join-Path $stageProject 'project.godot'), "config_version=5`n`n[application]`nconfig/name=`"SpineStage`"`n", $utf8)
+    Copy-Item $spineAddon (Join-Path $stageProject 'addons/spine') -Recurse
+    [IO.File]::WriteAllText((Join-Path $stageProject '.godot/extension_list.cfg'), "res://addons/spine/spine_godot_extension.gdextension`n", $utf8)
 
-    Write-Step "$c : validate $($ctx.Project).spine"
-    $info = & $Spine -u $SpineVersion -i $spineFile 2>&1 | Out-String
-    if ($LASTEXITCODE -ne 0) { Write-Host $info; throw "Spine project info failed for $spineFile." }
-    $skeletons = @([regex]::Matches($info, '(?m)^\s*Skeleton: (.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
-    if ($skeletons.Count -ne 1) { throw "$($ctx.Project).spine must hold exactly one skeleton (found: $($skeletons -join ', '))." }
-    $anims = @()
-    if ($info -match '(?m)^\s*Animations \(\d+\): (.+?)\s*$') { $anims = $Matches[1] -split ',\s*' }
-    Write-Host "    skeleton '$($skeletons[0])', animations: $($anims -join ', ')"
-    $missing = @($ctx.Required | Where-Object { $anims -notcontains $_ })
-    if ($missing.Count) { throw "$($ctx.Project).spine is missing required animation(s): $($missing -join ', ')." }
-    $soft = @($ctx.Expected | Where-Object { $anims -notcontains $_ })
-    if ($soft.Count) { Write-Warning "$c : not animated yet (the game logs a warning and holds the current pose): $($soft -join ', ')" }
+    $staged = @()
+    foreach ($entry in $entries) {
+        $project = Join-Path $rawDir $entry.project
+        if (-not (Test-Path $project)) {
+            Write-Host "skip:    $($entry.name) ($($entry.project) does not exist yet)" -ForegroundColor DarkGray
+            continue
+        }
 
-    Write-Step "$c : Spine $SpineVersion export"
-    $tmp = Join-Path ([IO.Path]::GetTempPath()) "export-spine-$Character-$c"
-    if (Test-Path $tmp) { Remove-Item $tmp -Recurse -Force -Confirm:$false }
-    New-Item -ItemType Directory $tmp | Out-Null
-    $log = & $Spine -u $SpineVersion -i $spineFile -o $tmp -e $settings 2>&1 | Out-String
-    if ($LASTEXITCODE -ne 0) { Write-Host $log; throw "Spine export failed for $spineFile." }
-    $log -split "`r?`n" | Where-Object { $_ -match '^(Binary export|Pack|ERROR|WARNING)' } | ForEach-Object { Write-Host "    $_" }
+        Write-Step "$($entry.name): Spine export ($($entry.project), atlas scale $($entry.atlasScale))"
+        $exportDir = Join-Path $stageRoot "export-$($entry.name)"
+        New-Item -ItemType Directory -Force $exportDir | Out-Null
+        $settingsPath = Join-Path $stageRoot "$($entry.name).export.json"
+        [IO.File]::WriteAllText($settingsPath, (New-ExportSettings $entry.atlasScale | ConvertTo-Json -Depth 5), $utf8)
 
-    # Spine names files after the skeleton; rename to the context's file name and patch page names.
-    $skelFiles = @(Get-ChildItem $tmp -Filter '*.skel')
-    $atlasFiles = @(Get-ChildItem $tmp -Filter '*.atlas')
-    if ($skelFiles.Count -ne 1 -or $atlasFiles.Count -ne 1) { throw "Expected one .skel and one .atlas in $tmp." }
-    $prefix = [IO.Path]::GetFileNameWithoutExtension($atlasFiles[0].Name)
-    $pages = @(Get-ChildItem $tmp -Filter '*.png')
-    $pageMap = @{}
-    foreach ($p in $pages) { $pageMap[$p.Name] = $name + $p.Name.Substring($prefix.Length) }
+        $spineRun = Invoke-Native $spineExe @('-u', $manifest.spineVersion, '-i', $project, '-o', $exportDir, '-e', $settingsPath)
+        $skels = @(Get-ChildItem $exportDir -Filter '*.skel' -File)
+        if ($spineRun.ExitCode -ne 0 -or $skels.Count -eq 0) {
+            $spineRun.Lines | ForEach-Object { Write-Host "    $_" }
+            throw "Spine export of $($entry.project) failed (exit code $($spineRun.ExitCode))."
+        }
+        if ($skels.Count -gt 1) {
+            throw "$($entry.project) holds $($skels.Count) skeletons ($($skels.BaseName -join ', ')); the pipeline expects one per project."
+        }
+        $hiddenSlots = @($spineRun.Lines | ForEach-Object { if ($_ -match '^Slot is hidden: \[slot: (.+), bone: .+\]$') { $Matches[1] } })
 
-    New-Item -ItemType Directory -Force $outDir | Out-Null
-    # Drop atlas pages from a previous export that this one no longer produces (+ their .import).
-    Get-ChildItem $outDir -File | Where-Object {
-        $_.Name -match "^$([regex]::Escape($name))(_\d+)?\.png(\.import)?$" -and $pageMap.Values -notcontains ($_.Name -replace '\.import$', '')
-    } | ForEach-Object { Write-Host "    removed stale $($_.Name)"; Remove-Item $_.FullName -Force -Confirm:$false }
+        # Spine names the files after the skeleton; rename to the manifest name (atlas pages too).
+        $skeletonName = $skels[0].BaseName
+        $stageDir = Join-Path $stageProject "$($Char.ModId)/animation/$($entry.out)"
+        New-Item -ItemType Directory -Force $stageDir | Out-Null
+        Copy-Item $skels[0].FullName (Join-Path $stageDir "$($entry.name).skel")
+        $atlasText = [IO.File]::ReadAllText((Join-Path $exportDir "$skeletonName.atlas")) -replace "`r`n", "`n"
+        $pages = @()
+        foreach ($png in Get-ChildItem $exportDir -Filter '*.png' -File) {
+            $pageName = $entry.name + $png.Name.Substring($skeletonName.Length)
+            $atlasText = [regex]::Replace($atlasText, '(?m)^' + [regex]::Escape($png.Name) + '$', $pageName)
+            Copy-Item $png.FullName (Join-Path $stageDir $pageName)
+            $pages += $pageName
+        }
+        [IO.File]::WriteAllText((Join-Path $stageDir "$($entry.name).atlas"), $atlasText, $utf8)
 
-    Copy-Item $skelFiles[0].FullName (Join-Path $outDir "$name.skel") -Force
-    foreach ($p in $pages) { Copy-Item $p.FullName (Join-Path $outDir $pageMap[$p.Name]) -Force }
-    $atlasLines = Get-Content $atlasFiles[0].FullName | ForEach-Object { if ($pageMap.ContainsKey($_.Trim())) { $pageMap[$_.Trim()] } else { $_ } }
-    [IO.File]::WriteAllText((Join-Path $outDir "$name.atlas"), (($atlasLines -join "`n") + "`n"))
-    Remove-Item $tmp -Recurse -Force -Confirm:$false
-
-    $resDir = "res://$($Char.ModId)/animation/$c"
-    $toConvert += "$resDir/$name.skel", "$resDir/$name.atlas"
-    $exported += @{ Context = $c; OutDir = $outDir; Name = $name; ResDir = $resDir; Pages = $pageMap.Values }
-}
-
-Write-Step "MegaDot: import atlas pages"
-Invoke-Godot @('--headless', '--path', $projDir, '--import') 'Godot import'
-
-Write-Step "MegaDot: convert to .spskel / .spatlas"
-Invoke-Godot (@('--headless', '--path', $projDir, '-s', $convertScript, '--') + $toConvert) 'Spine conversion'
-
-foreach ($e in $exported) {
-    foreach ($ext in @('spskel', 'spatlas')) {
-        if (-not (Test-Path (Join-Path $e.OutDir "$($e.Name).$ext"))) { throw "Conversion produced no $($e.Name).$ext" }
+        # Reuse the mod's existing texture import settings (and uid) for pages that already exist.
+        $destDir = Join-Path $animDir $entry.out
+        foreach ($page in $pages) {
+            $existingImport = Join-Path $destDir "$page.import"
+            if (Test-Path $existingImport) { Copy-Item $existingImport $stageDir }
+        }
+        $staged += [pscustomobject]@{ Entry = $entry; StageDir = $stageDir; DestDir = $destDir; Pages = $pages; HiddenSlots = $hiddenSlots }
     }
-    Remove-Item (Join-Path $e.OutDir "$($e.Name).skel"), (Join-Path $e.OutDir "$($e.Name).atlas") -Force -Confirm:$false
 
-    $dataRes = Join-Path $e.OutDir "$($e.Name)_skel_data.tres"
-    if (-not (Test-Path $dataRes)) {
-        # Base-game shape (animations/characters/silent/silent_skel_data.tres). Mixes are tuned by hand afterwards.
-        $tres = @"
-[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3]
-
-[ext_resource type="SpineAtlasResource" path="$($e.ResDir)/$($e.Name).spatlas" id="1_atlas"]
-[ext_resource type="SpineSkeletonFileResource" path="$($e.ResDir)/$($e.Name).spskel" id="2_skel"]
-
-[resource]
-atlas_res = ExtResource("1_atlas")
-skeleton_file_res = ExtResource("2_skel")
-default_mix = 0.05
-"@
-        [IO.File]::WriteAllText($dataRes, ($tres -replace "`r`n", "`n") + "`n")
-        Write-Host "    created $($e.Name)_skel_data.tres"
+    if ($staged.Count -gt 0) {
+        Write-Step "Importing atlas textures (headless Godot)"
+        $importRun = Invoke-Native $godotExe @('--headless', '--path', $stageProject, '--import')
+        if ($importRun.ExitCode -ne 0) {
+            $importRun.Lines | ForEach-Object { Write-Host "    $_" }
+            throw "Godot import of the staging project failed (exit code $($importRun.ExitCode))."
+        }
     }
-    Write-Host "$($e.Context): $($e.ResDir)/ -> $($e.Name).spskel, $($e.Name).spatlas, $(@($e.Pages) -join ', ')" -ForegroundColor Green
+
+    foreach ($item in $staged) {
+        $entry = $item.Entry
+        $resBase = "res://$($Char.ModId)/animation/$($entry.out)/$($entry.name)"
+        Write-Step "$($entry.name): converting to .spskel/.spatlas"
+        $convertRun = Invoke-Native $godotExe @('--headless', '--path', $stageProject, '--script', $convertScript, '--', $resBase)
+        $infoLine = $convertRun.Lines | Where-Object { $_ -like 'SPINE_INFO *' } | Select-Object -Last 1
+        if ($convertRun.ExitCode -ne 0 -or -not $infoLine) {
+            $convertRun.Lines | ForEach-Object { Write-Host "    $_" }
+            throw "Converting $($entry.name) failed (exit code $($convertRun.ExitCode))."
+        }
+        $info = $infoLine.Substring('SPINE_INFO '.Length) | ConvertFrom-Json
+
+        New-Item -ItemType Directory -Force $item.DestDir | Out-Null
+        # Drop atlas pages a previous export wrote that this one no longer produces.
+        Get-ChildItem $item.DestDir -File |
+            Where-Object { $_.Name -match ('^' + [regex]::Escape($entry.name) + '\d*\.png(\.import)?$') -and $item.Pages -notcontains ($_.Name -replace '\.import$', '') } |
+            Remove-Item -Force
+        foreach ($ext in 'spskel', 'spatlas') {
+            Copy-Item (Join-Path $item.StageDir "$($entry.name).$ext") $item.DestDir -Force
+        }
+        foreach ($page in $item.Pages) {
+            Copy-Item (Join-Path $item.StageDir $page) $item.DestDir -Force
+            Copy-Item (Join-Path $item.StageDir "$page.import") $item.DestDir -Force
+        }
+
+        $skelData = Join-Path $item.DestDir "$($entry.name)_skel_data.tres"
+        $createdSkelData = -not (Test-Path $skelData)
+        if ($createdSkelData) {
+            $tres = @(
+                '[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3]'
+                ''
+                "[ext_resource type=`"SpineAtlasResource`" path=`"$resBase.spatlas`" id=`"1_atlas`"]"
+                "[ext_resource type=`"SpineSkeletonFileResource`" path=`"$resBase.spskel`" id=`"2_skel`"]"
+                ''
+                '[resource]'
+                'atlas_res = ExtResource("1_atlas")'
+                'skeleton_file_res = ExtResource("2_skel")'
+                'default_mix = 0.05'
+                ''
+            ) -join "`n"
+            [IO.File]::WriteAllText($skelData, $tres, $utf8)
+        }
+
+        $missing = @($entry.requiredAnimations | Where-Object { $info.animations -notcontains $_ })
+        $results += [pscustomobject]@{
+            Entry = $entry; DestDir = $item.DestDir; Info = $info; Missing = $missing
+            HiddenSlots = $item.HiddenSlots; CreatedSkelData = $createdSkelData; Pages = $item.Pages
+        }
+    }
+} finally {
+    if ($KeepStage) {
+        Write-Host "Stage kept at: $stageRoot"
+    } else {
+        Remove-Item $stageRoot -Recurse -Force -ErrorAction SilentlyContinue
+    }
 }
+
+Write-Step "Done."
+if ($results.Count -eq 0) {
+    Write-Host "  Nothing exported (no .spine project found for the selected entries)."
+    exit 0
+}
+foreach ($result in $results) {
+    $name = $result.Entry.name
+    $relDest = $result.DestDir.Substring($repoRoot.Length + 1) -replace '\\', '/'
+    Write-Host ""
+    Write-Host "  $name -> $relDest/" -ForegroundColor Green
+    Write-Host "    files      : $name.spskel, $name.spatlas, $($result.Pages -join ', ')"
+    if ($result.CreatedSkelData) { Write-Host "    created    : ${name}_skel_data.tres (reference this from the scene's SpineSprite)" }
+    Write-Host "    animations : $($result.Info.animations -join ', ')"
+    $b = $result.Info.bounds
+    Write-Host ("    setup pose : x {0:0}..{1:0}, y {2:0}..{3:0} (skeleton units, y down)" -f $b[0], ($b[0] + $b[2]), $b[1], ($b[1] + $b[3]))
+    if ($result.Missing) {
+        Write-Warning "$name is missing animations the game plays by name: $($result.Missing -join ', ')"
+        $problems += "$name missing animations"
+    }
+    if ($result.HiddenSlots) {
+        Write-Warning "$name has slots hidden in the Spine editor that still export with their setup-pose attachment, so they WILL draw in game: $($result.HiddenSlots -join ', '). Clear the attachment in setup mode instead (key it on in the animations that use it)."
+        $problems += "$name exports editor-hidden slots"
+    }
+}
+if ($Strict -and $problems.Count -gt 0) {
+    Write-Host ""
+    Write-Host "FAILED (-Strict): $($problems -join '; ')" -ForegroundColor Red
+    exit 1
+}
+exit 0
