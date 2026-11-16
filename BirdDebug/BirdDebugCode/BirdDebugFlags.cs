@@ -58,6 +58,9 @@ namespace Bird.BirdDebug;
 ///   --bird-shot=&lt;name&gt;              Workshop marketing screenshot (MarketingShots: charselect,
 ///                                     familiars, restsite, shop, mp-relics); writes --bird-shot-out and
 ///                                     quits. Driven by tools/capture-marketing.ps1. Wins over the rest.
+///   --bird-perf[=SECONDS]            combat frame-time probe of the character's Spine body (PerfProbe:
+///                                     baseline / body frozen / +N copies; --bird-perf-out=<json>,
+///                                     --bird-perf-copies=N). Driven by tools/perf-spine.ps1.
 ///   --bird-reset-ftue                at main-menu ready, forgets every mod FTUE (progress-save
 ///                                     keys prefixed with the character's model-id prefix, e.g.
 ///                                     "thewitch_") and re-enables tutorials, then saves — so a mod
@@ -139,6 +142,10 @@ public static class BirdDebug
         if (MarketingShots.TryApply(harmony))
         {
             // Workshop marketing screenshot (MarketingShots): owns the launch, like the labs below.
+        }
+        else if (PerfProbe.TryApply(harmony))
+        {
+            // Combat frame-time probe (PerfProbe, tools/perf-spine.ps1): owns the launch.
         }
         else if (CommandLineHelper.HasArg("bird-fxlab"))
         {
