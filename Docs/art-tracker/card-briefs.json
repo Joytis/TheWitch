@@ -58,8 +58,9 @@
       "brief": "Carved bones lay on the tray, inlays glowing a soft purple as they speak sinister intent. Potential: eyes glow faintly in the background, or a claw sneaks towards the bones to inspect them."
     },
     "Stony Brew": {
-      "artist": "",
-      "brief": "One of the Common Brew trio. This will create a common defensive potion for the player. These potions create block, give dexterity, and general create 'safety. The bottle should feel sturdy, steadfest, and the liquid could even feel a bit thick. if you drink this potion, you'll definitely be healthy."
+      "artist": "Vuwa",
+      "brief": "One of the Common Brew trio. This will create a common defensive potion for the player. These potions create block, give dexterity, and general create 'safety. The bottle should feel sturdy, steadfest, and the liquid could even feel a bit thick. if you drink this potion, you'll definitely be healthy.",
+      "stage": "assigned"
     },
     "Tinder": {
       "artist": "Vuwa",
@@ -75,7 +76,7 @@
       "brief": "Depiction of a big, worn, patchy witch hat. It should feel comfortable, old, reverent with years of experience. Can be depict either in a peaceful sunlit room, or actively worn by the witch herself."
     },
     "Wicked Brew": {
-      "artist": "",
+      "artist": "Vuwa",
       "brief": "One of the Common Brew trio. This will create a common offensive potion for the player. These potions create attacks, grant strength, and damage enemies. The bottle should feel volatile, aggressive, and even a bit evil. if you use this potion, someone will get hurt."
     },
     "Bear Familiar": {
@@ -129,8 +130,9 @@
       "stage": "sketching"
     },
     "Grind Down": {
-      "artist": "",
-      "brief": "A Jeweled mortal and pestle grinds ingredients down! The placeholder is pretty spot on here - have fun with it!."
+      "artist": "Joytis",
+      "brief": "A Jeweled mortal and pestle grinds ingredients down! The placeholder is pretty spot on here - have fun with it!.",
+      "stage": "assigned"
     },
     "Light the Candle": {
       "artist": "Joytis",
@@ -230,6 +232,36 @@
       "artist": "Vuwa",
       "brief": "",
       "stage": "sketching"
+    },
+    "Smolder": {
+      "artist": "Vuwa",
+      "brief": "",
+      "stage": "assigned"
+    },
+    "Wild Growth": {
+      "artist": "Vuwa",
+      "brief": "",
+      "stage": "assigned"
+    },
+    "Volatile Vapors": {
+      "artist": "Vuwa",
+      "brief": "",
+      "stage": "assigned"
+    },
+    "Wicker Heart": {
+      "artist": "Vuwa",
+      "brief": "",
+      "stage": "assigned"
+    },
+    "Wicker Bones": {
+      "artist": "Vuwa",
+      "brief": "",
+      "stage": "assigned"
+    },
+    "Wicker Consumation": {
+      "artist": "Vuwa",
+      "brief": "",
+      "stage": "assigned"
     }
   }
 }
