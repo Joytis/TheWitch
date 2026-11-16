@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://btcqkv2sr5amu"]
+[gd_scene load_steps=4 format=3 uid="uid://btcqkv2sr5amu"]
 
 [ext_resource type="SpineSkeletonDataResource" path="res://TheWitch/animation/combat/witch_combat_skel_data.tres" id="1_skel"]
+[ext_resource type="Shader" path="res://TheWitch/Shaders/spine_multiply.gdshader" id="2_mul"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mul"]
+shader = ExtResource("2_mul")
 
 [node name="WitchVisuals" type="Node2D"]
 
@@ -8,6 +12,7 @@
 
 [node name="Visuals" type="SpineSprite" parent="VisualsRoot"]
 skeleton_data_res = ExtResource("1_skel")
+multiply_material = SubResource("ShaderMaterial_mul")
 preview_skin = "Default"
 preview_animation = "-- Empty --"
 preview_frame = false
