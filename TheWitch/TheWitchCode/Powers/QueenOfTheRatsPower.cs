@@ -17,7 +17,7 @@ public sealed class QueenOfTheRatsPower : WitchPower
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
         if (Owner != dealer || !props.IsPoweredAttack() || cardSource is not Rats)
         {

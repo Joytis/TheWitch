@@ -31,7 +31,7 @@ public sealed class BramblesPower : WitchPower
 			// Thorn retaliation visual: swamp-green slice on the attacker (preloaded via Witch.ExtraAssetPaths).
 			WitchFx.BrambleSlice(dealer);
 			decimal damage = Amount;
-			await CreatureCmd.Damage(choiceContext, dealer, damage, ValueProp.Unpowered | ValueProp.SkipHurtAnim, Owner, null);
+			await CreatureCmd.Damage(choiceContext, dealer, damage, ValueProp.Unpowered | ValueProp.SkipHurtAnim, Owner, null, null);
 			// Vile Renewal: this turn, attacks don't thin the brambles.
 			if (!Owner.HasPower<VileRenewalPower>())
 			{

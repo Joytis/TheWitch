@@ -63,7 +63,7 @@ public sealed class VolatileVaporsPower : WitchPower
         IsDealing = true;
         try
         {
-            await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), target, Amount, ValueProp.Unpowered, Owner, null);
+            await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), target, Amount, ValueProp.Unpowered, Owner, null, null);
         }
         finally
         {

@@ -145,9 +145,9 @@ public class Witch : PlaceholderCharacterModel
     // Anims / visuals
     // The game calls this once per combat creature node, with her Spine body: the stock animator
     // (idle_loop / attack / cast / hurt / die on track 0) plus her blink on track 1.
-    public override CreatureAnimator GenerateAnimator(MegaSprite controller)
+    public override CreatureAnimator GenerateAnimator(MegaSprite controller, MegaCrit.Sts2.Core.Entities.Creatures.Creature creature)
     {
-        CreatureAnimator animator = base.GenerateAnimator(controller);
+        CreatureAnimator animator = base.GenerateAnimator(controller, creature);
         WitchBlink.Attach(controller);
         return animator;
     }

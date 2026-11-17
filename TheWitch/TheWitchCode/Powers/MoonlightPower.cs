@@ -72,7 +72,7 @@ public sealed class MoonlightPower : WitchPower
         WitchFx.Moonbeam(dealer, Owner);
         // No attacker animation on a turn-start tick, so play the cast sound directly (GuidingStar's pattern).
         SfxCmd.Play(WitchFx.CelestialSfx);
-        await CreatureCmd.Damage(choiceContext, [Owner], Amount, ValueProp.Unpowered, dealer, null);
+        await CreatureCmd.Damage(choiceContext, [Owner], Amount, ValueProp.Unpowered, dealer, null, null);
     }
 
     private static Material? BarMaterial()

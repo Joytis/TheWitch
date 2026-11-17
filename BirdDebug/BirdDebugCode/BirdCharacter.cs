@@ -40,7 +40,7 @@ public static class BirdCharacter
         get
         {
             Assembly asm = Assembly;
-            Mod? mod = ModManager.Mods.FirstOrDefault(m => m.assembly == asm);
+            Mod? mod = ModManager.Mods.FirstOrDefault(m => m.assemblies.Contains(asm));
             return mod?.manifest?.id ?? asm.GetName().Name ?? Key;
         }
     }
