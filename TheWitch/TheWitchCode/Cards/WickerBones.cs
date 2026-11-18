@@ -19,6 +19,8 @@ namespace TheWitch.TheWitchCode.Cards;
 [Pool(typeof(WitchSpawnedCardPool))]
 public sealed class WickerBones : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [

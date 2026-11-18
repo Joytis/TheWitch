@@ -7,7 +7,7 @@ namespace TheWitch.TheWitchCode.Cards;
 
 public sealed class StonyBrew : OrientationBrewCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     protected override PotionOrientation Orientation => PotionOrientation.Defensive;
 

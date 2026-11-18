@@ -13,7 +13,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// the next N turns (<see cref="SmolderPower" />, Lightning Rod shape).</summary>
 public sealed class Smolder : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     public override bool GainsBlock => true;
 

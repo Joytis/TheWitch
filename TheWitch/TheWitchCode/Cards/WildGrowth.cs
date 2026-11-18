@@ -12,7 +12,7 @@ namespace TheWitch.TheWitchCode.Cards;
 /// mixed normal/upgraded plays just add turns.</summary>
 public sealed class WildGrowth : WitchCard
 {
-    public override Artists.Artist? ArtBy => Artists.Artist.Joytis;
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new PowerVar<WildGrowthPower>(2m),

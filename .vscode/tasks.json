@@ -651,6 +651,28 @@
             "detail": "Sync the Workshop item's gallery (images + YouTube videos) to <workshop>/marketing/marketing.json. Prompts: character, then Dry run (print the diff) or Live (upload). No build or content upload. Requires Steam running & logged in."
         },
         {
+            "label": "Workshop: Render Marketing Material",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "${input:marketingRender} ${input:character}; exit $LASTEXITCODE"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Regenerate the Workshop gallery images into <workshop>/marketing/. Prompts: Card images (framed card grids from card-grids.json, headless browser) or In-game renders (publishes, then one game window per shot in screenshots.json; hands off the mouse), then the character. Upload separately with 'Workshop: Upload Marketing Material'."
+        },
+        {
             "label": "Card Data: Regen",
             "type": "process",
             "command": "node",
@@ -831,6 +853,22 @@
         }
     ],
     "inputs": [
+        {
+            "id": "marketingRender",
+            "type": "pickString",
+            "description": "Render which marketing material?",
+            "options": [
+                {
+                    "label": "Card images (framed card grids)",
+                    "value": "node tools/render-marketing-cards.js --character"
+                },
+                {
+                    "label": "In-game renders (screenshots; publishes first)",
+                    "value": "./tools/capture-marketing.ps1 -Build publish -Character"
+                }
+            ],
+            "default": "node tools/render-marketing-cards.js --character"
+        },
         {
             "id": "marketingMode",
             "type": "pickString",

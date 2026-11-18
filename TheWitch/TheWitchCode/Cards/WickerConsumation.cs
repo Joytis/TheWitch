@@ -18,6 +18,8 @@ namespace TheWitch.TheWitchCode.Cards;
 [Pool(typeof(WitchSpawnedCardPool))]
 public sealed class WickerConsumation : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
         HoverTipFactory.FromPower<IncarnationPower>(),

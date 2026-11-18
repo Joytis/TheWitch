@@ -17,6 +17,8 @@ namespace TheWitch.TheWitchCode.Cards;
 /// </summary>
 public sealed class WickerHeart : WitchCard
 {
+    public override Artists.Artist? ArtBy => Artists.Artist.Vuwa;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
         HoverTipFactory.FromPower<BramblesPower>(),
         HoverTipFactory.FromCard<WickerBones>(IsUpgraded),

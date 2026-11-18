@@ -60,7 +60,7 @@
     "Stony Brew": {
       "artist": "Vuwa",
       "brief": "One of the Common Brew trio. This will create a common defensive potion for the player. These potions create block, give dexterity, and general create 'safety. The bottle should feel sturdy, steadfest, and the liquid could even feel a bit thick. if you drink this potion, you'll definitely be healthy.",
-      "stage": "assigned"
+      "stage": "sketching"
     },
     "Tinder": {
       "artist": "Vuwa",
@@ -77,7 +77,8 @@
     },
     "Wicked Brew": {
       "artist": "Vuwa",
-      "brief": "One of the Common Brew trio. This will create a common offensive potion for the player. These potions create attacks, grant strength, and damage enemies. The bottle should feel volatile, aggressive, and even a bit evil. if you use this potion, someone will get hurt."
+      "brief": "One of the Common Brew trio. This will create a common offensive potion for the player. These potions create attacks, grant strength, and damage enemies. The bottle should feel volatile, aggressive, and even a bit evil. if you use this potion, someone will get hurt.",
+      "stage": "sketching"
     },
     "Bear Familiar": {
       "artist": "",
@@ -130,7 +131,7 @@
       "stage": "sketching"
     },
     "Grind Down": {
-      "artist": "Joytis",
+      "artist": "Vuwa",
       "brief": "A Jeweled mortal and pestle grinds ingredients down! The placeholder is pretty spot on here - have fun with it!.",
       "stage": "assigned"
     },
@@ -236,32 +237,32 @@
     "Smolder": {
       "artist": "Vuwa",
       "brief": "",
-      "stage": "assigned"
+      "stage": "sketching"
     },
     "Wild Growth": {
       "artist": "Vuwa",
       "brief": "",
-      "stage": "assigned"
+      "stage": "sketching"
     },
     "Volatile Vapors": {
       "artist": "Vuwa",
       "brief": "",
-      "stage": "assigned"
+      "stage": "sketching"
     },
     "Wicker Heart": {
       "artist": "Vuwa",
       "brief": "",
-      "stage": "assigned"
+      "stage": "sketching"
     },
     "Wicker Bones": {
       "artist": "Vuwa",
       "brief": "",
-      "stage": "assigned"
+      "stage": "sketching"
     },
     "Wicker Consumation": {
       "artist": "Vuwa",
       "brief": "",
-      "stage": "assigned"
+      "stage": "sketching"
     }
   }
 }
