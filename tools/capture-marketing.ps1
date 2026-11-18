@@ -21,6 +21,10 @@
 .PARAMETER NoCrop
     Ignore the crop rects and write <file>.full.png instead (for tuning a crop).
 
+.PARAMETER Branch
+    Game branch (public | beta): builds with -p:Sts2Branch and runs that branch's install
+    (game-installs/<branch>/, like launch.ps1). '' = the Steam install.
+
 .EXAMPLE
     ./tools/capture-marketing.ps1                         # every shot, Witch
     ./tools/capture-marketing.ps1 -Shots restsite -NoCrop # full frame, to pick a crop rect
@@ -33,7 +37,9 @@ param(
     [ValidateSet('none','build','publish')]
     [string]$Build = 'none',
     [int]$TimeoutSec = 240,
-    [string]$Sts2Path = ""
+    [string]$Sts2Path = "",
+    [ValidateSet('', 'public', 'beta')]
+    [string]$Branch = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -46,11 +52,18 @@ if (-not (Test-Path $configPath)) { throw "Shot list not found: $configPath" }
 $config = Get-Content $configPath -Raw | ConvertFrom-Json
 $size = if ($config.size) { $config.size } else { '1920x1080' }
 
+$branchProps = @()
+if ($Branch) {
+    $branchProps = @("-p:Sts2Branch=$Branch")
+    if (-not $Sts2Path) { $Sts2Path = Get-Sts2BranchPath $Branch }
+    Write-Host "Branch: $Branch"
+}
+
 if ($Build -ne 'none') {
     foreach ($proj in @($Char.Csproj, $BirdDebugCsproj)) {
         $verb = if ($proj -eq $BirdDebugCsproj) { 'build' } else { $Build }
         Write-Host "[$verb] $proj"
-        & dotnet $verb (Join-Path $repoRoot $proj)
+        & dotnet $verb (Join-Path $repoRoot $proj) @branchProps
         if ($LASTEXITCODE -ne 0) { throw "dotnet $verb $proj failed (exit $LASTEXITCODE)." }
     }
 }
