@@ -46,9 +46,12 @@ After the notes are approved, commit the release material, and only that:
 
 ## 4. Deploy
 
-Confirm once with AskUserQuestion ("Release <version> to the Workshop now?"), showing the version
-and that it uploads the public and beta builds. On yes, start it in the background (it runs ~25
-minutes) and wait for the completion notice; do not poll:
+Two breakpoints: one before verification starts, one after it passes and before anything is
+committed or uploaded.
+
+Confirm the start with AskUserQuestion ("Start the v<version> release run?"), saying it first
+verifies both branches (~25 minutes) and then stops at the `review` gate before marketing or any
+upload. On yes, start it in the background and wait for the completion notice; do not poll:
 
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/deploy.ps1 -Character Witch -Yes
@@ -60,7 +63,14 @@ any other reason (testing the script = `-VerifyOnly` or `-Plan`).
 Then act on the exit code. State and logs: `build/deploy/<ModId>-<version>/state.json` and
 `NN-<stage>.log`.
 
-- **2 = waiting at a gate** (`flag-public`, then `flag-beta`). Tell the user exactly what the
+- **2 at `review`** (the first gate, after `autoslay-<last branch>`): verification passed on both
+  branches and nothing has been committed or uploaded. Report each verification stage's result from
+  `state.json` (publish dll hash, the `Items: N run, N passed...` smoke-test line, AutoSlay seeds and
+  time per stage); skim the testall/autoslay logs for anything the summaries hide (stray errors
+  allowed through, warnings). Then ask with AskUserQuestion ("Upload v<version> to the Workshop
+  now?", saying it commits marketing images, uploads public, tags, uploads beta, pushes). Yes =
+  `-Resume -Ack`. No = stop; the run stays resumable until HEAD moves.
+- **2 at `flag-public` / `flag-beta`**. Tell the user exactly what the
   gate asks (it is in `state.json` → that stage's `detail`: mark the just-uploaded revision as that
   game branch's version on the Workshop page, with the link). When the user says it is done, continue
   with `-Resume -Ack` (same command, `-Yes` not needed). Never ack a gate the user has not confirmed.

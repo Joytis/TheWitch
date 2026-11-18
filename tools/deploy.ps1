@@ -10,6 +10,7 @@
         publish-<branch>   dotnet publish -p:Sts2Branch=<branch> (+ BirdDebug), record artifact hashes
         testall-<branch>   launch.ps1 -TestAll -Headless against that install
         autoslay-<branch>  -AutoSlayRuns full bot runs (autoslay-run.ps1)
+        review             GATE: look at the verification results before anything is committed or uploaded
         marketing          card-grid gallery images (+ in-game shots with -Screenshots), committed
                            (the gallery itself is synced to marketing.json by upload-<first branch>)
         upload-public      bundle-workshop.ps1 -Upload (+ gallery sync); the exact files that were tested
@@ -426,6 +427,19 @@ foreach ($branch in $Branches) {
             }
         }
         return "seeds $($seeds -join ', ')"
+    }
+}
+
+if (-not $VerifyOnly) {
+    # GATE: both branches are verified; nothing is committed or uploaded until someone has looked at the results.
+    Add-Stage 'review' -Gate {
+        param($log)
+        $rows = foreach ($s in $script:Stages) {
+            if ($s.Name -eq 'review') { break }
+            $st = $script:State.stages[$s.Name]
+            "- $($s.Name): $($st.status)$(if ($st.detail) { " - $($st.detail)" })"
+        }
+        return "Review the verification results, then continue to marketing + upload:`n$($rows -join "`n")`nLogs: $runDir"
     }
 }
 
