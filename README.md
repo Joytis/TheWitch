@@ -51,8 +51,8 @@ Test by launching Slay the Spire 2 — there is no standalone app.
 
 ```powershell
 ./tools/deploy.ps1 -VerifyOnly     # publish + smoke tests + AutoSlay on both game branches; touches nothing else
-./tools/deploy.ps1                 # full release of the committed version (after /version-bump)
+./tools/deploy.ps1                 # full release of the committed version (bump + notes committed; /release does all of it)
 ./tools/deploy.ps1 -Resume -Ack    # continue after a manual gate; -Resume alone retries a failed stage
 ```
 
-`deploy.ps1` verifies both branches first, then tags, uploads each build to the Workshop and pushes. Failures stop the run and are posted (stage, cause, log path) to the Discord webhook in `tools/deploy-webhook.local.txt` (gitignored) or `$env:DEPLOY_WEBHOOK_URL`. Logs and state: `build/deploy/<ModId>-<version>/`.
+`deploy.ps1` verifies both branches first, then uploads each build to the Workshop, tags and pushes. It owns the `vX.Y.Z` tag (created once the first upload succeeds) and refuses a version that is already tagged, so never tag a release by hand. Failures stop the run and are posted (stage, cause, log path) to the Discord webhook in `tools/deploy-webhook.local.txt` (gitignored) or `$env:DEPLOY_WEBHOOK_URL`. Logs and state: `build/deploy/<ModId>-<version>/`.

@@ -12,12 +12,16 @@
         autoslay-<branch>  -AutoSlayRuns full bot runs (autoslay-run.ps1)
         marketing          card-grid gallery images (+ in-game shots with -Screenshots), committed
                            (the gallery itself is synced to marketing.json by upload-<first branch>)
-        tag                git tag <version> (local)
         upload-public      bundle-workshop.ps1 -Upload (+ gallery sync); the exact files that were tested
+        tag                git tag <version> (local, pushed by the last stage)
         flag-public        GATE: mark the new revision as the public-branch version on the Workshop page
         upload-beta        same, beta build
         flag-beta          GATE: mark the new revision as the beta-branch version
         push               git push origin <branch> + the tag
+
+    The pipeline owns the version tag: it is created only once the first upload has succeeded, so a
+    tag means "this version is on the Workshop", and preflight refuses to start a version whose tag
+    already exists (locally or on origin). Never tag a release by hand.
 
     Everything is verified on BOTH branches before anything outward-facing happens. Game runs are
     serial (every instance shares %APPDATA%/SlayTheSpire2/logs/godot.log).
@@ -27,7 +31,13 @@
     deploy webhook; fix the cause and re-run with -Resume (finished stages are skipped). A source
     change invalidates the verification, so -Resume refuses when HEAD moved: use -Restart.
 
-    A gate stops the run (exit 2) until you have done the manual step: -Resume -Ack continues.
+    A gate stops the run until you have done the manual step. In a terminal it waits right there
+    (Enter = done, "later" = stop); unattended (no console, or -NoPrompt) it exits 2 and
+    -Resume -Ack continues.
+
+    In a terminal a full run also asks once before it starts, and offers resume / restart when a
+    run for this version already exists. -Yes skips the start question; without a console a
+    full run refuses to start unless -Yes is given.
 
     Notifications go to $env:DEPLOY_WEBHOOK_URL or tools/deploy-webhook.local.txt (a Discord
     webhook URL; gitignored). This is deliberately NOT tools/discord-webhook.local.txt, which is
@@ -52,6 +62,14 @@
 
 .PARAMETER Ack
     With -Resume: confirm the gate the run is waiting at.
+
+.PARAMETER NoPrompt
+    Never ask anything on the console: gates exit 2, an existing run needs -Resume or -Restart.
+    Implied when there is no interactive console.
+
+.PARAMETER Yes
+    Skip the "release this version?" question a full run asks in a terminal. Required to start a
+    full run where there is no console to ask on (a script, a scheduler).
 
 .PARAMETER Restart
     Archive the existing run dir for this version and start over.
@@ -100,6 +118,8 @@ param(
     [switch]$AllowStrayErrors,
     [switch]$Screenshots,
     [switch]$NoPush,
+    [switch]$NoPrompt,
+    [switch]$Yes,
     [string]$GitBranch = 'main',
     [switch]$Plan
 )
@@ -109,6 +129,7 @@ $ErrorActionPreference = 'Stop'
 $Branches = @($Branches | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim().ToLowerInvariant() } | Where-Object { $_ })
 $Skip     = @($Skip | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
 foreach ($b in $Branches) { if ('public', 'beta' -notcontains $b) { throw "Unknown game branch '$b' (public | beta)." } }
+$Interactive = (-not $NoPrompt) -and [Environment]::UserInteractive -and (-not [Console]::IsInputRedirected)
 if ($Marketing -and -not $VerifyOnly) { throw '-Marketing is the -VerifyOnly preview; a full run always includes the marketing stage.' }
 $repoRoot = Split-Path $PSScriptRoot -Parent
 . (Join-Path $PSScriptRoot 'characters.ps1')
@@ -290,9 +311,17 @@ Add-Stage 'preflight' -Always {
         if (-not $Resume) { $dirty = @(Invoke-Git @('status', '--porcelain')) }
         if ($dirty.Count -gt 0) { $problems += "Working tree is not clean ($($dirty.Count) path(s)); commit the version bump + notes first." }
         if (-not (Test-Path $notesFile)) { $problems += "Patch notes missing: Docs/patch-notes/$Version.md (run /version-bump)." }
-        $tagSha = Get-TagCommit $Version
-        if ($tagSha -and -not (@($script:State.pipelineCommits) + $script:State.headAtStart -contains $tagSha)) {
-            $problems += "Tag $Version already exists at $($tagSha.Substring(0, 8)); bump the version (/version-bump)."
+        # The tag is written by this pipeline after the first upload, so on a fresh run an existing
+        # tag means the version is already on the Workshop. (A resumed run may have tagged it itself.)
+        if (-not $Resume) {
+            $tagSha = Get-TagCommit $Version
+            if ($tagSha) {
+                $problems += "Tag $Version already exists (at $($tagSha.Substring(0, 8))): that version has been released. Bump the version (/version-bump)."
+            } else {
+                $remote = Invoke-Native 'git' @('-C', $repoRoot, 'ls-remote', '--tags', 'origin', "refs/tags/$Version")
+                if ($script:NativeExit -ne 0) { $warnings += "Could not ask origin whether tag $Version exists (offline?); only the local tags were checked." }
+                elseif ("$remote".Trim()) { $problems += "Tag $Version already exists on origin: that version has been released. Fetch tags and bump the version (/version-bump)." }
+            }
         }
         if (-not (Test-Path (Join-Path $workshop 'mod_id.txt'))) { $problems += "No mod_id.txt in $($Char.Workshop)." }
         if (-not (Test-Path (Join-Path $PSScriptRoot 'ModUploader-win-x64/ModUploader.exe'))) { $problems += 'tools/ModUploader-win-x64/ModUploader.exe not found.' }
@@ -429,16 +458,6 @@ if ((-not $VerifyOnly) -or $Marketing) {
 }
 
 if (-not $VerifyOnly) {
-    Add-Stage 'tag' {
-        param($log)
-        $existing = Get-TagCommit $Version
-        $head = (Invoke-Git @('rev-parse', 'HEAD'))
-        if ($existing -eq $head) { return 'already tagged' }
-        if ($existing) { Invoke-Git @('tag', '-d', $Version) | Out-Null }   # ours, from before the marketing commit (preflight vetted it)
-        Invoke-Git @('tag', $Version) | Out-Null
-        return "$Version -> $($head.Substring(0, 8))"
-    }
-
     foreach ($branch in $Branches) {
         Add-Stage "upload-$branch" -Branch $branch -Outward {
             param($log, $branch)
@@ -446,8 +465,24 @@ if (-not $VerifyOnly) {
             $toolArgs = @('-Character', $Char.Key, '-Branch', $branch, '-SkipPublish', '-Upload', '-ChangeNoteFile', $notesFile)
             if ($branch -eq $Branches[0]) { $toolArgs += '-UpdateMarketing' }
             $code = Invoke-Tool $log 'bundle-workshop.ps1' $toolArgs
+            # bundle-workshop writes this upload's change note into the tracked workshop.json; put the
+            # committed file back so the tree is clean again for the push and for the next release.
+            Invoke-Git @('checkout', '--', "$($Char.Workshop)/workshop.json") | Out-Null
             if ($code -ne 0) { throw "Workshop upload ($branch) failed, exit $code.`n$(Get-LogTail $log 15)" }
             return "uploaded the $branch build (game $($script:State.installs[$branch].gameVersion))"
+        }
+
+        if ($branch -eq $Branches[0]) {
+            # Only now: the tag records "this version is on the Workshop" (see preflight).
+            Add-Stage 'tag' {
+                param($log)
+                $existing = Get-TagCommit $Version
+                $head = (Invoke-Git @('rev-parse', 'HEAD'))
+                if ($existing -eq $head) { return 'already tagged' }
+                if ($existing) { throw "Tag $Version already exists at $($existing.Substring(0, 8)), not at HEAD ($($head.Substring(0, 8))). It was not made by this run; resolve it by hand." }
+                Invoke-Git @('tag', $Version) | Out-Null
+                return "$Version -> $($head.Substring(0, 8))"
+            }
         }
 
         Add-Stage "flag-$branch" -Branch $branch -Gate {
@@ -488,6 +523,15 @@ if ($Plan) {
     exit 0
 }
 
+if ((Test-Path $statePath) -and $Interactive -and -not ($VerifyOnly -or $Restart -or $Resume)) {
+    $prev = ConvertTo-Hashtable (Get-Content $statePath -Raw | ConvertFrom-Json)
+    $at = @($prev.stages.Keys | Where-Object { $prev.stages[$_].status -notin 'done', 'skipped' }) | Select-Object -First 1
+    Write-Host "A run for $ModId $Version already exists$(if ($at) { ", stopped at '$at' ($($prev.stages[$at].status))" } else { ' and finished' })." -ForegroundColor Yellow
+    $answer = (Read-Host '[R]esume it, re[S]tart from scratch, or [C]ancel? (r/s/C)').Trim().ToLowerInvariant()
+    if ($answer -eq 'r') { $Resume = $true }
+    elseif ($answer -eq 's') { $Restart = $true }
+    else { Write-Host 'Cancelled.'; exit 0 }
+}
 if (Test-Path $statePath) {
     if ($VerifyOnly -or $Restart) {
         $archive = "$runDir.$((Get-Item $statePath).LastWriteTime.ToString('yyyyMMdd-HHmmss'))"
@@ -505,6 +549,18 @@ if (Test-Path $statePath) {
     throw "Nothing to resume: no run for $ModId $Version ($runDir)."
 }
 
+# A release is outward-facing: starting one takes a "y" at the console or an explicit -Yes.
+if ((-not $State) -and (-not $VerifyOnly) -and (-not $Interactive) -and (-not $Yes)) {
+    throw "Not starting a release of $ModId $Version without confirmation: there is no console to ask on, so pass -Yes (or use -VerifyOnly for a dry run)."
+}
+if ((-not $State) -and (-not $VerifyOnly) -and $Interactive -and (-not $Yes)) {
+    Write-Host ''
+    Write-Host "Release $ModId $Version to the Steam Workshop?" -ForegroundColor Yellow
+    Write-Host "  builds   : $($Branches -join ' + ')   (each verified first: publish, smoke tests, $AutoSlayRuns AutoSlay run(s))"
+    Write-Host "  commit   : $($head.Substring(0, 8)) on $GitBranch"
+    Write-Host "  then     : tag $Version, upload, $(if ($NoPush) { 'no push' } else { "push to origin/$GitBranch" })"
+    if ((Read-Host 'Proceed? (y/N)').Trim().ToLowerInvariant() -ne 'y') { Write-Host 'Cancelled.'; exit 0 }
+}
 if (-not $State) {
     New-Item -ItemType Directory -Force $runDir | Out-Null
     $State = [ordered]@{
@@ -564,8 +620,16 @@ foreach ($s in $Stages) {
         Write-Host ''
         Write-Host "PAUSED at $($s.Name)" -ForegroundColor Yellow
         Write-Host "  $($todo -replace '\*\*', '')"
+        if ($notify) { Send-Notify "$ModId $Version - action needed: $($s.Name)" "$todo`n`nThen: ``$resumeCmd -Ack`` (or Enter in the waiting terminal)" 16763904 }
+        if ($Interactive) {
+            $answer = (Read-Host '  Press Enter once that is done, or type "later" to stop here').Trim().ToLowerInvariant()
+            if ($answer -ne 'later') {
+                $st.status = 'done'; $st.ackedAt = (Get-Date).ToString('s'); Save-State
+                Write-Host "--- $($s.Name): acknowledged" -ForegroundColor Green
+                continue
+            }
+        }
         Write-Host "  Then: $resumeCmd -Ack"
-        if ($notify) { Send-Notify "$ModId $Version - action needed: $($s.Name)" "$todo`n`nThen: ``$resumeCmd -Ack``" 16763904 }
         exit 2
     }
 

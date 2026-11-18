@@ -17,7 +17,7 @@ Derived/do-not-touch: `TheWitch/workshop/workshop.json` `changeNote` (rewritten 
 ### 1. Find the last release point
 
 In priority order:
-1. `git tag --sort=-creatordate` — if a `vX.Y.Z` tag exists, the newest one is the last release ref. (Tags are the convention going forward; created in step 5.)
+1. `git tag --sort=-creatordate` — if a `vX.Y.Z` tag exists, the newest one is the last release ref. (Tags are written by `tools/deploy.ps1` after each upload.)
 2. No tag: read the tail + `LastWriteTime` of `tools/ModUploader-win-x64/mod-uploader.log` (last successful upload timestamp), then match it against `git log --format="%h %ci %s"` — the newest commit BEFORE the upload time is the released commit.
 
 Report the found version, ref, and date to the user.
@@ -45,10 +45,12 @@ Style rules:
 ### 5. Finish
 
 - `node Docs/card-data/regen.js --check` — if stale, run the full regen (card mechanics changed without a regen).
-- Show the user the notes, then remind them of the release flow:
-  1. Commit everything (notes + bump).
-  2. Tag: `git tag vX.Y.Z` (+ `git push --tags`) — this is what step 1 relies on next time.
-  3. Upload: `./tools/bundle-workshop.ps1 -Upload -ChangeNote "<notes>"` — Steam change notes render BBCode, not markdown; either paste a short plain-text summary or hand-convert (`[b]`, `[list]`/`[*]`). Do NOT run the upload yourself; it is outward-facing.
+- Show the user the notes.
+- Shipping is the `release` skill (`/release`: review → release commit → `tools/deploy.ps1`), or the
+  VS Code task "Deploy: Release to Workshop" once the bump + notes are committed. Do NOT tag: the
+  deploy pipeline creates the tag after the upload succeeds and refuses a version that is already
+  tagged. Do NOT upload by hand (`bundle-workshop.ps1 -Upload`); the pipeline does it, converting
+  these notes to Steam BBCode for the change note.
 
 ## Notes
 

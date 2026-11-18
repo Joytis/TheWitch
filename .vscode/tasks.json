@@ -673,6 +673,57 @@
             "detail": "Regenerate the Workshop gallery images into <workshop>/marketing/. Prompts: Card images (framed card grids from card-grids.json, headless browser) or In-game renders (publishes, then one game window per shot in screenshots.json; hands off the mouse), then the character. Upload separately with 'Workshop: Upload Marketing Material'."
         },
         {
+            "label": "Deploy: Dry Run (verify both branches + marketing preview)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/deploy.ps1",
+                "-Character",
+                "${input:character}",
+                "-VerifyOnly",
+                "-Marketing"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "detail": "tools/deploy.ps1 -VerifyOnly -Marketing: publish + smoke tests + AutoSlay against the public AND beta game installs (game-installs/), then render the marketing images and print the Workshop gallery diff. Uploads, tags, commits and pushes nothing; works on a dirty tree. ~20 min. Needs Steam running."
+        },
+        {
+            "label": "Deploy: Release to Workshop (public + beta)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/tools/deploy.ps1",
+                "-Character",
+                "${input:character}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "focus": true,
+                "clear": true
+            },
+            "detail": "tools/deploy.ps1: the full release of the committed version (run /version-bump and commit first). Asks once, then verifies both game branches, regenerates + commits marketing images, tags, uploads the public build, waits for you to flag the revision on the Workshop page, uploads the beta build, waits again, pushes. Stops on the first failure (cause posted to the deploy Discord webhook); re-run this task to resume. Needs Steam running & logged in."
+        },
+        {
             "label": "Card Data: Regen",
             "type": "process",
             "command": "node",
