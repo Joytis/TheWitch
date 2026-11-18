@@ -64,6 +64,10 @@ $noise = @(
     'Parameter "t" is null',               # dummy renderer texture_2d_initialize under --headless
     'Parameter "texture" is null',         # dummy renderer texture_free at exit under --headless
     'Invalid Task ID',                     # engine worker_thread_pool wait_for_task_completion while the main menu loads under --headless (0.113.1); no mod frames
+    'Attempting to initialize the wrong RID',  # rid_owner.h get_or_null, right after the Invalid Task ID race at character select under --headless
+    'Parameter "mem" is null',             # rid_owner.h initialize_rid, same race
+    'Parameter "material" is null',        # dummy renderer material_set_shader (char-select bg / transition material) under --headless
+    'InvalidOperationException: Handle is not initialized',  # Godot ScriptManagerBridge.SwapGCHandleForType on a GC'd wrapper of a shared resource as drawn NCards enter the hand; GC-timing (seed WWE973G public: 5x/1x/0x over 3 runs), one per card, no mod frames, run unaffected (v0.14.5 release)
     'Expected BoundObject to be a SpineSprite'  # NMerchantCharacter (BaseLib-patched) spine binding under the dummy renderer; not ours
     'but its creature node doesn''t exist'     # CubexConstruct.RepeaterBlastMove: dies to Brambles mid-attack, then TriggerAnim(AttackEnd) on the freed node; base-game log-not-throw
 )
