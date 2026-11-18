@@ -25,6 +25,17 @@
 
    The junctions are gitignored and excluded from export in each `export_presets.cfg` — don't remove those excludes, or game assets get packed into the mod `.pck`.
 
+4. **For releases — cache both game branches** (optional for day-to-day work). The mods are one source tree built against two game versions, the public branch and the beta branch, so a release needs both installs side by side. Steam keeps only one, so each is copied into `game-installs/<branch>/` (gitignored, ~3 GB each):
+
+   ```powershell
+   # Steam > Slay the Spire 2 > Properties > Betas: pick the branch, let it update, then:
+   powershell -ExecutionPolicy Bypass -File tools\setup-game-install.ps1 -Branch beta
+   # switch Steam to the other branch, let it update, then:
+   powershell -ExecutionPolicy Bypass -File tools\setup-game-install.ps1 -Branch public
+   ```
+
+   The script refuses if Steam is on a different branch than the one named. Re-run it whenever the game patches that branch. Builds and tools pick an install with `-p:Sts2Branch=public|beta` / `-Branch public|beta`; a beta build defines `STS2_BETA`, which is how the code handles game-API differences (`#if STS2_BETA`). Without a cached `public` copy the Steam install stands in for it.
+
 ## Build
 
 ```powershell
@@ -35,3 +46,13 @@ dotnet publish TheWitch/TheWitch.csproj   # additionally exports that character'
 ```
 
 Test by launching Slay the Spire 2 — there is no standalone app.
+
+## Release
+
+```powershell
+./tools/deploy.ps1 -VerifyOnly     # publish + smoke tests + AutoSlay on both game branches; touches nothing else
+./tools/deploy.ps1                 # full release of the committed version (after /version-bump)
+./tools/deploy.ps1 -Resume -Ack    # continue after a manual gate; -Resume alone retries a failed stage
+```
+
+`deploy.ps1` verifies both branches first, then tags, uploads each build to the Workshop and pushes. Failures stop the run and are posted (stage, cause, log path) to the Discord webhook in `tools/deploy-webhook.local.txt` (gitignored) or `$env:DEPLOY_WEBHOOK_URL`. Logs and state: `build/deploy/<ModId>-<version>/`.

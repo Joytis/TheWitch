@@ -13,6 +13,11 @@
 
               <!- Set if sts2 is not found automatically (see Sts2PathDiscovery.props) ->
               <Sts2Path>?/steamapps/common/Slay the Spire 2</Sts2Path>
+
+              <!- Per-branch installs for /p:Sts2Branch=public|beta (tools: -Branch). Only needed to
+                  override the default, game-installs/<branch>/ (tools/setup-game-install.ps1). ->
+              <Sts2PublicPath>D:/sts2-installs/public</Sts2PublicPath>
+              <Sts2BetaPath>D:/sts2-installs/beta</Sts2BetaPath>
           </PropertyGroup>
       </Project>
     -->

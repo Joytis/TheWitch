@@ -35,3 +35,40 @@ function Get-BirdCharacter([string]$Key) {
     }
     throw "Unknown character '$Key' (known: $($BirdCharacters.Keys -join ', '))."
 }
+
+# Game install folder for a game branch ('public' | 'beta'), as the build resolves it
+# (Sts2PathDiscovery.props: local.props override, else game-installs/<branch>/, else for public the
+# Steam install). Throws when the folder has no SlayTheSpire2.exe, e.g. beta with no cached copy.
+function Get-Sts2BranchPath([string]$Branch) {
+    $repoRoot = Split-Path $PSScriptRoot -Parent
+    $proj = Join-Path $repoRoot $BirdDebugCsproj
+    $path = (& dotnet msbuild $proj -getProperty:Sts2Path "-p:Sts2Branch=$Branch" -nologo 2>$null | Select-Object -Last 1)
+    if ($path) { $path = $path.Trim() }
+    if (-not $path -or -not (Test-Path (Join-Path $path 'SlayTheSpire2.exe'))) {
+        throw "No game install for branch '$Branch' (resolved '$path'). Run tools/setup-game-install.ps1 -Branch $Branch with Steam on that branch."
+    }
+    return $path
+}
+
+# The Steam-managed game install (the one Steam updates and switches between branches).
+function Get-SteamSts2Path {
+    $candidates = @()
+    try {
+        $steam = (Get-ItemProperty 'HKCU:\Software\Valve\Steam' -Name SteamPath -ErrorAction Stop).SteamPath
+        if ($steam) { $candidates += (Join-Path $steam 'steamapps\common\Slay the Spire 2') }
+    } catch {}
+    $candidates += 'C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2'
+    foreach ($c in $candidates) { if (Test-Path (Join-Path $c 'SlayTheSpire2.exe')) { return $c } }
+    throw "Could not find the Steam install of Slay the Spire 2. Pass -Sts2Path."
+}
+
+# Which game branch Steam has selected for an install: 'public' | 'beta' | $null (unreadable).
+# Read from the app manifest beside the library's common/ folder (BetaKey: "public" / "public-beta").
+function Get-SteamSts2Branch([string]$Sts2Path) {
+    $acf = Join-Path (Split-Path (Split-Path $Sts2Path -Parent) -Parent) 'appmanifest_2868840.acf'
+    if (-not (Test-Path $acf)) { return $null }
+    $m = [regex]::Match((Get-Content $acf -Raw), '"BetaKey"\s+"([^"]*)"')
+    if (-not $m.Success) { return $null }
+    if ($m.Groups[1].Value -eq 'public' -or $m.Groups[1].Value -eq '') { return 'public' }
+    return 'beta'
+}

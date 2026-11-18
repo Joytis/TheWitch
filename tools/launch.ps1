@@ -44,6 +44,9 @@ param(
     [string]$Character = 'Witch',
     [int]$Players = 2,
     [string]$Sts2Path = "",
+    [ValidateSet('','public','beta')]
+    [string]$Branch = '',      # game branch: builds with -p:Sts2Branch (beta defines STS2_BETA) and launches
+                               # that branch's install (local.props Sts2PublicPath / Sts2BetaPath). '' = default install.
     [switch]$Solo,
     [int]$DelayMs = 0,
     # Solo-only debug launch modes (see BirdDebug/BirdDebugCode/BirdDebugFlags.cs - the dev-only BirdDebug mod):
@@ -61,6 +64,8 @@ param(
     [switch]$RelicTest,        # -bird-debug -bird-relictest: equips every relic, then every card + potion
     [switch]$MenuTest,         # -bird-debug -bird-menutest: opens every main-menu screen + renders every hover tip
     [switch]$HexTest,          # -bird-debug -bird-hextest: Hex trigger rules across 1-4 player parties (HexMpTest)
+    [switch]$ShopTest,         # -bird-debug -bird-shoptest: merchant roll statistics per game mode (ShopTest; Moth
+                               # throttle check). Beta game branch only (-Branch beta).
     [switch]$TestAll,          # -bird-debug -bird-testall: menu sweep, cards, potions, then relics in one run
     [string]$Encounter = "",   # optional encounter id for -Bootstrap (e.g. SLIMES_WEAK)
     [switch]$ResetFtue,                # -bird-reset-ftue: forget the character's tutorial tips so they show again
@@ -68,6 +73,8 @@ param(
     [switch]$ForceWorkshopDownload,    # -bird-force-workshop-download=<id>: force the Workshop download path;
                                        # item id read from <workshop dir>/mod_id.txt (local builds need it)
     [switch]$TailLog,          # solo only: stream %appdata%\SlayTheSpire2\logs\godot.log to this console
+    [ValidateSet('Standard','Blitz','Dread')]
+    [string]$Mode = 'Standard',  # -mode=<m>: AutoSlay game mode (game-native AutoSlayMode, beta game branch); Standard passes nothing
     [ValidateSet('none','build','publish')]
     [string]$Build = 'none'    # run `dotnet build` (code deploy) or `dotnet publish` (code + .pck) first; abort on failure
 )
@@ -85,21 +92,27 @@ Write-Host "Character: $($Char.Key) ($($Char.ModId))"
 # --- Optional build step (build = deploy dll/json; publish = also export the .pck) ---
 # The character mod first, then the dev-only BirdDebug mod (owner of every -bird-* flag; dll only,
 # so it is always a plain build even when the character is published).
+$branchProps = @()
+if ($Branch) {
+    $branchProps = @("-p:Sts2Branch=$Branch")
+    if (-not $Sts2Path) { $Sts2Path = Get-Sts2BranchPath $Branch }
+    Write-Host "Branch   : $Branch"
+}
 if ($Build -ne 'none') {
     $csproj = Join-Path $repoRoot $Char.Csproj
-    Write-Host "[$Build] dotnet $Build $csproj"
-    & dotnet $Build $csproj
+    Write-Host "[$Build] dotnet $Build $csproj $branchProps"
+    & dotnet $Build $csproj @branchProps
     if ($LASTEXITCODE -ne 0) { throw "dotnet $Build failed (exit $LASTEXITCODE); not launching." }
     $debugCsproj = Join-Path $repoRoot $BirdDebugCsproj
-    Write-Host "[build] dotnet build $debugCsproj"
-    & dotnet build $debugCsproj
+    Write-Host "[build] dotnet build $debugCsproj $branchProps"
+    & dotnet build $debugCsproj @branchProps
     if ($LASTEXITCODE -ne 0) { throw "dotnet build (BirdDebug) failed (exit $LASTEXITCODE); not launching." }
 }
 
 # --- Smoke-test report: skim the tailed log, errors loud, passes routine ---------
 # One harness (BirdDebug CardTest) behind the flags; $tag picks the log prefix to parse.
-$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($HexTest) { '[bird-hextest]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
-$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll -or $HexTest
+$SmokeTag = if ($TestAll) { '[bird-testall]' } elseif ($HexTest) { '[bird-hextest]' } elseif ($ShopTest) { '[bird-shoptest]' } elseif ($MenuTest) { '[bird-menutest]' } elseif ($RelicTest) { '[bird-relictest]' } elseif ($PotionTest) { '[bird-potiontest]' } else { '[bird-cardtest]' }
+$SmokeTest = $CardTest -or $PotionTest -or $RelicTest -or $MenuTest -or $TestAll -or $HexTest -or $ShopTest
 function Write-CardTestReport {
     param([System.Collections.Generic.List[string]]$lines, [string]$tag = $SmokeTag)
     $rtag = [regex]::Escape($tag)
@@ -185,6 +198,7 @@ if ($Solo -or -not $PSBoundParameters.ContainsKey('Players')) {
         $gameArgs += '-autoslay'
         # `=` form so Start-Process never splits a path with spaces from its key.
         if ($AutoSlayLog) { $gameArgs += "-log-file=`"$AutoSlayLog`"" }
+        if ($Mode -ne 'Standard') { $gameArgs += "-mode=$($Mode.ToLowerInvariant())" }
     }
     if ($Seed) { $gameArgs += "-seed=$Seed" }
     if ($FxLab) {

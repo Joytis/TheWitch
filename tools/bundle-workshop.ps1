@@ -48,6 +48,14 @@
 .PARAMETER ChangeNote
     Text written to workshop.json "changeNote" before uploading.
 
+.PARAMETER ChangeNoteFile
+    Markdown file (e.g. Docs/patch-notes/vX.Y.Z.md) converted to Steam BBCode and used as the
+    change note. Ignored when -ChangeNote is given.
+
+.PARAMETER Branch
+    Game branch whose build is bundled (public | beta): publishes with -p:Sts2Branch and stages
+    from that branch's install (local.props Sts2PublicPath / Sts2BetaPath). '' = default install.
+
 .PARAMETER Visibility
     Override workshop.json "visibility" (private | friends | friendsonly | public).
 
@@ -104,6 +112,9 @@ param(
     [switch]$SkipPublish,
     [switch]$Upload,
     [string]$ChangeNote = "",
+    [string]$ChangeNoteFile = "",
+    [ValidateSet('','public','beta')]
+    [string]$Branch = '',
     [switch]$RenderDescription,
     [switch]$UpdateMarketing,
     [switch]$MarketingDryRun,
@@ -217,19 +228,27 @@ if ($UpdateMarketing -and -not $Upload) {
     exit 0
 }
 
+# --- Change note from a markdown file (patch notes) ------------------------
+if ((-not $ChangeNote) -and $ChangeNoteFile) {
+    if (-not (Test-Path $ChangeNoteFile)) { throw "Change note file not found: $ChangeNoteFile" }
+    $ChangeNote = Convert-MarkdownToBBCode ([System.IO.File]::ReadAllText((Resolve-Path $ChangeNoteFile).Path, [System.Text.Encoding]::UTF8))
+}
+
 # --- Step 1: publish (default) ---------------------------------------------
+$branchProps = @()
+if ($Branch) { $branchProps = @("-p:Sts2Branch=$Branch"); Write-Step "Game branch: $Branch" }
 if ($SkipPublish) {
     Write-Step "Skipping publish (-SkipPublish); reusing existing mods/ outputs."
 } else {
     Write-Step "Publishing ($csproj) -- this exports the .pck via headless Godot..."
-    & dotnet publish $csproj
+    & dotnet publish $csproj @branchProps
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed (exit $LASTEXITCODE)." }
 }
 
 # --- Resolve the mods source folder ----------------------------------------
 if (-not $ModsPath) {
     Write-Step "Resolving mods path from build..."
-    $ModsPath = (& dotnet msbuild $csproj -getProperty:ModsPath -nologo 2>$null | Select-Object -Last 1)
+    $ModsPath = (& dotnet msbuild $csproj -getProperty:ModsPath @branchProps -nologo 2>$null | Select-Object -Last 1)
     if ($ModsPath) { $ModsPath = $ModsPath.Trim() }
 }
 if (-not $ModsPath) {

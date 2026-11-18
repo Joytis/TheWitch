@@ -7,6 +7,27 @@
       secondary libraries (libraryfolders.vdf) are not parsed. If the game lives in one,
       set Sts2Path in local.props.
     -->
+    <!--
+      Game branch selection (single source, two game versions). /p:Sts2Branch=public|beta (tools:
+      -Branch) picks the install to compile against and deploy into:
+          1. local.props <Sts2PublicPath> / <Sts2BetaPath>, else
+          2. the repo's cached copy game-installs/<branch>/ (tools/setup-game-install.ps1), else
+          3. public only: the Steam install (auto-discovery below).
+      beta also defines STS2_BETA, so API differences live behind #if STS2_BETA in one source tree.
+      A beta build with no install gets a path that cannot exist, so it fails in
+      CheckDependencyPaths instead of silently compiling against the Steam install.
+      No Sts2Branch at all = the Steam install, no define (plain `dotnet build`, as always).
+    -->
+    <PropertyGroup>
+        <Sts2InstallsDir>$(MSBuildThisFileDirectory)game-installs/</Sts2InstallsDir>
+        <Sts2PublicPath Condition="'$(Sts2PublicPath)' == '' and Exists('$(Sts2InstallsDir)public/SlayTheSpire2.exe')">$(Sts2InstallsDir)public</Sts2PublicPath>
+        <Sts2BetaPath Condition="'$(Sts2BetaPath)' == '' and Exists('$(Sts2InstallsDir)beta/SlayTheSpire2.exe')">$(Sts2InstallsDir)beta</Sts2BetaPath>
+        <Sts2Path Condition="'$(Sts2Branch)' == 'public' and '$(Sts2PublicPath)' != ''">$(Sts2PublicPath)</Sts2Path>
+        <Sts2Path Condition="'$(Sts2Branch)' == 'beta'">$(Sts2BetaPath)</Sts2Path>
+        <Sts2Path Condition="'$(Sts2Branch)' == 'beta' and '$(Sts2BetaPath)' == ''">no-beta-install--run-tools-setup-game-install.ps1</Sts2Path>
+        <DefineConstants Condition="'$(Sts2Branch)' == 'beta'">$(DefineConstants);STS2_BETA</DefineConstants>
+    </PropertyGroup>
+
     <!-- OS Detection -->
     <PropertyGroup>
         <IsLinux>false</IsLinux>

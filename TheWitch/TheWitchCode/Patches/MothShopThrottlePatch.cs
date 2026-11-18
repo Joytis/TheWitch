@@ -20,8 +20,14 @@ namespace TheWitch.TheWitchCode.Patches;
 /// appears in ~<see cref="TargetShopChance"/> of shops at any ascension / pity offset.
 /// Uses the seeded <c>PlayerRng.Shops</c> stream, so it stays deterministic in multiplayer.
 /// </summary>
+#if STS2_BETA
+// 0.113 added a blacklist parameter to CreateForMerchant.
+[HarmonyPatch(typeof(CardFactory), nameof(CardFactory.CreateForMerchant),
+    [typeof(Player), typeof(IEnumerable<CardModel>), typeof(IEnumerable<CardModel>), typeof(CardType)])]
+#else
 [HarmonyPatch(typeof(CardFactory), nameof(CardFactory.CreateForMerchant),
     [typeof(Player), typeof(IEnumerable<CardModel>), typeof(CardType)])]
+#endif
 public static class MothShopThrottlePatch
 {
     /// <summary>Fraction of shops whose Power slot should offer Moth Familiar.</summary>

@@ -170,6 +170,8 @@
   <div class="sub">Run telemetry, skill-adjusted · <a href="../index.html">back to docs</a> ·
     <a href="#method" data-jump="method">how to read this</a></div>
   <div class="char-tabs" id="charTabs" role="tablist" aria-label="Character"></div>
+  <div class="char-tabs" id="gameModeTabs" role="tablist" aria-label="Game mode"
+       title="Standard and Blitz runs are separate data sets, never mixed. Standard is the default."></div>
   <div class="fresh" id="fresh">Loading…</div>
 
   <div class="filters" id="filters" hidden>
@@ -455,6 +457,16 @@ const CHAR = (() => {
   try { const v = localStorage.getItem(CHAR_KEY); if (v && CHARACTERS[v]) return CHARACTERS[v]; } catch {}
   return CHARACTERS.witch;
 })();
+
+// ---------- game modes (mirrors GAME_MODES in tools/analytics/export_stats.py) ----------
+// Each mode is its own exported data set: Standard in the character's folder, the others in a
+// subfolder. The page always opens on Standard; only ?mode=blitz selects another.
+const GAME_MODES = {
+  standard: {key: "standard", label: "Standard", sub: ""},
+  blitz: {key: "blitz", label: "Blitz", sub: "/blitz", emptyMsg: "No Blitz runs exported yet."},
+};
+const GAME_MODE = GAME_MODES[new URLSearchParams(location.search).get("mode")] || GAME_MODES.standard;
+const DATA_DIR = CHAR.dir + GAME_MODE.sub;
 
 // ---------- data ----------
 let META, T = {};                          // T[name] = array of row objects
@@ -1637,6 +1649,18 @@ function renderCharacterChrome() {
     });
     return b;
   }));
+  $("gameModeTabs").replaceChildren(...Object.values(GAME_MODES).map(gm => {
+    const b = document.createElement("button");
+    b.className = "tab" + (gm.key === GAME_MODE.key ? " on" : "");
+    b.textContent = gm.label;
+    b.addEventListener("click", () => {
+      if (gm.key === GAME_MODE.key) return;
+      const url = new URL(location.href);
+      if (gm.sub) url.searchParams.set("mode", gm.key); else url.searchParams.delete("mode");
+      location.href = url.href;
+    });
+    return b;
+  }));
 }
 
 async function init() {
@@ -1644,7 +1668,7 @@ async function init() {
   // Localization snapshot is repo-wide and independent of the run export.
   LOC = await fetch("analytics-data/paratranz.json").then(r => r.ok ? r.json() : null).catch(() => null);
   try {
-    const files = await Promise.all(["meta", ...TABLES].map(n => fetch(`${CHAR.dir}/${n}.json`).then(r => {
+    const files = await Promise.all(["meta", ...TABLES].map(n => fetch(`${DATA_DIR}/${n}.json`).then(r => {
       if (!r.ok) { const e = new Error(`${n}.json: HTTP ${r.status}`); e.status = r.status; throw e; }
       return r.json();
     })));
@@ -1653,7 +1677,8 @@ async function init() {
   } catch (err) {
     $("fresh").textContent = "";
     $("loadError").hidden = false;
-    $("loadError").textContent = CHAR.optional && err.status === 404 ? CHAR.emptyMsg
+    $("loadError").textContent = err.status === 404 && GAME_MODE.emptyMsg ? GAME_MODE.emptyMsg
+      : CHAR.optional && err.status === 404 ? CHAR.emptyMsg
       : "Could not load analytics data — " + err.message + ". (Serve over http, not file://.)";
     $("tabs").hidden = false;
     document.querySelectorAll(".view").forEach(n => n.classList.remove("on"));
@@ -1666,7 +1691,7 @@ async function init() {
   state.rels = new Set([newest.id]);
   state.cmp = META.releases.length > 1 ? META.releases[META.releases.length - 2].id : "";
   $("fresh").textContent = `Data refreshed ${META.generated_at.replace("T", " ").replace("Z", " UTC")} · ` +
-    `${fmtN(META.total_runs)} runs on record · ${META.first_day} → ${META.last_day}`;
+    `${fmtN(META.total_runs)} ${GAME_MODE.label} runs on record · ${META.first_day} → ${META.last_day}`;
   $("filters").hidden = false; $("tabs").hidden = false;
   buildFilters();
   renderLoc();

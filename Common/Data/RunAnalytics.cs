@@ -44,6 +44,11 @@ internal static class RunAnalytics
     /// <summary>Mirrors the base game's minimum-floor threshold for a run to count.</summary>
     private const int RunLengthThreshold = 5;
 
+#if STS2_BETA
+    /// <summary>Blitz runs are ~24 floors; vanilla counts them from 3 map points.</summary>
+    private const int BlitzRunLengthThreshold = 3;
+#endif
+
     private static BirdModContext s_ctx = null!;
     private static RunMetricsUploader s_uploader = null!;
 
@@ -82,7 +87,13 @@ internal static class RunAnalytics
             s_ctx.Logger.Info($"Skipping {s_ctx.ModId} analytics upload, disabled in mod config.");
             return;
         }
+#if STS2_BETA
+        // Standard + Blitz only (tagged by the promoted game_mode column). 0.113 folded the old
+        // GameMode.Custom into Standard + IsCustomGame; keep custom runs out.
+        if (run.GameMode is not (GameMode.Standard or GameMode.Blitz) || run.IsCustomGame)
+#else
         if (run.GameMode != GameMode.Standard)
+#endif
         {
             return;
         }
@@ -97,7 +108,12 @@ internal static class RunAnalytics
             return; // Only runs played as this mod's character.
         }
         List<MapPointHistoryEntry> allPoints = run.MapPointHistory.SelectMany(logs => logs).ToList();
+#if STS2_BETA
+        // Vanilla MetricUtilities: Blitz runs count from 3 map points, everything else from 5.
+        if (allPoints.Count < (run.GameMode == GameMode.Blitz ? BlitzRunLengthThreshold : RunLengthThreshold))
+#else
         if (allPoints.Count < RunLengthThreshold)
+#endif
         {
             return;
         }
@@ -165,6 +181,9 @@ internal static class RunAnalytics
             BuildId = ReleaseInfoManager.Instance.ReleaseInfo?.Version ?? "NON-RELEASE-VERSION",
             BuildType = PlatformUtil.GetPlatformBranch().ToName(),
             PlayerId = HashPlayerId(progress.UniqueId),
+#if STS2_BETA
+            GameMode = GameModeString(run.GameMode),
+#endif
             Character = localPlayer.CharacterId!,
             NumPlayers = run.Players.Count,
             Team = run.Players.Count > 1
@@ -203,6 +222,11 @@ internal static class RunAnalytics
         JsonObject row = new()
         {
             ["character"] = s_ctx.ModId,
+#if STS2_BETA
+            // STANDARD / BLITZ; see tools/analytics/migrations/002_game_mode_column.sql. Public-branch
+            // builds send no value and take the column default (STANDARD).
+            ["game_mode"] = metrics.GameMode,
+#endif
             ["mod_version"] = GetModVersion(),
             ["game_version"] = metrics.BuildId,
             ["victory"] = isVictory,
@@ -215,6 +239,18 @@ internal static class RunAnalytics
         s_ctx.Logger.Info($"Uploading {s_ctx.ModId} run analytics...");
         s_uploader.Upload(row.ToJsonString(), $"{s_ctx.ModId} run analytics");
     }
+
+#if STS2_BETA
+    /// <summary>Same strings as the vanilla payload (private MetricUtilities.GetGameModeString).</summary>
+    private static string GameModeString(GameMode mode) => mode switch
+    {
+        GameMode.Blitz => "BLITZ",
+        GameMode.Daily => "DAILY",
+        GameMode.Dread => "DREAD",
+        GameMode.Standard => "STANDARD",
+        _ => "UNKNOWN",
+    };
+#endif
 
     private static string GetModVersion() =>
         ModManager.GetLoadedMods().FirstOrDefault(m => m.manifest?.id == s_ctx.ModId)?.manifest?.version ?? "unknown";

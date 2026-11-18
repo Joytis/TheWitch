@@ -32,7 +32,12 @@ public abstract class WitchPet : MonsterModel, ICustomModel
     // Pets are never meant to take damage or die; huge HP + hidden bar mirrors Byrdpip.
     public override int MinInitialHp => 9999;
     public override int MaxInitialHp => 9999;
+#if STS2_BETA
+    // 0.113: IsHealthBarVisible became IsInteractable (hidden bar + untargetable).
+    public override bool IsInteractable => false;
+#else
     public override bool IsHealthBarVisible => false;
+#endif
 
     public virtual string PetScenePath => "familiar_visuals.tscn".CharacterScenePath();
 

@@ -31,6 +31,10 @@ param(
     [string]$Seed = "",
     [ValidateSet('none','build','publish')]
     [string]$Build = 'none',
+    [ValidateSet('','public','beta')]
+    [string]$Branch = '',        # game branch to build against + run (launch.ps1 -Branch); '' = default install
+    [ValidateSet('Standard','Blitz','Dread')]
+    [string]$Mode = 'Standard',  # AutoSlay game mode (launch.ps1 -Mode -> game -mode=<m>; beta game branch)
     [switch]$Windowed            # debugging aid: skip --headless
 )
 
@@ -59,13 +63,14 @@ $noise = @(
     'Sentry',
     'Parameter "t" is null',               # dummy renderer texture_2d_initialize under --headless
     'Parameter "texture" is null',         # dummy renderer texture_free at exit under --headless
+    'Invalid Task ID',                     # engine worker_thread_pool wait_for_task_completion while the main menu loads under --headless (0.113.1); no mod frames
     'Expected BoundObject to be a SpineSprite'  # NMerchantCharacter (BaseLib-patched) spine binding under the dummy renderer; not ours
     'but its creature node doesn''t exist'     # CubexConstruct.RepeaterBlastMove: dies to Brambles mid-attack, then TriggerAnim(AttackEnd) on the freed node; base-game log-not-throw
 )
 
-Write-Host "[autoslay-run] #$Index seed=$Seed -> $stem.*"
+Write-Host "[autoslay-run] #$Index seed=$Seed mode=$Mode -> $stem.*"
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
-$launchArgs = @{ Solo = $true; AutoSlay = $true; Seed = $Seed; AutoSlayLog = $asLog; Build = $Build }
+$launchArgs = @{ Character = $Character; Branch = $Branch; Solo = $true; AutoSlay = $true; Seed = $Seed; AutoSlayLog = $asLog; Build = $Build; Mode = $Mode }
 if (-not $Windowed) { $launchArgs.Headless = $true }
 & $launcher @launchArgs
 $exit = $LASTEXITCODE
@@ -129,6 +134,7 @@ if ($abandonOnly) {
 $result = [ordered]@{
     index      = $Index
     seed       = $Seed
+    mode       = $Mode
     exitCode   = $exit
     completed  = $completed
     minutes    = [Math]::Round($sw.Elapsed.TotalMinutes, 1)

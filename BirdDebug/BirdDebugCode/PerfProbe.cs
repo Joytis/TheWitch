@@ -98,8 +98,7 @@ public static class PerfProbe
         DisplayServer.WindowSetSize(new Vector2I(1920, 1080));
         await Frames(2);
 
-        await Game.StartNewSingleplayerRun(BirdCharacter.Model, shouldSave: false, ActModel.GetDefaultList().ToList(),
-            new List<ModifierModel>(), "BIRDPERF", GameMode.Standard);
+        await GameCompat.StartSingleplayerRun(Game, BirdCharacter.Model, "BIRDPERF");
         EncounterModel encounter = ModelDb.GetById<EncounterModel>(new ModelId(ModelId.SlugifyCategory<EncounterModel>(), Encounter)).ToMutable();
         await RunManager.Instance.EnterRoomDebug(RoomType.Monster, MapPointType.Unassigned, encounter);
 

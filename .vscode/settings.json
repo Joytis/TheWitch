@@ -18,6 +18,8 @@
         "**/.vs": true,
         "publish": true,
         "packages": true,
+        "game-installs": true,
+        "build/deploy": true,
         "gamedata/.autoconverted": true,
         "gamedata/**/*.uid": true
     },

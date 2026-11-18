@@ -31,3 +31,9 @@ tools/ModUploader-win-x64/mod-uploader.log
 Docs/art-tracker/outline-sheet.png
 __pycache__/
 
+
+# Discord webhook URL for tools/deploy.ps1 failure/gate notifications (secret, machine-local)
+/tools/deploy-webhook.local.txt
+
+# Cached game installs per branch (tools/setup-game-install.ps1): proprietary, machine-local
+/game-installs/

@@ -139,5 +139,9 @@ public static class PotionQuickUsePatch
 
     private static bool InACardSelectScreen =>
         NPlayerHand.Instance?.IsInCardSelection == true
+#if STS2_BETA
+        || NOverlayStack.Instance?.Peek() is ICardSelectionScreen;   // 0.113: the overlay screens' interface was renamed
+#else
         || NOverlayStack.Instance?.Peek() is ICardSelector;
+#endif
 }

@@ -85,8 +85,15 @@ public partial class NPotionChoiceCell : NButton
             _hoverTween = CreateTween();
             _hoverTween.TweenProperty(_potionNode, "scale", Vector2.One * _potionScale * 1.15f, 0.05);
         }
+#if STS2_BETA
+        // 0.113.1 removed HoverTipAlignment.Center; SetAlignmentBelow is the same layout (text tips at
+        // the position, card tips under them).
+        NHoverTipSet.CreateAndShow(this, _model.HoverTips)
+            ?.SetAlignmentBelow(GlobalPosition + Vector2.Down * Size.Y * 1.2f);
+#else
         NHoverTipSet.CreateAndShow(this, _model.HoverTips, HoverTipAlignment.Center)
             ?.SetGlobalPosition(GlobalPosition + Vector2.Down * Size.Y * 1.2f);
+#endif
     }
 
     protected override void OnUnfocus()

@@ -1,5 +1,6 @@
 # TODO — Staging / Inbox
 
+Move Moonlight from Start of turn to End of Enemy Turn. 
 
 ## autoslay-loop notes
 - (2026-11-07 soak) Silent shop hang, seed CVHQ4LH Act 1 F4: bot's `Buying item (cost: 177)` → `OnTryPurchaseWrapper` never returned, ShopRoomHandler timed out at 120s, no exception anywhere in godot.log. The item isn't logged. Likely a purchase that opened a screen the shop handler can't drive (relic with an on-pickup selection), or a Witch hook on card-added-to-deck / potion-procure that awaited forever. No Witch relic has an on-pickup selection. The replay diverged (no F4 shop) and completed. Logs: scratchpad autoslay-20261107-2015/013-CVHQ4LH.*.log.

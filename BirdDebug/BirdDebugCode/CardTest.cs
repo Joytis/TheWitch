@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.AutoSlay;
+#if STS2_BETA
+using MegaCrit.Sts2.Core.CardSelection;
+#endif
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
@@ -43,7 +46,7 @@ namespace Bird.BirdDebug;
 /// </summary>
 public static class CardTest
 {
-    public enum Mode { Cards, Potions, Relics, Menu, All, Hex }
+    public enum Mode { Cards, Potions, Relics, Menu, All, Hex, Shop }
 
     public static string TagFor(Mode mode) => mode switch
     {
@@ -52,6 +55,7 @@ public static class CardTest
         Mode.Menu => MenuTest.Tag,
         Mode.All => "[bird-testall]",
         Mode.Hex => HexMpTest.Tag,
+        Mode.Shop => "[bird-shoptest]",
         _ => "[bird-cardtest]",
     };
 
@@ -62,7 +66,11 @@ public static class CardTest
         string tag = TagFor(mode);
         bool wasTestMode = TestMode.IsOn;
         TestMode.IsOn = true;
+#if STS2_BETA
+        IDisposable selectorScope = CardSelectorStack.SetTestSelector(new FirstCardSelector());   // 0.113: moved off CardSelectCmd
+#else
         IDisposable selectorScope = CardSelectCmd.UseSelector(new FirstCardSelector());
+#endif
         List<(string item, Exception ex)> failures = priorFailures ?? [];
         int total = priorTotal;
         try
@@ -311,7 +319,7 @@ public static class CardTest
 
         EncounterModel encounter = ModelDb.AllEncounters.First().ToMutable();
         encounter.DebugRandomizeRng();
-        CombatState combat = new(encounter, run, run.Modifiers, run.BadgeModels, run.MultiplayerScalingModel);
+        CombatState combat = GameCompat.NewCombatState(encounter, run);
         combat.AddPlayer(player);
 
         if (!encounter.HaveMonstersBeenGenerated)

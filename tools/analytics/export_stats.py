@@ -29,6 +29,11 @@ and are exported for reference only.
 Per-character: `--character TheWitch|TheAugur` filters the runs by mod id and defaults the output
 folder to pages/analytics-data/<key>; without it the export is the Witch into
 pages/analytics-data/ (the page reads that folder for the Witch).
+
+Per game mode: every mode in GAME_MODES is its own data set with its own skill model, never mixed
+(a Blitz run is ~24 floors and wins at a different rate). Standard, the page's default, is written
+to the output folder itself; Blitz to its blitz/ subfolder. One fetch covers all of them;
+`--game-mode` restricts the export to one.
 """
 
 import argparse
@@ -52,6 +57,10 @@ BASE_NAMES = json.loads(Path(__file__).with_name("base_names.json").read_text(en
 LEGACY_FILES = ["hours", "runs_daily", "runs_hourly", "cards_daily", "cards_meta", "choices_daily",
                 "deaths_daily", "death_floors_daily", "encounters_daily", "archetypes_daily",
                 "encounters_meta"]
+
+# Tracked game modes -> subfolder of the output folder ("" = the folder itself). Mirrored by
+# GAME_MODES in pages/analytics.html. Daily / Dread / custom runs are never uploaded.
+GAME_MODES = {"STANDARD": "", "BLITZ": "blitz"}
 
 ASC_BANDS = [("A0", 0, 0), ("A1–4", 1, 4), ("A5–9", 5, 9), ("A10+", 10, 99)]
 # Player skill = lifetime win rate before this run (all characters, from the game's metrics).
@@ -452,6 +461,18 @@ def build(runs: pd.DataFrame, ch: dict, detail_releases: int = DETAIL_RELEASES) 
     return {"meta": meta, **tables}
 
 
+def run_game_mode(data) -> str:
+    """STANDARD / BLITZ from the uploaded payload; rows from before Blitz support carry no
+    gameMode (or the client's hard-coded STANDARD) and were all Standard runs."""
+    if isinstance(data, str):
+        try:
+            data = json.loads(data)
+        except ValueError:
+            return "STANDARD"
+    mode = data.get("gameMode") if isinstance(data, dict) else None
+    return (mode or "STANDARD").upper()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -464,6 +485,10 @@ def main() -> int:
     parser.add_argument("--out-dir", default=None,
                         help="where to write the JSON tables (default: pages/analytics-data, or "
                              "pages/analytics-data/<key> when --character is given)")
+    parser.add_argument("--game-mode", default=None, type=str.upper, choices=list(GAME_MODES),
+                        help="export only this game mode (default: every tracked mode, Standard "
+                             "into the output folder and the others into a subfolder of it). The "
+                             "mode is read from the payload's gameMode; rows without it are STANDARD")
     parser.add_argument("--from-pickle", default=None,
                         help="read runs from a pickled list of row dicts instead of Supabase "
                              "(local iteration; never committed)")
@@ -500,20 +525,31 @@ def main() -> int:
               file=sys.stderr)
         return 0
 
-    tables = build(runs, ch)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    for name in LEGACY_FILES:
-        (out_dir / f"{name}.json").unlink(missing_ok=True)
-    for name, payload in tables.items():
-        path = out_dir / f"{name}.json"
-        path.write_text(json.dumps(payload, separators=(",", ":"), sort_keys=True,
-                                   ensure_ascii=False) + "\n", encoding="utf-8")
-        size = path.stat().st_size
-        rows = len(payload["rows"]) if "rows" in payload else len(payload)
-        print(f"Wrote {path.name} ({rows} rows, {size / 1024:.0f} KB)")
-    m = tables["meta"]["model"]
-    print(f"Skill model: brier {m['brier']} vs {m['brier_baseline']} baseline; "
-          + ", ".join(f"{f} {c:+.2f}" for f, c in zip(m["features"], m["coef"])))
+    mode_of = runs["data"].map(run_game_mode)
+    for mode in ([args.game_mode] if args.game_mode else list(GAME_MODES)):
+        subset = runs[mode_of == mode]
+        mode_dir = out_dir / GAME_MODES[mode] if GAME_MODES[mode] else out_dir
+        if subset.empty:
+            # Same as above, per mode: e.g. no Blitz runs uploaded yet.
+            print(f"No {mode} runs to export for {ch['id']} — leaving {mode_dir} untouched.",
+                  file=sys.stderr)
+            continue
+        print(f"== {ch['id']} {mode}: {len(subset)} runs -> {mode_dir}")
+        tables = build(subset, ch)
+        tables["meta"]["game_mode"] = mode
+        mode_dir.mkdir(parents=True, exist_ok=True)
+        for name in LEGACY_FILES:
+            (mode_dir / f"{name}.json").unlink(missing_ok=True)
+        for name, payload in tables.items():
+            path = mode_dir / f"{name}.json"
+            path.write_text(json.dumps(payload, separators=(",", ":"), sort_keys=True,
+                                       ensure_ascii=False) + "\n", encoding="utf-8")
+            size = path.stat().st_size
+            rows = len(payload["rows"]) if "rows" in payload else len(payload)
+            print(f"Wrote {path.name} ({rows} rows, {size / 1024:.0f} KB)")
+        m = tables["meta"]["model"]
+        print(f"Skill model: brier {m['brier']} vs {m['brier_baseline']} baseline; "
+              + ", ".join(f"{f} {c:+.2f}" for f, c in zip(m["features"], m["coef"])))
     return 0
 
 

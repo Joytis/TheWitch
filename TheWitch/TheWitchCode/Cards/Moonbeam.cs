@@ -15,8 +15,8 @@ namespace TheWitch.TheWitchCode.Cards;
 
 /// <summary>
 /// Moonbeam: strike, then bathe the target in <see cref="MoonlightPower" /> equal to the damage dealt (Blight Strike
-/// pattern: blocked + unblocked, so Strength/Vigor scale the Moonlight too). It takes that much damage at the start
-/// of each of your turns (stacks on repeat plays).
+/// pattern: blocked + unblocked, so Strength/Vigor scale the Moonlight too). It takes that much damage at the end
+/// of each enemy turn (stacks on repeat plays).
 /// </summary>
 public sealed class Moonbeam : WitchCard
 {
