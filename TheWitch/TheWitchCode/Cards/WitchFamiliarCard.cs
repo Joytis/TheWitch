@@ -81,7 +81,8 @@ public abstract class WitchFamiliarCard(int cost, CardType type, CardRarity rari
 
     //Source art lives in card_portraits/familiar/ and is packed into atlas slices by
     //tools/pack-card-atlas.py — cards render the .tres slice.
-    public override string CustomPortraitPath => $"familiar/{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".CardAtlasPath();
+    public override string CustomPortraitPath =>
+        Patches.MushroomedCards.PortraitPathFor(this, $"familiar/{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".CardAtlasPath());
     public override string PortraitPath => CustomPortraitPath;
     public override string BetaPortraitPath => CustomPortraitPath;
 }

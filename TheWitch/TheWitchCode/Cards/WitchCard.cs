@@ -22,7 +22,9 @@ public abstract class WitchCard(int cost, CardType type, CardRarity rarity, Targ
 {
     //Source art (any resolution; landscape = normal, taller-than-wide = full art) lives in card_portraits/
     //and is packed into 250x190 (250x351 full art) atlas slices by tools/pack-card-atlas.py — cards render the .tres slice.
-    public override string CustomPortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".CardAtlasPath();
+    //A card disguised by Mushroom Extract reports the mystery slice instead (see MushroomedCards).
+    public override string CustomPortraitPath =>
+        Patches.MushroomedCards.PortraitPathFor(this, $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".CardAtlasPath());
     public override string PortraitPath => CustomPortraitPath;
     public override string BetaPortraitPath => CustomPortraitPath;
 

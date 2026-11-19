@@ -47,10 +47,17 @@ public sealed class MushroomExtract : WitchPotion
             MushroomedCards.Mark(next, rng);
 
             CardModel? drawn = await CardPileCmd.Draw(choiceContext, Owner);
+            if (drawn != next)
+            {
+                // The draw was prevented (No Draw) or gave a different card: don't leave a disguised,
+                // full-price card sitting in the draw pile.
+                MushroomedCards.Unmark(next);
+            }
             if (drawn == null)
             {
                 break;
             }
+            MushroomedCards.Mark(drawn, rng); // no-op unless the draw gave a different card
             drawn.SetToFreeThisCombat();
             CardCmd.Preview(drawn);
         }

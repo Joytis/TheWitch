@@ -16,11 +16,14 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Multiplayer;
 using MegaCrit.Sts2.Core.Multiplayer.Serialization;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Saves;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.TestSupport;
 using MegaCrit.Sts2.Core.Unlocks;
 
@@ -240,24 +243,66 @@ public static class CardTest
             target.SetCurrentHpInternal(9999m);
         }
         // Regression (Witch's Bottled Message, duck-typed so this dev mod references no character
-        // assembly): a bottled card with a captured cost must survive the run's PACKET serialization
-        // (combat replay / MP sync) — the old SavedProperties path threw "could not be mapped to any
-        // net ID" and hung return-to-menu. TestMode disables the replay writer, so exercise it directly.
+        // assembly). A bottled card must come back as it went in, including what it gained in combat,
+        // and identically from the three forms a bottle exists in: the owner's in-memory potion, the
+        // net form (other players' potions are rebuilt from it every combat start) and the JSON save.
+        // The run's PACKET serialization is exercised too (combat replay / MP sync): the old
+        // SavedProperties path threw "could not be mapped to any net ID" and hung return-to-menu, and
+        // TestMode disables the replay writer.
         System.Reflection.MethodInfo? bottleMethod = potion.GetType().GetMethod("Bottle", [typeof(CardModel)]);
         if (bottleMethod != null && player.PlayerCombatState?.Hand.Cards.FirstOrDefault(c => !c.EnergyCost.CostsX) is { } toBottle)
         {
             toBottle.EnergyCost.SetUntilPlayed(0);
+            toBottle.BaseReplayCount += 1;
+            toBottle.AddKeyword(CardKeyword.Ethereal);
+            string want = BottledCardState(toBottle);
             bottleMethod.Invoke(potion, [toBottle]);
-            object? bottledCost = potion.GetType().GetProperty("BottledCost")?.GetValue(potion);
+
             PacketWriter writer = new() { WarnOnGrow = false };
             writer.Write(RunManager.Instance.ToSave(null));
-            AutoSlayLog.Info($"  bottled {toBottle.GetType().Name} (cost {bottledCost}); run packet {writer.BytePosition} bytes");
+
+            SerializablePotion entry = potion.ToSerializable(0);
+            PacketWriter entryWriter = new() { WarnOnGrow = false };
+            entry.Serialize(entryWriter);
+            PacketReader entryReader = new();
+            entryReader.Reset(entryWriter.Buffer);
+            SerializablePotion fromNet = new();
+            fromNet.Deserialize(entryReader);
+            System.Text.Json.Serialization.Metadata.JsonTypeInfo<SerializablePotion> json = JsonSerializationUtility.GetTypeInfo<SerializablePotion>();
+            SerializablePotion fromSave = System.Text.Json.JsonSerializer.Deserialize(System.Text.Json.JsonSerializer.Serialize(entry, json), json)!;
+
+            (string form, PotionModel bottle)[] forms =
+            [
+                ("as bottled", potion),
+                ("after a net round trip", PotionModel.FromSerializable(fromNet)),
+                ("after a save round trip", PotionModel.FromSerializable(fromSave)),
+            ];
+            foreach ((string form, PotionModel bottle) in forms)
+            {
+                // The potion's own preview of its card: built the way the card that comes out is, without
+                // the combat's hooks (the relic test equips everything) touching it.
+                string got = bottle.ExtraHoverTips.OfType<CardHoverTip>().Select(tip => BottledCardState(tip.Card)).FirstOrDefault() ?? "<no card>";
+                if (got != want)
+                {
+                    throw new InvalidOperationException($"bottled card changed {form}: bottled [{want}], holds [{got}]");
+                }
+            }
+            AutoSlayLog.Info($"  bottled [{want}]; same in all {forms.Length} forms; run packet {writer.BytePosition} bytes");
         }
         await potion.OnUseWrapper(ctx, target);
         await EndTurnAndWait(player);
 
         PotionModel potion2 = await Procure(model, player);
         await PotionCmd.Discard(potion2);
+    }
+
+    /// <summary>Everything about a card that a bottle is expected to keep, as one comparable string.</summary>
+    private static string BottledCardState(CardModel card)
+    {
+        string keywords = string.Join(",", card.GetKeywordsWithSources(KeywordSources.Local).Select(k => k.ToString()).Order());
+        string vars = string.Join(",", card.DynamicVars.Select(v => $"{v.Key}={v.Value.BaseValue:0.##}").Order());
+        return $"{card.Id.Entry}+{card.CurrentUpgradeLevel} enchant={card.Enchantment?.Id.Entry}:{card.Enchantment?.Amount} "
+             + $"replay={card.BaseReplayCount} keywords=[{keywords}] vars=[{vars}] cost={card.EnergyCost.GetWithModifiers(CostModifiers.Local)}";
     }
 
     private static async Task<PotionModel> Procure(PotionModel model, Player player)

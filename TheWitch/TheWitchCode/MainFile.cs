@@ -25,26 +25,8 @@ public partial class MainFile : Node
         config.ConfigChanged += (_, _) =>
             Config.TurboWitcherySyncPatch.SendIfHost(MegaCrit.Sts2.Core.Runs.RunManager.Instance.NetService);
 
-        // Bake Bottled Message's contents into the run save (and its net serialization) as a
-        // SerializableCard riding on the potion's SerializablePotion entry.
-        BaseLib.Patches.Saves.ExtendedSaveTypes.RegisterSavedValue<Potions.BottledMessage, MegaCrit.Sts2.Core.Saves.Runs.SerializableCard>(
-            "thewitch_bottled_message",
-            potion => potion.SaveState,
-            (potion, state) => potion.RestoreState(state),
-            (state, writer) => state.Serialize(writer),
-            reader =>
-            {
-                MegaCrit.Sts2.Core.Saves.Runs.SerializableCard state = new();
-                state.Deserialize(reader);
-                return state;
-            });
-        // The bottled card's captured cost rides as its own plain int (see BottledMessage.BottledCost).
-        BaseLib.Patches.Saves.ExtendedSaveTypes.RegisterSavedValue<Potions.BottledMessage, int>(
-            "thewitch_bottled_cost",
-            potion => potion.BottledCost,
-            (potion, cost) => potion.BottledCost = cost,
-            (cost, writer) => writer.WriteInt(cost),
-            reader => reader.ReadInt());
+        // Bottled Message's card rides in the run save and the potion's net serialization.
+        Potions.BottledCard.RegisterSaves();
 
         // Unstable potions: combat-end sweeper rides the run's hook iteration. No save persistence
         // needed — run saves are written at room entry / post-victory (after the sweep), so a save
@@ -65,7 +47,9 @@ public partial class MainFile : Node
         Bird.Common.Data.RunAnalytics.Initialize(ctx);
         Bird.Common.Steam.WorkshopSelfUpdate.Initialize(ctx);
 
-        PatchAllIsolated(new Harmony(ModId));
+        Harmony harmony = new(ModId);
+        PatchAllIsolated(harmony);
+        Patches.MushroomedCardViewPatch.Apply(harmony);
     }
 
     /// <summary>
