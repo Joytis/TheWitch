@@ -17,6 +17,8 @@ public sealed class Mulch : WitchCard
 {
     protected override bool HasEnergyCostX => true;
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
     public Mulch()
         : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
     {
