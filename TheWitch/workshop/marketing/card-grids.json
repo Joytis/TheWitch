@@ -84,10 +84,10 @@
       "archetype": "Familiars",
       "cols": 4,
       "cards": [
+        "MOTH_FAMILIAR",
         "CALL_THE_PACK",
-        "CAT_FAMILIAR",
-        "OWL_FAMILIAR",
-        "EMBRACE_THE_WILDS"
+        "REFUSE_PILE",
+        "OWL_FAMILIAR"
       ]
     },
     {
@@ -95,8 +95,8 @@
       "archetype": "Potions",
       "cols": 4,
       "cards": [
-        "HERBAL_BREW",
-        "EYE_OF_NEWT",
+        "STONY_BREW",
+        "GRIND_DOWN",
         "CRYSTAL_BOTTLE",
         "WITCHCRAFT"
       ]
@@ -108,8 +108,8 @@
       "cards": [
         "VEXING_STRIKE",
         "FORBIDDEN_MAGIC",
-        "CAPTURE_SOUL",
-        "CURSED_SPELLBOOK"
+        "READ_THE_BONES",
+        "HEXBLAST"
       ]
     },
     {
@@ -120,7 +120,7 @@
         "LAVENDER_AND_SAGE",
         "NEEDLE_WHIP",
         "SPROUTS",
-        "WILD_GROWTH"
+        "WICKER_HEART"
       ]
     }
   ]
