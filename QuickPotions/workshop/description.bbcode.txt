@@ -1,0 +1,16 @@
+[h1]Quick Potions[/h1]
+[b]Right-click a potion on your belt to use it instantly.[/b]
+
+No Use/Discard popup, no targeting arrow:
+[list]
+[*][b]Enemy-targeted potions[/b] are thrown at a random living enemy.
+[*][b]Self-targeted and untargeted potions[/b] are used immediately.
+[*]The rare potions that need a pick (e.g. one aimed at an ally) skip the popup and go straight to targeting.
+[/list]
+
+Left-click works exactly as before, so Discard is still one click away.
+
+Works with every character, including modded ones. Doesn't affect gameplay: you can join multiplayer lobbies whose other players don't have it.
+
+[hr][/hr]
+Originally a quality-of-life feature of [b]The Witch[/b] character mod, split out by request. The Witch still has it built in; installing both is fine.

@@ -1,0 +1,62 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
+    <!-- QuickPotions: standalone quality-of-life mod (right-click a belt potion to use it instantly,
+         every character). Code only: no assets, no .pck, no BaseLib dependency. The patch itself is
+         shared source (Common/QoL/PotionQuickUse.cs), also compiled into TheWitch. -->
+    <Import Project="..\Sts2PathDiscovery.props"/>
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+        <PathMap>$(AppOutputBase)=.\</PathMap>
+        <GodotDisabledSourceGenerators>GodotPluginsInitializer</GodotDisabledSourceGenerators>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup Condition="Exists('$(Sts2DataDir)')" >
+        <Reference Include="0Harmony">
+            <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="sts2">
+            <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Only the shared patch. Do NOT include the rest of Common/**: analytics and the Workshop
+             self-update are character-mod services. -->
+        <Compile Include="..\Common\QoL\PotionQuickUse.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove=".godot/**" />
+        <Compile Remove="workshop/**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Condition="Exists('..\Directory.Build.props')" Include="..\Directory.Build.props"/>
+        <None Include=".gitignore" />
+        <None Include="QuickPotions.json" />
+        <None Include="project.godot"/>
+    </ItemGroup>
+
+    <Target Name="CheckDependencyPaths" >
+        <Error
+                Text=" Slay the Spire 2 data not found at path '$(Sts2DataDir)'"
+                Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)')" />
+    </Target>
+
+    <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
+        <Message Text="Copying .dll .pdb and .json to mods folder." Importance="high" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
+        <Copy SourceFiles="$(AssemblyName).json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
+    </Target>
+</Project>

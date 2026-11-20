@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="TheWitch/TheWitch.csproj" />
   <Project Path="TheAugur/TheAugur.csproj" />
+  <Project Path="QuickPotions/QuickPotions.csproj" />
   <Project Path="BirdDebug/BirdDebug.csproj" />
 </Solution>

@@ -62,7 +62,7 @@ internal static class Program
 
     private sealed record Desired(string Kind, string Key, string Label, string? UploadPath);
 
-    private sealed record Manifest(List<Desired> Previews, string? Description, string? DescriptionPath);
+    private sealed record Manifest(List<Desired> Previews, string? Description, string? DescriptionPath, bool AllowEmptyGallery = false);
 
     private sealed record LiveItem(List<Existing> Gallery, string Description);
 
@@ -122,9 +122,9 @@ internal static class Program
             Error($"manifest: {e.Message}");
             return 1;
         }
-        if (manifestPath is not null && manifest.Previews.Count == 0 && !allowEmpty)
+        if (manifestPath is not null && manifest.Previews.Count == 0 && !allowEmpty && !manifest.AllowEmptyGallery)
         {
-            Error("the manifest lists no previews; refusing to clear the item's gallery (pass --allow-empty to do that on purpose).");
+            Error("the manifest lists no previews; refusing to clear the item's gallery (pass --allow-empty, or set \"allowEmptyGallery\": true in the manifest, to do that on purpose).");
             return 1;
         }
         if (manifest.Description is { } description)
@@ -370,7 +370,8 @@ internal static class Program
     }
 
     // Manifest: { "description": "<file>", "previews": [ { "image": "file.png" } | { "youtube": "<url or id>" }, ... ] }
-    // "description" is optional (absent = the live description is left alone). Extra fields (e.g.
+    // "description" is optional (absent = the live description is left alone). An empty "previews"
+    // list is refused unless "allowEmptyGallery": true (a description-only item). Extra fields (e.g.
     // "note") are ignored. File paths are relative to the manifest's folder.
     private static Manifest LoadManifest(string path)
     {
@@ -432,7 +433,9 @@ internal static class Program
                 list.Add(new Desired("youtube", "youtube:" + id, $"youtube {id}", null));
             }
         }
-        return new Manifest(list, description, descriptionPath);
+        bool allowEmptyGallery = doc.RootElement.TryGetProperty("allowEmptyGallery", out JsonElement allowEntry)
+            && allowEntry.ValueKind == JsonValueKind.True;
+        return new Manifest(list, description, descriptionPath, allowEmptyGallery);
     }
 
     // LF line endings, no trailing whitespace on any line, no trailing blank lines. Both sides of the

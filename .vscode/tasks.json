@@ -585,7 +585,7 @@
                 "-File",
                 "${workspaceFolder}/tools/bundle-workshop.ps1",
                 "-Character",
-                "${input:character}",
+                "${input:mod}",
                 "-Branch",
                 "${input:branch}"
             ],
@@ -611,7 +611,7 @@
                 "-File",
                 "${workspaceFolder}/tools/bundle-workshop.ps1",
                 "-Character",
-                "${input:character}",
+                "${input:mod}",
                 "-Branch",
                 "${input:branch}",
                 "-SkipPublish",
@@ -642,7 +642,7 @@
                 "-File",
                 "${workspaceFolder}/tools/bundle-workshop.ps1",
                 "-Character",
-                "${input:character}",
+                "${input:mod}",
                 "${input:marketingMode}"
             ],
             "options": {
@@ -689,7 +689,7 @@
                 "-File",
                 "${workspaceFolder}/tools/deploy.ps1",
                 "-Character",
-                "${input:character}",
+                "${input:mod}",
                 "-VerifyOnly",
                 "-Marketing"
             ],
@@ -715,7 +715,7 @@
                 "-File",
                 "${workspaceFolder}/tools/deploy.ps1",
                 "-Character",
-                "${input:character}"
+                "${input:mod}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -964,6 +964,26 @@
                 }
             ],
             "default": "public"
+        },
+        {
+            "id": "mod",
+            "type": "pickString",
+            "description": "Which mod (Workshop / release)?",
+            "options": [
+                {
+                    "label": "Witch (TheWitch)",
+                    "value": "Witch"
+                },
+                {
+                    "label": "Augur (TheAugur)",
+                    "value": "Augur"
+                },
+                {
+                    "label": "Quick Potions (QuickPotions, code-only QoL mod)",
+                    "value": "QuickPotions"
+                }
+            ],
+            "default": "Witch"
         },
         {
             "id": "character",

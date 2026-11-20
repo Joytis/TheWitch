@@ -1,0 +1,6 @@
+{
+  "_format": "Workshop marketing material (see TheWitch/workshop/marketing/marketing.json for the full format). Synced by tools/bundle-workshop.ps1 -Character QuickPotions -UpdateMarketing. No gallery yet: allowEmptyGallery lets the description sync on its own; add {\"image\": ...} / {\"youtube\": ...} entries to \"previews\" when there are some.",
+  "description": "../description.bbcode.txt",
+  "allowEmptyGallery": true,
+  "previews": []
+}
