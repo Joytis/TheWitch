@@ -1,5 +1,6 @@
 {
-  "_format": "Workshop gallery, in display order. Each entry is {\"image\": \"<file in this folder>\"} or {\"youtube\": \"<url or video id>\"}; extra fields like \"note\" are ignored. Uploaded by tools/bundle-workshop.ps1 -UpdateMarketing; the live gallery is made to match this list exactly.",
+  "_format": "Workshop marketing material. \"description\": the item description (Steam BBCode file, relative to this folder). \"previews\": the gallery, in display order; each entry is {\"image\": \"<file in this folder>\"} or {\"youtube\": \"<url or video id>\"}; extra fields like \"note\" are ignored. Uploaded by tools/bundle-workshop.ps1 -UpdateMarketing; the live description and gallery are made to match exactly. Images here that no entry lists (cards-<archetype>.jpg) are not uploaded: the description embeds them from GitHub Pages.",
+  "description": "../description.bbcode.txt",
   "previews": [
     { "image": "shot-character-select.jpg", "note": "in-game, tools/capture-marketing.ps1 (screenshots.json)" },
     { "image": "shot-familiars.png", "note": "in-game: every familiar summoned + summon cards in hand" },

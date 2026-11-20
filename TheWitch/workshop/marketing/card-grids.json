@@ -1,5 +1,5 @@
 {
-  "_about": "Which cards each marketing grid shows, in grid order. Written once by tools/render-marketing-cards.js (deterministic sample, seed below; --reroll rewrites it), then authoritative: edit by hand to swap or reorder.",
+  "_about": "Which cards each marketing grid shows, in grid order. Written once by tools/render-marketing-cards.js (deterministic sample, seed below; --reroll rewrites it), then authoritative: edit by hand to swap or reorder. Grids with \"archetype\" (no \"rarity\") are hand-picked rows for the Workshop description, not the gallery; --reroll keeps them.",
   "seed": "thewitch-marketing-v1",
   "grids": [
     {
@@ -77,6 +77,50 @@
         "DEFEND_WITCH",
         "HARVEST",
         "INCANT"
+      ]
+    },
+    {
+      "file": "cards-familiars.jpg",
+      "archetype": "Familiars",
+      "cols": 4,
+      "cards": [
+        "CALL_THE_PACK",
+        "CAT_FAMILIAR",
+        "OWL_FAMILIAR",
+        "EMBRACE_THE_WILDS"
+      ]
+    },
+    {
+      "file": "cards-potions.jpg",
+      "archetype": "Potions",
+      "cols": 4,
+      "cards": [
+        "HERBAL_BREW",
+        "EYE_OF_NEWT",
+        "CRYSTAL_BOTTLE",
+        "WITCHCRAFT"
+      ]
+    },
+    {
+      "file": "cards-hex.jpg",
+      "archetype": "Hex",
+      "cols": 4,
+      "cards": [
+        "VEXING_STRIKE",
+        "FORBIDDEN_MAGIC",
+        "CAPTURE_SOUL",
+        "CURSED_SPELLBOOK"
+      ]
+    },
+    {
+      "file": "cards-brambles.jpg",
+      "archetype": "Brambles",
+      "cols": 4,
+      "cards": [
+        "LAVENDER_AND_SAGE",
+        "NEEDLE_WHIP",
+        "SPROUTS",
+        "WILD_GROWTH"
       ]
     }
   ]

@@ -12,19 +12,18 @@
 
     Workspace layout consumed by ModUploader:
         workshop.json   metadata (title, visibility, tags, ...)                [versioned]
-        description.md  Workshop description DRAFT (markdown) - never uploaded  [versioned]
+        description.bbcode.txt  Workshop description (Steam BBCode)            [versioned]
         image.png       Steam Workshop thumbnail                               [versioned]
         mod_id.txt      published item id, written after first upload          [versioned]
         content/        the mod files that actually get uploaded               [gitignored]
-        marketing/      gallery manifest (marketing.json) + its images         [versioned]
+        marketing/      marketing manifest (marketing.json) + its images       [versioned]
 
     workshop.json and image.png are hand-maintained and never clobbered; this
     script only stages content/ and (optionally) patches named metadata fields.
-    The Workshop DESCRIPTION is edited by hand on the Steam item page (images
-    are hosted there) and is never pushed by this script: workshop.json
-    "description" is forced to null so ModUploader leaves it unchanged.
-    description.md is only a drafting copy; -RenderDescription prints it as
-    Steam BBCode for pasting into the web editor.
+    The Workshop DESCRIPTION is description.bbcode.txt, pushed by -UpdateMarketing
+    (marketing.json "description" names the file), never by ModUploader:
+    workshop.json "description" is forced to null so the upload leaves it alone.
+    Edit the file, not the Steam web editor: the next sync overwrites web edits.
 
     Staging is the default. Uploading is opt-in (-Upload) because publishing to
     the Workshop is outward-facing and not trivially reversible.
@@ -65,13 +64,16 @@
 
 .PARAMETER UpdateMarketing
     Update Marketing Material: sync the Workshop item's gallery (additional preview
-    images + YouTube videos) to <workspace>/marketing/marketing.json, in manifest
-    order, via tools/WorkshopMarketing (ModUploader can only set image.png). Alone
+    images + YouTube videos, in manifest order) and its description to
+    <workspace>/marketing/marketing.json via tools/WorkshopMarketing (ModUploader
+    can only set image.png). The description file is checked first (BBCode tags
+    balanced, length cap: errors stop the run; every link fetched: warnings). Alone
     it does only that (no publish/stage/upload); with -Upload it runs after the
     upload. Needs mod_id.txt and Steam running + logged in.
 
 .PARAMETER MarketingDryRun
-    With -UpdateMarketing (implied): print the gallery diff without submitting.
+    With -UpdateMarketing (implied): print the gallery + description diff and the
+    description checks without submitting.
 
 .PARAMETER IncludePdb
     Also copy the mod's .pdb into content/ (debug symbols). Off by default.
@@ -99,11 +101,11 @@
 
 .EXAMPLE
     ./bundle-workshop.ps1 -UpdateMarketing -MarketingDryRun
-    # show how the Workshop gallery differs from workshop/marketing/marketing.json
+    # show how the Workshop gallery + description differ from workshop/marketing/marketing.json
 
 .EXAMPLE
     ./bundle-workshop.ps1 -UpdateMarketing
-    # only push the gallery (images + videos); no build, no content upload
+    # only push the gallery (images + videos) and the description; no build, no content upload
 #>
 [CmdletBinding()]
 param(
@@ -196,9 +198,9 @@ if ($RenderDescription) {
     exit 0
 }
 
-# --- Update Marketing Material: Workshop gallery from marketing/marketing.json ---
-# ModUploader only sets the main preview (image.png); the gallery images + YouTube videos go
-# through tools/WorkshopMarketing, which diffs the live gallery against the manifest and only
+# --- Update Marketing Material: Workshop gallery + description from marketing/marketing.json ---
+# ModUploader only sets the main preview (image.png); the gallery images + YouTube videos and the
+# description go through tools/WorkshopMarketing, which diffs the live item against the manifest and only
 # submits what changed. Runs standalone (no publish/stage/upload) or after -Upload.
 if ($MarketingDryRun) { $UpdateMarketing = $true }
 function Update-WorkshopMarketing {
@@ -219,7 +221,7 @@ function Update-WorkshopMarketing {
 
     $toolArgs = @('--item', $itemId, '--manifest', $marketingJson)
     if ($MarketingDryRun) { $toolArgs += '--dry-run' }
-    Write-Step "Updating marketing material (Workshop gallery) for item $itemId..."
+    Write-Step "Updating marketing material (Workshop gallery + description) for item $itemId..."
     & (Join-Path $toolOut 'WorkshopMarketing.exe') @toolArgs
     if ($LASTEXITCODE -ne 0) { throw "WorkshopMarketing failed (exit $LASTEXITCODE)." }
 }
@@ -279,7 +281,7 @@ if ($seededNew -and (Test-Path $workshopJson)) {
     if ($mod.dependencies) { $deps = @($mod.dependencies | ForEach-Object { $_.id }) }
     $ws = [ordered]@{
         title        = $mod.name
-        description  = $null   # edited by hand on the Steam item page; null = unchanged
+        description  = $null   # pushed by -UpdateMarketing (WorkshopMarketing); null = unchanged
         visibility   = "private"
         changeNote   = "Initial upload"
         tags         = @()
@@ -341,8 +343,8 @@ Write-Host "    staged:" (Get-ChildItem $contentDir | ForEach-Object { $_.Name }
 # changeNote is always rewritten on upload runs: workshop.json is versioned, so
 # leaving it untouched would resend the PREVIOUS upload's note as this update's
 # patch notes. No -ChangeNote => blank note (no patch-note text on Steam).
-# The description is never pushed from here (hand-edited on Steam, see header):
-# a non-null "description" in workshop.json would overwrite the live page.
+# The description is never pushed through ModUploader (-UpdateMarketing owns it, see header):
+# a non-null "description" in workshop.json would overwrite the live page with stale text.
 $forceNullDesc = $false
 if (Test-Path $workshopJson) {
     $probe = Get-Content $workshopJson -Raw | ConvertFrom-Json
@@ -353,7 +355,7 @@ if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload -or $forceNullDesc
     $ws = Get-Content $workshopJson -Raw | ConvertFrom-Json
     if ($forceNullDesc) {
         $ws.description = $null
-        Write-Warn2 "workshop.json had a non-null description; set to null so the hand-edited Steam description is not overwritten."
+        Write-Warn2 "workshop.json had a non-null description; set to null so ModUploader does not overwrite the description (description.bbcode.txt, synced by -UpdateMarketing)."
     }
     if ($ChangeNote -ne "") { $ws.changeNote = $ChangeNote; Write-Step "changeNote = '$ChangeNote'" }
     elseif ($Upload -and $ws.changeNote -ne "") {

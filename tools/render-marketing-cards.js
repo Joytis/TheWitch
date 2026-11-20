@@ -13,6 +13,10 @@
  * that the lock is the source of truth, so new cards never reshuffle the images. Edit it by hand to
  * swap or reorder cards (grid order = list order).
  *
+ * Hand-picked grids: a lock entry with "archetype" instead of "rarity" (e.g. the four-card
+ * cards-familiars.jpg row) is curated by hand, drawn on the starter background, and kept as-is by --reroll.
+ * These are not in the Workshop gallery (marketing.json does not list them); the description embeds them.
+ *
  * Output: one image per grid, written next to the lock (<workshop>/marketing/<file>). The file's extension
  * picks the encoding: .jpg/.jpeg = JPEG (quality JPEG_QUALITY), else PNG. The grids ship as JPEG because the
  * PNGs run ~4.5 MB each and Steam rejected the gallery update with k_EResultLimitExceeded. Upload order is
@@ -94,16 +98,24 @@ function sample(rarity, count) {
   const key = e => crypto.createHash('sha256').update(`${mk.seed}:${e}`).digest('hex');
   return pool.map(c => c.entry).sort((a, b) => key(a).localeCompare(key(b))).slice(0, count);
 }
+// Archetype grids from the current lock: chosen by hand, so a reroll keeps them.
+function handPickedGrids() {
+  if (!fs.existsSync(lockPath)) return [];
+  return JSON.parse(fs.readFileSync(lockPath, 'utf8')).grids.filter(g => g.archetype);
+}
 function loadLock() {
   if (fs.existsSync(lockPath) && !REROLL) return JSON.parse(fs.readFileSync(lockPath, 'utf8'));
   const lock = {
     _about: 'Which cards each marketing grid shows, in grid order. Written once by tools/render-marketing-cards.js ' +
       '(deterministic sample, seed below; --reroll rewrites it), then authoritative: edit by hand to swap or reorder.',
     seed: mk.seed,
-    grids: mk.grids.map(g => ({
-      file: g.file, rarity: g.rarity, cols: g.cols, ...(g.aspect ? { aspect: g.aspect } : {}),
-      cards: g.rarity === 'Starter' ? starterEntries() : sample(g.rarity, g.count),
-    })),
+    grids: [
+      ...mk.grids.map(g => ({
+        file: g.file, rarity: g.rarity, cols: g.cols, ...(g.aspect ? { aspect: g.aspect } : {}),
+        cards: g.rarity === 'Starter' ? starterEntries() : sample(g.rarity, g.count),
+      })),
+      ...handPickedGrids(),
+    ],
   };
   fs.mkdirSync(marketingDir, { recursive: true });
   fs.writeFileSync(lockPath, JSON.stringify(lock, null, 2) + '\n');
@@ -252,7 +264,8 @@ function pageScript() {
       canvas.width = Math.round(W * S); canvas.height = Math.round(H * S);
       const ctx = canvas.getContext('2d');
       ctx.scale(S, S);
-      const accent = grid.rarity === 'Starter' ? JOB.theme.starterAccent : FP.swatch('rarity', grid.frameRarity);
+      // Starter and hand-picked archetype grids have no rarity colour.
+      const accent = !grid.rarity || grid.rarity === 'Starter' ? JOB.theme.starterAccent : FP.swatch('rarity', grid.frameRarity);
       background(ctx, W, H, accent, JOB.seed + ':' + grid.file);
 
       const x0 = (W - contentW) / 2, y0 = (H - contentH) / 2;

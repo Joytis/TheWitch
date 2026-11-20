@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <!--
-      Syncs a Workshop item's gallery (additional preview images + YouTube videos) to a
+      Syncs a Workshop item's gallery (additional preview images + YouTube videos) and description to a
       marketing manifest. Driven by tools/bundle-workshop.ps1 -UpdateMarketing; see Program.cs.
       Deliberately NOT in TheWicken.slnx: it is a release tool, not part of the mod build.
 
