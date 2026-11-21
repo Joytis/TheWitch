@@ -7,9 +7,24 @@ description: Bump the mod version and author player-facing patch notes for the n
 
 Prepares a Workshop release: pick the new version, bump it where it lives, and write legible player-facing patch notes covering everything since the last release.
 
+## Which mod
+
+Default: the Witch. Other shipped mods (`tools/characters.ps1`: Augur, and utility mods like
+QuickPotions) work the same way with their own paths:
+
+| Mod | Manifest | Release tags | Notes file | Diff paths |
+|---|---|---|---|---|
+| Witch | `TheWitch/TheWitch.json` | `vX.Y.Z` | `Docs/patch-notes/vX.Y.Z.md` | see step 4 |
+| Augur | `TheAugur/TheAugur.json` | `TheAugur-vX.Y.Z` | `Docs/patch-notes/TheAugur/vX.Y.Z.md` | `TheAugur/TheAugurCode TheAugur/TheAugur/localization` |
+| QuickPotions | `QuickPotions/QuickPotions.json` | `QuickPotions-vX.Y.Z` | `Docs/patch-notes/QuickPotions/vX.Y.Z.md` | `QuickPotions Common/QoL` |
+
+Shared `Common/` code ships in every mod that includes it: a change to `Common/QoL/` is a
+QuickPotions change AND a Witch change. For a non-Witch mod, step 1 looks only at that mod's
+prefixed tags, the notes title is `# <Mod name> vX.Y.Z`, and the card-docs check in step 5 is skipped.
+
 ## Version source of truth
 
-`TheWitch/TheWitch.json` → `"version"` (format `vX.Y.Z`). This is the ONLY place to edit.
+`TheWitch/TheWitch.json` → `"version"` (format `vX.Y.Z`; other mods: their manifest above). This is the ONLY place to edit.
 Derived/do-not-touch: `TheWitch/workshop/workshop.json` `changeNote` (rewritten by `tools/bundle-workshop.ps1` on upload), staged `workshop/content/TheWitch.json` (synced by the bundle script), `pages/analytics-data/*` (data).
 
 ## Protocol

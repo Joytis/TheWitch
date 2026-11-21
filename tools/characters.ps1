@@ -15,6 +15,10 @@ $BirdCharacters = [ordered]@{
         ProjectDir = 'TheWitch'       # Godot project root, relative to the repo root
         Csproj     = 'TheWitch/TheWitch.csproj'
         Workshop   = 'TheWitch/workshop'   # Workshop workspace dir, relative to the repo root
+        Kind       = 'Character'
+        HasPck     = $true
+        TagPrefix  = ''                    # release tags are '<TagPrefix><version>'; the Witch predates prefixes
+        NotesDir   = 'Docs/patch-notes'    # patch notes: <NotesDir>/<version>.md
     }
     Augur = @{
         Key        = 'Augur'
@@ -22,6 +26,27 @@ $BirdCharacters = [ordered]@{
         ProjectDir = 'TheAugur'
         Csproj     = 'TheAugur/TheAugur.csproj'
         Workshop   = 'TheAugur/workshop'
+        Kind       = 'Character'
+        HasPck     = $true
+        TagPrefix  = 'TheAugur-'
+        NotesDir   = 'Docs/patch-notes/TheAugur'
+    }
+}
+
+# Shipped mods that are NOT characters (code-only quality-of-life mods). Same fields as a character
+# entry, so bundle-workshop.ps1 / deploy.ps1 take them via Get-BirdMod; the character-only tools
+# (launch, smoke tests, AutoSlay, atlases, Spine, card docs, gamedata junctions) never see them.
+$BirdUtilityMods = [ordered]@{
+    QuickPotions = @{
+        Key        = 'QuickPotions'
+        ModId      = 'QuickPotions'
+        ProjectDir = 'QuickPotions'
+        Csproj     = 'QuickPotions/QuickPotions.csproj'
+        Workshop   = 'QuickPotions/workshop'
+        Kind       = 'Utility'
+        HasPck     = $false
+        TagPrefix  = 'QuickPotions-'
+        NotesDir   = 'Docs/patch-notes/QuickPotions'
     }
 }
 
@@ -34,6 +59,16 @@ function Get-BirdCharacter([string]$Key) {
         if ($k -ieq $Key) { return $BirdCharacters[$k] }
     }
     throw "Unknown character '$Key' (known: $($BirdCharacters.Keys -join ', '))."
+}
+
+# Any shipped mod: a character or a utility mod (for the Workshop / release tools).
+function Get-BirdMod([string]$Key) {
+    foreach ($table in @($BirdCharacters, $BirdUtilityMods)) {
+        foreach ($k in $table.Keys) {
+            if ($k -ieq $Key) { return $table[$k] }
+        }
+    }
+    throw "Unknown mod '$Key' (known: $((@($BirdCharacters.Keys) + @($BirdUtilityMods.Keys)) -join ', '))."
 }
 
 # Game install folder for a game branch ('public' | 'beta'), as the build resolves it

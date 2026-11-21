@@ -33,8 +33,10 @@
     (gitignored; file contains just the webhook URL).
 
 .PARAMETER Character
-    Which character mod to bundle (Witch | Augur; default Witch). Picks the
-    csproj, manifest, source tree and default workspace (tools/characters.ps1).
+    Which mod to bundle (Witch | Augur | QuickPotions; default Witch; alias -Mod).
+    Picks the csproj, manifest, source tree and default workspace
+    (tools/characters.ps1 Get-BirdMod). A mod whose manifest has "has_pck": false
+    (QuickPotions) is built with `dotnet build` and staged without a .pck.
 
 .PARAMETER SkipPublish
     Skip `dotnet publish`; reuse whatever is already in the mods folder.
@@ -109,7 +111,8 @@
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('Witch','Augur')]
+    [Alias('Mod')]
+    [ValidateSet('Witch','Augur','QuickPotions')]
     [string]$Character = 'Witch',
     [switch]$SkipPublish,
     [switch]$Upload,
@@ -133,7 +136,7 @@ $ErrorActionPreference = "Stop"
 # Repo root is the parent of this tools/ folder.
 $repoRoot = Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot 'characters.ps1')
-$Char     = Get-BirdCharacter $Character
+$Char     = Get-BirdMod $Character
 $csproj   = Join-Path $repoRoot $Char.Csproj
 $manifest = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$($Char.ModId).json")
 
@@ -175,6 +178,7 @@ if (-not (Test-Path $manifest)) { throw "Mod manifest not found: $manifest" }
 $mod = Get-Content $manifest -Raw | ConvertFrom-Json
 $modId = $mod.id
 if (-not $modId) { throw "Manifest has no 'id': $manifest" }
+$hasPck = [bool]$mod.has_pck
 
 # --- Resolve the ModUploader executable ------------------------------------
 if (-not $Uploader) {
@@ -241,10 +245,14 @@ $branchProps = @()
 if ($Branch) { $branchProps = @("-p:Sts2Branch=$Branch"); Write-Step "Game branch: $Branch" }
 if ($SkipPublish) {
     Write-Step "Skipping publish (-SkipPublish); reusing existing mods/ outputs."
-} else {
+} elseif ($hasPck) {
     Write-Step "Publishing ($csproj) -- this exports the .pck via headless Godot..."
     & dotnet publish $csproj @branchProps
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed (exit $LASTEXITCODE)." }
+} else {
+    Write-Step "Building ($csproj) -- code-only mod, no .pck..."
+    & dotnet build $csproj @branchProps
+    if ($LASTEXITCODE -ne 0) { throw "dotnet build failed (exit $LASTEXITCODE)." }
 }
 
 # --- Resolve the mods source folder ----------------------------------------
@@ -297,20 +305,25 @@ Write-Step "Staging content/ from $modSrc ..."
 $pck = Join-Path $modSrc "$modId.pck"
 $dll = Join-Path $modSrc "$modId.dll"
 $json = Join-Path $modSrc "$modId.json"
-foreach ($f in @($json, $dll, $pck)) {
+$stageFiles = @($json, $dll)
+if ($hasPck) { $stageFiles += $pck }
+foreach ($f in $stageFiles) {
     if (-not (Test-Path $f)) {
-        throw "Required mod file missing: $f`nRun a full 'dotnet publish' first (the .pck only comes from publish, not build)."
+        $how = if ($hasPck) { "Run a full 'dotnet publish' first (the .pck only comes from publish, not build)." } else { "Run 'dotnet build $($Char.Csproj)' first." }
+        throw "Required mod file missing: $f`n$how"
     }
 }
 
 # Stale check (only meaningful when reusing outputs).
 if ($SkipPublish) {
-    $pckTime = (Get-Item $pck).LastWriteTimeUtc
+    $artifact = if ($hasPck) { $pck } else { $dll }
+    $artifactTime = (Get-Item $artifact).LastWriteTimeUtc
     $srcRoot = Join-Path $repoRoot $Char.ProjectDir
-    $newestSrc = Get-ChildItem -Path (Join-Path $srcRoot "$($Char.ModId)Code"), (Join-Path $srcRoot $Char.ModId) -Recurse -File -ErrorAction SilentlyContinue |
+    $srcDirs = @((Join-Path $srcRoot "$($Char.ModId)Code"), (Join-Path $srcRoot $Char.ModId), (Join-Path $repoRoot 'Common'))
+    $newestSrc = Get-ChildItem -Path $srcDirs -Recurse -File -ErrorAction SilentlyContinue |
         Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
-    if ($newestSrc -and $newestSrc.LastWriteTimeUtc -gt $pckTime) {
-        Write-Warn2 "Staged .pck ($pckTime UTC) is older than $($newestSrc.Name). Outputs may be stale -- drop -SkipPublish to rebuild."
+    if ($newestSrc -and $newestSrc.LastWriteTimeUtc -gt $artifactTime) {
+        Write-Warn2 "Staged $(Split-Path $artifact -Leaf) ($artifactTime UTC) is older than $($newestSrc.Name). Outputs may be stale -- drop -SkipPublish to rebuild."
     }
 }
 
@@ -318,9 +331,7 @@ if ($SkipPublish) {
 if (Test-Path $contentDir) { Remove-Item -Path (Join-Path $contentDir '*') -Recurse -Force }
 else { New-Item -ItemType Directory -Path $contentDir | Out-Null }
 
-Copy-Item $json -Destination $contentDir
-Copy-Item $dll  -Destination $contentDir
-Copy-Item $pck  -Destination $contentDir
+foreach ($f in $stageFiles) { Copy-Item $f -Destination $contentDir }
 
 # Keep the staged manifest's version in sync with the repo manifest (matters
 # for -SkipPublish -Upload, where the mods-folder copy predates the bump).
@@ -434,7 +445,7 @@ if ($Upload) {
     if ($UpdateMarketing) { Update-WorkshopMarketing }
 } else {
     Write-Step "Staged. To upload, run:"
-    Write-Host "    ./tools/bundle-workshop.ps1 -Upload" -ForegroundColor Green
+    Write-Host "    ./tools/bundle-workshop.ps1 -Character $($Char.Key) -Upload" -ForegroundColor Green
     Write-Host "    (or directly: `"$Uploader`" upload -w `"$Workspace`")" -ForegroundColor DarkGray
     if (-not $hasModId) { Write-Warn2 "First upload will create a new Workshop item and write mod_id.txt." }
 }

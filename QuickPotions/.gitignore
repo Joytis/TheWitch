@@ -1,0 +1,5 @@
+.godot/
+bin/
+# Steam Workshop bundle staging (tools/bundle-workshop.ps1): keep config (workshop.json, image.png, mod_id.txt)
+/workshop/content/
+/workshop/README.md

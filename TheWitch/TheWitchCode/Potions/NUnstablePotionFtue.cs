@@ -14,7 +14,7 @@ namespace TheWitch.TheWitchCode.Potions;
 
 /// <summary>
 /// One-time tip shown the first time the local player creates an Unstable potion: belt potions
-/// can be right-clicked to use them instantly (PotionQuickUsePatch). Reuses the base-game
+/// can be right-clicked to use them instantly (Common/QoL/PotionQuickUse.cs). Reuses the base-game
 /// obtain_potion_ftue scene (its NObtainPotionFtue script wires the confirm button and lifts the
 /// belt above the backstop) and swaps the text. Gated by the game's progress-save FTUE flags, so
 /// the Tutorials toggle/reset in settings applies.

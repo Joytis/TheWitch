@@ -1,0 +1,12 @@
+{
+  "id": "QuickPotions",
+  "name": "Quick Potions",
+  "author": "Joytis",
+  "description": "Right-click a potion on your belt to use it instantly: no Use/Discard popup, and enemy-targeted potions are thrown at a random enemy. Works for every character. Left-click is unchanged.",
+  "version": "v1.0.0",
+  "min_game_version": "0.111.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}

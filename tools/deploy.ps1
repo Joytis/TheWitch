@@ -1,7 +1,8 @@
 <#
 .SYNOPSIS
-    Release pipeline for a character mod: verify the one source tree against both game branches
-    (public + beta installs), then tag, upload both builds to the Workshop and push.
+    Release pipeline for a shipped mod (a character, or a utility mod like QuickPotions): verify the
+    one source tree against both game branches (public + beta installs), then tag, upload both
+    builds to the Workshop and push.
 
 .DESCRIPTION
     Run it after the version bump + patch notes are committed (/version-bump). Stages, in order:
@@ -19,6 +20,16 @@
         upload-beta        same, beta build
         flag-beta          GATE: mark the new revision as the beta-branch version
         push               git push origin <branch> + the tag
+
+    A utility mod (tools/characters.ps1 $BirdUtilityMods: code only, no character content) runs the
+    same pipeline minus what needs a character: publish is a plain `dotnet build` when it ships no
+    .pck, and there is no testall / autoslay (test it in game before acking the review gate) and no
+    marketing render (its gallery is still synced from marketing.json on upload). Its first release
+    needs -NewItem: the upload creates the Workshop item and the pipeline commits the new mod_id.txt.
+
+    Tags are <TagPrefix><version> and notes <NotesDir>/<version>.md, per mod (tools/characters.ps1):
+    the Witch keeps bare vX.Y.Z tags + Docs/patch-notes/, every other mod is prefixed so versions
+    never collide.
 
     The pipeline owns the version tag: it is created only once the first upload has succeeded, so a
     tag means "this version is on the Workshop", and preflight refuses to start a version whose tag
@@ -45,6 +56,13 @@
     the player-facing "updated on the Workshop" announcement posted by bundle-workshop.ps1.
 
     Exit codes: 0 done, 1 a stage failed, 2 waiting at a gate.
+
+.PARAMETER Character
+    Which mod to release (Witch | Augur | QuickPotions; default Witch; alias -Mod).
+
+.PARAMETER NewItem
+    Allow a release with no <workspace>/mod_id.txt: the first upload creates a NEW Workshop item.
+    Only for a mod's very first release.
 
 .PARAMETER Branches
     Game branches to verify + upload (default public,beta).
@@ -105,8 +123,10 @@
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('Witch','Augur')]
+    [Alias('Mod')]
+    [ValidateSet('Witch','Augur','QuickPotions')]
     [string]$Character = 'Witch',
+    [switch]$NewItem,
     [string[]]$Branches = @('public','beta'),
     [switch]$VerifyOnly,
     [switch]$Marketing,
@@ -134,13 +154,17 @@ $Interactive = (-not $NoPrompt) -and [Environment]::UserInteractive -and (-not [
 if ($Marketing -and -not $VerifyOnly) { throw '-Marketing is the -VerifyOnly preview; a full run always includes the marketing stage.' }
 $repoRoot = Split-Path $PSScriptRoot -Parent
 . (Join-Path $PSScriptRoot 'characters.ps1')
-$Char      = Get-BirdCharacter $Character
+$Char      = Get-BirdMod $Character
+$IsCharacter = $Char.Kind -eq 'Character'
 $ModId     = $Char.ModId
 $csproj    = Join-Path $repoRoot $Char.Csproj
 $workshop  = Join-Path $repoRoot $Char.Workshop
 $manifest  = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$ModId.json")
 $Version   = (Get-Content $manifest -Raw | ConvertFrom-Json).version
-$notesFile = Join-Path $repoRoot "Docs/patch-notes/$Version.md"
+$Tag       = "$($Char.TagPrefix)$Version"
+$notesRel  = "$($Char.NotesDir)/$Version.md"
+$notesFile = Join-Path $repoRoot $notesRel
+$marketingJson = Join-Path $workshop 'marketing/marketing.json'
 $psExe     = (Get-Process -Id $PID).Path
 $utf8      = New-Object System.Text.UTF8Encoding($false)
 
@@ -239,7 +263,9 @@ function Get-BuildErrors([string]$Log) {
 
 function Get-ModFiles([string]$Branch) {
     $dir = Join-Path (Join-Path $script:State.installs[$Branch].path 'mods') $ModId
-    return @("$ModId.dll", "$ModId.pck", "$ModId.json") | ForEach-Object { Join-Path $dir $_ }
+    $names = @("$ModId.dll", "$ModId.json")
+    if ($Char.HasPck) { $names += "$ModId.pck" }
+    return $names | ForEach-Object { Join-Path $dir $_ }
 }
 
 function Get-ArtifactHashes([string]$Branch) {
@@ -311,31 +337,39 @@ Add-Stage 'preflight' -Always {
         $dirty = @()
         if (-not $Resume) { $dirty = @(Invoke-Git @('status', '--porcelain')) }
         if ($dirty.Count -gt 0) { $problems += "Working tree is not clean ($($dirty.Count) path(s)); commit the version bump + notes first." }
-        if (-not (Test-Path $notesFile)) { $problems += "Patch notes missing: Docs/patch-notes/$Version.md (run /version-bump)." }
+        if (-not (Test-Path $notesFile)) { $problems += "Patch notes missing: $notesRel (run /version-bump)." }
         # The tag is written by this pipeline after the first upload, so on a fresh run an existing
         # tag means the version is already on the Workshop. (A resumed run may have tagged it itself.)
         if (-not $Resume) {
-            $tagSha = Get-TagCommit $Version
+            $tagSha = Get-TagCommit $Tag
             if ($tagSha) {
-                $problems += "Tag $Version already exists (at $($tagSha.Substring(0, 8))): that version has been released. Bump the version (/version-bump)."
+                $problems += "Tag $Tag already exists (at $($tagSha.Substring(0, 8))): that version has been released. Bump the version (/version-bump)."
             } else {
-                $remote = Invoke-Native 'git' @('-C', $repoRoot, 'ls-remote', '--tags', 'origin', "refs/tags/$Version")
-                if ($script:NativeExit -ne 0) { $warnings += "Could not ask origin whether tag $Version exists (offline?); only the local tags were checked." }
-                elseif ("$remote".Trim()) { $problems += "Tag $Version already exists on origin: that version has been released. Fetch tags and bump the version (/version-bump)." }
+                $remote = Invoke-Native 'git' @('-C', $repoRoot, 'ls-remote', '--tags', 'origin', "refs/tags/$Tag")
+                if ($script:NativeExit -ne 0) { $warnings += "Could not ask origin whether tag $Tag exists (offline?); only the local tags were checked." }
+                elseif ("$remote".Trim()) { $problems += "Tag $Tag already exists on origin: that version has been released. Fetch tags and bump the version (/version-bump)." }
             }
         }
-        if (-not (Test-Path (Join-Path $workshop 'mod_id.txt'))) { $problems += "No mod_id.txt in $($Char.Workshop)." }
+        $hasItem = Test-Path (Join-Path $workshop 'mod_id.txt')
+        $allowNew = $NewItem -or ($Resume -and $script:State.newItem)
+        if ($hasItem -and $NewItem -and -not $Resume) { $problems += "-NewItem given but $($Char.Workshop)/mod_id.txt exists: the item was already created. Drop -NewItem." }
+        elseif (-not $hasItem -and -not $allowNew) { $problems += "No mod_id.txt in $($Char.Workshop). For a mod's first release pass -NewItem (the upload creates the Workshop item)." }
+        elseif (-not $hasItem) { $warnings += "No mod_id.txt: upload-$($Branches[0]) will CREATE A NEW Workshop item (-NewItem); the pipeline commits its mod_id.txt." }
         if (-not (Test-Path (Join-Path $PSScriptRoot 'ModUploader-win-x64/ModUploader.exe'))) { $problems += 'tools/ModUploader-win-x64/ModUploader.exe not found.' }
 
-        $null = Invoke-Native 'node' @((Join-Path $repoRoot 'Docs/card-data/regen.js'), '--check')
-        if ($script:NativeExit -ne 0) { $problems += 'Card docs are stale: run `node Docs/card-data/regen.js` and commit.' }
+        if ($IsCharacter) {
+            $null = Invoke-Native 'node' @((Join-Path $repoRoot 'Docs/card-data/regen.js'), '--check')
+            if ($script:NativeExit -ne 0) { $problems += 'Card docs are stale: run `node Docs/card-data/regen.js` and commit.' }
+        }
     }
 
     if (-not (Get-Process -Name steam -ErrorAction SilentlyContinue)) { $problems += 'Steam is not running (the game and the uploader need the client, logged in).' }
     if (Get-Process -Name SlayTheSpire2 -ErrorAction SilentlyContinue) { $problems += 'Slay the Spire 2 is running; close it (test runs share godot.log).' }
 
-    $godot = (Invoke-Native 'dotnet' @('msbuild', $csproj, '-getProperty:GodotPath', '-nologo') | Select-Object -Last 1)
-    if (-not $godot -or -not (Test-Path $godot.Trim())) { $problems += "GodotPath not set or missing ('$godot'); publish cannot export the .pck." }
+    if ($Char.HasPck) {
+        $godot = (Invoke-Native 'dotnet' @('msbuild', $csproj, '-getProperty:GodotPath', '-nologo') | Select-Object -Last 1)
+        if (-not $godot -or -not (Test-Path $godot.Trim())) { $problems += "GodotPath not set or missing ('$godot'); publish cannot export the .pck." }
+    }
 
     foreach ($b in $Branches) {
         try {
@@ -373,17 +407,31 @@ foreach ($branch in $Branches) {
     Add-Stage "publish-$branch" -Branch $branch {
         param($log, $branch)
         $started = Get-Date
-        $code = Invoke-Logged $log 'dotnet' @('publish', $csproj, "-p:Sts2Branch=$branch", '-nologo')
-        if ($code -ne 0) { throw "dotnet publish ($branch) failed, exit $code.`n$(Get-BuildErrors $log)" }
-        $code = Invoke-Logged $log 'dotnet' @('build', (Join-Path $repoRoot $BirdDebugCsproj), "-p:Sts2Branch=$branch", '-nologo')
-        if ($code -ne 0) { throw "dotnet build BirdDebug ($branch) failed, exit $code.`n$(Get-BuildErrors $log)" }
-        $pck = (Get-ModFiles $branch)[1]
-        if (-not (Test-Path $pck) -or (Get-Item $pck).LastWriteTime -lt $started) {
-            throw "Publish did not write a fresh .pck ($pck). The Godot export step failed:`n$(Get-LogTail $log 15)"
+        # A code-only mod has no Godot export: build = deploy into the install's mods folder.
+        $verb = if ($Char.HasPck) { 'publish' } else { 'build' }
+        $code = Invoke-Logged $log 'dotnet' @($verb, $csproj, "-p:Sts2Branch=$branch", '-nologo')
+        if ($code -ne 0) { throw "dotnet $verb ($branch) failed, exit $code.`n$(Get-BuildErrors $log)" }
+        if ($IsCharacter) {
+            $code = Invoke-Logged $log 'dotnet' @('build', (Join-Path $repoRoot $BirdDebugCsproj), "-p:Sts2Branch=$branch", '-nologo')
+            if ($code -ne 0) { throw "dotnet build BirdDebug ($branch) failed, exit $code.`n$(Get-BuildErrors $log)" }
+        }
+        $modDir = Join-Path (Join-Path $script:State.installs[$branch].path 'mods') $ModId
+        if ($Char.HasPck) {
+            $pck = Join-Path $modDir "$ModId.pck"
+            if (-not (Test-Path $pck) -or (Get-Item $pck).LastWriteTime -lt $started) {
+                throw "Publish did not write a fresh .pck ($pck). The Godot export step failed:`n$(Get-LogTail $log 15)"
+            }
+        } else {
+            # An up-to-date incremental build may skip the compile, but the copy-to-mods step still runs.
+            $dll = Join-Path $modDir "$ModId.dll"
+            if (-not (Test-Path $dll)) { throw "Build did not deploy $dll.`n$(Get-LogTail $log 15)" }
         }
         $script:State.artifacts[$branch] = Get-ArtifactHashes $branch
         return "dll $($script:State.artifacts[$branch]["$ModId.dll"].Substring(0, 12))"
     }
+
+    # The smoke tests and the AutoSlay bot exercise a character's content; a utility mod has none.
+    if (-not $IsCharacter) { continue }
 
     Add-Stage "testall-$branch" -Branch $branch {
         param($log, $branch)
@@ -439,11 +487,27 @@ if (-not $VerifyOnly) {
             $st = $script:State.stages[$s.Name]
             "- $($s.Name): $($st.status)$(if ($st.detail) { " - $($st.detail)" })"
         }
-        return "Review the verification results, then continue to marketing + upload:`n$($rows -join "`n")`nLogs: $runDir"
+        $manual = ''
+        if (-not $IsCharacter) {
+            $manual = "`nNo automated in-game tests for a utility mod: launch each branch's install with the build just deployed and try it before continuing."
+        }
+        return "Review the verification results, then continue to marketing + upload:`n$($rows -join "`n")$manual`nLogs: $runDir"
     }
 }
 
-if ((-not $VerifyOnly) -or $Marketing) {
+if ((-not $IsCharacter) -and $VerifyOnly -and $Marketing) {
+    # Nothing to render for a utility mod; preview only the gallery + description diff.
+    Add-Stage 'marketing' {
+        param($log)
+        if (-not (Test-Path $marketingJson)) { return 'no marketing.json' }
+        if (-not (Test-Path (Join-Path $workshop 'mod_id.txt'))) { return 'no Workshop item yet (first release creates it)' }
+        $code = Invoke-Tool $log 'bundle-workshop.ps1' @('-Character', $Char.Key, '-UpdateMarketing', '-MarketingDryRun')
+        if ($code -ne 0) { throw "Gallery dry run failed, exit $code.`n$(Get-LogTail $log 15)" }
+        return 'gallery diff in the log'
+    }
+}
+
+if ($IsCharacter -and ((-not $VerifyOnly) -or $Marketing)) {
     Add-Stage 'marketing' {
         param($log)
         $code = Invoke-Logged $log 'node' @((Join-Path $PSScriptRoot 'render-marketing-cards.js'), '--character', $Char.Key.ToLowerInvariant())
@@ -476,12 +540,23 @@ if (-not $VerifyOnly) {
         Add-Stage "upload-$branch" -Branch $branch -Outward {
             param($log, $branch)
             Assert-Artifacts $branch
+            $idRel = "$($Char.Workshop)/mod_id.txt"
+            $hadItem = Test-Path (Join-Path $repoRoot $idRel)
             $toolArgs = @('-Character', $Char.Key, '-Branch', $branch, '-SkipPublish', '-Upload', '-ChangeNoteFile', $notesFile)
-            if ($branch -eq $Branches[0]) { $toolArgs += '-UpdateMarketing' }
+            if ($branch -eq $Branches[0] -and (Test-Path $marketingJson)) { $toolArgs += '-UpdateMarketing' }
             $code = Invoke-Tool $log 'bundle-workshop.ps1' $toolArgs
             # bundle-workshop writes this upload's change note into the tracked workshop.json; put the
             # committed file back so the tree is clean again for the push and for the next release.
             Invoke-Git @('checkout', '--', "$($Char.Workshop)/workshop.json") | Out-Null
+            # First release (-NewItem): the upload created the item and wrote mod_id.txt. Commit it right
+            # away (even if the gallery sync after it failed) so the next upload targets the same item.
+            if (-not $hadItem -and (Test-Path (Join-Path $repoRoot $idRel))) {
+                Invoke-Git @('add', '--', $idRel) | Out-Null
+                Invoke-Git @('commit', '-m', "$ModId`: record Workshop item id", '--', $idRel) | Out-Null
+                $sha = (Invoke-Git @('rev-parse', 'HEAD'))
+                $script:State.pipelineCommits = @($script:State.pipelineCommits) + $sha
+                Save-State
+            }
             if ($code -ne 0) { throw "Workshop upload ($branch) failed, exit $code.`n$(Get-LogTail $log 15)" }
             return "uploaded the $branch build (game $($script:State.installs[$branch].gameVersion))"
         }
@@ -490,12 +565,12 @@ if (-not $VerifyOnly) {
             # Only now: the tag records "this version is on the Workshop" (see preflight).
             Add-Stage 'tag' {
                 param($log)
-                $existing = Get-TagCommit $Version
+                $existing = Get-TagCommit $Tag
                 $head = (Invoke-Git @('rev-parse', 'HEAD'))
                 if ($existing -eq $head) { return 'already tagged' }
-                if ($existing) { throw "Tag $Version already exists at $($existing.Substring(0, 8)), not at HEAD ($($head.Substring(0, 8))). It was not made by this run; resolve it by hand." }
-                Invoke-Git @('tag', $Version) | Out-Null
-                return "$Version -> $($head.Substring(0, 8))"
+                if ($existing) { throw "Tag $Tag already exists at $($existing.Substring(0, 8)), not at HEAD ($($head.Substring(0, 8))). It was not made by this run; resolve it by hand." }
+                Invoke-Git @('tag', $Tag) | Out-Null
+                return "$Tag -> $($head.Substring(0, 8))"
             }
         }
 
@@ -508,9 +583,9 @@ if (-not $VerifyOnly) {
     Add-Stage 'push' -Outward {
         param($log)
         if ($NoPush) { return 'skipped (-NoPush)' }
-        $code = Invoke-Logged $log 'git' @('-C', $repoRoot, 'push', 'origin', $GitBranch, "refs/tags/$Version")
+        $code = Invoke-Logged $log 'git' @('-C', $repoRoot, 'push', 'origin', $GitBranch, "refs/tags/$Tag")
         if ($code -ne 0) { throw "git push failed, exit $code.`n$(Get-LogTail $log 10)" }
-        return "pushed $GitBranch + $Version"
+        return "pushed $GitBranch + $Tag"
     }
 }
 
@@ -570,15 +645,16 @@ if ((-not $State) -and (-not $VerifyOnly) -and (-not $Interactive) -and (-not $Y
 if ((-not $State) -and (-not $VerifyOnly) -and $Interactive -and (-not $Yes)) {
     Write-Host ''
     Write-Host "Release $ModId $Version to the Steam Workshop?" -ForegroundColor Yellow
-    Write-Host "  builds   : $($Branches -join ' + ')   (each verified first: publish, smoke tests, $AutoSlayRuns AutoSlay run(s))"
+    $checks = if ($IsCharacter) { "publish, smoke tests, $AutoSlayRuns AutoSlay run(s)" } else { 'build only; test it in game at the review gate' }
+    Write-Host "  builds   : $($Branches -join ' + ')   (each verified first: $checks)"
     Write-Host "  commit   : $($head.Substring(0, 8)) on $GitBranch"
-    Write-Host "  then     : tag $Version, upload, $(if ($NoPush) { 'no push' } else { "push to origin/$GitBranch" })"
+    Write-Host "  then     : tag $Tag, upload$(if ($NewItem) { ' (creates a NEW Workshop item)' }), $(if ($NoPush) { 'no push' } else { "push to origin/$GitBranch" })"
     if ((Read-Host 'Proceed? (y/N)').Trim().ToLowerInvariant() -ne 'y') { Write-Host 'Cancelled.'; exit 0 }
 }
 if (-not $State) {
     New-Item -ItemType Directory -Force $runDir | Out-Null
     $State = [ordered]@{
-        modId = $ModId; version = $Version; verifyOnly = [bool]$VerifyOnly
+        modId = $ModId; version = $Version; tag = $Tag; verifyOnly = [bool]$VerifyOnly; newItem = [bool]$NewItem
         startedAt = (Get-Date).ToString('s'); headAtStart = $head; pipelineCommits = @()
         installs = [ordered]@{}; artifacts = [ordered]@{}; stages = [ordered]@{}
     }

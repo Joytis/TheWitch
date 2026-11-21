@@ -50,6 +50,10 @@ public partial class MainFile : Node
         Harmony harmony = new(ModId);
         PatchAllIsolated(harmony);
         Patches.MushroomedCardViewPatch.Apply(harmony);
+        // Right-click a belt potion to use it instantly, Witch-owned potions only (the Unstable tooltip +
+        // FTUE advertise it). Shared with the standalone QuickPotions mod, which does it for everyone;
+        // both installed at once dedupe per click (see Common/QoL/PotionQuickUse.cs).
+        Bird.Common.QoL.PotionQuickUse.Install(harmony, potion => potion.Owner.Character is Character.Witch, Logger);
     }
 
     /// <summary>

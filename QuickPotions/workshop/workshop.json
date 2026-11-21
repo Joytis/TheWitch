@@ -1,0 +1,12 @@
+{
+    "title":  "Quick Potions",
+    "description":  null,
+    "visibility":  "private",
+    "changeNote":  "",
+    "tags":  [
+                 "Potions"
+             ],
+    "dependencies":  [
+
+                     ]
+}

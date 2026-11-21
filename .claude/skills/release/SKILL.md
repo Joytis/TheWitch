@@ -7,7 +7,11 @@ description: Cut and ship a Workshop release end to end - version bump, patch-no
 
 Three steps, in order: **version bump → patch-notes review → deploy**. The deploy is
 `tools/deploy.ps1`, the single source of the pipeline (stages, state, failure reports); this skill
-only drives it. Default character: Witch.
+only drives it. Default mod: Witch. Any shipped mod works (`-Character Augur`,
+`-Character QuickPotions`); tags and notes are per mod (table in the `version-bump` skill). A
+utility mod (QuickPotions) has no smoke tests / AutoSlay / marketing render: at the `review` gate
+ask the user to try it in game on both branches. A mod's first release adds `-NewItem` (the upload
+creates the Workshop item; say so when confirming the start).
 
 Everything from step 4 on is outward-facing or writes git history. This skill is the user's standing
 authorization for exactly two things, each still confirmed in the moment: the release commit in
@@ -38,10 +42,11 @@ Run the `version-bump` skill (Skill tool) through its bump and patch-notes steps
 
 After the notes are approved, commit the release material, and only that:
 
-- `<Project>/<ModId>.json` (the version bump), `Docs/patch-notes/<version>.md`, and, if the bump
-  step regenerated them, `Docs/card-data/*.json` + `pages/art-tracker.html`.
+- `<Project>/<ModId>.json` (the version bump), the notes file (`Docs/patch-notes/<version>.md`
+  for the Witch, `Docs/patch-notes/<ModId>/<version>.md` otherwise), and, if the bump step
+  regenerated them, `Docs/card-data/*.json` + `pages/art-tracker.html`.
 - `git add` those paths explicitly (never `-A`), then `git commit -m "Witch <version>"` (the
-  repo's release-commit style; "Augur <version>" for the Augur).
+  repo's release-commit style; "Augur <version>" / "Quick Potions <version>" for the others).
 - `git status --short` must now be empty. If it is not, stop and show what is left.
 
 ## 4. Deploy
