@@ -56,6 +56,9 @@
 .PARAMETER Branch
     Game branch whose build is bundled (public | beta): publishes with -p:Sts2Branch and stages
     from that branch's install (local.props Sts2PublicPath / Sts2BetaPath). '' = default install.
+    Also picks the Workshop item: a mod with a BetaWorkshop (tools/characters.ps1; the Witch) has a
+    separate Beta item, so -Branch beta uploads to / syncs the marketing of that workspace's item
+    (TheWitch/workshop-beta) instead of the Main one. Works with -UpdateMarketing alone too.
 
 .PARAMETER Visibility
     Override workshop.json "visibility" (private | friends | friendsonly | public).
@@ -72,6 +75,10 @@
     balanced, length cap: errors stop the run; every link fetched: warnings). Alone
     it does only that (no publish/stage/upload); with -Upload it runs after the
     upload. Needs mod_id.txt and Steam running + logged in.
+    Also syncs the item TITLE to the workspace's workshop.json "title". A workspace's
+    description-header.bbcode.txt (if any) goes above the description: the Witch's Main
+    and Beta items share marketing.json (gallery + description body, in the Main
+    workspace) and differ only in title + header (each links to the other).
 
 .PARAMETER MarketingDryRun
     With -UpdateMarketing (implied): print the gallery + description diff and the
@@ -188,7 +195,13 @@ if (-not (Test-Path $Uploader)) { throw "ModUploader.exe not found: $Uploader" }
 $uploaderDir = Split-Path -Parent $Uploader
 
 # --- Resolve the workspace -------------------------------------------------
-if (-not $Workspace) { $Workspace = Join-Path $repoRoot $Char.Workshop }
+# The Main workspace owns the shared material (marketing/, description body, image.png); a Beta
+# workspace (BetaWorkshop) only holds its item id, title and description header.
+function Get-FullPath([string]$p) { return $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($p).TrimEnd('\', '/') -replace '/', '\' }
+$mainWorkspace = Get-FullPath (Join-Path $repoRoot $Char.Workshop)
+if (-not $Workspace) { $Workspace = Join-Path $repoRoot (Get-BirdWorkshop $Char $Branch) }
+$Workspace = Get-FullPath $Workspace
+if ($Branch -or ($Workspace -ne $mainWorkspace)) { Write-Step "Workshop workspace: $Workspace" }
 
 # --- -RenderDescription: markdown draft -> BBCode for the Steam web editor ---
 if ($RenderDescription) {
@@ -209,6 +222,7 @@ if ($RenderDescription) {
 if ($MarketingDryRun) { $UpdateMarketing = $true }
 function Update-WorkshopMarketing {
     $marketingJson = Join-Path $Workspace 'marketing/marketing.json'
+    if (-not (Test-Path $marketingJson)) { $marketingJson = Join-Path $mainWorkspace 'marketing/marketing.json' }
     if (-not (Test-Path $marketingJson)) { throw "Marketing manifest not found: $marketingJson" }
     $idFile = Join-Path $Workspace 'mod_id.txt'
     if (-not (Test-Path $idFile)) { throw "No mod_id.txt in $Workspace -- upload the item once (-Upload) before updating its gallery." }
@@ -224,6 +238,13 @@ function Update-WorkshopMarketing {
     if ($LASTEXITCODE -ne 0) { throw "WorkshopMarketing build failed (exit $LASTEXITCODE)." }
 
     $toolArgs = @('--item', $itemId, '--manifest', $marketingJson)
+    $wsJsonPath = Join-Path $Workspace 'workshop.json'
+    if (Test-Path $wsJsonPath) {
+        $wsTitle = (Get-Content $wsJsonPath -Raw -Encoding UTF8 | ConvertFrom-Json).title
+        if ($wsTitle) { $toolArgs += @('--title', $wsTitle) }
+    }
+    $header = Join-Path $Workspace 'description-header.bbcode.txt'
+    if (Test-Path $header) { $toolArgs += @('--description-header', $header) }
     if ($MarketingDryRun) { $toolArgs += '--dry-run' }
     Write-Step "Updating marketing material (Workshop gallery + description) for item $itemId..."
     & (Join-Path $toolOut 'WorkshopMarketing.exe') @toolArgs
@@ -381,6 +402,9 @@ if (($ChangeNote -ne "") -or ($Visibility -ne "") -or $Upload -or $forceNullDesc
 # --- Step 6: sanity checks -------------------------------------------------
 $templateImg = Join-Path $uploaderDir 'template/image.png'
 $wsImg = Join-Path $Workspace 'image.png'
+# A Beta workspace shares the Main item's thumbnail (gitignored copy, refreshed every run).
+$mainImg = Join-Path $mainWorkspace 'image.png'
+if (($Workspace -ne $mainWorkspace) -and (Test-Path $mainImg)) { Copy-Item $mainImg -Destination $wsImg -Force }
 if ((Test-Path $templateImg) -and (Test-Path $wsImg)) {
     if ((Get-Item $templateImg).Length -eq (Get-Item $wsImg).Length) {
         Write-Warn2 "image.png is still the ModUploader placeholder -- replace $wsImg before a public release."
@@ -445,7 +469,7 @@ if ($Upload) {
     if ($UpdateMarketing) { Update-WorkshopMarketing }
 } else {
     Write-Step "Staged. To upload, run:"
-    Write-Host "    ./tools/bundle-workshop.ps1 -Character $($Char.Key) -Upload" -ForegroundColor Green
+    Write-Host "    ./tools/bundle-workshop.ps1 -Character $($Char.Key)$(if ($Branch) { " -Branch $Branch" }) -Upload" -ForegroundColor Green
     Write-Host "    (or directly: `"$Uploader`" upload -w `"$Workspace`")" -ForegroundColor DarkGray
     if (-not $hasModId) { Write-Warn2 "First upload will create a new Workshop item and write mod_id.txt." }
 }

@@ -14,7 +14,12 @@ $BirdCharacters = [ordered]@{
         ModId      = 'TheWitch'       # manifest id, res:// root, mods/<ModId>/, assembly name
         ProjectDir = 'TheWitch'       # Godot project root, relative to the repo root
         Csproj     = 'TheWitch/TheWitch.csproj'
-        Workshop   = 'TheWitch/workshop'   # Workshop workspace dir, relative to the repo root
+        Workshop   = 'TheWitch/workshop'   # Workshop workspace dir, relative to the repo root (the Main item)
+        # Optional: a separate Workshop item for the beta game branch's build. Steam's per-branch
+        # revision flags on ONE item delivered the beta build to public players (2026-11), so the Witch
+        # ships two items again. Its workspace holds only mod_id.txt, workshop.json (title) and
+        # description-header.bbcode.txt; the gallery, description body and image.png come from Workshop.
+        BetaWorkshop = 'TheWitch/workshop-beta'
         Kind       = 'Character'
         HasPck     = $true
         TagPrefix  = ''                    # release tags are '<TagPrefix><version>'; the Witch predates prefixes
@@ -48,6 +53,13 @@ $BirdUtilityMods = [ordered]@{
         TagPrefix  = 'QuickPotions-'
         NotesDir   = 'Docs/patch-notes/QuickPotions'
     }
+}
+
+# Workshop workspace (repo-relative) a game branch's build is uploaded to: the mod's BetaWorkshop for
+# 'beta' when it has one (its own Workshop item), else the one shared Workshop workspace.
+function Get-BirdWorkshop($Mod, [string]$Branch) {
+    if ($Branch -eq 'beta' -and $Mod.BetaWorkshop) { return $Mod.BetaWorkshop }
+    return $Mod.Workshop
 }
 
 # The dev-only, character-agnostic debug mod (every -bird-* launch flag: bootstrap, smoke tests,

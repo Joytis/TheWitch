@@ -8,7 +8,8 @@
 // Normally run via `tools/bundle-workshop.ps1 -UpdateMarketing`.
 //
 // Usage:
-//   WorkshopMarketing --item <publishedFileId> --manifest <marketing.json> [--dry-run] [--allow-empty]
+//   WorkshopMarketing --item <publishedFileId> --manifest <marketing.json> [--title <text>]
+//                     [--description-header <file>] [--dry-run] [--allow-empty]
 //   WorkshopMarketing --item <publishedFileId> --pull <dir>
 //
 // --pull downloads the live gallery into <dir> (images under their Steam original filenames) plus
@@ -24,6 +25,11 @@
 // original filename Steam stores encodes the content. Existing previews are matched against the
 // manifest in order; the longest matching prefix is kept, everything after it is removed and
 // re-added. An unchanged manifest therefore submits nothing.
+//
+// --title: the item title (bundle-workshop passes the workspace's workshop.json "title"), set only
+// when it differs from the live one. --description-header: a file placed above the manifest's
+// description, so several items (the Witch's Main and Beta Workshop items) share one description
+// body + gallery and differ only in their header (e.g. a link to each other).
 //
 // Description: compared with the live one after normalizing line endings and trailing whitespace,
 // and set only when it differs. Before anything is sent (dry run included) the file is checked:
@@ -64,7 +70,7 @@ internal static class Program
 
     private sealed record Manifest(List<Desired> Previews, string? Description, string? DescriptionPath, bool AllowEmptyGallery = false);
 
-    private sealed record LiveItem(List<Existing> Gallery, string Description);
+    private sealed record LiveItem(List<Existing> Gallery, string Description, string Title, DateTime Updated);
 
     private sealed record Existing(EItemPreviewType Type, string UrlOrVideoId, string OriginalFileName)
     {
@@ -89,7 +95,7 @@ internal static class Program
         Console.OutputEncoding = Encoding.UTF8;
 
         ulong itemId = 0;
-        string? manifestPath = null, pullDir = null;
+        string? manifestPath = null, pullDir = null, title = null, headerPath = null;
         bool dryRun = false, allowEmpty = false;
         for (int i = 0; i < args.Length; i++)
         {
@@ -101,6 +107,12 @@ internal static class Program
                 case "--manifest" when i + 1 < args.Length:
                     manifestPath = Path.GetFullPath(args[++i]);
                     break;
+                case "--title" when i + 1 < args.Length:
+                    title = args[++i].Trim();
+                    break;
+                case "--description-header" when i + 1 < args.Length:
+                    headerPath = Path.GetFullPath(args[++i]);
+                    break;
                 case "--pull" when i + 1 < args.Length:
                     pullDir = Path.GetFullPath(args[++i]);
                     break;
@@ -111,11 +123,14 @@ internal static class Program
         }
         if (itemId == 0) return Usage("--item is required");
         if (manifestPath is null == pullDir is null) return Usage("pass exactly one of --manifest or --pull");
+        if (pullDir is not null && (title is not null || headerPath is not null)) return Usage("--title / --description-header go with --manifest");
+        if (title is not null && title.Length == 0) return Usage("--title is empty");
 
         Manifest manifest = new([], null, null);
         try
         {
             if (manifestPath is not null) manifest = LoadManifest(manifestPath);
+            if (headerPath is not null) manifest = WithDescriptionHeader(manifest, headerPath);
         }
         catch (Exception e)
         {
@@ -151,7 +166,7 @@ internal static class Program
         {
             return pullDir is not null
                 ? Pull(new PublishedFileId_t(itemId), pullDir)
-                : Sync(new PublishedFileId_t(itemId), manifest, dryRun);
+                : Sync(new PublishedFileId_t(itemId), manifest, title, dryRun);
         }
         catch (Exception e)
         {
@@ -164,13 +179,14 @@ internal static class Program
         }
     }
 
-    private static int Sync(PublishedFileId_t item, Manifest manifest, bool dryRun)
+    private static int Sync(PublishedFileId_t item, Manifest manifest, string? title, bool dryRun)
     {
         AppId_t appId = SteamUtils.GetAppID();
         Step($"Logged in as '{SteamFriends.GetPersonaName()}' (app {appId.m_AppId}); item {item.m_PublishedFileId}.");
 
         List<Desired> desired = manifest.Previews;
         LiveItem live = QueryItem(item, appId);
+        Step($"Item: '{live.Title}', content last updated {live.Updated:yyyy-MM-dd HH:mm} UTC.");
         List<Existing> existing = live.Gallery;
         Step($"Current gallery ({existing.Count}):");
         PrintList(existing.Select(e => e.Label));
@@ -203,8 +219,13 @@ internal static class Program
             PrintLineDiff(NormalizeDescription(live.Description), manifest.Description);
         }
 
+        bool setTitle = title is not null && title != live.Title;
+        if (title is null) Step("Title: not managed (no --title).");
+        else if (setTitle) Step($"Title: '{live.Title}' -> '{title}'.");
+        else Step($"Title: matches '{title}'.");
+
         bool galleryChanges = removeCount > 0 || toAdd.Count > 0;
-        if (!galleryChanges && !setDescription)
+        if (!galleryChanges && !setDescription && !setTitle)
         {
             Step("Workshop page already matches the manifest. Nothing to do.");
             return 0;
@@ -245,6 +266,10 @@ internal static class Program
         {
             throw new Exception("SetItemDescription was rejected.");
         }
+        if (setTitle && !SteamUGC.SetItemTitle(update, title!))
+        {
+            throw new Exception("SetItemTitle was rejected.");
+        }
 
         Step("Submitting Workshop update...");
         SubmitItemUpdateResult_t result = Await<SubmitItemUpdateResult_t>(
@@ -270,6 +295,11 @@ internal static class Program
         if (!matches)
         {
             Warn("The live gallery does not match the manifest key-for-key; the next run will re-upload the mismatched tail.");
+        }
+        if (title is not null)
+        {
+            if (after.Title == title) Step($"Title after update: '{after.Title}'.");
+            else Warn($"The live title is '{after.Title}', not '{title}', after the update.");
         }
         if (manifest.Description is not null)
         {
@@ -361,7 +391,8 @@ internal static class Program
                 }
                 list.Add(new Existing(type, url ?? "", original ?? ""));
             }
-            return new LiveItem(list, details.m_rgchDescription ?? "");
+            return new LiveItem(list, details.m_rgchDescription ?? "", details.m_rgchTitle ?? "",
+                DateTimeOffset.FromUnixTimeSeconds(details.m_rtimeUpdated).UtcDateTime);
         }
         finally
         {
@@ -436,6 +467,20 @@ internal static class Program
         bool allowEmptyGallery = doc.RootElement.TryGetProperty("allowEmptyGallery", out JsonElement allowEntry)
             && allowEntry.ValueKind == JsonValueKind.True;
         return new Manifest(list, description, descriptionPath, allowEmptyGallery);
+    }
+
+    // The header file's text, a blank line, then the manifest's description (which must name one).
+    private static Manifest WithDescriptionHeader(Manifest manifest, string headerPath)
+    {
+        if (manifest.Description is null) throw new Exception("--description-header needs a manifest with a \"description\".");
+        if (!File.Exists(headerPath)) throw new Exception($"description header not found: {headerPath}");
+        string header = NormalizeDescription(File.ReadAllText(headerPath, Encoding.UTF8));
+        if (header.Length == 0) return manifest;
+        return manifest with
+        {
+            Description = header + "\n\n" + manifest.Description,
+            DescriptionPath = $"{headerPath} + {manifest.DescriptionPath}",
+        };
     }
 
     // LF line endings, no trailing whitespace on any line, no trailing blank lines. Both sides of the
@@ -658,7 +703,7 @@ internal static class Program
     private static int Usage(string message)
     {
         Error(message);
-        Console.Error.WriteLine("usage: WorkshopMarketing --item <publishedFileId> (--manifest <marketing.json> [--dry-run] [--allow-empty] | --pull <dir>)");
+        Console.Error.WriteLine("usage: WorkshopMarketing --item <publishedFileId> (--manifest <marketing.json> [--title <text>] [--description-header <file>] [--dry-run] [--allow-empty] | --pull <dir>)");
         return 2;
     }
 

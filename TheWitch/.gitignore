@@ -14,6 +14,10 @@ bin/
 # Steam Workshop bundle staging (tools/bundle-workshop.ps1): keep config (workshop.json, image.png, mod_id.txt)
 /workshop/content/
 /workshop/README.md
+# Beta Workshop item workspace: its image.png is a copy of workshop/image.png made by every bundle run
+/workshop-beta/content/
+/workshop-beta/README.md
+/workshop-beta/image.png
 # Spine "Import PSD" layer images (regenerate: re-import raw/baked/*.psd in Spine). The runtime exports in
 # animation/{combat,rest,shop}/ (tools/export-spine.ps1) ARE tracked.
 /TheWitch/animation/raw/spine/

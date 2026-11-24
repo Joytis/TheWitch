@@ -75,7 +75,8 @@ Then act on the exit code. State and logs: `build/deploy/<ModId>-<version>/state
   allowed through, warnings). Then ask with AskUserQuestion ("Upload v<version> to the Workshop
   now?", saying it commits marketing images, uploads public, tags, uploads beta, pushes). Yes =
   `-Resume -Ack`. No = stop; the run stays resumable until HEAD moves.
-- **2 at `flag-public` / `flag-beta`**. Tell the user exactly what the
+- **2 at `flag-public` / `flag-beta`** (only for a mod whose branches share ONE Workshop item; the
+  Witch has a separate Beta item, `TheWitch/workshop-beta`, so its run has no flag gates). Tell the user exactly what the
   gate asks (it is in `state.json` → that stage's `detail`: mark the just-uploaded revision as that
   game branch's version on the Workshop page, with the link). When the user says it is done, continue
   with `-Resume -Ack` (same command, `-Yes` not needed). Never ack a gate the user has not confirmed.

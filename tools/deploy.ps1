@@ -21,6 +21,12 @@
         flag-beta          GATE: mark the new revision as the beta-branch version
         push               git push origin <branch> + the tag
 
+    A mod with a BetaWorkshop (tools/characters.ps1; the Witch) ships each branch's build to its OWN
+    Workshop item (Main / Beta): upload-beta goes to the Beta item, every item gets its own gallery +
+    title + description sync, and there are no flag-<branch> gates. (Steam's per-branch revision flags
+    on one item served the beta build to public players.) The flag gates remain only for mods whose
+    branches share one item.
+
     A utility mod (tools/characters.ps1 $BirdUtilityMods: code only, no character content) runs the
     same pipeline minus what needs a character: publish is a plain `dotnet build` when it ships no
     .pck, and there is no testall / autoslay (test it in game before acking the review gate) and no
@@ -159,6 +165,9 @@ $IsCharacter = $Char.Kind -eq 'Character'
 $ModId     = $Char.ModId
 $csproj    = Join-Path $repoRoot $Char.Csproj
 $workshop  = Join-Path $repoRoot $Char.Workshop
+# Each branch's Workshop workspace (repo-relative); differs per branch only for a mod with a BetaWorkshop.
+function Get-BranchWorkshop([string]$Branch) { return (Get-BirdWorkshop $Char $Branch) }
+$SeparateItems = (@($Branches | ForEach-Object { Get-BranchWorkshop $_ } | Select-Object -Unique)).Count -gt 1
 $manifest  = Join-Path $repoRoot (Join-Path $Char.ProjectDir "$ModId.json")
 $Version   = (Get-Content $manifest -Raw | ConvertFrom-Json).version
 $Tag       = "$($Char.TagPrefix)$Version"
@@ -309,10 +318,23 @@ function Send-Notify([string]$Title, [string]$Body, [int]$Color) {
     }
 }
 
-function Get-ItemUrl {
-    $idFile = Join-Path $workshop 'mod_id.txt'
+function Get-ItemUrl([string]$Branch) {
+    $idFile = Join-Path (Join-Path $repoRoot (Get-BranchWorkshop $Branch)) 'mod_id.txt'
     if (Test-Path $idFile) { return "https://steamcommunity.com/sharedfiles/filedetails/?id=$((Get-Content $idFile -Raw).Trim())" }
     return '(no mod_id.txt)'
+}
+
+# Gallery + title + description dry run against every Workshop item this release uploads to.
+function Invoke-MarketingDryRun([string]$Log) {
+    $done = @()
+    foreach ($b in $Branches) {
+        $ws = Get-BranchWorkshop $b
+        if ($done -contains $ws) { continue }
+        $done += $ws
+        if (-not (Test-Path (Join-Path (Join-Path $repoRoot $ws) 'mod_id.txt'))) { continue }
+        $code = Invoke-Tool $Log 'bundle-workshop.ps1' @('-Character', $Char.Key, '-Branch', $b, '-UpdateMarketing', '-MarketingDryRun')
+        if ($code -ne 0) { throw "Gallery dry run ($ws) failed, exit $code.`n$(Get-LogTail $Log 15)" }
+    }
 }
 
 # ---------------------------------------------------------------------------------------------
@@ -350,11 +372,14 @@ Add-Stage 'preflight' -Always {
                 elseif ("$remote".Trim()) { $problems += "Tag $Tag already exists on origin: that version has been released. Fetch tags and bump the version (/version-bump)." }
             }
         }
-        $hasItem = Test-Path (Join-Path $workshop 'mod_id.txt')
         $allowNew = $NewItem -or ($Resume -and $script:State.newItem)
-        if ($hasItem -and $NewItem -and -not $Resume) { $problems += "-NewItem given but $($Char.Workshop)/mod_id.txt exists: the item was already created. Drop -NewItem." }
-        elseif (-not $hasItem -and -not $allowNew) { $problems += "No mod_id.txt in $($Char.Workshop). For a mod's first release pass -NewItem (the upload creates the Workshop item)." }
-        elseif (-not $hasItem) { $warnings += "No mod_id.txt: upload-$($Branches[0]) will CREATE A NEW Workshop item (-NewItem); the pipeline commits its mod_id.txt." }
+        $itemDirs = @($Branches | ForEach-Object { Get-BranchWorkshop $_ } | Select-Object -Unique)
+        $missing = @($itemDirs | Where-Object { -not (Test-Path (Join-Path (Join-Path $repoRoot $_) 'mod_id.txt')) })
+        if ($missing.Count -eq 0 -and $NewItem -and -not $Resume) { $problems += "-NewItem given but every Workshop workspace ($($itemDirs -join ', ')) has a mod_id.txt: the items were already created. Drop -NewItem." }
+        elseif ($missing.Count -gt 0 -and -not $allowNew) { $problems += "No mod_id.txt in $($missing -join ', '). For a mod's first release pass -NewItem (the upload creates the Workshop item)." }
+        elseif ($missing.Count -gt 0) { $warnings += "No mod_id.txt in $($missing -join ', '): the upload will CREATE A NEW Workshop item (-NewItem); the pipeline commits its mod_id.txt." }
+        $ids = @($itemDirs | ForEach-Object { $f = Join-Path (Join-Path $repoRoot $_) 'mod_id.txt'; if (Test-Path $f) { (Get-Content $f -Raw).Trim() } })
+        if (@($ids | Select-Object -Unique).Count -ne $ids.Count) { $problems += "Two Workshop workspaces ($($itemDirs -join ', ')) hold the same item id; the branch builds would overwrite each other." }
         if (-not (Test-Path (Join-Path $PSScriptRoot 'ModUploader-win-x64/ModUploader.exe'))) { $problems += 'tools/ModUploader-win-x64/ModUploader.exe not found.' }
 
         if ($IsCharacter) {
@@ -501,8 +526,7 @@ if ((-not $IsCharacter) -and $VerifyOnly -and $Marketing) {
         param($log)
         if (-not (Test-Path $marketingJson)) { return 'no marketing.json' }
         if (-not (Test-Path (Join-Path $workshop 'mod_id.txt'))) { return 'no Workshop item yet (first release creates it)' }
-        $code = Invoke-Tool $log 'bundle-workshop.ps1' @('-Character', $Char.Key, '-UpdateMarketing', '-MarketingDryRun')
-        if ($code -ne 0) { throw "Gallery dry run failed, exit $code.`n$(Get-LogTail $log 15)" }
+        Invoke-MarketingDryRun $log
         return 'gallery diff in the log'
     }
 }
@@ -522,8 +546,7 @@ if ($IsCharacter -and ((-not $VerifyOnly) -or $Marketing)) {
         if ($VerifyOnly) {
             # Preview: what would be committed, and what the upload would change in the live gallery.
             foreach ($c in $changed) { Write-Host "    changed: $c" }
-            $code = Invoke-Tool $log 'bundle-workshop.ps1' @('-Character', $Char.Key, '-UpdateMarketing', '-MarketingDryRun')
-            if ($code -ne 0) { throw "Gallery dry run failed, exit $code.`n$(Get-LogTail $log 15)" }
+            Invoke-MarketingDryRun $log
             return "$($changed.Count) image file(s) differ from HEAD (left uncommitted); gallery diff in the log"
         }
         if ($changed.Count -eq 0) { return 'no image changes' }
@@ -540,14 +563,16 @@ if (-not $VerifyOnly) {
         Add-Stage "upload-$branch" -Branch $branch -Outward {
             param($log, $branch)
             Assert-Artifacts $branch
-            $idRel = "$($Char.Workshop)/mod_id.txt"
+            $branchWorkshop = Get-BranchWorkshop $branch
+            $idRel = "$branchWorkshop/mod_id.txt"
             $hadItem = Test-Path (Join-Path $repoRoot $idRel)
             $toolArgs = @('-Character', $Char.Key, '-Branch', $branch, '-SkipPublish', '-Upload', '-ChangeNoteFile', $notesFile)
-            if ($branch -eq $Branches[0] -and (Test-Path $marketingJson)) { $toolArgs += '-UpdateMarketing' }
+            # Gallery/title/description: once per Workshop item (every branch when each has its own item).
+            if (($branch -eq $Branches[0] -or $SeparateItems) -and (Test-Path $marketingJson)) { $toolArgs += '-UpdateMarketing' }
             $code = Invoke-Tool $log 'bundle-workshop.ps1' $toolArgs
             # bundle-workshop writes this upload's change note into the tracked workshop.json; put the
             # committed file back so the tree is clean again for the push and for the next release.
-            Invoke-Git @('checkout', '--', "$($Char.Workshop)/workshop.json") | Out-Null
+            Invoke-Git @('checkout', '--', "$branchWorkshop/workshop.json") | Out-Null
             # First release (-NewItem): the upload created the item and wrote mod_id.txt. Commit it right
             # away (even if the gallery sync after it failed) so the next upload targets the same item.
             if (-not $hadItem -and (Test-Path (Join-Path $repoRoot $idRel))) {
@@ -558,7 +583,7 @@ if (-not $VerifyOnly) {
                 Save-State
             }
             if ($code -ne 0) { throw "Workshop upload ($branch) failed, exit $code.`n$(Get-LogTail $log 15)" }
-            return "uploaded the $branch build (game $($script:State.installs[$branch].gameVersion))"
+            return "uploaded the $branch build (game $($script:State.installs[$branch].gameVersion)) to $(Get-ItemUrl $branch)"
         }
 
         if ($branch -eq $Branches[0]) {
@@ -574,9 +599,13 @@ if (-not $VerifyOnly) {
             }
         }
 
-        Add-Stage "flag-$branch" -Branch $branch -Gate {
-            param($log, $branch)
-            return "Mark the revision just uploaded as the **$branch** game-branch version on the Workshop page: $(Get-ItemUrl)"
+        # One item serving both branches needs its revisions flagged per game branch by hand. Separate
+        # items (BetaWorkshop) need no flags: each item only ever holds its own branch's build.
+        if (-not $SeparateItems) {
+            Add-Stage "flag-$branch" -Branch $branch -Gate {
+                param($log, $branch)
+                return "Mark the revision just uploaded as the **$branch** game-branch version on the Workshop page: $(Get-ItemUrl $branch)"
+            }
         }
     }
 
