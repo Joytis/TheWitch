@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "Beschwöre zu Beginn jedes Kampfes einen [gold]Krähenvertrauten[/gold].",
     "THEWITCH-COZY_NEST.flavor": "[red]Details zu diesem Relikt werden in Zukunft enthüllt ...[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "Scheidetrichter",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "Immer wenn ein Effekt einen zufälligen [gold]Trank[/gold] erzeugen würde, wähle ihn stattdessen selbst.",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "Immer wenn ein Effekt einen zufälligen [gold]Trank[/gold] erzeugen würde, wähle stattdessen [blue]1[/blue] von [blue]3[/blue] zufälligen [gold]Tränken[/gold].",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]Details zu diesem Relikt werden in Zukunft enthüllt ...[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "Leckerlisack",
     "THEWITCH-SACK_OF_TREATS.description": "Deine [gold]Vertrauten[/gold] erzeugen zu Beginn deines Zuges ALLE ihre Karten.",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]Details zu diesem Relikt werden in Zukunft enthüllt ...[/red]",
     "THEWITCH-MORGANNE.title": "Morganne",
     "THEWITCH-TASTY_HERBS.title": "Schmackhafte Kräuter",
-    "THEWITCH-TASTY_HERBS.description": "Immer wenn du einen [gold]Instabilen[/gold] [gold]Trank[/gold] benutzt, wird er mit einer Wahrscheinlichkeit von [blue]25%[/blue] ein weiteres Mal benutzt.",
+    "THEWITCH-TASTY_HERBS.description": "Jeder [blue]4.[/blue] [gold]Trank[/gold], den du benutzt, wird ein weiteres Mal benutzt.",
     "THEWITCH-TASTY_HERBS.flavor": "[red]Details zu diesem Relikt werden in Zukunft enthüllt ...[/red]"
 }

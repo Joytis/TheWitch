@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "戦闘開始時、[gold]カラスの使い魔[/gold]を召喚する。",
     "THEWITCH-COZY_NEST.flavor": "[red]このレリックの詳細は、いずれ明かされる……[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "分液漏斗",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "効果によってランダムな[gold]ポーション[/gold]が作成される時、代わりにそれを選ぶことができる。",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "効果によってランダムな[gold]ポーション[/gold]が作成される時、代わりにランダムな[gold]ポーション[/gold][blue]3[/blue]個から[blue]1[/blue]個を選ぶ。",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]このレリックの詳細は、いずれ明かされる……[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "おやつ袋",
     "THEWITCH-SACK_OF_TREATS.description": "ターン開始時、[gold]使い魔[/gold]は自身のカードをすべて作成する。",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]このレリックの詳細は、いずれ明かされる……[/red]",
     "THEWITCH-MORGANNE.title": "モルガンヌ",
     "THEWITCH-TASTY_HERBS.title": "おいしい薬草",
-    "THEWITCH-TASTY_HERBS.description": "[gold]不安定[/gold]な[gold]ポーション[/gold]を使用するたび、[blue]25%[/blue]の確率でそれをもう1回使用する。",
+    "THEWITCH-TASTY_HERBS.description": "[gold]ポーション[/gold]を[blue]4[/blue]回使用するごとに、[blue]4[/blue]回目のポーションをもう1回使用する。",
     "THEWITCH-TASTY_HERBS.flavor": "[red]このレリックの詳細は、いずれ明かされる……[/red]"
 }

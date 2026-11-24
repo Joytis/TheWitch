@@ -24,7 +24,7 @@ public sealed class PlagueTide : WitchCard, IFamiliarSummon
     ];
 
     public PlagueTide()
-        : base(2, CardType.Power, CardRarity.Rare, TargetType.AllAllies)
+        : base(3, CardType.Power, CardRarity.Rare, TargetType.AllAllies)
     {
     }
 

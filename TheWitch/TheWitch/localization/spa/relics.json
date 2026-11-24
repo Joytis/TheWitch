@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "Al comienzo de cada combate, invoca un [gold]Familiar cuervo[/gold].",
     "THEWITCH-COZY_NEST.flavor": "[red]Los detalles de esta reliquia serán revelados en el futuro...[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "Embudo de decantación",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "Cuando un efecto vaya a crear una [gold]Poción[/gold] aleatoria, elígela tú.",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "Cuando un efecto vaya a crear una [gold]Poción[/gold] aleatoria, elige [blue]1[/blue] de [blue]3[/blue] [gold]Pociones[/gold] aleatorias en su lugar.",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]Los detalles de esta reliquia serán revelados en el futuro...[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "Saco de golosinas",
     "THEWITCH-SACK_OF_TREATS.description": "Tus [gold]Familiares[/gold] crean TODAS sus cartas al comienzo de tu turno.",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]Los detalles de esta reliquia serán revelados en el futuro...[/red]",
     "THEWITCH-MORGANNE.title": "Morganne",
     "THEWITCH-TASTY_HERBS.title": "Hierbas sabrosas",
-    "THEWITCH-TASTY_HERBS.description": "Cada vez que uses una [gold]Poción[/gold] [gold]Inestable[/gold], hay un [blue]25 %[/blue] de probabilidad de que se use una vez más.",
+    "THEWITCH-TASTY_HERBS.description": "Cada [blue]4.ª[/blue] [gold]Poción[/gold] que uses se usa una vez más.",
     "THEWITCH-TASTY_HERBS.flavor": "[red]Los detalles de esta reliquia serán revelados en el futuro...[/red]"
 }

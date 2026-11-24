@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "매 전투 시작 시, [gold]까마귀 사역마[/gold]를 소환합니다.",
     "THEWITCH-COZY_NEST.flavor": "[red]이 유물에 대한 세부 정보는 추후에 공개됩니다...[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "분액 깔때기",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "효과로 무작위 [gold]포션[/gold]을 생성할 때마다, 대신 원하는 포션을 선택합니다.",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "효과로 무작위 [gold]포션[/gold]을 생성할 때마다, 대신 무작위 [gold]포션[/gold] [blue]3[/blue]개 중 [blue]1[/blue]개를 선택합니다.",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]이 유물에 대한 세부 정보는 추후에 공개됩니다...[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "간식 자루",
     "THEWITCH-SACK_OF_TREATS.description": "내 턴 시작 시, [gold]사역마[/gold]가 자신의 카드를 모두 생성합니다.",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]이 유물에 대한 세부 정보는 추후에 공개됩니다...[/red]",
     "THEWITCH-MORGANNE.title": "모르간",
     "THEWITCH-TASTY_HERBS.title": "맛있는 약초",
-    "THEWITCH-TASTY_HERBS.description": "[gold]불안정[/gold] [gold]포션[/gold]을 사용할 때마다, [blue]25%[/blue] 확률로 1번 추가로 사용됩니다.",
+    "THEWITCH-TASTY_HERBS.description": "[gold]포션[/gold]을 [blue]4[/blue]번 사용할 때마다, [blue]4[/blue]번째 포션이 1번 추가로 사용됩니다.",
     "THEWITCH-TASTY_HERBS.flavor": "[red]이 유물에 대한 세부 정보는 추후에 공개됩니다...[/red]"
 }

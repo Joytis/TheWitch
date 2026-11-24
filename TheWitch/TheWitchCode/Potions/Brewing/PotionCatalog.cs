@@ -76,8 +76,9 @@ public static class PotionCatalog
     /// <summary>
     /// The chokepoint every in-combat "create a random potion" effect goes through: normally a
     /// <see cref="Random" /> roll, but the Rare relic <see cref="SeparatoryFunnel" /> turns it into a player
-    /// choice over the same pool. <paramref name="pool" /> must enumerate in the same order on every
-    /// client (ModelDb order — never shuffle it), because the choice syncs as a list index.
+    /// choice of <see cref="SeparatoryFunnel.Choices" /> distinct random potions from the same pool.
+    /// <paramref name="pool" /> must enumerate in the same order on every client (ModelDb order), so the
+    /// synced <paramref name="rng" /> rolls the same options everywhere and the choice syncs as a list index.
     /// </summary>
     public static async Task<PotionModel?> Pick(
         IEnumerable<PotionModel> pool, PlayerChoiceContext context, Player player, Rng rng)
@@ -94,8 +95,52 @@ public static class PotionCatalog
             return rng.NextItem(list);
         }
 
+        List<PotionModel> options = [];
+        for (int i = 0; i < SeparatoryFunnel.Choices && list.Count > 0; i++)
+        {
+            PotionModel option = rng.NextItem(list)!;
+            list.Remove(option);
+            options.Add(option);
+        }
+        return await FunnelChoice(funnel, options, context, player);
+    }
+
+    /// <summary>
+    /// The Separatory Funnel's pick-one overlay over already-rolled <paramref name="options" /> (built in the
+    /// same order on every client: the choice syncs as a list index). Also used by
+    /// the effects that roll through a base-game <c>PotionFactory</c> call instead of <see cref="Pick" />
+    /// (Alchemize, Entropic Brew, Share the Brew; see <see cref="RollFunnelOptions" />).
+    /// </summary>
+    /// <summary>
+    /// Funnel options for an effect that rolls through a base-game <c>PotionFactory</c> call instead of a pool:
+    /// up to <see cref="SeparatoryFunnel.Choices" /> distinct results of <paramref name="roll" /> (called with
+    /// everything rolled so far as its blacklist, so the factory's pool and rarity weights are kept).
+    /// <paramref name="reject" /> drops a result without offering it. A null roll (that rarity has nothing
+    /// left) or a rejected one re-rolls, bounded.
+    /// </summary>
+    public static List<PotionModel> RollFunnelOptions(Func<List<PotionModel>, PotionModel?> roll, Func<PotionModel, bool>? reject = null)
+    {
+        List<PotionModel> options = [];
+        List<PotionModel> rolled = [];
+        for (int attempt = 0; attempt < 30 && options.Count < SeparatoryFunnel.Choices; attempt++)
+        {
+            if (roll(rolled) is not { } potion)
+            {
+                continue;
+            }
+            rolled.Add(potion);
+            if (reject?.Invoke(potion) != true)
+            {
+                options.Add(potion);
+            }
+        }
+        return options;
+    }
+
+    public static Task<PotionModel?> FunnelChoice(SeparatoryFunnel funnel, IReadOnlyList<PotionModel> options, PlayerChoiceContext context, Player player)
+    {
         funnel.Flash();
-        return await PotionSelectCmd.FromChoosePotionScreen(context, list, player, FunnelPrompt);
+        return PotionSelectCmd.FromChoosePotionScreen(context, options, player, FunnelPrompt);
     }
 
     private static LocString FunnelPrompt => new("static_hover_tips", "THEWITCH-BREW_PROMPT.title");

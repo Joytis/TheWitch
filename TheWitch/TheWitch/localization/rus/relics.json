@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "В начале каждого боя призывает [gold]«Фамильяр-Ворон»[/gold].",
     "THEWITCH-COZY_NEST.flavor": "[red]Сведения об этой реликвии будут раскрыты в будущем...[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "Разделительная воронка",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "Каждый раз, когда эффект должен создать случайное [gold]зелье[/gold], вместо этого вы выбираете его.",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "Каждый раз, когда эффект должен создать случайное [gold]зелье[/gold], вместо этого выберите [blue]1[/blue] из [blue]3[/blue] случайных [gold]зелий[/gold].",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]Сведения об этой реликвии будут раскрыты в будущем...[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "Мешок с угощениями",
     "THEWITCH-SACK_OF_TREATS.description": "Ваши [gold]фамильяры[/gold] создают ВСЕ свои карты в начале вашего хода.",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]Сведения об этой реликвии будут раскрыты в будущем...[/red]",
     "THEWITCH-MORGANNE.title": "Морганна",
     "THEWITCH-TASTY_HERBS.title": "Вкусные травы",
-    "THEWITCH-TASTY_HERBS.description": "Каждый раз, когда вы используете [gold]Нестабильное зелье[/gold], есть [blue]25%[/blue] шанс, что оно будет использовано дополнительно.",
+    "THEWITCH-TASTY_HERBS.description": "Каждое [blue]4-е[/blue] использованное вами [gold]зелье[/gold] используется дополнительно.",
     "THEWITCH-TASTY_HERBS.flavor": "[red]Сведения об этой реликвии будут раскрыты в будущем...[/red]"
 }

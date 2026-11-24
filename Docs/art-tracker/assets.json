@@ -27,13 +27,13 @@
           "path": "TheWitch/TheWitch/images/potions/fertilizer.png"
         },
         {
-          "name": "Buddy in a Bottle",
+          "name": "Buddies in a Bottle",
           "artist": "",
           "done": false,
           "brief": "",
-          "rarity": "Rare",
+          "rarity": "Uncommon",
           "orientation": "Utility",
-          "effect": "Add a random Familiar into your Hand for free this turn.",
+          "effect": "Add 2 random Familiar summon cards into your Hand, free to play this turn.",
           "path": "TheWitch/TheWitch/images/potions/buddy_in_a_bottle.png"
         },
         {
@@ -214,8 +214,8 @@
           "artist": "",
           "done": false,
           "brief": "A burlap dripping sack of bones and a limb sticking out.",
-          "rarity": "Rare",
-          "effect": "Your Familiars create ALL of their cards at the start of your turn.",
+          "rarity": "Ancient",
+          "effect": "Orobas upgrade of Large Pockets: your Familiars create ALL of their cards at the start of your turn.",
           "path": "TheWitch/TheWitch/images/relics/sack_of_treats.png"
         },
         {
@@ -223,8 +223,8 @@
           "artist": "",
           "done": true,
           "brief": "",
-          "rarity": "Starter",
-          "effect": "Orobas upgrade of Large Pockets: whenever an effect would create a random Potion, choose it instead.",
+          "rarity": "Rare",
+          "effect": "Whenever an effect would create a random Potion, choose 1 of 3 random Potions instead.",
           "path": "TheWitch/TheWitch/images/relics/separatory_funnel.png"
         },
         {
@@ -233,7 +233,7 @@
           "done": false,
           "brief": "",
           "rarity": "Uncommon",
-          "effect": "At the end of combat, heal 3 HP if you used a potion.",
+          "effect": "Every 4th Potion you use is used an additional time.",
           "path": "TheWitch/TheWitch/images/relics/tasty_herbs.png"
         },
         {

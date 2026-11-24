@@ -29,7 +29,8 @@ namespace TheWitch.TheWitchCode.Powers;
 /// random living enemy (re-rolled each turn); self/player potions target the owner; everything else
 /// (AllEnemies/None) passes no target and lets the potion's own OnUse fan out. Replays invoke the protected
 /// <c>PotionModel.OnUse</c> directly via reflection (<c>OnUseWrapper</c> would throw in
-/// <c>RemoveBeforeUse</c> on the already-removed potion and re-fire <c>AfterPotionUsed</c>).
+/// <c>RemoveBeforeUse</c> on the already-removed potion and re-fire <c>AfterPotionUsed</c>); each replay is still
+/// logged as a potion use in combat history (see <see cref="PotionAutoPlay.ReplayOutOfBelt" />).
 /// MP: each replay runs under its OWN <see cref="HookPlayerChoiceContext" /> (the Hook.AfterDeath pattern),
 /// NOT the shared turn-start context. The shared context supports exactly one player-choice game action for
 /// the whole turn-start window; a second selection (two bottled draft potions, or one plus any other
@@ -66,25 +67,6 @@ public sealed class NeverendingPotionPower : WitchPower
 
         foreach (PotionModel potion in _bottled)
         {
-            // Touch of Insanity is the one potion whose OnUse opens an IN-HAND selection, which can't
-            // run from a hook-context replay (unsynced/soft-lock). Replay it choice-free instead:
-            // a random card eligible under the potion's own filter becomes free this combat.
-            if (potion is TouchOfInsanity)
-            {
-                Flash();
-                await PotionAutoPlay.PlayThrowVfx(potion, Owner, Owner, combat);
-                List<CardModel> eligible = PileType.Hand.GetPile(player).Cards
-                    .Where(c => c.CostsEnergyOrStars(includeGlobalModifiers: false)
-                             || c.CostsEnergyOrStars(includeGlobalModifiers: true))
-                    .ToList();
-                if (player.RunState.Rng.CombatCardSelection.NextItem(eligible) is { } pick)
-                {
-                    pick.SetToFreeThisCombat();
-                    CardCmd.Preview(pick);
-                }
-                continue;
-            }
-
             Creature? target = PotionAutoPlay.ResolveTarget(potion, player, Owner, combat);
             if (potion.TargetType == TargetType.AnyEnemy && target == null)
             {
@@ -92,28 +74,8 @@ public sealed class NeverendingPotionPower : WitchPower
             }
 
             Flash();
-            await PotionAutoPlay.PlayThrowVfx(potion, Owner, target, combat);
-            HookPlayerChoiceContext replayContext = new(this, LocalContext.NetId.Value, combat, GameActionType.CombatPlayPhaseOnly);
-            Task replay = Replay(replayContext, potion, target, player);
-            if (await replayContext.AssignTaskAndWaitForPauseOrCompletion(replay))
-            {
-                await replay; // completed without a player choice — surface any exception here
-            }
-            // else: the potion opened a selection; its replay continues in its own queued game action
-            // (Play phase). Later bottles' instant effects may resolve before that choice does.
-        }
-    }
-
-    private async Task Replay(PlayerChoiceContext replayContext, PotionModel potion, Creature? target, Player player)
-    {
-        CombatId? combatId = CombatManager.Instance.BeginCardOrPotionEffect(player);
-        try
-        {
-            await (Task)PotionAutoPlay.OnUseMethod.Invoke(potion, [replayContext, target])!;
-        }
-        finally
-        {
-            await CombatManager.Instance.EndCardOrPotionEffect(combatId, player);
+            // Later bottles' instant effects may resolve before a paused selection replay does.
+            await PotionAutoPlay.ReplayOutOfBelt(this, potion, target, player, combat);
         }
     }
 

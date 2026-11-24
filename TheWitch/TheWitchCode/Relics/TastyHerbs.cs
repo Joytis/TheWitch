@@ -1,66 +1,73 @@
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Multiplayer;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using TheWitch.TheWitchCode.Potions;
 
 namespace TheWitch.TheWitchCode.Relics;
 
 /// <summary>
-/// Tasty Herbs: whenever you use an Unstable potion, 25% chance it's used an additional time.
-/// The replay goes through the out-of-belt path (<see cref="PotionAutoPlay" /> + a direct <c>OnUse</c>
-/// call, the NeverendingPotionPower shape): by the time AfterPotionUsed fires the potion has already
+/// Tasty Herbs: every 4th potion you use in combat is used an additional time (counter relic, Morganne shape;
+/// the count persists across combats). The extra use goes through the out-of-belt path
+/// (<see cref="PotionAutoPlay.ReplayOutOfBelt" />): by the time AfterPotionUsed fires the potion has already
 /// been removed from the belt, so <c>OnUseWrapper</c>'s RemoveBeforeUse throws "Tried to remove potion
 /// you don't have" — and that exception escaping UsePotionAction froze the action queue for the rest
-/// of the combat (AutoSlay seed 55QGFPI, Act 2 boss). Fairy in a Bottle can use the wrapper only because
-/// its trigger fires while the potion is still in the belt.
+/// of the combat (AutoSlay seed 55QGFPI, Act 2 boss). The replay fires no use-hooks, so it never counts
+/// toward the next 4.
 /// </summary>
 public sealed class TastyHerbs : WitchRelic
 {
-    private const float ExtraUseChance = 0.25f;
+    private const int Interval = 4;
+
+    private int _potionsUsed;
 
     public override RelicRarity Rarity => RelicRarity.Uncommon;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [UnstablePotions.UnstableHoverTip];
+    public override bool ShowCounter => true;
+
+    public override int DisplayAmount => PotionsUsed % Interval;
+
+    [SavedProperty]
+    public int PotionsUsed
+    {
+        get => _potionsUsed;
+        set
+        {
+            AssertMutable();
+            _potionsUsed = value;
+            Status = _potionsUsed % Interval == Interval - 1 ? RelicStatus.Active : RelicStatus.Normal;
+            InvokeDisplayAmountChanged();
+        }
+    }
 
     public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
         if (potion.Owner != Owner
             || !CombatManager.Instance.IsInProgress
-            || Owner.Creature.CombatState is not { } combat
-            || !UnstablePotions.IsUnstable(potion)
-            || Owner.RunState.Rng.Niche.NextFloat() >= ExtraUseChance)
+            || Owner.Creature.CombatState is not { } combat)
         {
             return;
         }
-        Flash();
-        await PotionAutoPlay.PlayThrowVfx(potion, Owner.Creature, target, combat);
-        // Own choice context: a replayed selection potion must not share the caller's context (one
-        // context = one player choice; see the turn-start gotcha in CLAUDE.md).
-        HookPlayerChoiceContext replayContext = new(this, LocalContext.NetId.Value, combat, GameActionType.CombatPlayPhaseOnly);
-        Task replay = Replay(replayContext, potion, target, Owner);
-        if (await replayContext.AssignTaskAndWaitForPauseOrCompletion(replay))
-        {
-            await replay;
-        }
-        // else: the potion opened a selection; it finishes in its own queued Play-phase action.
-    }
 
-    private static async Task Replay(PlayerChoiceContext replayContext, PotionModel potion, Creature? target, Player player)
-    {
-        CombatId? combatId = CombatManager.Instance.BeginCardOrPotionEffect(player);
-        try
+        PotionsUsed++;
+        if (PotionsUsed % Interval != 0)
         {
-            await (Task)PotionAutoPlay.OnUseMethod.Invoke(potion, [replayContext, target])!;
+            return;
         }
-        finally
+
+        // The first use may have killed a single-enemy potion's target — re-roll onto a living enemy.
+        if (potion.TargetType == TargetType.AnyEnemy && target is not { IsAlive: true })
         {
-            await CombatManager.Instance.EndCardOrPotionEffect(combatId, player);
+            target = PotionAutoPlay.ResolveTarget(potion, Owner, Owner.Creature, combat);
+            if (target == null)
+            {
+                return;
+            }
         }
+
+        Flash();
+        await PotionAutoPlay.ReplayOutOfBelt(this, potion, target, Owner, combat);
     }
 }

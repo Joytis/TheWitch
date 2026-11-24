@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20",
+  "generated": "2026-11-24",
   "cards": [
     {
       "name": "Defend",
@@ -485,7 +485,7 @@
         "Smolder": 2,
         "Block": 4
       },
-      "upgrade": "Smolder +1",
+      "upgrade": "Block +2",
       "multiplayer": false,
       "note": "Smolder: block now, and let the embers smoulder — an Unstable Ember Jar at the start of each of the next N turns (<see cref=\"SmolderPower\" />, Lightning Rod shape).",
       "tested": false,
@@ -2558,7 +2558,7 @@
       "name": "Plague Tide",
       "entry": "PLAGUE_TIDE",
       "file": "TheWitch/TheWitchCode/Cards/PlagueTide.cs",
-      "cost": 2,
+      "cost": 3,
       "type": "Power",
       "rarity": "Rare",
       "target": "AllAllies",
@@ -2567,7 +2567,7 @@
       "upgrade": "none",
       "multiplayer": true,
       "note": "Multiplayer-only. Plague Tide (MP-only): the rats spread to every ship — ALL players summon a Rat Familiar (upgraded: a Rat Familiar+, per-stack like every summon).",
-      "tested": true,
+      "tested": false,
       "artFinal": false,
       "vfxPass": false,
       "sfxPass": false,

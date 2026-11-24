@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "Au début de chaque combat, invoquez un [gold]Corbeau familier[/gold].",
     "THEWITCH-COZY_NEST.flavor": "[red]Les détails de cette relique seront révélés plus tard...[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "Ampoule à décanter",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "Lorsqu'un effet devrait créer une [gold]Potion[/gold] aléatoire, choisissez-la à la place.",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "Lorsqu'un effet devrait créer une [gold]Potion[/gold] aléatoire, choisissez à la place [blue]1[/blue] [gold]Potion[/gold] parmi [blue]3[/blue] au hasard.",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]Les détails de cette relique seront révélés plus tard...[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "Sac de friandises",
     "THEWITCH-SACK_OF_TREATS.description": "Vos [gold]Familiers[/gold] créent TOUTES leurs cartes au début de votre tour.",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]Les détails de cette relique seront révélés plus tard...[/red]",
     "THEWITCH-MORGANNE.title": "Morganne",
     "THEWITCH-TASTY_HERBS.title": "Herbes savoureuses",
-    "THEWITCH-TASTY_HERBS.description": "Lorsque vous utilisez une [gold]Potion[/gold] [gold]Instable[/gold], elle a [blue]25%[/blue] de chances d'être utilisée une fois supplémentaire.",
+    "THEWITCH-TASTY_HERBS.description": "Toutes les [blue]4[/blue] [gold]Potions[/gold] que vous utilisez, la [blue]4[/blue]e est utilisée une fois supplémentaire.",
     "THEWITCH-TASTY_HERBS.flavor": "[red]Les détails de cette relique seront révélés plus tard...[/red]"
 }

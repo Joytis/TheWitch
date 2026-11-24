@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using TheWitch.TheWitchCode.Cards;
@@ -12,7 +13,7 @@ using TheWitch.TheWitchCode.Cards;
 namespace TheWitch.TheWitchCode.Relics;
 
 /// <summary>
-/// Wormy's Apple: on pickup, gain 10 Max HP (per base-game BigMushroom). The catch — every combat opens with a
+/// Wormy's Apple: on pickup, gain 13 Max HP (per base-game BigMushroom). The catch — every combat opens with a
 /// Wormy clinging to your hand (a Wormy is added on the first turn's draw, per base-game Toolbox).
 /// </summary>
 public sealed class WormysApple : WitchRelic
@@ -21,8 +22,12 @@ public sealed class WormysApple : WitchRelic
 
     public override bool HasUponPickupEffect => true;
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+        HoverTipFactory.FromCard<Wormy>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new MaxHpVar(10m)
+        new MaxHpVar(13m)
     ];
 
     public override async Task AfterObtained()

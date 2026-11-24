@@ -9,7 +9,7 @@
     "THEWITCH-COZY_NEST.description": "No início de cada combate, invoque um [gold]Familiar Corvo[/gold].",
     "THEWITCH-COZY_NEST.flavor": "[red]Os detalhes desta relíquia serão revelados no futuro...[/red]",
     "THEWITCH-SEPARATORY_FUNNEL.title": "Funil de Separação",
-    "THEWITCH-SEPARATORY_FUNNEL.description": "Sempre que um efeito for criar uma [gold]Poção[/gold] aleatória, escolha-a em vez disso.",
+    "THEWITCH-SEPARATORY_FUNNEL.description": "Sempre que um efeito for criar uma [gold]Poção[/gold] aleatória, escolha [blue]1[/blue] entre [blue]3[/blue] [gold]Poções[/gold] aleatórias em vez disso.",
     "THEWITCH-SEPARATORY_FUNNEL.flavor": "[red]Os detalhes desta relíquia serão revelados no futuro...[/red]",
     "THEWITCH-SACK_OF_TREATS.title": "Saco de Petiscos",
     "THEWITCH-SACK_OF_TREATS.description": "Seus [gold]Familiares[/gold] criam TODAS as suas cartas no início do seu turno.",
@@ -21,6 +21,6 @@
     "THEWITCH-MORGANNE.flavor": "[red]Os detalhes desta relíquia serão revelados no futuro...[/red]",
     "THEWITCH-MORGANNE.title": "Morganne",
     "THEWITCH-TASTY_HERBS.title": "Ervas Saborosas",
-    "THEWITCH-TASTY_HERBS.description": "Sempre que você usar uma [gold]Poção[/gold] [gold]Instável[/gold], há [blue]25%[/blue] de chance de ela ser usada uma vez adicional.",
+    "THEWITCH-TASTY_HERBS.description": "A cada [blue]4[/blue] [gold]Poções[/gold] que você usar, a [blue]4ª[/blue] é usada uma vez adicional.",
     "THEWITCH-TASTY_HERBS.flavor": "[red]Os detalhes desta relíquia serão revelados no futuro...[/red]"
 }

@@ -146,9 +146,30 @@ public class Witch : PlaceholderCharacterModel
     // The game calls this once per combat creature node, with her Spine body: the stock animator
     // (idle_loop / attack / cast / hurt / die on track 0) plus her blink on track 1
     // and her idle tail fwip on track 2.
+    // Same state graph as CharacterModel.GenerateAnimator, except a loop the rig doesn't have
+    // (low_health_loop, relaxed_loop) falls back to idle_loop. Stock, at <= 25% HP every return to
+    // idle targets low_health_loop; with it missing nothing is queued after cast/hurt, so the body
+    // freezes on that animation's last frame until the next trigger ("idle stops sometimes").
     public override CreatureAnimator GenerateAnimator(MegaSprite controller, MegaCrit.Sts2.Core.Entities.Creatures.Creature creature)
     {
-        CreatureAnimator animator = base.GenerateAnimator(controller, creature);
+        string LoopOrIdle(string name) => controller.HasAnimation(name) ? name : AnimState.idleAnim;
+
+        AnimState idle = new(AnimState.idleAnim, isLooping: true);
+        AnimState lowHealthIdle = new(LoopOrIdle(AnimState.lowHealthIdleAnim), isLooping: true);
+        AnimState relaxed = new(LoopOrIdle("relaxed_loop"), isLooping: true);
+        AnimState dead = new(AnimState.dieAnim);
+        CreatureAnimator animator = new(IsLowHealth(creature) ? lowHealthIdle : idle, controller);
+        animator.AddAnyState("Idle", idle, () => !IsLowHealth(creature));
+        animator.AddAnyState("Idle", lowHealthIdle, () => IsLowHealth(creature));
+        animator.AddAnyState("Relaxed", relaxed);
+        animator.AddAnyState("Dead", dead);
+        foreach ((AnimState state, string trigger) in AnimationStates)
+        {
+            state.AddNextState(idle, () => !IsLowHealth(creature));
+            state.AddNextState(lowHealthIdle, () => IsLowHealth(creature));
+            animator.AddAnyState(trigger, state);
+        }
+
         WitchBlink.Attach(controller);
         WitchTailFwip.Attach(controller);
         return animator;
